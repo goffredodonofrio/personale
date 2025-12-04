@@ -693,32 +693,100 @@
                     <!-- SMART HOME CONTROL -->
                     <div class="smart-grid">
 
-                        <!-- COLONNA 1 -->
-                        <a class="background-violet-creme"
-onclick="playSound('audio4'); trigger('routine_1')">
-PROIETTORE ON
+<!-- COLONNA 1 -->
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_1')">
+   PROIETTORE ON
 </a>
-                        <a class="background-violet-creme" onclick="trigger('routine_4')">LUCI LIVING ROOM ON</a>
-                        <a class="background-violet-creme" onclick="trigger('routine_7')">ROUTINE 7</a>
-                        <a class="background-violet-creme" onclick="trigger('routine_10')">ROUTINE 10</a>
-                        <a class="background-violet-creme" onclick="trigger('routine_13')">ROUTINE 13</a>
-                        <a class="background-violet-creme" onclick="trigger('routine_16')">ROUTINE 16</a>
 
-                        <!-- COLONNA 2 -->
-                        <a class="background-lilac" onclick="trigger('routine_2')">ROUTINE 2</a>
-                        <a class="background-lilac" onclick="trigger('routine_5')">ROUTINE 5</a>
-                        <a class="background-lilac" onclick="trigger('routine_8')">ROUTINE 8</a>
-                        <a class="background-lilac" onclick="trigger('routine_11')">ROUTINE 11</a>
-                        <a class="background-lilac" onclick="trigger('routine_14')">ROUTINE 14</a>
-                        <a class="background-lilac" onclick="trigger('routine_17')">ROUTINE 17</a>
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_4')">
+   PROIETTORE OFF
+</a>
 
-                        <!-- COLONNA 3 -->
-                        <a class="background-african-violet" onclick="trigger('routine_3')">ROUTINE 3</a>
-                        <a class="background-african-violet" onclick="trigger('routine_6')">ROUTINE 6</a>
-                        <a class="background-african-violet" onclick="trigger('routine_9')">ROUTINE 9</a>
-                        <a class="background-african-violet" onclick="trigger('routine_12')">ROUTINE 12</a>
-                        <a class="background-african-violet" onclick="trigger('routine_15')">ROUTINE 15</a>
-                        <a class="background-african-violet" onclick="trigger('routine_18')">ROUTINE 18</a>
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_7')">
+   ACCENDI LUCI LIVING ROOM
+</a>
+
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_10')">
+   ROUTINE 10
+</a>
+
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_13')">
+   ROUTINE 13
+</a>
+
+<a class="background-violet-creme"
+   onclick="playSound('audio4'); trigger('routine_16')">
+   ROUTINE 16
+</a>
+
+
+<!-- COLONNA 2 -->
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_2')">
+   ROUTINE 2
+</a>
+
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_5')">
+   ROUTINE 5
+</a>
+
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_8')">
+   ROUTINE 8
+</a>
+
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_11')">
+   ROUTINE 11
+</a>
+
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_14')">
+   ROUTINE 14
+</a>
+
+<a class="background-lilac"
+   onclick="playSound('audio4'); trigger('routine_17')">
+   ROUTINE 17
+</a>
+
+
+<!-- COLONNA 3 -->
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_3')">
+   ROUTINE 3
+</a>
+
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_6')">
+   ROUTINE 6
+</a>
+
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_9')">
+   ROUTINE 9
+</a>
+
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_12')">
+   ROUTINE 12
+</a>
+
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_15')">
+   ROUTINE 15
+</a>
+
+<a class="background-african-violet"
+   onclick="playSound('audio4'); trigger('routine_18')">
+   ROUTINE 18
+</a>
 
                     </div>
 
@@ -777,7 +845,8 @@ PROIETTORE ON
   // Mappa dei pulsanti → Monkey ID su VoiceMonkey
   const MONKEY_MAP = {
     routine_1: "accendi-proiettore-m",        // PROIETTORE ON
-    routine_4: "accendi-luci-living-room-m"   // LUCI LIVING ROOM M
+    routine_4: "spegni-proiettore-m",        // PROIETTORE OFF
+    routine_7: "accendi-luci-living-room-m"   // LUCI LIVING ROOM M
     // quando vuoi, aggiungiamo altri mapping qui
   };
 
