@@ -769,47 +769,49 @@
 
 
     <!-- 🔥 VOICE MONKEY: TRIGGER -->
-    <script>
-    async function trigger(action) {
-    console.log("🟦 trigger() CALLED for:", action);
+<script>
+  // Mappa dei pulsanti → Monkey ID su VoiceMonkey
+  const MONKEY_MAP = {
+    routine_1: "accendi-proiettore-m",        // PROIETTORE ON
+    routine_4: "accendi-luci-living-room-m"   // LUCI LIVING ROOM M
+    // quando vuoi, aggiungiamo altri mapping qui
+  };
 
-    const MAP = {
-        routine_1: "accendi-proiettore-m",
-        routine_4: "accendi-luci-living-room-m",
-        // tutte le altre...
+  // 🔑 INSERISCI QUI I TUOI TOKEN REALI DI VOICE MONKEY
+  const VM_ACCESS_TOKEN = "102bb4c064858a0ff8bd4039ae948b74";
+  const VM_SECRET_TOKEN = "f0276dc81f732a45d7c4cfbe289837c7";
+
+  async function trigger(action) {
+    const monkey = MONKEY_MAP[action];
+    console.log("🐵 trigger() CALLED for:", action, "→", monkey);
+
+    if (!monkey) {
+      console.warn("⚠️ Nessun monkey configurato per", action);
+      return;
+    }
+
+    const payload = {
+      access_token: VM_ACCESS_TOKEN,
+      secret_token: VM_SECRET_TOKEN,
+      monkey: monkey
     };
 
-    const device = MAP[action];
-    console.log("🟩 Device:", device);
-
-    if (!device) {
-        console.warn("❌ Device non trovato:", action);
-        return;
-    }
-
-    const url = "https://api.voicemonkey.io/trigger";
-    console.log("🟦 Fetching:", url);
-
     try {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                device: device,
-                token: "102bb4c064858a0ff8bd4039ae948b74_f0276dc81f732a45d7c4cfbe289837c7"
-            })
-        });
+      console.log("📡 POST → https://api.voicemonkey.io/trigger", payload);
+      const res = await fetch("https://api.voicemonkey.io/trigger", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-        console.log("🟨 Status:", res.status);
+      console.log("✅ VoiceMonkey response status:", res.status);
 
-        const json = await res.text();
-        console.log("🟩 Response body:", json);
-
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("❌ Errore VoiceMonkey:", res.status, text);
+      }
     } catch (err) {
-        console.error("🔥 ERRORE FETCH:", err);
+      console.error("🔥 ERRORE FETCH:", err);
     }
-}
-    </script>
-    <script src="assets/meteo.js"></script>
-</body>
-
+  }
+</script>
