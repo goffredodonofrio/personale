@@ -1,50 +1,46 @@
-document.addEventListener("touchstart", function() {},false);
-let mybutton = document.getElementById("topBtn");
-window.onscroll = function() {scrollFunction()};
-function scrollFunction() {
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
+// assets/lcars.js
+
+// Mappa ID → file audio
+const LCARS_SOUNDS = {
+  audio1: new Audio("assets/beep1.mp3"),
+  audio2: new Audio("assets/beep2.mp3"),
+  audio3: new Audio("assets/beep3.mp3"),
+  audio4: new Audio("assets/beep4.waw.mp3") // nome file esatto
+};
+
+// Impostiamo un volume più soft (puoi alzarlo/abbassarlo)
+Object.values(LCARS_SOUNDS).forEach(a => {
+  a.volume = 0.6;
+});
+
+// Suona solo il beep
+function playSound(soundId) {
+  const audio = LCARS_SOUNDS[soundId];
+  if (!audio) {
+    console.warn("LCARS: soundId non trovato:", soundId);
+    return;
+  }
+
+  // riavvolge per poter risuonare rapidamente
+  audio.currentTime = 0;
+  audio.play().catch(err => {
+    console.warn("LCARS: impossibile riprodurre audio:", err);
+  });
+}
+
+// Suona il beep e *opzionalmente* fa una redirect
+function playSoundAndRedirect(soundId, url) {
+  playSound(soundId);
+
+  if (url && url !== "#") {
+    // piccolo delay per far sentire il beep prima del cambio pagina
+    setTimeout(() => {
+      window.location.href = url;
+    }, 150);
   }
 }
+
+// Scroll to top (usato dal bottone RCM 1821-B a sinistra)
 function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-function playSoundAndRedirect(audioId, url) {
-    var audio = document.getElementById(audioId);
-    audio.play();
-
-    audio.onended = function() {
-        window.location.href = url;
-    };
-}
-function goToAnchor(anchorId) {
-  window.location.hash = anchorId;
-}
-// Accordion drop-down
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var accordionContent = this.nextElementSibling;
-    if (accordionContent.style.maxHeight){
-      accordionContent.style.maxHeight = null;
-    } else {
-      accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-    } 
-  });
-}
-// LCARS keystroke sound (not to be used with hyperlinks)
-  const LCARSkeystroke = document.getElementById('LCARSkeystroke');
-  const allPlaySoundButtons = document.querySelectorAll('.playSoundButton');
-  allPlaySoundButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      LCARSkeystroke.pause();
-      LCARSkeystroke.currentTime = 0; // Reset to the beginning of the sound
-      LCARSkeystroke.play();
-    });
-  });
