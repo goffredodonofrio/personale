@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>RCM 1821-B — Plancia Principale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="assets/classic.css">
+
+    <!-- FONT ANTONIO (tema LCARS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --lcars-amber: #f4c242;
+        --lcars-orange: #f28c3a;
+        --lcars-mauve: #8f7bd8;
+        --lcars-red: #f26e8a;
+        --lcars-bg: #000000;
+    }
+
+    body {
+        background: var(--lcars-bg);
+    }
+
+    .section-title {
+        margin-top: 2rem;
+        text-transform: uppercase;
+    }
+
+    main {
+        padding-top: 0;
+    }
+
+    /* WRAPPER CONDUIT + GRID */
+    .status-grid-wrapper {
+        position: relative;
+        margin-top: 0.5rem;
+    }
+
+    .status-grid-wrapper::before,
+    .status-grid-wrapper::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 14px;
+        border-radius: 999px;
+        z-index: 0;
+        opacity: 0.9;
+    }
+
+    .status-grid-wrapper::before {
+        top: 20%;
+        background: var(--lcars-orange);
+    }
+
+    .status-grid-wrapper::after {
+        top: 75%;
+        background: var(--lcars-mauve);
+    }
+
+    /* BLOCCO ORA + IMMAGINE */
+    .status-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1.4fr; /* due colonne: orologio + piantina */
+        gap: 1rem;
+        align-items: stretch;
+        position: relative;
+        z-index: 1;
+    }
+
+    .lcars-time-block {
+        background: rgba(0, 0, 0, 0.85);
+        border-left: ;
+        border-radius: 18px;
+        padding: 1rem 1.2rem 1.4rem;
+        text-align: left;
+    }
+
+    .lcars-time-block h1#clock {
+        text-align: left !important;
+        margin-left: 0 !important;
+        justify-content: flex-start;
+    }
+
+    .lcars-time-block #date {
+        font-size: 1.25rem;
+        margin-top: 0.3rem;
+        opacity: 0.9;
+    }
+
+    .lcars-time-block #stardate {
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+        color: var(--lcars-amber);
+        font-weight: 700;
+    }
+
+    .day-phase {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        color: var(--lcars-mauve);
+    }
+
+    /* PANEL ENVIRONMENTAL CONDITIONS (LCARS DUTY LOG STYLE) */
+    .env-panel {
+      background: rgba(10,10,10,0.85);
+    border-left: none; /* removed */
+    border-radius: 18px;
+    padding: 1rem 1.4rem;
+    }
+
+    .env-title {
+        font-size: 1.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--lcars-amber);
+        margin-bottom: 0.5rem;
+    }
+
+    .weather-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
+    }
+
+    .weather-pill {
+        border-radius: 999px;
+        padding: 0.4rem 0.8rem 0.45rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: #181820;
+    }
+
+    .weather-pill-label {
+        opacity: 0.8;
+    }
+
+    .weather-pill-value {
+        font-weight: 700;
+    }
+
+    .pill-temp {
+        border: 2px solid var(--lcars-amber);
+        color: var(--lcars-amber);
+    }
+
+    .pill-humidity {
+        border: 2px solid var(--lcars-mauve);
+        color: var(--lcars-mauve);
+    }
+
+    .pill-rain {
+        border: 2px solid var(--lcars-orange);
+        color: var(--lcars-orange);
+    }
+
+    .pill-wind {
+        border: 2px solid var(--lcars-red);
+        color: var(--lcars-red);
+    }
+
+    .weather-pill-icon {
+        margin-right: 0.4rem;
+    }
+
+    /* BLOCCO IMMAGINE LCARS CENTRALE */
+    .lcars-image-block {
+        background: rgba(0,0,0,0.85);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lcars-image-block img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* SMART GRID BOTTONI PRINCIPALI */
+    .smart-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .smart-grid a {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        height: 80px;
+        padding: 0 1.5rem 0.6rem 1.5rem;
+        border-radius: 100vmax;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: black;
+        font-size: 1.05rem;
+        position: relative;
+        transition: transform 0.15s ease-out;
+        cursor: pointer;
+    }
+
+    .smart-grid a:hover {
+        transform: scale(1.03);
+    }
+
+    /* colori pill dei bottoni smart home (usiamo classi già coerenti col tema) */
+    .background-violet-creme   { background: #cfb3ff; }
+    .background-lilac          { background: #b99cff; }
+    .background-african-violet { background: #a57eff; }
+
+    /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
+    @media (max-width: 1100px) {
+        .status-grid-wrapper::before,
+        .status-grid-wrapper::after {
+            left: 10%;
+            right: 10%;
+        }
+
+        .status-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .smart-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .smart-grid a {
+            height: 70px;
+            font-size: 0.9rem;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+
+    <section class="wrap-standard" id="column-3">
+        <div class="wrap">
+            
+            <!-- COLONNA SINISTRA TOP LCARS -->
+            <div class="left-frame-top">
+                <button onclick="playSoundAndRedirect('audio2', '#')" class="panel-1-button">RCM 1821 - B</button>
+                <div class="panel-2"><span class="hop"></span></div>
+            </div>
+
+            <!-- COLONNA DESTRA TOP LCARS -->
+            <div class="right-frame-top">
+                <div class="banner">RCM 1821-B</div>
+
+                <div class="data-cascade-button-group">
+                    <!-- DATA CASCADE PERSONALIZZATA (UGUALE ALL’ORIGINALE) -->
+                    <div class="data-cascade-wrapper" id="default">
+                        <div class="data-column">
+                            <div class="dc-row-1">LA</div>
+                            <div class="dc-row-1">FELICITA'</div>
+                            <div class="dc-row-2">E'</div>
+                            <div class="dc-row-3">SEMPLICE</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-4">ORA</div>
+                            <div class="dc-row-5">AL</div>
+                            <div class="dc-row-6">GIORNO</div>
+                            <div class="dc-row-7">BISOGNA</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">ESSERE</div>
+                            <div class="dc-row-1">FELICI</div>
+                            <div class="dc-row-2">IL</div>
+                            <div class="dc-row-3">31</div>
+                            <div class="dc-row-3">DI</div>
+                            <div class="dc-row-4">AGOSTO</div>
+                            <div class="dc-row-5">C'E'</div>
+                            <div class="dc-row-6">UN</div>
+                            <div class="dc-row-7">AMORE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">CHE</div>
+                            <div class="dc-row-1">NASCE</div>
+                            <div class="dc-row-2">E</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-3">ESTATE</div>
+                            <div class="dc-row-4">CHE</div>
+                            <div class="dc-row-5">MUORE</div>
+                            <div class="dc-row-6">DESIGN</div>
+                            <div class="dc-row-7">THE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">END</div>
+                            <div class="dc-row-1">OF</div>
+                            <div class="dc-row-2">PATRIARCHY</div>
+                            <div class="dc-row-3">TU</div>
+                            <div class="dc-row-3">SEI</div>
+                            <div class="dc-row-4">TROPPO</div>
+                            <div class="dc-row-5">BIANCA</div>
+                            <div class="dc-row-6">PER</div>
+                            <div class="dc-row-7">RESTARE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">MANO</div>
+                            <div class="dc-row-1">NELLA</div>
+                            <div class="dc-row-2">MANO</div>
+                            <div class="dc-row-3">CON</div>
+                            <div class="dc-row-3">TE</div>
+                            <div class="dc-row-4">STESSO</div>
+                            <div class="dc-row-5">EDOARDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">CAROLINA</div>
+                        </div>
+                        
+                        <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                        
+                        <div class="data-column">
+                            <div class="dc-row-1">INFINITO</div>
+                            <div class="dc-row-1">E</div>
+                            <div class="dc-row-2">MI</div>
+                            <div class="dc-row-3">SONO</div>
+                            <div class="dc-row-3">RITROVATO</div>
+                            <div class="dc-row-4">QUA</div>
+                            <div class="dc-row-5">SE</div>
+                            <div class="dc-row-6">NON</div>
+                            <div class="dc-row-7">SI</div>
+                        </div>
+                       
+                        <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                       <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                         <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">GOFFREDO</div>
+                            <div class="dc-row-1">DISOBBEDITE</div>
+                            <div class="dc-row-2">CON</div>
+                            <div class="dc-row-3">MOLTA</div>
+                            <div class="dc-row-3">GENEROSITA'</div>
+                            <div class="dc-row-4">CAROLINA</div>
+                            <div class="dc-row-5">GOFFREDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">EDOARDO</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">LA</div>
+                            <div class="dc-row-1">FELICITA'</div>
+                            <div class="dc-row-2">E'</div>
+                            <div class="dc-row-3">SEMPLICE</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-4">ORA</div>
+                            <div class="dc-row-5">AL</div>
+                            <div class="dc-row-6">GIORNO</div>
+                            <div class="dc-row-7">BISOGNA</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">ESSERE</div>
+                            <div class="dc-row-1">FELICI</div>
+                            <div class="dc-row-2">IL</div>
+                            <div class="dc-row-3">31</div>
+                            <div class="dc-row-3">DI</div>
+                            <div class="dc-row-4">AGOSTO</div>
+                            <div class="dc-row-5">C'E'</div>
+                            <div class="dc-row-6">UN</div>
+                            <div class="dc-row-7">AMORE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">CHE</div>
+                            <div class="dc-row-1">NASCE</div>
+                            <div class="dc-row-2">E</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-3">ESTATE</div>
+                            <div class="dc-row-4">CHE</div>
+                            <div class="dc-row-5">MUORE</div>
+                            <div class="dc-row-6">DESIGN</div>
+                            <div class="dc-row-7">THE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">END</div>
+                            <div class="dc-row-1">OF</div>
+                            <div class="dc-row-2">PATRIARCHY</div>
+                            <div class="dc-row-3">TU</div>
+                            <div class="dc-row-3">SEI</div>
+                            <div class="dc-row-4">TROPPO</div>
+                            <div class="dc-row-5">BIANCA</div>
+                            <div class="dc-row-6">PER</div>
+                            <div class="dc-row-7">RESTARE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">MANO</div>
+                            <div class="dc-row-1">NELLA</div>
+                            <div class="dc-row-2">MANO</div>
+                            <div class="dc-row-3">CON</div>
+                            <div class="dc-row-3">TE</div>
+                            <div class="dc-row-4">STESSO</div>
+                            <div class="dc-row-5">EDOARDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">CAROLINA</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">LA</div>
+                            <div class="dc-row-1">FELICITA'</div>
+                            <div class="dc-row-2">E'</div>
+                            <div class="dc-row-3">SEMPLICE</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-4">ORA</div>
+                            <div class="dc-row-5">AL</div>
+                            <div class="dc-row-6">GIORNO</div>
+                            <div class="dc-row-7">BISOGNA</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">ESSERE</div>
+                            <div class="dc-row-1">FELICI</div>
+                            <div class="dc-row-2">IL</div>
+                            <div class="dc-row-3">31</div>
+                            <div class="dc-row-3">DI</div>
+                            <div class="dc-row-4">AGOSTO</div>
+                            <div class="dc-row-5">C'E'</div>
+                            <div class="dc-row-6">UN</div>
+                            <div class="dc-row-7">AMORE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">CHE</div>
+                            <div class="dc-row-1">NASCE</div>
+                            <div class="dc-row-2">E</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-3">ESTATE</div>
+                            <div class="dc-row-4">CHE</div>
+                            <div class="dc-row-5">MUORE</div>
+                            <div class="dc-row-6">DESIGN</div>
+                            <div class="dc-row-7">THE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">END</div>
+                            <div class="dc-row-1">OF</div>
+                            <div class="dc-row-2">PATRIARCHY</div>
+                            <div class="dc-row-3">TU</div>
+                            <div class="dc-row-3">SEI</div>
+                            <div class="dc-row-4">TROPPO</div>
+                            <div class="dc-row-5">BIANCA</div>
+                            <div class="dc-row-6">PER</div>
+                            <div class="dc-row-7">RESTARE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">MANO</div>
+                            <div class="dc-row-1">NELLA</div>
+                            <div class="dc-row-2">MANO</div>
+                            <div class="dc-row-3">CON</div>
+                            <div class="dc-row-3">TE</div>
+                            <div class="dc-row-4">STESSO</div>
+                            <div class="dc-row-5">EDOARDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">CAROLINA</div>
+                        </div>
+                                                <div class="data-column">
+                            <div class="dc-row-1">LA</div>
+                            <div class="dc-row-1">FELICITA'</div>
+                            <div class="dc-row-2">E'</div>
+                            <div class="dc-row-3">SEMPLICE</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-4">ORA</div>
+                            <div class="dc-row-5">AL</div>
+                            <div class="dc-row-6">GIORNO</div>
+                            <div class="dc-row-7">BISOGNA</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">ESSERE</div>
+                            <div class="dc-row-1">FELICI</div>
+                            <div class="dc-row-2">IL</div>
+                            <div class="dc-row-3">31</div>
+                            <div class="dc-row-3">DI</div>
+                            <div class="dc-row-4">AGOSTO</div>
+                            <div class="dc-row-5">C'E'</div>
+                            <div class="dc-row-6">UN</div>
+                            <div class="dc-row-7">AMORE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">CHE</div>
+                            <div class="dc-row-1">NASCE</div>
+                            <div class="dc-row-2">E</div>
+                            <div class="dc-row-3">UN'</div>
+                            <div class="dc-row-3">ESTATE</div>
+                            <div class="dc-row-4">CHE</div>
+                            <div class="dc-row-5">MUORE</div>
+                            <div class="dc-row-6">DESIGN</div>
+                            <div class="dc-row-7">THE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">END</div>
+                            <div class="dc-row-1">OF</div>
+                            <div class="dc-row-2">PATRIARCHY</div>
+                            <div class="dc-row-3">TU</div>
+                            <div class="dc-row-3">SEI</div>
+                            <div class="dc-row-4">TROPPO</div>
+                            <div class="dc-row-5">BIANCA</div>
+                            <div class="dc-row-6">PER</div>
+                            <div class="dc-row-7">RESTARE</div>
+                        </div>
+                        <div class="data-column">
+                            <div class="dc-row-1">MANO</div>
+                            <div class="dc-row-1">NELLA</div>
+                            <div class="dc-row-2">MANO</div>
+                            <div class="dc-row-3">CON</div>
+                            <div class="dc-row-3">TE</div>
+                            <div class="dc-row-4">STESSO</div>
+                            <div class="dc-row-5">EDOARDO</div>
+                            <div class="dc-row-6">BIANCA</div>
+                            <div class="dc-row-7">CAROLINA</div>
+                        </div>
+                      
+                    </div>
+
+                    <nav>
+                        <!-- Pulsanti in alto a destra, solo beep -->
+                        <button onclick="playSoundAndRedirect('audio2', '#')">ACCENDI</button>
+                        <button onclick="playSoundAndRedirect('audio2', '#')">SPEGNI</button>
+                        <button onclick="playSoundAndRedirect('audio2', '#')">APRI</button>
+                        <button onclick="playSoundAndRedirect('audio2', '#')">CHIUDI</button>
+                    </nav>
+                </div>
+
+                <div class="bar-panel first-bar-panel">
+                    <div class="bar-1"></div><div class="bar-2"></div>
+                    <div class="bar-3"></div><div class="bar-4"></div>
+                    <div class="bar-5"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORPO PRINCIPALE -->
+        <div class="wrap" id="gap">
+
+            <div class="left-frame">
+                <button onclick="topFunction(); playSoundAndRedirect('audio4', '#')" id="topBtn">
+                    <span class="hop">RCM</span> 1821 - B
+                </button>
+
+                <div>
+                    <div class="panel-3"><span class="hop">ORA</span></div>
+                    <div class="panel-4"><span class="hop">DATA</span></div>
+                    <div class="panel-5"><span class="hop">-</span></div>
+                    <div class="panel-6"><span class="hop">SMART HOME</span></div>
+                    <div class="panel-7"><span class="hop">-</span></div>
+                    <div class="panel-8"><span class="hop">-</span></div>
+                </div>
+            </div>
+
+            <!-- RIGHT FRAME -->
+            <div class="right-frame">
+
+                <div class="bar-panel">
+                    <div class="bar-6"></div><div class="bar-7"></div>
+                    <div class="bar-8"></div><div class="bar-9"></div>
+                    <div class="bar-10"></div>
+                </div>
+
+                <main>
+
+                    <!-- STATUS GRID WRAPPER: OROLOGIO + PIANTINA -->
+                    <div class="status-grid-wrapper">
+                        <div class="status-grid">
+
+                            <!-- ORA & DATA + LCARS DUTY LOG ENV -->
+                            <div class="lcars-time-block">
+                                <h2 class="section-title" style="margin-bottom:0.6rem;">ORA &amp; DATA STELLARE</h2>
+
+                                <h1 id="clock">--:--</h1>
+                                <div id="date">---</div>
+
+                                <div id="stardate">STARDATE -----.-</div>
+
+                                <div class="day-phase" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+
+                                <!-- PANEL METEO A PILL-BUTTON -->
+                                <div class="env-panel">
+                                    <div class="env-title">ENVIRONMENTAL CONDITIONS // TORINO</div>
+                                    <div class="weather-grid">
+                                        <div class="weather-pill pill-temp">
+                                            <span class="weather-pill-label">
+                                                <span class="weather-pill-icon"></span>TEMPERATURA
+                        </span>
+                                            <span class="weather-pill-value" id="weather-temp"></span>
+                                        </div>
+                                        <div class="weather-pill pill-humidity">
+                                            <span class="weather-pill-label">
+                                                <span class="weather-pill-icon"></span>UMIDITÁ
+                                            </span>
+                                            <span class="weather-pill-value" id="weather-humidity"></span>
+                                        </div>
+                                        <div class="weather-pill pill-rain">
+                                            <span class="weather-pill-label">
+                                                <span class="weather-pill-icon"></span>PROB PIOGGIA
+                                            </span>
+                                            <span class="weather-pill-value" id="weather-rain"></span>
+                                        </div>
+                                        <div class="weather-pill pill-wind">
+                                            <span class="weather-pill-label">
+                                                <span class="weather-pill-icon"></span>VENTO
+                                            </span>
+                                            <span class="weather-pill-value" id="weather-wind"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- IMMAGINE -->
+                            <div class="lcars-image-block">
+                                <img src="assets/piantina_2.jpg" alt="Piantina Rocciamelone">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="bar-panel" style="margin-top:2rem;">
+                        <div class="bar-6"></div><div class="bar-7"></div>
+                        <div class="bar-9"></div><div class="bar-10"></div>
+                        <script src="assets/meteo.js"></script>
+                    </div>
+
+                    <!-- SMART HOME CONTROL -->
+                    <div class="smart-grid">
+
+                        <!-- COLONNA 1 -->
+                        <a class="background-violet-creme" onclick="trigger('routine_1')">PROIETTORE ON</a>
+                        <a class="background-violet-creme" onclick="trigger('routine_4')">LUCI LIVING ROOM ON</a>
+                        <a class="background-violet-creme" onclick="trigger('routine_7')">ROUTINE 7</a>
+                        <a class="background-violet-creme" onclick="trigger('routine_10')">ROUTINE 10</a>
+                        <a class="background-violet-creme" onclick="trigger('routine_13')">ROUTINE 13</a>
+                        <a class="background-violet-creme" onclick="trigger('routine_16')">ROUTINE 16</a>
+
+                        <!-- COLONNA 2 -->
+                        <a class="background-lilac" onclick="trigger('routine_2')">ROUTINE 2</a>
+                        <a class="background-lilac" onclick="trigger('routine_5')">ROUTINE 5</a>
+                        <a class="background-lilac" onclick="trigger('routine_8')">ROUTINE 8</a>
+                        <a class="background-lilac" onclick="trigger('routine_11')">ROUTINE 11</a>
+                        <a class="background-lilac" onclick="trigger('routine_14')">ROUTINE 14</a>
+                        <a class="background-lilac" onclick="trigger('routine_17')">ROUTINE 17</a>
+
+                        <!-- COLONNA 3 -->
+                        <a class="background-african-violet" onclick="trigger('routine_3')">ROUTINE 3</a>
+                        <a class="background-african-violet" onclick="trigger('routine_6')">ROUTINE 6</a>
+                        <a class="background-african-violet" onclick="trigger('routine_9')">ROUTINE 9</a>
+                        <a class="background-african-violet" onclick="trigger('routine_12')">ROUTINE 12</a>
+                        <a class="background-african-violet" onclick="trigger('routine_15')">ROUTINE 15</a>
+                        <a class="background-african-violet" onclick="trigger('routine_18')">ROUTINE 18</a>
+
+                    </div>
+
+                </main>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+    /* -------------------------------------------------
+       OROLOGIO + STARDATE + DAY PHASE
+    --------------------------------------------------*/
+    function updateClock() {
+        const now = new Date();
+
+        document.getElementById("clock").textContent = now.toLocaleTimeString("it-IT", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+
+        document.getElementById("date").textContent = now.toLocaleDateString("it-IT", {
+            weekday: "short",
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+
+        let sd = (now.getTime() / 1000 / 60 / 60 / 24 - 735000) * 5;
+        document.getElementById("stardate").textContent =
+            "STARDATE " + sd.toFixed(1);
+
+        const hour = now.getHours();
+        let phase = "ALPHA SHIFT // STANDBY";
+
+        if (hour >= 6 && hour < 12) {
+            phase = "ALPHA SHIFT // MORNING OPS";
+        } else if (hour >= 12 && hour < 18) {
+            phase = "BETA SHIFT // DAY OPS";
+        } else if (hour >= 18 && hour < 23) {
+            phase = "GAMMA SHIFT // EVENING";
+        } else {
+            phase = "NIGHT WATCH // SILENT RUN";
+        }
+
+        document.getElementById("dayPhase").textContent = phase;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+    </script>
+
+
+    <!-- 🔥 VOICE MONKEY: TRIGGER -->
+    <script>
+    async function trigger(action) {
+    console.log("🟦 trigger() CALLED for:", action);
+
+    const MAP = {
+        routine_1: "accendi-proiettore-m",
+        routine_4: "accendi-luci-living-room-m",
+        // tutte le altre...
+    };
+
+    const device = MAP[action];
+    console.log("🟩 Device:", device);
+
+    if (!device) {
+        console.warn("❌ Device non trovato:", action);
+        return;
+    }
+
+    const url = "https://api.voicemonkey.io/trigger";
+    console.log("🟦 Fetching:", url);
+
+    try {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                device: device,
+                token: "102bb4c064858a0ff8bd4039ae948b74_f0276dc81f732a45d7c4cfbe289837c7"
+            })
+        });
+
+        console.log("🟨 Status:", res.status);
+
+        const json = await res.text();
+        console.log("🟩 Response body:", json);
+
+    } catch (err) {
+        console.error("🔥 ERRORE FETCH:", err);
+    }
+}
+    </script>
+    <script src="assets/meteo.js"></script>
+</body>
+
