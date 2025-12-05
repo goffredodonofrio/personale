@@ -1,83 +1,51 @@
-// assets/meteo.js
+// api/events.js
+import ical from 'ical';
+import fetch from 'node-fetch';
 
-async function loadWeather() {
-  const url =
-    "https://api.open-meteo.com/v1/forecast"
-    + "?latitude=45.0705"
-    + "&longitude=7.6868"
-    + "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,rain"
-    + "&daily=temperature_2m_max,weathercode"
-    + "&timezone=Europe%2FRome";
+export default async function handler(req, res) {
+    const urls = [
+        "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics",
+        "https://calendar.google.com/calendar/ical/c_382bc406c1a43971525ab611419327202887f0807243694cae0bed37bcc9e774%40group.calendar.google.com/public/basic.ics"
+    ];
 
-  console.log("[meteo.js] Chiamo:", url);
+    let events = [];
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
+    for (const url of urls) {
+        try {
+            const data = await fetch(url).then(r => r.text());
+            const parsed = ical.parseICS(data);
 
-    /* -------------------------
-       METEO ATTUALE
-    --------------------------*/
-    const cur = data.current;
-    if (cur) {
-      document.getElementById("weather-temp").textContent =
-        Math.round(cur.temperature_2m) + "°C";
+            for (let k in parsed) {
+                const ev = parsed[k];
+                if (ev.type === "VEVENT" && ev.start) {
 
-      document.getElementById("weather-humidity").textContent =
-        Math.round(cur.relative_humidity_2m) + "%";
+                    events.push({
+                        title: ev.summary || "Evento",
+                        start: ev.start,
+                        end: ev.end
+                    });
+                }
+            }
 
-      document.getElementById("weather-wind").textContent =
-        Math.round(cur.wind_speed_10m) + " km/h";
-
-      document.getElementById("weather-rain").textContent =
-        (cur.rain ?? 0).toFixed(1) + " mm";
+        } catch (err) {
+            console.error("Errore ICS:", err);
+        }
     }
 
-    /* -------------------------
-       PREVISIONI 3 GIORNI
-    --------------------------*/
-    const days = data.daily.time;
-    const temps = data.daily.temperature_2m_max;
-    const codes = data.daily.weathercode;
+    // Filtra solo eventi di oggi
+    const today = new Date();
+    today.setHours(0,0,0,0);
 
-    const ICONS = {
-      0: "☀️",
-      1: "🌤️",
-      2: "⛅",
-      3: "☁️",
-      45: "🌫️",
-      48: "🌫️",
-      51: "🌦️",
-      53: "🌦️",
-      55: "🌧️",
-      61: "🌧️",
-      63: "🌧️",
-      65: "🌧️",
-      71: "❄️",
-      73: "❄️",
-      75: "❄️",
-      95: "⛈️",
-      96: "⛈️",
-      99: "⛈️"
-    };
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
 
-    for (let i = 1; i <= 3; i++) {
-      const date = new Date(days[i]);
-      const dayName = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+    const eventsToday = events.filter(e => {
+        const start = new Date(e.start);
+        return start >= today && start < tomorrow;
+    });
 
-      document.getElementById(`fc-day-${i}`).textContent = dayName;
-      document.getElementById(`fc-temp-${i}`).textContent =
-        Math.round(temps[i]) + "°C";
-      document.getElementById(`fc-icon-${i}`).textContent =
-        ICONS[codes[i]] || "🌤️";
-    }
+    // Ordine cronologico
+    eventsToday.sort((a, b) => new Date(a.start) - new Date(b.start));
 
-  } catch (err) {
-    console.error("[meteo.js] Errore meteo:", err);
-  }
+    res.status(200).json(eventsToday);
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadWeather();
-  setInterval(loadWeather, 300000); // update ogni 5 minuti
-});
