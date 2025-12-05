@@ -1,209 +1,254 @@
-/* LCARS Classic TNG – Rocciamelone Plancia */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* =============================
+   VARIABILI
+============================= */
+:root {
+    --lcars-amber: #f4c242;
+    --lcars-orange: #f28c3a;
+    --lcars-mauve: #8f7bd8;
+    --lcars-red: #f26e8a;
+    --lcars-bg: #000000;
 }
 
+/* =============================
+   BASE
+============================= */
 body {
-  background: #000;
-  color: #f2eecb;
-  font-family: "Antonio", sans-serif;
+    background: var(--lcars-bg);
+    margin: 0;
+    padding: 0;
+    font-family: "Antonio", sans-serif;
 }
 
-/* FRAME PRINCIPALE */
-.lcars-frame {
-  padding: 8px;
+.wrap {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
-/* TOP BAR */
-.lcars-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f4b45f;
-  border-radius: 24px 24px 10px 10px;
-  padding: 10px 20px;
-  margin-bottom: 10px;
+/* =============================
+   RESPONSIVE GRID (Main Panel)
+============================= */
+
+.status-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr;
+    gap: 2rem;
+    align-items: stretch;
 }
 
-.lcars-top-bar h1 {
-  font-size: 1.4rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: #000;
-  text-align: center;
+/* =============================
+   OPS PANEL (orologio + meteo)
+============================= */
+.ops-panel {
+    background: rgba(0,0,0,0.88);
+    border-radius: 24px;
+    padding: 2rem;
+    border-left: 14px solid var(--lcars-amber);
+    box-shadow: 0 0 16px rgba(0,0,0,0.5);
 }
 
-.lcars-pill {
-  width: 40px;
-  height: 12px;
-  border-radius: 999px;
+.ops-clock {
+    font-size: clamp(2.6rem, 4.5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--lcars-mauve);
 }
 
-.lcars-pill-left {
-  background: #d8785f;
+.ops-date {
+    margin-top: 0.5rem;
+    font-size: clamp(1rem, 1.3vw, 1.4rem);
+    opacity: 0.9;
 }
 
-.lcars-pill-right {
-  background: #7f6ad1;
+.ops-stardate {
+    margin-top: 0.35rem;
+    font-size: clamp(1rem, 1.2vw, 1.3rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--lcars-amber);
 }
 
-/* GRID PRINCIPALE */
-.lcars-main {
-  display: grid;
-  grid-template-columns: 2.3fr 1.4fr;
-  gap: 10px;
-  height: calc(100vh - 70px);
-}
-
-/* COLONNE */
-.lcars-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* PANNELLI */
-.lcars-panel {
-  background: #000;
-  border-radius: 24px;
-  border: 3px solid #7f6ad1;
-  padding: 16px 18px;
-}
-
-.right-panel {
-  background: #3b3566;
-  border-color: #f4b45f;
-}
-
-.lcars-panel h2 {
-  font-size: 0.9rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-/* TIME & STARDATE */
-.time-row {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-top: 4px;
-}
-
-.time-display {
-  font-size: 4.4rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #f4b45f;
-}
-
-.time-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.date-display {
-  font-size: 1.1rem;
-}
-
-.stardate-display {
-  font-size: 1.1rem;
-  color: #d8785f;
+.ops-shift {
+    margin-top: 0.5rem;
+    font-size: clamp(0.85rem, 1vw, 1.1rem);
+    text-transform: uppercase;
+    color: var(--lcars-mauve);
+    opacity: 0.85;
 }
 
 /* METEO */
-.weather-current {
-  font-size: 1rem;
-  line-height: 1.4;
+.ops-weather-title {
+    font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+    color: var(--lcars-amber);
+    margin: 1.4rem 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
 }
 
-.weather-forecast {
-  font-size: 0.95rem;
-  line-height: 1.4;
+/* pillole */
+.ops-weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
 }
 
-.lcars-divider {
-  height: 2px;
-  background: #7f6ad1;
-  margin: 10px 0;
+.ops-pill {
+    background: #151518;
+    border-radius: 16px;
+    padding: 0.8rem 1rem;
+    border: 2px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: clamp(0.8rem, 1vw, 1rem);
 }
 
-/* TODAY PANEL */
-.today-panel {
-  background: #f4b45f;
-  color: #000;
-  border-color: #f4b45f;
+.ops-pill span:first-child {
+    opacity: 0.75;
 }
 
-.today-panel h2 {
-  color: #000;
+/* =============================
+   IMAGE BLOCK
+============================= */
+.lcars-image-block {
+    background: rgba(0,0,0,0.85);
+    border-radius: 24px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.today-box {
-  margin-top: 8px;
-  background: #000;
-  color: #f2eecb;
-  padding: 10px 12px;
-  border-radius: 16px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-/* SMART HOME BUTTONS */
-.right-panel h2 {
-  color: #f2eecb;
-}
-
-.lcars-button {
-  margin-top: 10px;
-  width: 100%;
-  background: #000;
-  color: #f4b45f;
-  border-radius: 999px;
-  border: 2px solid #f4b45f;
-  padding: 9px 14px;
-  font-size: 0.9rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: center;
-}
-
-.lcars-button:hover {
-  background: #f4b45f;
-  color: #000;
-}
-
-.lcars-button.alert {
-  border-color: #d8785f;
-  color: #f2eecb;
-}
-
-.button-desc {
-  margin-top: 2px;
-  font-size: 0.8rem;
-}
-
-.note {
-  margin-top: 14px;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* RESPONSIVE */
-@media (max-width: 1100px) {
-  .lcars-main {
-    grid-template-columns: 1fr;
+.lcars-image-block img {
+    width: 100%;
     height: auto;
-  }
+    object-fit: contain;
+}
 
-  .time-row {
+/* =============================
+   SMART GRID BUTTONS
+============================= */
+
+.smart-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.smart-grid a {
+    height: 80px;
+    padding: 0 1.4rem 0.5rem;
+    border-radius: 100vmax;
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
+    font-weight: 700;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.15s ease-out;
+}
+
+.smart-grid a:hover { transform: scale(1.03); }
+
+/* =============================
+   COLOR GRADIENTS (unchanged)
+============================= */
+.btn-orange-1 { background: #FFB469; }
+.btn-orange-2 { background: #F99A4B; }
+.btn-orange-3 { background: #F28C3A; }
+.btn-orange-4 { background: #E97C28; }
+.btn-orange-5 { background: #DE6F1B; }
+.btn-orange-6 { background: #C95F0F; }
+
+.btn-yellow-1 { background: #F4C242; }
+.btn-yellow-2 { background: #E8B32F; }
+.btn-yellow-3 { background: #DFA624; }
+.btn-yellow-4 { background: #D49718; }
+.btn-yellow-5 { background: #C6880F; }
+.btn-yellow-6 { background: #B27605; }
+
+.btn-red-1 { background: #E56A6A; }
+.btn-red-2 { background: #D95959; }
+.btn-red-3 { background: #CC5050; }
+.btn-red-4 { background: #B63F3F; }
+.btn-red-5 { background: #A33232; }
+.btn-red-6 { background: #8C2929; }
+
+/* =============================
+   RESPONSIVE CASCADE
+============================= */
+
+/* TABLET + ECHO SHOW 15 */
+@media (max-width: 1100px) {
+    .status-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .smart-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ops-weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* SMARTPHONE */
+@media (max-width: 700px) {
+    .smart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ops-weather-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ops-panel {
+        padding: 1.4rem;
+        border-left-width: 10px;
+    }
+}
+
+/* DESKTOP MOLTO AMPI (>1800px) */
+@media (min-width: 1800px) {
+    .ops-panel {
+        padding: 3rem;
+    }
+
+    .smart-grid a {
+        height: 100px;
+        font-size: 1.3rem;
+        padding: 0 2rem 0.8rem;
+    }
+}
+
+/* =============================
+   RESPONSIVE DATA CASCADE
+============================= */
+.data-cascade-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.2rem;
+    padding: 0.5rem 0;
+    scroll-snap-type: x mandatory;
+}
+
+.data-column {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-  }
+    gap: 0.25rem;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    text-align: center;
+}
+
+.data-column div {
+    font-size: clamp(0.7rem, 1vw, 1rem);
+    line-height: 1.1;
 }
