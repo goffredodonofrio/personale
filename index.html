@@ -632,49 +632,67 @@
                     <div class="status-grid-wrapper">
                         <div class="status-grid">
 
-                            <!-- ORA & DATA + LCARS DUTY LOG ENV -->
                             <div class="lcars-time-block">
-                                <h2 class="section-title" style="margin-bottom:0.6rem;">ORA &amp; DATA STELLARE</h2>
 
-                                <h1 id="clock">--:--</h1>
-                                <div id="date">---</div>
+    <!-- 🔁 METEO PRIMA, POI OROLOGIO -->
+    <div class="env-panel">
+        <div class="env-title">ENVIRONMENTAL CONDITIONS // TORINO</div>
+        <div class="weather-grid">
+            <div class="weather-pill pill-temp">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>TEMPERATURA
+                </span>
+                <span class="weather-pill-value" id="weather-temp"></span>
+            </div>
 
-                                <div id="stardate">STARDATE -----.-</div>
+            <div class="weather-pill pill-humidity">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>UMIDITÁ
+                </span>
+                <span class="weather-pill-value" id="weather-humidity"></span>
+            </div>
 
-                                <div class="day-phase" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+            <div class="weather-pill pill-rain">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>PROB PIOGGIA
+                </span>
+                <span class="weather-pill-value" id="weather-rain"></span>
+            </div>
 
-                                <!-- PANEL METEO A PILL-BUTTON -->
-                                <div class="env-panel">
-                                    <div class="env-title">ENVIRONMENTAL CONDITIONS // TORINO</div>
-                                    <div class="weather-grid">
-                                        <div class="weather-pill pill-temp">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>TEMPERATURA
-                        </span>
-                                            <span class="weather-pill-value" id="weather-temp"></span>
-                                        </div>
-                                        <div class="weather-pill pill-humidity">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>UMIDITÁ
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-humidity"></span>
-                                        </div>
-                                        <div class="weather-pill pill-rain">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>PROB PIOGGIA
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-rain"></span>
-                                        </div>
-                                        <div class="weather-pill pill-wind">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>VENTO
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-wind"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="weather-pill pill-wind">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>VENTO
+                </span>
+                <span class="weather-pill-value" id="weather-wind"></span>
+            </div>
 
+            <!-- 🆕 PRESSIONE -->
+            <div class="weather-pill pill-pressure">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>PRESSIONE
+                </span>
+                <span class="weather-pill-value" id="weather-pressure"></span>
+            </div>
+
+            <!-- 🆕 NUVOLOSITÁ -->
+            <div class="weather-pill pill-clouds">
+                <span class="weather-pill-label">
+                    <span class="weather-pill-icon"></span>NUVOLOSITÁ
+                </span>
+                <span class="weather-pill-value" id="weather-clouds"></span>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title" style="margin-bottom:0.6rem;">ORA &amp; DATA STELLARE</h2>
+
+    <h1 id="clock">--:--</h1>
+    <div id="date">---</div>
+
+    <div id="stardate">STARDATE -----.-</div>
+
+    <div class="day-phase" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+</div>
                             <!-- IMMAGINE -->
                             <div class="lcars-image-block">
                                 <img src="assets/piantina_2.jpg" alt="Piantina Rocciamelone">
