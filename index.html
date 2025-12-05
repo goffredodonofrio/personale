@@ -40,27 +40,11 @@
         margin-top: 0.5rem;
     }
 
-    .status-grid-wrapper::before,
-    .status-grid-wrapper::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 14px;
-        border-radius: 999px;
-        z-index: 0;
-        opacity: 0.9;
-    }
-
-    .status-grid-wrapper::before {
-        top: 20%;
-        background: var(--lcars-orange);
-    }
-
-    .status-grid-wrapper::after {
-        top: 75%;
-        background: var(--lcars-mauve);
-    }
+    /* Disabilita completamente le barre decorative */
+.status-grid-wrapper::before,
+.status-grid-wrapper::after {
+    content: none !important;
+}
 
 /* ================================
    LCARS OPS PANEL v4 (combined)
