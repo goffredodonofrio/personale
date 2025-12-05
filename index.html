@@ -107,12 +107,19 @@
     }
 
     /* PANEL ENVIRONMENTAL CONDITIONS (LCARS DUTY LOG STYLE) */
-    .env-panel {
-      background: rgba(10,10,10,0.85);
-    border-left: none; /* removed */
+  .env-panel {
+    background: rgba(10,10,10,0.85);
+    border-left: none;
     border-radius: 18px;
     padding: 1rem 1.4rem;
-    }
+    margin-left: 0 !important;   /* elimina rientro a sinistra */
+    margin-right: 0;
+}
+
+/* titolo orologio dopo il meteo */
+.lcars-time-block .section-title {
+    margin-top: 1.4rem;
+}
 
     .env-title {
         font-size: 1.85rem;
