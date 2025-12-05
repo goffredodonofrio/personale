@@ -120,24 +120,45 @@
 .lcars-time-block .section-title {
     margin-top: 1.4rem;
 }
-        <!-- 🔶 DIVISORE LCARS TRA METEO E ORA -->
-<div class="time-divider">
-    <div class="td-seg td-red"></div>
-    <div class="td-seg td-amber-narrow"></div>
-    <div class="td-seg td-lilac"></div>
-    <div class="td-seg td-amber-narrow"></div>
-</div>
 
-<h2 class="section-title" style="margin-bottom:0.6rem;">ORA &amp; DATA STELLARE</h2>
+/* 🔶 DIVISORE LCARS TRA METEO E ORA */
+.time-divider {
+    display: flex;
+    align-items: stretch;
+    height: 10px;
+    margin: 0.8rem 0 1.2rem;
+    border-radius: 999px;
+    overflow: hidden;
+    background: transparent;
+}
 
-    .env-title {
-        font-size: 1.85rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--lcars-amber);
-        margin-bottom: 0.5rem;
-    }
+.time-divider .td-seg {
+    height: 100%;
+}
 
+/* segmenti */
+.td-red {
+    flex: 0.35;
+    background: #b8433c;
+}
+
+.td-amber-narrow {
+    flex: 0.05;
+    background: var(--lcars-orange);
+}
+
+.td-lilac {
+    flex: 0.55;
+    background: #c9a0ff;
+}
+
+.env-title {
+    font-size: 1.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lcars-amber);
+    margin-bottom: 0.5rem;
+}
     .weather-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
