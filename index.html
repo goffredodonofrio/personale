@@ -24,6 +24,27 @@
     body {
         background: var(--lcars-bg);
     }
+        .lcars-banner-bg {
+    width: 100%;
+    height: 40px;
+    background: var(--lcars-orange); /* oppure var(--lcars-amber) */
+    border-radius: 999px;
+    margin: 0.4rem 0 0.8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lcars-banner-bg .banner {
+    position: relative;
+    z-index: 2;
+    background: none;
+    color: black; /* stile classico LCARS */
+    font-family: "Antonio", sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
 
     .section-title {
         margin-top: 2rem;
@@ -263,7 +284,9 @@
 
             <!-- COLONNA DESTRA TOP LCARS -->
             <div class="right-frame-top">
-                <div class="banner">RCM 1821-B</div>
+                <div class="lcars-banner-bg">
+    <div class="banner">RCM 1821-B</div>
+</div>
 
                 <div class="data-cascade-button-group">
                     <!-- DATA CASCADE PERSONALIZZATA (UGUALE ALL’ORIGINALE) -->
