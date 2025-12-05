@@ -5,46 +5,71 @@ async function loadWeather() {
     "https://api.open-meteo.com/v1/forecast"
     + "?latitude=45.0705"
     + "&longitude=7.6868"
-    + "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,rain"
+    + "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,rain"
+    + "&daily=temperature_2m_max,weathercode"
     + "&timezone=Europe%2FRome";
 
   console.log("[meteo.js] Chiamo:", url);
 
   try {
-    const res  = await fetch(url);
-    console.log("[meteo.js] Status:", res.status);
+    const res = await fetch(url);
     const data = await res.json();
-    console.log("[meteo.js] DATA:", data);
 
+    /* -------------------------
+       METEO ATTUALE
+    --------------------------*/
     const cur = data.current;
-    if (!cur) {
-      console.log("[meteo.js] Nessun current nel JSON");
-      return;
+    if (cur) {
+      document.getElementById("weather-temp").textContent =
+        Math.round(cur.temperature_2m) + "°C";
+
+      document.getElementById("weather-humidity").textContent =
+        Math.round(cur.relative_humidity_2m) + "%";
+
+      document.getElementById("weather-wind").textContent =
+        Math.round(cur.wind_speed_10m) + " km/h";
+
+      document.getElementById("weather-rain").textContent =
+        (cur.rain ?? 0).toFixed(1) + " mm";
     }
 
-    // 🔹 TEMPERATURA
-    if (cur.temperature_2m != null) {
-      const el = document.getElementById("weather-temp");
-      if (el) el.textContent = Math.round(cur.temperature_2m) + "°C";
-    }
+    /* -------------------------
+       PREVISIONI 3 GIORNI
+    --------------------------*/
+    const days = data.daily.time;
+    const temps = data.daily.temperature_2m_max;
+    const codes = data.daily.weathercode;
 
-    // 🔹 UMIDITÀ
-    if (cur.relative_humidity_2m != null) {
-      const el = document.getElementById("weather-humidity");
-      if (el) el.textContent = Math.round(cur.relative_humidity_2m) + "%";
-    }
+    const ICONS = {
+      0: "☀️",
+      1: "🌤️",
+      2: "⛅",
+      3: "☁️",
+      45: "🌫️",
+      48: "🌫️",
+      51: "🌦️",
+      53: "🌦️",
+      55: "🌧️",
+      61: "🌧️",
+      63: "🌧️",
+      65: "🌧️",
+      71: "❄️",
+      73: "❄️",
+      75: "❄️",
+      95: "⛈️",
+      96: "⛈️",
+      99: "⛈️"
+    };
 
-    // 🔹 VENTO
-    if (cur.wind_speed_10m != null) {
-      const el = document.getElementById("weather-wind");
-      if (el) el.textContent = Math.round(cur.wind_speed_10m) + " km/h";
-    }
+    for (let i = 1; i <= 3; i++) {
+      const date = new Date(days[i]);
+      const dayName = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
 
-    // 🔹 PIOGGIA (mm)
-    const rain = cur.rain ?? cur.precipitation;
-    if (rain != null) {
-      const el = document.getElementById("weather-rain");
-      if (el) el.textContent = rain.toFixed(1) + " mm";
+      document.getElementById(`fc-day-${i}`).textContent = dayName;
+      document.getElementById(`fc-temp-${i}`).textContent =
+        Math.round(temps[i]) + "°C";
+      document.getElementById(`fc-icon-${i}`).textContent =
+        ICONS[codes[i]] || "🌤️";
     }
 
   } catch (err) {
@@ -52,15 +77,7 @@ async function loadWeather() {
   }
 }
 
-// Avvio quando il DOM è pronto
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("[meteo.js] DOMContentLoaded, avvio loadWeather()");
   loadWeather();
-  setInterval(loadWeather, 300000); // ogni 5 minuti
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Meteo JS caricato, avvio loadWeather()");
-    loadWeather();
-    setInterval(loadWeather, 300000);
+  setInterval(loadWeather, 300000); // update ogni 5 minuti
 });
