@@ -263,7 +263,56 @@
 
             <!-- COLONNA DESTRA TOP LCARS -->
             <div class="right-frame-top">
-                <div class="banner">RCM 1821-B</div>
+
+    <div class="lcars-header">
+        <div class="seg-left"></div>
+        <div class="bar"></div>
+
+        <div class="title">RCM 1821-B</div>
+
+        <div class="bar"></div>
+        <div class="seg-right"></div>
+    </div>
+
+.lcars-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+    margin: 0.5rem 0 1rem;
+}
+
+.lcars-header .seg-left,
+.lcars-header .seg-right {
+    width: 110px;
+    height: 38px;
+    background: #9CC8FF; /* azzurro identico allo screenshot */
+    border-radius: 999px 15px 15px 999px; /* sinistro */
+}
+
+.lcars-header .seg-right {
+    border-radius: 15px 999px 999px 15px; /* destro */
+}
+
+.lcars-header .bar {
+    flex-grow: 1;
+    height: 38px;
+    background: #9CC8FF;
+    margin: 0 4px;
+    border-radius: 8px;
+}
+
+.lcars-header .title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-family: "Antonio", sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: white;
+    pointer-events: none; /* evita click inutili */
+}
 
                 <div class="data-cascade-button-group">
                     <!-- DATA CASCADE PERSONALIZZATA (UGUALE ALL’ORIGINALE) -->
