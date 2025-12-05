@@ -24,46 +24,40 @@
     body {
         background: var(--lcars-bg);
     }
-        .lcars-header {
+        /* HEADER LCARS A SINISTRA, STILE ORIGINALE */
+.lcars-header {
     display: flex;
     align-items: center;
     width: 100%;
-    background: transparent;
-    margin: 0.5rem 0 1rem;
+    height: 48px;
+    margin-top: 0.3rem;
 }
 
-.lcars-header .seg-left,
-.lcars-header .seg-right {
-    width: 110px;
-    height: 38px;
-    background: #9CC8FF; /* azzurro identico allo screenshot */
-    border-radius: 999px 15px 15px 999px; /* sinistro */
+/* Segmento sinistro viola */
+.lcars-header .seg-left {
+    width: 160px;
+    height: 48px;
+    background: var(--lcars-mauve);
+    border-radius: 24px 0 0 24px;
 }
 
-.lcars-header .seg-right {
-    border-radius: 15px 999px 999px 15px; /* destro */
-}
+/* Barra arancione con il titolo */
+<div class="lcars-header">
+    <div class="seg-left"></div>
 
-.lcars-header .bar {
+    <div class="title-bar">
+        <span>RCM 1821-B</span>
+    </div>
+
+    <div class="blue-bar"></div>
+</div>
+
+/* Barra azzurra continua */
+.lcars-header .blue-bar {
     flex-grow: 1;
-    height: 38px;
+    height: 48px;
     background: #9CC8FF;
-    margin: 0 4px;
-    border-radius: 8px;
 }
-
-.lcars-header .title {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    font-family: "Antonio", sans-serif;
-    font-size: 1.9rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: white;
-    pointer-events: none; /* evita click inutili */
-}
-
     .section-title {
         margin-top: 2rem;
         text-transform: uppercase;
