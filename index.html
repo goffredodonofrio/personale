@@ -62,115 +62,106 @@
         background: var(--lcars-mauve);
     }
 
-    /* BLOCCO ORA + IMMAGINE */
-    .status-grid {
-        display: grid;
-        grid-template-columns: 1.2fr 1.4fr; /* due colonne: orologio + piantina */
-        gap: 1rem;
-        align-items: stretch;
-        position: relative;
-        z-index: 1;
-    }
+/* ================================
+   LCARS OPS PANEL v4 (combined)
+================================ */
 
-    .lcars-time-block {
-        background: rgba(0, 0, 0, 0.85);
-        border-left: ;
-        border-radius: 18px;
-        padding: 1rem 1.2rem 1.4rem;
-        text-align: left;
-    }
+/* Wrapper generale */
+.ops-panel {
+    background: rgba(0,0,0,0.88);
+    border-radius: 24px;
+    padding: 1.8rem 2rem;
+    margin-top: 1rem;
+    border-left: 14px solid var(--lcars-amber); /* stile PADD */
+    box-shadow: 0 0 16px rgba(0,0,0,0.5);
+}
 
-    .lcars-time-block h1#clock {
-        text-align: left !important;
-        margin-left: 0 !important;
-        justify-content: flex-start;
-    }
+/* Fascia superiore */
+.ops-panel-header {
+    height: 10px;
+    background: var(--lcars-amber);
+    border-radius: 999px;
+    margin-bottom: 1.4rem;
+}
 
-    .lcars-time-block #date {
-        font-size: 1.25rem;
-        margin-top: 0.3rem;
-        opacity: 0.9;
-    }
+/* ORA */
+.ops-clock {
+    font-size: 4.4rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--lcars-mauve);
+    margin-top: 0.4rem;
+}
 
-    .lcars-time-block #stardate {
-        margin-top: 0.5rem;
-        font-size: 1.1rem;
-        color: var(--lcars-amber);
-        font-weight: 700;
-    }
+/* DATA + STARDATE */
+.ops-date {
+    margin-top: 0.5rem;
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
 
-    .day-phase {
-        margin-top: 0.6rem;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        color: var(--lcars-mauve);
-    }
+.ops-stardate {
+    margin-top: 0.3rem;
+    font-size: 1.2rem;
+    color: var(--lcars-amber);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
 
-    /* PANEL ENVIRONMENTAL CONDITIONS (LCARS DUTY LOG STYLE) */
-    .env-panel {
-      background: rgba(10,10,10,0.85);
-    border-left: none; /* removed */
-    border-radius: 18px;
-    padding: 1rem 1.4rem;
-    }
+/* SHIFT */
+.ops-shift {
+    margin-top: 0.6rem;
+    font-size: 1rem;
+    color: var(--lcars-mauve);
+    text-transform: uppercase;
+    opacity: 0.85;
+}
 
-    .env-title {
-        font-size: 1.85rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--lcars-amber);
-        margin-bottom: 0.5rem;
-    }
+/* Divider LCARS */
+.ops-divider {
+    height: 6px;
+    background: var(--lcars-orange);
+    border-radius: 999px;
+    margin: 1.6rem 0;
+}
 
-    .weather-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.6rem;
-    }
+/* PANEL METEO */
+.ops-weather-title {
+    font-size: 1.65rem;
+    color: var(--lcars-amber);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.09em;
+}
 
-    .weather-pill {
-        border-radius: 999px;
-        padding: 0.4rem 0.8rem 0.45rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        background: #181820;
-    }
+/* Griglia meteo */
+.ops-weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
 
-    .weather-pill-label {
-        opacity: 0.8;
-    }
+/* Pill */
+.ops-pill {
+    background: #151518;
+    border-radius: 16px;
+    padding: 0.7rem 1rem;
+    border: 2px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}
 
-    .weather-pill-value {
-        font-weight: 700;
-    }
+.ops-pill span:first-child {
+    opacity: 0.75;
+}
 
-    .pill-temp {
-        border: 2px solid var(--lcars-amber);
-        color: var(--lcars-amber);
-    }
-
-    .pill-humidity {
-        border: 2px solid var(--lcars-mauve);
-        color: var(--lcars-mauve);
-    }
-
-    .pill-rain {
-        border: 2px solid var(--lcars-orange);
-        color: var(--lcars-orange);
-    }
-
-    .pill-wind {
-        border: 2px solid var(--lcars-red);
-        color: var(--lcars-red);
-    }
-
-    .weather-pill-icon {
-        margin-right: 0.4rem;
-    }
+.ops-pill-value {
+    font-weight: 700;
+}
 
     /* BLOCCO IMMAGINE LCARS CENTRALE */
     .lcars-image-block {
@@ -651,48 +642,42 @@
                     <div class="status-grid-wrapper">
                         <div class="status-grid">
 
-                            <!-- ORA & DATA + LCARS DUTY LOG ENV -->
-                            <div class="lcars-time-block">
-                                <h2 class="section-title" style="margin-bottom:0.6rem;">ORA &amp; DATA STELLARE</h2>
+                            <div class="ops-panel">
 
-                                <h1 id="clock">--:--</h1>
-                                <div id="date">---</div>
+    <div class="ops-panel-header"></div>
 
-                                <div id="stardate">STARDATE -----.-</div>
+    <div class="ops-clock" id="clock">--:--:--</div>
+    <div class="ops-date" id="date">---</div>
+    <div class="ops-stardate" id="stardate">STARDATE ---</div>
+    <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
 
-                                <div class="day-phase" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+    <div class="ops-divider"></div>
 
-                                <!-- PANEL METEO A PILL-BUTTON -->
-                                <div class="env-panel">
-                                    <div class="env-title">ENVIRONMENTAL CONDITIONS // TORINO</div>
-                                    <div class="weather-grid">
-                                        <div class="weather-pill pill-temp">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>TEMPERATURA
-                        </span>
-                                            <span class="weather-pill-value" id="weather-temp"></span>
-                                        </div>
-                                        <div class="weather-pill pill-humidity">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>UMIDITÁ
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-humidity"></span>
-                                        </div>
-                                        <div class="weather-pill pill-rain">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>PROB PIOGGIA
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-rain"></span>
-                                        </div>
-                                        <div class="weather-pill pill-wind">
-                                            <span class="weather-pill-label">
-                                                <span class="weather-pill-icon"></span>VENTO
-                                            </span>
-                                            <span class="weather-pill-value" id="weather-wind"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="ops-weather-title">Environmental Conditions // Torino</div>
+
+    <div class="ops-weather-grid">
+        <div class="ops-pill">
+            <span>TEMPERATURA</span>
+            <span class="ops-pill-value" id="weather-temp">--°C</span>
+        </div>
+
+        <div class="ops-pill">
+            <span>UMIDITÀ</span>
+            <span class="ops-pill-value" id="weather-humidity">--%</span>
+        </div>
+
+        <div class="ops-pill">
+            <span>PROB PIOGGIA</span>
+            <span class="ops-pill-value" id="weather-rain">-- mm</span>
+        </div>
+
+        <div class="ops-pill">
+            <span>VENTO</span>
+            <span class="ops-pill-value" id="weather-wind">-- km/h</span>
+        </div>
+    </div>
+
+</div>
 
                             <!-- IMMAGINE -->
                             <div class="lcars-image-block">
