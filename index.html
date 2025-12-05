@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" type="text/css" href="assets/classic.css">
+    
 
     <!-- FONT ANTONIO (tema LCARS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +50,15 @@
 /* ================================
    LCARS OPS PANEL v4 (combined)
 ================================ */
-
+.big-title {
+    font-family: 'Antonio', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--lcars-orange);
+    text-align: center;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.05em;
+}        
 /* Wrapper generale */
 .ops-panel {
     background: rgba(0,0,0,0.88);
@@ -249,7 +258,6 @@
 
             <!-- COLONNA DESTRA TOP LCARS -->
             <div class="right-frame-top">
-                <div class="banner">RCM 1821-B</div>
 
                 <div class="data-cascade-button-group">
                     <!-- DATA CASCADE PERSONALIZZATA (UGUALE ALL’ORIGINALE) -->
@@ -576,6 +584,7 @@
                         <button onclick="playSoundAndRedirect('audio2', '#')">CHIUDI</button>
                     </nav>
                 </div>
+                <h1 class="big-title">RCM 1821-B</h1>
 
                 <div class="bar-panel first-bar-panel">
                     <div class="bar-1"></div><div class="bar-2"></div>
