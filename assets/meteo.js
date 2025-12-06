@@ -40,11 +40,11 @@ const WEATHER_TEXT = {
 
 function loadWeather() {
   const url =
-    `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${LAT}&longitude=${LON}` +
-    `&current_weather=true` +
-    `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
-    `&timezone=Europe%2FRome`;
+    https://api.open-meteo.com/v1/forecast +
+    ?latitude=${LAT}&longitude=${LON} +
+    &current_weather=true +
+    &daily=weathercode,temperature_2m_max,temperature_2m_min +
+    &timezone=Europe%2FRome;
 
   fetch(url)
     .then(r => r.json())
@@ -82,13 +82,13 @@ function updateWeather(data) {
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
-    const card = `
+    const card = 
       <div class="ops-forecast-day">
         <div class="ops-forecast-day-label">${label}</div>
         <div class="ops-forecast-text">${text}</div>
         <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
       </div>
-    `;
+    ;
 
     grid.innerHTML += card;
   });
