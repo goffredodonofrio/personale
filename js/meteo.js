@@ -40,12 +40,13 @@ const WEATHER_TEXT = {
 };
 
 function loadWeather() {
-  const url =
-    `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${LAT}&longitude=${LON}` +
-    `&current_weather=true` +
-    `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
-    `&timezone=Europe%2FRome`;
+ const url =
+  `https://api.open-meteo.com/v1/forecast` +
+  `?latitude=${LAT}&longitude=${LON}` +
+  `&current_weather=true` +
+  `&forecast_days=5` +
+  `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
+  `&timezone=Europe%2FRome`;
 
   console.log("🔵 Fetch URL:", url);
 
