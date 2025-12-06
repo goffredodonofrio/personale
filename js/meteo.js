@@ -59,13 +59,21 @@ for (let i = 0; i < 4; i++) {
 
 // ICON SET stile LCARS minimal
 function getWeatherIcon(code) {
-  if (code === 0) return "●";          // sereno
-  if (code === 1 || code === 2) return "◐"; // poco nuvoloso
-  if (code === 3) return "▣";          // nuvoloso
-  if (code >= 51 && code <= 67) return "☍";   // pioggerella
-  if (code >= 71 && code <= 77) return "✶";   // neve
-  if (code >= 80 && code <= 82) return "≋";   // rovesci
-  if (code >= 95) return "⚡";         // temporale
-  return "■";
+  if (code === 0) return "●";             // Sole pieno LCARS
+  if (code === 1) return "◔";             // Poco nuvoloso
+  if (code === 2) return "◑";             // Parzialmente nuvoloso
+  if (code === 3) return "▣";             // Nuvoloso
+  if (code >= 51 && code <= 67) return "☍"; // Pioggia LCARS
+  if (code >= 71 && code <= 77) return "✶"; // Neve
+  if (code >= 80 && code <= 82) return "≋"; // Rovesci
+  if (code >= 95) return "⚡";             // Temporale
+  return "■";                             // Default LCARS minimal
 }
+
+.ops-forecast-icon {
+    font-size: 2.4rem;
+    color: var(--lcars-mauve);
+    margin: 0.4rem 0 0.6rem;
+}
+
 document.addEventListener("DOMContentLoaded", loadWeather);
