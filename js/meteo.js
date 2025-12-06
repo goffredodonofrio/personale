@@ -58,36 +58,29 @@ for (let i = 0; i < 4; i++) {
 }
 
 function getWeatherIcon(code) {
-  // Clear sky
-  if (code === 0) return '<i class="wi wi-day-sunny"></i>';
+  // codici: https://open-meteo.com/en/docs
+  // usiamo SOLO simboli base compatibili (sole, nuvola, pioggia, neve, fulmine)
 
-  // Mainly clear / partly cloudy
-  if (code === 1) return '<i class="wi wi-day-sunny-overcast"></i>';
-  if (code === 2) return '<i class="wi wi-day-cloudy"></i>';
+  // cielo sereno
+  if (code === 0) return "☀";
 
-  // Overcast
-  if (code === 3) return '<i class="wi wi-cloudy"></i>';
+  // prevalentemente sereno / poco nuvoloso
+  if (code === 1 || code === 2) return "⛅";
 
-  // Drizzle / light rain
-  if (code >= 51 && code <= 57) return '<i class="wi wi-sprinkle"></i>';
-  if (code >= 61 && code <= 67) return '<i class="wi wi-rain"></i>';
+  // coperto
+  if (code === 3) return "☁";
 
-  // Snow
-  if (code >= 71 && code <= 77) return '<i class="wi wi-snow"></i>';
+  // pioggerella / pioggia
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return "☔";
 
-  // Rain showers
-  if (code >= 80 && code <= 82) return '<i class="wi wi-showers"></i>';
+  // neve
+  if (code >= 71 && code <= 77) return "❄";
 
-  // Thunderstorm
-  if (code >= 95) return '<i class="wi wi-thunderstorm"></i>';
+  // temporale
+  if (code >= 95) return "⚡";
 
-  // Default LCARS block icon
-  return '<i class="wi wi-na"></i>';
-}
-.ops-forecast-icon {
-    font-size: 2.8rem;
-    color: var(--lcars-mauve);
-    margin: 0.4rem 0 0.6rem;
+  // fallback generico
+  return "■";
 }
 
 document.addEventListener("DOMContentLoaded", loadWeather);
