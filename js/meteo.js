@@ -57,32 +57,32 @@ for (let i = 0; i < 4; i++) {
   }
 }
 
-// ICON SET stile LCARS minimal
 function getWeatherIcon(code) {
   // Clear sky
-  if (code === 0) return '<i class="fa-regular fa-sun"></i>';
+  if (code === 0) return '<i class="wi wi-day-sunny"></i>';
 
-  // Mostly clear / partly cloudy
-  if (code === 1) return '<i class="fa-regular fa-sun-bright"></i>';
-  if (code === 2) return '<i class="fa-regular fa-cloud-sun"></i>';
+  // Mainly clear / partly cloudy
+  if (code === 1) return '<i class="wi wi-day-sunny-overcast"></i>';
+  if (code === 2) return '<i class="wi wi-day-cloudy"></i>';
 
   // Overcast
-  if (code === 3) return '<i class="fa-regular fa-cloud"></i>';
+  if (code === 3) return '<i class="wi wi-cloudy"></i>';
 
   // Drizzle / light rain
-  if (code >= 51 && code <= 67) return '<i class="fa-regular fa-cloud-rain"></i>';
+  if (code >= 51 && code <= 57) return '<i class="wi wi-sprinkle"></i>';
+  if (code >= 61 && code <= 67) return '<i class="wi wi-rain"></i>';
 
   // Snow
-  if (code >= 71 && code <= 77) return '<i class="fa-regular fa-snowflake"></i>';
+  if (code >= 71 && code <= 77) return '<i class="wi wi-snow"></i>';
 
   // Rain showers
-  if (code >= 80 && code <= 82) return '<i class="fa-regular fa-cloud-showers-heavy"></i>';
+  if (code >= 80 && code <= 82) return '<i class="wi wi-showers"></i>';
 
   // Thunderstorm
-  if (code >= 95) return '<i class="fa-regular fa-cloud-bolt"></i>';
+  if (code >= 95) return '<i class="wi wi-thunderstorm"></i>';
 
-  // Default LCARS-style “sensor block”
-  return '<i class="fa-solid fa-square"></i>';
+  // Default LCARS block icon
+  return '<i class="wi wi-na"></i>';
 }
 .ops-forecast-icon {
     font-size: 2.8rem;
