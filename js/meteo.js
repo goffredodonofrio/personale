@@ -48,7 +48,7 @@ function loadWeather() {
 
   fetch(url)
     .then(r => r.json())
-    .then(data => updateWeather(data))
+    .then(updateWeather)
     .catch(err => console.error("Errore meteo:", err));
 }
 
@@ -66,11 +66,11 @@ function updateWeather(data) {
   document.getElementById("weather-wind").textContent =
     Math.round(data.current_weather.windspeed) + " km/h";
 
-  // Umidità
+  // Umidità (oggi)
   document.getElementById("weather-humidity").textContent =
     (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
 
-  // Probabilità pioggia
+  // Probabilità pioggia (oggi)
   document.getElementById("weather-rain").textContent =
     (data.daily.precipitation_probability_max[0] ?? "--") + "%";
 
@@ -83,7 +83,7 @@ function updateWeather(data) {
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  // Mostra solo 4 giorni: domani → giorno 4
+  // Mostra solo 4 giorni: domani → +4 giorni
   for (let i = 1; i <= 4; i++) {
 
     const date = new Date(daily.time[i]);
