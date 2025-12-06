@@ -6,7 +6,6 @@ const LON = 7.6869;
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
-// Mappa weathercode → descrizione testuale
 const WEATHER_TEXT = {
   0: "Sereno",
   1: "Prevalente sereno",
@@ -54,42 +53,25 @@ function loadWeather() {
 
 function updateWeather(data) {
 
-  /* -------------------------------------------------
-     METEO ATTUALE
-  --------------------------------------------------*/
-
-  // Temperatura attuale
   document.getElementById("weather-temp").textContent =
     Math.round(data.current_weather.temperature) + "°C";
 
-  // Vento
   document.getElementById("weather-wind").textContent =
     Math.round(data.current_weather.windspeed) + " km/h";
 
-  // Umidità (oggi)
   document.getElementById("weather-humidity").textContent =
     (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
 
-  // Probabilità pioggia (oggi)
   document.getElementById("weather-rain").textContent =
     (data.daily.precipitation_probability_max[0] ?? "--") + "%";
-
-
-  /* -------------------------------------------------
-     PREVISIONI — PROSSIMI 4 GIORNI
-  --------------------------------------------------*/
 
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  // Mostra solo 4 giorni: domani → +4 giorni
   for (let i = 1; i <= 4; i++) {
-
     const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", {
-      weekday: "short"
-    }).toUpperCase();
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
     const code = daily.weathercode[i];
     const text = WEATHER_TEXT[code] || "N/D";
@@ -104,7 +86,6 @@ function updateWeather(data) {
         <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
       </div>
     `;
-
     grid.innerHTML += card;
   }
 }
