@@ -18,10 +18,13 @@ async function loadWeather() {
       `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
       `&timezone=Europe%2FRome`;
 
+    console.log("🌤️ Chiamo Open-Meteo:", url);
+
     const res = await fetch(url);
-    if (!res.ok) throw new Error("Errore meteo");
+    if (!res.ok) throw new Error("Errore meteo: " + res.status);
 
     const data = await res.json();
+    console.log("✅ Meteo ricevuto:", data);
 
     // ---------------------------
     // METEO ATTUALE
@@ -29,28 +32,57 @@ async function loadWeather() {
     const current = data.current_weather;
     const daily = data.daily;
 
-    document.getElementById("weather-temp").textContent =
-      Math.round(current.temperature) + "°C";
+    // Temperatura attuale
+    const tempEl = document.getElementById("weather-temp");
+    if (tempEl && current && typeof current.temperature === "number") {
+      tempEl.textContent = Math.round(current.temperature) + "°C";
+    }
 
-    document.getElementById("weather-humidity").textContent = "--%";
-    document.getElementById("weather-rain").textContent = "0.0 mm";
-    document.getElementById("weather-wind").textContent =
-      Math.round(current.windspeed) + " km/h";
+    // Campi placeholder (non li stiamo leggendo da API)
+    const humEl = document.getElementById("weather-humidity");
+    if (humEl) humEl.textContent = "--%";
+
+    const rainEl = document.getElementById("weather-rain");
+    if (rainEl) rainEl.textContent = "0.0 mm";
+
+    const windEl = document.getElementById("weather-wind");
+    if (windEl && current && typeof current.windspeed === "number") {
+      windEl.textContent = Math.round(current.windspeed) + " km/h";
+    }
 
     // ---------------------------
     // FORECAST OGGI + 3 GIORNI
     // ---------------------------
     const forecastGrid = document.getElementById("forecast-grid");
+    if (!forecastGrid) {
+      console.warn("⚠️ Nessun elemento con id 'forecast-grid' trovato");
+      return;
+    }
+
     forecastGrid.innerHTML = "";
 
-    for (let i = 0; i < 4; i++) {
+    // Sicurezza: controlliamo che i vettori esistano
+    if (
+      !daily ||
+      !Array.isArray(daily.time) ||
+      !Array.isArray(daily.temperature_2m_max) ||
+      !Array.isArray(daily.temperature_2m_min) ||
+      !Array.isArray(daily.weathercode)
+    ) {
+      console.warn("⚠️ Struttura 'daily' inattesa:", daily);
+      return;
+    }
+
+    // Mostriamo oggi + 3 giorni (max 4 elementi disponibili)
+    const daysToShow = Math.min(4, daily.time.length);
+
+    for (let i = 0; i < daysToShow; i++) {
       const dateStr = daily.time[i];
       const dateObj = new Date(dateStr);
       const label = i === 0 ? "OGGI" : dayNames[dateObj.getDay()];
 
       const tMax = Math.round(daily.temperature_2m_max[i]);
       const tMin = Math.round(daily.temperature_2m_min[i]);
-
       const description = weatherDescription(daily.weathercode[i]);
 
       const card = document.createElement("div");
@@ -66,7 +98,7 @@ async function loadWeather() {
     }
 
   } catch (err) {
-    console.error("Errore caricamento meteo:", err);
+    console.error("❌ Errore caricamento meteo:", err);
   }
 }
 
