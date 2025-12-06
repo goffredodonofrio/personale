@@ -31,6 +31,7 @@ async function loadWeather() {
 
     document.getElementById("weather-temp").textContent =
       Math.round(current.temperature) + "°C";
+
     document.getElementById("weather-humidity").textContent = "--%";
     document.getElementById("weather-rain").textContent = "0.0 mm";
     document.getElementById("weather-wind").textContent =
@@ -42,13 +43,11 @@ async function loadWeather() {
     const forecastGrid = document.getElementById("forecast-grid");
     forecastGrid.innerHTML = "";
 
-}
-
-        for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       const dateStr = daily.time[i];
       const dateObj = new Date(dateStr);
       const label = i === 0 ? "OGGI" : dayNames[dateObj.getDay()];
-      
+
       const tMax = Math.round(daily.temperature_2m_max[i]);
       const tMin = Math.round(daily.temperature_2m_min[i]);
 
@@ -65,6 +64,7 @@ async function loadWeather() {
 
       forecastGrid.appendChild(card);
     }
+
   } catch (err) {
     console.error("Errore caricamento meteo:", err);
   }
