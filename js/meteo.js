@@ -76,27 +76,27 @@ async function loadWeather() {
 // ================================
 function lcarsIconFromCode(code) {
   // 0: sereno
-  if (code === 0) return "●";      
+  if (code === 0) return "☀️";      
 
   // 1–2: poco nuvoloso / variabile
-  if (code === 1 || code === 2) return "◐";  
+  if (code === 1 || code === 2) return "🌤️";  
 
   // 3: coperto
-  if (code === 3) return "▭";      
+  if (code === 3) return "⛅️";      
 
   // 45–48: nebbia
-  if (code >= 45 && code <= 48) return "≡";  
+  if (code >= 45 && code <= 48) return "🌫️";  
 
   // 51–67, 80–82: pioggia
   if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82))
-    return "☍";                    
+    return "🌨️";                    
 
   // 71–77, 85–86: neve
   if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86))
-    return "✶";                    
+    return "❄️";                    
 
   // 95–99: temporali
-  if (code >= 95) return "⚡";      
+  if (code >= 95) return "🌩️🌩️";      
 
   return "■"; 
 }
