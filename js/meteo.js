@@ -79,5 +79,23 @@ function getWeatherIcon(code) {
   return "▫️";
 }
 
+function lcarsIcon(condition) {
+  condition = condition.toLowerCase();
+
+  if (condition.includes("clear")) return "●";          // sole pieno
+  if (condition.includes("cloud")) return "▭";         // nuvoloso
+  if (condition.includes("part")) return "◐";          // parzialmente nuvoloso
+  if (condition.includes("rain")) return "☍";          // pioggia stilizzata
+  if (condition.includes("storm")) return "⚡";         // temporale
+  if (condition.includes("snow")) return "✶";          // neve
+  if (condition.includes("fog")) return "≡";           // nebbia
+
+  return "■"; // default LCARS
+}
 // avvia meteo al load
 document.addEventListener("DOMContentLoaded", loadWeather);
+
+
+document.getElementById(`fc-day-${i}`).textContent = dayShort;
+document.getElementById(`fc-icon-${i}`).textContent = lcarsIcon(desc);
+document.getElementById(`fc-temp-${i}`).textContent = `${tmax}° / ${tmin}°`;
