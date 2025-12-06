@@ -72,19 +72,30 @@ function updateWeather(data) {
   var times = data.hourly.time;
   var nowIso = cw.time;        // formato ISO
   var idx = times.indexOf(nowIso);
+var humidity = "--";
+var rainProb = "--";
 
-  console.log("⏱ Index orario:", idx, nowIso);
+// fallback: trova la prima ora vicina con dati validi
+function findNearestValid(arr) {
+  if (!arr) return "--";
 
-  var humidity = "--";
-  var rainProb = "--";
+  // 1. orario preciso
+  if (idx !== -1 && typeof arr[idx] === "number") return arr[idx];
 
-  if (idx !== -1) {
-    var humArr = data.hourly.relativehumidity_2m;
-    var rainArr = data.hourly.precipitation_probability;
+  // 2. fallback: ora precedente
+  if (idx > 0 && typeof arr[idx - 1] === "number") return arr[idx - 1];
 
-    if (humArr && typeof humArr[idx] === "number") humidity = humArr[idx];
-    if (rainArr && typeof rainArr[idx] === "number") rainProb = rainArr[idx];
-  }
+  // 3. fallback: ora successiva
+  if (idx !== -1 && typeof arr[idx + 1] === "number") return arr[idx + 1];
+
+  return "--";
+}
+
+humidity = findNearestValid(data.hourly.relativehumidity_2m);
+rainProb = findNearestValid(data.hourly.precipitation_probability);
+
+document.getElementById("weather-humidity").textContent = humidity + "%";
+document.getElementById("weather-rain").textContent = rainProb + "%";
 
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
