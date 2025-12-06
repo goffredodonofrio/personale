@@ -97,6 +97,4 @@ function lcarsIconFromCode(code) {
 
   // 95–99: temporali
   if (code >= 95) return "🌩️🌩️";      
-
-  return "■"; 
 }
