@@ -1,3 +1,5 @@
+console.log("🟣 meteo.js CARICATO");
+
 /***************************************************
  *   METEO — VERSIONE TESTUALE (OPEN-METEO)
  ***************************************************/
@@ -45,13 +47,26 @@ function loadWeather() {
     `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
     `&timezone=Europe%2FRome`;
 
+  console.log("🔵 Fetch URL:", url);
+
   fetch(url)
-    .then(r => r.json())
-    .then(updateWeather)
-    .catch(err => console.error("Errore meteo:", err));
+    .then(r => {
+      console.log("🟠 Response status:", r.status);
+      return r.json();
+    })
+    .then(data => {
+      console.log("🟢 updateWeather() chiamata", data);
+      updateWeather(data);
+    })
+    .catch(err => console.error("🔴 ERRORE FETCH:", err));
 }
 
 function updateWeather(data) {
+
+  if (!data.daily) {
+    console.error("❌ ERRORE: data.daily non presente", data);
+    return;
+  }
 
   document.getElementById("weather-temp").textContent =
     Math.round(data.current_weather.temperature) + "°C";
@@ -60,10 +75,10 @@ function updateWeather(data) {
     Math.round(data.current_weather.windspeed) + " km/h";
 
   document.getElementById("weather-humidity").textContent =
-    (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
+    (data.daily.relativehumidity_2m_max?.[0] ?? "--") + "%";
 
   document.getElementById("weather-rain").textContent =
-    (data.daily.precipitation_probability_max[0] ?? "--") + "%";
+    (data.daily.precipitation_probability_max?.[0] ?? "--") + "%";
 
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
