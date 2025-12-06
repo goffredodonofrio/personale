@@ -58,13 +58,15 @@ for (let i = 0; i < 4; i++) {
 }
 
 function getWeatherIcon(code) {
-  if (code === 0) return "☀️";                    
-  if (code === 1 || code === 2) return "🌤️";      
-  if (code === 3) return "☁️";                   
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return "🌧️"; 
-  if (code >= 71 && code <= 77) return "❄️";     
-  if (code >= 95) return "⛈️";                   
-  return "▪️";
+  if (code === 0) return '<i class="wi wi-day-sunny"></i>';
+  if (code === 1 || code === 2) return '<i class="wi wi-day-cloudy"></i>';
+  if (code === 3) return '<i class="wi wi-cloudy"></i>';
+  if (code >= 51 && code <= 67) return '<i class="wi wi-sprinkle"></i>';
+  if (code >= 80 && code <= 82) return '<i class="wi wi-rain"></i>';
+  if (code >= 71 && code <= 77) return '<i class="wi wi-snow"></i>';
+  if (code >= 95) return '<i class="wi wi-thunderstorm"></i>';
+
+  return '<i class="wi wi-na"></i>';
 }
 
 document.addEventListener("DOMContentLoaded", loadWeather);
