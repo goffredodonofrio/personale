@@ -25,10 +25,10 @@ async function loadWeather() {
     document.getElementById("weather-temp").textContent =
       Math.round(current.temperature) + "°C";
 
-    document.getElementById("weather-humidity").textContent = "--%"; // opzionale
-    document.getElementById("weather-rain").textContent = "0.0 mm"; // opzionale
+    // placeholder per ora
+    document.getElementById("weather-humidity").textContent = "--%";
+    document.getElementById("weather-rain").textContent = "0.0 mm";
 
-    // FIX DEL TUO ERRORE QUI:
     document.getElementById("weather-wind").textContent =
       Math.round(current.windspeed) + " km/h";
 
@@ -45,15 +45,14 @@ async function loadWeather() {
 
       const tMax = Math.round(daily.temperature_2m_max[i]);
       const tMin = Math.round(daily.temperature_2m_min[i]);
-
-      const iconHTML = getWeatherIcon(daily.weathercode[i]);
+      const iconChar = lcarsIconFromCode(daily.weathercode[i]);
 
       const card = document.createElement("div");
       card.className = "ops-forecast-day";
 
       card.innerHTML = `
         <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-icon">${iconHTML}</div>
+        <div class="ops-forecast-icon">${iconChar}</div>
         <div class="ops-forecast-temp">${tMax}° / ${tMin}°</div>
       `;
 
@@ -65,30 +64,33 @@ async function loadWeather() {
 }
 
 // ================================
-//  MAPPING METEO → Weather Icons
+//  ICON MAPPING → simboli LCARS
 // ================================
-function getWeatherIcon(code) {
-  // Sereno
-  if (code === 0) return `<i class="wi wi-day-sunny"></i>`;
+function lcarsIconFromCode(code) {
+  // codici da Open-Meteo:
+  // 0: sereno
+  if (code === 0) return "●";      // sole pieno
 
-  // Poco nuvoloso / variabile
-  if (code === 1 || code === 2) return `<i class="wi wi-day-cloudy"></i>`;
+  // 1–2: poco nuvoloso / variabile
+  if (code === 1 || code === 2) return "◐";  // parzialmente coperto
 
-  // Nuvoloso
-  if (code === 3) return `<i class="wi wi-cloudy"></i>`;
+  // 3: coperto
+  if (code === 3) return "▭";      // nuvoloso pieno
 
-  // Pioggia
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82))
-    return `<i class="wi wi-rain"></i>`;
+  // 45–48: nebbia / bruma
+  if (code >= 45 && code <= 48) return "≡";  // nebbia
 
-  // Neve
-  if (code >= 71 && code <= 77) return `<i class="wi wi-snow"></i>`;
+  // 51–67, 80–82: pioggia / rovesci
+  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return "☍"; // pioggia stilizzata
 
-  // Temporale
-  if (code >= 95) return `<i class="wi wi-thunderstorm"></i>`;
+  // 71–77, 85–86: neve
+  if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return "✶"; // neve
 
-  // Fallback LCARS
-  return `<span style="font-size:2rem;">▪️</span>`;
+  // 95–99: temporali
+  if (code >= 95) return "⚡";     // temporale
+
+  // fallback generico
+  return "■";
 }
 
 document.addEventListener("DOMContentLoaded", loadWeather);
