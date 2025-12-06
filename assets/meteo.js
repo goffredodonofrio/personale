@@ -2,14 +2,16 @@ console.log("🟣 meteo.js CARICATO");
 
 /***************************************************
  *   METEO — VERSIONE COMPLETA (OPEN-METEO)
- *   Daily = previsioni 4 giorni
- *   Hourly = umidità + prob. pioggia AFFIDABILI
+ *   - current_weather: temperatura, vento
+ *   - hourly: umidità + prob. pioggia (accurate)
+ *   - daily: previsioni 4 giorni
  ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
+/* Dizionario testi meteo */
 const WEATHER_TEXT = {
   0: "Sereno", 1: "Prevalente sereno", 2: "Parzialmente nuvoloso", 3: "Molto nuvoloso",
   45: "Foschia", 48: "Foschia ghiacciata",
@@ -24,6 +26,9 @@ const WEATHER_TEXT = {
   95: "Temporali", 96: "Temporali con grandine", 99: "Temporali forti con grandine"
 };
 
+/***************************************************
+ *  FETCH DATI METEO
+ ***************************************************/
 function loadWeather() {
   const url =
     "https://api.open-meteo.com/v1/forecast" +
@@ -38,90 +43,89 @@ function loadWeather() {
   console.log("🔵 Fetch URL:", url);
 
   fetch(url)
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
+    .then(r => r.json())
+    .then(data => {
       console.log("🟢 Meteo ricevuto:", data);
       updateWeather(data);
     })
-    .catch(function (err) {
-      console.error("🔴 ERRORE FETCH:", err);
-    });
+    .catch(err => console.error("🔴 ERRORE FETCH:", err));
 }
 
+/***************************************************
+ *  TROVA L’ORA PIÙ VICINA NEGLI HOURLY
+ ***************************************************/
+function findClosestIndex(targetIso, timeArray) {
+  let bestIdx = -1;
+  let bestDiff = Infinity;
+  const targetMs = new Date(targetIso).getTime();
+
+  for (let i = 0; i < timeArray.length; i++) {
+    const thisMs = new Date(timeArray[i]).getTime();
+    const diff = Math.abs(thisMs - targetMs);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
+/***************************************************
+ *  AGGIORNA L’UI CON I DATI METEO
+ ***************************************************/
 function updateWeather(data) {
-  if (!data || !data.current_weather || !data.daily || !data.hourly) {
-    console.error("❌ Struttura dati incompleta", data);
+  if (!data || !data.current_weather || !data.hourly || !data.daily) {
+    console.error("❌ Dati meteo incompleti:", data);
     return;
   }
 
-  /* ---------------------------
-     METEO ATTUALE
-  ---------------------------- */
-  var cw = data.current_weather;
+  const cw = data.current_weather;
 
+  /* METEO ATTUALE — temperatura e vento */
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
   document.getElementById("weather-wind").textContent =
     Math.round(cw.windspeed) + " km/h";
 
-  /* ---------------------------
-     UMIDITÀ + PROB PIOGGIA (hourly)
-     → Massima affidabilità
-  ---------------------------- */
-  var times = data.hourly.time;
-  var nowIso = cw.time;        // formato ISO
-  var idx = times.indexOf(nowIso);
-var humidity = "--";
-var rainProb = "--";
+  /* UMIDITÀ + PROB PIOGGIA (basate su HOURLY) */
+  const hourlyTimes = data.hourly.time;
+  const idx = findClosestIndex(cw.time, hourlyTimes);
 
-// fallback: trova la prima ora vicina con dati validi
-function findNearestValid(arr) {
-  if (!arr) return "--";
+  let humidity = "--";
+  let rainProb = "--";
 
-  // 1. orario preciso
-  if (idx !== -1 && typeof arr[idx] === "number") return arr[idx];
+  if (idx !== -1) {
+    const humVal = data.hourly.relativehumidity_2m[idx];
+    const rainVal = data.hourly.precipitation_probability[idx];
 
-  // 2. fallback: ora precedente
-  if (idx > 0 && typeof arr[idx - 1] === "number") return arr[idx - 1];
-
-  // 3. fallback: ora successiva
-  if (idx !== -1 && typeof arr[idx + 1] === "number") return arr[idx + 1];
-
-  return "--";
-}
-
-humidity = findNearestValid(data.hourly.relativehumidity_2m);
-rainProb = findNearestValid(data.hourly.precipitation_probability);
-
-document.getElementById("weather-humidity").textContent = humidity + "%";
-document.getElementById("weather-rain").textContent = rainProb + "%";
+    if (typeof humVal === "number") humidity = humVal;
+    if (typeof rainVal === "number") rainProb = rainVal;
+  }
 
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /* ---------------------------
-     PREVISIONI PROSSIMI 4 GIORNI
-  ---------------------------- */
-  var daily = data.daily;
-  var grid = document.getElementById("forecast-grid");
+  /* PREVISIONI GIORNI SUCCESSIVI */
+  const daily = data.daily;
+  const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (var i = 1; i <= 4 && i < daily.time.length; i++) {
-    var date = new Date(daily.time[i]);
-    var label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
+    const date = new Date(daily.time[i]);
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const code = daily.weathercode[i];
+    const text = WEATHER_TEXT[code] || "N/D";
 
-    var code = daily.weathercode[i];
-    var text = WEATHER_TEXT[code] || "N/D";
+    const tmin = Math.round(daily.temperature_2m_min[i]);
+    const tmax = Math.round(daily.temperature_2m_max[i]);
 
-    var tmin = Math.round(daily.temperature_2m_min[i]);
-    var tmax = Math.round(daily.temperature_2m_max[i]);
-
-    grid.innerHTML +=
-      '<div class="ops-forecast-day">' +
-        '<div class="ops-forecast-day-label">' + label + '</div>' +
-        '<div class="ops-forecast-text">' + text + '</div>' +
-        '<div class="ops-forecast-temp">' + tmin + '° / ' + tmax + '°</div>' +
-      '</div>';
+    grid.innerHTML += `
+      <div class="ops-forecast-day">
+        <div class="ops-forecast-day-label">${label}</div>
+        <div class="ops-forecast-text">${text}</div>
+        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+      </div>
+    `;
   }
 }
