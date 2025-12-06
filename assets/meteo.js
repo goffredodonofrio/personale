@@ -11,28 +11,47 @@ const WEATHER_TEXT = {
   0: "Sereno",
   1: "Prevalente sereno",
   2: "Parzialmente nuvoloso",
-  3: "Coperto",
-  45: "Nebbia",
-  48: "Brina / Nebbia ghiacciata",
+  3: "Molto nuvoloso",
+  
+  // Fog — ADDOLCITE
+  45: "Foschia",
+  48: "Foschia ghiacciata",
+
+  // Drizzle
   51: "Pioviggine leggera",
   53: "Pioviggine",
   55: "Pioviggine intensa",
-  56: "Pioggia gelata leggera",
-  57: "Pioggia gelata",
-  61: "Pioggia leggera",
-  63: "Pioggia moderata",
+
+  // Freezing drizzle
+  56: "Pioviggine gelata",
+  57: "Pioviggine gelata intensa",
+
+  // Rain
+  61: "Pioggia debole",
+  63: "Pioggia",
   65: "Pioggia intensa",
-  66: "Rovescio gelato",
-  67: "Rovescio gelato forte",
-  71: "Neve leggera",
-  73: "Neve",
-  75: "Neve intensa",
-  77: "Granelli di neve",
-  80: "Rovesci leggeri",
+
+  // Freezing rain
+  66: "Pioggia gelata",
+  67: "Pioggia gelata intensa",
+
+  // Snow
+  71: "Nevicata debole",
+  73: "Nevicata",
+  75: "Nevicata intensa",
+
+  77: "Neve a granuli",
+
+  // Showers
+  80: "Rovesci isolati",
   81: "Rovesci",
-  82: "Rovesci forti",
+  82: "Rovesci intensi",
+
+  // Snow showers
   85: "Nevischio",
   86: "Nevischio intenso",
+
+  // Thunderstorms
   95: "Temporali",
   96: "Temporali con grandine",
   99: "Temporali forti con grandine"
