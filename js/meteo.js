@@ -11,26 +11,26 @@ const WEATHER_TEXT = {
   0: "Sereno",
   1: "Prevalente sereno",
   2: "Parzialmente nuvoloso",
-  3: "Coperto",
-  45: "Nebbia",
-  48: "Brina / Nebbia ghiacciata",
+  3: "Molto nuvoloso",
+  45: "Foschia",
+  48: "Foschia ghiacciata",
   51: "Pioviggine leggera",
   53: "Pioviggine",
   55: "Pioviggine intensa",
-  56: "Pioggia gelata leggera",
-  57: "Pioggia gelata",
-  61: "Pioggia leggera",
-  63: "Pioggia moderata",
+  56: "Pioviggine gelata",
+  57: "Pioviggine gelata intensa",
+  61: "Pioggia debole",
+  63: "Pioggia",
   65: "Pioggia intensa",
-  66: "Rovescio gelato",
-  67: "Rovescio gelato forte",
-  71: "Neve leggera",
-  73: "Neve",
-  75: "Neve intensa",
-  77: "Granelli di neve",
-  80: "Rovesci leggeri",
+  66: "Pioggia gelata",
+  67: "Pioggia gelata intensa",
+  71: "Nevicata debole",
+  73: "Nevicata",
+  75: "Nevicata intensa",
+  77: "Neve a granuli",
+  80: "Rovesci isolati",
   81: "Rovesci",
-  82: "Rovesci forti",
+  82: "Rovesci intensi",
   85: "Nevischio",
   86: "Nevischio intenso",
   95: "Temporali",
@@ -43,7 +43,7 @@ function loadWeather() {
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${LAT}&longitude=${LON}` +
     `&current_weather=true` +
-    `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
+    `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
     `&timezone=Europe%2FRome`;
 
   fetch(url)
@@ -53,28 +53,43 @@ function loadWeather() {
 }
 
 function updateWeather(data) {
-  /* METEO ATTUALE */
+
+  /* -------------------------------------------------
+     METEO ATTUALE
+  --------------------------------------------------*/
+
+  // Temperatura attuale
   document.getElementById("weather-temp").textContent =
     Math.round(data.current_weather.temperature) + "°C";
 
+  // Vento
   document.getElementById("weather-wind").textContent =
     Math.round(data.current_weather.windspeed) + " km/h";
 
-  // Open-Meteo non dà l'umidità nell'endpoint base → metto placeholder o la estraiamo da "hourly"
-  document.getElementById("weather-humidity").textContent = "--%";
+  // Umidità
+  document.getElementById("weather-humidity").textContent =
+    (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
 
-  document.getElementById("weather-rain").textContent = "-- mm";
+  // Probabilità pioggia
+  document.getElementById("weather-rain").textContent =
+    (data.daily.precipitation_probability_max[0] ?? "--") + "%";
 
-  /* PREVISIONI PROSSIMI GIORNI */
+
+  /* -------------------------------------------------
+     PREVISIONI — PROSSIMI 4 GIORNI
+  --------------------------------------------------*/
+
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  daily.time.forEach((day, i) => {
-    if (i === 0) return; // evita il "giorno corrente"
+  // Mostra solo 4 giorni: domani → giorno 4
+  for (let i = 1; i <= 4; i++) {
 
-    const date = new Date(day);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const date = new Date(daily.time[i]);
+    const label = date.toLocaleDateString("it-IT", {
+      weekday: "short"
+    }).toUpperCase();
 
     const code = daily.weathercode[i];
     const text = WEATHER_TEXT[code] || "N/D";
@@ -91,5 +106,5 @@ function updateWeather(data) {
     `;
 
     grid.innerHTML += card;
-  });
+  }
 }
