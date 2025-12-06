@@ -85,7 +85,7 @@ function getWeatherIcon(code) {
   return '<i class="fa-solid fa-square"></i>';
 }
 .ops-forecast-icon {
-    font-size: 2.4rem;
+    font-size: 2.8rem;
     color: var(--lcars-mauve);
     margin: 0.4rem 0 0.6rem;
 }
