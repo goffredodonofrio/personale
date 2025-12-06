@@ -29,30 +29,28 @@ async function loadWeather() {
     // FORECAST OGGI + 3 GIORNI
     // -----------------------------
     const forecastGrid = document.getElementById("forecast-grid");
-    forecastGrid.innerHTML = "";
+forecastGrid.innerHTML = "";
 
-    const daysToShow = 4;
-    const dayNames = ["DOM", "LUN", "MAR", "MER", "GIO", "VEN", "SAB"];
+for (let i = 0; i < 4; i++) {
+  const dateStr = daily.time[i];
+  const dateObj = new Date(dateStr);
+  const label = i === 0 ? "OGGI" : dayNames[dateObj.getDay()];
 
-    for (let i = 0; i < daysToShow; i++) {
-      const date = new Date(daily.time[i] + "T00:00:00");
-      const label = i === 0 ? "OGGI" : dayNames[date.getDay()];
+  const tMax = Math.round(daily.temperature_2m_max[i]);
+  const tMin = Math.round(daily.temperature_2m_min[i]);
+  const icon = getWeatherIcon(daily.weathercode[i]);
 
-      const icon = getWeatherIcon(daily.weathercode[i]);
-      const maxT = Math.round(daily.temperature_2m_max[i]);
-      const minT = Math.round(daily.temperature_2m_min[i]);
+  const div = document.createElement("div");
+  div.className = "ops-forecast-day";
 
-      const div = document.createElement("div");
-      div.className = "ops-forecast-day";
+  div.innerHTML = `
+      <div class="ops-forecast-day-label">${label}</div>
+      <div class="ops-forecast-icon">${icon}</div>
+      <div class="ops-forecast-temp">${tMax}° / ${tMin}°</div>
+  `;
 
-      div.innerHTML = `
-        <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-icon">${icon}</div>
-        <div class="ops-forecast-temp">${maxT}° / ${minT}°</div>
-      `;
-
-      forecastGrid.appendChild(div);
-    }
+  forecastGrid.appendChild(div);
+}
 
   } catch (err) {
     console.error("Errore caricamento meteo:", err);
@@ -61,13 +59,13 @@ async function loadWeather() {
 
 // ICON SET stile LCARS minimal
 function getWeatherIcon(code) {
-  if (code === 0) return "●";             // clear (amber dot)
-  if (code === 1 || code === 2) return "◐"; // partly cloudy
-  if (code === 3) return "▭";             // cloudy block
-  if (code >= 51 && code <= 82) return "☍"; // rain/drizzle
-  if (code >= 95) return "⚡";             // storm
-  if (code >= 71 && code <= 77) return "✶"; // snow
-  return "■";                              // default LCARS shape
+  if (code === 0) return "●";          // sereno
+  if (code === 1 || code === 2) return "◐"; // poco nuvoloso
+  if (code === 3) return "▣";          // nuvoloso
+  if (code >= 51 && code <= 67) return "☍";   // pioggerella
+  if (code >= 71 && code <= 77) return "✶";   // neve
+  if (code >= 80 && code <= 82) return "≋";   // rovesci
+  if (code >= 95) return "⚡";         // temporale
+  return "■";
 }
-
 document.addEventListener("DOMContentLoaded", loadWeather);
