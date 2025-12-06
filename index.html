@@ -121,19 +121,22 @@
 .ops-forecast-grid {
     margin-top: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(4, 140px);
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr); /* ogni card prende 1/4 dello spazio */
+    gap: 1.2rem;
+    width: 100%;
 }
 
 .ops-forecast-day {
     background: #151518;
     border-radius: 16px;
-    padding: 0.6rem 0.9rem;
+    padding: 1rem 0.8rem;
     border: 2px solid rgba(255,255,255,0.08);
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    justify-content: space-between;
+    min-height: 160px;   /* aumenta la presenza */
 }
 
 .ops-forecast-day-label {
