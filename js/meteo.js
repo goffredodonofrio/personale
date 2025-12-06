@@ -40,68 +40,92 @@ const WEATHER_TEXT = {
 };
 
 function loadWeather() {
- const url =
-  `https://api.open-meteo.com/v1/forecast` +
-  `?latitude=${LAT}&longitude=${LON}` +
-  `&current_weather=true` +
-  `&forecast_days=5` +
-  `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
-  `&timezone=Europe%2FRome`;
+  const url =
+    "https://api.open-meteo.com/v1/forecast" +
+    "?latitude=" + LAT +
+    "&longitude=" + LON +
+    "&current_weather=true" +
+    "&forecast_days=5" +
+    "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max" +
+    "&timezone=Europe%2FRome";
 
   console.log("🔵 Fetch URL:", url);
 
   fetch(url)
-    .then(r => {
+    .then(function (r) {
       console.log("🟠 Response status:", r.status);
       return r.json();
     })
-    .then(data => {
+    .then(function (data) {
       console.log("🟢 updateWeather() chiamata", data);
       updateWeather(data);
     })
-    .catch(err => console.error("🔴 ERRORE FETCH:", err));
+    .catch(function (err) {
+      console.error("🔴 ERRORE FETCH:", err);
+    });
 }
 
 function updateWeather(data) {
-
-  if (!data.daily) {
-    console.error("❌ ERRORE: data.daily non presente", data);
+  if (!data || !data.daily || !data.current_weather) {
+    console.error("❌ ERRORE: struttura dati inattesa", data);
     return;
   }
 
-  document.getElementById("weather-temp").textContent =
-    Math.round(data.current_weather.temperature) + "°C";
+  // -------- METEO ATTUALE --------
+  var current = data.current_weather;
 
-  document.getElementById("weather-wind").textContent =
-    Math.round(data.current_weather.windspeed) + " km/h";
+  if (typeof current.temperature === "number") {
+    document.getElementById("weather-temp").textContent =
+      Math.round(current.temperature) + "°C";
+  }
 
-  document.getElementById("weather-humidity").textContent =
-    (data.daily.relativehumidity_2m_max?.[0] ?? "--") + "%";
+  if (typeof current.windspeed === "number") {
+    document.getElementById("weather-wind").textContent =
+      Math.round(current.windspeed) + " km/h";
+  }
 
-  document.getElementById("weather-rain").textContent =
-    (data.daily.precipitation_probability_max?.[0] ?? "--") + "%";
+  // Umidità max oggi
+  var humArr = data.daily.relativehumidity_2m_max;
+  var humVal = "--";
+  if (humArr && humArr.length > 0 && typeof humArr[0] === "number") {
+    humVal = humArr[0];
+  }
+  document.getElementById("weather-humidity").textContent = humVal + "%";
 
-  const daily = data.daily;
-  const grid = document.getElementById("forecast-grid");
+  // Probabilità pioggia max oggi
+  var rainArr = data.daily.precipitation_probability_max;
+  var rainVal = "--";
+  if (rainArr && rainArr.length > 0 && typeof rainArr[0] === "number") {
+    rainVal = rainArr[0];
+  }
+  document.getElementById("weather-rain").textContent = rainVal + "%";
+
+  // -------- PREVISIONI PROSSIMI 4 GIORNI --------
+  var daily = data.daily;
+  var grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (let i = 1; i <= 4; i++) {
-    const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+  // i = 1 → domani, fino a max 4 giorni (controllando di non uscire dall'array)
+  for (var i = 1; i <= 4 && i < daily.time.length; i++) {
+    var date = new Date(daily.time[i]);
+    var label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
-    const code = daily.weathercode[i];
-    const text = WEATHER_TEXT[code] || "N/D";
+    var code = daily.weathercode[i];
+    var text = WEATHER_TEXT[code] || "N/D";
 
-    const tmin = Math.round(daily.temperature_2m_min[i]);
-    const tmax = Math.round(daily.temperature_2m_max[i]);
+    var tmin = daily.temperature_2m_min[i];
+    var tmax = daily.temperature_2m_max[i];
 
-    const card = `
-      <div class="ops-forecast-day">
-        <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-text">${text}</div>
-        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
-      </div>
-    `;
+    if (typeof tmin === "number") tmin = Math.round(tmin);
+    if (typeof tmax === "number") tmax = Math.round(tmax);
+
+    var card =
+      '<div class="ops-forecast-day">' +
+        '<div class="ops-forecast-day-label">' + label + '</div>' +
+        '<div class="ops-forecast-text">' + text + '</div>' +
+        '<div class="ops-forecast-temp">' + tmin + '° / ' + tmax + '°</div>' +
+      '</div>';
+
     grid.innerHTML += card;
   }
 }
