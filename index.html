@@ -117,59 +117,39 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 0.9rem;
 }
-        /* Titolo forecast */
-.ops-forecast-title {
-    margin-top: 1.4rem;
-    margin-bottom: 0.6rem;
-    font-size: 1rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--lcars-mauve);
-    opacity: 0.9;
+/* FORECAST — LCARS MINI CARDS */
+.forecast-grid {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
 }
 
-/* Griglia forecast */
-.ops-forecast-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* oggi + 3 giorni */
-    gap: 0.6rem;
-}
-
-/* Singolo giorno */
-.ops-forecast-day {
+.forecast-card {
     background: #151518;
-    border-radius: 14px;
-    padding: 0.6rem 0.7rem;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    width: 90px;
+    padding: 0.6rem 0.4rem;
     text-align: center;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    font-family: 'Antonio', sans-serif;
 }
 
-/* Nome giorno */
-.ops-forecast-day-label {
-    opacity: 0.8;
-    margin-bottom: 0.25rem;
+.forecast-day {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--lcars-amber);
+    margin-bottom: 0.3rem;
 }
 
-/* icona meteo (testuale o emoji) */
-.ops-forecast-icon {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
+.forecast-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
 }
 
-/* temperature */
-.ops-forecast-temp {
-    font-weight: 700;
+.forecast-temps {
+    font-size: 0.9rem;
+    color: var(--lcars-mauve);
 }
-.ops-forecast-temp span {
-    margin: 0 0.1rem;
-}
-.ops-forecast-temp-min {
-    opacity: 0.7;
-}
-
 /* Pill */
 .ops-pill {
     background: #151518;
@@ -701,8 +681,8 @@
             <span>VENTO</span>
             <span class="ops-pill-value" id="weather-wind">-- km/h</span>
         </div>
+        
         <!-- FORECAST PROSSIMI GIORNI -->
-<div class="ops-forecast-title">FORECAST // NEXT 3 DAYS</div>
 
 <div class="ops-forecast-grid" id="forecast-grid">
     <!-- Verrà popolato via JS -->
