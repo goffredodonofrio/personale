@@ -29,8 +29,8 @@ async function loadWeather() {
     const current = data.current_weather;
     const daily = data.daily;
 
-    document.getElementById("weather-temp").textContent =
-      Math.round(current.temperature) + "°C";
+ document.getElementById("weather-wind").textContent =
+  Math.round(current.windspeed) + " km/h";
 
     document.getElementById("weather-humidity").textContent = "--%";
     document.getElementById("weather-rain").textContent = "0.0 mm";
