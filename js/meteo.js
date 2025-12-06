@@ -1,51 +1,83 @@
-// api/events.js
-import ical from 'ical';
-import fetch from 'node-fetch';
+// assets/meteo.js
 
-export default async function handler(req, res) {
-    const urls = [
-        "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics",
-        "https://calendar.google.com/calendar/ical/c_382bc406c1a43971525ab611419327202887f0807243694cae0bed37bcc9e774%40group.calendar.google.com/public/basic.ics"
-    ];
+// Torino (modifica se vuoi altre coordinate)
+const LAT = 45.0703;
+const LON = 7.6869;
 
-    let events = [];
+// Chiamata a Open-Meteo: current + 4 giorni di forecast
+async function loadWeather() {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome`;
 
-    for (const url of urls) {
-        try {
-            const data = await fetch(url).then(r => r.text());
-            const parsed = ical.parseICS(data);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Errore meteo");
 
-            for (let k in parsed) {
-                const ev = parsed[k];
-                if (ev.type === "VEVENT" && ev.start) {
+    const data = await res.json();
 
-                    events.push({
-                        title: ev.summary || "Evento",
-                        start: ev.start,
-                        end: ev.end
-                    });
-                }
-            }
+    // --- METEO ATTUALE (pillole) ---
+    const current = data.current_weather;
+    const daily = data.daily;
 
-        } catch (err) {
-            console.error("Errore ICS:", err);
-        }
+    // temperatura attuale
+    document.getElementById("weather-temp").textContent =
+      Math.round(current.temperature) + "°C";
+
+    // uso alcune info approssimate per umidità / pioggia / vento.
+    // Se vuoi dati più precisi, possiamo aggiungere altri parametri daily.
+    // Qui metto placeholder semplici:
+    document.getElementById("weather-humidity").textContent = "--%";
+    document.getElementById("weather-rain").textContent = "0.0 mm";
+    document.getElementById("weather-wind").textContent =
+      Math.round(current.windspeed) + " km/h";
+
+    // --- FORECAST OGGI + PROSSIMI 3 GIORNI ---
+    const forecastGrid = document.getElementById("forecast-grid");
+    forecastGrid.innerHTML = "";
+
+    const daysToShow = 4; // oggi + 3
+    const dayNames = ["DOM", "LUN", "MAR", "MER", "GIO", "VEN", "SAB"];
+
+    for (let i = 0; i < daysToShow; i++) {
+      const dateStr = daily.time[i]; // "2025-12-06"
+      const dateObj = new Date(dateStr + "T00:00:00");
+      const dayLabel = dayNames[dateObj.getDay()];
+
+      const tMax = Math.round(daily.temperature_2m_max[i]);
+      const tMin = Math.round(daily.temperature_2m_min[i]);
+      const code = daily.weathercode[i];
+      const icon = getWeatherIcon(code);
+
+      const div = document.createElement("div");
+      div.className = "ops-forecast-day";
+
+      div.innerHTML = `
+        <div class="ops-forecast-day-label">${i === 0 ? "OGGI" : dayLabel}</div>
+        <div class="ops-forecast-icon">${icon}</div>
+        <div class="ops-forecast-temp">
+          <span class="ops-forecast-temp-max">${tMax}°</span> /
+          <span class="ops-forecast-temp-min">${tMin}°</span>
+        </div>
+      `;
+
+      forecastGrid.appendChild(div);
     }
-
-    // Filtra solo eventi di oggi
-    const today = new Date();
-    today.setHours(0,0,0,0);
-
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const eventsToday = events.filter(e => {
-        const start = new Date(e.start);
-        return start >= today && start < tomorrow;
-    });
-
-    // Ordine cronologico
-    eventsToday.sort((a, b) => new Date(a.start) - new Date(b.start));
-
-    res.status(200).json(eventsToday);
+  } catch (err) {
+    console.error("Errore caricamento meteo:", err);
+  }
 }
+
+// mapping codice → “icona” (testuale/emoji super semplice)
+function getWeatherIcon(code) {
+  // Codici Open-Meteo (semplificati)
+  if (code === 0) return "☀️";                   // clear
+  if (code === 1 || code === 2) return "🌤️";     // mostly clear
+  if (code === 3) return "☁️";                   // cloudy
+  if (code >= 51 && code <= 67) return "🌧️";     // drizzle / rain
+  if (code >= 71 && code <= 77) return "❄️";     // snow
+  if (code >= 80 && code <= 82) return "🌦️";     // rain showers
+  if (code >= 95) return "⛈️";                   // thunderstorm
+  return "▫️";
+}
+
+// avvia meteo al load
+document.addEventListener("DOMContentLoaded", loadWeather);
