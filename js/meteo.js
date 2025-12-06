@@ -59,17 +59,31 @@ for (let i = 0; i < 4; i++) {
 
 // ICON SET stile LCARS minimal
 function getWeatherIcon(code) {
-  if (code === 0) return "●";             // Sole pieno LCARS
-  if (code === 1) return "◔";             // Poco nuvoloso
-  if (code === 2) return "◑";             // Parzialmente nuvoloso
-  if (code === 3) return "▣";             // Nuvoloso
-  if (code >= 51 && code <= 67) return "☍"; // Pioggia LCARS
-  if (code >= 71 && code <= 77) return "✶"; // Neve
-  if (code >= 80 && code <= 82) return "≋"; // Rovesci
-  if (code >= 95) return "⚡";             // Temporale
-  return "■";                             // Default LCARS minimal
-}
+  // Clear sky
+  if (code === 0) return '<i class="fa-regular fa-sun"></i>';
 
+  // Mostly clear / partly cloudy
+  if (code === 1) return '<i class="fa-regular fa-sun-bright"></i>';
+  if (code === 2) return '<i class="fa-regular fa-cloud-sun"></i>';
+
+  // Overcast
+  if (code === 3) return '<i class="fa-regular fa-cloud"></i>';
+
+  // Drizzle / light rain
+  if (code >= 51 && code <= 67) return '<i class="fa-regular fa-cloud-rain"></i>';
+
+  // Snow
+  if (code >= 71 && code <= 77) return '<i class="fa-regular fa-snowflake"></i>';
+
+  // Rain showers
+  if (code >= 80 && code <= 82) return '<i class="fa-regular fa-cloud-showers-heavy"></i>';
+
+  // Thunderstorm
+  if (code >= 95) return '<i class="fa-regular fa-cloud-bolt"></i>';
+
+  // Default LCARS-style “sensor block”
+  return '<i class="fa-solid fa-square"></i>';
+}
 .ops-forecast-icon {
     font-size: 2.4rem;
     color: var(--lcars-mauve);
