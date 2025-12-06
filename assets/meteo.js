@@ -43,7 +43,7 @@ function loadWeather() {
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${LAT}&longitude=${LON}` +
     `&current_weather=true` +
-    `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
+    `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
     `&timezone=Europe%2FRome`;
 
   fetch(url)
@@ -61,19 +61,73 @@ function updateWeather(data) {
     Math.round(data.current_weather.windspeed) + " km/h";
 
   // Open-Meteo non dà l'umidità nell'endpoint base → metto placeholder o la estraiamo da "hourly"
-  document.getElementById("weather-humidity").textContent = "--%";
+document.getElementById("weather-humidity").textContent =
+  (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
 
-  document.getElementById("weather-rain").textContent = "-- mm";
+document.getElementById("weather-rain").textContent =
+  (data.daily.precipitation_probability_max[0] ?? "--") + "%";
 
   /* PREVISIONI PROSSIMI GIORNI */
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  daily.time.forEach((day, i) => {
-    if (i === 0) return; // evita il "giorno corrente"
+  // Mostra solo i prossimi 4 giorni (1 → 4)
+for (let i = 1; i <= 4; i++) {
 
-    const date = new Date(day);
+  const date = new Date(daily.time[i]);
+  const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+
+  const code = daily.weathercode[i];
+  const text = WEATHER_TEXT[code] || "N/D";
+
+  const tmin = Math.round(daily.temperature_2m_min[i]);
+  const tmax = Math.round(daily.temperature_2m_max[i]);
+
+  const card = `
+    <div class="ops-forecast-day">
+      <div class="ops-forecast-day-label">${label}</div>
+      <div class="ops-forecast-text">${text}</div>
+      <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+    </div>
+  `;function loadWeather() {
+  const url =
+    `https://api.open-meteo.com/v1/forecast` +
+    `?latitude=${LAT}&longitude=${LON}` +
+    `&current_weather=true` +
+    `&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,relativehumidity_2m_max` +
+    `&timezone=Europe%2FRome`;
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => updateWeather(data))
+    .catch(err => console.error("Errore meteo:", err));
+}
+
+function updateWeather(data) {
+
+  /* METEO ATTUALE */
+  document.getElementById("weather-temp").textContent =
+    Math.round(data.current_weather.temperature) + "°C";
+
+  document.getElementById("weather-wind").textContent =
+    Math.round(data.current_weather.windspeed) + " km/h";
+
+  /* UMIDITÀ */
+  document.getElementById("weather-humidity").textContent =
+    (data.daily.relativehumidity_2m_max[0] ?? "--") + "%";
+
+  /* PROBABILITÀ PIOGGIA */
+  document.getElementById("weather-rain").textContent =
+    (data.daily.precipitation_probability_max[0] ?? "--") + "%";
+
+  /* PREVISIONI 4 GIORNI */
+  const daily = data.daily;
+  const grid = document.getElementById("forecast-grid");
+  grid.innerHTML = "";
+
+  for (let i = 1; i <= 4; i++) {
+    const date = new Date(daily.time[i]);
     const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
     const code = daily.weathercode[i];
@@ -91,5 +145,8 @@ function updateWeather(data) {
     `;
 
     grid.innerHTML += card;
-  });
+  }
+}
+
+  grid.innerHTML += card;
 }
