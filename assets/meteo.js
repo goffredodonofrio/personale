@@ -84,31 +84,29 @@ function updateWeather(data) {
 
   document.getElementById("weather-rain").textContent = "-- mm";
 
-  /* PREVISIONI PROSSIMI GIORNI */
-  const daily = data.daily;
-  const grid = document.getElementById("forecast-grid");
-  grid.innerHTML = "";
+  /* PREVISIONI PROSSIMI 4 GIORNI */
+const daily = data.daily;
+const grid = document.getElementById("forecast-grid");
+grid.innerHTML = "";
 
-  daily.time.forEach((day, i) => {
-    if (i === 0) return; // evita il "giorno corrente"
+// Mostra solo i prossimi 4 giorni (1,2,3,4)
+for (let i = 1; i <= 4; i++) {
+  const date = new Date(daily.time[i]);
+  const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
-    const date = new Date(day);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+  const code = daily.weathercode[i];
+  const text = WEATHER_TEXT[code] || "N/D";
 
-    const code = daily.weathercode[i];
-    const text = WEATHER_TEXT[code] || "N/D";
+  const tmin = Math.round(daily.temperature_2m_min[i]);
+  const tmax = Math.round(daily.temperature_2m_max[i]);
 
-    const tmin = Math.round(daily.temperature_2m_min[i]);
-    const tmax = Math.round(daily.temperature_2m_max[i]);
+  const card = `
+    <div class="ops-forecast-day">
+      <div class="ops-forecast-day-label">${label}</div>
+      <div class="ops-forecast-text">${text}</div>
+      <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+    </div>
+  `;
 
-    const card = `
-      <div class="ops-forecast-day">
-        <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-text">${text}</div>
-        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
-      </div>
-    `;
-
-    grid.innerHTML += card;
-  });
+  grid.innerHTML += card;
 }
