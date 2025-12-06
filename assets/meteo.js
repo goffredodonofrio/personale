@@ -1,83 +1,95 @@
-// assets/meteo.js
-
-// Torino (modifica se vuoi altre coordinate)
+/***************************************************
+ *   METEO — VERSIONE TESTUALE (OPEN-METEO)
+ ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
 
-// Chiamata a Open-Meteo: current + 4 giorni di forecast
-async function loadWeather() {
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Europe%2FRome`;
-
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Errore meteo");
-
-    const data = await res.json();
-
-    // --- METEO ATTUALE (pillole) ---
-    const current = data.current_weather;
-    const daily = data.daily;
-
-    // temperatura attuale
-    document.getElementById("weather-temp").textContent =
-      Math.round(current.temperature) + "°C";
-
-    // uso alcune info approssimate per umidità / pioggia / vento.
-    // Se vuoi dati più precisi, possiamo aggiungere altri parametri daily.
-    // Qui metto placeholder semplici:
-    document.getElementById("weather-humidity").textContent = "--%";
-    document.getElementById("weather-rain").textContent = "0.0 mm";
-    document.getElementById("weather-wind").textContent =
-      Math.round(current.windspeed) + " km/h";
-
-    // --- FORECAST OGGI + PROSSIMI 3 GIORNI ---
-    const forecastGrid = document.getElementById("forecast-grid");
-    forecastGrid.innerHTML = "";
-
-    const daysToShow = 4; // oggi + 3
-    const dayNames = ["DOM", "LUN", "MAR", "MER", "GIO", "VEN", "SAB"];
-
-    for (let i = 0; i < daysToShow; i++) {
-      const dateStr = daily.time[i]; // "2025-12-06"
-      const dateObj = new Date(dateStr + "T00:00:00");
-      const dayLabel = dayNames[dateObj.getDay()];
-
-      const tMax = Math.round(daily.temperature_2m_max[i]);
-      const tMin = Math.round(daily.temperature_2m_min[i]);
-      const code = daily.weathercode[i];
-      const icon = getWeatherIcon(code);
-
-      const div = document.createElement("div");
-      div.className = "ops-forecast-day";
-
-      div.innerHTML = `
-        <div class="ops-forecast-day-label">${i === 0 ? "OGGI" : dayLabel}</div>
-        <div class="ops-forecast-icon">${icon}</div>
-        <div class="ops-forecast-temp">
-          <span class="ops-forecast-temp-max">${tMax}°</span> /
-          <span class="ops-forecast-temp-min">${tMin}°</span>
-        </div>
-      `;
-
-      forecastGrid.appendChild(div);
-    }
-  } catch (err) {
-    console.error("Errore caricamento meteo:", err);
-  }
-}
-
-// mapping codice → “icona” (testuale/emoji super semplice)
-function getWeatherIcon(code) {
-  // Codici Open-Meteo (semplificati)
-  if (code === 0) return "☀️";                   // clear
-  if (code === 1 || code === 2) return "🌤️";     // mostly clear
-  if (code === 3) return "☁️";                   // cloudy
-  if (code >= 51 && code <= 67) return "🌧️";     // drizzle / rain
-  if (code >= 71 && code <= 77) return "❄️";     // snow
-  if (code >= 80 && code <= 82) return "🌦️";     // rain showers
-  if (code >= 95) return "⛈️";                   // thunderstorm
-  return "▫️";
-}
-
-// avvia meteo al load
 document.addEventListener("DOMContentLoaded", loadWeather);
+
+// Mappa weathercode → descrizione testuale
+const WEATHER_TEXT = {
+  0: "Sereno",
+  1: "Prevalente sereno",
+  2: "Parzialmente nuvoloso",
+  3: "Coperto",
+  45: "Nebbia",
+  48: "Brina / Nebbia ghiacciata",
+  51: "Pioviggine leggera",
+  53: "Pioviggine",
+  55: "Pioviggine intensa",
+  56: "Pioggia gelata leggera",
+  57: "Pioggia gelata",
+  61: "Pioggia leggera",
+  63: "Pioggia moderata",
+  65: "Pioggia intensa",
+  66: "Rovescio gelato",
+  67: "Rovescio gelato forte",
+  71: "Neve leggera",
+  73: "Neve",
+  75: "Neve intensa",
+  77: "Granelli di neve",
+  80: "Rovesci leggeri",
+  81: "Rovesci",
+  82: "Rovesci forti",
+  85: "Nevischio",
+  86: "Nevischio intenso",
+  95: "Temporali",
+  96: "Temporali con grandine",
+  99: "Temporali forti con grandine"
+};
+
+function loadWeather() {
+  const url =
+    `https://api.open-meteo.com/v1/forecast` +
+    `?latitude=${LAT}&longitude=${LON}` +
+    `&current_weather=true` +
+    `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
+    `&timezone=Europe%2FRome`;
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => updateWeather(data))
+    .catch(err => console.error("Errore meteo:", err));
+}
+
+function updateWeather(data) {
+  /* METEO ATTUALE */
+  document.getElementById("weather-temp").textContent =
+    Math.round(data.current_weather.temperature) + "°C";
+
+  document.getElementById("weather-wind").textContent =
+    Math.round(data.current_weather.windspeed) + " km/h";
+
+  // Open-Meteo non dà l'umidità nell'endpoint base → metto placeholder o la estraiamo da "hourly"
+  document.getElementById("weather-humidity").textContent = "--%";
+
+  document.getElementById("weather-rain").textContent = "-- mm";
+
+  /* PREVISIONI PROSSIMI GIORNI */
+  const daily = data.daily;
+  const grid = document.getElementById("forecast-grid");
+  grid.innerHTML = "";
+
+  daily.time.forEach((day, i) => {
+    if (i === 0) return; // evita il "giorno corrente"
+
+    const date = new Date(day);
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+
+    const code = daily.weathercode[i];
+    const text = WEATHER_TEXT[code] || "N/D";
+
+    const tmin = Math.round(daily.temperature_2m_min[i]);
+    const tmax = Math.round(daily.temperature_2m_max[i]);
+
+    const card = `
+      <div class="ops-forecast-day">
+        <div class="ops-forecast-day-label">${label}</div>
+        <div class="ops-forecast-text">${text}</div>
+        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+      </div>
+    `;
+
+    grid.innerHTML += card;
+  });
+}
