@@ -1,124 +1,95 @@
-// ================================
-//   METEO — versione TESTUALE
-// ================================
-
+/***************************************************
+ *   METEO — VERSIONE TESTUALE (OPEN-METEO)
+ ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
 
-const dayNames = ["DOM", "LUN", "MAR", "MER", "GIO", "VEN", "SAB"];
-
 document.addEventListener("DOMContentLoaded", loadWeather);
 
-async function loadWeather() {
-  try {
-    const url =
-      `https://api.open-meteo.com/v1/forecast` +
-      `?latitude=${LAT}&longitude=${LON}` +
-      `&current_weather=true` +
-      `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
-      `&timezone=Europe%2FRome`;
+// Mappa weathercode → descrizione testuale
+const WEATHER_TEXT = {
+  0: "Sereno",
+  1: "Prevalente sereno",
+  2: "Parzialmente nuvoloso",
+  3: "Coperto",
+  45: "Nebbia",
+  48: "Brina / Nebbia ghiacciata",
+  51: "Pioviggine leggera",
+  53: "Pioviggine",
+  55: "Pioviggine intensa",
+  56: "Pioggia gelata leggera",
+  57: "Pioggia gelata",
+  61: "Pioggia leggera",
+  63: "Pioggia moderata",
+  65: "Pioggia intensa",
+  66: "Rovescio gelato",
+  67: "Rovescio gelato forte",
+  71: "Neve leggera",
+  73: "Neve",
+  75: "Neve intensa",
+  77: "Granelli di neve",
+  80: "Rovesci leggeri",
+  81: "Rovesci",
+  82: "Rovesci forti",
+  85: "Nevischio",
+  86: "Nevischio intenso",
+  95: "Temporali",
+  96: "Temporali con grandine",
+  99: "Temporali forti con grandine"
+};
 
-    console.log("🌤️ Chiamo Open-Meteo:", url);
+function loadWeather() {
+  const url =
+    `https://api.open-meteo.com/v1/forecast` +
+    `?latitude=${LAT}&longitude=${LON}` +
+    `&current_weather=true` +
+    `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
+    `&timezone=Europe%2FRome`;
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Errore meteo: " + res.status);
-
-    const data = await res.json();
-    console.log("✅ Meteo ricevuto:", data);
-
-    // ---------------------------
-    // METEO ATTUALE
-    // ---------------------------
-    const current = data.current_weather;
-    const daily = data.daily;
-
-    // Temperatura attuale
-    const tempEl = document.getElementById("weather-temp");
-    if (tempEl && current && typeof current.temperature === "number") {
-      tempEl.textContent = Math.round(current.temperature) + "°C";
-    }
-
-    // Campi placeholder (non li stiamo leggendo da API)
-    const humEl = document.getElementById("weather-humidity");
-    if (humEl) humEl.textContent = "--%";
-
-    const rainEl = document.getElementById("weather-rain");
-    if (rainEl) rainEl.textContent = "0.0 mm";
-
-    const windEl = document.getElementById("weather-wind");
-    if (windEl && current && typeof current.windspeed === "number") {
-      windEl.textContent = Math.round(current.windspeed) + " km/h";
-    }
-
-    // ---------------------------
-    // FORECAST OGGI + 3 GIORNI
-    // ---------------------------
-    const forecastGrid = document.getElementById("forecast-grid");
-    if (!forecastGrid) {
-      console.warn("⚠️ Nessun elemento con id 'forecast-grid' trovato");
-      return;
-    }
-
-    forecastGrid.innerHTML = "";
-
-    // Sicurezza: controlliamo che i vettori esistano
-    if (
-      !daily ||
-      !Array.isArray(daily.time) ||
-      !Array.isArray(daily.temperature_2m_max) ||
-      !Array.isArray(daily.temperature_2m_min) ||
-      !Array.isArray(daily.weathercode)
-    ) {
-      console.warn("⚠️ Struttura 'daily' inattesa:", daily);
-      return;
-    }
-
-    // Mostriamo oggi + 3 giorni (max 4 elementi disponibili)
-    const daysToShow = Math.min(4, daily.time.length);
-
-    for (let i = 0; i < daysToShow; i++) {
-      const dateStr = daily.time[i];
-      const dateObj = new Date(dateStr);
-      const label = i === 0 ? "OGGI" : dayNames[dateObj.getDay()];
-
-      const tMax = Math.round(daily.temperature_2m_max[i]);
-      const tMin = Math.round(daily.temperature_2m_min[i]);
-      const description = weatherDescription(daily.weathercode[i]);
-
-      const card = document.createElement("div");
-      card.className = "ops-forecast-day";
-
-      card.innerHTML = `
-        <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-text">${description}</div>
-        <div class="ops-forecast-temp">${tMax}° / ${tMin}°</div>
-      `;
-
-      forecastGrid.appendChild(card);
-    }
-
-  } catch (err) {
-    console.error("❌ Errore caricamento meteo:", err);
-  }
+  fetch(url)
+    .then(r => r.json())
+    .then(data => updateWeather(data))
+    .catch(err => console.error("Errore meteo:", err));
 }
 
-// ================================
-//   DESCRIZIONE TESTUALE
-// ================================
-function weatherDescription(code) {
-  if (code === 0) return "SERENO";
-  if (code === 1 || code === 2) return "PARZ. NUVOLOSO";
-  if (code === 3) return "NUVOLOSO";
+function updateWeather(data) {
+  /* METEO ATTUALE */
+  document.getElementById("weather-temp").textContent =
+    Math.round(data.current_weather.temperature) + "°C";
 
-  if (code >= 45 && code <= 48) return "NEBBIA";
+  document.getElementById("weather-wind").textContent =
+    Math.round(data.current_weather.windspeed) + " km/h";
 
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82))
-    return "PIOGGIA";
+  // Open-Meteo non dà l'umidità nell'endpoint base → metto placeholder o la estraiamo da "hourly"
+  document.getElementById("weather-humidity").textContent = "--%";
 
-  if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86))
-    return "NEVE";
+  document.getElementById("weather-rain").textContent = "-- mm";
 
-  if (code >= 95) return "TEMPORALE";
+  /* PREVISIONI PROSSIMI GIORNI */
+  const daily = data.daily;
+  const grid = document.getElementById("forecast-grid");
+  grid.innerHTML = "";
 
-  return "N/D";
+  daily.time.forEach((day, i) => {
+    if (i === 0) return; // evita il "giorno corrente"
+
+    const date = new Date(day);
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+
+    const code = daily.weathercode[i];
+    const text = WEATHER_TEXT[code] || "N/D";
+
+    const tmin = Math.round(daily.temperature_2m_min[i]);
+    const tmax = Math.round(daily.temperature_2m_max[i]);
+
+    const card = `
+      <div class="ops-forecast-day">
+        <div class="ops-forecast-day-label">${label}</div>
+        <div class="ops-forecast-text">${text}</div>
+        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+      </div>
+    `;
+
+    grid.innerHTML += card;
+  });
 }
