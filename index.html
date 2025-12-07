@@ -683,21 +683,40 @@
     <div class="ops-weather-title">Environmental Conditions // Torino</div>
 
 <!-- OGGI + 3 GIORNI -->
-<div class="ops-forecast-grid-4" id="forecast-master">
+/* 4 colonne: OGGI + 3 GIORNI */
+.ops-forecast-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
 
-    <!-- CARD OGGI -->
-    <div class="ops-forecast-day ops-today-card">
-        <div class="ops-forecast-day-label">OGGI</div>
-        <div class="ops-forecast-text" id="today-text">--</div>
-        <div class="ops-forecast-temp" id="today-temp-range">--° / --°</div>
+/* Fa sì che le 3 card inserite dal JS si distribuiscano come 3 colonne */
+#forecast-grid {
+    display: contents;
+}
 
-        <div class="ops-today-extra">
-            <div><span class="ops-extra-label">TEMP</span> <span id="weather-temp">--°C</span></div>
-            <div><span class="ops-extra-label">UMIDITÀ</span> <span id="weather-humidity">--%</span></div>
-            <div><span class="ops-extra-label">PIOGGIA</span> <span id="weather-rain">--%</span></div>
-            <div><span class="ops-extra-label">VENTO</span> <span id="weather-wind">-- km/h</span></div>
-        </div>
-    </div>
+/* Card OGGI personalizzata */
+.ops-today-card {
+    padding: 1.4rem 1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dettagli temperatura/umidità/pioggia/vento */
+.ops-today-extra {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.ops-extra-label {
+    opacity: 0.65;
+    margin-right: 0.3rem;
+}
 
     <!-- QUI LE 3 CARD GENERATE DAL JS -->
     <div id="forecast-grid"></div>
