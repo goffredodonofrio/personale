@@ -681,37 +681,25 @@
     <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
 
     <div class="ops-weather-title">Environmental Conditions // Torino</div>
+<!-- OGGI -->
+<div class="ops-forecast-grid ops-forecast-today-wrapper">
+  <div class="ops-forecast-day ops-forecast-today">
+    <div class="ops-forecast-day-label" id="today-label">OGGI</div>
+    <div class="ops-forecast-text" id="today-text">--</div>
+    <div class="ops-forecast-temp" id="today-temp-range">--° / --°</div>
 
-    <div class="ops-weather-grid">
-    <div class="ops-pill">
-        <span>TEMPERATURA</span>
-        <span class="ops-pill-value" id="weather-temp">--°C</span>
+    <div class="ops-today-extra">
+      <div><span class="ops-extra-label">TEMP ATTUALE</span> <span id="weather-temp">--°C</span></div>
+      <div><span class="ops-extra-label">UMIDITÀ</span> <span id="weather-humidity">--%</span></div>
+      <div><span class="ops-extra-label">PROB PIOGGIA</span> <span id="weather-rain">--%</span></div>
+      <div><span class="ops-extra-label">VENTO</span> <span id="weather-wind">-- km/h</span></div>
     </div>
-
-    <div class="ops-pill">
-        <span>UMIDITÀ</span>
-        <span class="ops-pill-value" id="weather-humidity">--%</span>
-    </div>
-
-    <div class="ops-pill">
-        <span>PROB PIOGGIA</span>
-        <span class="ops-pill-value" id="weather-rain">-- mm</span>
-    </div>
-
-    <div class="ops-pill">
-        <span>VENTO</span>
-        <span class="ops-pill-value" id="weather-wind">-- km/h</span>
-    </div>
+  </div>
 </div>
 
- <script src="assets/lcars.js"></script>
-                    <script src="assets/meteo.js"></script>
-                                
-<!-- FORECAST PROSSIMI GIORNI -->
-<div class="ops-forecast-grid" id="forecast-grid">
-    <!-- popolato via JS -->
-</div>
-
+<!-- PROSSIMI GIORNI -->
+<div class="ops-forecast-grid ops-forecast-next" id="forecast-grid">
+  <!-- popolato via JS -->
 </div>
 
                             <!-- IMMAGINE -->
