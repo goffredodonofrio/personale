@@ -14,41 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-
-        /* 4 colonne: OGGI + 3 GIORNI */
-.ops-forecast-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 1.5rem;
-}
-
-/* Fa sì che le 3 card inserite dal JS si distribuiscano nelle 3 colonne */
-#forecast-grid {
-    display: contents;
-}
-
-/* Card OGGI personalizzata */
-.ops-today-card {
-    padding: 1.4rem 1rem;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Dettagli temperatura/umidità/pioggia/vento */
-.ops-today-extra {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem 1rem;
-    font-size: 0.85rem;
-}
-
-.ops-extra-label {
-    opacity: 0.65;
-    margin-right: 0.3rem;
-}
         
     :root {
         --lcars-amber: #f4c242;
@@ -717,44 +682,35 @@
 
     <div class="ops-weather-title">Environmental Conditions // Torino</div>
 
-<!-- OGGI + 3 GIORNI -->
-/* 4 colonne: OGGI + 3 GIORNI */
-.ops-forecast-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 1.5rem;
-}
+    <div class="ops-weather-grid">
+    <div class="ops-pill">
+        <span>TEMPERATURA</span>
+        <span class="ops-pill-value" id="weather-temp">--°C</span>
+    </div>
 
-/* Fa sì che le 3 card inserite dal JS si distribuiscano come 3 colonne */
-#forecast-grid {
-    display: contents;
-}
+    <div class="ops-pill">
+        <span>UMIDITÀ</span>
+        <span class="ops-pill-value" id="weather-humidity">--%</span>
+    </div>
 
-/* Card OGGI personalizzata */
-.ops-today-card {
-    padding: 1.4rem 1rem;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-}
+    <div class="ops-pill">
+        <span>PROB PIOGGIA</span>
+        <span class="ops-pill-value" id="weather-rain">-- mm</span>
+    </div>
 
-/* Dettagli temperatura/umidità/pioggia/vento */
-.ops-today-extra {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem 1rem;
-    font-size: 0.85rem;
-}
+    <div class="ops-pill">
+        <span>VENTO</span>
+        <span class="ops-pill-value" id="weather-wind">-- km/h</span>
+    </div>
+</div>
 
-.ops-extra-label {
-    opacity: 0.65;
-    margin-right: 0.3rem;
-}
-
-    <!-- QUI LE 3 CARD GENERATE DAL JS -->
-    <div id="forecast-grid"></div>
+ <script src="assets/lcars.js"></script>
+                    <script src="assets/meteo.js"></script>
+                                
+<!-- FORECAST PROSSIMI GIORNI -->
+<div class="ops-forecast-grid" id="forecast-grid">
+    <!-- popolato via JS -->
+</div>
 
 </div>
 
