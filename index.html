@@ -14,6 +14,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+
+        /* 4 colonne: OGGI + 3 GIORNI */
+.ops-forecast-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+/* Fa sì che le 3 card inserite dal JS si distribuiscano nelle 3 colonne */
+#forecast-grid {
+    display: contents;
+}
+
+/* Card OGGI personalizzata */
+.ops-today-card {
+    padding: 1.4rem 1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dettagli temperatura/umidità/pioggia/vento */
+.ops-today-extra {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.ops-extra-label {
+    opacity: 0.65;
+    margin-right: 0.3rem;
+}
         
     :root {
         --lcars-amber: #f4c242;
