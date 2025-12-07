@@ -205,12 +205,11 @@
     }
 
 .lcars-image-block img {
-    width: 75%;        /* riduce l'immagine proporzionalmente */
-    height: auto;      /* mantiene le proporzioni originali */
-    object-fit: contain; /* evita qualsiasi taglio */
+    width: 100%;
+    height: auto;
+    max-height: 260px;   /* prova 220–260 se la vuoi ancora più bassa */
+    object-fit: cover;
     display: block;
-    margin: 0 auto;    /* centra l’immagine */
-}
 
     /* SMART GRID BOTTONI PRINCIPALI */
     .smart-grid {
