@@ -4,7 +4,7 @@ console.log("🟣 meteo.js CARICATO");
  *   METEO — VERSIONE COMPLETA (OPEN-METEO)
  *   - current_weather: temperatura, vento
  *   - hourly: umidità + prob. pioggia (accurate)
- *   - daily: previsioni 4 giorni
+ *   - daily: oggi + 4 giorni successivi
  ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
@@ -80,15 +80,37 @@ function updateWeather(data) {
   }
 
   const cw = data.current_weather;
+  const daily = data.daily;
 
-  /* METEO ATTUALE — temperatura e vento */
+  /******************************************
+   *  🎯 OGGI — Testo meteo + range min/max
+   ******************************************/
+  const todayCode = daily.weathercode[0];
+  const todayText = WEATHER_TEXT[todayCode] || "N/D";
+
+  document.getElementById("today-text").textContent = todayText;
+
+  const todayMin = Math.round(daily.temperature_2m_min[0]);
+  const todayMax = Math.round(daily.temperature_2m_max[0]);
+
+  document.getElementById("today-temp-range").textContent =
+    `${todayMin}° / ${todayMax}°`;
+
+  /******************************************
+   *  🌡️ TEMPERATURA ATTUALE
+   ******************************************/
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
+  /******************************************
+   *  🍃 VENTO ATTUALE
+   ******************************************/
   document.getElementById("weather-wind").textContent =
     Math.round(cw.windspeed) + " km/h";
 
-  /* UMIDITÀ + PROB PIOGGIA (basate su HOURLY) */
+  /******************************************
+   *  💧 UMIDITÀ + 🌧️ PROB PIOGGIA (hourly)
+   ******************************************/
   const hourlyTimes = data.hourly.time;
   const idx = findClosestIndex(cw.time, hourlyTimes);
 
@@ -96,24 +118,24 @@ function updateWeather(data) {
   let rainProb = "--";
 
   if (idx !== -1) {
-    const humVal = data.hourly.relativehumidity_2m[idx];
-    const rainVal = data.hourly.precipitation_probability[idx];
+    if (typeof data.hourly.relativehumidity_2m[idx] === "number")
+      humidity = data.hourly.relativehumidity_2m[idx];
 
-    if (typeof humVal === "number") humidity = humVal;
-    if (typeof rainVal === "number") rainProb = rainVal;
+    if (typeof data.hourly.precipitation_probability[idx] === "number")
+      rainProb = data.hourly.precipitation_probability[idx];
   }
 
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /* PREVISIONI GIORNI SUCCESSIVI */
-  const daily = data.daily;
+  /* PREVISIONI PROSSIMI 3 GIORNI */
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
+  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
     const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+
     const code = daily.weathercode[i];
     const text = WEATHER_TEXT[code] || "N/D";
 
@@ -128,4 +150,3 @@ function updateWeather(data) {
       </div>
     `;
   }
-}
