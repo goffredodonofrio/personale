@@ -204,13 +204,13 @@
         align-items: center;
     }
 
-    .lcars-image-block img {
-    width: 50%;
-    height: auto;
-    max-height: 260px;   
-    object-fit: cover;
+.lcars-image-block img {
+    width: 50%;        /* riduce l'immagine proporzionalmente */
+    height: auto;      /* mantiene le proporzioni originali */
+    object-fit: contain; /* evita qualsiasi taglio */
     display: block;
-    }
+    margin: 0 auto;    /* centra l’immagine */
+}
 
     /* SMART GRID BOTTONI PRINCIPALI */
     .smart-grid {
