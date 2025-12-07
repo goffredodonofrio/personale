@@ -166,5 +166,5 @@ for (let i = 1; i <= 3 && i < daily.time.length; i++) {
         <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
       </div>
     `;
-  }
+  } 
 }
