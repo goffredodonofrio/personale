@@ -106,12 +106,51 @@ function updateWeather(data) {
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /* PREVISIONI GIORNI SUCCESSIVI */
-  const daily = data.daily;
-  const grid = document.getElementById("forecast-grid");
-  grid.innerHTML = "";
+/* ============================================
+   PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI
+   ============================================ */
 
-  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
+const grid = document.getElementById("forecast-grid");
+grid.innerHTML = "";
+
+/* 1️⃣ CARD — OGGI */
+const todayLabel = "OGGI";
+const todayCodeX = daily.weathercode[0];
+const todayTextX = WEATHER_TEXT[todayCodeX] || "N/D";
+const todayMinX = Math.round(daily.temperature_2m_min[0]);
+const todayMaxX = Math.round(daily.temperature_2m_max[0]);
+
+grid.innerHTML += `
+  <div class="ops-forecast-day">
+    <div class="ops-forecast-day-label">${todayLabel}</div>
+    <div class="ops-forecast-text">${todayTextX}</div>
+    <div class="ops-forecast-temp">${todayMinX}° / ${todayMaxX}°</div>
+  </div>
+`;
+
+/* 2️⃣ CARD — PROSSIMI 3 GIORNI */
+for (let i = 1; i <= 3 && i < daily.time.length; i++) {
+
+  const date = new Date(daily.time[i]);
+
+  // giorno settimana: lun, mar, mer…
+  const label = date.toLocaleDateString("it-IT", { weekday: "short" })
+                    .toUpperCase();
+
+  const code = daily.weathercode[i];
+  const text = WEATHER_TEXT[code] || "N/D";
+
+  const tmin = Math.round(daily.temperature_2m_min[i]);
+  const tmax = Math.round(daily.temperature_2m_max[i]);
+
+  grid.innerHTML += `
+    <div class="ops-forecast-day">
+      <div class="ops-forecast-day-label">${label}</div>
+      <div class="ops-forecast-text">${text}</div>
+      <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+    </div>
+  `;
+}
     const date = new Date(daily.time[i]);
     const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
     const code = daily.weathercode[i];
