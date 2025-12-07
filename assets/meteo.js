@@ -128,13 +128,11 @@ function updateWeather(data) {
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /******************************************
-   *  📅 PREVISIONI PROSSIMI 4 GIORNI
-   ******************************************/
+  /* PREVISIONI PROSSIMI 3 GIORNI */
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
+  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
     const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
@@ -152,4 +150,3 @@ function updateWeather(data) {
       </div>
     `;
   }
-}
