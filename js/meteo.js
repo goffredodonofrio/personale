@@ -29,6 +29,50 @@ const WEATHER_TEXT = {
 /***************************************************
  *  FETCH DATI METEO
  ***************************************************/
+function loadWeather() {
+  const url =
+    "https://api.open-meteo.com/v1/forecast" +
+    "?latitude=" + LAT +
+    "&longitude=" + LON +
+    "&current_weather=true" +
+    "&forecast_days=5" +
+    "&hourly=relativehumidity_2m,precipitation_probability" +
+    "&daily=weathercode,temperature_2m_max,temperature_2m_min" +
+    "&timezone=Europe%2FRome";
+
+  console.log("🔵 Fetch URL:", url);
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => {
+      console.log("🟢 Meteo ricevuto:", data);
+      updateWeather(data);
+    })
+    .catch(err => console.error("🔴 ERRORE FETCH:", err));
+}
+
+/***************************************************
+ *  TROVA L’ORA PIÙ VICINA NEGLI HOURLY
+ ***************************************************/
+function findClosestIndex(targetIso, timeArray) {
+  let bestIdx = -1;
+  let bestDiff = Infinity;
+  const targetMs = new Date(targetIso).getTime();
+
+  for (let i = 0; i < timeArray.length; i++) {
+    const thisMs = new Date(timeArray[i]).getTime();
+    const diff = Math.abs(thisMs - targetMs);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
+/***************************************************
+ *  AGGIORNA L’UI CON I DATI METEO
+ ***************************************************/
 function updateWeather(data) {
   if (!data || !data.current_weather || !data.hourly || !data.daily) {
     console.error("❌ Dati meteo incompleti:", data);
@@ -36,7 +80,6 @@ function updateWeather(data) {
   }
 
   const cw = data.current_weather;
-  const daily = data.daily; // ⬅️ MANCAVA!
 
   /* METEO ATTUALE — temperatura e vento */
   document.getElementById("weather-temp").textContent =
@@ -53,43 +96,24 @@ function updateWeather(data) {
   let rainProb = "--";
 
   if (idx !== -1) {
-    if (typeof data.hourly.relativehumidity_2m[idx] === "number")
-      humidity = data.hourly.relativehumidity_2m[idx];
+    const humVal = data.hourly.relativehumidity_2m[idx];
+    const rainVal = data.hourly.precipitation_probability[idx];
 
-    if (typeof data.hourly.precipitation_probability[idx] === "number")
-      rainProb = data.hourly.precipitation_probability[idx];
+    if (typeof humVal === "number") humidity = humVal;
+    if (typeof rainVal === "number") rainProb = rainVal;
   }
 
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /* ============================================
-     PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI
-     ============================================ */
+  /* PREVISIONI GIORNI SUCCESSIVI */
+  const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  /* 1️⃣ CARD — OGGI */
-  const todayLabel = "OGGI";
-  const todayCode = daily.weathercode[0];
-  const todayText = WEATHER_TEXT[todayCode] || "N/D";
-  const todayMin = Math.round(daily.temperature_2m_min[0]);
-  const todayMax = Math.round(daily.temperature_2m_max[0]);
-
-  grid.innerHTML += `
-    <div class="ops-forecast-day">
-      <div class="ops-forecast-day-label">${todayLabel}</div>
-      <div class="ops-forecast-text">${todayText}</div>
-      <div class="ops-forecast-temp">${todayMin}° / ${todayMax}°</div>
-    </div>
-  `;
-
-  /* 2️⃣ CARD — PROSSIMI 3 GIORNI */
-  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
+  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" })
-                      .toUpperCase();
-
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
     const code = daily.weathercode[i];
     const text = WEATHER_TEXT[code] || "N/D";
 
