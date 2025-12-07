@@ -681,25 +681,27 @@
     <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
 
     <div class="ops-weather-title">Environmental Conditions // Torino</div>
-<!-- OGGI -->
-<div class="ops-forecast-grid ops-forecast-today-wrapper">
-  <div class="ops-forecast-day ops-forecast-today">
-    <div class="ops-forecast-day-label" id="today-label">OGGI</div>
-    <div class="ops-forecast-text" id="today-text">--</div>
-    <div class="ops-forecast-temp" id="today-temp-range">--° / --°</div>
 
-    <div class="ops-today-extra">
-      <div><span class="ops-extra-label">TEMP ATTUALE</span> <span id="weather-temp">--°C</span></div>
-      <div><span class="ops-extra-label">UMIDITÀ</span> <span id="weather-humidity">--%</span></div>
-      <div><span class="ops-extra-label">PROB PIOGGIA</span> <span id="weather-rain">--%</span></div>
-      <div><span class="ops-extra-label">VENTO</span> <span id="weather-wind">-- km/h</span></div>
+<!-- OGGI + 3 GIORNI -->
+<div class="ops-forecast-grid-4" id="forecast-master">
+
+    <!-- CARD OGGI -->
+    <div class="ops-forecast-day ops-today-card">
+        <div class="ops-forecast-day-label">OGGI</div>
+        <div class="ops-forecast-text" id="today-text">--</div>
+        <div class="ops-forecast-temp" id="today-temp-range">--° / --°</div>
+
+        <div class="ops-today-extra">
+            <div><span class="ops-extra-label">TEMP</span> <span id="weather-temp">--°C</span></div>
+            <div><span class="ops-extra-label">UMIDITÀ</span> <span id="weather-humidity">--%</span></div>
+            <div><span class="ops-extra-label">PIOGGIA</span> <span id="weather-rain">--%</span></div>
+            <div><span class="ops-extra-label">VENTO</span> <span id="weather-wind">-- km/h</span></div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- PROSSIMI GIORNI -->
-<div class="ops-forecast-grid ops-forecast-next" id="forecast-grid">
-  <!-- popolato via JS -->
+    <!-- QUI LE 3 CARD GENERATE DAL JS -->
+    <div id="forecast-grid"></div>
+
 </div>
 
                             <!-- IMMAGINE -->
