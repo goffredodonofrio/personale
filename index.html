@@ -24,6 +24,11 @@
 
     /* nuovo */
     --lcars-science: #6FA8FF;
+    --padd-blue-1: #6FB1FF;
+    --padd-blue-2: #4A8BEA;
+    --padd-blue-3: #2F6FCC;
+    --padd-blue-4: #1C4E99;
+}
 }
 
     body {
@@ -132,59 +137,64 @@
    LCARS WEATHER — PASTIGLIE COERENTI CON I BOTTONI
 ====================================================== */
 
+/* ===========================================================
+   LCARS PADD — WEATHER SEGMENT BUTTON (STYLE FROM LDP ADD)
+=========================================================== */
+
 .lcars-weather-btn {
-    background: var(--lcars-science);
-    border-radius: 999px;                 /* stessa logica dei bottoni SMART HOME */
-    padding: 0.7rem 1.4rem;
-    min-height: 80px;
+    background: linear-gradient(
+        180deg,
+        var(--padd-blue-1) 0%,
+        var(--padd-blue-2) 35%,
+        var(--padd-blue-3) 70%,
+        var(--padd-blue-4) 100%
+    );
+    border-radius: 38px 10px 10px 38px; /* LCARS LEFT-CURVE */
+    padding: 1.2rem 1.4rem;
+    min-height: 120px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
 
-    box-shadow:
-        inset 0 0 0 2px rgba(0,0,0,0.25),
-        0 4px 8px rgba(0,0,0,0.35);
+    box-shadow: inset 0 0 0 3px rgba(0,0,0,0.25),
+                0 4px 10px rgba(0,0,0,0.35);
 
     font-family: "Antonio", sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    cursor: default;
-    transition: transform .15s ease-out;
-}
-
-.lcars-weather-btn:hover {
-    transform: translateY(-2px);
+    color: black;
 }
 
 .lcars-weather-day {
-    font-size: 0.8rem;
-    color: #000;
-    opacity: 0.7;             /* label piccola, tecnica */
-    margin-bottom: 0.1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #FFE089;         /* amber LCARS */
+    margin-bottom: 0.3rem;
 }
 
 .lcars-weather-text {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #000;
+    color: #fff;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.35);
 }
 
 .lcars-weather-temp {
-    font-size: 0.9rem;
-    color: #000;
-    opacity: 0.8;
-    margin-top: 0.2rem;
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #EDEDED;
+    opacity: 0.9;
 }
-
 /* Layout 4 colonne */
 .ops-forecast-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
-    margin-top: 1.4rem;
+    margin-top: 1.5rem;
 }
+        
 /* Pill */
 .ops-pill {
     background: #151518;
