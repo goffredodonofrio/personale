@@ -15,21 +15,13 @@
 
     <style>
         
-   :root {
-    --lcars-amber: #f4c242;
-    --lcars-orange: #f28c3a;
-    --lcars-mauve: #8f7bd8;
-    --lcars-red: #f26e8a;
-    --lcars-bg: #000000;
-
-    /* nuovo */
-    --lcars-science: #6FA8FF;
-    --padd-blue-1: #6FB1FF;
-    --padd-blue-2: #4A8BEA;
-    --padd-blue-3: #2F6FCC;
-    --padd-blue-4: #1C4E99;
-}
-}
+    :root {
+        --lcars-amber: #f4c242;
+        --lcars-orange: #f28c3a;
+        --lcars-mauve: #8f7bd8;
+        --lcars-red: #f26e8a;
+        --lcars-bg: #000000;
+    }
 
     body {
         background: var(--lcars-bg);
@@ -49,7 +41,6 @@
         position: relative;
         margin-top: 0.5rem;
     }
-        
 
     /* Disabilita completamente le barre decorative */
 .status-grid-wrapper::before,
@@ -130,110 +121,56 @@
     letter-spacing: 0.08em;
 }
 
-/* ==========================================
-   LCARS — WEATHER SEGMENT BUTTON (PADD STYLE)
-========================================== */
-
-/* =========================================================
-   ULTRA LCARS — WEATHER SEGMENT (Lower Decks – Science Div.)
-   Replica fedele stile PADD 2371
-========================================================= */
-
-.lcars-weather-btn {
-    position: relative;
+/* Griglia meteo */
+.ops-weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+/* FORECAST — 4 CARDS LCARS ORIZZONTALI */
+.ops-forecast-grid {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* ogni card prende 1/4 dello spazio */
+    gap: 1.2rem;
     width: 100%;
-    min-height: 130px;
+}
 
-    background: linear-gradient(
-        180deg,
-        #82B6FF 0%,   /* light science blue */
-        #73A7F4 32%,
-        #5E92E0 68%,
-        #4477C5 100%
-    );
-
-    border-radius: 95px 18px 18px 95px;  /* FORM FACTOR LCARS */
-    padding: 1.4rem 1.8rem;
-
+.ops-forecast-day {
+    background: #151518;
+    border-radius: 16px;
+    padding: 1rem 0.8rem;
+    border: 2px solid rgba(255,255,255,0.08);
+    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 4px;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 160px;   /* aumenta la presenza */
+}
 
-    font-family: "Antonio", sans-serif;
+.ops-forecast-day-label {
+    font-size: 0.9rem;
+    color: var(--lcars-amber);
+    margin-bottom: 0.3rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-
-    /* BORDO INTERNO LCARS */
-    box-shadow:
-        inset 0 0 0 4px rgba(0,0,0,0.30),
-        inset 0 0 14px rgba(0,0,0,0.25),
-        0 6px 12px rgba(0,0,0,0.35);
-
-    cursor: default;
-    transition: transform .18s ease-out;
 }
 
-/* SLIDE LCARS */
-.lcars-weather-btn:hover {
-    transform: translateX(14px);
+/* ICONA LCARS — NO EMOJI */
+.ops-forecast-icon {
+    font-family: "Antonio", system-ui, sans-serif;
+    font-size: 2.6rem;
+    color: var(--lcars-mauve);
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* ======================================
-   DECORATIVE SEGMENTS (canonical LCARS)
-====================================== */
-.lcars-weather-btn::before,
-.lcars-weather-btn::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-}
-
-.lcars-weather-btn::before {
-    top: 26%;
-    background: rgba(255,255,255,0.14); /* highlight */
-}
-
-.lcars-weather-btn::after {
-    top: 62%;
-    background: rgba(0,0,0,0.25); /* shadow bar */
-}
-
-/* ======================================
-   TEXT STYLE (fidelity to LCARS Science)
-====================================== */
-.lcars-weather-day {
-    color: #FFE28A; /* LCARS amber */
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.1rem;
-}
-
-.lcars-weather-text {
-    color: white;
-    font-size: 1.55rem;    /* PIÙ GRANDE, come LCARS */
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-}
-
-.lcars-weather-temp {
-    color: #E8E8E8;
+.ops-forecast-temp {
     font-size: 1rem;
-    opacity: 0.85;
-    margin-top: 0.3rem;
+    color: var(--lcars-mauve);
 }
-
-        
-/* Layout 4 colonne */
-.ops-forecast-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
-    margin-top: 1.5rem;
-}
-        
 /* Pill */
 .ops-pill {
     background: #151518;
@@ -781,7 +718,7 @@
                     <script src="assets/meteo.js"></script>
                                 
 <!-- FORECAST PROSSIMI GIORNI -->
-<div class="padd-forecast-grid" id="forecast-grid"></div>
+<div class="ops-forecast-grid" id="forecast-grid">
     <!-- popolato via JS -->
 </div>
 
