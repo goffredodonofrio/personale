@@ -121,72 +121,56 @@
     letter-spacing: 0.08em;
 }
 
-/* Griglia meteo */
-.ops-weather-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.9rem;
-}
-/* FORECAST — 4 CARDS LCARS ORIZZONTALI */
-.ops-forecast-grid {
-    margin-top: 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* ogni card prende 1/4 dello spazio */
-    gap: 1.2rem;
-    width: 100%;
-}
-
 /* ======================================================
-   LCARS WEATHER BUTTON — STILE BARRA SCIENTIFICA
-====================================================== */
-
-/* ======================================================
-   LCARS WEATHER BUTTON — SCIENCE DIVISION STYLE
+   LCARS SCIENCE DIVISION — WEATHER BUTTON (V2 ULTRA CLEAN)
 ====================================================== */
 
 .lcars-weather-btn {
-    background: linear-gradient(180deg, #79A6FF 0%, #5F8CFF 100%);
-    border-radius: 40px 12px 12px 40px; /* SINISTRA TONDA - DESTRA SQUADRATA */
-    padding: 1.2rem 1.6rem;
-    min-height: 140px;
+    background: #6FA8FF; /* colore base più chiaro */
+    background: linear-gradient(180deg, #85B6FF 0%, #5C8EE8 100%);
+    
+    border-radius: 32px 10px 10px 32px; /* pillola LCARS */
+    padding: 0.8rem 1.2rem;
 
+    min-height: 110px; /* molto più basso */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 8px;
+
+    box-shadow:
+        inset 0 0 0 2px rgba(0,0,0,0.35),   /* bordo interno LCARS */
+        inset 0 -6px 12px rgba(0,0,0,0.25), /* shading inferiore */
+        0 4px 6px rgba(0,0,0,0.35);         /* ombra esterna */
 
     font-family: "Antonio", sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    cursor: default;
-
-    /* bordo LCARS interno */
-    box-shadow: inset 0 0 0 3px rgba(0,0,0,0.30),
-                0 4px 8px rgba(0,0,0,0.35);
+    letter-spacing: 0.04em;
 
     transition: transform .18s ease-out;
 }
 
 .lcars-weather-btn:hover {
-    transform: translateX(10px);
+    transform: translateX(4px);
 }
 
 .lcars-weather-day {
+    font-size: 0.95rem;
     color: #FFE089; /* amber LCARS */
-    font-size: 1rem;
-    font-weight: bold;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
 }
 
 .lcars-weather-text {
-    color: #FFFFFF;
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 700;
+    color: white;
+    line-height: 1.1;
 }
 
 .lcars-weather-temp {
-    color: #E5E5E5;
-    font-size: 1rem;
-    opacity: 0.9;
+    font-size: 0.95rem;
+    color: #e5e5e5;
+    margin-top: 0.25rem;
 }
 
 /* Layout 4 colonne */
