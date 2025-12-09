@@ -140,49 +140,53 @@
    LCARS WEATHER BUTTON — STILE BARRA SCIENTIFICA
 ====================================================== */
 
+/* ======================================================
+   LCARS WEATHER BUTTON — SCIENCE DIVISION STYLE
+====================================================== */
+
 .lcars-weather-btn {
-    background: #8F7BD8;  /* LCARS SCIENCE MAUVE */
-    color: black;
+    background: linear-gradient(180deg, #79A6FF 0%, #5F8CFF 100%);
+    border-radius: 40px 12px 12px 40px; /* SINISTRA TONDA - DESTRA SQUADRATA */
     padding: 1.2rem 1.6rem;
-    border-radius: 0 32px 32px 0;  /* angolo LCARS destro */
-    width: 100%;
-    min-height: 130px;
+    min-height: 140px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
 
     font-family: "Antonio", sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     cursor: default;
 
-    box-shadow: inset 0 0 0 2px rgba(0,0,0,0.25);
+    /* bordo LCARS interno */
+    box-shadow: inset 0 0 0 3px rgba(0,0,0,0.30),
+                0 4px 8px rgba(0,0,0,0.35);
+
     transition: transform .18s ease-out;
 }
 
-/* Effetto Voyager slide */
 .lcars-weather-btn:hover {
-    transform: translateX(8px);
+    transform: translateX(10px);
 }
 
 .lcars-weather-day {
-    color: var(--lcars-amber);
+    color: #FFE089; /* amber LCARS */
     font-size: 1rem;
     font-weight: bold;
 }
 
 .lcars-weather-text {
-    color: #000;
-    font-size: 1.25rem;
+    color: #FFFFFF;
+    font-size: 1.35rem;
     font-weight: 700;
 }
 
 .lcars-weather-temp {
-    color: #000;
+    color: #E5E5E5;
     font-size: 1rem;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
 /* Layout 4 colonne */
