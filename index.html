@@ -136,24 +136,41 @@
     width: 100%;
 }
 
+/* CARD METEO LCARS SCIENCE */
 .ops-forecast-day {
-    background: #151518;
-    border-radius: 16px;
-    padding: 1rem 0.8rem;
-    border: 2px solid rgba(255,255,255,0.08);
-    text-align: center;
+    background: rgba(20, 25, 32, 0.85);  /* fondo scuro stile pannello LCARS */
+    border-radius: 24px;
+    border: 3px solid #43B8FF; /* LCARS SCIENCE BLUE */
+    padding: 1.4rem 1rem;
+
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    min-height: 160px;   /* aumenta la presenza */
+
+    min-height: 160px;
 }
 
+/* Giorno */
 .ops-forecast-day-label {
-    font-size: 0.9rem;
-    color: var(--lcars-amber);
-    margin-bottom: 0.3rem;
+    color: var(--lcars-amber); /* titolo in giallo LCARS */
+    font-size: 1rem;
     text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+
+/* Testo meteo */
+.ops-forecast-text {
+    color: #43B8FF; /* indicazione meteo = blu LCARS SCIENCE */
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Temperature */
+.ops-forecast-temp {
+    color: #C5B7FF; /* lavanda scientifica */
+    font-size: 1.1rem;
 }
 
 /* ICONA LCARS — NO EMOJI */
