@@ -70,13 +70,13 @@
     box-shadow: 0 0 16px rgba(0,0,0,0.5);
 }
 
-        .ops-forecast-text {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--lcars-blue-line);
-    margin: 0.4rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+ .ops-forecast-day {
+    background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
+    border-radius: 20px;
+    padding: 1rem 0.8rem;
+    border: 2px solid var(--ld-blue-line);
+    text-align: center;
+    min-height: 160px;
 }
 
 /* Fascia superiore */
@@ -114,7 +114,7 @@
 .ops-shift {
     margin-top: 0.6rem;
     font-size: 1rem;
-    color: var(--lcars-blue-dark);
+    color: var(--ld-blue-dark);   /* FIX */
     text-transform: uppercase;
     opacity: 0.85;
 }
@@ -181,24 +181,15 @@
 }
 /* Pill */
 .ops-pill {
-    background: #151518;
+    background: var(--ld-blue-dark);
     border-radius: 16px;
     padding: 0.7rem 1rem;
-    border: 2px solid rgba(255,255,255,0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    letter-spacing: 0.08em;
-    font-size: 0.95rem;
-    text-transform: uppercase;
+    border: 2px solid var(--ld-blue-line);
+    color: var(--ld-yellow);
 }
-
-.ops-pill span:first-child {
-    opacity: 0.75;
-}
-
 .ops-pill-value {
     font-weight: 700;
+    color: var(--ld-purple); /* o ld-blue-line */
 }
 
     /* BLOCCO IMMAGINE LCARS CENTRALE */
