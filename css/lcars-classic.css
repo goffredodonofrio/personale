@@ -58,99 +58,33 @@ body {
   height: calc(100vh - 70px);
 }
 
-/* ==========================================
-   LCARS PADD — WEATHER BLOCK (SCIENCE DIV.)
-   ULTRA FEDELE AL TEMPLATE lower-decks-padd
-========================================== */
-
-.padd-forecast-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.4rem;
-    width: 100%;
-    margin-top: 2rem;
+/* COLONNE */
+.lcars-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* --- CARD BASE --- */
-.padd-weather-card {
-    position: relative;
-    padding: 1.6rem 1.8rem;
-    min-height: 150px;
-
-    background: linear-gradient(
-        180deg,
-        #7FB6FF 0%,
-        #6AA3F0 35%,
-        #5087D6 70%,
-        #3A6CBC 100%
-    );
-
-    border-radius: 90px 22px 22px 90px;
-    box-shadow:
-        inset 0 0 0 4px rgba(0,0,0,0.25),
-        inset 0 -14px 22px rgba(0,0,0,0.25),
-        0 6px 14px rgba(0,0,0,0.35);
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-
-    font-family: "Antonio", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    cursor: default;
-
-    transition: transform .20s ease-out;
+/* PANNELLI */
+.lcars-panel {
+  background: #000;
+  border-radius: 24px;
+  border: 3px solid #7f6ad1;
+  padding: 16px 18px;
 }
 
-.padd-weather-card:hover {
-    transform: translateX(16px);
+.right-panel {
+  background: #3b3566;
+  border-color: #f4b45f;
 }
 
-/* --- DECORATIVE SEGMENTS (come LCARS PADD) --- */
-.padd-weather-card::before,
-.padd-weather-card::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    height: 2px;
-    width: 100%;
+.lcars-panel h2 {
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 
-.padd-weather-card::before {
-    top: 28%;
-    background: rgba(255,255,255,0.16);
-}
-
-.padd-weather-card::after {
-    top: 64%;
-    background: rgba(0,0,0,0.28);
-}
-
-/* --- TEXT --- */
-
-.padd-day {
-    color: #FFE28A;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-}
-
-.padd-condition {
-    color: white;
-    font-size: 1.55rem;
-    font-weight: 700;
-    margin-top: 0.2rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.45);
-}
-
-.padd-temp {
-    margin-top: 0.5rem;
-    color: #E8E8E8;
-    font-size: 1rem;
-    opacity: 0.85;
-}
 /* TIME & STARDATE */
 .time-row {
   display: flex;
@@ -272,4 +206,96 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
+/* ==========================================
+   LCARS PADD — WEATHER BLOCK (SCIENCE DIV.)
+   ULTRA FEDELE AL TEMPLATE lower-decks-padd
+========================================== */
+
+.padd-forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.4rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+/* --- CARD BASE --- */
+.padd-weather-card {
+    position: relative;
+    padding: 1.6rem 1.8rem;
+    min-height: 150px;
+
+    background: linear-gradient(
+        180deg,
+        #7FB6FF 0%,
+        #6AA3F0 35%,
+        #5087D6 70%,
+        #3A6CBC 100%
+    );
+
+    border-radius: 90px 22px 22px 90px;
+    box-shadow:
+        inset 0 0 0 4px rgba(0,0,0,0.25),
+        inset 0 -14px 22px rgba(0,0,0,0.25),
+        0 6px 14px rgba(0,0,0,0.35);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    font-family: "Antonio", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: default;
+
+    transition: transform .20s ease-out;
+}
+
+.padd-weather-card:hover {
+    transform: translateX(16px);
+}
+
+/* --- DECORATIVE SEGMENTS (come LCARS PADD) --- */
+.padd-weather-card::before,
+.padd-weather-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 2px;
+    width: 100%;
+}
+
+.padd-weather-card::before {
+    top: 28%;
+    background: rgba(255,255,255,0.16);
+}
+
+.padd-weather-card::after {
+    top: 64%;
+    background: rgba(0,0,0,0.28);
+}
+
+/* --- TEXT --- */
+
+.padd-day {
+    color: #FFE28A;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.padd-condition {
+    color: white;
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin-top: 0.2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.45);
+}
+
+.padd-temp {
+    margin-top: 0.5rem;
+    color: #E8E8E8;
+    font-size: 1rem;
+    opacity: 0.85;
 }
