@@ -298,6 +298,16 @@
     .btn-red-5 { background: #A33232; }
     .btn-red-6 { background: #8C2929; }
 
+        <script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".smart-grid a").forEach(el => {
+        el.addEventListener("click", () => {
+            playBeep();
+        });
+    });
+});
+</script>
+
     /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
     @media (max-width: 1100px) {
         .status-grid-wrapper::before,
@@ -904,6 +914,12 @@
     }
   }
 </script>
-
+<script>
+function playBeep() {
+    const audio = new Audio("assets/beep4.mp3");
+    audio.volume = 0.35;
+    audio.play().catch(e => console.warn("Audio blocked:", e));
+}
+</script>
 </body>
 </html>
