@@ -913,12 +913,13 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("🔥 ERRORE FETCH:", err);
     }
   }
-</body>
-    <script>
+     <script>
 function playBeep() {
     const audio = new Audio("assets/beep4.mp3");
     audio.volume = 0.35;
     audio.play().catch(e => console.warn("Audio blocked:", e));
 }
 </script>
+
+</body>
 </html>
