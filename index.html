@@ -133,71 +133,98 @@
    LCARS — WEATHER SEGMENT BUTTON (PADD STYLE)
 ========================================== */
 
+/* =========================================================
+   ULTRA LCARS — WEATHER SEGMENT (Lower Decks – Science Div.)
+   Replica fedele stile PADD 2371
+========================================================= */
+
 .lcars-weather-btn {
+    position: relative;
+    width: 100%;
+    min-height: 130px;
+
     background: linear-gradient(
         180deg,
-        #7DB4FF 0%,
-        #6AA3F4 35%,
-        #5188D7 70%,
-        #3A6EBB 100%
+        #82B6FF 0%,   /* light science blue */
+        #73A7F4 32%,
+        #5E92E0 68%,
+        #4477C5 100%
     );
-    border-radius: 90px 18px 18px 90px; /* Forma LCARS */
-    padding: 1.1rem 1.8rem;
-    min-height: 120px;
+
+    border-radius: 95px 18px 18px 95px;  /* FORM FACTOR LCARS */
+    padding: 1.4rem 1.8rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    box-shadow:
-        inset 0 0 0 4px rgba(0,0,0,0.25),
-        0 4px 10px rgba(0,0,0,0.35);
+    gap: 4px;
 
     font-family: "Antonio", sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
+
+    /* BORDO INTERNO LCARS */
+    box-shadow:
+        inset 0 0 0 4px rgba(0,0,0,0.30),
+        inset 0 0 14px rgba(0,0,0,0.25),
+        0 6px 12px rgba(0,0,0,0.35);
+
+    cursor: default;
+    transition: transform .18s ease-out;
 }
 
-/* Fasce LCARS stile PADD */
-.lcars-weather-btn::before {
-    content: "";
-    position: absolute;
-    top: 22%;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: rgba(255,255,255,0.12);
+/* SLIDE LCARS */
+.lcars-weather-btn:hover {
+    transform: translateX(14px);
 }
+
+/* ======================================
+   DECORATIVE SEGMENTS (canonical LCARS)
+====================================== */
+.lcars-weather-btn::before,
 .lcars-weather-btn::after {
     content: "";
     position: absolute;
-    top: 68%;
     left: 0;
-    height: 2px;
     width: 100%;
-    background: rgba(0,0,0,0.20);
+    height: 2px;
 }
 
+.lcars-weather-btn::before {
+    top: 26%;
+    background: rgba(255,255,255,0.14); /* highlight */
+}
+
+.lcars-weather-btn::after {
+    top: 62%;
+    background: rgba(0,0,0,0.25); /* shadow bar */
+}
+
+/* ======================================
+   TEXT STYLE (fidelity to LCARS Science)
+====================================== */
 .lcars-weather-day {
-    color: #FFE089;
+    color: #FFE28A; /* LCARS amber */
     font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 
 .lcars-weather-text {
-    color: #FFFFFF;
-    font-size: 1.45rem;
+    color: white;
+    font-size: 1.55rem;    /* PIÙ GRANDE, come LCARS */
     font-weight: 700;
-    text-shadow: 0 2px 3px rgba(0,0,0,0.35);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .lcars-weather-temp {
-    color: #EDEDED;
+    color: #E8E8E8;
+    font-size: 1rem;
     opacity: 0.85;
-    font-size: 0.95rem;
     margin-top: 0.3rem;
 }
+
+        
 /* Layout 4 colonne */
 .ops-forecast-grid {
     display: grid;
