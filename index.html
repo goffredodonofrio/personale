@@ -2,366 +2,642 @@
 <html lang="it">
 <head>
 
-<!-- ======================================================
-   RCM 1821-B — PLANCIA PRINCIPALE  
-   Versione con font locale + Orologio/Meteo tema blu 
-   ====================================================== -->
+    <title>RCM 1821-B — Plancia Principale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="format-detection" content="telephone=no">
-<title>RCM 1821-B — Plancia Principale</title>
+    <!-- Stili LCARS di base -->
+    <link rel="stylesheet" type="text/css" href="assets/classic.css">
 
-<link rel="stylesheet" href="assets/classic.css">
+    <!-- ============================
+         FONT LOCALI ANTONIO
+       ============================ -->
+    <style>
+    @font-face {
+        font-family: "Antonio";
+        src: url("assets/Antonio-Regular.woff2") format("woff2"),
+             url("assets/Antonio-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+    }
 
-<!-- ======================================================
-   1) FONT LOCALI (ANTONIO REGULAR + BOLD)
-   ====================================================== -->
-<style>
-@font-face {
-    font-family: "Antonio";
-    src: url("assets/Antonio-Regular.woff2") format("woff2"),
-         url("assets/Antonio-Regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
+    @font-face {
+        font-family: "Antonio";
+        src: url("assets/Antonio-Bold.woff2") format("woff2"),
+             url("assets/Antonio-Bold.woff") format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+    }
 
-@font-face {
-    font-family: "Antonio";
-    src: url("assets/Antonio-Bold.woff2") format("woff2"),
-         url("assets/Antonio-Bold.woff") format("woff");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
+    html, body, button, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+        font-family: "Antonio", system-ui, sans-serif !important;
+    }
+    </style>
 
-/* Forza tutto il progetto ad usare Antonio */
-html, body, button, div, span, a, p {
-    font-family: "Antonio", sans-serif !important;
-}
-</style>
+    <!-- ============================
+         STILI PERSONALIZZATI
+       ============================ -->
+    <style>
+    :root {
+        --lcars-amber: #f4c242;
+        --lcars-orange: #f28c3a;
+        --lcars-mauve: #8f7bd8;
+        --lcars-red: #f26e8a;
+        --lcars-bg: #000000;
 
-<!-- ======================================================
-   2) STILE BASE + PALETTE COLORI (tema misto)
-   ====================================================== -->
-<style>
+        /* Palette blu per pannello orologio/meteo */
+        --ld-blue-main: #6CA9FF;
+        --ld-blue-dark: #4F7ED8;
+        --ld-blue-line: #5BC0FF;
+        --ld-purple: #A7B4FF;
+        --ld-black: #000000;
+        --ld-panel: #151518;
+    }
 
-:root {
-    /* Palette classica */
-    --lcars-amber: #f4c242;
-    --lcars-orange: #f28c3a;
-    --lcars-red:    #f26e8a;
+    body {
+        background: var(--lcars-bg);
+        margin: 0;
+    }
 
-    /* Palette NEMESIS blu */
-    --ld-blue-main: #6CA9FF;
-    --ld-blue-dark: #4F7ED8;
-    --ld-blue-line: #5BC0FF;
+    .section-title {
+        margin-top: 2rem;
+        text-transform: uppercase;
+    }
 
-    --ld-purple:    #A7B4FF;
-    --ld-black:     #000000;
+    main {
+        padding-top: 0;
+    }
 
-    --ld-panel: #151518;
-}
+    /* WRAPPER CONDUIT + GRID */
+    .status-grid-wrapper {
+        position: relative;
+        margin-top: 0.5rem;
+    }
 
-body {
-    background: black;
-    color: white;
-    margin: 0;
-}
-</style>
+    /* Disabilita completamente le barre decorative sopra/sotto */
+    .status-grid-wrapper::before,
+    .status-grid-wrapper::after {
+        content: none !important;
+    }
 
-<!-- ======================================================
-   3) SEZIONE OROLOGIO + METEO (REMAKE TEMA BLU)
-   ====================================================== -->
-<style>
+    /* ==========================================
+       LCARS OPS PANEL — OROLOGIO + METEO (BLU)
+       ========================================== */
 
-/* WRAPPER DEL PANNELLO OPERATIVO */
-.ops-panel {
-    background: rgba(0,0,0,0.88);
-    border-radius: 24px;
-    padding: 2rem;
-    margin-top: 1rem;
-    border-left: 14px solid var(--ld-blue-line);
-    box-shadow: 0 0 16px rgba(0,0,0,0.5);
-}
+    .ops-panel {
+        background: rgba(0,0,0,0.88);
+        border-radius: 24px;
+        padding: 1.8rem 2rem;
+        margin-top: 1rem;
+        border-left: 14px solid var(--ld-blue-line); /* accento blu */
+        box-shadow: 0 0 16px rgba(0,0,0,0.5);
+    }
 
-/* OROLOGIO */
-.ops-clock {
-    font-size: 4.5rem;
-    font-weight: 700;
-    color: var(--ld-blue-main);
-    line-height: 1;
-}
+    .ops-panel-header {
+        display: none;
+        height: 0;
+        margin: 0;
+    }
 
-/* Data */
-.ops-date {
-    margin-top: .4rem;
-    font-size: 1.3rem;
-    opacity: .85;
-}
+    /* OROLOGIO */
+    .ops-clock {
+        font-size: 4.4rem;
+        line-height: 1;
+        font-weight: 700;
+        color: var(--ld-blue-main);
+        margin-top: 0.4rem;
+    }
 
-/* Stardate */
-.ops-stardate {
-    margin-top: .4rem;
-    font-size: 1.2rem;
-    color: var(--ld-blue-line);
-}
+    /* DATA */
+    .ops-date {
+        margin-top: 0.5rem;
+        font-size: 1.25rem;
+        opacity: 0.9;
+    }
 
-/* Shift */
-.ops-shift {
-    margin-top: .5rem;
-    font-size: 1rem;
-    opacity: .75;
-}
+    /* STARDATE */
+    .ops-stardate {
+        margin-top: 0.3rem;
+        font-size: 1.2rem;
+        color: var(--ld-blue-line);
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
 
-/* Titolo Meteo */
-.ops-weather-title {
-    margin-top: 1.4rem;
-    font-size: 1.4rem;
-    color: var(--ld-blue-line);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
+    /* SHIFT */
+    .ops-shift {
+        margin-top: 0.6rem;
+        font-size: 1rem;
+        color: var(--ld-blue-dark);
+        text-transform: uppercase;
+        opacity: 0.85;
+    }
 
-/* GRID METEO */
-.ops-weather-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: .8rem;
-    margin-top: 1rem;
-}
+    /* TITOLO METEO */
+    .ops-weather-title {
+        font-size: 1.35rem;
+        color: var(--ld-blue-line);
+        text-transform: uppercase;
+        margin-top: 1.4rem;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.08em;
+    }
 
-/* Pill blu */
-.ops-pill {
-    background: var(--ld-blue-dark);
-    border-radius: 14px;
-    border: 2px solid var(--ld-blue-line);
-    padding: .8rem 1rem;
-    font-size: 1rem;
-    color: var(--ld-purple);
-    display: flex;
-    justify-content: space-between;
-}
+    /* Griglia meteo */
+    .ops-weather-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+    }
 
-.ops-pill-value {
-    font-weight: 700;
-    color: white;
-}
+    /* Pill meteo */
+    .ops-pill {
+        background: var(--ld-blue-dark);
+        border-radius: 16px;
+        padding: 0.7rem 1rem;
+        border: 2px solid var(--ld-blue-line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        letter-spacing: 0.08em;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        color: #ffffff;
+    }
 
-/* PREVISIONI — 4 CARD */
-.ops-forecast-grid {
-    margin-top: 1.4rem;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
+    .ops-pill span:first-child {
+        opacity: 0.8;
+    }
 
-.ops-forecast-day {
-    background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
-    border-radius: 20px;
-    padding: 1rem .8rem;
-    border: 2px solid var(--ld-blue-line);
-    text-align: center;
-    min-height: 150px;
-}
+    .ops-pill-value {
+        font-weight: 700;
+        color: #ffffff;
+    }
 
-.ops-forecast-day-label {
-    color: white;
-    font-size: .9rem;
-    margin-bottom: .3rem;
-}
+    /* FORECAST — 4 CARD ORIZZONTALI */
+    .ops-forecast-grid {
+        margin-top: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+        width: 100%;
+    }
 
-.ops-forecast-temp {
-    margin-top: .4rem;
-    font-size: 1rem;
-    color: white;
-}
+    .ops-forecast-day {
+        background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
+        border-radius: 20px;
+        padding: 1rem 0.8rem;
+        border: 2px solid var(--ld-blue-line);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 160px;
+    }
 
-/* IMMAGINE PIANTINA */
-.lcars-image-block {
-    margin-top: 1.5rem;
-    background: #000;
-    border-radius: 18px;
-    overflow: hidden;
-}
+    .ops-forecast-day-label {
+        font-size: 0.9rem;
+        color: #ffffff;
+        margin-bottom: 0.3rem;
+        text-transform: uppercase;
+    }
 
-.lcars-image-block img {
-    width: 100%;
-    display: block;
-}
-</style>
+    .ops-forecast-icon {
+        font-family: "Antonio", system-ui, sans-serif;
+        font-size: 2.6rem;
+        color: #ffffff;
+        line-height: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .ops-forecast-temp {
+        font-size: 1rem;
+        color: #ffffff;
+    }
+
+    /* BLOCCO IMMAGINE LCARS CENTRALE (PIANTINA) */
+    .lcars-image-block {
+        background: rgba(0,0,0,0.85);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lcars-image-block img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* SMART GRID BOTTONI PRINCIPALI (colori originali) */
+    .smart-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .smart-grid a {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        height: 80px;
+        padding: 0 1.5rem 0.6rem 1.5rem;
+        border-radius: 100vmax;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: black;
+        font-size: 1.05rem;
+        position: relative;
+        transition: transform 0.15s ease-out;
+        cursor: pointer;
+    }
+
+    .smart-grid a:hover {
+        transform: scale(1.03);
+    }
+
+    /* COLONNA 1 — GRADAZIONE ARANCIONE */
+    .btn-orange-1 { background: #FFB469; }
+    .btn-orange-2 { background: #F99A4B; }
+    .btn-orange-3 { background: #F28C3A; }
+    .btn-orange-4 { background: #E97C28; }
+    .btn-orange-5 { background: #DE6F1B; }
+    .btn-orange-6 { background: #C95F0F; }
+
+    /* COLONNA 2 — GRADAZIONE GIALLO/AMBRA */
+    .btn-yellow-1 { background: #F4C242; }
+    .btn-yellow-2 { background: #E8B32F; }
+    .btn-yellow-3 { background: #DFA624; }
+    .btn-yellow-4 { background: #D49718; }
+    .btn-yellow-5 { background: #C6880F; }
+    .btn-yellow-6 { background: #B27605; }
+
+    /* COLONNA 3 — GRADAZIONE ROSSO LCARS */
+    .btn-red-1 { background: #E56A6A; }
+    .btn-red-2 { background: #D95959; }
+    .btn-red-3 { background: #CC5050; }
+    .btn-red-4 { background: #B63F3F; }
+    .btn-red-5 { background: #A33232; }
+    .btn-red-6 { background: #8C2929; }
+
+    /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
+    @media (max-width: 1100px) {
+        .status-grid-wrapper::before,
+        .status-grid-wrapper::after {
+            left: 10%;
+            right: 10%;
+        }
+
+        .status-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .smart-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .smart-grid a {
+            height: 70px;
+            font-size: 0.9rem;
+        }
+    }
+    </style>
 </head>
+
 <body>
 
-<!-- ======================================================
-   4) STRUTTURA LCARS (NON MODIFICATA NEI COLORI)
-   ====================================================== -->
-
 <section class="wrap-standard" id="column-3">
-
-<!-- (TUTTA LA STRUTTURA DI FRAME, CASCADE, BARRA COLORI RESTA IDENTICA)
-     NON LA RISCRIVO QUI IN NOTAZIONE RIDOTTA 
-     → QUI SOTTO RIMANE IL TUO CODICE ORIGINALE 1:1
--->
-
-<!-- ✨ Inserisco qui direttamente la tua struttura completa 
-     senza modificarla, solo con la sezione OPS aggiornata. -->
-
-<div class="wrap">
-
-    <!-- FRAME SINISTRO TOP -->
-    <div class="left-frame-top">
-        <button class="panel-1-button">RCM 1821 - B</button>
-        <div class="panel-2"><span class="hop"></span></div>
-    </div>
-
-    <!-- FRAME DESTRO TOP -->
-    <div class="right-frame-top">
-
-        <!-- DATA CASCADE — lasciata identica -->
-        <div class="data-cascade-button-group">
-            <div class="data-cascade-wrapper" id="default">
-
-                <!-- ⛔ Qui non riscrivo tutte le 100 colonne 
-                     → Le manteniamo IDENTICHE al tuo file originale.
-                     In produzione incolla qui l’intero blocco come nel tuo file.
-                -->
-
-            </div>
-
-            <nav>
-                <button>ACCENDI</button>
-                <button>SPEGNI</button>
-                <button>APRI</button>
-                <button>CHIUDI</button>
-            </nav>
+    <div class="wrap">
+        
+        <!-- COLONNA SINISTRA TOP LCARS -->
+        <div class="left-frame-top">
+            <button onclick="playSoundAndRedirect('audio2', '#')" class="panel-1-button">RCM 1821 - B</button>
+            <div class="panel-2"><span class="hop"></span></div>
         </div>
 
-        <div class="bar-panel first-bar-panel">
-            <div class="bar-1"></div><div class="bar-2"></div>
-            <div class="bar-3"></div><div class="bar-4"></div>
-            <div class="bar-5"></div>
-        </div>
-    </div>
-</div>
+        <!-- COLONNA DESTRA TOP LCARS -->
+        <div class="right-frame-top">
 
-
-<!-- ======================================================
-   5) COLONNA SINISTRA + FRAME DESTRO (OROLOGIO + METEO)
-   ====================================================== -->
-
-<div class="wrap" id="gap">
-
-    <div class="left-frame">
-        <button id="topBtn"><span class="hop">RCM</span> 1821 - B</button>
-
-        <div>
-            <div class="panel-3"><span class="hop">ORA E DATA</span></div>
-            <div class="panel-4"><span class="hop">METEO</span></div>
-            <div class="panel-5"><span class="hop">-</span></div>
-            <div class="panel-6"><span class="hop">PIANTINA</span></div>
-            <div class="panel-7"><span class="hop"></span></div>
-            <div class="panel-8"><span class="hop">SMART HOME</span></div>
-        </div>
-    </div>
-
-    <div class="right-frame">
-
-        <main>
-            <div class="status-grid-wrapper">
-                <div class="status-grid">
-
-                    <!-- ================== PANNELLO OPS BLUE ================== -->
-                    <div class="ops-panel">
-
-                        <div class="ops-clock" id="clock">--:--:--</div>
-                        <div class="ops-date" id="date">---</div>
-                        <div class="ops-stardate" id="stardate">STARDATE ---</div>
-                        <div class="ops-shift" id="dayPhase">---</div>
-
-                        <div class="ops-weather-title">Environmental Conditions // Torino</div>
-
-                        <div class="ops-weather-grid">
-                            <div class="ops-pill">
-                                <span>TEMPERATURA</span>
-                                <span class="ops-pill-value" id="weather-temp">--°C</span>
-                            </div>
-                            <div class="ops-pill">
-                                <span>UMIDITÀ</span>
-                                <span class="ops-pill-value" id="weather-humidity">--%</span>
-                            </div>
-                            <div class="ops-pill">
-                                <span>PROB PIOGGIA</span>
-                                <span class="ops-pill-value" id="weather-rain">--%</span>
-                            </div>
-                            <div class="ops-pill">
-                                <span>VENTO</span>
-                                <span class="ops-pill-value" id="weather-wind">-- km/h</span>
-                            </div>
-                        </div>
-
-                        <!-- PREVISIONI -->
-                        <div class="ops-forecast-grid" id="forecast-grid"></div>
-
+            <div class="data-cascade-button-group">
+                <!-- DATA CASCADE PERSONALIZZATA (TUTTA RIPORTATA) -->
+                <div class="data-cascade-wrapper" id="default">
+                    <div class="data-column">
+                        <div class="dc-row-1">LA</div>
+                        <div class="dc-row-1">FELICITA'</div>
+                        <div class="dc-row-2">E'</div>
+                        <div class="dc-row-3">SEMPLICE</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-4">ORA</div>
+                        <div class="dc-row-5">AL</div>
+                        <div class="dc-row-6">GIORNO</div>
+                        <div class="dc-row-7">BISOGNA</div>
                     </div>
-
-                    <!-- IMMAGINE PIANTINA -->
-                    <div class="lcars-image-block">
-                        <img src="assets/piantina_6.jpg" alt="Piantina Rocciamelone">
+                    <div class="data-column">
+                        <div class="dc-row-1">ESSERE</div>
+                        <div class="dc-row-1">FELICI</div>
+                        <div class="dc-row-2">IL</div>
+                        <div class="dc-row-3">31</div>
+                        <div class="dc-row-3">DI</div>
+                        <div class="dc-row-4">AGOSTO</div>
+                        <div class="dc-row-5">C'E'</div>
+                        <div class="dc-row-6">UN</div>
+                        <div class="dc-row-7">AMORE</div>
                     </div>
-
-                </div>
-            </div>
-
-        </main>
-    </div>
-</div>
-
-</section>
-
-<!-- ======================================================
-   6) JS — OROLOGIO + STARDATE
-   ====================================================== -->
-<script>
-function updateClock() {
-    const now = new Date();
-
-    document.getElementById("clock").textContent =
-        now.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-
-    document.getElementById("date").textContent =
-        now.toLocaleDateString("it-IT", {
-            weekday: "short", day: "2-digit", month: "short", year: "numeric"
-        });
-
-    let sd = (now.getTime() / 86400000 - 735000) * 5;
-    document.getElementById("stardate").textContent = "STARDATE " + sd.toFixed(1);
-
-    const h = now.getHours();
-    let phase =
-        h < 6  ? "NIGHT WATCH // SILENT RUN" :
-        h < 12 ? "ALPHA SHIFT // MORNING OPS" :
-        h < 18 ? "BETA SHIFT // DAY OPS" :
-                 "GAMMA SHIFT // EVENING";
-
-    document.getElementById("dayPhase").textContent = phase;
-}
-setInterval(updateClock, 1000);
-updateClock();
-</script>
-
-<!-- ======================================================
-   7) METEO
-   ====================================================== -->
-<script src="assets/meteo.js"></script>
-
-<!-- ======================================================
-   8) SMART HOME (Voice Monkey)
-   ====================================================== -->
-<script>
-/* lasciato IDENTICO al tuo file originale */
-</script>
-
-</body>
-</html>
+                    <div class="data-column">
+                        <div class="dc-row-1">CHE</div>
+                        <div class="dc-row-1">NASCE</div>
+                        <div class="dc-row-2">E</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-3">ESTATE</div>
+                        <div class="dc-row-4">CHE</div>
+                        <div class="dc-row-5">MUORE</div>
+                        <div class="dc-row-6">DESIGN</div>
+                        <div class="dc-row-7">THE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">END</div>
+                        <div class="dc-row-1">OF</div>
+                        <div class="dc-row-2">PATRIARCHY</div>
+                        <div class="dc-row-3">TU</div>
+                        <div class="dc-row-3">SEI</div>
+                        <div class="dc-row-4">TROPPO</div>
+                        <div class="dc-row-5">BIANCA</div>
+                        <div class="dc-row-6">PER</div>
+                        <div class="dc-row-7">RESTARE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">MANO</div>
+                        <div class="dc-row-1">NELLA</div>
+                        <div class="dc-row-2">MANO</div>
+                        <div class="dc-row-3">CON</div>
+                        <div class="dc-row-3">TE</div>
+                        <div class="dc-row-4">STESSO</div>
+                        <div class="dc-row-5">EDOARDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">CAROLINA</div>
+                    </div>
+                    
+                    <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                    
+                    <div class="data-column">
+                        <div class="dc-row-1">INFINITO</div>
+                        <div class="dc-row-1">E</div>
+                        <div class="dc-row-2">MI</div>
+                        <div class="dc-row-3">SONO</div>
+                        <div class="dc-row-3">RITROVATO</div>
+                        <div class="dc-row-4">QUA</div>
+                        <div class="dc-row-5">SE</div>
+                        <div class="dc-row-6">NON</div>
+                        <div class="dc-row-7">SI</div>
+                    </div>
+                   
+                    <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                   <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                     <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">GOFFREDO</div>
+                        <div class="dc-row-1">DISOBBEDITE</div>
+                        <div class="dc-row-2">CON</div>
+                        <div class="dc-row-3">MOLTA</div>
+                        <div class="dc-row-3">GENEROSITA'</div>
+                        <div class="dc-row-4">CAROLINA</div>
+                        <div class="dc-row-5">GOFFREDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">EDOARDO</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">LA</div>
+                        <div class="dc-row-1">FELICITA'</div>
+                        <div class="dc-row-2">E'</div>
+                        <div class="dc-row-3">SEMPLICE</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-4">ORA</div>
+                        <div class="dc-row-5">AL</div>
+                        <div class="dc-row-6">GIORNO</div>
+                        <div class="dc-row-7">BISOGNA</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">ESSERE</div>
+                        <div class="dc-row-1">FELICI</div>
+                        <div class="dc-row-2">IL</div>
+                        <div class="dc-row-3">31</div>
+                        <div class="dc-row-3">DI</div>
+                        <div class="dc-row-4">AGOSTO</div>
+                        <div class="dc-row-5">C'E'</div>
+                        <div class="dc-row-6">UN</div>
+                        <div class="dc-row-7">AMORE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">CHE</div>
+                        <div class="dc-row-1">NASCE</div>
+                        <div class="dc-row-2">E</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-3">ESTATE</div>
+                        <div class="dc-row-4">CHE</div>
+                        <div class="dc-row-5">MUORE</div>
+                        <div class="dc-row-6">DESIGN</div>
+                        <div class="dc-row-7">THE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">END</div>
+                        <div class="dc-row-1">OF</div>
+                        <div class="dc-row-2">PATRIARCHY</div>
+                        <div class="dc-row-3">TU</div>
+                        <div class="dc-row-3">SEI</div>
+                        <div class="dc-row-4">TROPPO</div>
+                        <div class="dc-row-5">BIANCA</div>
+                        <div class="dc-row-6">PER</div>
+                        <div class="dc-row-7">RESTARE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">MANO</div>
+                        <div class="dc-row-1">NELLA</div>
+                        <div class="dc-row-2">MANO</div>
+                        <div class="dc-row-3">CON</div>
+                        <div class="dc-row-3">TE</div>
+                        <div class="dc-row-4">STESSO</div>
+                        <div class="dc-row-5">EDOARDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">CAROLINA</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">LA</div>
+                        <div class="dc-row-1">FELICITA'</div>
+                        <div class="dc-row-2">E'</div>
+                        <div class="dc-row-3">SEMPLICE</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-4">ORA</div>
+                        <div class="dc-row-5">AL</div>
+                        <div class="dc-row-6">GIORNO</div>
+                        <div class="dc-row-7">BISOGNA</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">ESSERE</div>
+                        <div class="dc-row-1">FELICI</div>
+                        <div class="dc-row-2">IL</div>
+                        <div class="dc-row-3">31</div>
+                        <div class="dc-row-3">DI</div>
+                        <div class="dc-row-4">AGOSTO</div>
+                        <div class="dc-row-5">C'E'</div>
+                        <div class="dc-row-6">UN</div>
+                        <div class="dc-row-7">AMORE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">CHE</div>
+                        <div class="dc-row-1">NASCE</div>
+                        <div class="dc-row-2">E</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-3">ESTATE</div>
+                        <div class="dc-row-4">CHE</div>
+                        <div class="dc-row-5">MUORE</div>
+                        <div class="dc-row-6">DESIGN</div>
+                        <div class="dc-row-7">THE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">END</div>
+                        <div class="dc-row-1">OF</div>
+                        <div class="dc-row-2">PATRIARCHY</div>
+                        <div class="dc-row-3">TU</div>
+                        <div class="dc-row-3">SEI</div>
+                        <div class="dc-row-4">TROPPO</div>
+                        <div class="dc-row-5">BIANCA</div>
+                        <div class="dc-row-6">PER</div>
+                        <div class="dc-row-7">RESTARE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">MANO</div>
+                        <div class="dc-row-1">NELLA</div>
+                        <div class="dc-row-2">MANO</div>
+                        <div class="dc-row-3">CON</div>
+                        <div class="dc-row-3">TE</div>
+                        <div class="dc-row-4">STESSO</div>
+                        <div class="dc-row-5">EDOARDO</div>
+                        <div class="dc-row-6">BIANCA</div>
+                        <div class="dc-row-7">CAROLINA</div>
+                    </div>
+                                        <div class="data-column">
+                        <div class="dc-row-1">LA</div>
+                        <div class="dc-row-1">FELICITA'</div>
+                        <div class="dc-row-2">E'</div>
+                        <div class="dc-row-3">SEMPLICE</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-4">ORA</div>
+                        <div class="dc-row-5">AL</div>
+                        <div class="dc-row-6">GIORNO</div>
+                        <div class="dc-row-7">BISOGNA</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">ESSERE</div>
+                        <div class="dc-row-1">FELICI</div>
+                        <div class="dc-row-2">IL</div>
+                        <div class="dc-row-3">31</div>
+                        <div class="dc-row-3">DI</div>
+                        <div class="dc-row-4">AGOSTO</div>
+                        <div class="dc-row-5">C'E'</div>
+                        <div class="dc-row-6">UN</div>
+                        <div class="dc-row-7">AMORE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">CHE</div>
+                        <div class="dc-row-1">NASCE</div>
+                        <div class="dc-row-2">E</div>
+                        <div class="dc-row-3">UN'</div>
+                        <div class="dc-row-3">ESTATE</div>
+                        <div class="dc-row-4">CHE</div>
+                        <div class="dc-row-5">MUORE</div>
+                        <div class="dc-row-6">DESIGN</div>
+                        <div class="dc-row-7">THE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">END</div>
+                        <div class="dc-row-1">OF</div>
+                        <div class="dc-row-2">PATRIARCHY</div>
+                        <div class="dc-row-3">TU</div>
+                        <div class="dc-row-3">SEI</div>
+                        <div class="dc-row-4">TROPPO</div>
+                        <div class="dc-row-5">BIANCA</div>
+                        <div class="dc-row-6">PER</div>
+                        <div class="dc-row-7">RESTARE</div>
+                    </div>
+                    <div class="data-column">
+                        <div class="dc-row-1">MANO</div>
+                        <div class="dc-row-1">NELLA</div>
+                        <div class="dc-row-2">MANO</div>
+                        <div class="dc-row-3">CON</div>
+                        <div class="dc-row-3">TE</div>
+                        <div class="dc-row-4">STESSO</div>
+                        <div class="dc-row-5">EDOARDO
