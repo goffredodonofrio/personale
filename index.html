@@ -5,7 +5,10 @@
     <title>RCM 1821-B — Plancia Principale</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="format-detection" content="telephone=no">
+   
     <link rel="stylesheet" type="text/css" href="assets/classic.css">
+    <link rel="stylesheet" href="assets/lower-decks.css">
+    <link rel="stylesheet" href="assets/lower-decks-padd.css">
     
 
     <!-- FONT ANTONIO (tema LCARS) -->
@@ -53,24 +56,146 @@
 ================================ */
         
 /* Wrapper generale */
-.ops-panel {
-    background: rgba(0,0,0,0.88);
-    border-radius: 24px;
-    padding: 1.8rem 2rem;
-    margin-top: 1rem;
-    border-left: 14px solid var(--lcars-amber); /* stile PADD */
-    box-shadow: 0 0 16px rgba(0,0,0,0.5);
+<div class="padd-wrapper">
+
+    <div class="padd-header">
+        /* WRAPPER GENERALE */
+.padd-wrapper {
+    background: #000;
+    border-left: 14px solid #5bc0ff;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+    font-family: "Antonio", sans-serif;
 }
 
-        .ops-forecast-text {
-    font-size: 1.1rem;
+/* CLOCK */
+.padd-header {
+    margin-bottom: 1.5rem;
+}
+
+.padd-clock {
+    font-size: 4.8rem;
     font-weight: 700;
-    color: var(--lcars-mauve);
-    margin: 0.4rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #a7b4ff;
 }
 
+.padd-date {
+    font-size: 1.25rem;
+    color: #fff;
+    opacity: 0.85;
+    margin-top: .4rem;
+}
+
+.padd-stardate {
+    font-size: 1.2rem;
+    color: #ffdd73;
+    font-weight: 700;
+    margin-top: .2rem;
+}
+
+.padd-shift {
+    font-size: 1rem;
+    margin-top: .4rem;
+    color: #76b2ff;
+    text-transform: uppercase;
+}
+
+/* TITOLO SEZIONE */
+.padd-section-title {
+    margin-top: 1.4rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    color: #ffdd73;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+/* GRID METEO */
+.padd-meteo-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+}
+
+.padd-item {
+    background: #151518;
+    border-radius: 22px;
+    padding: 1rem 1.4rem;
+    border: 2px solid rgba(255,255,255,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.padd-item span {
+    color: #a7b4ff;
+    opacity: .8;
+    font-size: .95rem;
+    text-transform: uppercase;
+}
+
+.padd-item strong {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+/* FORECAST */
+.padd-forecast-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1.2rem;
+}
+
+.padd-forecast-card {
+    background: linear-gradient(#6ca9ff,#4f7ed8);
+    padding: 1.2rem;
+    border-radius: 28px;
+    text-align:center;
+    min-height: 170px;
+    color: #fff;
+    box-shadow: inset 0 0 0 3px rgba(0,0,0,0.25);
+}
+grid.innerHTML += `
+<div class="padd-forecast-card">
+    <div class="day">${label}</div>
+    <div class="condition">${text}</div>
+    <div class="temp">${tmin}° / ${tmax}°</div>
+</div>`;
+    </div>
+
+    <div class="padd-section-title">ENVIRONMENTAL CONDITIONS // TORINO</div>
+
+    <!-- METEO ATTUALE -->
+    <div class="padd-meteo-grid">
+        <div class="padd-item">
+            <span>TEMPERATURA</span>
+            <strong id="weather-temp">--°C</strong>
+        </div>
+
+        <div class="padd-item">
+            <span>UMIDITÀ</span>
+            <strong id="weather-humidity">--%</strong>
+        </div>
+
+        <div class="padd-item">
+            <span>PROB PIOGGIA</span>
+            <strong id="weather-rain">--%</strong>
+        </div>
+
+        <div class="padd-item">
+            <span>VENTO</span>
+            <strong id="weather-wind">-- km/h</strong>
+        </div>
+    </div>
+
+    <!-- PREVISIONI -->
+    <div class="padd-forecast-grid" id="forecast-grid">
+        <!-- JS popola -->
+    </div>
+
+</div>
 /* Fascia superiore */
 .ops-panel-header {
     display: none;
