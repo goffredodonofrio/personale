@@ -122,7 +122,7 @@ function updateWeather(data) {
 
     grid.innerHTML += `
       <div class="ops-forecast-day">
-        <div class="ops-forecast-day-label">${label}</div>
+        <div class="ops-forecast-description">${description}</div>
         <div class="ops-forecast-text">${text}</div>
         <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
       </div>
