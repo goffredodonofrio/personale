@@ -15,13 +15,16 @@
 
     <style>
         
-    :root {
-        --lcars-amber: #f4c242;
-        --lcars-orange: #f28c3a;
-        --lcars-mauve: #8f7bd8;
-        --lcars-red: #f26e8a;
-        --lcars-bg: #000000;
-    }
+   :root {
+    --lcars-amber: #f4c242;
+    --lcars-orange: #f28c3a;
+    --lcars-mauve: #8f7bd8;
+    --lcars-red: #f26e8a;
+    --lcars-bg: #000000;
+
+    /* nuovo */
+    --lcars-science: #6FA8FF;
+}
 
     body {
         background: var(--lcars-bg);
@@ -125,52 +128,54 @@
    LCARS SCIENCE DIVISION — WEATHER BUTTON (V2 ULTRA CLEAN)
 ====================================================== */
 
-.lcars-weather-btn {
-    background: #6FA8FF; /* colore base più chiaro */
-    background: linear-gradient(180deg, #85B6FF 0%, #5C8EE8 100%);
-    
-    border-radius: 32px 10px 10px 32px; /* pillola LCARS */
-    padding: 0.8rem 1.2rem;
+/* ======================================================
+   LCARS WEATHER — PASTIGLIE COERENTI CON I BOTTONI
+====================================================== */
 
-    min-height: 110px; /* molto più basso */
+.lcars-weather-btn {
+    background: var(--lcars-science);
+    border-radius: 999px;                 /* stessa logica dei bottoni SMART HOME */
+    padding: 0.7rem 1.4rem;
+    min-height: 80px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
 
     box-shadow:
-        inset 0 0 0 2px rgba(0,0,0,0.35),   /* bordo interno LCARS */
-        inset 0 -6px 12px rgba(0,0,0,0.25), /* shading inferiore */
-        0 4px 6px rgba(0,0,0,0.35);         /* ombra esterna */
+        inset 0 0 0 2px rgba(0,0,0,0.25),
+        0 4px 8px rgba(0,0,0,0.35);
 
     font-family: "Antonio", sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-
-    transition: transform .18s ease-out;
+    letter-spacing: 0.05em;
+    cursor: default;
+    transition: transform .15s ease-out;
 }
 
 .lcars-weather-btn:hover {
-    transform: translateX(4px);
+    transform: translateY(-2px);
 }
 
 .lcars-weather-day {
-    font-size: 0.95rem;
-    color: #FFE089; /* amber LCARS */
-    font-weight: 700;
-    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+    color: #000;
+    opacity: 0.7;             /* label piccola, tecnica */
+    margin-bottom: 0.1rem;
 }
 
 .lcars-weather-text {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: white;
-    line-height: 1.1;
+    color: #000;
 }
 
 .lcars-weather-temp {
-    font-size: 0.95rem;
-    color: #e5e5e5;
-    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    color: #000;
+    opacity: 0.8;
+    margin-top: 0.2rem;
 }
 
 /* Layout 4 colonne */
