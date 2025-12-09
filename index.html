@@ -299,10 +299,6 @@
     .btn-red-6 { background: #8C2929; }
 
         <script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".smart-grid a").forEach(el => {
-        el.addEventListener("click", () => {
-            playBeep();
         });
     });
 });
@@ -913,6 +909,15 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("🔥 ERRORE FETCH:", err);
     }
   }
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".smart-grid a").forEach(el => {
+        el.addEventListener("click", () => {
+            playBeep();
+        });
+    });
+});
+</script>
      <script>
 function playBeep() {
     const audio = new Audio("assets/beep4.mp3");
