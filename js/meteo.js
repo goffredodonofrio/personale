@@ -121,11 +121,11 @@ function updateWeather(data) {
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
-      <div class="ops-forecast-day">
-        <div class="ops-forecast-day-label">${label}</div>
-        <div class="ops-forecast-text">${text}</div>
-        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
-      </div>
+     <div class="lcars-weather-btn">
+    <div class="lcars-weather-day">${label}</div>
+    <div class="lcars-weather-text">${text}</div>
+    <div class="lcars-weather-temp">${tmin}° / ${tmax}°</div>
+</div>
     `;
   }
 }
