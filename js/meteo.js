@@ -113,49 +113,20 @@ function updateWeather(data) {
   humEl.textContent  = humidity + "%";
   rainEl.textContent = rainProb + "%";
 
-  /* PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI */
-  const daily = data.daily;
-  const grid = document.getElementById("forecast-grid");
-
-  if (!grid) {
-    console.error("❌ forecast-grid non trovato nell'HTML");
-    return;
-  }
-
-  grid.innerHTML = "";
-
-  /* GIORNO 0 (OGGI) */
-  const todayCode = daily.weathercode[0];
-  const todayText = WEATHER_TEXT[todayCode] || "N/D";
-  const todayMin = Math.round(daily.temperature_2m_min[0]);
-  const todayMax = Math.round(daily.temperature_2m_max[0]);
-
-  grid.innerHTML += `
-    <div class="ops-forecast-pill">
-      <span class="label">OGGI</span>
-      <span class="condition">${todayText}</span>
-      <span class="temp">${todayMin}° / ${todayMax}°</span>
-    </div>
-  `;
-
-  /* GIORNI SUCCESSIVI */
-  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
+  /* ---- GIORNI SUCCESSIVI (solo 2 invece di 3) ---- */
+for (let i = 1; i <= 2 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
-    const label = date
-      .toLocaleDateString("it-IT", { weekday: "short" })
-      .toUpperCase();
-
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
     const code = daily.weathercode[i];
     const condition = WEATHER_TEXT[code] || "N/D";
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
-      <div class="ops-forecast-pill">
+    <div class="ops-forecast-pill">
         <span class="label">${label}</span>
         <span class="condition">${condition}</span>
         <span class="temp">${tmin}° / ${tmax}°</span>
-      </div>
+    </div>
     `;
-  }
 }
