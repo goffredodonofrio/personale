@@ -111,41 +111,37 @@ function updateWeather(data) {
      ⭐ PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI
      ========================================== */
   const daily = data.daily;
-  const grid = document.getElementById("forecast-grid");
-  grid.innerHTML = "";
+const grid = document.getElementById("forecast-grid");
+grid.innerHTML = "";
 
-  /* ⭐ CARD 1 — OGGI */
-  const todayCode = daily.weathercode[0];
-  const todayText = WEATHER_TEXT[todayCode] || "N/D";
-  const todayMin = Math.round(daily.temperature_2m_min[0]);
-  const todayMax = Math.round(daily.temperature_2m_max[0]);
+/* ---- GIORNO 0 (OGGI) ---- */
+const todayCode = daily.weathercode[0];
+const todayText = WEATHER_TEXT[todayCode] || "N/D";
+const todayMin = Math.round(daily.temperature_2m_min[0]);
+const todayMax = Math.round(daily.temperature_2m_max[0]);
 
-  grid.innerHTML += `
-    <div class="lcars-weather-btn">
-        <div class="lcars-weather-day">OGGI</div>
-        <div class="lcars-weather-text">${todayText}</div>
-        <div class="lcars-weather-temp">${todayMin}° / ${todayMax}°</div>
-    </div>
-  `;
+grid.innerHTML += `
+<div class="ops-forecast-pill">
+    <span class="label">OGGI</span>
+    <span class="condition">${todayText}</span>
+    <span class="temp">${todayMin}° / ${todayMax}°</span>
+</div>
+`;
 
-  /* ⭐ CARD 2–4 — PROSSIMI 3 GIORNI */
-  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
+/* ---- GIORNI SUCCESSIVI ---- */
+for (let i = 1; i <= 3 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" })
-                      .toUpperCase();
-
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
     const code = daily.weathercode[i];
-    const text = WEATHER_TEXT[code] || "N/D";
-
+    const condition = WEATHER_TEXT[code] || "N/D";
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
-      <div class="lcars-weather-btn">
-        <div class="lcars-weather-day">${label}</div>
-        <div class="lcars-weather-text">${text}</div>
-        <div class="lcars-weather-temp">${tmin}° / ${tmax}°</div>
-      </div>
+    <div class="ops-forecast-pill">
+        <span class="label">${label}</span>
+        <span class="condition">${condition}</span>
+        <span class="temp">${tmin}° / ${tmax}°</span>
+    </div>
     `;
-  }
 }
