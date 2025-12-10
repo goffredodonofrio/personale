@@ -1,10 +1,10 @@
 console.log("🟣 meteo.js CARICATO");
 
 /***************************************************
- *   METEO — OPEN-METEO API
- *   - current_weather → temperatura, vento
- *   - hourly → umidità + probabilità pioggia
- *   - daily → oggi + 3 giorni
+ *   METEO — OPEN-METEO COMPLETO
+ *   - current_weather: temperatura, vento
+ *   - hourly: umidità + prob. pioggia
+ *   - daily: previsioni 4 giorni
  ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
@@ -16,10 +16,10 @@ const WEATHER_TEXT = {
   0: "Sereno", 1: "Prevalente sereno", 2: "Parzialmente nuvoloso", 3: "Molto nuvoloso",
   45: "Foschia", 48: "Foschia ghiacciata",
   51: "Pioviggine leggera", 53: "Pioviggine", 55: "Pioviggine intensa",
-  56: "Pioggia gelata leggera", 57: "Pioggia gelata",
+  56: "Pioviggine gelata", 57: "Pioviggine gelata intensa",
   61: "Pioggia debole", 63: "Pioggia", 65: "Pioggia intensa",
-  66: "Rovescio gelato", 67: "Rovescio gelato forte",
-  71: "Neve leggera", 73: "Neve", 75: "Neve intensa",
+  66: "Pioggia gelata", 67: "Pioggia gelata intensa",
+  71: "Nevicata debole", 73: "Nevicata", 75: "Nevicata intensa",
   77: "Neve a granuli",
   80: "Rovesci isolati", 81: "Rovesci", 82: "Rovesci intensi",
   85: "Nevischio", 86: "Nevischio intenso",
@@ -32,7 +32,8 @@ const WEATHER_TEXT = {
 function loadWeather() {
   const url =
     "https://api.open-meteo.com/v1/forecast" +
-    `?latitude=${LAT}&longitude=${LON}` +
+    "?latitude=" + LAT +
+    "&longitude=" + LON +
     "&current_weather=true" +
     "&forecast_days=5" +
     "&hourly=relativehumidity_2m,precipitation_probability" +
@@ -42,12 +43,12 @@ function loadWeather() {
   console.log("🔵 Fetch URL:", url);
 
   fetch(url)
-    .then((r) => r.json())
-    .then((data) => {
+    .then(r => r.json())
+    .then(data => {
       console.log("🟢 Meteo ricevuto:", data);
       updateWeather(data);
     })
-    .catch((err) => console.error("🔴 ERRORE FETCH:", err));
+    .catch(err => console.error("🔴 ERRORE FETCH:", err));
 }
 
 /***************************************************
@@ -59,7 +60,8 @@ function findClosestIndex(targetIso, timeArray) {
   const targetMs = new Date(targetIso).getTime();
 
   for (let i = 0; i < timeArray.length; i++) {
-    const diff = Math.abs(new Date(timeArray[i]).getTime() - targetMs);
+    const thisMs = new Date(timeArray[i]).getTime();
+    const diff = Math.abs(thisMs - targetMs);
     if (diff < bestDiff) {
       bestDiff = diff;
       bestIdx = i;
@@ -69,82 +71,91 @@ function findClosestIndex(targetIso, timeArray) {
 }
 
 /***************************************************
- *  AGGIORNA LA UI METEO
+ *  AGGIORNA L’UI CON I DATI METEO
  ***************************************************/
 function updateWeather(data) {
-  if (!data?.current_weather || !data?.hourly || !data?.daily) {
+  if (!data || !data.current_weather || !data.hourly || !data.daily) {
     console.error("❌ Dati meteo incompleti:", data);
     return;
   }
 
   const cw = data.current_weather;
 
-  /* ============================
-     METEO ATTUALE
-     ============================ */
-  document.getElementById("weather-temp").textContent =
-    Math.round(cw.temperature) + "°C";
+  /* METEO ATTUALE — temperatura e vento */
+  const tempEl = document.getElementById("weather-temp");
+  const windEl = document.getElementById("weather-wind");
+  const humEl  = document.getElementById("weather-humidity");
+  const rainEl = document.getElementById("weather-rain");
 
-  document.getElementById("weather-wind").textContent =
-    Math.round(cw.windspeed) + " km/h";
+  if (!tempEl || !windEl || !humEl || !rainEl) {
+    console.error("❌ Elementi DOM meteo attuale non trovati");
+    return;
+  }
 
-  /* UMIDITÀ + PROB PIOGGIA */
-  const idx = findClosestIndex(cw.time, data.hourly.time);
+  tempEl.textContent = Math.round(cw.temperature) + "°C";
+  windEl.textContent = Math.round(cw.windspeed) + " km/h";
 
-  const humidity = data.hourly.relativehumidity_2m[idx] ?? "--";
-  const rainProb = data.hourly.precipitation_probability[idx] ?? "--";
+  /* UMIDITÀ + PROB PIOGGIA (HOURLY) */
+  const hourlyTimes = data.hourly.time;
+  const idx = findClosestIndex(cw.time, hourlyTimes);
 
-  document.getElementById("weather-humidity").textContent = humidity + "%";
-  document.getElementById("weather-rain").textContent = rainProb + "%";
+  let humidity = "--";
+  let rainProb = "--";
 
-  /* ============================
-     PREVISIONI OGGI + 3 GIORNI
-     ============================ */
+  if (idx !== -1) {
+    const humVal = data.hourly.relativehumidity_2m[idx];
+    const rainVal = data.hourly.precipitation_probability[idx];
+
+    if (typeof humVal === "number") humidity = humVal;
+    if (typeof rainVal === "number") rainProb = rainVal;
+  }
+
+  humEl.textContent  = humidity + "%";
+  rainEl.textContent = rainProb + "%";
+
+  /* PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI */
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
 
-  grid.innerHTML = ""; // pulizia
+  if (!grid) {
+    console.error("❌ forecast-grid non trovato nell'HTML");
+    return;
+  }
 
-  /* ---- OGGI ---- */
-  addForecastPill(
-    grid,
-    "OGGI",
-    daily.weathercode[0],
-    daily.temperature_2m_min[0],
-    daily.temperature_2m_max[0]
-  );
+  grid.innerHTML = "";
 
-  /* ---- PROSSIMI 3 GIORNI ---- */
+  /* GIORNO 0 (OGGI) */
+  const todayCode = daily.weathercode[0];
+  const todayText = WEATHER_TEXT[todayCode] || "N/D";
+  const todayMin = Math.round(daily.temperature_2m_min[0]);
+  const todayMax = Math.round(daily.temperature_2m_max[0]);
+
+  grid.innerHTML += `
+    <div class="ops-forecast-pill">
+      <span class="label">OGGI</span>
+      <span class="condition">${todayText}</span>
+      <span class="temp">${todayMin}° / ${todayMax}°</span>
+    </div>
+  `;
+
+  /* GIORNI SUCCESSIVI */
   for (let i = 1; i <= 3 && i < daily.time.length; i++) {
-    const label = new Date(daily.time[i])
+    const date = new Date(daily.time[i]);
+    const label = date
       .toLocaleDateString("it-IT", { weekday: "short" })
       .toUpperCase();
 
-    addForecastPill(
-      grid,
-      label,
-      daily.weathercode[i],
-      daily.temperature_2m_min[i],
-      daily.temperature_2m_max[i]
-    );
+    const code = daily.weathercode[i];
+    const condition = WEATHER_TEXT[code] || "N/D";
+    const tmin = Math.round(daily.temperature_2m_min[i]);
+    const tmax = Math.round(daily.temperature_2m_max[i]);
+
+    grid.innerHTML += `
+      <div class="ops-forecast-pill">
+        <span class="label">${label}</span>
+        <span class="condition">${condition}</span>
+        <span class="temp">${tmin}° / ${tmax}°</span>
+      </div>
+    `;
   }
-
-  console.log("✅ Previsioni aggiornate");
-}
-
-/***************************************************
- *  CREA UNA PILLOLA PREVISIONE
- ***************************************************/
-function addForecastPill(grid, label, code, tmin, tmax) {
-  const text = WEATHER_TEXT[code] || "N/D";
-  const pill = document.createElement("div");
-
-  pill.className = "ops-forecast-pill";
-  pill.innerHTML = `
-      <span class="label">${label}</span>
-      <span class="condition">${text}</span>
-      <span class="temp">${Math.round(tmin)}° / ${Math.round(tmax)}°</span>
-  `;
-
-  grid.appendChild(pill);
 }
