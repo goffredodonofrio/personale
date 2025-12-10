@@ -215,6 +215,21 @@
     gap: 0.2rem;
     min-height: 90px;
 }
+        
+/* LAYOUT A 2 COLONNE: OROLOGIO A SINISTRA, METEO DI OGGI A DESTRA */
+.ops-top-block {
+    display: grid;
+    grid-template-columns: 1fr 420px;   /* puoi regolare 420px */
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Ogni pill viene impilata verticalmente */
+.ops-weather-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
 /* giorno (es. DOMANI, VEN, SAB) */
 .ops-forecast-day-label {
@@ -624,40 +639,40 @@
 
         <div class="ops-main-row">
             <!-- COLONNA SINISTRA: OROLOGIO -->
-            <div class="ops-clock-block">
-                <div class="ops-clock" id="clock">--:--:--</div>
-                <div class="ops-date" id="date">---</div>
-                <div class="ops-stardate" id="stardate">STARDATE ---</div>
-                <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+           <div class="ops-top-block">
 
-                <div class="ops-weather-title">
-                    ENVIRONMENTAL CONDITIONS // TORINO
-                </div>
+    <!-- COLONNA SINISTRA: OROLOGIO -->
+    <div class="ops-top-left">
+        <div class="ops-clock" id="clock">--:--:--</div>
+        <div class="ops-date" id="date">---</div>
+        <div class="ops-stardate" id="stardate">STARDATE ---</div>
+        <div class="ops-shift" id="dayPhase"></div>
+        <div class="ops-weather-title">Environmental Conditions // Torino</div>
+    </div>
+
+    <!-- COLONNA DESTRA: METEO DI OGGI -->
+    <div class="ops-top-right">
+        <div class="ops-weather-grid">
+            <div class="ops-pill">
+                <span>TEMPERATURA</span>
+                <span class="ops-pill-value" id="weather-temp">--°C</span>
             </div>
-
-            <!-- COLONNA DESTRA: BARRE METEO -->
-            <div class="ops-metrics-block">
-                <div class="ops-metric-pill">
-                    <span>TEMPERATURA</span>
-                    <span class="ops-metric-value" id="weather-temp">--°C</span>
-                </div>
-
-                <div class="ops-metric-pill">
-                    <span>PROB PIOGGIA</span>
-                    <span class="ops-metric-value" id="weather-rain">--%</span>
-                </div>
-
-                <div class="ops-metric-pill">
-                    <span>UMIDITÀ</span>
-                    <span class="ops-metric-value" id="weather-humidity">--%</span>
-                </div>
-
-                <div class="ops-metric-pill">
-                    <span>VENTO</span>
-                    <span class="ops-metric-value" id="weather-wind">-- km/h</span>
-                </div>
+            <div class="ops-pill">
+                <span>PROB PIOGGIA</span>
+                <span class="ops-pill-value" id="weather-rain">--%</span>
+            </div>
+            <div class="ops-pill">
+                <span>UMIDITÀ</span>
+                <span class="ops-pill-value" id="weather-humidity">--%</span>
+            </div>
+            <div class="ops-pill">
+                <span>VENTO</span>
+                <span class="ops-pill-value" id="weather-wind">-- km/h</span>
             </div>
         </div>
+    </div>
+
+</div>
 
         <!-- SCRIPT LCARS + METEO -->
         <script src="assets/lcars.js"></script>
