@@ -86,84 +86,79 @@
         gap: 2rem;
     }
 
-   /* RIGA PRINCIPALE: orologio a sinistra + meteo a destra */
-.ops-main-row {
+/* RIGA PRINCIPALE */
+.ops-header-row {
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
-    gap: 2rem;
-}
-
-/* COLONNA SINISTRA: OROLOGIO */
-.ops-clock-block {
-    flex: 0 0 45%;
+    align-items: flex-start;
+    gap: 2.5rem;
 }
 
 /* ORA */
 .ops-clock {
     font-size: 4.8rem;
-    line-height: 1;
     font-weight: 700;
     color: var(--ld-blue-main);
+    line-height: 1;
+    margin-bottom: 0.4rem;
 }
 
-/* COLONNA DESTRA: METRICS */
-.ops-metrics-right {
-    flex: 0 0 45%;
+.ops-weather-title {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: var(--ld-blue-line);
+    line-height: 1.2;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+}
+
+/* COLONNA METRICHE (DESTRA) */
+.ops-metrics-column {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.55rem;
+    width: 260px; /* larghezza perfetta per Echo Show 15 */
 }
 
+/* PILL METRICHE ultra compatte */
 .ops-metric-pill {
     background: var(--ld-blue-main);
     border-radius: 999px;
-    padding: 0.7rem 1.4rem;
+    padding: 0.55rem 1.2rem;
     border: 2px solid var(--ld-blue-line);
-    color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 1rem;
+    letter-spacing: 0.07em;
+    font-size: 0.95rem;
+    color: #fff;
 }
 
-/* PREVISIONI (già ok) */
-.ops-forecast-inline {
-    margin-top: 1.2rem;
+/* PREVISIONI INLINEA */
+.ops-forecast-row {
+    margin-top: 1.7rem;
     display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
+    gap: 1rem;
+    flex-wrap: nowrap;
 }
 
-    .ops-forecast-pill {
-        background: var(--ld-blue-main);
-        border-radius: 999px;
-        padding: 0.5rem 1.2rem;
-        border: 2px solid var(--ld-blue-line);
-        color: #ffffff;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 0.9rem;
-        white-space: nowrap;
-    }
+.ops-forecast-row .ops-forecast-pill {
+    background: var(--ld-blue-main);
+    border-radius: 999px;
+    padding: 0.65rem 1.4rem;
+    border: 2px solid var(--ld-blue-line);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
 
-    .ops-forecast-pill .label {
-        opacity: 0.9;
-    }
-
-    .ops-forecast-pill .condition {
-        color: #000000;
-        font-weight: 700;
-    }
-
-    .ops-forecast-pill .temp {
-        font-weight: 700;
-    }
+.ops-forecast-row .condition {
+    color: black; /* come richiesto */
+    font-weight: 700;
+}
 
     /* BLOCCO IMMAGINE PIANTINA */
     .lcars-image-block {
@@ -428,33 +423,37 @@
                     <div class="status-grid-wrapper">
 
                         <!-- OPS PANEL: ORA + METEO -->
-                        <div class="ops-panel">
+                    <div class="ops-panel">
 
-    <div class="ops-main-row">
-
+    <div class="ops-header-row">
+        
         <!-- SINISTRA: OROLOGIO -->
         <div class="ops-clock-block">
             <div class="ops-clock" id="clock">--:--:--</div>
             <div class="ops-date" id="date">---</div>
             <div class="ops-stardate" id="stardate">STARDATE ---</div>
             <div class="ops-shift" id="dayPhase"></div>
-            <div class="ops-weather-title">Environmental Conditions // Torino</div>
+
+            <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
         </div>
 
-        <!-- DESTRA: METRICS (Temperatura ecc.) -->
-        <div class="ops-metrics-right">
+        <!-- DESTRA: METRICS COMPATTE -->
+        <div class="ops-metrics-column">
             <div class="ops-metric-pill">
                 <span>TEMPERATURA</span>
                 <span class="ops-metric-value" id="weather-temp">--°C</span>
             </div>
+
             <div class="ops-metric-pill">
                 <span>PROB PIOGGIA</span>
                 <span class="ops-metric-value" id="weather-rain">--%</span>
             </div>
+
             <div class="ops-metric-pill">
                 <span>UMIDITÀ</span>
                 <span class="ops-metric-value" id="weather-humidity">--%</span>
             </div>
+
             <div class="ops-metric-pill">
                 <span>VENTO</span>
                 <span class="ops-metric-value" id="weather-wind">-- km/h</span>
@@ -464,7 +463,7 @@
     </div>
 
     <!-- PREVISIONI -->
-    <div id="forecast-grid" class="ops-forecast-inline"></div>
+    <div id="forecast-grid" class="ops-forecast-row"></div>
 
 </div>
                             </div>
