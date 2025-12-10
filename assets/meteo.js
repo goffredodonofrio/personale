@@ -2,16 +2,13 @@ console.log("🟣 meteo.js CARICATO");
 
 /***************************************************
  *   METEO — OPEN-METEO COMPLETO
- *   - current_weather: temperatura, vento
- *   - hourly: umidità + prob. pioggia
- *   - daily: previsioni 4 giorni
  ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
-/* Dizionario testi meteo */
+/* TESTI METEO */
 const WEATHER_TEXT = {
   0: "Sereno", 1: "Prevalente sereno", 2: "Parzialmente nuvoloso", 3: "Molto nuvoloso",
   45: "Foschia", 48: "Foschia ghiacciata",
@@ -26,138 +23,117 @@ const WEATHER_TEXT = {
   95: "Temporali", 96: "Temporali con grandine", 99: "Temporali forti con grandine"
 };
 
+/* ICONE LCARS-STYLE */
+const WEATHER_ICON = {
+  0: "◎", 1: "◎",
+  2: "◉",
+  3: "●",
+  45: "≋", 48: "≋",
+  51: "☂", 53: "☂", 55: "☂",
+  61: "☂", 63: "☂", 65: "☂",
+  66: "☂", 67: "☂",
+  71: "✳", 73: "✳", 75: "✳", 77: "✳",
+  80: "☂", 81: "☂", 82: "☂",
+  85: "✳", 86: "✳",
+  95: "⚡", 96: "⚡", 99: "⚡"
+};
+
 /***************************************************
- *  FETCH DATI METEO
+ *  FETCH METEO
  ***************************************************/
 function loadWeather() {
   const url =
     "https://api.open-meteo.com/v1/forecast" +
-    "?latitude=" + LAT +
-    "&longitude=" + LON +
+    `?latitude=${LAT}&longitude=${LON}` +
     "&current_weather=true" +
     "&forecast_days=5" +
     "&hourly=relativehumidity_2m,precipitation_probability" +
     "&daily=weathercode,temperature_2m_max,temperature_2m_min" +
     "&timezone=Europe%2FRome";
 
-  console.log("🔵 Fetch URL:", url);
-
   fetch(url)
     .then(r => r.json())
-    .then(data => {
-      console.log("🟢 Meteo ricevuto:", data);
-      updateWeather(data);
-    })
-    .catch(err => console.error("🔴 ERRORE FETCH:", err));
+    .then(data => updateWeather(data))
+    .catch(err => console.error("❌ ERRORE METEO:", err));
 }
 
 /***************************************************
- *  TROVA L’ORA PIÙ VICINA NEGLI HOURLY
+ *  TROVA ORA PIÙ VICINA PER HOURLY
  ***************************************************/
 function findClosestIndex(targetIso, timeArray) {
-  let bestIdx = -1;
-  let bestDiff = Infinity;
-  const targetMs = new Date(targetIso).getTime();
+  let best = -1;
+  let diffBest = Infinity;
+  const target = new Date(targetIso).getTime();
 
-  for (let i = 0; i < timeArray.length; i++) {
-    const thisMs = new Date(timeArray[i]).getTime();
-    const diff = Math.abs(thisMs - targetMs);
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      bestIdx = i;
+  timeArray.forEach((t, i) => {
+    const diff = Math.abs(new Date(t).getTime() - target);
+    if (diff < diffBest) {
+      diffBest = diff;
+      best = i;
     }
-  }
-  return bestIdx;
+  });
+
+  return best;
 }
 
 /***************************************************
- *  AGGIORNA L’UI CON I DATI METEO
+ *  UPDATE UI
  ***************************************************/
 function updateWeather(data) {
-  if (!data || !data.current_weather || !data.hourly || !data.daily) {
-    console.error("❌ Dati meteo incompleti:", data);
+  if (!data?.current_weather || !data?.hourly || !data?.daily) {
+    console.error("❌ Dati meteo incompleti");
     return;
   }
 
   const cw = data.current_weather;
 
-  /* METEO ATTUALE — temperatura e vento */
-  const tempEl = document.getElementById("weather-temp");
-  const windEl = document.getElementById("weather-wind");
-  const humEl  = document.getElementById("weather-humidity");
-  const rainEl = document.getElementById("weather-rain");
+  /* ----- METEO ATTUALE ----- */
+  document.getElementById("weather-temp").textContent =
+    `${Math.round(cw.temperature)}°C`;
 
-  if (!tempEl || !windEl || !humEl || !rainEl) {
-    console.error("❌ Elementi DOM meteo attuale non trovati");
-    return;
-  }
+  document.getElementById("weather-wind").textContent =
+    `${Math.round(cw.windspeed)} km/h`;
 
-  tempEl.textContent = Math.round(cw.temperature) + "°C";
-  windEl.textContent = Math.round(cw.windspeed) + " km/h";
+  /* HOURLY */
+  const idx = findClosestIndex(cw.time, data.hourly.time);
+  const humidity = data.hourly.relativehumidity_2m[idx] ?? "--";
+  const rainProb = data.hourly.precipitation_probability[idx] ?? "--";
 
-  /* UMIDITÀ + PROB PIOGGIA (da HOURLY) */
-  const hourlyTimes = data.hourly.time;
-  const idx = findClosestIndex(cw.time, hourlyTimes);
+  document.getElementById("weather-humidity").textContent = `${humidity}%`;
+  document.getElementById("weather-rain").textContent = `${rainProb}%`;
 
-  let humidity = "--";
-  let rainProb = "--";
-
-  if (idx !== -1) {
-    const humVal = data.hourly.relativehumidity_2m[idx];
-    const rainVal = data.hourly.precipitation_probability[idx];
-
-    if (typeof humVal === "number") humidity = humVal;
-    if (typeof rainVal === "number") rainProb = rainVal;
-  }
-
-  humEl.textContent  = humidity + "%";
-  rainEl.textContent = rainProb + "%";
-
-  /**********************************************
-   * ⭐ PREVISIONI: OGGI + 2 GIORNI
-   **********************************************/
-  const daily = data.daily;
+  /* ----- PREVISIONI ----- */
   const grid = document.getElementById("forecast-grid");
-
-  if (!grid) {
-    console.error("❌ forecast-grid non trovato");
-    return;
-  }
-
   grid.innerHTML = "";
+  const daily = data.daily;
 
-  /* ---- OGGI ---- */
-  const todayCode = daily.weathercode[0];
-  const todayText = WEATHER_TEXT[todayCode] || "N/D";
-  const todayMin = Math.round(daily.temperature_2m_min[0]);
-  const todayMax = Math.round(daily.temperature_2m_max[0]);
+  /* OGGI */
+  addForecastPill(grid, "OGGI", daily.weathercode[0], daily.temperature_2m_min[0], daily.temperature_2m_max[0]);
 
-  grid.innerHTML += `
-    <div class="ops-forecast-pill">
-      <span class="label">OGGI</span>
-      <span class="condition">${todayText}</span>
-      <span class="temp">${todayMin}° / ${todayMax}°</span>
-    </div>
-  `;
-
-  /* ---- SOLO 2 GIORNI FUTURI ---- */
-  for (let i = 1; i <= 2 && i < daily.time.length; i++) {
-    const date = new Date(daily.time[i]);
-    const label = date
+  /* PROSSIMI 2 GIORNI */
+  for (let i = 1; i <= 2; i++) {
+    if (!daily.time[i]) continue;
+    const label = new Date(daily.time[i])
       .toLocaleDateString("it-IT", { weekday: "short" })
       .toUpperCase();
 
-    const code = daily.weathercode[i];
-    const condition = WEATHER_TEXT[code] || "N/D";
-    const tmin = Math.round(daily.temperature_2m_min[i]);
-    const tmax = Math.round(daily.temperature_2m_max[i]);
-
-    grid.innerHTML += `
-      <div class="ops-forecast-pill">
-        <span class="label">${label}</span>
-        <span class="condition">${condition}</span>
-        <span class="temp">${tmin}° / ${tmax}°</span>
-      </div>
-    `;
+    addForecastPill(grid, label, daily.weathercode[i], daily.temperature_2m_min[i], daily.temperature_2m_max[i]);
   }
+}
+
+/***************************************************
+ *  CREA UNA SINGOLA PILL METEO (con icona)
+ ***************************************************/
+function addForecastPill(grid, label, code, tmin, tmax) {
+  const text = WEATHER_TEXT[code] || "N/D";
+  const icon = WEATHER_ICON[code] || "·";
+
+  grid.innerHTML += `
+    <div class="ops-forecast-pill">
+        <span class="icon">${icon}</span>
+        <span class="label">${label}</span>
+        <span class="condition">${text}</span>
+        <span class="temp">${tmin}° / ${tmax}°</span>
+    </div>
+  `;
 }
