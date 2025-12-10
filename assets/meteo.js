@@ -106,14 +106,34 @@ function updateWeather(data) {
   document.getElementById("weather-humidity").textContent = humidity + "%";
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
-  /* PREVISIONI GIORNI SUCCESSIVI */
+
+  /* ==========================================
+     ⭐ PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI
+     ========================================== */
   const daily = data.daily;
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (let i = 1; i <= 4 && i < daily.time.length; i++) {
+  /* ⭐ CARD 1 — OGGI */
+  const todayCode = daily.weathercode[0];
+  const todayText = WEATHER_TEXT[todayCode] || "N/D";
+  const todayMin = Math.round(daily.temperature_2m_min[0]);
+  const todayMax = Math.round(daily.temperature_2m_max[0]);
+
+  grid.innerHTML += `
+    <div class="lcars-weather-btn">
+        <div class="lcars-weather-day">OGGI</div>
+        <div class="lcars-weather-text">${todayText}</div>
+        <div class="lcars-weather-temp">${todayMin}° / ${todayMax}°</div>
+    </div>
+  `;
+
+  /* ⭐ CARD 2–4 — PROSSIMI 3 GIORNI */
+  for (let i = 1; i <= 3 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const label = date.toLocaleDateString("it-IT", { weekday: "short" })
+                      .toUpperCase();
+
     const code = daily.weathercode[i];
     const text = WEATHER_TEXT[code] || "N/D";
 
@@ -121,56 +141,11 @@ function updateWeather(data) {
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
-      <div class="ops-forecast-day">
-        <div class="ops-forecast-description">${description}</div>
-        <div class="ops-forecast-text">${text}</div>
-        <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
+      <div class="lcars-weather-btn">
+        <div class="lcars-weather-day">${label}</div>
+        <div class="lcars-weather-text">${text}</div>
+        <div class="lcars-weather-temp">${tmin}° / ${tmax}°</div>
       </div>
     `;
   }
-  /* ============================
-   PREVISIONI PROSSIMI 4 GIORNI
-   ============================ */
-
-const daily = data.daily;
-const grid = document.getElementById("forecast-grid");
-
-grid.innerHTML = "";
-
-/* ---- CARD OGGI ---- */
-const todayCode = daily.weathercode[0];
-const todayText = WEATHER_TEXT[todayCode] || "N/D";
-const todayMin = Math.round(daily.temperature_2m_min[0]);
-const todayMax = Math.round(daily.temperature_2m_max[0]);
-
-grid.innerHTML += `
-    <div class="ops-forecast-day">
-        <div class="ops-forecast-day-label">OGGI</div>
-        <div class="ops-forecast-description">${todayText}</div>
-        <div class="ops-forecast-temp">${todayMin}° / ${todayMax}°</div>
-    </div>
-`;
-
-/* ---- CARD GIORNI SUCCESSIVI ---- */
-for (let i = 1; i <= 3 && i < daily.time.length; i++) {
-
-    const date = new Date(daily.time[i]);
-    const label = date
-        .toLocaleDateString("it-IT", { weekday: "short" })
-        .toUpperCase();
-
-    const code = daily.weathercode[i];
-    const desc = WEATHER_TEXT[code] || "N/D";
-
-    const tmin = Math.round(daily.temperature_2m_min[i]);
-    const tmax = Math.round(daily.temperature_2m_max[i]);
-
-    grid.innerHTML += `
-        <div class="ops-forecast-day">
-            <div class="ops-forecast-day-label">${label}</div>
-            <div class="ops-forecast-description">${desc}</div>
-            <div class="ops-forecast-temp">${tmin}° / ${tmax}°</div>
-        </div>
-    `;
-}
 }
