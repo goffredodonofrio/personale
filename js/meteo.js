@@ -107,21 +107,14 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent = rainProb + "%";
 
 
- /* ============================
-   PREVISIONI PROSSIMI 4 GIORNI
-   ============================ */
-
-const daily = data.daily;
+  /* ==========================================
+     ⭐ PREVISIONI: OGGI + 3 GIORNI SUCCESSIVI
+     ========================================== */
+  const daily = data.daily;
 const grid = document.getElementById("forecast-grid");
-
-if (!grid) {
-    console.error("❌ forecast-grid non trovato nell'HTML");
-    return;
-}
-
 grid.innerHTML = "";
 
-/* ---- OGGI ---- */
+/* ---- GIORNO 0 (OGGI) ---- */
 const todayCode = daily.weathercode[0];
 const todayText = WEATHER_TEXT[todayCode] || "N/D";
 const todayMin = Math.round(daily.temperature_2m_min[0]);
@@ -135,7 +128,7 @@ grid.innerHTML += `
 </div>
 `;
 
-/* ---- PROSSIMI GIORNI ---- */
+/* ---- GIORNI SUCCESSIVI ---- */
 for (let i = 1; i <= 3 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
     const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
