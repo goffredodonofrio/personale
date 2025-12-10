@@ -159,7 +159,43 @@
     gap: 0.6rem;
     margin-top: 1.4rem;
 }
+/* Contenitore orizzontale previsioni */
+.ops-forecast-inline,
+#forecast-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
 
+/* Singola previsione in stile pill blu */
+.ops-forecast-pill {
+    background: var(--ld-blue-main);
+    border-radius: 16px;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--ld-blue-line);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+}
+
+.ops-forecast-pill .label {
+    opacity: 0.9;
+    color: white;
+}
+
+.ops-forecast-pill .condition {
+    color: black; /* richiesto */
+    font-weight: 700;
+}
+
+.ops-forecast-pill .temp {
+    font-weight: 700;
+    color: white;
+}
 /* Singola previsione in stile pill (come TEMPERATURA ecc.) */
 .ops-forecast-pill {
     background: var(--ld-blue-main);
