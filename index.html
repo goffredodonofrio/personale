@@ -75,101 +75,202 @@
         content: none !important;
     }
 
-    /* ================================
-       LCARS OPS PANEL v4 (combined)
-       SOLO OROLOGIO + METEO IN BLU
-       ================================ */
-        
-    /* Wrapper generale */
-    .ops-panel {
-        background: rgba(0,0,0,0.88);
-        border-radius: 24px;
-        padding: 1.8rem 2rem;
-        margin-top: 1rem;
-        border-left: 14px solid var(--ld-blue-line); /* blu */
-        box-shadow: 0 0 16px rgba(0,0,0,0.5);
-    }
+  /* ================================
+   LCARS OPS PANEL — CLOCK + METEO
+   ================================ */
 
-/* Forza il testo della descrizione meteo (Foschia, Nebbia, Sole, ecc.) in nero */
-.ops-forecast-description {
-    color: #000000 !important;
+.ops-panel {
+    background: rgba(0, 0, 0, 0.88);
+    border-radius: 32px;
+    padding: 2.5rem 2.5rem 2.2rem;
+    margin-top: 1rem;
+    border-left: 14px solid var(--ld-blue-line);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
-        
-    .ops-forecast-day {
-        background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
-        border-radius: 20px;
-        padding: 1rem 0.8rem;
-        border: 2px solid var(--ld-blue-line);
-        text-align: center;
-        min-height: 160px;
+
+/* wrapper generale del pannello dentro la sezione */
+.status-grid-wrapper {
+    position: relative;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* disabilita le barre decorative precedenti */
+.status-grid-wrapper::before,
+.status-grid-wrapper::after {
+    content: none !important;
+}
+
+/* riga principale: a sinistra orologio, a destra barre meteo */
+.ops-main-row {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+/* BLOCCO OROLOGIO + DATA */
+.ops-clock-block {
+    flex: 0 0 40%;
+    min-width: 0;
+}
+
+/* ORA */
+.ops-clock {
+    font-size: 4.8rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--ld-blue-main);
+    margin-top: 0.2rem;
+}
+
+/* DATA + STARDATE */
+.ops-date {
+    margin-top: 0.6rem;
+    color: var(--ld-blue-line);
+    font-size: 1.3rem;
+    opacity: 0.9;
+}
+
+.ops-stardate {
+    margin-top: 0.4rem;
+    font-size: 1.25rem;
+    color: var(--ld-blue-line);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* SHIFT */
+.ops-shift {
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    color: var(--ld-blue-dark);
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* TITOLO METEO */
+.ops-weather-title {
+    font-size: 1.1rem;
+    color: var(--ld-blue-line);
+    text-transform: uppercase;
+    margin-top: 1.4rem;
+    letter-spacing: 0.18em;
+}
+
+/* BLOCCO BARRE METEO A DESTRA */
+.ops-metrics-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* singola barra metrica (temperatura, pioggia, ecc.) */
+.ops-metric-pill {
+    background: var(--ld-blue-main);
+    border-radius: 999px;
+    padding: 0.9rem 1.6rem;
+    border: 2px solid var(--ld-blue-line);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+}
+
+.ops-metric-pill span:first-child {
+    opacity: 0.9;
+}
+
+.ops-metric-value {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+/* RIGA PREVISIONI IN BASSO (4 pillole orizzontali) */
+.ops-forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* singola card previsione */
+.ops-forecast-day {
+    background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
+    border-radius: 999px;
+    padding: 1.2rem 1.4rem;
+    border: 2px solid var(--ld-blue-line);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    min-height: 90px;
+}
+
+/* giorno (es. DOMANI, VEN, SAB) */
+.ops-forecast-day-label {
+    font-size: 1.05rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* descrizione (Sereno, Foschia…) */
+.ops-forecast-description {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #000000; /* richiesto: testo tipo "Foschia" in nero */
+    text-transform: uppercase;
+}
+
+/* temperature */
+.ops-forecast-temp {
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+
+/* BLOCCO IMMAGINE PIANTINA SOTTO AL PANNELLO */
+.lcars-image-block {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 18px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lcars-image-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .ops-main-row {
+        flex-direction: column;
+        gap: 2rem;
     }
 
-    /* Fascia superiore */
-    .ops-panel-header {
-        display: none;
-        height: 0;
-        margin: 0;
+    .ops-clock-block {
+        flex: 1 1 auto;
     }
 
-    /* ORA */
-    .ops-clock {
-        font-size: 4.4rem;
-        line-height: 1;
-        font-weight: 700;
-        color: var(--ld-blue-main);
-        margin-top: 0.4rem;
-    }
-
-    /* DATA + STARDATE */
-    .ops-date {
-        margin-top: 0.5rem;
-        color: var(--ld-blue-line);
-        font-size: 1.25rem;
-        opacity: 0.9;
-    }
-
-    .ops-stardate {
-        margin-top: 0.3rem;
-        font-size: 1.2rem;
-        color: var(--ld-blue-line);
-        font-weight: 700;
-        letter-spacing: 0.03em;
-    }
-
-    /* SHIFT */
-    .ops-shift {
-        margin-top: 0.6rem;
-        font-size: 1rem;
-        color: var(--ld-blue-dark);
-        text-transform: uppercase;
-        opacity: 0.85;
-    }
-
-    /* PANEL METEO */
-    .ops-weather-title {
-        font-size: 1.35rem;
-        color: var(--ld-blue-line);
-        text-transform: uppercase;
-        margin-bottom: 1.2rem;
-        letter-spacing: 0.08em;
-    }
-
-    /* Griglia meteo */
-    .ops-weather-grid {
-        display: grid;
-        color: #ffffff;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.9rem;
-    }
-
-    /* FORECAST — 4 CARDS LCARS ORIZZONTALI */
     .ops-forecast-grid {
-        margin-top: 1.5rem;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.2rem;
-        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
     }
+}
 
     .ops-forecast-day {
         background: linear-gradient(180deg, var(--ld-blue-main), var(--ld-blue-dark));
@@ -516,52 +617,65 @@
                 <main>
 
                     <!-- STATUS GRID WRAPPER: OROLOGIO + PIANTINA -->
-                    <div class="status-grid-wrapper">
-                        <div class="status-grid">
+                   <div class="status-grid-wrapper">
 
-                            <div class="ops-panel">
+    <!-- UNICO PANNELLO: ORA + METEO -->
+    <div class="ops-panel">
 
-                                <div class="ops-panel-header"></div>
+        <div class="ops-main-row">
+            <!-- COLONNA SINISTRA: OROLOGIO -->
+            <div class="ops-clock-block">
+                <div class="ops-clock" id="clock">--:--:--</div>
+                <div class="ops-date" id="date">---</div>
+                <div class="ops-stardate" id="stardate">STARDATE ---</div>
+                <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
 
-                                <div class="ops-clock" id="clock">--:--:--</div>
-                                <div class="ops-date" id="date">---</div>
-                                <div class="ops-stardate" id="stardate">STARDATE ---</div>
-                                <div class="ops-shift" id="dayPhase">ALPHA SHIFT // STANDBY</div>
+                <div class="ops-weather-title">
+                    ENVIRONMENTAL CONDITIONS // TORINO
+                </div>
+            </div>
 
-                                <div class="ops-weather-title">Environmental Conditions // Torino</div>
+            <!-- COLONNA DESTRA: BARRE METEO -->
+            <div class="ops-metrics-block">
+                <div class="ops-metric-pill">
+                    <span>TEMPERATURA</span>
+                    <span class="ops-metric-value" id="weather-temp">--°C</span>
+                </div>
 
-                                <div class="ops-weather-grid">
-                                    <div class="ops-pill">
-                                        <span>TEMPERATURA</span>
-                                        <span class="ops-pill-value" id="weather-temp">--°C</span>
-                                    </div>
+                <div class="ops-metric-pill">
+                    <span>PROB PIOGGIA</span>
+                    <span class="ops-metric-value" id="weather-rain">--%</span>
+                </div>
 
-                                    <div class="ops-pill">
-                                        <span>UMIDITÀ</span>
-                                        <span class="ops-pill-value" id="weather-humidity">--%</span>
-                                    </div>
+                <div class="ops-metric-pill">
+                    <span>UMIDITÀ</span>
+                    <span class="ops-metric-value" id="weather-humidity">--%</span>
+                </div>
 
-                                    <div class="ops-pill">
-                                        <span>PROB PIOGGIA</span>
-                                        <span class="ops-pill-value" id="weather-rain">-- mm</span>
-                                    </div>
+                <div class="ops-metric-pill">
+                    <span>VENTO</span>
+                    <span class="ops-metric-value" id="weather-wind">-- km/h</span>
+                </div>
+            </div>
+        </div>
 
-                                    <div class="ops-pill">
-                                        <span>VENTO</span>
-                                        <span class="ops-pill-value" id="weather-wind">-- km/h</span>
-                                    </div>
-                                </div>
+        <!-- SCRIPT LCARS + METEO -->
+        <script src="assets/lcars.js"></script>
+        <script src="assets/meteo.js"></script>
 
-                                <!-- SCRIPT ESTERNI -->
-                                <script src="assets/lcars.js"></script>
-                                <script src="assets/meteo.js"></script>
-                                            
-                                <!-- FORECAST PROSSIMI GIORNI -->
-                                <div class="ops-forecast-grid" id="forecast-grid">
-                                    <!-- popolato via JS -->
-                                </div>
+        <!-- PREVISIONI PROSSIMI GIORNI (popolate da meteo.js) -->
+        <div class="ops-forecast-grid" id="forecast-grid">
+            <!-- le card vengono inserite via JS -->
+        </div>
 
-                            </div>
+    </div>
+
+    <!-- SOTTO: PIANTINA ROC CIAMELONE (come extra) -->
+    <div class="lcars-image-block">
+        <img src="assets/piantina_6.jpg" alt="Piantina Rocciamelone">
+    </div>
+
+</div>
 
                             <!-- IMMAGINE -->
                             <div class="lcars-image-block">
