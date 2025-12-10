@@ -95,7 +95,7 @@ function updateWeather(data) {
   tempEl.textContent = Math.round(cw.temperature) + "°C";
   windEl.textContent = Math.round(cw.windspeed) + " km/h";
 
-  /* UMIDITÀ + PROB PIOGGIA (HOURLY) */
+  /* UMIDITÀ + PROB PIOGGIA (da HOURLY) */
   const hourlyTimes = data.hourly.time;
   const idx = findClosestIndex(cw.time, hourlyTimes);
 
@@ -113,20 +113,51 @@ function updateWeather(data) {
   humEl.textContent  = humidity + "%";
   rainEl.textContent = rainProb + "%";
 
-  /* ---- GIORNI SUCCESSIVI (solo 2 invece di 3) ---- */
-for (let i = 1; i <= 2 && i < daily.time.length; i++) {
+  /**********************************************
+   * ⭐ PREVISIONI: OGGI + 2 GIORNI
+   **********************************************/
+  const daily = data.daily;
+  const grid = document.getElementById("forecast-grid");
+
+  if (!grid) {
+    console.error("❌ forecast-grid non trovato");
+    return;
+  }
+
+  grid.innerHTML = "";
+
+  /* ---- OGGI ---- */
+  const todayCode = daily.weathercode[0];
+  const todayText = WEATHER_TEXT[todayCode] || "N/D";
+  const todayMin = Math.round(daily.temperature_2m_min[0]);
+  const todayMax = Math.round(daily.temperature_2m_max[0]);
+
+  grid.innerHTML += `
+    <div class="ops-forecast-pill">
+      <span class="label">OGGI</span>
+      <span class="condition">${todayText}</span>
+      <span class="temp">${todayMin}° / ${todayMax}°</span>
+    </div>
+  `;
+
+  /* ---- SOLO 2 GIORNI FUTURI ---- */
+  for (let i = 1; i <= 2 && i < daily.time.length; i++) {
     const date = new Date(daily.time[i]);
-    const label = date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const label = date
+      .toLocaleDateString("it-IT", { weekday: "short" })
+      .toUpperCase();
+
     const code = daily.weathercode[i];
     const condition = WEATHER_TEXT[code] || "N/D";
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
-    <div class="ops-forecast-pill">
+      <div class="ops-forecast-pill">
         <span class="label">${label}</span>
         <span class="condition">${condition}</span>
         <span class="temp">${tmin}° / ${tmax}°</span>
-    </div>
+      </div>
     `;
+  }
 }
