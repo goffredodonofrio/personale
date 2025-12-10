@@ -152,7 +152,45 @@
     text-transform: uppercase;
     opacity: 0.9;
 }
+/* PREVISIONI INLINEA IN STILE PILL BLU */
+.ops-forecast-inline {
+    display: flex;
+    flex-direction: column;   /* puoi cambiare a row se vuoi affiancate tutte */
+    gap: 0.6rem;
+    margin-top: 1.4rem;
+}
 
+/* Singola previsione in stile pill (come TEMPERATURA ecc.) */
+.ops-forecast-pill {
+    background: var(--ld-blue-main);
+    border-radius: 16px;
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--ld-blue-line);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+}
+
+/* Giorno (OGGI / GIO / VEN) */
+.ops-forecast-pill .label {
+    opacity: 0.9;
+}
+
+/* Condizione meteo */
+.ops-forecast-pill .condition {
+    color: #000000; /* richiesta: colore nero per sereno/foschia */
+    font-weight: 700;
+    margin: 0 0.5rem;
+}
+
+/* Temperature */
+.ops-forecast-pill .temp {
+    font-weight: 700;
+}
 /* TITOLO METEO */
 .ops-weather-title {
     font-size: 1.1rem;
@@ -664,6 +702,9 @@
                 <span>VENTO</span>
                 <span class="ops-pill-value" id="weather-wind">-- km/h</span>
             </div>
+             <!-- PREVISIONI PROSSIMI GIORNI (popolate da meteo.js) -->
+        <div class="ops-forecast-grid" id="forecast-grid">
+            <!-- le card vengono inserite via JS -->
         </div>
     </div>
 
@@ -673,9 +714,6 @@
         <script src="assets/lcars.js"></script>
         <script src="assets/meteo.js"></script>
 
-        <!-- PREVISIONI PROSSIMI GIORNI (popolate da meteo.js) -->
-        <div class="ops-forecast-grid" id="forecast-grid">
-            <!-- le card vengono inserite via JS -->
         </div>
 
     </div>
