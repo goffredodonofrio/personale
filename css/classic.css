@@ -150,6 +150,43 @@
   display: block !important;
 }
 
+/* ----- METEO PILLS FIX ----- */
+
+.ops-forecast-pill {
+    width: 200px;
+    padding: 1rem .5rem 1.5rem .5rem;
+    background: #7eb0ff;
+    border-radius: 40px;   /* meno ovale, più ellise */
+    text-align: center;
+    margin: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ops-forecast-pill .label {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: .5rem;
+}
+
+.ops-forecast-pill .forecast-icon {
+    margin: .2rem auto .3rem auto;
+}
+
+.ops-forecast-pill .condition {
+    font-size: .9rem;
+    font-weight: 700;
+    margin-top: .2rem;
+}
+
+.ops-forecast-pill .temp {
+    margin-top: .3rem;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
 @media (max-width: 1500px) {
 	:root {
 		--lfw: 200px;
