@@ -150,43 +150,67 @@
   display: block !important;
 }
 
-/* Pillole meteo uniformate */
-.ops-forecast-pill {
-    width: 150px;          /* larghezza fissa */
-    height: 180px;         /* altezza fissa */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+/* =========================================================
+   METEO — VERSIONE OTTIMIZZATA
+   Pillole uniformi, spacing migliorato,
+   regole consolidate e più pulite
+   ========================================================= */
 
-    padding: 1.2rem 0.5rem;
-    border-radius: 999px;
+/* Contenitore icona meteo */
+.forecast-icon svg {
+    width: 58px !important;
+    height: 58px !important;
+    display: block;
+}
+
+/* Contenitore pillole meteo */
+.ops-forecast-row {
+    display: flex;
+    gap: 1.4rem;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding-top: 0.4rem;
+}
+
+/* Pillola — dimensione uniforme + griglia interna */
+.ops-forecast-pill {
+    width: 150px;             /* tutte uguali */
+    height: 185px;            /* proporzione più elegante */
     background: var(--ld-blue-main);
     border: 2px solid var(--ld-blue-line);
+    border-radius: 90px;      /* meno uovo, più ellisse */
+    
+    display: grid;
+    grid-template-rows: auto 60px auto auto;
+    justify-items: center;
+    align-items: center;
+
+    padding: 1rem 0.4rem;
     text-align: center;
 }
 
-/* Contenuto interno ben centrato */
-.ops-forecast-pill .forecast-icon svg {
-    width: 55px;
-    height: 55px;
-}
-
-/* Etichette */
+/* Titolo “OGGI / VEN / SAB / DOM” */
 .ops-forecast-pill .label {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
+    line-height: 1;
 }
 
+/* Condizione meteo (Molto Nuvoloso, Foschia, ecc.) */
 .ops-forecast-pill .condition {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: black;
+    max-width: 90%;
+    line-height: 1.05;
+    text-wrap: balance; /* distribuisce bene su due righe */
 }
 
+/* Temperature in basso */
 .ops-forecast-pill .temp {
     font-size: 1rem;
     font-weight: 700;
+    margin-top: 0.2rem;
 }
 
 /* Mantieni lo spacing consistente */
