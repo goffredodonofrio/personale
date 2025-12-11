@@ -1,4 +1,4 @@
-console.log("🟣 meteo.js — versione autonoma");
+console.log("🟣 meteo.js — LCARS ICON EDITION");
 
 // Coordinate Torino
 const LAT = 45.0703;
@@ -39,85 +39,79 @@ function loadWeather() {
 
   fetch(url)
     .then(r => r.json())
-    .then(data => updateWeather(data))
+    .then(updateWeather)
     .catch(err => console.error("❌ Meteo fetch error", err));
 }
 
 // Trova ora più vicina
-function findClosestIndex(targetIso, timeArray) {
-  let best = -1;
-  let bestDiff = Infinity;
+function findClosestIndex(targetIso, arr) {
+  let best = 0;
+  let diff = Infinity;
   const t = new Date(targetIso).getTime();
-
-  timeArray.forEach((x, i) => {
-    const diff = Math.abs(new Date(x).getTime() - t);
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      best = i;
-    }
+  arr.forEach((x, i) => {
+    const d = Math.abs(new Date(x).getTime() - t);
+    if (d < diff) { diff = d; best = i; }
   });
-
   return best;
 }
 
 function updateWeather(data) {
+  if (!data.current_weather) return;
+
   const cw = data.current_weather;
-  const hourly = data.hourly;
-  const daily = data.daily;
 
-  if (!cw || !hourly || !daily) {
-    console.error("❌ Dati meteo incompleti", data);
-    return;
-  }
-
-  // Aggiorna meteo attuale
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
   document.getElementById("weather-wind").textContent =
     Math.round(cw.windspeed) + " km/h";
 
-  const idx = findClosestIndex(cw.time, hourly.time);
+  // HUMID + RAIN
+  const idx = findClosestIndex(cw.time, data.hourly.time);
 
   document.getElementById("weather-humidity").textContent =
-    hourly.relativehumidity_2m[idx] + "%";
+    data.hourly.relativehumidity_2m[idx] + "%";
 
   document.getElementById("weather-rain").textContent =
-    hourly.precipitation_probability[idx] + "%";
+    data.hourly.precipitation_probability[idx] + "%";
 
-  // PREVISIONI --------------------------------------------------
+  // === PREVISIONI Giorno 0–3 ===
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
   for (let i = 0; i < 4; i++) {
-    const date = new Date(daily.time[i]);
-
     const label =
       i === 0
         ? "OGGI"
-        : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+        : new Date(data.daily.time[i])
+            .toLocaleDateString("it-IT", { weekday: "short" })
+            .toUpperCase();
 
-    const code = daily.weathercode[i];
+    const code = data.daily.weathercode[i];
     const cond = WEATHER_TEXT[code] || "N/D";
     const icon = getIconClass(code);
 
-    const tmin = Math.round(daily.temperature_2m_min[i]);
-    const tmax = Math.round(daily.temperature_2m_max[i]);
+    const tmin = Math.round(data.daily.temperature_2m_min[i]);
+    const tmax = Math.round(data.daily.temperature_2m_max[i]);
 
-    // Crea la card complete
-    const card = `
-      <div class="ops-forecast-pill" style="font-size:0.9rem; text-align:center;">
-          <div class="forecast-icon ${icon}"></div>
-          <div>
-              <div class="label" style="font-weight:700">${label}</div>
-              <div class="condition" style="color:black; font-weight:700">${cond}</div>
+    // CARD COMPATIBILE LCARS
+    const html = `
+      <div class="ops-forecast-pill" style="display:flex; flex-direction:column; align-items:center; padding:0.8rem;">
+
+          <div class="forecast-icon ${icon}" style="font-size:2.4rem; margin-bottom:0.2rem;"></div>
+
+          <div style="text-align:center; line-height:1.1;">
+              <div style="font-weight:700;">${label}</div>
+              <div style="font-size:0.9rem; color:black; font-weight:700;">${cond}</div>
           </div>
-          <div class="temp" style="margin-top:0.3rem; font-weight:700;">
+
+          <div style="margin-top:0.35rem; font-size:0.95rem; font-weight:700;">
               ${tmin}° / ${tmax}°
           </div>
+
       </div>
     `;
 
-    grid.insertAdjacentHTML("beforeend", card);
+    grid.insertAdjacentHTML("beforeend", html);
   }
 }
