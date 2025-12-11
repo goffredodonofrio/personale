@@ -2973,42 +2973,7 @@ footer:has(.footer-frame) {
 	}
 }
 
-@-moz-document url-prefix() {
-
-	main {
-		padding-top: clamp(1rem, 4vw, 30px);
-	}
-
-	h1, h2, h3, h4, p {
-   	margin-block: 1.15rem;
-   }
-
-	  .imgf-title h4 {
-		margin-top: -4px;
-		margin-bottom: 0;
-	}
-
-   .postmeta {
-   	margin-top: .75rem;
-   }
-
-   .lcars-text-bar h2,
-   .lcars-text-bar h3,
-   .lcars-text-bar h4,
-   .lcars-text-bar span {
-      position: absolute;
-      top: -.7vh;
-   }
-
-   .lcars-list li::before {
-		top: .85rem;
-	}
-
-   .meta-data {
-   	height: 1.3rem;
-   	line-height: 1rem;
-   }
-	/* ===========================
+/* ===========================
    WEATHER ICONS — LCARS STYLE
    =========================== */
 
@@ -3060,4 +3025,40 @@ footer:has(.footer-frame) {
 .icon-snow::before {
     content: "❄️";
 }
+
+@-moz-document url-prefix() {
+
+	main {
+		padding-top: clamp(1rem, 4vw, 30px);
+	}
+
+	h1, h2, h3, h4, p {
+   	margin-block: 1.15rem;
+   }
+
+	  .imgf-title h4 {
+		margin-top: -4px;
+		margin-bottom: 0;
+	}
+
+   .postmeta {
+   	margin-top: .75rem;
+   }
+
+   .lcars-text-bar h2,
+   .lcars-text-bar h3,
+   .lcars-text-bar h4,
+   .lcars-text-bar span {
+      position: absolute;
+      top: -.7vh;
+   }
+
+   .lcars-list li::before {
+		top: .85rem;
+	}
+
+   .meta-data {
+   	height: 1.3rem;
+   	line-height: 1rem;
+   }
 }
