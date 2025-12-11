@@ -2978,11 +2978,12 @@ footer:has(.footer-frame) {
    =========================== */
 
 .forecast-icon {
-    font-size: 2.4rem;        /* grandezza icona */
+    font-size: 3rem;
     line-height: 1;
     display: block;
-    margin: 0 auto 0.4rem auto;
+    margin: 0.5rem auto;
     text-align: center;
+    -webkit-text-stroke: 2px black; /* bordo nero */
 }
 
 /* SOLE */
