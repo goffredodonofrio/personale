@@ -2973,17 +2973,51 @@ footer:has(.footer-frame) {
 	}
 }
 
-/* ===========================
+@-moz-document url-prefix() {
+
+	main {
+		padding-top: clamp(1rem, 4vw, 30px);
+	}
+
+	h1, h2, h3, h4, p {
+   	margin-block: 1.15rem;
+   }
+
+	  .imgf-title h4 {
+		margin-top: -4px;
+		margin-bottom: 0;
+	}
+
+   .postmeta {
+   	margin-top: .75rem;
+   }
+
+   .lcars-text-bar h2,
+   .lcars-text-bar h3,
+   .lcars-text-bar h4,
+   .lcars-text-bar span {
+      position: absolute;
+      top: -.7vh;
+   }
+
+   .lcars-list li::before {
+		top: .85rem;
+	}
+
+   .meta-data {
+   	height: 1.3rem;
+   	line-height: 1rem;
+   }
+	/* ===========================
    WEATHER ICONS — LCARS STYLE
    =========================== */
 
 .forecast-icon {
-    font-size: 3rem;
+    font-size: 2.4rem;        /* grandezza icona */
     line-height: 1;
     display: block;
-    margin: 0.5rem auto;
+    margin: 0 auto 0.4rem auto;
     text-align: center;
-    -webkit-text-stroke: 2px black; /* bordo nero */
 }
 
 /* SOLE */
@@ -3026,91 +3060,4 @@ footer:has(.footer-frame) {
 .icon-snow::before {
     content: "❄️";
 }
-
-@-moz-document url-prefix() {
-
-	main {
-		padding-top: clamp(1rem, 4vw, 30px);
-	}
-
-	h1, h2, h3, h4, p {
-   	margin-block: 1.15rem;
-   }
-
-	  .imgf-title h4 {
-		margin-top: -4px;
-		margin-bottom: 0;
-	}
-
-   .postmeta {
-   	margin-top: .75rem;
-   }
-
-   .lcars-text-bar h2,
-   .lcars-text-bar h3,
-   .lcars-text-bar h4,
-   .lcars-text-bar span {
-      position: absolute;
-      top: -.7vh;
-   }
-
-   .lcars-list li::before {
-		top: .85rem;
-	}
-
-   .meta-data {
-   	height: 1.3rem;
-   	line-height: 1rem;
-   }
-/* =========================================================
-   LCARS WEATHER — SCIENCE OPS STYLE
-   ========================================================= */
-.ops-forecast-pill {
-    width: 180px;
-    height: 160px; /* più basso → ellisse */
-    padding: 1rem 0.5rem;
-    
-    background: #7FBFFF;
-    border: 2px solid #0A0A0A;
-
-    border-radius: 60px; /* da ovale → ellisse più elegante */
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-    text-align: center;
-    gap: 0.2rem;
-}
-
-/* intestazione (OGGI, VEN ecc.) */
-.ops-forecast-pill .label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 1px;
-}
-
-/* icone NON emoji — stile sensore */
-.forecast-icon {
-    font-size: 2.6rem;
-    line-height: 1;
-    margin: 0.3rem 0;
-    -webkit-text-stroke: 2px black;
-}
-
-/* condizione */
-.ops-forecast-pill .condition {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #0A0A0A;
-    text-transform: uppercase;
-}
-
-/* temperature */
-.ops-forecast-pill .temp {
-    font-size: 1rem;
-    font-weight: 700;
-    color: white;
 }
