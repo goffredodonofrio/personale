@@ -1,10 +1,10 @@
-console.log("🟣 meteo.js — LCARS ICON EDITION");
+console.log("🟣 meteo.js — LCARS ICON EDITION FIXED");
 
 // Coordinate Torino
 const LAT = 45.0703;
 const LON = 7.6869;
 
-// Testi meteo
+// Testi meteo leggibili
 const WEATHER_TEXT = {
   0: "Sereno", 1: "Sereno",
   2: "Parz. Nuvoloso", 3: "Molto nuvoloso",
@@ -16,20 +16,55 @@ const WEATHER_TEXT = {
   95: "Temporale", 96: "Temporale", 99: "Temporale"
 };
 
-// Mappa codice → classe icona
-function getIconClass(code) {
-  if ([0, 1].includes(code)) return "icon-sun";
-  if ([45, 48].includes(code)) return "icon-fog";
-  if ([2, 3].includes(code)) return "icon-cloud";
-  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "icon-rain";
-  if ([71, 73, 75].includes(code)) return "icon-snow";
-  if ([95, 96, 99].includes(code)) return "icon-storm";
-  return "icon-cloud";
+/* -----------------------------------------------------
+   SVG ICONS — totalmente inline, indipendenti dal CSS
+------------------------------------------------------ */
+function iconSVG(code) {
+  if ([0,1].includes(code))
+    return `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="14" fill="white" stroke="black" stroke-width="3"/></svg>`;
+
+  if ([2,3].includes(code))
+    return `<svg viewBox="0 0 64 64">
+        <ellipse cx="32" cy="38" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
+        <ellipse cx="22" cy="36" rx="14" ry="10" fill="white" stroke="black" stroke-width="3"/>
+    </svg>`;
+
+  if ([45,48].includes(code))
+    return `<svg viewBox="0 0 64 64">
+        <rect x="10" y="24" width="44" height="6" fill="white" stroke="black" stroke-width="2"/>
+        <rect x="14" y="34" width="36" height="6" fill="white" stroke="black" stroke-width="2"/>
+        <rect x="10" y="44" width="44" height="6" fill="white" stroke="black" stroke-width="2"/>
+    </svg>`;
+
+  if ([51,53,55,61,63,65,80,81,82].includes(code))
+    return `<svg viewBox="0 0 64 64">
+        <ellipse cx="32" cy="28" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
+        <line x1="20" y1="44" x2="16" y2="56" stroke="black" stroke-width="3"/>
+        <line x1="32" y1="44" x2="28" y2="56" stroke="black" stroke-width="3"/>
+        <line x1="44" y1="44" x2="40" y2="56" stroke="black" stroke-width="3"/>
+    </svg>`;
+
+  if ([71,73,75].includes(code))
+    return `<svg viewBox="0 0 64 64">
+        <ellipse cx="32" cy="28" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
+        <text x="32" y="52" font-size="22" text-anchor="middle" fill="white" stroke="black" stroke-width="2">*</text>
+    </svg>`;
+
+  if ([95,96,99].includes(code))
+    return `<svg viewBox="0 0 64 64">
+        <ellipse cx="32" cy="26" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
+        <polygon points="28,40 40,40 32,58" fill="yellow" stroke="black" stroke-width="3"/>
+    </svg>`;
+
+  return "";
 }
+
+/* --------------------------- */
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
 function loadWeather() {
+
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
     `&current_weather=true&forecast_days=5` +
@@ -37,88 +72,89 @@ function loadWeather() {
     `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
     `&timezone=Europe%2FRome`;
 
+  console.log("🌐 Fetch meteo →", url);
+
   fetch(url)
     .then(r => r.json())
     .then(updateWeather)
     .catch(err => console.error("❌ Meteo fetch error", err));
 }
 
-// Trova ora più vicina
+/* Trova valore hourly più vicino all’ora corrente */
 function findClosestIndex(targetIso, arr) {
   let best = 0;
-  let diff = Infinity;
-  const t = new Date(targetIso).getTime();
+  let min = Infinity;
+  const target = new Date(targetIso).getTime();
+
   arr.forEach((x, i) => {
-    const d = Math.abs(new Date(x).getTime() - t);
-    if (d < diff) { diff = d; best = i; }
+    const d = Math.abs(new Date(x).getTime() - target);
+    if (d < min) { min = d; best = i; }
   });
+
   return best;
 }
 
 function updateWeather(data) {
-  if (!data.current_weather) return;
+
+  if (!data.current_weather || !data.daily) {
+    console.error("❌ Dati meteo incompleti", data);
+    return;
+  }
+
+  console.log("✅ Meteo ricevuto", data);
 
   const cw = data.current_weather;
 
+  // METRICHE ATTUALI
   document.getElementById("weather-temp").textContent =
-    Math.round(cw.temperature) + "°C";
+    `${Math.round(cw.temperature)}°C`;
 
   document.getElementById("weather-wind").textContent =
-    Math.round(cw.windspeed) + " km/h";
+    `${Math.round(cw.windspeed)} km/h`;
 
-  // HUMID + RAIN
   const idx = findClosestIndex(cw.time, data.hourly.time);
 
   document.getElementById("weather-humidity").textContent =
-    data.hourly.relativehumidity_2m[idx] + "%";
+    `${data.hourly.relativehumidity_2m[idx]}%`;
 
   document.getElementById("weather-rain").textContent =
-    data.hourly.precipitation_probability[idx] + "%";
+    `${data.hourly.precipitation_probability[idx]}%`;
 
- // === PREVISIONI 4 GIORNI ===
-const grid = document.getElementById("forecast-grid");
-grid.innerHTML = "";
+  // PREVISIONI
+  const grid = document.getElementById("forecast-grid");
+  grid.innerHTML = "";
 
-for (let i = 0; i < 4; i++) {
-  const date = new Date(data.daily.time[i]);
+  for (let i = 0; i < 4; i++) {
 
-  const label =
-    i === 0
+    const date = new Date(data.daily.time[i]);
+    const code = data.daily.weathercode[i];
+    const cond = WEATHER_TEXT[code] || "N/D";
+
+    const label = (i === 0)
       ? "OGGI"
-      : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+      : date.toLocaleDateString("it-IT", { weekday:"short" }).toUpperCase();
 
-  const code = data.daily.weathercode[i];
-  const cond = WEATHER_TEXT[code] || "N/D";
-  const icon = getIconClass(code);
+    const tmin = Math.round(data.daily.temperature_2m_min[i]);
+    const tmax = Math.round(data.daily.temperature_2m_max[i]);
 
-  const tmin = Math.round(data.daily.temperature_2m_min[i]);
-  const tmax = Math.round(data.daily.temperature_2m_max[i]);
+    const card = `
+      <div class="ops-forecast-pill" style="
+          display:flex; flex-direction:column;
+          align-items:center; text-align:center;
+          padding:1rem 0.5rem; gap:0.3rem;">
+          
+          <div style="font-weight:700; font-size:1.1rem;">${label}</div>
 
-  const html = `
-    <div class="ops-forecast-pill"
-         style="display:flex; flex-direction:column; align-items:center;
-                padding:1rem 0.7rem; text-align:center; gap:0.3rem;">
+          <div class="forecast-icon" style="width:60px; height:60px;">
+              ${iconSVG(code)}
+          </div>
 
-        <!-- LABEL -->
-        <div style="font-weight:700; font-size:1.1rem;">
-            ${label}
-        </div>
+          <div style="font-weight:700; color:black;">${cond}</div>
+          <div style="font-weight:700;">${tmin}° / ${tmax}°</div>
 
-        <!-- ICONA -->
-        <div class="forecast-icon ${icon}"></div>
+      </div>
+    `;
 
-        <!-- CONDIZIONE -->
-        <div style="font-size:1rem; font-weight:700; color:black;">
-            ${cond}
-        </div>
-
-        <!-- TEMPERATURE -->
-        <div style="font-size:1rem; font-weight:700;">
-            ${tmin}° / ${tmax}°
-        </div>
-
-    </div>
-  `;
-
-  grid.insertAdjacentHTML("beforeend", html);
+    grid.insertAdjacentHTML("beforeend", card);
+  }
 }
