@@ -1,103 +1,100 @@
-console.log("🟦 LCARS CALENDAR — ICS EDITION");
+console.log("🗓 calendar.js CARICATO");
 
-document.addEventListener("DOMContentLoaded", loadICSEvents);
+// URL ICS
+const ICS_URL =
+  "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics";
 
-const ICS_URL = "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics";
+// Proxy per evitare problemi CORS
+const PROXY = "https://corsproxy.io/?";
+
+// Contenitore HTML
+const eventsRow = document.getElementById("events-row");
 
 // ===============================
-// 1) SCARICA L'ICS
+//  FETCH + PARSE ICS
 // ===============================
-async function loadICSEvents() {
+async function loadCalendar() {
   try {
-    const res = await fetch(ICS_URL);
+    console.log("📡 Fetch ICS…");
+
+    const res = await fetch(PROXY + ICS_URL);
     const text = await res.text();
+
     const events = parseICS(text);
 
-    renderEvents(events);
-  } catch (e) {
-    console.error("❌ Errore caricamento ICS", e);
+    console.log("🟢 Eventi trovati:", events.length);
+
+    renderEvents(events.slice(0, 6)); // primi 6 eventi
+
+  } catch (err) {
+    console.error("❌ ERRORE CALENDARIO:", err);
   }
 }
 
+document.addEventListener("DOMContentLoaded", loadCalendar);
+
 // ===============================
-// 2) PARSER ICS SEMPLIFICATO
+//  PARSER ICS super leggero
 // ===============================
-function parseICS(text) {
-  const lines = text.split(/\r?\n/);
+function parseICS(icsText) {
   const events = [];
+  const blocks = icsText.split("BEGIN:VEVENT");
 
-  let current = null;
+  blocks.forEach(block => {
+    if (!block.includes("DTSTART")) return;
 
-  lines.forEach(l => {
-    if (l.startsWith("BEGIN:VEVENT")) {
-      current = {};
-    } else if (l.startsWith("END:VEVENT")) {
-      if (current) events.push(current);
-      current = null;
-    } else if (current) {
-      if (l.startsWith("DTSTART")) current.start = extractDate(l);
-      if (l.startsWith("DTEND")) current.end = extractDate(l);
-      if (l.startsWith("SUMMARY")) current.title = l.replace("SUMMARY:", "").trim();
-    }
+    const start = extract(block, "DTSTART");
+    const end = extract(block, "DTEND");
+    const summary = extract(block, "SUMMARY");
+
+    if (!start) return;
+
+    events.push({
+      start: parseDate(start),
+      end: parseDate(end),
+      title: summary || "Senza titolo"
+    });
   });
 
-  return events
-    .filter(ev => ev.start)
-    .sort((a, b) => a.start - b.start)
-    .slice(0, 6); // Mostriamo i prossimi 6 eventi
+  return events.sort((a, b) => a.start - b.start);
 }
 
-// Converte "20250112T140000Z" in oggetto Date locale
-function extractDate(line) {
-  const raw = line.split(":")[1];
-  // Gestiamo timezone Z (UTC)
-  if (raw.endsWith("Z")) {
+function extract(str, key) {
+  const line = str.split("\n").find(x => x.startsWith(key));
+  if (!line) return null;
+  return line.split(":")[1].trim();
+}
+
+function parseDate(raw) {
+  // Formati ICS: 20250101T140000Z o 20250101
+  if (raw.includes("T")) {
     return new Date(raw);
+  } else {
+    return new Date(raw.substring(0, 4), raw.substring(4, 6) - 1, raw.substring(6, 8));
   }
-  return new Date(raw);
 }
 
 // ===============================
-// 3) RENDER LCARS EVENT PILLS
+//  RENDER in stile LCARS OPS
 // ===============================
 function renderEvents(events) {
-  const container = document.getElementById("events-row");
-  if (!container) return;
-
-  container.innerHTML = "";
+  eventsRow.innerHTML = "";
 
   events.forEach(ev => {
-    const start = ev.start;
-    const dayLabel = start.toLocaleDateString("it-IT", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short"
-    }).replace(".", "");
+    const d = ev.start;
 
-    const time = start.toLocaleTimeString("it-IT", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+    const day = d.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const date = d.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit" });
+    const time = d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
 
-    container.insertAdjacentHTML(
-      "beforeend",
-      `
+    const html = `
       <div class="ops-event-pill">
-
-          <div class="ops-event-header">
-            ${dayLabel} • ${time}
-          </div>
-
-          <div class="ops-event-title">
-            ${ev.title}
-          </div>
-
-          <div class="ops-event-footer">
-            ${ev.end ? "fino alle " + ev.end.toLocaleTimeString("it-IT", {hour:"2-digit", minute:"2-digit"}) : ""}
-          </div>
-
+        <div class="ops-event-header">${day} // ${date}</div>
+        <div class="ops-event-title">${ev.title}</div>
+        <div class="ops-event-footer">${time}</div>
       </div>
-      `
-    );
+    `;
+
+    eventsRow.insertAdjacentHTML("beforeend", html);
   });
 }
