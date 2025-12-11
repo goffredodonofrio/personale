@@ -1,14 +1,16 @@
-console.log("🟣 meteo.js — FIX definitivo");
+console.log("🟣 meteo.js — LOADED OK");
 
-// Coordinate Torino
+// ===============================
+//   CONFIGURAZIONE METEO
+// ===============================
 const LAT = 45.0703;
 const LON = 7.6869;
 
-// Dizionario condizioni meteo → testo leggibile
+// Mappa codice meteo → testo leggibile
 const WEATHER_TEXT = {
   0: "Sereno",
   1: "Sereno",
-  2: "Parz. nuvoloso",
+  2: "Parzialmente nuvoloso",
   3: "Molto nuvoloso",
   45: "Foschia",
   48: "Foschia ghiacciata",
@@ -29,7 +31,7 @@ const WEATHER_TEXT = {
   99: "Temporale forte",
 };
 
-// Mappa codice → classe icona
+// Mappa codice meteo → classe icona
 function getIconClass(code) {
   if ([0, 1].includes(code)) return "icon-sun";
   if ([2].includes(code)) return "icon-partly";
@@ -43,6 +45,9 @@ function getIconClass(code) {
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
+// ===============================
+//   FETCH METEO
+// ===============================
 function loadWeather() {
   const url =
     `https://api.open-meteo.com/v1/forecast` +
@@ -54,41 +59,42 @@ function loadWeather() {
     `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
     `&timezone=Europe%2FRome`;
 
-  console.log("🌍 METEO — URL:", url);
+  console.log("🌍 METEO FETCH URL:", url);
 
   fetch(url)
     .then(r => r.json())
     .then(data => {
-      console.log("🟢 METEO DATI:", data);
+      console.log("🟢 DATI METEO ARRIVATI:", data);
       updateWeather(data);
     })
-    .catch(err => {
-      console.error("❌ Meteo fetch error:", err);
-      alert("Errore nel meteo: " + err);
-    });
+    .catch(err => console.error("❌ Errore fetch meteo:", err));
 }
 
-// Trova il record orario più vicino all’orario del meteo attuale
+// ===============================
+//   TROVA ORA PIÙ VICINA
+// ===============================
 function findClosestIndex(targetIso, arr) {
   let best = -1;
-  let bestDiff = Infinity;
-  const t = new Date(targetIso).getTime();
+  let minDiff = Infinity;
+  const target = new Date(targetIso).getTime();
 
-  arr.forEach((x, i) => {
-    const diff = Math.abs(new Date(x).getTime() - t);
-    if (diff < bestDiff) {
-      bestDiff = diff;
+  arr.forEach((t, i) => {
+    const diff = Math.abs(new Date(t).getTime() - target);
+    if (diff < minDiff) {
+      minDiff = diff;
       best = i;
     }
   });
+
   return best;
 }
 
-// ---------------------------
-//   UPDATE METEO COMPLETO
-// ---------------------------
-
+// ===============================
+//   UPDATE METEO + PREVISIONI
+// ===============================
 function updateWeather(data) {
+  console.log("🔧 updateWeather() avviato");
+
   const cw = data.current_weather;
   const hourly = data.hourly;
   const daily = data.daily;
@@ -98,7 +104,9 @@ function updateWeather(data) {
     return;
   }
 
-  // METEO ATTUALE --------------------
+  // ---------------------------
+  //   METEO ATTUALE
+  // ---------------------------
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
@@ -113,7 +121,9 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent =
     hourly.precipitation_probability[idx] + "%";
 
-  // PREVISIONI -----------------------
+  // ---------------------------
+  //   PREVISIONI 4 GIORNI
+  // ---------------------------
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
@@ -130,23 +140,18 @@ function updateWeather(data) {
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     const card = `
-      <div class="ops-forecast-pill" style="text-align:center;">
+      <div class="ops-forecast-pill" style="text-align:center; padding-top:0.8rem;">
           <div class="forecast-icon ${icon}"></div>
-
-          <div class="label" style="font-weight:700; margin-top:4px;">
-              ${label}
-          </div>
-
-          <div class="condition" style="color:black; font-weight:700;">
-              ${cond}
-          </div>
-
-          <div class="temp" style="margin-top:4px; font-weight:700;">
-              ${tmin}° / ${tmax}°
+          <div class="label" style="font-weight:700;">${label}</div>
+          <div class="condition" style="color:black; font-weight:700; margin-top:0.2rem;">${cond}</div>
+          <div class="temp" style="margin-top:0.3rem; font-weight:700;">
+            ${tmin}° / ${tmax}°
           </div>
       </div>
     `;
 
     grid.insertAdjacentHTML("beforeend", card);
   }
+
+  console.log("✅ updateWeather() completato");
 }
