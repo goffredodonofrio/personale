@@ -1,97 +1,95 @@
-console.log("🗓 calendar.js CARICATO");
+console.log("📅 calendar.js — LCARS OPS Calendar LOADED");
 
-// URL ICS
+// 👉 URL ICS PRIVATO
 const ICS_URL =
-  "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics";
+  "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/private-a9d9527ea97ec363e19fd6fe54298e6f/basic.ics";
 
-// Proxy per evitare problemi CORS
-const PROXY = "https://corsproxy.io/?";
-
-// Contenitore HTML
+// Contenitore pillole
 const eventsRow = document.getElementById("events-row");
-
-// ===============================
-//  FETCH + PARSE ICS
-// ===============================
-async function loadCalendar() {
-  try {
-    console.log("📡 Fetch ICS…");
-
-    const res = await fetch(PROXY + ICS_URL);
-    const text = await res.text();
-
-    const events = parseICS(text);
-
-    console.log("🟢 Eventi trovati:", events.length);
-
-    renderEvents(events.slice(0, 6)); // primi 6 eventi
-
-  } catch (err) {
-    console.error("❌ ERRORE CALENDARIO:", err);
-  }
-}
 
 document.addEventListener("DOMContentLoaded", loadCalendar);
 
-// ===============================
-//  PARSER ICS super leggero
-// ===============================
-function parseICS(icsText) {
-  const events = [];
-  const blocks = icsText.split("BEGIN:VEVENT");
+async function loadCalendar() {
+  try {
+    console.log("📡 Fetching ICS:", ICS_URL);
 
-  blocks.forEach(block => {
-    if (!block.includes("DTSTART")) return;
+    const response = await fetch(ICS_URL);
+    if (!response.ok) throw new Error("Errore fetch ICS: " + response.status);
 
-    const start = extract(block, "DTSTART");
-    const end = extract(block, "DTEND");
-    const summary = extract(block, "SUMMARY");
+    const text = await response.text();
+    const events = parseICS(text);
 
-    if (!start) return;
+    console.log("📅 Eventi trovati:", events);
 
-    events.push({
-      start: parseDate(start),
-      end: parseDate(end),
-      title: summary || "Senza titolo"
-    });
-  });
-
-  return events.sort((a, b) => a.start - b.start);
-}
-
-function extract(str, key) {
-  const line = str.split("\n").find(x => x.startsWith(key));
-  if (!line) return null;
-  return line.split(":")[1].trim();
-}
-
-function parseDate(raw) {
-  // Formati ICS: 20250101T140000Z o 20250101
-  if (raw.includes("T")) {
-    return new Date(raw);
-  } else {
-    return new Date(raw.substring(0, 4), raw.substring(4, 6) - 1, raw.substring(6, 8));
+    renderEvents(events.slice(0, 6)); // Mostriamo max 6 eventi per scorrimento
+  } catch (err) {
+    console.error("❌ Errore caricamento calendario:", err);
   }
 }
 
-// ===============================
-//  RENDER in stile LCARS OPS
-// ===============================
+/* ============================================================
+   PARSER ICS MINIMALE — Estrae SUMMARY, DTSTART, DTEND
+   ============================================================ */
+function parseICS(ics) {
+  const lines = ics.split(/\r?\n/);
+  const events = [];
+  let current = null;
+
+  for (let line of lines) {
+    if (line.startsWith("BEGIN:VEVENT")) {
+      current = {};
+    } else if (line.startsWith("END:VEVENT")) {
+      if (current) events.push(current);
+      current = null;
+    } else if (current) {
+      if (line.startsWith("SUMMARY:")) {
+        current.summary = line.replace("SUMMARY:", "").trim();
+      }
+      if (line.startsWith("DTSTART")) {
+        current.start = parseICSDate(line);
+      }
+      if (line.startsWith("DTEND")) {
+        current.end = parseICSDate(line);
+      }
+    }
+  }
+
+  // Ordina per data
+  return events
+    .filter(e => e.start)
+    .sort((a, b) => a.start - b.start);
+}
+
+/* Converte date ICS (es: 20251218T130000Z) */
+function parseICSDate(line) {
+  const parts = line.split(":");
+  if (parts.length < 2) return null;
+  const raw = parts[1].trim();
+  return raw.endsWith("Z") ? new Date(raw) : new Date(raw + "Z");
+}
+
+/* ============================================================
+   RENDER — Crea pillole stile OPS
+   ============================================================ */
 function renderEvents(events) {
-  eventsRow.innerHTML = "";
+  eventsRow.innerHTML = ""; // Pulisce
 
   events.forEach(ev => {
     const d = ev.start;
+    const day = d.toLocaleDateString("it-IT", {
+      weekday: "short",
+      day: "2-digit",
+      month: "2-digit"
+    });
 
-    const day = d.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
-    const date = d.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit" });
-    const time = d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+    const time =
+      d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }) + "";
 
     const html = `
       <div class="ops-event-pill">
-        <div class="ops-event-header">${day} // ${date}</div>
-        <div class="ops-event-title">${ev.title}</div>
-        <div class="ops-event-footer">${time}</div>
+          <div class="ops-event-header">${day}</div>
+          <div class="ops-event-title">${ev.summary}</div>
+          <div class="ops-event-footer">${time}</div>
       </div>
     `;
 
