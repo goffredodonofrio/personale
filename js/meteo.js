@@ -132,7 +132,7 @@ function updateWeather(data) {
 
     const label = (i === 0)
       ? "OGGI"
-      : date.toLocaleDateString("it-IT", { weekday:"short" }).toUpperCase();
+      : label = date.toLocaleDateString("it-IT", { weekday:"long" }).toUpperCase();
 
     const tmin = Math.round(data.daily.temperature_2m_min[i]);
     const tmax = Math.round(data.daily.temperature_2m_max[i]);
