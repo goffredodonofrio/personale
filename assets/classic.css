@@ -3008,4 +3008,56 @@ footer:has(.footer-frame) {
    	height: 1.3rem;
    	line-height: 1rem;
    }
+	/* ===========================
+   WEATHER ICONS — LCARS STYLE
+   =========================== */
+
+.forecast-icon {
+    font-size: 2.4rem;        /* grandezza icona */
+    line-height: 1;
+    display: block;
+    margin: 0 auto 0.4rem auto;
+    text-align: center;
+}
+
+/* SOLE */
+.icon-sun::before {
+    content: "☀️";
+}
+
+/* PARZIALMENTE NUVOLOSO */
+.icon-partly::before {
+    content: "⛅";
+}
+
+/* NUVOLOSO */
+.icon-cloud::before {
+    content: "☁️";
+}
+
+/* MOLTO NUVOLOSO */
+.icon-overcast::before {
+    content: "☁️";
+    opacity: 0.7;
+}
+
+/* FOSCHIA */
+.icon-fog::before {
+    content: "🌫️";
+}
+
+/* PIOGGIA */
+.icon-rain::before {
+    content: "🌧️";
+}
+
+/* TEMPORALE */
+.icon-storm::before {
+    content: "⛈️";
+}
+
+/* NEVE */
+.icon-snow::before {
+    content: "❄️";
+}
 }
