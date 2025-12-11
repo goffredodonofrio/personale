@@ -241,6 +241,60 @@
             font-size: 0.9rem;
         }
     }
+        /* ================================
+   LCARS OPS — EVENT CARDS (Style B)
+   ================================ */
+
+.ops-events-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: .5rem;
+}
+
+.ops-event-pill {
+    width: 180px;
+    height: 170px;
+    background: var(--ld-blue-dark);
+    border: 3px solid var(--ld-blue-line);
+    border-radius: 32px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 14px rgba(0,0,0,0.4);
+}
+
+/* barra superiore stile LCARS OPS */
+.ops-event-header {
+    background: var(--ld-blue-line);
+    color: black;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: .9rem;
+    text-align: center;
+}
+
+/* titolo evento */
+.ops-event-title {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* barra inferiore opzionale */
+.ops-event-footer {
+    font-size: 0.85rem;
+    text-align: center;
+    opacity: 0.75;
+}
     </style>
 </head>
 
@@ -464,10 +518,8 @@
     <!-- PREVISIONI -->
     <div id="forecast-grid" class="ops-forecast-row"></div>
  </div>
-                        <!-- SOTTO: PIANTINA ROC CIAMELONE -->
-                        <div class="lcars-image-block">
-                            <img src="assets/piantina_6.jpg" alt="Piantina Rocciamelone">
-                        </div>
+                       <!-- CALENDARIO EVENTI - LCARS OPS -->
+<div class="ops-events-row" id="events-row"></div>
 
                     <div class="bar-panel" style="margin-top:2rem;">
                         <div class="bar-6"></div><div class="bar-7"></div>
@@ -507,6 +559,8 @@
     <script src="assets/lcars.js"></script>
     <!-- SCRIPT METEO -->
     <script src="assets/meteo.js"></script>
+    <!-- SCRIPT CALENDARIO -->
+    <script src="assets/calendar.js"></script>
 
     <!-- OROLOGIO + STARDATE + DAY PHASE -->
     <script>
