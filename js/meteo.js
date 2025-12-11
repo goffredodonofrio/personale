@@ -149,7 +149,15 @@ function updateWeather(data) {
     const cardHTML = `
       <div class="ops-forecast-pill">
         <div class="label">${label}</div>
-        <div class="forecast-icon">${svg}</div>
+        <<div class="forecast-icon" style="
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    display: block;
+    overflow: visible;
+">
+    ${icon}
+</div>
         <div class="condition">${cond.toUpperCase()}</div>
         <div class="temp">${tmin}° / ${tmax}°</div>
       </div>
