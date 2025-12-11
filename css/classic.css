@@ -150,6 +150,51 @@
   display: block !important;
 }
 
+/* Pillole meteo uniformate */
+.ops-forecast-pill {
+    width: 150px;          /* larghezza fissa */
+    height: 180px;         /* altezza fissa */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1.2rem 0.5rem;
+    border-radius: 999px;
+    background: var(--ld-blue-main);
+    border: 2px solid var(--ld-blue-line);
+    text-align: center;
+}
+
+/* Contenuto interno ben centrato */
+.ops-forecast-pill .forecast-icon svg {
+    width: 55px;
+    height: 55px;
+}
+
+/* Etichette */
+.ops-forecast-pill .label {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.ops-forecast-pill .condition {
+    font-size: 1rem;
+    font-weight: 700;
+    color: black;
+}
+
+.ops-forecast-pill .temp {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Mantieni lo spacing consistente */
+.ops-forecast-row {
+    display: flex;
+    gap: 1.2rem;
+}
+
 @media (max-width: 1500px) {
 	:root {
 		--lfw: 200px;
