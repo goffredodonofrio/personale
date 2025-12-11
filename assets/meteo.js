@@ -75,43 +75,50 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent =
     data.hourly.precipitation_probability[idx] + "%";
 
-  // === PREVISIONI Giorno 0–3 ===
-  const grid = document.getElementById("forecast-grid");
-  grid.innerHTML = "";
+  // === PREVISIONI 4 GIORNI ===
+const grid = document.getElementById("forecast-grid");
+grid.innerHTML = "";
 
-  for (let i = 0; i < 4; i++) {
-    const label =
-      i === 0
-        ? "OGGI"
-        : new Date(data.daily.time[i])
-            .toLocaleDateString("it-IT", { weekday: "short" })
-            .toUpperCase();
+for (let i = 0; i < 4; i++) {
+  const date = new Date(data.daily.time[i]);
 
-    const code = data.daily.weathercode[i];
-    const cond = WEATHER_TEXT[code] || "N/D";
-    const icon = getIconClass(code);
+  const label =
+    i === 0
+      ? "OGGI"
+      : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
-    const tmin = Math.round(data.daily.temperature_2m_min[i]);
-    const tmax = Math.round(data.daily.temperature_2m_max[i]);
+  const code = data.daily.weathercode[i];
+  const cond = WEATHER_TEXT[code] || "N/D";
+  const icon = getIconClass(code);
 
-    // CARD COMPATIBILE LCARS
-    const html = `
-      <div class="ops-forecast-pill" style="display:flex; flex-direction:column; align-items:center; padding:0.8rem;">
+  const tmin = Math.round(data.daily.temperature_2m_min[i]);
+  const tmax = Math.round(data.daily.temperature_2m_max[i]);
 
-          <div class="forecast-icon ${icon}" style="font-size:2.4rem; margin-bottom:0.2rem;"></div>
+  const html = `
+    <div class="ops-forecast-pill"
+         style="display:flex; flex-direction:column; align-items:center;
+                padding:1rem 0.7rem; text-align:center; gap:0.3rem;">
 
-          <div style="text-align:center; line-height:1.1;">
-              <div style="font-weight:700;">${label}</div>
-              <div style="font-size:0.9rem; color:black; font-weight:700;">${cond}</div>
-          </div>
+        <!-- LABEL -->
+        <div style="font-weight:700; font-size:1.1rem;">
+            ${label}
+        </div>
 
-          <div style="margin-top:0.35rem; font-size:0.95rem; font-weight:700;">
-              ${tmin}° / ${tmax}°
-          </div>
+        <!-- ICONA -->
+        <div class="forecast-icon ${icon}"></div>
 
-      </div>
-    `;
+        <!-- CONDIZIONE -->
+        <div style="font-size:1rem; font-weight:700; color:black;">
+            ${cond}
+        </div>
 
-    grid.insertAdjacentHTML("beforeend", html);
-  }
+        <!-- TEMPERATURE -->
+        <div style="font-size:1rem; font-weight:700;">
+            ${tmin}° / ${tmax}°
+        </div>
+
+    </div>
+  `;
+
+  grid.insertAdjacentHTML("beforeend", html);
 }
