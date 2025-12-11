@@ -3062,54 +3062,51 @@ footer:has(.footer-frame) {
    	height: 1.3rem;
    	line-height: 1rem;
    }
-	/* ===========================
-   WEATHER FORECAST — VERTICAL CLEAN UI
-   =========================== */
+/* =========================================================
+   LCARS WEATHER — SCIENCE OPS STYLE
+   ========================================================= */
 
 .ops-forecast-pill {
     width: 160px;
-    min-height: 180px;
-    border-radius: 40px;
-    background: #89f; /* blu LCARS */
-    padding: 1rem 0.5rem;
+    padding: 0.8rem 0.5rem 1rem;
+    background: #7FBFFF; /* blu LCARS scientifico */
+    border-radius: 25px;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
+    border: 2px solid #0A0A0A; /* leggero contorno */
 }
 
-/* Label "OGGI", "VEN", ecc. */
+/* intestazione (OGGI, VEN ecc.) */
 .ops-forecast-pill .label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    color: white;
+    color: #ffffff;
     letter-spacing: 1px;
 }
 
-/* Icona meteo */
-.ops-forecast-pill .forecast-icon {
-    font-size: 3.5rem;
-    line-height: 1;
-    margin: 0.2rem 0;
-    -webkit-text-stroke: 2px black;
+/* icone NON emoji — stile sensore */
+.forecast-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke: #0A0A0A;
+    stroke-width: 2;
+    fill: white;
+    margin: 0.3rem auto;
 }
 
-/* Condizione ("Molto nuvoloso") */
+/* condizione */
 .ops-forecast-pill .condition {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: black;
+    color: #0A0A0A;
     text-transform: uppercase;
-    line-height: 1.1;
 }
 
-/* Temperature */
+/* temperature */
 .ops-forecast-pill .temp {
     font-size: 1rem;
     font-weight: 700;
     color: white;
-    margin-top: 0.4rem;
-}
 }
