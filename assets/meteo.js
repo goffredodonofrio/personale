@@ -1,41 +1,22 @@
-console.log("🟣 meteo.js CORRETTO — icone + font ridotto");
+console.log("🟣 meteo.js — versione autonoma");
 
-/***************************************************
- *   METEO CONFIG
- ***************************************************/
+// Coordinate Torino
 const LAT = 45.0703;
 const LON = 7.6869;
 
-document.addEventListener("DOMContentLoaded", loadWeather);
-
-/* TESTI METEO */
+// Testi meteo
 const WEATHER_TEXT = {
-  0: "SERENO",
-  1: "SERENO",
-  2: "PARZ. NUVOLOSO",
-  3: "MOLTO NUVOLOSO",
-  45: "FOSCHIA",
-  48: "FOSCHIA",
-  51: "PIOVIGGINE",
-  53: "PIOVIGGINE",
-  55: "PIOVIGGINE FORTE",
-  61: "PIOGGIA",
-  63: "PIOGGIA",
-  65: "PIOGGIA FORTE",
-  71: "NEVE",
-  73: "NEVE",
-  75: "NEVE FORTE",
-  80: "ROVESCI",
-  81: "ROVESCI",
-  82: "ROVESCI FORTI",
-  95: "TEMPORALE",
-  96: "TEMPORALE",
-  99: "TEMPORALE"
+  0: "Sereno", 1: "Sereno",
+  2: "Parz. Nuvoloso", 3: "Molto nuvoloso",
+  45: "Foschia", 48: "Foschia",
+  51: "Pioviggine", 53: "Pioviggine", 55: "Pioviggine forte",
+  61: "Pioggia", 63: "Pioggia", 65: "Pioggia forte",
+  71: "Neve", 73: "Neve", 75: "Neve forte",
+  80: "Rovesci", 81: "Rovesci", 82: "Rovesci forti",
+  95: "Temporale", 96: "Temporale", 99: "Temporale"
 };
 
-/***************************************************
- *   ICONA METEO (CODICE → CLASSE CSS)
- ***************************************************/
+// Mappa codice → classe icona
 function getIconClass(code) {
   if ([0, 1].includes(code)) return "icon-sun";
   if ([45, 48].includes(code)) return "icon-fog";
@@ -46,9 +27,8 @@ function getIconClass(code) {
   return "icon-cloud";
 }
 
-/***************************************************
- *   FETCH OPEN-METEO
- ***************************************************/
+document.addEventListener("DOMContentLoaded", loadWeather);
+
 function loadWeather() {
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
@@ -59,13 +39,11 @@ function loadWeather() {
 
   fetch(url)
     .then(r => r.json())
-    .then(updateWeather)
-    .catch(err => console.error("ERRORE METEO:", err));
+    .then(data => updateWeather(data))
+    .catch(err => console.error("❌ Meteo fetch error", err));
 }
 
-/***************************************************
- *   TROVA ORA PIÙ VICINA
- ***************************************************/
+// Trova ora più vicina
 function findClosestIndex(targetIso, timeArray) {
   let best = -1;
   let bestDiff = Infinity;
@@ -82,34 +60,34 @@ function findClosestIndex(targetIso, timeArray) {
   return best;
 }
 
-/***************************************************
- *   UPDATE INTERFACCIA
- ***************************************************/
 function updateWeather(data) {
-  if (!data.current_weather) return;
-
   const cw = data.current_weather;
+  const hourly = data.hourly;
+  const daily = data.daily;
 
-  /* --- METEO ATTUALE --- */
+  if (!cw || !hourly || !daily) {
+    console.error("❌ Dati meteo incompleti", data);
+    return;
+  }
+
+  // Aggiorna meteo attuale
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
   document.getElementById("weather-wind").textContent =
     Math.round(cw.windspeed) + " km/h";
 
-  const idx = findClosestIndex(cw.time, data.hourly.time);
+  const idx = findClosestIndex(cw.time, hourly.time);
 
   document.getElementById("weather-humidity").textContent =
-    data.hourly.relativehumidity_2m[idx] + "%";
+    hourly.relativehumidity_2m[idx] + "%";
 
   document.getElementById("weather-rain").textContent =
-    data.hourly.precipitation_probability[idx] + "%";
+    hourly.precipitation_probability[idx] + "%";
 
-  /* --- PREVISIONI --- */
+  // PREVISIONI --------------------------------------------------
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
-
-  const daily = data.daily;
 
   for (let i = 0; i < 4; i++) {
     const date = new Date(daily.time[i]);
@@ -120,21 +98,26 @@ function updateWeather(data) {
         : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
     const code = daily.weathercode[i];
-    const iconClass = getIconClass(code);
-
     const cond = WEATHER_TEXT[code] || "N/D";
+    const icon = getIconClass(code);
+
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
-    grid.innerHTML += `
-      <div class="ops-forecast-pill">
-          <div class="forecast-icon ${iconClass}"></div>
-          <div class="forecast-text">
-              <span class="label">${label}</span>
-              <span class="condition">${cond}</span>
+    // Crea la card complete
+    const card = `
+      <div class="ops-forecast-pill" style="font-size:0.9rem; text-align:center;">
+          <div class="forecast-icon ${icon}"></div>
+          <div>
+              <div class="label" style="font-weight:700">${label}</div>
+              <div class="condition" style="color:black; font-weight:700">${cond}</div>
           </div>
-          <div class="temp">${tmin}° / ${tmax}°</div>
+          <div class="temp" style="margin-top:0.3rem; font-weight:700;">
+              ${tmin}° / ${tmax}°
+          </div>
       </div>
     `;
+
+    grid.insertAdjacentHTML("beforeend", card);
   }
 }
