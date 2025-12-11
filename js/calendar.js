@@ -1,55 +1,91 @@
-console.log("🟦 LCARS CALENDAR — ONLINE");
+console.log("🟦 LCARS CALENDAR — ICS EDITION");
 
-document.addEventListener("DOMContentLoaded", loadEvents);
+document.addEventListener("DOMContentLoaded", loadICSEvents);
 
-// 📌 Per ora: eventi statici. Poi li colleghiamo a Google Calendar o JSON GitHub.
-const EVENTS = [
-  {
-    date: "2025-12-11",
-    time: "14:30",
-    title: "PALESTRA",
-    duration: "1h"
-  },
-  {
-    date: "2025-12-11",
-    time: "18:00",
-    title: "RIUNIONE COMO TV",
-    duration: "2h"
-  },
-  {
-    date: "2025-12-12",
-    time: "09:00",
-    title: "MATCH ANALYSIS",
-    duration: "90 min"
-  },
-  {
-    date: "2025-12-12",
-    time: "21:00",
-    title: "COMO 1907 — LIVE OPS",
-    duration: "3h"
+const ICS_URL = "https://calendar.google.com/calendar/ical/36eed2a61qm05b8ubdpbkja2q0%40group.calendar.google.com/public/basic.ics";
+
+// ===============================
+// 1) SCARICA L'ICS
+// ===============================
+async function loadICSEvents() {
+  try {
+    const res = await fetch(ICS_URL);
+    const text = await res.text();
+    const events = parseICS(text);
+
+    renderEvents(events);
+  } catch (e) {
+    console.error("❌ Errore caricamento ICS", e);
   }
-];
+}
 
-function loadEvents() {
+// ===============================
+// 2) PARSER ICS SEMPLIFICATO
+// ===============================
+function parseICS(text) {
+  const lines = text.split(/\r?\n/);
+  const events = [];
+
+  let current = null;
+
+  lines.forEach(l => {
+    if (l.startsWith("BEGIN:VEVENT")) {
+      current = {};
+    } else if (l.startsWith("END:VEVENT")) {
+      if (current) events.push(current);
+      current = null;
+    } else if (current) {
+      if (l.startsWith("DTSTART")) current.start = extractDate(l);
+      if (l.startsWith("DTEND")) current.end = extractDate(l);
+      if (l.startsWith("SUMMARY")) current.title = l.replace("SUMMARY:", "").trim();
+    }
+  });
+
+  return events
+    .filter(ev => ev.start)
+    .sort((a, b) => a.start - b.start)
+    .slice(0, 6); // Mostriamo i prossimi 6 eventi
+}
+
+// Converte "20250112T140000Z" in oggetto Date locale
+function extractDate(line) {
+  const raw = line.split(":")[1];
+  // Gestiamo timezone Z (UTC)
+  if (raw.endsWith("Z")) {
+    return new Date(raw);
+  }
+  return new Date(raw);
+}
+
+// ===============================
+// 3) RENDER LCARS EVENT PILLS
+// ===============================
+function renderEvents(events) {
   const container = document.getElementById("events-row");
   if (!container) return;
 
   container.innerHTML = "";
 
-  EVENTS.forEach(ev => {
-    const day = new Date(ev.date).toLocaleDateString("it-IT", {
+  events.forEach(ev => {
+    const start = ev.start;
+    const dayLabel = start.toLocaleDateString("it-IT", {
       weekday: "short",
       day: "2-digit",
       month: "short"
     }).replace(".", "");
 
+    const time = start.toLocaleTimeString("it-IT", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
     container.insertAdjacentHTML(
       "beforeend",
       `
       <div class="ops-event-pill">
-          
+
           <div class="ops-event-header">
-            ${day} • ${ev.time}
+            ${dayLabel} • ${time}
           </div>
 
           <div class="ops-event-title">
@@ -57,7 +93,7 @@ function loadEvents() {
           </div>
 
           <div class="ops-event-footer">
-            durata: ${ev.duration}
+            ${ev.end ? "fino alle " + ev.end.toLocaleTimeString("it-IT", {hour:"2-digit", minute:"2-digit"}) : ""}
           </div>
 
       </div>
