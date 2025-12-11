@@ -1,9 +1,10 @@
-console.log("🟣 meteo.js — FIX fallback icons");
+console.log("🟣 meteo.js — FIX definitivo");
 
+// Coordinate Torino
 const LAT = 45.0703;
 const LON = 7.6869;
 
-// Testi meteo
+// Dizionario condizioni meteo → testo leggibile
 const WEATHER_TEXT = {
   0: "Sereno",
   1: "Sereno",
@@ -28,10 +29,8 @@ const WEATHER_TEXT = {
   99: "Temporale forte",
 };
 
-// Restituisce SEMPRE una classe icona valida
+// Mappa codice → classe icona
 function getIconClass(code) {
-  if (!code && code !== 0) return "icon-cloud";
-
   if ([0, 1].includes(code)) return "icon-sun";
   if ([2].includes(code)) return "icon-partly";
   if ([3].includes(code)) return "icon-overcast";
@@ -39,7 +38,6 @@ function getIconClass(code) {
   if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "icon-rain";
   if ([71, 73, 75].includes(code)) return "icon-snow";
   if ([95, 96, 99].includes(code)) return "icon-storm";
-
   return "icon-cloud";
 }
 
@@ -66,6 +64,89 @@ function loadWeather() {
     })
     .catch(err => {
       console.error("❌ Meteo fetch error:", err);
-      alert("Errore nel meteo (vedi console): " + err);
+      alert("Errore nel meteo: " + err);
     });
+}
+
+// Trova il record orario più vicino all’orario del meteo attuale
+function findClosestIndex(targetIso, arr) {
+  let best = -1;
+  let bestDiff = Infinity;
+  const t = new Date(targetIso).getTime();
+
+  arr.forEach((x, i) => {
+    const diff = Math.abs(new Date(x).getTime() - t);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      best = i;
+    }
+  });
+  return best;
+}
+
+// ---------------------------
+//   UPDATE METEO COMPLETO
+// ---------------------------
+
+function updateWeather(data) {
+  const cw = data.current_weather;
+  const hourly = data.hourly;
+  const daily = data.daily;
+
+  if (!cw || !hourly || !daily) {
+    console.error("❌ Dati meteo incompleti:", data);
+    return;
+  }
+
+  // METEO ATTUALE --------------------
+  document.getElementById("weather-temp").textContent =
+    Math.round(cw.temperature) + "°C";
+
+  document.getElementById("weather-wind").textContent =
+    Math.round(cw.windspeed) + " km/h";
+
+  const idx = findClosestIndex(cw.time, hourly.time);
+
+  document.getElementById("weather-humidity").textContent =
+    hourly.relativehumidity_2m[idx] + "%";
+
+  document.getElementById("weather-rain").textContent =
+    hourly.precipitation_probability[idx] + "%";
+
+  // PREVISIONI -----------------------
+  const grid = document.getElementById("forecast-grid");
+  grid.innerHTML = "";
+
+  for (let i = 0; i < 4; i++) {
+    const date = new Date(daily.time[i]);
+    const label =
+      i === 0 ? "OGGI" : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+
+    const code = daily.weathercode[i];
+    const cond = WEATHER_TEXT[code] || "N/D";
+    const icon = getIconClass(code);
+
+    const tmin = Math.round(daily.temperature_2m_min[i]);
+    const tmax = Math.round(daily.temperature_2m_max[i]);
+
+    const card = `
+      <div class="ops-forecast-pill" style="text-align:center;">
+          <div class="forecast-icon ${icon}"></div>
+
+          <div class="label" style="font-weight:700; margin-top:4px;">
+              ${label}
+          </div>
+
+          <div class="condition" style="color:black; font-weight:700;">
+              ${cond}
+          </div>
+
+          <div class="temp" style="margin-top:4px; font-weight:700;">
+              ${tmin}° / ${tmax}°
+          </div>
+      </div>
+    `;
+
+    grid.insertAdjacentHTML("beforeend", card);
+  }
 }
