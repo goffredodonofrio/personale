@@ -138,17 +138,15 @@ function updateWeather(data) {
 
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
-
-    const card = `
-      <div class="ops-forecast-pill" style="text-align:center; padding-top:0.8rem;">
-          <div class="forecast-icon ${icon}"></div>
-          <div class="label" style="font-weight:700;">${label}</div>
-          <div class="condition" style="color:black; font-weight:700; margin-top:0.2rem;">${cond}</div>
-          <div class="temp" style="margin-top:0.3rem; font-weight:700;">
-            ${tmin}° / ${tmax}°
-          </div>
-      </div>
-    `;
+    
+const card = `
+  <div class="ops-forecast-pill">
+      <div class="label">${label}</div>
+      <div class="forecast-icon ${icon}"></div>
+      <div class="condition">${cond}</div>
+      <div class="temp">${tmin}° / ${tmax}°</div>
+  </div>
+`;
 
     grid.insertAdjacentHTML("beforeend", card);
   }
