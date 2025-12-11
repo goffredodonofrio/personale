@@ -1,41 +1,53 @@
-console.log("🟣 meteo.js CARICATO — versione icone LCARS");
+console.log("🟣 meteo.js CORRETTO — icone + font ridotto");
 
 /***************************************************
- *   CONFIG
+ *   METEO CONFIG
  ***************************************************/
 const LAT = 45.0703;
 const LON = 7.6869;
 
 document.addEventListener("DOMContentLoaded", loadWeather);
 
-/* Testi meteo */
+/* TESTI METEO */
 const WEATHER_TEXT = {
-  0: "Sereno", 1: "Prevalente sereno",
-  2: "Parz. Nuvoloso", 3: "Molto nuvoloso",
-  45: "Foschia", 48: "Foschia ghiacciata",
-  51: "Pioviggine", 53: "Pioviggine", 55: "Pioviggine intensa",
-  61: "Pioggia", 63: "Pioggia", 65: "Pioggia intensa",
-  71: "Neve", 73: "Neve", 75: "Neve intensa",
-  80: "Rovesci", 81: "Rovesci", 82: "Rovesci forti",
-  95: "Temporale", 96: "Temporale", 99: "Temporale forte"
+  0: "SERENO",
+  1: "SERENO",
+  2: "PARZ. NUVOLOSO",
+  3: "MOLTO NUVOLOSO",
+  45: "FOSCHIA",
+  48: "FOSCHIA",
+  51: "PIOVIGGINE",
+  53: "PIOVIGGINE",
+  55: "PIOVIGGINE FORTE",
+  61: "PIOGGIA",
+  63: "PIOGGIA",
+  65: "PIOGGIA FORTE",
+  71: "NEVE",
+  73: "NEVE",
+  75: "NEVE FORTE",
+  80: "ROVESCI",
+  81: "ROVESCI",
+  82: "ROVESCI FORTI",
+  95: "TEMPORALE",
+  96: "TEMPORALE",
+  99: "TEMPORALE"
 };
 
 /***************************************************
- *   MAPPATURA WEATHERCODE → ICONA CSS
+ *   ICONA METEO (CODICE → CLASSE CSS)
  ***************************************************/
 function getIconClass(code) {
   if ([0, 1].includes(code)) return "icon-sun";
-  if (code === 45 || code === 48) return "icon-fog";
+  if ([45, 48].includes(code)) return "icon-fog";
   if ([2, 3].includes(code)) return "icon-cloud";
   if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "icon-rain";
   if ([71, 73, 75].includes(code)) return "icon-snow";
   if ([95, 96, 99].includes(code)) return "icon-storm";
-
-  return "icon-cloud"; // fallback
+  return "icon-cloud";
 }
 
 /***************************************************
- *   FETCH METEO
+ *   FETCH OPEN-METEO
  ***************************************************/
 function loadWeather() {
   const url =
@@ -46,45 +58,45 @@ function loadWeather() {
     `&timezone=Europe%2FRome`;
 
   fetch(url)
-    .then((r) => r.json())
-    .then((data) => updateWeather(data))
-    .catch((err) => console.error("ERRORE METEO:", err));
+    .then(r => r.json())
+    .then(updateWeather)
+    .catch(err => console.error("ERRORE METEO:", err));
 }
 
 /***************************************************
- *   TROVA ORA PIÙ VICINA NELLE HOURLY
+ *   TROVA ORA PIÙ VICINA
  ***************************************************/
 function findClosestIndex(targetIso, timeArray) {
   let best = -1;
   let bestDiff = Infinity;
-  const target = new Date(targetIso).getTime();
+  const t = new Date(targetIso).getTime();
 
-  for (let i = 0; i < timeArray.length; i++) {
-    const diff = Math.abs(new Date(timeArray[i]).getTime() - target);
+  timeArray.forEach((x, i) => {
+    const diff = Math.abs(new Date(x).getTime() - t);
     if (diff < bestDiff) {
       bestDiff = diff;
       best = i;
     }
-  }
+  });
+
   return best;
 }
 
 /***************************************************
- *   UPDATE UI METEO
+ *   UPDATE INTERFACCIA
  ***************************************************/
 function updateWeather(data) {
-  if (!data || !data.current_weather) return;
+  if (!data.current_weather) return;
 
   const cw = data.current_weather;
 
-  // METEO ATTUALE
+  /* --- METEO ATTUALE --- */
   document.getElementById("weather-temp").textContent =
     Math.round(cw.temperature) + "°C";
 
   document.getElementById("weather-wind").textContent =
     Math.round(cw.windspeed) + " km/h";
 
-  // UMIDITÀ + PIOGGIA
   const idx = findClosestIndex(cw.time, data.hourly.time);
 
   document.getElementById("weather-humidity").textContent =
@@ -93,9 +105,7 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent =
     data.hourly.precipitation_probability[idx] + "%";
 
-  /***************************************************
-   *     PREVISIONI — OGGI + 3 GIORNI
-   ***************************************************/
+  /* --- PREVISIONI --- */
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
@@ -110,18 +120,18 @@ function updateWeather(data) {
         : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
 
     const code = daily.weathercode[i];
-    const condition = WEATHER_TEXT[code] || "N/D";
     const iconClass = getIconClass(code);
 
+    const cond = WEATHER_TEXT[code] || "N/D";
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
     grid.innerHTML += `
       <div class="ops-forecast-pill">
           <div class="forecast-icon ${iconClass}"></div>
-          <div class="forecast-lines">
+          <div class="forecast-text">
               <span class="label">${label}</span>
-              <span class="condition">${condition}</span>
+              <span class="condition">${cond}</span>
           </div>
           <div class="temp">${tmin}° / ${tmax}°</div>
       </div>
