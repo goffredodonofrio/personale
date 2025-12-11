@@ -1,15 +1,15 @@
 console.log("🟦 LCARS METEO — SENSOR OPS ONLINE");
 
-// Coordinate Torino
-const LAT = 45.0703;
-const LON = 7.6869;
+// Coordinate Torino / Via Rocciamelone (più precise)
+const LAT = 45.10485;
+const LON = 7.76414;
 
 // Dizionario condizioni
 const WEATHER_TEXT = {
   0: "Sereno", 1: "Sereno",
-  2: "Parz. Nuvoloso", 
+  2: "Parz. Nuvoloso",
   3: "Molto Nuvoloso",
-  45: "Foschia", 48: "Foschia",
+  45: "Foschia", 48: "Foschia densa",
   51: "Pioviggine", 53: "Pioviggine", 55: "Pioviggine forte",
   61: "Pioggia", 63: "Pioggia", 65: "Pioggia forte",
   71: "Neve", 73: "Neve", 75: "Neve forte",
@@ -19,8 +19,7 @@ const WEATHER_TEXT = {
 
 // Icone SVG minimal LCARS
 function iconSVG(type) {
-  switch(type) {
-
+  switch (type) {
     case "sun": return `
       <svg viewBox="0 0 64 64">
         <circle cx="32" cy="32" r="14"
@@ -49,12 +48,9 @@ function iconSVG(type) {
       <svg viewBox="0 0 64 64">
         <ellipse cx="32" cy="28" rx="20" ry="12"
           fill="white" stroke="black" stroke-width="3"/>
-        <line x1="20" y1="44" x2="16" y2="56"
-          stroke="black" stroke-width="3"/>
-        <line x1="32" y1="44" x2="28" y2="56"
-          stroke="black" stroke-width="3"/>
-        <line x1="44" y1="44" x2="40" y2="56"
-          stroke="black" stroke-width="3"/>
+        <line x1="20" y1="44" x2="16" y2="56" stroke="black" stroke-width="3"/>
+        <line x1="32" y1="44" x2="28" y2="56" stroke="black" stroke-width="3"/>
+        <line x1="44" y1="44" x2="40" y2="56" stroke="black" stroke-width="3"/>
       </svg>`;
 
     case "snow": return `
@@ -75,7 +71,7 @@ function iconSVG(type) {
   }
 }
 
-// Mappa codice → tipo icona
+// Mappa codice → icona
 function getIconType(code) {
   if ([0,1].includes(code)) return "sun";
   if ([2,3].includes(code)) return "cloud";
@@ -89,7 +85,6 @@ function getIconType(code) {
 document.addEventListener("DOMContentLoaded", loadWeather);
 
 function loadWeather() {
-
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
     `&current_weather=true&forecast_days=5` +
@@ -100,17 +95,17 @@ function loadWeather() {
   fetch(url)
     .then(r => r.json())
     .then(updateWeather)
-    .catch(err => console.error("❌ Meteo error", err));
+    .catch(err => console.error("❌ Meteo error:", err));
 }
 
-function findClosestIndex(targetIso, timeArray) {
+function findClosestIndex(targetIso, arr) {
   let best = 0;
   let bestDiff = Infinity;
   const target = new Date(targetIso).getTime();
 
-  timeArray.forEach((t,i)=>{
-    const d = Math.abs(new Date(t).getTime() - target);
-    if (d < bestDiff) { bestDiff = d; best = i; }
+  arr.forEach((t, i) => {
+    const diff = Math.abs(new Date(t).getTime() - target);
+    if (diff < bestDiff) { bestDiff = diff; best = i; }
   });
 
   return best;
@@ -127,7 +122,7 @@ function updateWeather(data) {
     return;
   }
 
-  // METEO ATTUALE
+  // --- METEO ATTUALE ---
   document.getElementById("weather-temp").textContent =
     `${Math.round(cw.temperature)}°C`;
 
@@ -142,15 +137,13 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent =
     hourly.precipitation_probability[idx] + "%";
 
-  // PREVISIONI
+  // --- PREVISIONI ---
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
   for (let i = 0; i < 4; i++) {
-
     const date = new Date(daily.time[i]);
     const code = daily.weathercode[i];
-    const icon = iconSVG(getIconType(code));
 
     const label = i === 0
       ? "OGGI"
@@ -158,6 +151,7 @@ function updateWeather(data) {
 
     const cond = WEATHER_TEXT[code] || "N/D";
 
+    const icon = iconSVG(getIconType(code));
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
@@ -165,12 +159,8 @@ function updateWeather(data) {
       <div class="ops-forecast-pill">
         <div class="label">${label}</div>
 
-        <div class="forecast-icon" style="
-            width:60px; height:60px;
-            margin:0.5rem auto;
-            display:block; overflow:visible;
-        ">
-            ${icon}
+        <div class="forecast-icon">
+          ${icon}
         </div>
 
         <div class="condition">${cond.toUpperCase()}</div>
@@ -180,12 +170,4 @@ function updateWeather(data) {
 
     grid.insertAdjacentHTML("beforeend", card);
   }
-  #forecast-grid {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;       /* importante: niente flex-end */
-  gap: 1rem;
-  padding: 0 0 1.5rem 0;
-  overflow: visible;          /* niente taglio sotto */
-}
 }
