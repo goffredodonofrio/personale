@@ -4,7 +4,7 @@ console.log("🟦 LCARS METEO — SENSOR OPS ONLINE");
 const LAT = 45.0703;
 const LON = 7.6869;
 
-// Traduce codice meteo → stringa leggibile
+// Dizionario condizioni
 const WEATHER_TEXT = {
   0: "Sereno", 1: "Sereno",
   2: "Parz. Nuvoloso", 
@@ -17,55 +17,68 @@ const WEATHER_TEXT = {
   95: "Temporale", 96: "Temporale", 99: "Temporale"
 };
 
-// SVG minimal LCARS style – contorno nero + fill bianco
+// Icone SVG minimal LCARS
 function iconSVG(type) {
   switch(type) {
 
     case "sun": return `
       <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="14" fill="white" stroke="black" stroke-width="3"/>
+        <circle cx="32" cy="32" r="14"
+          fill="white" stroke="black" stroke-width="3"/>
       </svg>`;
 
     case "cloud": return `
       <svg viewBox="0 0 64 64">
-        <ellipse cx="32" cy="38" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
-        <ellipse cx="22" cy="36" rx="14" ry="10" fill="white" stroke="black" stroke-width="3"/>
+        <ellipse cx="32" cy="38" rx="20" ry="12"
+          fill="white" stroke="black" stroke-width="3"/>
+        <ellipse cx="22" cy="36" rx="14" ry="10"
+          fill="white" stroke="black" stroke-width="3"/>
       </svg>`;
 
     case "fog": return `
       <svg viewBox="0 0 64 64">
-        <rect x="10" y="24" width="44" height="6" fill="white" stroke="black" stroke-width="2"/>
-        <rect x="14" y="34" width="36" height="6" fill="white" stroke="black" stroke-width="2"/>
-        <rect x="10" y="44" width="44" height="6" fill="white" stroke="black" stroke-width="2"/>
+        <rect x="10" y="24" width="44" height="6"
+          fill="white" stroke="black" stroke-width="2"/>
+        <rect x="14" y="34" width="36" height="6"
+          fill="white" stroke="black" stroke-width="2"/>
+        <rect x="10" y="44" width="44" height="6"
+          fill="white" stroke="black" stroke-width="2"/>
       </svg>`;
 
     case "rain": return `
       <svg viewBox="0 0 64 64">
-        <ellipse cx="32" cy="28" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
-        <line x1="20" y1="44" x2="16" y2="56" stroke="black" stroke-width="3"/>
-        <line x1="32" y1="44" x2="28" y2="56" stroke="black" stroke-width="3"/>
-        <line x1="44" y1="44" x2="40" y2="56" stroke="black" stroke-width="3"/>
+        <ellipse cx="32" cy="28" rx="20" ry="12"
+          fill="white" stroke="black" stroke-width="3"/>
+        <line x1="20" y1="44" x2="16" y2="56"
+          stroke="black" stroke-width="3"/>
+        <line x1="32" y1="44" x2="28" y2="56"
+          stroke="black" stroke-width="3"/>
+        <line x1="44" y1="44" x2="40" y2="56"
+          stroke="black" stroke-width="3"/>
       </svg>`;
 
     case "snow": return `
       <svg viewBox="0 0 64 64">
-        <ellipse cx="32" cy="28" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
-        <text x="32" y="52" font-size="22" text-anchor="middle" fill="white" stroke="black" stroke-width="2">*</text>
+        <ellipse cx="32" cy="28" rx="20" ry="12"
+          fill="white" stroke="black" stroke-width="3"/>
+        <text x="32" y="52" font-size="22" text-anchor="middle"
+          fill="white" stroke="black" stroke-width="2">*</text>
       </svg>`;
 
     case "storm": return `
       <svg viewBox="0 0 64 64">
-        <ellipse cx="32" cy="26" rx="20" ry="12" fill="white" stroke="black" stroke-width="3"/>
-        <polygon points="28,40 40,40 32,58" fill="yellow" stroke="black" stroke-width="3"/>
+        <ellipse cx="32" cy="26" rx="20" ry="12"
+          fill="white" stroke="black" stroke-width="3"/>
+        <polygon points="28,40 40,40 32,58"
+          fill="yellow" stroke="black" stroke-width="3"/>
       </svg>`;
   }
 }
 
-// mappa codice meteo → tipo icona
+// Mappa codice → tipo icona
 function getIconType(code) {
   if ([0,1].includes(code)) return "sun";
-  if ([2].includes(code)) return "cloud"; 
-  if ([3].includes(code)) return "cloud";
+  if ([2,3].includes(code)) return "cloud";
   if ([45,48].includes(code)) return "fog";
   if ([51,53,55,61,63,65,80,81,82].includes(code)) return "rain";
   if ([71,73,75].includes(code)) return "snow";
@@ -86,19 +99,20 @@ function loadWeather() {
 
   fetch(url)
     .then(r => r.json())
-    .then(data => updateWeather(data))
+    .then(updateWeather)
     .catch(err => console.error("❌ Meteo error", err));
 }
 
 function findClosestIndex(targetIso, timeArray) {
-  let best = -1;
+  let best = 0;
   let bestDiff = Infinity;
-  const t = new Date(targetIso).getTime();
+  const target = new Date(targetIso).getTime();
 
-  timeArray.forEach((x, i) => {
-    const diff = Math.abs(new Date(x).getTime() - t);
-    if (diff < bestDiff) { bestDiff = diff; best = i; }
+  timeArray.forEach((t,i)=>{
+    const d = Math.abs(new Date(t).getTime() - target);
+    if (d < bestDiff) { bestDiff = d; best = i; }
   });
+
   return best;
 }
 
@@ -113,9 +127,12 @@ function updateWeather(data) {
     return;
   }
 
-  // ---- METEO ATTUALE ----
-  document.getElementById("weather-temp").textContent = `${Math.round(cw.temperature)}°C`;
-  document.getElementById("weather-wind").textContent = `${Math.round(cw.windspeed)} km/h`;
+  // METEO ATTUALE
+  document.getElementById("weather-temp").textContent =
+    `${Math.round(cw.temperature)}°C`;
+
+  document.getElementById("weather-wind").textContent =
+    `${Math.round(cw.windspeed)} km/h`;
 
   const idx = findClosestIndex(cw.time, hourly.time);
 
@@ -125,7 +142,7 @@ function updateWeather(data) {
   document.getElementById("weather-rain").textContent =
     hourly.precipitation_probability[idx] + "%";
 
-  // ---- PREVISIONI ----
+  // PREVISIONI
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
@@ -133,36 +150,34 @@ function updateWeather(data) {
 
     const date = new Date(daily.time[i]);
     const code = daily.weathercode[i];
+    const icon = iconSVG(getIconType(code));
 
-    const label =
-      i === 0
-        ? "OGGI"
-        : date.toLocaleDateString("it-IT", { weekday: "short" }).toUpperCase();
+    const label = i === 0
+      ? "OGGI"
+      : date.toLocaleDateString("it-IT", { weekday:"short" }).toUpperCase();
 
     const cond = WEATHER_TEXT[code] || "N/D";
-    const iconType = getIconType(code);
-    const svg = iconSVG(iconType);
 
     const tmin = Math.round(daily.temperature_2m_min[i]);
     const tmax = Math.round(daily.temperature_2m_max[i]);
 
-    const cardHTML = `
+    const card = `
       <div class="ops-forecast-pill">
         <div class="label">${label}</div>
-        <<div class="forecast-icon" style="
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    display: block;
-    overflow: visible;
-">
-    ${icon}
-</div>
+
+        <div class="forecast-icon" style="
+            width:60px; height:60px;
+            margin:0.5rem auto;
+            display:block; overflow:visible;
+        ">
+            ${icon}
+        </div>
+
         <div class="condition">${cond.toUpperCase()}</div>
         <div class="temp">${tmin}° / ${tmax}°</div>
       </div>
     `;
 
-    grid.insertAdjacentHTML("beforeend", cardHTML);
+    grid.insertAdjacentHTML("beforeend", card);
   }
 }
