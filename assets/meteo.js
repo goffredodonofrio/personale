@@ -180,4 +180,12 @@ function updateWeather(data) {
 
     grid.insertAdjacentHTML("beforeend", card);
   }
+  #forecast-grid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;       /* importante: niente flex-end */
+  gap: 1rem;
+  padding: 0 0 1.5rem 0;
+  overflow: visible;          /* niente taglio sotto */
+}
 }
