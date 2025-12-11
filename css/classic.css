@@ -3008,4 +3008,10 @@ footer:has(.footer-frame) {
    	height: 1.3rem;
    	line-height: 1rem;
    }
+	.forecast-icon svg {
+    width: 60px !important;
+    height: 60px !important;
+    display: block !important;
+    overflow: visible !important;
+}
 }
