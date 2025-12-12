@@ -85,82 +85,143 @@
         gap: 2rem;
     }
 
-/* RIGA PRINCIPALE */
-.ops-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2.5rem;
-}
+    /* RIGA PRINCIPALE */
+    .ops-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2.5rem;
+    }
 
-/* ORA */
-.ops-clock {
-    font-size: 4.8rem;
-    font-weight: 700;
-    color: var(--ld-blue-main);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-}
+    /* ORA */
+    .ops-clock {
+        font-size: 4.8rem;
+        font-weight: 700;
+        color: var(--ld-blue-main);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+    }
 
-.ops-weather-title {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    color: var(--ld-blue-line);
-    line-height: 1.2;
-    letter-spacing: 0.17em;
-    text-transform: uppercase;
-}
+    .ops-weather-title {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+        color: var(--ld-blue-line);
+        line-height: 1.2;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+    }
 
-/* COLONNA METRICHE (DESTRA) */
-.ops-metrics-column {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    width: 260px; /* larghezza perfetta per Echo Show 15 */
-}
+    /* COLONNA METRICHE (DESTRA) */
+    .ops-metrics-column {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        width: 260px; /* larghezza perfetta per Echo Show 15 */
+    }
 
-/* PILL METRICHE ultra compatte */
-.ops-metric-pill {
-    background: var(--ld-blue-main);
-    border-radius: 999px;
-    padding: 0.55rem 1.2rem;
-    border: 2px solid var(--ld-blue-line);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    letter-spacing: 0.07em;
-    font-size: 0.95rem;
-    color: #fff;
-}
+    /* PILL METRICHE ultra compatte */
+    .ops-metric-pill {
+        background: var(--ld-blue-main);
+        border-radius: 999px;
+        padding: 0.55rem 1.2rem;
+        border: 2px solid var(--ld-blue-line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        letter-spacing: 0.07em;
+        font-size: 0.95rem;
+        color: #fff;
+    }
 
-/* PREVISIONI INLINEA */
-.ops-forecast-row {
-    margin-top: 1.7rem;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: nowrap;
-}
+    /* PREVISIONI INLINEA */
+    .ops-forecast-row {
+        margin-top: 1.7rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: nowrap;
+    }
 
-.ops-forecast-row .ops-forecast-pill {
-    background: var(--ld-blue-main);
-    border-radius: 999px;
-    padding: 0.65rem 1.4rem;
-    border: 2px solid var(--ld-blue-line);
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    color: white;
-    text-transform: uppercase;
-    font-size: 0.95rem;
-}
+    .ops-forecast-row .ops-forecast-pill {
+        background: var(--ld-blue-main);
+        border-radius: 999px;
+        padding: 0.65rem 1.4rem;
+        border: 2px solid var(--ld-blue-line);
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+    }
 
-.ops-forecast-row .condition {
-    color: black; /* come richiesto */
-    font-weight: 700;
-}
+    .ops-forecast-row .condition {
+        color: black; /* come richiesto */
+        font-weight: 700;
+    }
 
-   <!-- CALENDARIO EVENTI -->
-<div class="ops-events-row" id="events-row"></div>
+    /* ================================
+       CALENDARIO — RIGA EVENTI (LCARS)
+       ================================ */
+    .ops-events-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.4rem 0.2rem;
+    }
+
+    .ops-event-pill {
+        background: var(--ld-blue-main);
+        border-radius: 26px;
+        padding: 1rem 1.2rem;
+        border: 2px solid var(--ld-blue-line);
+        color: #fff;
+        min-width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        text-transform: uppercase;
+    }
+
+    .ops-event-header {
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        opacity: 0.95;
+    }
+
+    .ops-event-title {
+        font-weight: 700;
+        color: #000;          /* “stile meteo”: evidenzia in nero */
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+        display: inline-block;
+        width: fit-content;
+    }
+
+    .ops-event-footer {
+        font-weight: 700;
+        opacity: 0.95;
+        letter-spacing: 0.05em;
+    }
+
+    /* BLOCCO IMMAGINE PIANTINA (rimossa dalla pagina ma teniamo gli stili in caso) */
+    .lcars-image-block {
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lcars-image-block img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
 
     /* SMART GRID BOTTONI PRINCIPALI */
     .smart-grid {
@@ -407,88 +468,92 @@
                     <div class="status-grid-wrapper">
 
                         <!-- OPS PANEL: ORA + METEO -->
-                    <div class="ops-panel">
+                        <div class="ops-panel">
 
-    <div class="ops-header-row">
-        
-        <!-- SINISTRA: OROLOGIO -->
-        <div class="ops-clock-block">
-            <div class="ops-clock" id="clock">--:--:--</div>
-            <div class="ops-date" id="date">---</div>
-            <div class="ops-stardate" id="stardate">STARDATE ---</div>
-            <div class="ops-shift" id="dayPhase"></div>
+                            <div class="ops-header-row">
 
-            <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
-        </div>
+                                <!-- SINISTRA: OROLOGIO -->
+                                <div class="ops-clock-block">
+                                    <div class="ops-clock" id="clock">--:--:--</div>
+                                    <div class="ops-date" id="date">---</div>
+                                    <div class="ops-stardate" id="stardate">STARDATE ---</div>
+                                    <div class="ops-shift" id="dayPhase"></div>
 
-        <!-- DESTRA: METRICS COMPATTE -->
-        <div class="ops-metrics-column">
-            <div class="ops-metric-pill">
-                <span>TEMPERATURA</span>
-                <span class="ops-metric-value" id="weather-temp">--°C</span>
-            </div>
+                                    <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
+                                </div>
 
-            <div class="ops-metric-pill">
-                <span>PROB PIOGGIA</span>
-                <span class="ops-metric-value" id="weather-rain">--%</span>
-            </div>
+                                <!-- DESTRA: METRICS COMPATTE -->
+                                <div class="ops-metrics-column">
+                                    <div class="ops-metric-pill">
+                                        <span>TEMPERATURA</span>
+                                        <span class="ops-metric-value" id="weather-temp">--°C</span>
+                                    </div>
 
-            <div class="ops-metric-pill">
-                <span>UMIDITÀ</span>
-                <span class="ops-metric-value" id="weather-humidity">--%</span>
-            </div>
+                                    <div class="ops-metric-pill">
+                                        <span>PROB PIOGGIA</span>
+                                        <span class="ops-metric-value" id="weather-rain">--%</span>
+                                    </div>
 
-            <div class="ops-metric-pill">
-                <span>VENTO</span>
-                <span class="ops-metric-value" id="weather-wind">-- km/h</span>
-            </div>
-        </div>
+                                    <div class="ops-metric-pill">
+                                        <span>UMIDITÀ</span>
+                                        <span class="ops-metric-value" id="weather-humidity">--%</span>
+                                    </div>
 
-    </div>
+                                    <div class="ops-metric-pill">
+                                        <span>VENTO</span>
+                                        <span class="ops-metric-value" id="weather-wind">-- km/h</span>
+                                    </div>
+                                </div>
 
-    <!-- PREVISIONI -->
-    <div id="forecast-grid" class="ops-forecast-row"></div>
- </div>
-                       <!-- CALENDARIO FAMIGLIA — LCARS OPS -->
-<div class="ops-events-row" id="events-row"></div>
+                            </div>
 
-                    <div class="bar-panel" style="margin-top:2rem;">
-                        <div class="bar-6"></div><div class="bar-7"></div>
-                        <div class="bar-9"></div><div class="bar-10"></div>
-                    </div>
+                            <!-- PREVISIONI -->
+                            <div id="forecast-grid" class="ops-forecast-row"></div>
+                        </div>
 
-                    <!-- SMART HOME CONTROL -->
-                    <div class="smart-grid">
-                        <a class="btn-orange-1" onclick="playBeep(); trigger('routine_1')">PROIETTORE ON</a>
-                        <a class="btn-orange-2" onclick="playBeep(); trigger('routine_4')">PROIETTORE OFF</a>
-                        <a class="btn-orange-3" onclick="playBeep(); trigger('routine_7')">ACCENDI LUCI LIVING ROOM</a>
-                        <a class="btn-orange-4" onclick="playBeep(); trigger('routine_10')">SPEGNI LUCI LIVING ROOM</a>
-                        <a class="btn-orange-5" onclick="playBeep(); trigger('routine_13')">APRI SERRANDE</a>
-                        <a class="btn-orange-6" onclick="playBeep(); trigger('routine_16')">CHIUDI SERRANDE</a>
+                        <!-- CALENDARIO FAMIGLIA — LCARS OPS -->
+                        <div class="ops-events-row" id="events-row"></div>
 
-                        <a class="btn-yellow-1" onclick="playBeep(); trigger('routine_2')">APRI SERRANDA CUCINA</a>
-                        <a class="btn-yellow-2" onclick="playBeep(); trigger('routine_5')">CHIUDI SERRANDA CUCINA</a>
-                        <a class="btn-yellow-3" onclick="playBeep(); trigger('routine_8')">APRI SERRANDA STUDIO</a>
-                        <a class="btn-yellow-4" onclick="playBeep(); trigger('routine_11')">CHIUDI SERRANDA STUDIO</a>
-                        <a class="btn-yellow-5" onclick="playBeep(); trigger('routine_14')">APRI SERRANDA BAGNO</a>
-                        <a class="btn-yellow-6" onclick="playBeep(); trigger('routine_17')">CHIUDI SERRANDA BAGNO</a>
+                        <div class="bar-panel" style="margin-top:2rem;">
+                            <div class="bar-6"></div><div class="bar-7"></div>
+                            <div class="bar-9"></div><div class="bar-10"></div>
+                        </div>
 
-                        <a class="btn-red-1" onclick="playBeep(); trigger('routine_3')">ROUTINE 3</a>
-                        <a class="btn-red-2" onclick="playBeep(); trigger('routine_6')">ROUTINE 6</a>
-                        <a class="btn-red-3" onclick="playBeep(); trigger('routine_9')">ROUTINE 9</a>
-                        <a class="btn-red-4" onclick="playBeep(); trigger('routine_12')">ROUTINE 12</a>
-                        <a class="btn-red-5" onclick="playBeep(); trigger('routine_15')">ROUTINE 15</a>
-                        <a class="btn-red-6" onclick="playBeep(); trigger('routine_18')">ROUTINE 18</a>
-                    </div>
+                        <!-- SMART HOME CONTROL -->
+                        <div class="smart-grid">
+                            <a class="btn-orange-1" onclick="playBeep(); trigger('routine_1')">PROIETTORE ON</a>
+                            <a class="btn-orange-2" onclick="playBeep(); trigger('routine_4')">PROIETTORE OFF</a>
+                            <a class="btn-orange-3" onclick="playBeep(); trigger('routine_7')">ACCENDI LUCI LIVING ROOM</a>
+                            <a class="btn-orange-4" onclick="playBeep(); trigger('routine_10')">SPEGNI LUCI LIVING ROOM</a>
+                            <a class="btn-orange-5" onclick="playBeep(); trigger('routine_13')">APRI SERRANDE</a>
+                            <a class="btn-orange-6" onclick="playBeep(); trigger('routine_16')">CHIUDI SERRANDE</a>
+
+                            <a class="btn-yellow-1" onclick="playBeep(); trigger('routine_2')">APRI SERRANDA CUCINA</a>
+                            <a class="btn-yellow-2" onclick="playBeep(); trigger('routine_5')">CHIUDI SERRANDA CUCINA</a>
+                            <a class="btn-yellow-3" onclick="playBeep(); trigger('routine_8')">APRI SERRANDA STUDIO</a>
+                            <a class="btn-yellow-4" onclick="playBeep(); trigger('routine_11')">CHIUDI SERRANDA STUDIO</a>
+                            <a class="btn-yellow-5" onclick="playBeep(); trigger('routine_14')">APRI SERRANDA BAGNO</a>
+                            <a class="btn-yellow-6" onclick="playBeep(); trigger('routine_17')">CHIUDI SERRANDA BAGNO</a>
+
+                            <a class="btn-red-1" onclick="playBeep(); trigger('routine_3')">ROUTINE 3</a>
+                            <a class="btn-red-2" onclick="playBeep(); trigger('routine_6')">ROUTINE 6</a>
+                            <a class="btn-red-3" onclick="playBeep(); trigger('routine_9')">ROUTINE 9</a>
+                            <a class="btn-red-4" onclick="playBeep(); trigger('routine_12')">ROUTINE 12</a>
+                            <a class="btn-red-5" onclick="playBeep(); trigger('routine_15')">ROUTINE 15</a>
+                            <a class="btn-red-6" onclick="playBeep(); trigger('routine_18')">ROUTINE 18</a>
+                        </div>
 
                 </main>
             </div>
         </div>
     </section>
 
-   <script src="assets/lcars.js"></script>
-<script src="assets/meteo.js"></script>
-<script src="assets/calendar.js"></script>
+    <!-- SCRIPT LCARS -->
+    <script src="assets/lcars.js"></script>
+    <!-- SCRIPT METEO -->
+    <script src="assets/meteo.js"></script>
+    <!-- SCRIPT CALENDARIO -->
+    <script src="assets/calendar.js"></script>
 
     <!-- OROLOGIO + STARDATE + DAY PHASE -->
     <script>
