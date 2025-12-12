@@ -67,7 +67,7 @@ function loadWeather() {
 
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
-    `&current_weather=true&forecast_days=5` +
+    `&current_weather=true&forecast_days=7` +
     `&hourly=relativehumidity_2m,precipitation_probability` +
     `&daily=weathercode,temperature_2m_max,temperature_2m_min` +
     `&timezone=Europe%2FRome`;
@@ -124,7 +124,7 @@ function updateWeather(data) {
   const grid = document.getElementById("forecast-grid");
   grid.innerHTML = "";
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 7; i++) {
 
     const date = new Date(data.daily.time[i]);
     const code = data.daily.weathercode[i];
@@ -142,8 +142,6 @@ function updateWeather(data) {
           display:flex; flex-direction:column;
           align-items:center; text-align:center;
           padding:1rem 0.5rem; gap:0.3rem;">
-          
-          <div style="font-weight:700; font-size:1.1rem;">${label}</div>
 
           <div class="forecast-icon" style="width:60px; height:60px;">
               ${iconSVG(code)}
