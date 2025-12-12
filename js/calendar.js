@@ -1,4 +1,8 @@
-console.log("📅 calendar.js — LCARS OPS CALENDAR");
+console.log("🟢 calendar.js CARICATO");
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🟢 DOM pronto — calendar.js");
+});
 
 // ===============================
 // CONFIG
