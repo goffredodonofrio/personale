@@ -1,7 +1,7 @@
 // assets/calendar.js
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_AHEAD = 3;
+const DAYS_LOOKAHEAD = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -22,34 +22,41 @@ async function loadCalendarEvents() {
     const events = parseICS(text);
 
     const today = startOfDay(new Date());
-    const endWindow = endOfDay(addDays(today, DAYS_AHEAD));
+    const limit = endOfDay(addDays(today, DAYS_LOOKAHEAD));
 
-    const days = buildDays(today, DAYS_AHEAD);
-    const daysWithEvents = [];
+    // 🔹 filtra SOLO eventi rilevanti
+    const validEvents = events.filter(ev =>
+      ev.start && ev.end &&
+      ev.end >= today &&
+      ev.start <= limit
+    );
 
-    days.forEach(day => {
-      const dayStart = startOfDay(day);
-      const dayEnd = endOfDay(day);
+    // 🔹 raggruppa per giorno
+    const daysMap = {};
 
-      const eventsForDay = events.filter(ev =>
-        ev.start && ev.end &&
-        ev.start <= dayEnd &&
-        ev.end >= dayStart
-      );
+    validEvents.forEach(ev => {
+      let cursor = startOfDay(ev.start);
+      const last = startOfDay(ev.end);
 
-      if (eventsForDay.length > 0) {
-        daysWithEvents.push({
-          label: formatDayLabel(day),
-          events: eventsForDay.sort((a, b) => a.start - b.start)
-        });
+      while (cursor <= last) {
+        if (cursor >= today && cursor <= limit) {
+          const key = formatDayLabel(cursor);
+          if (!daysMap[key]) daysMap[key] = [];
+          daysMap[key].push(ev);
+        }
+        cursor = addDays(cursor, 1);
       }
     });
 
     container.innerHTML = "";
 
-    daysWithEvents.forEach(d => {
-      container.appendChild(renderDay(d.label, d.events));
-    });
+    Object.keys(daysMap)
+      .sort((a, b) => new Date(a) - new Date(b))
+      .forEach(dayLabel => {
+        const dayEvents = daysMap[dayLabel]
+          .sort((a, b) => a.start - b.start);
+        container.appendChild(renderDay(dayLabel, dayEvents));
+      });
 
   } catch (err) {
     console.error("Calendario error:", err);
@@ -92,38 +99,6 @@ function renderDay(label, events) {
   return day;
 }
 
-/* ---------- DATE UTILS ---------- */
-
-function buildDays(start, count) {
-  const days = [];
-  for (let i = 0; i <= count; i++) {
-    days.push(addDays(start, i));
-  }
-  return days;
-}
-
-function addDays(d, n) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
-}
-
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function endOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
-}
-
-function formatDayLabel(d) {
-  return d.toLocaleDateString("it-IT", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short"
-  }).toUpperCase();
-}
-
 /* ---------- PARSER ICS ---------- */
 
 function parseICS(text) {
@@ -131,43 +106,57 @@ function parseICS(text) {
   const events = [];
   let current = null;
 
-  for (let line of lines) {
-    line = line.trim();
+  for (let raw of lines) {
+    const line = raw.trim();
 
     if (line === "BEGIN:VEVENT") {
       current = {};
     }
+
     else if (line === "END:VEVENT") {
       if (current?.start) {
         if (!current.end) {
-          current.end = new Date(current.start);
+          current.end = endOfDay(current.start);
         }
         events.push(current);
       }
       current = null;
     }
+
     else if (!current) continue;
 
     else if (line.startsWith("SUMMARY:")) {
       current.title = line.substring(8).replace(/\\n/g, " ");
     }
+
     else if (line.startsWith("DTSTART")) {
       const value = line.split(":")[1];
       current.allDay = line.includes("VALUE=DATE");
-      current.start = current.allDay
-        ? parseDate(value)
-        : parseDateTime(value);
+
+      if (current.allDay) {
+        const d = parseDate(value);
+        current.start = startOfDay(d);
+      } else {
+        current.start = parseDateTime(value);
+      }
     }
-  else if (line.startsWith("DTEND")) {
-  const value = line.split(":")[1];
-  current.end = current.allDay
-    ? new Date(parseDate(value).getTime() - 1)
-    : parseDateTime(value);
-}
+
+    else if (line.startsWith("DTEND")) {
+      const value = line.split(":")[1];
+
+      if (current.allDay) {
+        const d = parseDate(value);
+        current.end = endOfDay(addDays(d, -1));
+      } else {
+        current.end = parseDateTime(value);
+      }
+    }
   }
 
   return events;
 }
+
+/* ---------- DATE UTILS ---------- */
 
 function parseDate(v) {
   return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
@@ -182,6 +171,28 @@ function parseDateTime(v) {
   return v.endsWith("Z")
     ? new Date(Date.UTC(y,m,d,h,min))
     : new Date(y,m,d,h,min);
+}
+
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function endOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+}
+
+function addDays(d, n) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
+function formatDayLabel(d) {
+  return d.toLocaleDateString("it-IT", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short"
+  }).toUpperCase();
 }
 
 function escapeHTML(str) {
