@@ -1,7 +1,7 @@
 // assets/calendar.js
 
 // URL ICS pubblico del calendario Google
-const CALENDAR_URL = "const ICS_URL = "https://calendar.goffredo-donofrio.workers.dev/";
+const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
 
 // Configurazione base
 const MAX_EVENTS = 5;          // quante pill mostrare
