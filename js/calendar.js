@@ -1,8 +1,9 @@
-// assets/calendar.js
+// assets/calendar.js — CALENDAR V1 (CONGELATA)
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_TO_SHOW = 3;
-const EXPANSION_DAYS = 14;
+const DAYS_TO_SHOW = 3;      // quanti giorni con eventi mostrare
+const EXPANSION_DAYS = 14;   // finestra massima per cercare eventi futuri
+const MAX_PAST_DAYS = 60;    // limite sicurezza ricorrenze vecchie
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -13,7 +14,8 @@ async function loadCalendarEvents() {
   const container = document.getElementById("events-row");
   if (!container) return;
 
-  container.innerHTML = `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
+  container.innerHTML =
+    `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
 
   try {
     const res = await fetch(CALENDAR_URL, { cache: "no-store" });
@@ -22,18 +24,24 @@ async function loadCalendarEvents() {
     const text = await res.text();
     const rawEvents = parseICS(text);
 
-    const today = todayKey();
-    const maxDate = addDaysKey(today, EXPANSION_DAYS);
+    const todayKeyStr = todayKey();
+    const maxKeyStr = addDaysKey(todayKeyStr, EXPANSION_DAYS);
 
-    // 1️⃣ espandi ricorrenze
-    const expanded = expandRecurringEvents(rawEvents, today, maxDate);
+    // 1️⃣ espandi eventi (normali + ricorrenti)
+    const expandedEvents = expandRecurringEvents(
+      rawEvents,
+      todayKeyStr,
+      maxKeyStr
+    );
 
-    // 2️⃣ raggruppa per giorno (STRING KEY, non Date)
-    const grouped = groupByDay(expanded, today);
+    // 2️⃣ raggruppa per giorno (da oggi in avanti)
+    const grouped = groupByDay(expandedEvents, todayKeyStr);
 
-    // 3️⃣ mostra SOLO i primi 3 giorni con eventi
+    // 3️⃣ renderizza SOLO i primi 3 giorni con eventi
     container.innerHTML = "";
+
     Object.keys(grouped)
+      .sort()
       .slice(0, DAYS_TO_SHOW)
       .forEach(dayKey => {
         container.appendChild(renderDay(dayKey, grouped[dayKey]));
@@ -41,11 +49,14 @@ async function loadCalendarEvents() {
 
   } catch (err) {
     console.error("Calendario error:", err);
-    container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
+    container.innerHTML =
+      `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
   }
 }
 
-/* ---------- RENDER ---------- */
+/* =========================================================
+   RENDER
+   ========================================================= */
 
 function renderDay(dayKey, events) {
   const day = document.createElement("div");
@@ -80,7 +91,9 @@ function renderDay(dayKey, events) {
   return day;
 }
 
-/* ---------- GROUPING ---------- */
+/* =========================================================
+   GROUPING
+   ========================================================= */
 
 function groupByDay(events, todayKeyStr) {
   const map = {};
@@ -96,68 +109,87 @@ function groupByDay(events, todayKeyStr) {
   return map;
 }
 
-/* ---------- RRULE ---------- */
+/* =========================================================
+   RICORRENZE (supporto WEEKLY base)
+   ========================================================= */
 
 function expandRecurringEvents(events, startKey, endKey) {
   const out = [];
 
   events.forEach(ev => {
-    // evento normale
+
+    // ---------------------------
+    // EVENTO NORMALE
+    // ---------------------------
     if (!ev.rrule) {
+      if (!ev.dayKey) return;
       if (ev.dayKey >= startKey && ev.dayKey <= endKey) {
         out.push(ev);
       }
       return;
     }
 
-    // supporto base WEEKLY
+    // ---------------------------
+    // SOLO WEEKLY
+    // ---------------------------
     if (!ev.rrule.includes("FREQ=WEEKLY")) return;
 
     const byDay = ev.rrule.match(/BYDAY=([A-Z]{2})/)?.[1];
     if (!byDay) return;
 
-    const map = { MO:1, TU:2, WE:3, TH:4, FR:5, SA:6, SU:0 };
-    const targetDow = map[byDay];
+    const dowMap = { SU:0, MO:1, TU:2, WE:3, TH:4, FR:5, SA:6 };
+    const targetDow = dowMap[byDay];
+    if (targetDow === undefined) return;
+
+    const originalStartKey = ev.dayKey;
+
+    // 🔒 BLOCCO RICORRENZE VECCHIE
+    const originalDate = keyToDate(originalStartKey);
+    const todayDate = keyToDate(startKey);
+    const diffDays =
+      (todayDate - originalDate) / (1000 * 60 * 60 * 24);
+
+    if (diffDays > MAX_PAST_DAYS) return;
 
     let cursor = keyToDate(startKey);
     const endDate = keyToDate(endKey);
 
-   const originalStartKey = ev.dayKey;
+    while (cursor <= endDate) {
+      const cursorKey = dateToKey(cursor);
 
-while (cursor <= endDate) {
-  const cursorKey = dateToKey(cursor);
+      // mai prima dell’inizio reale
+      if (cursorKey < originalStartKey) {
+        cursor.setDate(cursor.getDate() + 1);
+        continue;
+      }
 
-  // ❗️ BLOCCO FONDAMENTALE
-  if (cursorKey < originalStartKey) {
-    cursor.setDate(cursor.getDate() + 1);
-    continue;
-  }
+      if (cursor.getDay() === targetDow) {
+        out.push({
+          title: ev.title,
+          allDay: ev.allDay,
+          start: ev.allDay
+            ? new Date(cursor)
+            : new Date(
+                cursor.getFullYear(),
+                cursor.getMonth(),
+                cursor.getDate(),
+                ev.start.getHours(),
+                ev.start.getMinutes()
+              ),
+          dayKey: cursorKey
+        });
+      }
 
-  if (cursor.getDay() === targetDow) {
-    out.push({
-      title: ev.title,
-      allDay: ev.allDay,
-      start: ev.allDay
-        ? new Date(cursor)
-        : new Date(
-            cursor.getFullYear(),
-            cursor.getMonth(),
-            cursor.getDate(),
-            ev.start.getHours(),
-            ev.start.getMinutes()
-          ),
-      dayKey: cursorKey
-    });
-  }
-
-  cursor.setDate(cursor.getDate() + 1);
-}
+      cursor.setDate(cursor.getDate() + 1);
+    }
   });
 
   return out;
 }
 
-/* ---------- ICS PARSER ---------- */
+/* =========================================================
+   PARSER ICS
+   ========================================================= */
 
 function parseICS(text) {
   const lines = text.split(/\r?\n/);
@@ -167,7 +199,9 @@ function parseICS(text) {
   for (let line of lines) {
     line = line.trim();
 
-    if (line === "BEGIN:VEVENT") current = {};
+    if (line === "BEGIN:VEVENT") {
+      current = {};
+    }
     else if (line === "END:VEVENT") {
       if (current?.dayKey) events.push(current);
       current = null;
@@ -181,7 +215,6 @@ function parseICS(text) {
       const value = line.split(":")[1];
 
       if (line.includes("VALUE=DATE")) {
-        // ALL-DAY → chiave di data pura
         current.allDay = true;
         current.dayKey = value;
         current.start = keyToDate(value);
@@ -199,7 +232,9 @@ function parseICS(text) {
   return events;
 }
 
-/* ---------- DATE HELPERS (CHIAVE YYYYMMDD) ---------- */
+/* =========================================================
+   DATE HELPERS (KEY YYYYMMDD)
+   ========================================================= */
 
 function todayKey() {
   return dateToKey(new Date());
@@ -238,13 +273,13 @@ function formatDayLabelFromKey(key) {
 
 function parseDateTime(v) {
   const y = +v.slice(0,4);
-  const m = +v.slice(4,6)-1;
+  const m = +v.slice(4,6) - 1;
   const d = +v.slice(6,8);
   const h = +v.slice(9,11);
   const min = +v.slice(11,13);
   return v.endsWith("Z")
-    ? new Date(Date.UTC(y,m,d,h,min))
-    : new Date(y,m,d,h,min);
+    ? new Date(Date.UTC(y, m, d, h, min))
+    : new Date(y, m, d, h, min);
 }
 
 function escapeHTML(str) {
