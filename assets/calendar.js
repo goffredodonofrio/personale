@@ -1,168 +1,180 @@
-// assets/calendar.js
+// ================================
+// LCARS CALENDAR — SIMPLE LIST
+// ================================
 
+// URL pubblico ICS
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_AHEAD = 3;
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadCalendarEvents();
-  setInterval(loadCalendarEvents, 15 * 60 * 1000);
-});
+// configurazione
+const DAYS_AHEAD = 3; // oggi + 2 giorni
 
-async function loadCalendarEvents() {
-  const container = document.getElementById("events-row");
+// ================================
+// UTILS
+// ================================
+
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function formatDayLabel(date) {
+  return date.toLocaleDateString("it-IT", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short"
+  }).toUpperCase();
+}
+
+function formatTime(date, allDay) {
+  if (allDay) return "Tutto il giorno";
+  return date.toLocaleTimeString("it-IT", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// ================================
+// LOAD & RENDER
+// ================================
+
+async function loadCalendar() {
+  const container = document.getElementById("calendar");
   if (!container) return;
 
-  container.innerHTML = `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
+  container.innerHTML = "CARICAMENTO CALENDARIO…";
 
   try {
     const res = await fetch(CALENDAR_URL);
-    if (!res.ok) throw new Error(res.status);
+    if (!res.ok) throw new Error("HTTP " + res.status);
 
-    const text = await res.text();
-    const events = parseICS(text);
+    const icsText = await res.text();
+    const events = parseICS(icsText);
 
-    const now = startOfDay(new Date());
-    const end = new Date(now);
-    end.setDate(end.getDate() + DAYS_AHEAD);
+    const today = startOfDay(new Date());
+    const days = [];
 
-    const byDay = groupEventsByDay(events, now, end);
+    for (let i = 0; i < DAYS_AHEAD; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + i);
+      days.push(d);
+    }
 
     container.innerHTML = "";
-    Object.keys(byDay).forEach(dayKey => {
-      container.appendChild(renderDay(dayKey, byDay[dayKey]));
+
+    days.forEach(day => {
+      const dayStart = startOfDay(day);
+      const dayEnd = new Date(dayStart);
+      dayEnd.setDate(dayEnd.getDate() + 1);
+
+      const dayEvents = events
+        .filter(ev => ev.start && ev.start >= dayStart && ev.start < dayEnd)
+        .sort((a, b) => a.start - b.start);
+
+      const block = document.createElement("div");
+      block.className = "calendar-day";
+
+      let html = `<h4 class="day-label">${formatDayLabel(day)}</h4>`;
+
+      if (dayEvents.length === 0) {
+        html += `<div class="no-events">— nessun evento familiare</div>`;
+      } else {
+        html += `<ul class="event-list">`;
+        dayEvents.forEach(ev => {
+          html += `
+            <li class="event-line">
+              <span class="event-time">${formatTime(ev.start, ev.allDay)}</span>
+              <span class="event-sep"> | </span>
+              <span class="event-title">${escapeHTML(ev.title || "Evento")}</span>
+            </li>
+          `;
+        });
+        html += `</ul>`;
+      }
+
+      block.innerHTML = html;
+      container.appendChild(block);
     });
 
   } catch (err) {
-    console.error(err);
-    container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
+    console.error("Errore calendario:", err);
+    container.innerHTML = "CALENDARIO OFFLINE";
   }
 }
 
-/* ---------- RENDER ---------- */
-
-function renderDay(label, events) {
-  const day = document.createElement("div");
-  day.className = "lcars-calendar-day";
-
-  const title = document.createElement("div");
-  title.className = "lcars-calendar-date";
-  title.textContent = label;
-  day.appendChild(title);
-
-  if (events.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "lcars-calendar-empty";
-    empty.textContent = "— nessun evento familiare —";
-    day.appendChild(empty);
-    return day;
-  }
-
-  events.forEach(ev => {
-    const row = document.createElement("div");
-    row.className = "lcars-calendar-event";
-
-    const time = ev.allDay
-      ? "—"
-      : ev.start.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
-
-    row.innerHTML = `
-      <span class="lcars-dot">•</span>
-      <span class="lcars-time">${time}</span>
-      <span class="lcars-sep">|</span>
-      <span class="lcars-title">${escapeHTML(ev.title)}</span>
-    `;
-
-    day.appendChild(row);
-  });
-
-  return day;
-}
-
-/* ---------- DATA ---------- */
-
-function groupEventsByDay(events, start, end) {
-  const map = {};
-  const cursor = new Date(start);
-
-  while (cursor <= end) {
-    const key = cursor.toLocaleDateString("it-IT", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short"
-    }).toUpperCase();
-
-    map[key] = [];
-    cursor.setDate(cursor.getDate() + 1);
-  }
-
-  events.forEach(ev => {
-    if (!ev.start) return;
-    if (ev.start < start || ev.start > end) return;
-
-    const key = ev.start.toLocaleDateString("it-IT", {
-      weekday: "short",
-      day: "2-digit",
-      month: "short"
-    }).toUpperCase();
-
-    if (map[key]) map[key].push(ev);
-  });
-
-  Object.values(map).forEach(list =>
-    list.sort((a, b) => a.start - b.start)
-  );
-
-  return map;
-}
-
-/* ---------- PARSER ICS ---------- */
+// ================================
+// ICS PARSER (robusto)
+// ================================
 
 function parseICS(text) {
   const lines = text.split(/\r?\n/);
   const events = [];
   let current = null;
 
-  for (let line of lines) {
-    line = line.trim();
+  for (let raw of lines) {
+    const line = raw.trim();
 
-    if (line === "BEGIN:VEVENT") current = {};
+    if (line === "BEGIN:VEVENT") {
+      current = {};
+    } 
     else if (line === "END:VEVENT") {
-      if (current?.start) events.push(current);
+      if (current && current.start) events.push(current);
       current = null;
-    }
+    } 
     else if (!current) continue;
-    else if (line.startsWith("SUMMARY:"))
-      current.title = line.substring(8).replace(/\\n/g, " ");
+
+    else if (line.startsWith("SUMMARY:")) {
+      current.title = line.substring(8).replace(/\\n/g, " ").trim();
+    } 
     else if (line.startsWith("DTSTART")) {
-      const value = line.split(":")[1];
-      current.allDay = line.includes("VALUE=DATE");
-      current.start = current.allDay ? parseDate(value) : parseDateTime(value);
+      const parts = line.split(":");
+      const meta = parts[0];
+      const value = parts[1];
+
+      if (meta.includes("VALUE=DATE")) {
+        current.allDay = true;
+        current.start = parseDateOnly(value);
+      } else {
+        current.allDay = false;
+        current.start = parseDateTime(value);
+      }
     }
   }
+
   return events;
 }
 
-function parseDate(v) {
-  return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
+function parseDateOnly(v) {
+  const y = Number(v.slice(0, 4));
+  const m = Number(v.slice(4, 6)) - 1;
+  const d = Number(v.slice(6, 8));
+  return new Date(y, m, d);
 }
 
 function parseDateTime(v) {
-  const y = +v.slice(0,4);
-  const m = +v.slice(4,6)-1;
-  const d = +v.slice(6,8);
-  const h = +v.slice(9,11);
-  const min = +v.slice(11,13);
-  return v.endsWith("Z")
-    ? new Date(Date.UTC(y,m,d,h,min))
-    : new Date(y,m,d,h,min);
+  const y = Number(v.slice(0, 4));
+  const m = Number(v.slice(4, 6)) - 1;
+  const d = Number(v.slice(6, 8));
+  const h = Number(v.slice(9, 11));
+  const min = Number(v.slice(11, 13)) || 0;
+  const s = Number(v.slice(13, 15)) || 0;
+
+  if (v.endsWith("Z")) {
+    return new Date(Date.UTC(y, m, d, h, min, s));
+  }
+  return new Date(y, m, d, h, min, s);
 }
 
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
+// ================================
+// INIT
+// ================================
 
-function escapeHTML(str) {
-  return str.replace(/[&<>]/g, c =>
-    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c])
-  );
-}
+document.addEventListener("DOMContentLoaded", () => {
+  loadCalendar();
+  setInterval(loadCalendar, 15 * 60 * 1000);
+});
