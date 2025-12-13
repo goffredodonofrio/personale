@@ -158,12 +158,12 @@ function parseICS(text) {
         ? parseDate(value)
         : parseDateTime(value);
     }
-    else if (line.startsWith("DTEND")) {
-      const value = line.split(":")[1];
-      current.end = current.allDay
-        ? parseDate(value)
-        : parseDateTime(value);
-    }
+  else if (line.startsWith("DTEND")) {
+  const value = line.split(":")[1];
+  current.end = current.allDay
+    ? new Date(parseDate(value).getTime() - 1)
+    : parseDateTime(value);
+}
   }
 
   return events;
