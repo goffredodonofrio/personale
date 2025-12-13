@@ -22,21 +22,21 @@ async function loadCalendarEvents() {
     const text = await res.text();
     const rawEvents = parseICS(text);
 
-    const today = startOfDay(new Date());
-    const expansionEnd = endOfDay(addDays(today, EXPANSION_DAYS));
+    const today = todayKey();
+    const maxDate = addDaysKey(today, EXPANSION_DAYS);
 
     // 1️⃣ espandi ricorrenze
-    const expanded = expandRecurringEvents(rawEvents, today, expansionEnd);
+    const expanded = expandRecurringEvents(rawEvents, today, maxDate);
 
-    // 2️⃣ raggruppa per giorno
-    const byDay = groupByDay(expanded, today);
+    // 2️⃣ raggruppa per giorno (STRING KEY, non Date)
+    const grouped = groupByDay(expanded, today);
 
-    // 3️⃣ prendi SOLO i primi 3 giorni con eventi
+    // 3️⃣ mostra SOLO i primi 3 giorni con eventi
     container.innerHTML = "";
-    Object.keys(byDay)
+    Object.keys(grouped)
       .slice(0, DAYS_TO_SHOW)
       .forEach(dayKey => {
-        container.appendChild(renderDay(dayKey, byDay[dayKey]));
+        container.appendChild(renderDay(dayKey, grouped[dayKey]));
       });
 
   } catch (err) {
@@ -47,13 +47,13 @@ async function loadCalendarEvents() {
 
 /* ---------- RENDER ---------- */
 
-function renderDay(label, events) {
+function renderDay(dayKey, events) {
   const day = document.createElement("div");
   day.className = "lcars-calendar-day";
 
   const title = document.createElement("div");
   title.className = "lcars-calendar-date";
-  title.textContent = label;
+  title.textContent = formatDayLabelFromKey(dayKey);
   day.appendChild(title);
 
   events.forEach(ev => {
@@ -82,57 +82,62 @@ function renderDay(label, events) {
 
 /* ---------- GROUPING ---------- */
 
-function groupByDay(events, startDay) {
+function groupByDay(events, todayKeyStr) {
   const map = {};
 
   events
-    .filter(ev => ev.start >= startDay)
+    .filter(ev => ev.dayKey >= todayKeyStr)
     .sort((a, b) => a.start - b.start)
     .forEach(ev => {
-      const key = formatDayLabel(ev.start);
-      if (!map[key]) map[key] = [];
-      map[key].push(ev);
+      if (!map[ev.dayKey]) map[ev.dayKey] = [];
+      map[ev.dayKey].push(ev);
     });
 
   return map;
 }
 
-/* ---------- RRULE EXPANSION ---------- */
+/* ---------- RRULE ---------- */
 
-function expandRecurringEvents(events, start, end) {
+function expandRecurringEvents(events, startKey, endKey) {
   const out = [];
 
   events.forEach(ev => {
+    // evento normale
     if (!ev.rrule) {
-      if (ev.start <= end) out.push(ev);
+      if (ev.dayKey >= startKey && ev.dayKey <= endKey) {
+        out.push(ev);
+      }
       return;
     }
 
-    // supporto base: FREQ=WEEKLY;BYDAY=MO
-    const rule = ev.rrule;
-    if (!rule.includes("FREQ=WEEKLY")) return;
+    // supporto base WEEKLY
+    if (!ev.rrule.includes("FREQ=WEEKLY")) return;
 
-    const byDayMatch = rule.match(/BYDAY=([A-Z]{2})/);
-    if (!byDayMatch) return;
+    const byDay = ev.rrule.match(/BYDAY=([A-Z]{2})/)?.[1];
+    if (!byDay) return;
 
-    const dayMap = { MO:1, TU:2, WE:3, TH:4, FR:5, SA:6, SU:0 };
-    const targetDow = dayMap[byDayMatch[1]];
+    const map = { MO:1, TU:2, WE:3, TH:4, FR:5, SA:6, SU:0 };
+    const targetDow = map[byDay];
 
-    let cursor = new Date(start);
-    while (cursor <= end) {
+    let cursor = keyToDate(startKey);
+    const endDate = keyToDate(endKey);
+
+    while (cursor <= endDate) {
       if (cursor.getDay() === targetDow) {
-        const occ = {
+        out.push({
           title: ev.title,
           allDay: ev.allDay,
-          start: new Date(
-            cursor.getFullYear(),
-            cursor.getMonth(),
-            cursor.getDate(),
-            ev.start.getHours(),
-            ev.start.getMinutes()
-          )
-        };
-        out.push(occ);
+          start: ev.allDay
+            ? new Date(cursor)
+            : new Date(
+                cursor.getFullYear(),
+                cursor.getMonth(),
+                cursor.getDate(),
+                ev.start.getHours(),
+                ev.start.getMinutes()
+              ),
+          dayKey: dateToKey(cursor)
+        });
       }
       cursor.setDate(cursor.getDate() + 1);
     }
@@ -153,7 +158,7 @@ function parseICS(text) {
 
     if (line === "BEGIN:VEVENT") current = {};
     else if (line === "END:VEVENT") {
-      if (current?.start) events.push(current);
+      if (current?.dayKey) events.push(current);
       current = null;
     }
     else if (!current) continue;
@@ -163,10 +168,17 @@ function parseICS(text) {
     }
     else if (line.startsWith("DTSTART")) {
       const value = line.split(":")[1];
-      current.allDay = line.includes("VALUE=DATE");
-      current.start = current.allDay
-        ? parseDate(value)
-        : parseDateTime(value);
+
+      if (line.includes("VALUE=DATE")) {
+        // ALL-DAY → chiave di data pura
+        current.allDay = true;
+        current.dayKey = value;
+        current.start = keyToDate(value);
+      } else {
+        current.allDay = false;
+        current.start = parseDateTime(value);
+        current.dayKey = dateToKey(current.start);
+      }
     }
     else if (line.startsWith("RRULE:")) {
       current.rrule = line.substring(6);
@@ -176,32 +188,41 @@ function parseICS(text) {
   return events;
 }
 
-/* ---------- DATE UTILS ---------- */
+/* ---------- DATE HELPERS (CHIAVE YYYYMMDD) ---------- */
 
-function addDays(d, n) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
+function todayKey() {
+  return dateToKey(new Date());
 }
 
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+function dateToKey(d) {
+  return (
+    d.getFullYear().toString() +
+    String(d.getMonth() + 1).padStart(2, "0") +
+    String(d.getDate()).padStart(2, "0")
+  );
 }
 
-function endOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+function keyToDate(key) {
+  return new Date(
+    Number(key.slice(0,4)),
+    Number(key.slice(4,6)) - 1,
+    Number(key.slice(6,8))
+  );
 }
 
-function formatDayLabel(d) {
+function addDaysKey(key, days) {
+  const d = keyToDate(key);
+  d.setDate(d.getDate() + days);
+  return dateToKey(d);
+}
+
+function formatDayLabelFromKey(key) {
+  const d = keyToDate(key);
   return d.toLocaleDateString("it-IT", {
     weekday: "short",
     day: "2-digit",
     month: "short"
   }).toUpperCase();
-}
-
-function parseDate(v) {
-  return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
 }
 
 function parseDateTime(v) {
@@ -217,4 +238,6 @@ function parseDateTime(v) {
 
 function escapeHTML(str) {
   return str.replace(/[&<>]/g, c =>
-    ({ "&":"&amp;",
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c])
+  );
+}
