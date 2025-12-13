@@ -219,6 +219,61 @@
     gap: 1.2rem;
 }
 
+/* HEADER GIORNO */
+.lcars-day-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ld-yellow); /* 🔁 */
+}
+
+.lcars-day-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--ld-yellow); /* 🔁 */
+    border-radius: 50%;
+}
+
+/* BARRA */
+.lcars-day-bar {
+    margin: 0.5rem 0 0.9rem;
+    height: 18px;
+    width: 100%;
+    background-color: var(--ld-blue-main); /* 🔁 */
+    border-radius: 100vmax;
+}
+
+/* EVENTI */
+.lcars-day-event {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: white; /* 🔁 */
+}
+
+.event-dot {
+    color: var(--ld-yellow); /* 🔁 */
+}
+
+.event-time {
+    min-width: 46px;
+    font-weight: 700;
+}
+
+.event-sep {
+    opacity: 0.6;
+}
+
+.event-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 1500px) {
 	:root {
 		--lfw: 200px;
