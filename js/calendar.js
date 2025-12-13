@@ -1,9 +1,9 @@
 // ================================
-// LCARS FAMILY CALENDAR (FIXED)
+// LCARS FAMILY CALENDAR — EVENTS ONLY
 // ================================
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_AHEAD = 3;
+const MAX_DAYS_WITH_EVENTS = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -24,16 +24,22 @@ async function loadCalendarEvents() {
     const text = await res.text();
     const events = parseICS(text);
 
-    const today = startOfDay(new Date());
-    const end = endOfDay(addDays(today, DAYS_AHEAD - 1));
+    const grouped = groupEventsByDay(events);
 
-    const grouped = groupEventsByDay(events, today, end);
+    const daysWithEvents = Object.keys(grouped)
+      .sort((a, b) => grouped[a][0].start - grouped[b][0].start)
+      .slice(0, MAX_DAYS_WITH_EVENTS);
 
     container.innerHTML = "";
 
-    Object.keys(grouped).forEach(key => {
-      container.appendChild(renderDay(key, grouped[key]));
+    daysWithEvents.forEach(dayKey => {
+      container.appendChild(renderDay(dayKey, grouped[dayKey]));
     });
+
+    if (daysWithEvents.length === 0) {
+      container.innerHTML =
+        `<div class="lcars-calendar-empty">NESSUN EVENTO IN CALENDARIO</div>`;
+    }
 
   } catch (err) {
     console.error("Calendar error:", err);
@@ -54,14 +60,6 @@ function renderDay(label, events) {
   title.className = "lcars-calendar-date";
   title.textContent = label;
   day.appendChild(title);
-
-  if (events.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "lcars-calendar-empty";
-    empty.textContent = "— nessun evento familiare —";
-    day.appendChild(empty);
-    return day;
-  }
 
   events.forEach(ev => {
     const row = document.createElement("div");
@@ -88,29 +86,19 @@ function renderDay(label, events) {
 }
 
 /* ================================
-   GROUPING
+   GROUPING (EVENT DAYS ONLY)
 ================================ */
 
-function groupEventsByDay(events, start, end) {
+function groupEventsByDay(events) {
   const map = {};
-  const cursor = new Date(start);
-
-  // inizializza giorni
-  while (cursor <= end) {
-    const key = formatDay(cursor);
-    map[key] = [];
-    cursor.setDate(cursor.getDate() + 1);
-  }
 
   events.forEach(ev => {
     if (!ev.start) return;
 
-    const eventDay = startOfDay(ev.start);
+    const dayKey = formatDay(startOfDay(ev.start));
 
-    if (eventDay < start || eventDay > end) return;
-
-    const key = formatDay(eventDay);
-    if (map[key]) map[key].push(ev);
+    if (!map[dayKey]) map[dayKey] = [];
+    map[dayKey].push(ev);
   });
 
   Object.values(map).forEach(list =>
@@ -132,11 +120,9 @@ function parseICS(text) {
   for (let raw of lines) {
     const line = raw.trim();
 
-    if (line === "BEGIN:VEVENT") {
-      current = {};
-    }
+    if (line === "BEGIN:VEVENT") current = {};
     else if (line === "END:VEVENT") {
-      if (current && current.start) events.push(current);
+      if (current?.start) events.push(current);
       current = null;
     }
     else if (!current) continue;
@@ -162,16 +148,6 @@ function parseICS(text) {
 
 function startOfDay(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function endOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59);
-}
-
-function addDays(d, n) {
-  const r = new Date(d);
-  r.setDate(r.getDate() + n);
-  return r;
 }
 
 function formatDay(d) {
