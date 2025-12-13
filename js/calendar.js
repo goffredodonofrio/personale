@@ -24,20 +24,20 @@ async function loadCalendarEvents() {
 
     const today = startOfDay(new Date());
 
-    // 1️⃣ solo eventi da oggi in avanti
+    // ✅ solo eventi da oggi in avanti (local time)
     const upcoming = events.filter(ev =>
-      ev.start && ev.start >= today
+      ev.start && startOfDay(ev.start) >= today
     );
 
-    // 2️⃣ raggruppa per giorno di START
+    // ✅ raggruppa per giorno CORRETTO
     const byDay = {};
     upcoming.forEach(ev => {
-      const key = dayKey(ev.start);
+      const key = dayKey(ev.start); // YYYY-MM-DD
       if (!byDay[key]) byDay[key] = [];
       byDay[key].push(ev);
     });
 
-    // 3️⃣ ordina i giorni
+    // ✅ ordina i giorni
     const orderedDays = Object.keys(byDay)
       .sort((a, b) => new Date(a) - new Date(b))
       .slice(0, MAX_DAYS);
@@ -45,10 +45,10 @@ async function loadCalendarEvents() {
     container.innerHTML = "";
 
     orderedDays.forEach(key => {
-      const dayDate = new Date(key);
+      const date = new Date(key + "T00:00:00");
       const dayEvents = byDay[key].sort((a, b) => a.start - b.start);
       container.appendChild(
-        renderDay(formatDayLabel(dayDate), dayEvents)
+        renderDay(formatDayLabel(date), dayEvents)
       );
     });
 
@@ -94,6 +94,28 @@ function renderDay(label, events) {
   return day;
 }
 
+/* ---------- DATE UTILS ---------- */
+
+// ✅ YYYY-MM-DD con mese corretto
+function dayKey(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function formatDayLabel(d) {
+  return d.toLocaleDateString("it-IT", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short"
+  }).toUpperCase();
+}
+
 /* ---------- PARSER ICS ---------- */
 
 function parseICS(text) {
@@ -128,37 +150,23 @@ function parseICS(text) {
   return events;
 }
 
-/* ---------- DATE UTILS ---------- */
-
-function dayKey(d) {
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-}
-
 function parseDate(v) {
-  return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
+  return new Date(
+    +v.slice(0,4),
+    +v.slice(4,6) - 1,
+    +v.slice(6,8)
+  );
 }
 
 function parseDateTime(v) {
   const y = +v.slice(0,4);
-  const m = +v.slice(4,6)-1;
+  const m = +v.slice(4,6) - 1;
   const d = +v.slice(6,8);
   const h = +v.slice(9,11);
   const min = +v.slice(11,13);
   return v.endsWith("Z")
-    ? new Date(Date.UTC(y,m,d,h,min))
-    : new Date(y,m,d,h,min);
-}
-
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function formatDayLabel(d) {
-  return d.toLocaleDateString("it-IT", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short"
-  }).toUpperCase();
+    ? new Date(Date.UTC(y, m, d, h, min))
+    : new Date(y, m, d, h, min);
 }
 
 function escapeHTML(str) {
