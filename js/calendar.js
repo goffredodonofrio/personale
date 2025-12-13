@@ -122,25 +122,36 @@ function expandRecurringEvents(events, startKey, endKey) {
     let cursor = keyToDate(startKey);
     const endDate = keyToDate(endKey);
 
-    while (cursor <= endDate) {
-      if (cursor.getDay() === targetDow) {
-        out.push({
-          title: ev.title,
-          allDay: ev.allDay,
-          start: ev.allDay
-            ? new Date(cursor)
-            : new Date(
-                cursor.getFullYear(),
-                cursor.getMonth(),
-                cursor.getDate(),
-                ev.start.getHours(),
-                ev.start.getMinutes()
-              ),
-          dayKey: dateToKey(cursor)
-        });
-      }
-      cursor.setDate(cursor.getDate() + 1);
-    }
+   const originalStartKey = ev.dayKey;
+
+while (cursor <= endDate) {
+  const cursorKey = dateToKey(cursor);
+
+  // ❗️ BLOCCO FONDAMENTALE
+  if (cursorKey < originalStartKey) {
+    cursor.setDate(cursor.getDate() + 1);
+    continue;
+  }
+
+  if (cursor.getDay() === targetDow) {
+    out.push({
+      title: ev.title,
+      allDay: ev.allDay,
+      start: ev.allDay
+        ? new Date(cursor)
+        : new Date(
+            cursor.getFullYear(),
+            cursor.getMonth(),
+            cursor.getDate(),
+            ev.start.getHours(),
+            ev.start.getMinutes()
+          ),
+      dayKey: cursorKey
+    });
+  }
+
+  cursor.setDate(cursor.getDate() + 1);
+}
   });
 
   return out;
