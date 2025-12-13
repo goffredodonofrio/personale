@@ -1,6 +1,8 @@
+// assets/calendar.js
+
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
 const DAYS_TO_SHOW = 3;
-const LOOKAHEAD_DAYS = 14;
+const EXPANSION_DAYS = 14;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -18,60 +20,40 @@ async function loadCalendarEvents() {
     if (!res.ok) throw new Error(res.status);
 
     const text = await res.text();
-    const events = parseICS(text);
+    const rawEvents = parseICS(text);
 
     const today = startOfDay(new Date());
-    const endLimit = endOfDay(addDays(today, LOOKAHEAD_DAYS));
+    const expansionEnd = endOfDay(addDays(today, EXPANSION_DAYS));
 
-    // espandi eventi per giorno
-    const eventsByDay = {};
+    // 1️⃣ espandi ricorrenze
+    const expanded = expandRecurringEvents(rawEvents, today, expansionEnd);
 
-    events.forEach(ev => {
-      if (!ev.start) return;
+    // 2️⃣ raggruppa per giorno
+    const byDay = groupByDay(expanded, today);
 
-      const start = startOfDay(ev.start);
-      const end = ev.end ? startOfDay(ev.end) : start;
-
-      let cursor = new Date(start);
-      while (cursor <= end && cursor <= endLimit) {
-        if (cursor >= today) {
-          const key = dayKey(cursor);
-          if (!eventsByDay[key]) eventsByDay[key] = [];
-          eventsByDay[key].push(ev);
-        }
-        cursor = addDays(cursor, 1);
-      }
-    });
-
-    // ordina i giorni
-    const orderedDays = Object.keys(eventsByDay)
-      .sort((a, b) => new Date(a) - new Date(b))
-      .slice(0, DAYS_TO_SHOW);
-
+    // 3️⃣ prendi SOLO i primi 3 giorni con eventi
     container.innerHTML = "";
-
-    orderedDays.forEach(key => {
-      const dayDate = new Date(key);
-      const dayEvents = eventsByDay[key]
-        .sort((a, b) => (a.start || 0) - (b.start || 0));
-      container.appendChild(renderDay(dayDate, dayEvents));
-    });
+    Object.keys(byDay)
+      .slice(0, DAYS_TO_SHOW)
+      .forEach(dayKey => {
+        container.appendChild(renderDay(dayKey, byDay[dayKey]));
+      });
 
   } catch (err) {
-    console.error("Calendar error:", err);
+    console.error("Calendario error:", err);
     container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
   }
 }
 
 /* ---------- RENDER ---------- */
 
-function renderDay(date, events) {
+function renderDay(label, events) {
   const day = document.createElement("div");
   day.className = "lcars-calendar-day";
 
   const title = document.createElement("div");
   title.className = "lcars-calendar-date";
-  title.textContent = formatDayLabel(date);
+  title.textContent = label;
   day.appendChild(title);
 
   events.forEach(ev => {
@@ -98,6 +80,67 @@ function renderDay(date, events) {
   return day;
 }
 
+/* ---------- GROUPING ---------- */
+
+function groupByDay(events, startDay) {
+  const map = {};
+
+  events
+    .filter(ev => ev.start >= startDay)
+    .sort((a, b) => a.start - b.start)
+    .forEach(ev => {
+      const key = formatDayLabel(ev.start);
+      if (!map[key]) map[key] = [];
+      map[key].push(ev);
+    });
+
+  return map;
+}
+
+/* ---------- RRULE EXPANSION ---------- */
+
+function expandRecurringEvents(events, start, end) {
+  const out = [];
+
+  events.forEach(ev => {
+    if (!ev.rrule) {
+      if (ev.start <= end) out.push(ev);
+      return;
+    }
+
+    // supporto base: FREQ=WEEKLY;BYDAY=MO
+    const rule = ev.rrule;
+    if (!rule.includes("FREQ=WEEKLY")) return;
+
+    const byDayMatch = rule.match(/BYDAY=([A-Z]{2})/);
+    if (!byDayMatch) return;
+
+    const dayMap = { MO:1, TU:2, WE:3, TH:4, FR:5, SA:6, SU:0 };
+    const targetDow = dayMap[byDayMatch[1]];
+
+    let cursor = new Date(start);
+    while (cursor <= end) {
+      if (cursor.getDay() === targetDow) {
+        const occ = {
+          title: ev.title,
+          allDay: ev.allDay,
+          start: new Date(
+            cursor.getFullYear(),
+            cursor.getMonth(),
+            cursor.getDate(),
+            ev.start.getHours(),
+            ev.start.getMinutes()
+          )
+        };
+        out.push(occ);
+      }
+      cursor.setDate(cursor.getDate() + 1);
+    }
+  });
+
+  return out;
+}
+
 /* ---------- ICS PARSER ---------- */
 
 function parseICS(text) {
@@ -105,16 +148,12 @@ function parseICS(text) {
   const events = [];
   let current = null;
 
-  for (let raw of lines) {
-    const line = raw.trim();
+  for (let line of lines) {
+    line = line.trim();
 
-    if (line === "BEGIN:VEVENT") {
-      current = {};
-    }
+    if (line === "BEGIN:VEVENT") current = {};
     else if (line === "END:VEVENT") {
-      if (current?.start) {
-        expandEvent(current).forEach(e => events.push(e));
-      }
+      if (current?.start) events.push(current);
       current = null;
     }
     else if (!current) continue;
@@ -126,13 +165,7 @@ function parseICS(text) {
       const value = line.split(":")[1];
       current.allDay = line.includes("VALUE=DATE");
       current.start = current.allDay
-        ? startOfDay(parseDate(value))
-        : parseDateTime(value);
-    }
-    else if (line.startsWith("DTEND")) {
-      const value = line.split(":")[1];
-      current.end = current.allDay
-        ? endOfDay(parseDate(value))
+        ? parseDate(value)
         : parseDateTime(value);
     }
     else if (line.startsWith("RRULE:")) {
@@ -141,51 +174,6 @@ function parseICS(text) {
   }
 
   return events;
-}
-
-/* ---------- RRULE (solo ciò che serve) ---------- */
-
-function expandEvent(ev) {
-  if (!ev.rrule) return [ev];
-
-  const rule = parseRRule(ev.rrule);
-  if (rule.freq !== "WEEKLY" || !rule.byDay) return [ev];
-
-  const out = [];
-  const today = startOfDay(new Date());
-  const limit = addDays(today, LOOKAHEAD_DAYS);
-
-  let cursor = startOfDay(ev.start);
-
-  while (cursor <= limit) {
-    if (cursor >= today && rule.byDay.includes(cursor.getDay())) {
-      out.push({
-        ...ev,
-        start: new Date(cursor),
-        end: ev.end
-      });
-    }
-    cursor = addDays(cursor, 1);
-  }
-
-  return out;
-}
-
-function parseRRule(str) {
-  const parts = {};
-  str.split(";").forEach(p => {
-    const [k, v] = p.split("=");
-    parts[k] = v;
-  });
-
-  return {
-    freq: parts.FREQ,
-    byDay: parts.BYDAY
-      ? parts.BYDAY.split(",").map(d =>
-          ["SU","MO","TU","WE","TH","FR","SA"].indexOf(d)
-        )
-      : null
-  };
 }
 
 /* ---------- DATE UTILS ---------- */
@@ -202,10 +190,6 @@ function startOfDay(d) {
 
 function endOfDay(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
-}
-
-function dayKey(d) {
-  return startOfDay(d).toISOString().slice(0, 10);
 }
 
 function formatDayLabel(d) {
@@ -233,6 +217,4 @@ function parseDateTime(v) {
 
 function escapeHTML(str) {
   return str.replace(/[&<>]/g, c =>
-    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c])
-  );
-}
+    ({ "&":"&amp;",
