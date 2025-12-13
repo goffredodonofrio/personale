@@ -1,7 +1,7 @@
 // assets/calendar.js
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_LOOKAHEAD = 3;
+const DAYS_AHEAD = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -12,7 +12,8 @@ async function loadCalendarEvents() {
   const container = document.getElementById("events-row");
   if (!container) return;
 
-  container.innerHTML = `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
+  container.innerHTML =
+    `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
 
   try {
     const res = await fetch(CALENDAR_URL, { cache: "no-store" });
@@ -22,30 +23,22 @@ async function loadCalendarEvents() {
     const events = parseICS(text);
 
     const today = startOfDay(new Date());
-    const limit = endOfDay(addDays(today, DAYS_LOOKAHEAD));
+    const limit = endOfDay(addDays(today, DAYS_AHEAD));
 
-    // 🔹 filtra SOLO eventi rilevanti
+    // 🔹 filtro eventi: SOLO da oggi in avanti
     const validEvents = events.filter(ev =>
-      ev.start && ev.end &&
-      ev.end >= today &&
+      ev.start &&
+      ev.start >= today &&
       ev.start <= limit
     );
 
-    // 🔹 raggruppa per giorno
+    // 🔹 raggruppa per giorno (solo start)
     const daysMap = {};
 
     validEvents.forEach(ev => {
-      let cursor = startOfDay(ev.start);
-      const last = startOfDay(ev.end);
-
-      while (cursor <= last) {
-        if (cursor >= today && cursor <= limit) {
-          const key = formatDayLabel(cursor);
-          if (!daysMap[key]) daysMap[key] = [];
-          daysMap[key].push(ev);
-        }
-        cursor = addDays(cursor, 1);
-      }
+      const key = formatDayLabel(ev.start);
+      if (!daysMap[key]) daysMap[key] = [];
+      daysMap[key].push(ev);
     });
 
     container.innerHTML = "";
@@ -60,7 +53,8 @@ async function loadCalendarEvents() {
 
   } catch (err) {
     console.error("Calendario error:", err);
-    container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
+    container.innerHTML =
+      `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
   }
 }
 
@@ -115,9 +109,6 @@ function parseICS(text) {
 
     else if (line === "END:VEVENT") {
       if (current?.start) {
-        if (!current.end) {
-          current.end = endOfDay(current.start);
-        }
         events.push(current);
       }
       current = null;
@@ -133,23 +124,9 @@ function parseICS(text) {
       const value = line.split(":")[1];
       current.allDay = line.includes("VALUE=DATE");
 
-      if (current.allDay) {
-        const d = parseDate(value);
-        current.start = startOfDay(d);
-      } else {
-        current.start = parseDateTime(value);
-      }
-    }
-
-    else if (line.startsWith("DTEND")) {
-      const value = line.split(":")[1];
-
-      if (current.allDay) {
-        const d = parseDate(value);
-        current.end = endOfDay(addDays(d, -1));
-      } else {
-        current.end = parseDateTime(value);
-      }
+      current.start = current.allDay
+        ? startOfDay(parseDate(value))
+        : parseDateTime(value);
     }
   }
 
