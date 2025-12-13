@@ -159,82 +159,16 @@
         font-weight: 700;
     }
 
- /* =========================================================
-   LCARS CALENDAR — NEWS / UPDATES STYLE
-   ========================================================= */
-
-#events-row {
-  margin-top: 1.5rem;
-}
-
-/* ---- BLOCCO GIORNO ---- */
-
-.lcars-day-block {
-  margin-bottom: 2.75rem;
-}
-
-/* intestazione giorno */
-.lcars-day-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 1.15rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--orange);
-}
-
-.lcars-day-dot {
-  width: 10px;
-  height: 10px;
-  background-color: var(--orange);
-  border-radius: 50%;
-}
-
-/* barra viola */
-.lcars-day-bar {
-  margin: 0.45rem 0 0.9rem;
-  height: 16px;
-  max-width: 520px;
-  background-color: var(--african-violet);
-  border-radius: 100vmax;
-}
-
-/* ---- EVENTI ---- */
-
-.lcars-day-events {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.lcars-day-event {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  font-size: 0.95rem;
-  color: var(--violet-creme);
-}
-
-.event-dot {
-  color: var(--orange);
-}
-
-.event-time {
-  min-width: 48px;
-  font-weight: bold;
-  color: var(--violet-creme);
-}
-
-.event-sep {
-  opacity: 0.6;
-}
-
-.event-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    /* ================================
+       CALENDARIO — RIGA EVENTI (LCARS)
+       ================================ */
+    .ops-events-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.4rem 0.2rem;
+    }
 
     .ops-event-pill {
         background: var(--ld-blue-main);
