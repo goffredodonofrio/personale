@@ -234,9 +234,13 @@
 }
 
 .event-title {
-    white-space: nowrap;
+    white-space: normal;          /* consente a capo */
     overflow: hidden;
-    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;        /* max 2 righe */
+    -webkit-box-orient: vertical;
+    line-height: 1.25;
+    max-width: 140px;             /* controlla la larghezza */
 }
 
     /* SMART GRID BOTTONI PRINCIPALI */
