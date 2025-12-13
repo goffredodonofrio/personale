@@ -59,36 +59,68 @@ async function loadCalendarEvents() {
    ========================================================= */
 
 function renderDay(dayKey, events) {
-  const day = document.createElement("div");
-  day.className = "lcars-calendar-day";
+  const dayBlock = document.createElement("div");
+  dayBlock.className = "lcars-day-block";
+
+  /* HEADER */
+  const header = document.createElement("div");
+  header.className = "lcars-day-header";
+
+  const dot = document.createElement("div");
+  dot.className = "lcars-day-dot";
 
   const title = document.createElement("div");
-  title.className = "lcars-calendar-date";
   title.textContent = formatDayLabelFromKey(dayKey);
-  day.appendChild(title);
+
+  header.appendChild(dot);
+  header.appendChild(title);
+
+  /* BAR */
+  const bar = document.createElement("div");
+  bar.className = "lcars-day-bar";
+
+  /* EVENTS */
+  const eventsWrap = document.createElement("div");
+  eventsWrap.className = "lcars-day-events";
 
   events.forEach(ev => {
     const row = document.createElement("div");
-    row.className = "lcars-calendar-event";
+    row.className = "lcars-day-event";
 
-    const time = ev.allDay
+    const time = document.createElement("span");
+    time.className = "event-time";
+    time.textContent = ev.allDay
       ? "—"
       : ev.start.toLocaleTimeString("it-IT", {
           hour: "2-digit",
           minute: "2-digit"
         });
 
-    row.innerHTML = `
-      <span class="lcars-dot">•</span>
-      <span class="lcars-time">${time}</span>
-      <span class="lcars-sep">|</span>
-      <span class="lcars-title">${escapeHTML(ev.title)}</span>
-    `;
+    const sep = document.createElement("span");
+    sep.className = "event-sep";
+    sep.textContent = "|";
 
-    day.appendChild(row);
+    const title = document.createElement("span");
+    title.className = "event-title";
+    title.textContent = ev.title;
+
+    const dot = document.createElement("span");
+    dot.className = "event-dot";
+    dot.textContent = "•";
+
+    row.appendChild(dot);
+    row.appendChild(time);
+    row.appendChild(sep);
+    row.appendChild(title);
+
+    eventsWrap.appendChild(row);
   });
 
-  return day;
+  dayBlock.appendChild(header);
+  dayBlock.appendChild(bar);
+  dayBlock.appendChild(eventsWrap);
+
+  return dayBlock;
 }
 
 /* =========================================================
