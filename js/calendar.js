@@ -1,7 +1,7 @@
 // assets/calendar.js
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_AHEAD = 7;
+const DAYS_AHEAD = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
