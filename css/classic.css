@@ -3084,4 +3084,45 @@ footer:has(.footer-frame) {
    	height: 1.3rem;
    	line-height: 1rem;
    }
+	.ops-events-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* pill lunga stile smart-control */
+.ops-event-pill {
+    background: #FFB469; /* stessa famiglia dei bottoni */
+    border-radius: 999px;
+    padding: 0.8rem 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+/* giorno a sinistra */
+.ops-event-day {
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    opacity: 0.9;
+}
+
+/* blocco testo a destra */
+.ops-event-main {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* titolo evento */
+.ops-event-title {
+    font-weight: 700;
+}
+
+/* orario */
+.ops-event-time {
+    font-weight: 700;
+    opacity: 0.85;
+}
 }
