@@ -1,9 +1,7 @@
-// ================================
-// LCARS FAMILY CALENDAR — EVENTS ONLY
-// ================================
+// assets/calendar.js
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const MAX_DAYS_WITH_EVENTS = 3;
+const DAYS_AHEAD = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -14,43 +12,52 @@ async function loadCalendarEvents() {
   const container = document.getElementById("events-row");
   if (!container) return;
 
-  container.innerHTML =
-    `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
+  container.innerHTML = `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
 
   try {
-    const res = await fetch(CALENDAR_URL);
+    const res = await fetch(CALENDAR_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(res.status);
 
     const text = await res.text();
     const events = parseICS(text);
 
-    const grouped = groupEventsByDay(events);
+    const today = startOfDay(new Date());
+    const endWindow = endOfDay(addDays(today, DAYS_AHEAD));
 
-    const daysWithEvents = Object.keys(grouped)
-      .sort((a, b) => grouped[a][0].start - grouped[b][0].start)
-      .slice(0, MAX_DAYS_WITH_EVENTS);
+    const days = buildDays(today, DAYS_AHEAD);
+    const daysWithEvents = [];
+
+    days.forEach(day => {
+      const dayStart = startOfDay(day);
+      const dayEnd = endOfDay(day);
+
+      const eventsForDay = events.filter(ev =>
+        ev.start && ev.end &&
+        ev.start <= dayEnd &&
+        ev.end >= dayStart
+      );
+
+      if (eventsForDay.length > 0) {
+        daysWithEvents.push({
+          label: formatDayLabel(day),
+          events: eventsForDay.sort((a, b) => a.start - b.start)
+        });
+      }
+    });
 
     container.innerHTML = "";
 
-    daysWithEvents.forEach(dayKey => {
-      container.appendChild(renderDay(dayKey, grouped[dayKey]));
+    daysWithEvents.forEach(d => {
+      container.appendChild(renderDay(d.label, d.events));
     });
 
-    if (daysWithEvents.length === 0) {
-      container.innerHTML =
-        `<div class="lcars-calendar-empty">NESSUN EVENTO IN CALENDARIO</div>`;
-    }
-
   } catch (err) {
-    console.error("Calendar error:", err);
-    container.innerHTML =
-      `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
+    console.error("Calendario error:", err);
+    container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
   }
 }
 
-/* ================================
-   RENDER
-================================ */
+/* ---------- RENDER ---------- */
 
 function renderDay(label, events) {
   const day = document.createElement("div");
@@ -85,44 +92,58 @@ function renderDay(label, events) {
   return day;
 }
 
-/* ================================
-   GROUPING (EVENT DAYS ONLY)
-================================ */
+/* ---------- DATE UTILS ---------- */
 
-function groupEventsByDay(events) {
-  const map = {};
-
-  events.forEach(ev => {
-    if (!ev.start) return;
-
-    const dayKey = formatDay(startOfDay(ev.start));
-
-    if (!map[dayKey]) map[dayKey] = [];
-    map[dayKey].push(ev);
-  });
-
-  Object.values(map).forEach(list =>
-    list.sort((a, b) => a.start - b.start)
-  );
-
-  return map;
+function buildDays(start, count) {
+  const days = [];
+  for (let i = 0; i <= count; i++) {
+    days.push(addDays(start, i));
+  }
+  return days;
 }
 
-/* ================================
-   ICS PARSER
-================================ */
+function addDays(d, n) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function endOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+}
+
+function formatDayLabel(d) {
+  return d.toLocaleDateString("it-IT", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short"
+  }).toUpperCase();
+}
+
+/* ---------- PARSER ICS ---------- */
 
 function parseICS(text) {
   const lines = text.split(/\r?\n/);
   const events = [];
   let current = null;
 
-  for (let raw of lines) {
-    const line = raw.trim();
+  for (let line of lines) {
+    line = line.trim();
 
-    if (line === "BEGIN:VEVENT") current = {};
+    if (line === "BEGIN:VEVENT") {
+      current = {};
+    }
     else if (line === "END:VEVENT") {
-      if (current?.start) events.push(current);
+      if (current?.start) {
+        if (!current.end) {
+          current.end = new Date(current.start);
+        }
+        events.push(current);
+      }
       current = null;
     }
     else if (!current) continue;
@@ -137,45 +158,34 @@ function parseICS(text) {
         ? parseDate(value)
         : parseDateTime(value);
     }
+    else if (line.startsWith("DTEND")) {
+      const value = line.split(":")[1];
+      current.end = current.allDay
+        ? parseDate(value)
+        : parseDateTime(value);
+    }
   }
 
   return events;
 }
 
-/* ================================
-   DATE UTILS
-================================ */
-
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function formatDay(d) {
-  return d.toLocaleDateString("it-IT", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short"
-  }).toUpperCase();
-}
-
 function parseDate(v) {
-  return new Date(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8));
+  return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
 }
 
 function parseDateTime(v) {
-  const y = +v.slice(0, 4);
-  const m = +v.slice(4, 6) - 1;
-  const d = +v.slice(6, 8);
-  const h = +v.slice(9, 11);
-  const min = +v.slice(11, 13);
-
+  const y = +v.slice(0,4);
+  const m = +v.slice(4,6)-1;
+  const d = +v.slice(6,8);
+  const h = +v.slice(9,11);
+  const min = +v.slice(11,13);
   return v.endsWith("Z")
-    ? new Date(Date.UTC(y, m, d, h, min))
-    : new Date(y, m, d, h, min);
+    ? new Date(Date.UTC(y,m,d,h,min))
+    : new Date(y,m,d,h,min);
 }
 
-function escapeHTML(str = "") {
+function escapeHTML(str) {
   return str.replace(/[&<>]/g, c =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c])
   );
 }
