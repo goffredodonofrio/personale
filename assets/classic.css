@@ -3008,4 +3008,13 @@ footer:has(.footer-frame) {
    	height: 1.3rem;
    	line-height: 1rem;
    }
+/* =========================================================
+   LCARS CALENDAR — COLOR OVERRIDE
+   ========================================================= */
+
+.lcars-calendar,
+.lcars-calendar * {
+  color: var(--orange) !important;
+}
+
 }
