@@ -1,7 +1,7 @@
 // assets/calendar.js
 
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const DAYS_AHEAD = 3;
+const MAX_DAYS = 3;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -23,33 +23,34 @@ async function loadCalendarEvents() {
     const events = parseICS(text);
 
     const today = startOfDay(new Date());
-    const limit = endOfDay(addDays(today, DAYS_AHEAD));
 
-    // 🔹 filtro eventi: SOLO da oggi in avanti
-    const validEvents = events.filter(ev =>
-      ev.start &&
-      ev.start >= today &&
-      ev.start <= limit
+    // 1️⃣ solo eventi da oggi in avanti
+    const upcoming = events.filter(ev =>
+      ev.start && ev.start >= today
     );
 
-    // 🔹 raggruppa per giorno (solo start)
-    const daysMap = {};
-
-    validEvents.forEach(ev => {
-      const key = formatDayLabel(ev.start);
-      if (!daysMap[key]) daysMap[key] = [];
-      daysMap[key].push(ev);
+    // 2️⃣ raggruppa per giorno di START
+    const byDay = {};
+    upcoming.forEach(ev => {
+      const key = dayKey(ev.start);
+      if (!byDay[key]) byDay[key] = [];
+      byDay[key].push(ev);
     });
+
+    // 3️⃣ ordina i giorni
+    const orderedDays = Object.keys(byDay)
+      .sort((a, b) => new Date(a) - new Date(b))
+      .slice(0, MAX_DAYS);
 
     container.innerHTML = "";
 
-    Object.keys(daysMap)
-      .sort((a, b) => new Date(a) - new Date(b))
-      .forEach(dayLabel => {
-        const dayEvents = daysMap[dayLabel]
-          .sort((a, b) => a.start - b.start);
-        container.appendChild(renderDay(dayLabel, dayEvents));
-      });
+    orderedDays.forEach(key => {
+      const dayDate = new Date(key);
+      const dayEvents = byDay[key].sort((a, b) => a.start - b.start);
+      container.appendChild(
+        renderDay(formatDayLabel(dayDate), dayEvents)
+      );
+    });
 
   } catch (err) {
     console.error("Calendario error:", err);
@@ -106,24 +107,18 @@ function parseICS(text) {
     if (line === "BEGIN:VEVENT") {
       current = {};
     }
-
     else if (line === "END:VEVENT") {
-      if (current?.start) {
-        events.push(current);
-      }
+      if (current?.start) events.push(current);
       current = null;
     }
-
     else if (!current) continue;
 
     else if (line.startsWith("SUMMARY:")) {
       current.title = line.substring(8).replace(/\\n/g, " ");
     }
-
     else if (line.startsWith("DTSTART")) {
       const value = line.split(":")[1];
       current.allDay = line.includes("VALUE=DATE");
-
       current.start = current.allDay
         ? startOfDay(parseDate(value))
         : parseDateTime(value);
@@ -134,6 +129,10 @@ function parseICS(text) {
 }
 
 /* ---------- DATE UTILS ---------- */
+
+function dayKey(d) {
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
 
 function parseDate(v) {
   return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
@@ -152,16 +151,6 @@ function parseDateTime(v) {
 
 function startOfDay(d) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function endOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
-}
-
-function addDays(d, n) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
 }
 
 function formatDayLabel(d) {
