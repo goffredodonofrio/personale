@@ -1,7 +1,6 @@
-// assets/calendar.js
-
 const CALENDAR_URL = "https://calendar.goffredo-donofrio.workers.dev/";
-const MAX_DAYS = 3;
+const DAYS_TO_SHOW = 3;
+const LOOKAHEAD_DAYS = 14;
 
 document.addEventListener("DOMContentLoaded", () => {
   loadCalendarEvents();
@@ -12,8 +11,7 @@ async function loadCalendarEvents() {
   const container = document.getElementById("events-row");
   if (!container) return;
 
-  container.innerHTML =
-    `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
+  container.innerHTML = `<div class="lcars-calendar-loading">CARICAMENTO CALENDARIO…</div>`;
 
   try {
     const res = await fetch(CALENDAR_URL, { cache: "no-store" });
@@ -23,51 +21,57 @@ async function loadCalendarEvents() {
     const events = parseICS(text);
 
     const today = startOfDay(new Date());
+    const endLimit = endOfDay(addDays(today, LOOKAHEAD_DAYS));
 
-    // ✅ solo eventi da oggi in avanti (local time)
-    const upcoming = events.filter(ev =>
-      ev.start && startOfDay(ev.start) >= today
-    );
+    // espandi eventi per giorno
+    const eventsByDay = {};
 
-    // ✅ raggruppa per giorno CORRETTO
-    const byDay = {};
-    upcoming.forEach(ev => {
-      const key = dayKey(ev.start); // YYYY-MM-DD
-      if (!byDay[key]) byDay[key] = [];
-      byDay[key].push(ev);
+    events.forEach(ev => {
+      if (!ev.start) return;
+
+      const start = startOfDay(ev.start);
+      const end = ev.end ? startOfDay(ev.end) : start;
+
+      let cursor = new Date(start);
+      while (cursor <= end && cursor <= endLimit) {
+        if (cursor >= today) {
+          const key = dayKey(cursor);
+          if (!eventsByDay[key]) eventsByDay[key] = [];
+          eventsByDay[key].push(ev);
+        }
+        cursor = addDays(cursor, 1);
+      }
     });
 
-    // ✅ ordina i giorni
-    const orderedDays = Object.keys(byDay)
+    // ordina i giorni
+    const orderedDays = Object.keys(eventsByDay)
       .sort((a, b) => new Date(a) - new Date(b))
-      .slice(0, MAX_DAYS);
+      .slice(0, DAYS_TO_SHOW);
 
     container.innerHTML = "";
 
     orderedDays.forEach(key => {
-      const date = new Date(key + "T00:00:00");
-      const dayEvents = byDay[key].sort((a, b) => a.start - b.start);
-      container.appendChild(
-        renderDay(formatDayLabel(date), dayEvents)
-      );
+      const dayDate = new Date(key);
+      const dayEvents = eventsByDay[key]
+        .sort((a, b) => (a.start || 0) - (b.start || 0));
+      container.appendChild(renderDay(dayDate, dayEvents));
     });
 
   } catch (err) {
-    console.error("Calendario error:", err);
-    container.innerHTML =
-      `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
+    console.error("Calendar error:", err);
+    container.innerHTML = `<div class="lcars-calendar-error">CALENDARIO OFFLINE</div>`;
   }
 }
 
 /* ---------- RENDER ---------- */
 
-function renderDay(label, events) {
+function renderDay(date, events) {
   const day = document.createElement("div");
   day.className = "lcars-calendar-day";
 
   const title = document.createElement("div");
   title.className = "lcars-calendar-date";
-  title.textContent = label;
+  title.textContent = formatDayLabel(date);
   day.appendChild(title);
 
   events.forEach(ev => {
@@ -94,29 +98,7 @@ function renderDay(label, events) {
   return day;
 }
 
-/* ---------- DATE UTILS ---------- */
-
-// ✅ YYYY-MM-DD con mese corretto
-function dayKey(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
-function startOfDay(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-function formatDayLabel(d) {
-  return d.toLocaleDateString("it-IT", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short"
-  }).toUpperCase();
-}
-
-/* ---------- PARSER ICS ---------- */
+/* ---------- ICS PARSER ---------- */
 
 function parseICS(text) {
   const lines = text.split(/\r?\n/);
@@ -130,7 +112,9 @@ function parseICS(text) {
       current = {};
     }
     else if (line === "END:VEVENT") {
-      if (current?.start) events.push(current);
+      if (current?.start) {
+        expandEvent(current).forEach(e => events.push(e));
+      }
       current = null;
     }
     else if (!current) continue;
@@ -145,28 +129,106 @@ function parseICS(text) {
         ? startOfDay(parseDate(value))
         : parseDateTime(value);
     }
+    else if (line.startsWith("DTEND")) {
+      const value = line.split(":")[1];
+      current.end = current.allDay
+        ? endOfDay(parseDate(value))
+        : parseDateTime(value);
+    }
+    else if (line.startsWith("RRULE:")) {
+      current.rrule = line.substring(6);
+    }
   }
 
   return events;
 }
 
+/* ---------- RRULE (solo ciò che serve) ---------- */
+
+function expandEvent(ev) {
+  if (!ev.rrule) return [ev];
+
+  const rule = parseRRule(ev.rrule);
+  if (rule.freq !== "WEEKLY" || !rule.byDay) return [ev];
+
+  const out = [];
+  const today = startOfDay(new Date());
+  const limit = addDays(today, LOOKAHEAD_DAYS);
+
+  let cursor = startOfDay(ev.start);
+
+  while (cursor <= limit) {
+    if (cursor >= today && rule.byDay.includes(cursor.getDay())) {
+      out.push({
+        ...ev,
+        start: new Date(cursor),
+        end: ev.end
+      });
+    }
+    cursor = addDays(cursor, 1);
+  }
+
+  return out;
+}
+
+function parseRRule(str) {
+  const parts = {};
+  str.split(";").forEach(p => {
+    const [k, v] = p.split("=");
+    parts[k] = v;
+  });
+
+  return {
+    freq: parts.FREQ,
+    byDay: parts.BYDAY
+      ? parts.BYDAY.split(",").map(d =>
+          ["SU","MO","TU","WE","TH","FR","SA"].indexOf(d)
+        )
+      : null
+  };
+}
+
+/* ---------- DATE UTILS ---------- */
+
+function addDays(d, n) {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
+function startOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function endOfDay(d) {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+}
+
+function dayKey(d) {
+  return startOfDay(d).toISOString().slice(0, 10);
+}
+
+function formatDayLabel(d) {
+  return d.toLocaleDateString("it-IT", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short"
+  }).toUpperCase();
+}
+
 function parseDate(v) {
-  return new Date(
-    +v.slice(0,4),
-    +v.slice(4,6) - 1,
-    +v.slice(6,8)
-  );
+  return new Date(+v.slice(0,4), +v.slice(4,6)-1, +v.slice(6,8));
 }
 
 function parseDateTime(v) {
   const y = +v.slice(0,4);
-  const m = +v.slice(4,6) - 1;
+  const m = +v.slice(4,6)-1;
   const d = +v.slice(6,8);
   const h = +v.slice(9,11);
   const min = +v.slice(11,13);
   return v.endsWith("Z")
-    ? new Date(Date.UTC(y, m, d, h, min))
-    : new Date(y, m, d, h, min);
+    ? new Date(Date.UTC(y,m,d,h,min))
+    : new Date(y,m,d,h,min);
 }
 
 function escapeHTML(str) {
