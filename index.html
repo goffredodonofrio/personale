@@ -266,6 +266,25 @@
     line-height: 1.25;
     max-width: 140px;             /* controlla la larghezza */
 }
+    ================================
+   RIPRISTINO SIDEBAR ALTA LCARS
+   ================================ */
+
+.left-frame {
+    position: relative;
+}
+
+.left-frame::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 26px;
+    height: 180px;
+    background: var(--lcars-red);
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
+}
 
     /* SMART GRID BOTTONI PRINCIPALI */
     .smart-grid {
