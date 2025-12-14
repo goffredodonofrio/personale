@@ -266,24 +266,46 @@
     line-height: 1.25;
     max-width: 140px;             /* controlla la larghezza */
 }
-    ================================
-   RIPRISTINO SIDEBAR ALTA LCARS
+  /* ================================
+   LCARS STANDARD SIDEBAR BUTTON
    ================================ */
 
-.left-frame {
+.lcars-sidebar-standard {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-bottom: 1.6rem;
+}
+
+/* BLOCCO ARANCIONE */
+.lcars-sidebar-block {
+    width: 92px;
+    height: 72px;
+    background: #f28c3a;
+    border-top-left-radius: 36px;
+    border-bottom-right-radius: 18px;
     position: relative;
 }
 
-.left-frame::before {
-    content: "";
+/* CODICE */
+.lcars-sidebar-code {
     position: absolute;
-    top: -40px;
-    left: 0;
-    width: 26px;
-    height: 180px;
-    background: var(--lcars-red);
-    border-top-left-radius: 28px;
-    border-bottom-left-radius: 28px;
+    top: 8px;
+    left: 12px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #000;
+    font-weight: 700;
+}
+
+/* TESTO A DESTRA */
+.lcars-sidebar-label {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--lcars-orange);
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
     /* SMART GRID BOTTONI PRINCIPALI */
