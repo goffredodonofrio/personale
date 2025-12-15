@@ -273,6 +273,55 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+/* ================================
+   OPS CLOCK — BALANCED PILLS MODE
+   ================================ */
+
+.ops-clock-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+/* DATA → pill */
+.ops-date {
+    display: inline-block;
+    background: var(--ld-blue-dark);
+    color: #000;
+    padding: 0.35rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+/* STARDATE → pill tecnica */
+.ops-stardate {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    background: var(--ld-blue-line);
+    color: #000;
+    padding: 0.35rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    width: fit-content;
+}
+
+/* DAY OPS / SHIFT → pill stato */
+.ops-shift {
+    display: inline-block;
+    background: var(--ld-blue-main);
+    color: #000;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    width: fit-content;
+}
 
 @media (max-width: 1500px) {
 	:root {
