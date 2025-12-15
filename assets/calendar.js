@@ -84,15 +84,11 @@ function renderDay(dayKey, events) {
   eventsWrap.className = "lcars-day-events";
 
   events.forEach(ev => {
-function renderDay(dayKey, events) {
-  const frag = document.createDocumentFragment();
-
-  events.forEach(ev => {
     const row = document.createElement("div");
-    row.className = "ops-calendar-event";
+    row.className = "lcars-day-event";
 
-    const time = document.createElement("div");
-    time.className = "ops-calendar-time";
+    const time = document.createElement("span");
+    time.className = "event-time";
     time.textContent = ev.allDay
       ? "—"
       : ev.start.toLocaleTimeString("it-IT", {
@@ -100,24 +96,33 @@ function renderDay(dayKey, events) {
           minute: "2-digit"
         });
 
-    const sep = document.createElement("div");
-    sep.className = "ops-calendar-sep";
+    const sep = document.createElement("span");
+    sep.className = "event-sep";
     sep.textContent = "|";
 
-    const title = document.createElement("div");
-    title.className = "ops-calendar-title";
-    title.textContent =
-      formatDayLabelFromKey(dayKey) + " — " + ev.title;
+    const title = document.createElement("span");
+    title.className = "event-title";
+    title.textContent = ev.title;
 
+    const dot = document.createElement("span");
+    dot.className = "event-dot";
+    dot.textContent = "•";
+
+    row.appendChild(dot);
     row.appendChild(time);
     row.appendChild(sep);
     row.appendChild(title);
 
-    frag.appendChild(row);
+    eventsWrap.appendChild(row);
   });
 
-  return frag;
+  dayBlock.appendChild(header);
+  dayBlock.appendChild(bar);
+  dayBlock.appendChild(eventsWrap);
+
+  return dayBlock;
 }
+
 /* =========================================================
    GROUPING
    ========================================================= */
