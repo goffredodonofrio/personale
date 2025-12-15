@@ -296,6 +296,55 @@
     .btn-red-5 { background: #A33232; }
     .btn-red-6 { background: #8C2929; }
 
+        /* ================================
+   CALENDARIO — OPS LIST STYLE
+   ================================ */
+
+.ops-calendar-panel {
+    padding-top: 2rem;
+}
+
+/* lista verticale */
+.ops-calendar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* singolo evento */
+.ops-calendar-event {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: #0b0b0b;
+    border-radius: 999px;
+    padding: 0.6rem 1.1rem;
+    border-left: 8px solid var(--lcars-red);
+}
+
+/* ora */
+.ops-calendar-time {
+    min-width: 64px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ld-blue-main);
+    text-align: right;
+}
+
+/* separatore */
+.ops-calendar-sep {
+    opacity: 0.4;
+}
+
+/* titolo evento */
+.ops-calendar-title {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    color: var(--violet-creme);
+    white-space: normal;
+}
+
     /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
     @media (max-width: 1100px) {
         .smart-grid {
