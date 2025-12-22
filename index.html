@@ -38,6 +38,7 @@
         --lcars-orange: #f28c3a;
         --lcars-red: #f26e8a;
         --lcars-bg: #000000;
+
         --ld-blue-main: #6CA9FF;
         --ld-blue-dark: #4F7ED8;
         --ld-blue-line: #5BC0FF;
@@ -159,88 +160,68 @@
     }
 
     /* ================================
-   CALENDARIO — NEWS / UPDATES STYLE
-   ================================ */
+       CALENDARIO — RIGA EVENTI (LCARS)
+       ================================ */
+    .ops-events-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.4rem 0.2rem;
+    }
 
-.ops-events-row {
-    display: flex;
-    gap: 2.5rem;
-    flex-wrap: nowrap;
-    padding: 0.6rem 0.4rem;
-    overflow-x: auto;
-}
+    .ops-event-pill {
+        background: var(--ld-blue-main);
+        border-radius: 26px;
+        padding: 1rem 1.2rem;
+        border: 2px solid var(--ld-blue-line);
+        color: #fff;
+        min-width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        text-transform: uppercase;
+    }
 
-/* BLOCCO GIORNO */
-.lcars-day-block {
-    min-width: 220px;   /* prima ~280 */
-    max-width: 220px;
-    flex-shrink: 0;
-}
+    .ops-event-header {
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        opacity: 0.95;
+    }
 
-/* HEADER GIORNO */
-.lcars-day-header {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 1.05rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--orange);
-}
+    .ops-event-title {
+        font-weight: 700;
+        color: #000;          /* “stile meteo”: evidenzia in nero */
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+        display: inline-block;
+        width: fit-content;
+    }
 
-.lcars-day-dot {
-    width: 10px;
-    height: 10px;
-    background-color: var(--orange);
-    border-radius: 50%;
-}
+    .ops-event-footer {
+        font-weight: 700;
+        opacity: 0.95;
+        letter-spacing: 0.05em;
+    }
 
-/* BARRA VIOLA */
-.lcars-day-bar {
-    margin: 0.5rem 0 0.9rem;
-    height: 18px;
-    width: 100%;
-    background-color: var(--lcars-red);
-    border-radius: 100vmax;
-}
+    /* BLOCCO IMMAGINE PIANTINA (rimossa dalla pagina ma teniamo gli stili in caso) */
+    .lcars-image-block {
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 18px;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-/* EVENTI */
-.lcars-day-events {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.lcars-day-event {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    font-size: 0.95rem;
-    color: var(--violet-creme);
-}
-
-.event-dot {
-    color: var(--orange);
-}
-
-.event-time {
-    min-width: 46px;
-    font-weight: 700;
-}
-
-.event-sep {
-    opacity: 0.6;
-}
-
-.event-title {
-    white-space: normal;          /* consente a capo */
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;        /* max 2 righe */
-    -webkit-box-orient: vertical;
-    line-height: 1.25;
-    max-width: 140px;             /* controlla la larghezza */
-}
+    .lcars-image-block img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
 
     /* SMART GRID BOTTONI PRINCIPALI */
     .smart-grid {
@@ -448,11 +429,13 @@
                     </nav>
                 </div>
 
-<div class="bar-panel first-bar-panel">
+                <div class="bar-panel first-bar-panel">
                     <div class="bar-1"></div><div class="bar-2"></div>
                     <div class="bar-3"></div><div class="bar-4"></div>
                     <div class="bar-5"></div>
                 </div>
+            </div>
+        </div>
 
         <!-- CORPO PRINCIPALE -->
         <div class="wrap" id="gap">
