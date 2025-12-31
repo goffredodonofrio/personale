@@ -1,664 +1,608 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RCM 1821-B — Plancia Principale</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" type="text/css" href="assets/classic.css">
+  <title>RCM 1821-B — Plancia Principale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" type="text/css" href="assets/classic.css">
 
-    <!-- FONT ANTONIO LOCALI -->
-    <style>
-    @font-face {
-        font-family: "Antonio";
-        src: url("assets/Antonio-Regular.woff2") format("woff2"),
-             url("assets/Antonio-Regular.woff") format("woff");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
+  <!-- FONT ANTONIO LOCALI -->
+  <style>
+  @font-face {
+    font-family: "Antonio";
+    src: url("assets/Antonio-Regular.woff2") format("woff2"),
+         url("assets/Antonio-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Antonio";
+    src: url("assets/Antonio-Bold.woff2") format("woff2"),
+         url("assets/Antonio-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  html, body, button, a, span, div, p, h1, h2, h3, h4, h5, h6 {
+    font-family: "Antonio", system-ui, sans-serif !important;
+  }
+  </style>
 
-    @font-face {
-        font-family: "Antonio";
-        src: url("assets/Antonio-Bold.woff2") format("woff2"),
-             url("assets/Antonio-Bold.woff") format("woff");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-    }
+  <!-- STILI LCARS + OPS PANEL + SMART GRID -->
+  <style>
+  :root {
+    --lcars-amber: #f4c242;
+    --lcars-orange: #f28c3a;
+    --lcars-red: #f26e8a;
+    --lcars-bg: #000000;
+    --ld-blue-main: #6CA9FF;
+    --ld-blue-dark: #4F7ED8;
+    --ld-blue-line: #5BC0FF;
+    --ld-yellow: #FFE089;
+    --ld-purple: #A7B4FF;
+    --ld-black: #000000;
+    --ld-panel: #151518;
+  }
 
-    html, body, button, a, span, div, p, h1, h2, h3, h4, h5, h6 {
-        font-family: "Antonio", system-ui, sans-serif !important;
-    }
-    </style>
+  body { background: var(--lcars-bg); }
+  main { padding-top: 0; }
 
-    <!-- STILI LCARS + OPS PANEL + SMART GRID -->
-    <style>
-    :root {
-        --lcars-amber: #f4c242;
-        --lcars-orange: #f28c3a;
-        --lcars-red: #f26e8a;
-        --lcars-bg: #000000;
+  /* WRAPPER PANNELLO OPS */
+  .status-grid-wrapper {
+    position: relative;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .status-grid-wrapper::before,
+  .status-grid-wrapper::after { content: none !important; }
 
-        --ld-blue-main: #6CA9FF;
-        --ld-blue-dark: #4F7ED8;
-        --ld-blue-line: #5BC0FF;
-        --ld-yellow: #FFE089;
-        --ld-purple: #A7B4FF;
-        --ld-black: #000000;
-        --ld-panel: #151518;
-    }
+  /* ================================
+     LCARS OPS PANEL — CLOCK + METEO
+     ================================ */
+  .ops-panel {
+    background: rgba(0, 0, 0, 0.88);
+    border-radius: 32px;
+    padding: 2.5rem 2.5rem 2.2rem;
+    margin-top: 1rem;
+    border-left: 14px solid var(--ld-blue-line);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
 
-    body {
-        background: var(--lcars-bg);
-    }
+  /* RIGA PRINCIPALE */
+  .ops-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
 
-    main {
-        padding-top: 0;
-    }
+  /* ORA */
+  .ops-clock {
+    font-size: 4.8rem;
+    font-weight: 700;
+    color: var(--ld-blue-main);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
 
-    /* WRAPPER PANNELLO OPS */
-    .status-grid-wrapper {
-        position: relative;
-        margin-top: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+  .ops-weather-title {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: var(--ld-blue-line);
+    line-height: 1.2;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
 
-    .status-grid-wrapper::before,
-    .status-grid-wrapper::after {
-        content: none !important;
-    }
+  /* ✅ PLACEHOLDER INVISIBILI per evitare crash di meteo.js */
+  .ops-metrics-placeholder {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
 
-    /* ================================
-       LCARS OPS PANEL — CLOCK + METEO
-       ================================ */
-    .ops-panel {
-        background: rgba(0, 0, 0, 0.88);
-        border-radius: 32px;
-        padding: 2.5rem 2.5rem 2.2rem;
-        margin-top: 1rem;
-        border-left: 14px solid var(--ld-blue-line);
-        box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-    }
+  /* PREVISIONI INLINEA */
+  .ops-forecast-row {
+    margin-top: 1.7rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+  }
 
-    /* RIGA PRINCIPALE */
-    .ops-header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 2.5rem;
-    }
+  .ops-forecast-row .ops-forecast-pill {
+    background: var(--ld-blue-main);
+    border-radius: 999px;
+    padding: 0.65rem 1.4rem;
+    border: 2px solid var(--ld-blue-line);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+  }
 
-    /* ORA */
-    .ops-clock {
-        font-size: 4.8rem;
-        font-weight: 700;
-        color: var(--ld-blue-main);
-        line-height: 1;
-        margin-bottom: 0.4rem;
-    }
+  .ops-forecast-row .condition {
+    color: black;
+    font-weight: 700;
+  }
 
-    .ops-weather-title {
-        margin-top: 1rem;
-        font-size: 1.1rem;
-        color: var(--ld-blue-line);
-        line-height: 1.2;
-        letter-spacing: 0.17em;
-        text-transform: uppercase;
-    }
+  /* ================================
+     CALENDARIO — NEWS / UPDATES STYLE
+     ================================ */
+  .ops-events-row {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    padding: 0.6rem 0.4rem;
+    overflow-x: auto;
+  }
 
-    /* COLONNA METRICHE (DESTRA) */
-    .ops-metrics-column {
-        display: flex;
-        flex-direction: column;
-        gap: 0.55rem;
-        width: 260px; /* larghezza perfetta per Echo Show 15 */
-    }
+  .lcars-day-block { min-width: 220px; max-width: 220px; flex-shrink: 0; }
 
-    /* PILL METRICHE ultra compatte */
-    .ops-metric-pill {
-        background: var(--ld-blue-main);
-        border-radius: 999px;
-        padding: 0.55rem 1.2rem;
-        border: 2px solid var(--ld-blue-line);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        letter-spacing: 0.07em;
-        font-size: 0.95rem;
-        color: #fff;
-    }
+  .lcars-day-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
 
-    /* PREVISIONI INLINEA */
-    .ops-forecast-row {
-        margin-top: 1.7rem;
-        display: flex;
-        gap: 1rem;
-        flex-wrap: nowrap;
-    }
+  .lcars-day-dot {
+    width: 10px; height: 10px;
+    background-color: var(--orange);
+    border-radius: 50%;
+  }
 
-    .ops-forecast-row .ops-forecast-pill {
-        background: var(--ld-blue-main);
-        border-radius: 999px;
-        padding: 0.65rem 1.4rem;
-        border: 2px solid var(--ld-blue-line);
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        color: white;
-        text-transform: uppercase;
-        font-size: 0.95rem;
-    }
+  .lcars-day-bar {
+    margin: 0.5rem 0 0.9rem;
+    height: 18px;
+    width: 100%;
+    background-color: var(--lcars-red);
+    border-radius: 100vmax;
+  }
 
-    .ops-forecast-row .condition {
-        color: black; /* come richiesto */
-        font-weight: 700;
-    }
+  .lcars-day-events { display: flex; flex-direction: column; gap: 0.4rem; }
 
-    /* ================================
-       CALENDARIO — RIGA EVENTI (LCARS)
-       ================================ */
-    .ops-events-row {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding: 0.4rem 0.2rem;
-    }
+  .lcars-day-event {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: var(--violet-creme);
+  }
 
-    .ops-event-pill {
-        background: var(--ld-blue-main);
-        border-radius: 26px;
-        padding: 1rem 1.2rem;
-        border: 2px solid var(--ld-blue-line);
-        color: #fff;
-        min-width: 220px;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        text-transform: uppercase;
-    }
+  .event-dot { color: var(--orange); }
+  .event-time { min-width: 46px; font-weight: 700; }
+  .event-sep { opacity: 0.6; }
 
-    .ops-event-header {
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        opacity: 0.95;
-    }
+  .event-title {
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.25;
+    max-width: 140px;
+  }
 
-    .ops-event-title {
-        font-weight: 700;
-        color: #000;          /* “stile meteo”: evidenzia in nero */
-        background: #fff;
-        border-radius: 999px;
-        padding: 0.25rem 0.7rem;
-        display: inline-block;
-        width: fit-content;
-    }
+  /* SMART GRID BOTTONI PRINCIPALI */
+  .smart-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0 0.5rem;
+  }
 
-    .ops-event-footer {
-        font-weight: 700;
-        opacity: 0.95;
-        letter-spacing: 0.05em;
-    }
+  .smart-grid a {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 80px;
+    padding: 0 1.5rem 0.6rem 1.5rem;
+    border-radius: 100vmax;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+    font-size: 1.05rem;
+    position: relative;
+    transition: transform 0.15s ease-out;
+    cursor: pointer;
+  }
 
-    /* BLOCCO IMMAGINE PIANTINA (rimossa dalla pagina ma teniamo gli stili in caso) */
-    .lcars-image-block {
-        background: rgba(0, 0, 0, 0.85);
-        border-radius: 18px;
-        padding: 0;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .smart-grid a:hover { transform: scale(1.03); }
 
-    .lcars-image-block img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+  .btn-orange-1 { background: #FFB469; }
+  .btn-orange-2 { background: #F99A4B; }
+  .btn-orange-3 { background: #F28C3A; }
+  .btn-orange-4 { background: #E97C28; }
+  .btn-orange-5 { background: #DE6F1B; }
+  .btn-orange-6 { background: #C95F0F; }
 
-    /* SMART GRID BOTTONI PRINCIPALI */
-    .smart-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        margin-top: 1.5rem;
-        padding: 0 0.5rem;
-    }
+  .btn-yellow-1 { background: #F4C242; }
+  .btn-yellow-2 { background: #E8B32F; }
+  .btn-yellow-3 { background: #DFA624; }
+  .btn-yellow-4 { background: #D49718; }
+  .btn-yellow-5 { background: #C6880F; }
+  .btn-yellow-6 { background: #B27605; }
 
-    .smart-grid a {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        height: 80px;
-        padding: 0 1.5rem 0.6rem 1.5rem;
-        border-radius: 100vmax;
-        text-decoration: none;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: black;
-        font-size: 1.05rem;
-        position: relative;
-        transition: transform 0.15s ease-out;
-        cursor: pointer;
-    }
+  .btn-red-1 { background: #E56A6A; }
+  .btn-red-2 { background: #D95959; }
+  .btn-red-3 { background: #CC5050; }
+  .btn-red-4 { background: #B63F3F; }
+  .btn-red-5 { background: #A33232; }
+  .btn-red-6 { background: #8C2929; }
 
-    .smart-grid a:hover {
-        transform: scale(1.03);
-    }
-
-    /* COLONNA 1 — GRADAZIONE ARANCIONE */
-    .btn-orange-1 { background: #FFB469; }
-    .btn-orange-2 { background: #F99A4B; }
-    .btn-orange-3 { background: #F28C3A; }
-    .btn-orange-4 { background: #E97C28; }
-    .btn-orange-5 { background: #DE6F1B; }
-    .btn-orange-6 { background: #C95F0F; }
-
-    /* COLONNA 2 — GRADAZIONE GIALLO/AMBRA */
-    .btn-yellow-1 { background: #F4C242; }
-    .btn-yellow-2 { background: #E8B32F; }
-    .btn-yellow-3 { background: #DFA624; }
-    .btn-yellow-4 { background: #D49718; }
-    .btn-yellow-5 { background: #C6880F; }
-    .btn-yellow-6 { background: #B27605; }
-
-    /* COLONNA 3 — GRADAZIONE ROSSO LCARS */
-    .btn-red-1 { background: #E56A6A; }
-    .btn-red-2 { background: #D95959; }
-    .btn-red-3 { background: #CC5050; }
-    .btn-red-4 { background: #B63F3F; }
-    .btn-red-5 { background: #A33232; }
-    .btn-red-6 { background: #8C2929; }
-
-    /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
-    @media (max-width: 1100px) {
-        .smart-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .smart-grid a {
-            height: 70px;
-            font-size: 0.9rem;
-        }
-    }
-    </style>
+  @media (max-width: 1100px) {
+    .smart-grid { grid-template-columns: repeat(2, 1fr); }
+    .smart-grid a { height: 70px; font-size: 0.9rem; }
+  }
+  </style>
 </head>
 
 <body>
 
-    <section class="wrap-standard" id="column-3">
-        <div class="wrap">
-            <!-- SOLO COLONNA DESTRA TOP LCARS (DATA CASCADE) -->
-            <div class="right-frame-top">
-                <div class="data-cascade-button-group">
-                    <div class="data-cascade-wrapper" id="default">
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">CHE</div>
-                            <div class="dc-row-1">NASCE</div>
-                            <div class="dc-row-2">E</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-3">ESTATE</div>
-                            <div class="dc-row-4">CHE</div>
-                            <div class="dc-row-5">MUORE</div>
-                            <div class="dc-row-6">DESIGN</div>
-                            <div class="dc-row-7">THE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">END</div>
-                            <div class="dc-row-1">OF</div>
-                            <div class="dc-row-2">PATRIARCHY</div>
-                            <div class="dc-row-3">TU</div>
-                            <div class="dc-row-3">SEI</div>
-                            <div class="dc-row-4">TROPPO</div>
-                            <div class="dc-row-5">BIANCA</div>
-                            <div class="dc-row-6">PER</div>
-                            <div class="dc-row-7">RESTARE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">MANO</div>
-                            <div class="dc-row-1">NELLA</div>
-                            <div class="dc-row-2">MANO</div>
-                            <div class="dc-row-3">CON</div>
-                            <div class="dc-row-3">TE</div>
-                            <div class="dc-row-4">STESSO</div>
-                            <div class="dc-row-5">EDOARDO</div>
-                            <div class="dc-row-6">BIANCA</div>
-                            <div class="dc-row-7">CAROLINA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">CHE</div>
-                            <div class="dc-row-1">NASCE</div>
-                            <div class="dc-row-2">E</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-3">ESTATE</div>
-                            <div class="dc-row-4">CHE</div>
-                            <div class="dc-row-5">MUORE</div>
-                            <div class="dc-row-6">DESIGN</div>
-                            <div class="dc-row-7">THE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">END</div>
-                            <div class="dc-row-1">OF</div>
-                            <div class="dc-row-2">PATRIARCHY</div>
-                            <div class="dc-row-3">TU</div>
-                            <div class="dc-row-3">SEI</div>
-                            <div class="dc-row-4">TROPPO</div>
-                            <div class="dc-row-5">BIANCA</div>
-                            <div class="dc-row-6">PER</div>
-                            <div class="dc-row-7">RESTARE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                    </div>
+<section class="wrap-standard" id="column-3">
 
-                    <nav>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">ACCENDI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">SPEGNI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">APRI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">CHIUDI</button>
-                    </nav>
-                </div>
+  <div class="wrap">
 
-                <div class="bar-panel first-bar-panel">
-                    <div class="bar-1"></div><div class="bar-2"></div>
-                    <div class="bar-3"></div><div class="bar-4"></div>
-                    <div class="bar-5"></div>
-                </div>
-            </div>
+    <!-- SOLO COLONNA DESTRA TOP LCARS (DATA CASCADE) -->
+    <div class="right-frame-top">
+      <div class="data-cascade-button-group">
+        <div class="data-cascade-wrapper" id="default">
+
+          <!-- CASCADE INTEGRO (come tuo) -->
+          <div class="data-column">
+            <div class="dc-row-1">LA</div>
+            <div class="dc-row-1">FELICITA'</div>
+            <div class="dc-row-2">E'</div>
+            <div class="dc-row-3">SEMPLICE</div>
+            <div class="dc-row-3">UN'</div>
+            <div class="dc-row-4">ORA</div>
+            <div class="dc-row-5">AL</div>
+            <div class="dc-row-6">GIORNO</div>
+            <div class="dc-row-7">BISOGNA</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">ESSERE</div>
+            <div class="dc-row-1">FELICI</div>
+            <div class="dc-row-2">IL</div>
+            <div class="dc-row-3">31</div>
+            <div class="dc-row-3">DI</div>
+            <div class="dc-row-4">AGOSTO</div>
+            <div class="dc-row-5">C'E'</div>
+            <div class="dc-row-6">UN</div>
+            <div class="dc-row-7">AMORE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">CHE</div>
+            <div class="dc-row-1">NASCE</div>
+            <div class="dc-row-2">E</div>
+            <div class="dc-row-3">UN'</div>
+            <div class="dc-row-3">ESTATE</div>
+            <div class="dc-row-4">CHE</div>
+            <div class="dc-row-5">MUORE</div>
+            <div class="dc-row-6">DESIGN</div>
+            <div class="dc-row-7">THE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">END</div>
+            <div class="dc-row-1">OF</div>
+            <div class="dc-row-2">PATRIARCHY</div>
+            <div class="dc-row-3">TU</div>
+            <div class="dc-row-3">SEI</div>
+            <div class="dc-row-4">TROPPO</div>
+            <div class="dc-row-5">BIANCA</div>
+            <div class="dc-row-6">PER</div>
+            <div class="dc-row-7">RESTARE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">MANO</div>
+            <div class="dc-row-1">NELLA</div>
+            <div class="dc-row-2">MANO</div>
+            <div class="dc-row-3">CON</div>
+            <div class="dc-row-3">TE</div>
+            <div class="dc-row-4">STESSO</div>
+            <div class="dc-row-5">EDOARDO</div>
+            <div class="dc-row-6">BIANCA</div>
+            <div class="dc-row-7">CAROLINA</div>
+          </div>
+
+          <!-- (resto cascade identico) -->
+          <div class="data-column">
+            <div class="dc-row-1">LA</div>
+            <div class="dc-row-1">FELICITA'</div>
+            <div class="dc-row-2">E'</div>
+            <div class="dc-row-3">SEMPLICE</div>
+            <div class="dc-row-3">UN'</div>
+            <div class="dc-row-4">ORA</div>
+            <div class="dc-row-5">AL</div>
+            <div class="dc-row-6">GIORNO</div>
+            <div class="dc-row-7">BISOGNA</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">ESSERE</div>
+            <div class="dc-row-1">FELICI</div>
+            <div class="dc-row-2">IL</div>
+            <div class="dc-row-3">31</div>
+            <div class="dc-row-3">DI</div>
+            <div class="dc-row-4">AGOSTO</div>
+            <div class="dc-row-5">C'E'</div>
+            <div class="dc-row-6">UN</div>
+            <div class="dc-row-7">AMORE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">CHE</div>
+            <div class="dc-row-1">NASCE</div>
+            <div class="dc-row-2">E</div>
+            <div class="dc-row-3">UN'</div>
+            <div class="dc-row-3">ESTATE</div>
+            <div class="dc-row-4">CHE</div>
+            <div class="dc-row-5">MUORE</div>
+            <div class="dc-row-6">DESIGN</div>
+            <div class="dc-row-7">THE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">END</div>
+            <div class="dc-row-1">OF</div>
+            <div class="dc-row-2">PATRIARCHY</div>
+            <div class="dc-row-3">TU</div>
+            <div class="dc-row-3">SEI</div>
+            <div class="dc-row-4">TROPPO</div>
+            <div class="dc-row-5">BIANCA</div>
+            <div class="dc-row-6">PER</div>
+            <div class="dc-row-7">RESTARE</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">LA</div>
+            <div class="dc-row-1">FELICITA'</div>
+            <div class="dc-row-2">E'</div>
+            <div class="dc-row-3">SEMPLICE</div>
+            <div class="dc-row-3">UN'</div>
+            <div class="dc-row-4">ORA</div>
+            <div class="dc-row-5">AL</div>
+            <div class="dc-row-6">GIORNO</div>
+            <div class="dc-row-7">BISOGNA</div>
+          </div>
+
+          <div class="data-column">
+            <div class="dc-row-1">ESSERE</div>
+            <div class="dc-row-1">FELICI</div>
+            <div class="dc-row-2">IL</div>
+            <div class="dc-row-3">31</div>
+            <div class="dc-row-3">DI</div>
+            <div class="dc-row-4">AGOSTO</div>
+            <div class="dc-row-5">C'E'</div>
+            <div class="dc-row-6">UN</div>
+            <div class="dc-row-7">AMORE</div>
+          </div>
+
         </div>
 
-        <!-- CORPO PRINCIPALE -->
-        <div class="wrap" id="gap">
+        <nav>
+          <button onclick="playSoundAndRedirect('audio2', '#')">ACCENDI</button>
+          <button onclick="playSoundAndRedirect('audio2', '#')">SPEGNI</button>
+          <button onclick="playSoundAndRedirect('audio2', '#')">APRI</button>
+          <button onclick="playSoundAndRedirect('audio2', '#')">CHIUDI</button>
+        </nav>
 
-            <div class="left-frame">
-                <button onclick="topFunction(); playSoundAndRedirect('audio4', '#')" id="topBtn">
-                    <span class="hop">RCM</span> 1821 - B
-                </button>
+      </div>
 
-                <div>
-                    <div class="panel-3"><span class="hop">ORA E DATA</span></div>
-                    <div class="panel-4"><span class="hop"></span></div>
-                    <div class="panel-5"><span class="hop">-METEO</span></div>
-                    <div class="panel-6"><span class="hop"></span></div>
-                    <div class="panel-7"><span class="hop">SMART HOME</span></div>
-                    <div class="panel-8"><span class="hop"></span></div>
-                </div>
+      <div class="bar-panel first-bar-panel">
+        <div class="bar-1"></div><div class="bar-2"></div>
+        <div class="bar-3"></div><div class="bar-4"></div>
+        <div class="bar-5"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CORPO PRINCIPALE -->
+<div class="wrap" id="gap">
+
+  <div class="left-frame">
+    <button onclick="topFunction(); playSoundAndRedirect('audio4', '#')" id="topBtn">
+      <span class="hop">RCM</span> 1821 - B
+    </button>
+
+    <div>
+      <div class="panel-3"><span class="hop">ORA E DATA</span></div>
+      <div class="panel-4"><span class="hop"></span></div>
+      <div class="panel-5"><span class="hop">-METEO</span></div>
+      <div class="panel-6"><span class="hop"></span></div>
+      <div class="panel-7"><span class="hop">SMART HOME</span></div>
+      <div class="panel-8"><span class="hop"></span></div>
+    </div>
+  </div>
+
+  <!-- RIGHT FRAME -->
+  <div class="right-frame">
+
+    <div class="bar-panel">
+      <div class="bar-6"></div><div class="bar-7"></div>
+      <div class="bar-8"></div><div class="bar-9"></div>
+      <div class="bar-10"></div>
+    </div>
+
+    <main>
+      <div class="status-grid-wrapper">
+
+        <!-- OPS PANEL: ORA + METEO -->
+        <div class="ops-panel">
+
+          <div class="ops-header-row">
+
+            <!-- SINISTRA: OROLOGIO -->
+            <div class="ops-clock-block">
+              <div class="ops-clock" id="clock">--:--:--</div>
+              <div class="ops-date" id="date">---</div>
+              <div class="ops-stardate" id="stardate">STARDATE ---</div>
+              <div class="ops-shift" id="dayPhase"></div>
+
+              <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
             </div>
 
-            <!-- RIGHT FRAME -->
-            <div class="right-frame">
-
-                <div class="bar-panel">
-                    <div class="bar-6"></div><div class="bar-7"></div>
-                    <div class="bar-8"></div><div class="bar-9"></div>
-                    <div class="bar-10"></div>
-                </div>
-
-                <main>
-                    <div class="status-grid-wrapper">
-
-                        <!-- OPS PANEL: ORA + METEO -->
-                        <div class="ops-panel">
-
-                            <div class="ops-header-row">
-
-                                <!-- SINISTRA: OROLOGIO -->
-                                <div class="ops-clock-block">
-                                    <div class="ops-clock" id="clock">--:--:--</div>
-                                    <div class="ops-date" id="date">---</div>
-                                    <div class="ops-stardate" id="stardate">STARDATE ---</div>
-                                    <div class="ops-shift" id="dayPhase"></div>
-
-                                    <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
-                                </div>
-
-                                <!-- DESTRA: METRICS COMPATTE -->
-                                <div class="ops-metrics-column">
-                                    <div class="ops-metric-pill">
-                                        <span>TEMPERATURA</span>
-                                        <span class="ops-metric-value" id="weather-temp">--°C</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>PROB PIOGGIA</span>
-                                        <span class="ops-metric-value" id="weather-rain">--%</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>UMIDITÀ</span>
-                                        <span class="ops-metric-value" id="weather-humidity">--%</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>VENTO</span>
-                                        <span class="ops-metric-value" id="weather-wind">-- km/h</span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- PREVISIONI -->
-                            <div id="forecast-grid" class="ops-forecast-row"></div>
-                        </div>
-
-                        <!-- CALENDARIO FAMIGLIA — LCARS OPS -->
-                        <div class="ops-events-row" id="events-row"></div>
-
-                        <div class="bar-panel" style="margin-top:2rem;">
-                            <div class="bar-6"></div><div class="bar-7"></div>
-                            <div class="bar-9"></div><div class="bar-10"></div>
-                        </div>
-
-                        <!-- SMART HOME CONTROL -->
-                        <div class="smart-grid">
-                            <a class="btn-orange-1" onclick="playBeep(); trigger('routine_1')">PROIETTORE ON</a>
-                            <a class="btn-orange-2" onclick="playBeep(); trigger('routine_4')">PROIETTORE OFF</a>
-                            <a class="btn-orange-3" onclick="playBeep(); trigger('routine_7')">ACCENDI LUCI LIVING ROOM</a>
-                            <a class="btn-orange-4" onclick="playBeep(); trigger('routine_10')">SPEGNI LUCI LIVING ROOM</a>
-                            <a class="btn-orange-5" onclick="playBeep(); trigger('routine_13')">APRI SERRANDE</a>
-                            <a class="btn-orange-6" onclick="playBeep(); trigger('routine_16')">CHIUDI SERRANDE</a>
-
-                            <a class="btn-yellow-1" onclick="playBeep(); trigger('routine_2')">APRI SERRANDA CUCINA</a>
-                            <a class="btn-yellow-2" onclick="playBeep(); trigger('routine_5')">CHIUDI SERRANDA CUCINA</a>
-                            <a class="btn-yellow-3" onclick="playBeep(); trigger('routine_8')">APRI SERRANDA STUDIO</a>
-                            <a class="btn-yellow-4" onclick="playBeep(); trigger('routine_11')">CHIUDI SERRANDA STUDIO</a>
-                            <a class="btn-yellow-5" onclick="playBeep(); trigger('routine_14')">APRI SERRANDA BAGNO</a>
-                            <a class="btn-yellow-6" onclick="playBeep(); trigger('routine_17')">CHIUDI SERRANDA BAGNO</a>
-
-                            <a class="btn-red-1" onclick="playBeep(); trigger('routine_3')">ROUTINE 3</a>
-                            <a class="btn-red-2" onclick="playBeep(); trigger('routine_6')">ROUTINE 6</a>
-                            <a class="btn-red-3" onclick="playBeep(); trigger('routine_9')">ROUTINE 9</a>
-                            <a class="btn-red-4" onclick="playBeep(); trigger('routine_12')">ROUTINE 12</a>
-                            <a class="btn-red-5" onclick="playBeep(); trigger('routine_15')">ROUTINE 15</a>
-                            <a class="btn-red-6" onclick="playBeep(); trigger('routine_18')">ROUTINE 18</a>
-                        </div>
-
-                </main>
+            <!-- ✅ RIMOSSA LA COLONNA METRICS (pills) -->
+            <!-- (ma lasciamo placeholder invisibili per non far crashare meteo.js) -->
+            <div class="ops-metrics-placeholder">
+              <span id="weather-temp">--°C</span>
+              <span id="weather-rain">--%</span>
+              <span id="weather-humidity">--%</span>
+              <span id="weather-wind">-- km/h</span>
             </div>
+
+          </div>
+
+          <!-- PREVISIONI -->
+          <div id="forecast-grid" class="ops-forecast-row"></div>
         </div>
-    </section>
 
-    <!-- SCRIPT LCARS -->
-    <script src="assets/lcars.js"></script>
-    <!-- SCRIPT METEO -->
-    <script src="assets/meteo.js"></script>
-    <!-- SCRIPT CALENDARIO -->
-    <script src="assets/calendar.js"></script>
+        <!-- CALENDARIO FAMIGLIA — LCARS OPS -->
+        <div class="ops-events-row" id="events-row"></div>
 
-    <!-- OROLOGIO + STARDATE + DAY PHASE -->
-    <script>
-    function updateClock() {
-        const now = new Date();
+        <div class="bar-panel" style="margin-top:2rem;">
+          <div class="bar-6"></div><div class="bar-7"></div>
+          <div class="bar-9"></div><div class="bar-10"></div>
+        </div>
 
-        document.getElementById("clock").textContent = now.toLocaleTimeString("it-IT", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        });
+        <!-- SMART HOME CONTROL -->
+        <div class="smart-grid">
+          <a class="btn-orange-1" onclick="playBeep(); trigger('routine_1')">PROIETTORE ON</a>
+          <a class="btn-orange-2" onclick="playBeep(); trigger('routine_4')">PROIETTORE OFF</a>
+          <a class="btn-orange-3" onclick="playBeep(); trigger('routine_7')">ACCENDI LUCI LIVING ROOM</a>
+          <a class="btn-orange-4" onclick="playBeep(); trigger('routine_10')">SPEGNI LUCI LIVING ROOM</a>
+          <a class="btn-orange-5" onclick="playBeep(); trigger('routine_13')">APRI SERRANDE</a>
+          <a class="btn-orange-6" onclick="playBeep(); trigger('routine_16')">CHIUDI SERRANDE</a>
 
-        document.getElementById("date").textContent = now.toLocaleDateString("it-IT", {
-            weekday: "short",
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        });
+          <a class="btn-yellow-1" onclick="playBeep(); trigger('routine_2')">APRI SERRANDA CUCINA</a>
+          <a class="btn-yellow-2" onclick="playBeep(); trigger('routine_5')">CHIUDI SERRANDA CUCINA</a>
+          <a class="btn-yellow-3" onclick="playBeep(); trigger('routine_8')">APRI SERRANDA STUDIO</a>
+          <a class="btn-yellow-4" onclick="playBeep(); trigger('routine_11')">CHIUDI SERRANDA STUDIO</a>
+          <a class="btn-yellow-5" onclick="playBeep(); trigger('routine_14')">APRI SERRANDA BAGNO</a>
+          <a class="btn-yellow-6" onclick="playBeep(); trigger('routine_17')">CHIUDI SERRANDA BAGNO</a>
 
-        let sd = (now.getTime() / 1000 / 60 / 60 / 24 - 735000) * 5;
-        document.getElementById("stardate").textContent = "STARDATE " + sd.toFixed(1);
+          <a class="btn-red-1" onclick="playBeep(); trigger('routine_3')">ROUTINE 3</a>
+          <a class="btn-red-2" onclick="playBeep(); trigger('routine_6')">ROUTINE 6</a>
+          <a class="btn-red-3" onclick="playBeep(); trigger('routine_9')">ROUTINE 9</a>
+          <a class="btn-red-4" onclick="playBeep(); trigger('routine_12')">ROUTINE 12</a>
+          <a class="btn-red-5" onclick="playBeep(); trigger('routine_15')">ROUTINE 15</a>
+          <a class="btn-red-6" onclick="playBeep(); trigger('routine_18')">ROUTINE 18</a>
+        </div>
 
-        const hour = now.getHours();
-        let phase = "ALPHA SHIFT // STANDBY";
+      </div>
+    </main>
 
-        if (hour >= 6 && hour < 12) {
-            phase = "ALPHA SHIFT // MORNING OPS";
-        } else if (hour >= 12 && hour < 18) {
-            phase = "BETA SHIFT // DAY OPS";
-        } else if (hour >= 18 && hour < 23) {
-            phase = "GAMMA SHIFT // EVENING";
-        } else {
-            phase = "NIGHT WATCH // SILENT RUN";
-        }
+  </div>
+</div>
 
-        document.getElementById("dayPhase").textContent = phase;
-    }
+<!-- SCRIPT LCARS -->
+<script src="assets/lcars.js"></script>
+<!-- SCRIPT METEO -->
+<script src="assets/meteo.js"></script>
+<!-- SCRIPT CALENDARIO -->
+<script src="assets/calendar.js"></script>
 
-    setInterval(updateClock, 1000);
-    updateClock();
-    </script>
+<!-- OROLOGIO + STARDATE + DAY PHASE -->
+<script>
+function updateClock() {
+  const now = new Date();
 
-    <!-- 🔥 VOICE MONKEY: TRIGGER -->
-    <script>
-      const MONKEY_MAP = {
-        routine_1:  "accendi-proiettore-m",
-        routine_4:  "spegni-proiettore-m",
-        routine_7:  "accendi-luci-living-room-m",
-        routine_10: "spegni-luci-living-room-m",
-        routine_13: "apri-serrande-m",
-        routine_16: "chiudi-serrande-m",
-        routine_2:  "apri-serranda-cucina-m",
-        routine_5:  "chiudi-serranda-cucina-m",
-        routine_8:  "apri-serranda-studio-m",
-        routine_11: "chiudi-serranda-studio-m",
-        routine_14: "apri-serranda-bagno-m",
-        routine_17: "chiudi-serranda-bagno-m"
-      };
+  document.getElementById("clock").textContent = now.toLocaleTimeString("it-IT", {
+    hour: "2-digit", minute: "2-digit", second: "2-digit"
+  });
 
-      const VM_ACCESS_TOKEN = "102bb4c064858a0ff8bd4039ae948b74";
-      const VM_SECRET_TOKEN = "f0276dc81f732a45d7c4cfbe289837c7";
+  document.getElementById("date").textContent = now.toLocaleDateString("it-IT", {
+    weekday: "short", day: "2-digit", month: "short", year: "numeric"
+  });
 
-      async function trigger(action) {
-        const monkey = MONKEY_MAP[action];
-        console.log("🐵 trigger() CALLED for:", action, "→", monkey);
+  let sd = (now.getTime() / 1000 / 60 / 60 / 24 - 735000) * 5;
+  document.getElementById("stardate").textContent = "STARDATE " + sd.toFixed(1);
 
-        if (!monkey) {
-          console.warn("⚠️ Nessun monkey configurato per", action);
-          return;
-        }
+  const hour = now.getHours();
+  let phase = "ALPHA SHIFT // STANDBY";
+  if (hour >= 6 && hour < 12) phase = "ALPHA SHIFT // MORNING OPS";
+  else if (hour >= 12 && hour < 18) phase = "BETA SHIFT // DAY OPS";
+  else if (hour >= 18 && hour < 23) phase = "GAMMA SHIFT // EVENING";
+  else phase = "NIGHT WATCH // SILENT RUN";
 
-        const payload = {
-          access_token: VM_ACCESS_TOKEN,
-          secret_token: VM_SECRET_TOKEN,
-          monkey: monkey
-        };
+  document.getElementById("dayPhase").textContent = phase;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
 
-        try {
-          console.log("📡 POST → https://api.voicemonkey.io/trigger", payload);
-          const res = await fetch("https://api.voicemonkey.io/trigger", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
+<!-- 🔥 VOICE MONKEY: TRIGGER -->
+<script>
+const MONKEY_MAP = {
+  routine_1:  "accendi-proiettore-m",
+  routine_4:  "spegni-proiettore-m",
+  routine_7:  "accendi-luci-living-room-m",
+  routine_10: "spegni-luci-living-room-m",
+  routine_13: "apri-serrande-m",
+  routine_16: "chiudi-serrande-m",
+  routine_2:  "apri-serranda-cucina-m",
+  routine_5:  "chiudi-serranda-cucina-m",
+  routine_8:  "apri-serranda-studio-m",
+  routine_11: "chiudi-serranda-studio-m",
+  routine_14: "apri-serranda-bagno-m",
+  routine_17: "chiudi-serranda-bagno-m"
+};
 
-          console.log("✅ VoiceMonkey response status:", res.status);
+const VM_ACCESS_TOKEN = "102bb4c064858a0ff8bd4039ae948b74";
+const VM_SECRET_TOKEN = "f0276dc81f732a45d7c4cfbe289837c7";
 
-          if (!res.ok) {
-            const text = await res.text();
-            console.error("❌ Errore VoiceMonkey:", res.status, text);
-          }
-        } catch (err) {
-          console.error("🔥 ERRORE FETCH:", err);
-        }
-      }
-    </script>
+async function trigger(action) {
+  const monkey = MONKEY_MAP[action];
+  if (!monkey) return;
 
-    <!-- BEEP GENERALE PER TUTTI I PULSANTI SMART GRID -->
-    <script>
-    function playBeep() {
-        const audio = new Audio("assets/beep4.mp3");
-        audio.volume = 0.35;
-        audio.play().catch(e => console.warn("Audio blocked:", e));
-    }
-    </script>
+  const payload = {
+    access_token: VM_ACCESS_TOKEN,
+    secret_token: VM_SECRET_TOKEN,
+    monkey
+  };
+
+  try {
+    const res = await fetch("https://api.voicemonkey.io/trigger", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) console.error("VoiceMonkey error:", res.status, await res.text());
+  } catch (err) {
+    console.error("VoiceMonkey fetch error:", err);
+  }
+}
+</script>
+
+<!-- BEEP -->
+<script>
+function playBeep() {
+  const audio = new Audio("assets/beep4.mp3");
+  audio.volume = 0.35;
+  audio.play().catch(() => {});
+}
+</script>
 
 </body>
 </html>
