@@ -114,7 +114,8 @@
       cursor: pointer;
     }
     .carousel-btn:hover { background: rgba(255,255,255,.08); }
-    .carousel-window { overflow: hidden; position: relative; }
+    .carousel-window { overflow: hidden; position: relative; cursor: grab; }
+    .carousel-window.dragging { cursor: grabbing; }
     .carousel-track {
       display: flex;
       gap: 0;
@@ -123,7 +124,7 @@
       touch-action: pan-y;
       user-select: none;
     }
-    .carousel-track.is-dragging { transition: none; cursor: grabbing; }
+    .carousel-track.is-dragging { transition: none; }
     .carousel-slide { min-width: 100%; }
     .slide-grid {
       display: grid;
@@ -216,32 +217,6 @@
       line-height: 1.6;
       max-width: 46ch;
     }
-    .project-meta {
-      padding-left: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .meta-box {
-      padding: 12px 12px 11px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .meta-k {
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-    .meta-v {
-      margin-top: 8px;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -.02em;
-    }
     .project-cta {
       margin-top: 18px;
       display: inline-flex;
@@ -260,12 +235,10 @@
     }
     @media (max-width: 1100px) {
       .slide-grid { grid-template-columns: 1fr; }
-      .project-meta { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 700px) {
       .shell { padding: 22px 14px 40px; }
       .project-card { border-radius: 22px; min-height: unset; }
-      .project-meta { grid-template-columns: 1fr; }
       .project-title { font-size: 32px; }
       .carousel-controls { align-items: flex-start; flex-direction: column; }
       .slide-grid { grid-template-columns: 1fr; }
@@ -296,7 +269,7 @@
           <button class="carousel-btn" type="button" id="projectsNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-window"><div class="carousel-track" id="projectsTrack"></div></div>
+      <div class="carousel-window" id="projectsWindow"><div class="carousel-track" id="projectsTrack"></div></div>
       <div class="carousel-dots" id="projectsDots"></div>
     </div>
   </div>
@@ -324,11 +297,6 @@
           <div class="project-text">La plancia originale resta intatta come progetto dedicato: meteo, calendario, orologio operativo e pulsanti smart home in un ambiente visivo LCARS.</div>
         </div>
         <div>
-          <div class="project-meta">
-            <div class="meta-box"><div class="meta-k">Tipo</div><div class="meta-v">Control panel</div></div>
-            <div class="meta-box"><div class="meta-k">Stile</div><div class="meta-v">LCARS / OPS</div></div>
-            <div class="meta-box"><div class="meta-k">Accesso</div><div class="meta-v">Pagina dedicata</div></div>
-          </div>
           <div class="project-cta">Apri progetto →</div>
         </div>
       </a>`,
@@ -344,11 +312,6 @@
           <div class="project-text">Il file allegato è stato trasformato in una pagina dedicata e collegato alla dashboard: piano alimentare settimanale, lista della spesa e quadro sanitario nello stesso progetto.</div>
         </div>
         <div>
-          <div class="project-meta">
-            <div class="meta-box"><div class="meta-k">Tipo</div><div class="meta-v">Personal cockpit</div></div>
-            <div class="meta-box"><div class="meta-k">Focus</div><div class="meta-v">Nutrizione + salute</div></div>
-            <div class="meta-box"><div class="meta-k">Accesso</div><div class="meta-v">Pagina dedicata</div></div>
-          </div>
           <div class="project-cta">Apri progetto →</div>
         </div>
       </a>`
@@ -364,8 +327,9 @@
       return slides.map(pair => pair.map(x => [x])).flat();
     }
 
-    function setupCarousel(trackId, metaId, prevId, nextId, dotsId, items) {
+    function setupCarousel(trackId, windowId, metaId, prevId, nextId, dotsId, items) {
       const track = document.getElementById(trackId);
+      const viewport = document.getElementById(windowId);
       const meta = document.getElementById(metaId);
       const dots = document.getElementById(dotsId);
       const baseSlides = makePairs(items);
@@ -402,6 +366,7 @@
       }
 
       function update(animated = true) {
+        viewport.classList.toggle('dragging', !animated);
         track.classList.toggle('is-dragging', !animated);
         track.style.transition = animated ? 'transform .35s cubic-bezier(.22,.8,.36,1)' : 'none';
         track.style.transform = `translate3d(calc(-${index * 100}% + ${dragOffset}px),0,0)`;
@@ -415,41 +380,44 @@
       document.getElementById(prevId).onclick = goPrev;
       document.getElementById(nextId).onclick = goNext;
 
-      if (isMobile) {
-        track.addEventListener('touchstart', e => {
-          dragging = true;
-          startX = e.changedTouches[0].clientX;
-          dragOffset = 0;
-          update(false);
-        }, { passive: true });
-        track.addEventListener('touchmove', e => {
-          if (!dragging) return;
-          dragOffset = e.changedTouches[0].clientX - startX;
-          update(false);
-        }, { passive: true });
-        track.addEventListener('touchend', e => {
-          if (!dragging) return;
-          const diff = e.changedTouches[0].clientX - startX;
-          dragging = false;
-          if (Math.abs(diff) > 50) {
-            if (diff < 0) index = (index + 1) % slides.length;
-            else index = (index - 1 + slides.length) % slides.length;
-          }
-          dragOffset = 0;
-          update(true);
-        }, { passive: true });
-        track.addEventListener('touchcancel', () => {
-          dragging = false;
-          dragOffset = 0;
-          update(true);
-        }, { passive: true });
-      }
+      const startDrag = (clientX) => {
+        dragging = true;
+        startX = clientX;
+        dragOffset = 0;
+        update(false);
+      };
+      const moveDrag = (clientX) => {
+        if (!dragging) return;
+        dragOffset = clientX - startX;
+        update(false);
+      };
+      const endDrag = (clientX) => {
+        if (!dragging) return;
+        const diff = clientX - startX;
+        dragging = false;
+        if (Math.abs(diff) > 50) {
+          if (diff < 0) index = (index + 1) % slides.length;
+          else index = (index - 1 + slides.length) % slides.length;
+        }
+        dragOffset = 0;
+        update(true);
+      };
+
+      viewport.addEventListener('mousedown', e => startDrag(e.clientX));
+      window.addEventListener('mousemove', e => moveDrag(e.clientX));
+      window.addEventListener('mouseup', e => endDrag(e.clientX));
+      viewport.addEventListener('mouseleave', e => { if (dragging) endDrag(e.clientX); });
+
+      viewport.addEventListener('touchstart', e => startDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchmove', e => moveDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchcancel', () => { dragging = false; dragOffset = 0; update(true); }, { passive: true });
 
       build();
       update(true);
     }
 
-    setupCarousel('projectsTrack', 'projectsMeta', 'projectsPrev', 'projectsNext', 'projectsDots', projectCards);
+    setupCarousel('projectsTrack', 'projectsWindow', 'projectsMeta', 'projectsPrev', 'projectsNext', 'projectsDots', projectCards);
   </script>
 </body>
 </html>
