@@ -47,12 +47,13 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
 .carousel-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 14px;font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .carousel-btn:hover{background:rgba(255,255,255,.08)}
 .carousel-window{overflow:hidden;position:relative}
-.carousel-track{display:flex;gap:0;transition:transform .35s ease;will-change:transform;touch-action:pan-y}
+.carousel-track{display:flex;gap:0;transition:transform .35s cubic-bezier(.22,.8,.36,1);will-change:transform;touch-action:pan-y;user-select:none}
+.carousel-track.is-dragging{transition:none;cursor:grabbing}
 .carousel-slide{min-width:100%;padding-right:0}
 .slide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:2px}
-.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);border:0;cursor:pointer;padding:0}
-.carousel-dot.active{background:var(--blue);box-shadow:0 0 0 4px rgba(108,169,255,.12)}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);border:0;cursor:pointer;padding:0;transition:transform .18s ease, background .18s ease, box-shadow .18s ease}
+.carousel-dot.active{background:var(--blue);box-shadow:0 0 0 4px rgba(108,169,255,.12);transform:scale(1.12)}
 .day-card{padding:14px;display:grid;gap:12px}
 .day-card.today{border-color:var(--line-strong);background:linear-gradient(180deg,rgba(108,169,255,.16) 0%,rgba(20,26,36,.96) 100%)}
 .day-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;padding-bottom:2px}
@@ -189,7 +190,10 @@ function setupCarousel(trackId, metaId, prevId, nextId, dotsId, slides, renderer
   const meta=document.getElementById(metaId);
   const dots=document.getElementById(dotsId);
   let index=initialIndex;
-  let startX=null;
+  let startX=0;
+  let currentX=0;
+  let dragOffset=0;
+  let dragging=false;
   const effectiveSlides=isMobile?mobileify(slides):slides;
   function build(){
     track.innerHTML='';
@@ -212,25 +216,56 @@ function setupCarousel(trackId, metaId, prevId, nextId, dotsId, slides, renderer
       const dot=document.createElement('button');
       dot.className='carousel-dot';
       dot.type='button';
-      dot.addEventListener('click',()=>{index=i;update();});
+      dot.addEventListener('click',()=>{index=i;dragOffset=0;update(true);});
       dots.appendChild(dot);
     });
   }
-  function update(){
-    track.style.transform=`translateX(-${index*100}%)`;
+  function update(animated=true){
+    track.classList.toggle('is-dragging', !animated);
+    if(animated){ track.style.transition='transform .35s cubic-bezier(.22,.8,.36,1)'; }
+    else { track.style.transition='none'; }
+    track.style.transform=`translate3d(calc(-${index*100}% + ${dragOffset}px),0,0)`;
     meta.textContent=`${index+1} / ${effectiveSlides.length}`;
     [...dots.children].forEach((dot,i)=>dot.classList.toggle('active',i===index));
   }
-  function goPrev(){index=(index-1+effectiveSlides.length)%effectiveSlides.length;update();}
-  function goNext(){index=(index+1)%effectiveSlides.length;update();}
+  function goPrev(){index=(index-1+effectiveSlides.length)%effectiveSlides.length;dragOffset=0;update(true);}
+  function goNext(){index=(index+1)%effectiveSlides.length;dragOffset=0;update(true);}
   document.getElementById(prevId).onclick=goPrev;
   document.getElementById(nextId).onclick=goNext;
   if(isMobile){
-    track.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;},{passive:true});
-    track.addEventListener('touchend',e=>{if(startX===null)return;const diff=e.changedTouches[0].clientX-startX;if(Math.abs(diff)>40){if(diff<0)goNext();else goPrev();}startX=null;},{passive:true});
+    track.addEventListener('touchstart',e=>{
+      dragging=true;
+      startX=e.changedTouches[0].clientX;
+      currentX=startX;
+      dragOffset=0;
+      update(false);
+    },{passive:true});
+    track.addEventListener('touchmove',e=>{
+      if(!dragging) return;
+      currentX=e.changedTouches[0].clientX;
+      dragOffset=currentX-startX;
+      update(false);
+    },{passive:true});
+    track.addEventListener('touchend',e=>{
+      if(!dragging) return;
+      const diff=e.changedTouches[0].clientX-startX;
+      dragging=false;
+      const threshold=50;
+      if(Math.abs(diff)>threshold){
+        if(diff<0) index=(index+1)%effectiveSlides.length;
+        else index=(index-1+effectiveSlides.length)%effectiveSlides.length;
+      }
+      dragOffset=0;
+      update(true);
+    },{passive:true});
+    track.addEventListener('touchcancel',()=>{
+      dragging=false;
+      dragOffset=0;
+      update(true);
+    },{passive:true});
   }
   build();
-  update();
+  update(true);
 }
 setupCarousel('daysTrack','daysMeta','daysPrev','daysNext','daysDots',rotatedDayPairs(),dayCard,0);
 setupCarousel('shoppingTrack','shoppingMeta','shoppingPrev','shoppingNext','shoppingDots',makePairs([0,1,2,3]),i=>shoppingCard(SPESA[i]),0);
