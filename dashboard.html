@@ -19,7 +19,7 @@
       --radius: 28px;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
+    html, body { margin: 0; min-height: 100%; overflow-x: hidden; }
     body {
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
@@ -86,10 +86,70 @@
       color: var(--muted);
       font-size: 13px;
     }
-    .projects-grid {
+    .carousel-shell { display: grid; gap: 10px; }
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .carousel-meta {
+      font: 800 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .carousel-buttons { display: flex; gap: 8px; }
+    .carousel-btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font: 800 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .carousel-btn:hover { background: rgba(255,255,255,.08); }
+    .carousel-window { overflow: hidden; position: relative; }
+    .carousel-track {
+      display: flex;
+      gap: 0;
+      transition: transform .35s cubic-bezier(.22,.8,.36,1);
+      will-change: transform;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    .carousel-track.is-dragging { transition: none; cursor: grabbing; }
+    .carousel-slide { min-width: 100%; }
+    .slide-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.16);
+      border: 0;
+      cursor: pointer;
+      padding: 0;
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .carousel-dot.active {
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(108,169,255,.12);
+      transform: scale(1.12);
     }
     .project-card {
       position: relative;
@@ -199,7 +259,7 @@
       width: fit-content;
     }
     @media (max-width: 1100px) {
-      .projects-grid { grid-template-columns: 1fr; }
+      .slide-grid { grid-template-columns: 1fr; }
       .project-meta { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 700px) {
@@ -207,6 +267,9 @@
       .project-card { border-radius: 22px; min-height: unset; }
       .project-meta { grid-template-columns: 1fr; }
       .project-title { font-size: 32px; }
+      .carousel-controls { align-items: flex-start; flex-direction: column; }
+      .slide-grid { grid-template-columns: 1fr; }
+      .carousel-buttons { display: none; }
     }
   </style>
 </head>
@@ -225,7 +288,31 @@
       <span>Accessi rapidi ai moduli già presenti</span>
     </div>
 
-    <section class="projects-grid">
+    <div class="carousel-shell">
+      <div class="carousel-controls">
+        <div class="carousel-meta" id="projectsMeta">Visualizzazione progetti</div>
+        <div class="carousel-buttons">
+          <button class="carousel-btn" type="button" id="projectsPrev">← Prev</button>
+          <button class="carousel-btn" type="button" id="projectsNext">Next →</button>
+        </div>
+      </div>
+      <div class="carousel-window"><div class="carousel-track" id="projectsTrack"></div></div>
+      <div class="carousel-dots" id="projectsDots"></div>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const isMobile = window.matchMedia('(max-width: 700px)').matches;
+    const projectCards = [
+      `
       <a class="project-card accent-blue" href="plancia-rocciamelone.html">
         <div class="project-top">
           <div class="tag-row">
@@ -244,8 +331,8 @@
           </div>
           <div class="project-cta">Apri progetto →</div>
         </div>
-      </a>
-
+      </a>`,
+      `
       <a class="project-card accent-gold" href="cockpit-salute.html">
         <div class="project-top">
           <div class="tag-row">
@@ -264,18 +351,105 @@
           </div>
           <div class="project-cta">Apri progetto →</div>
         </div>
-      </a>
-    </section>
-  </div>
+      </a>`
+    ];
 
-  <script>
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    function makePairs(items) {
+      const pairs = [];
+      for (let i = 0; i < items.length; i += 2) pairs.push(items.slice(i, i + 2));
+      return pairs;
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+
+    function mobileify(slides) {
+      return slides.map(pair => pair.map(x => [x])).flat();
+    }
+
+    function setupCarousel(trackId, metaId, prevId, nextId, dotsId, items) {
+      const track = document.getElementById(trackId);
+      const meta = document.getElementById(metaId);
+      const dots = document.getElementById(dotsId);
+      const baseSlides = makePairs(items);
+      const slides = isMobile ? mobileify(baseSlides) : baseSlides;
+      let index = 0;
+      let startX = 0;
+      let dragOffset = 0;
+      let dragging = false;
+
+      function build() {
+        track.innerHTML = '';
+        slides.forEach(group => {
+          const slide = document.createElement('div');
+          slide.className = 'carousel-slide';
+          const grid = document.createElement('div');
+          grid.className = 'slide-grid';
+          group.forEach(item => {
+            const value = Array.isArray(item) ? item[0] : item;
+            const holder = document.createElement('div');
+            holder.innerHTML = value;
+            grid.appendChild(holder.firstElementChild);
+          });
+          slide.appendChild(grid);
+          track.appendChild(slide);
+        });
+        dots.innerHTML = '';
+        slides.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot';
+          dot.type = 'button';
+          dot.addEventListener('click', () => { index = i; dragOffset = 0; update(true); });
+          dots.appendChild(dot);
+        });
+      }
+
+      function update(animated = true) {
+        track.classList.toggle('is-dragging', !animated);
+        track.style.transition = animated ? 'transform .35s cubic-bezier(.22,.8,.36,1)' : 'none';
+        track.style.transform = `translate3d(calc(-${index * 100}% + ${dragOffset}px),0,0)`;
+        meta.textContent = `${index + 1} / ${slides.length}`;
+        [...dots.children].forEach((dot, i) => dot.classList.toggle('active', i === index));
+      }
+
+      function goPrev() { index = (index - 1 + slides.length) % slides.length; dragOffset = 0; update(true); }
+      function goNext() { index = (index + 1) % slides.length; dragOffset = 0; update(true); }
+
+      document.getElementById(prevId).onclick = goPrev;
+      document.getElementById(nextId).onclick = goNext;
+
+      if (isMobile) {
+        track.addEventListener('touchstart', e => {
+          dragging = true;
+          startX = e.changedTouches[0].clientX;
+          dragOffset = 0;
+          update(false);
+        }, { passive: true });
+        track.addEventListener('touchmove', e => {
+          if (!dragging) return;
+          dragOffset = e.changedTouches[0].clientX - startX;
+          update(false);
+        }, { passive: true });
+        track.addEventListener('touchend', e => {
+          if (!dragging) return;
+          const diff = e.changedTouches[0].clientX - startX;
+          dragging = false;
+          if (Math.abs(diff) > 50) {
+            if (diff < 0) index = (index + 1) % slides.length;
+            else index = (index - 1 + slides.length) % slides.length;
+          }
+          dragOffset = 0;
+          update(true);
+        }, { passive: true });
+        track.addEventListener('touchcancel', () => {
+          dragging = false;
+          dragOffset = 0;
+          update(true);
+        }, { passive: true });
+      }
+
+      build();
+      update(true);
+    }
+
+    setupCarousel('projectsTrack', 'projectsMeta', 'projectsPrev', 'projectsNext', 'projectsDots', projectCards);
   </script>
 </body>
 </html>
