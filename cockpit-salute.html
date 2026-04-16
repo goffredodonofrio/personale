@@ -46,7 +46,13 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
 .carousel-buttons{display:flex;gap:8px}
 .carousel-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 14px;font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .carousel-btn:hover{background:rgba(255,255,255,.08)}
-.carousel-track{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;touch-action:pan-y}
+.carousel-window{overflow:hidden;position:relative}
+.carousel-track{display:flex;gap:0;transition:transform .35s ease;will-change:transform;touch-action:pan-y}
+.carousel-slide{min-width:100%;padding-right:0}
+.slide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:2px}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);border:0;cursor:pointer;padding:0}
+.carousel-dot.active{background:var(--blue);box-shadow:0 0 0 4px rgba(108,169,255,.12)}
 .day-card{padding:14px;display:grid;gap:12px}
 .day-card.today{border-color:var(--line-strong);background:linear-gradient(180deg,rgba(108,169,255,.16) 0%,rgba(20,26,36,.96) 100%)}
 .day-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;padding-bottom:2px}
@@ -72,8 +78,8 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
 .health-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.health-label{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.health-value{font-size:30px;font-weight:900;letter-spacing:-.03em;margin-top:6px}.health-note{font-size:14px;color:var(--soft);line-height:1.65;margin-top:8px;max-width:40ch}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 7px;font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.badge.ok{background:rgba(126,224,166,.14);color:#bff3d2;border:1px solid rgba(126,224,166,.24)}.badge.warn{background:rgba(244,194,66,.14);color:#ffe6a0;border:1px solid rgba(244,194,66,.24)}.badge.attn{background:rgba(229,106,106,.14);color:#ffc0c0;border:1px solid rgba(229,106,106,.24)}.badge.mid{background:rgba(108,169,255,.14);color:#c8e1ff;border:1px solid rgba(108,169,255,.24)}
 .metric-mini{margin-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric-chip{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:12px;padding:9px 10px;min-height:62px;display:flex;flex-direction:column;justify-content:space-between}.metric-chip.now{background:rgba(126,224,166,.08);border-color:rgba(126,224,166,.18)}.metric-chip.goal{background:rgba(244,194,66,.08);border-color:rgba(244,194,66,.18)}.metric-chip.dir{background:rgba(108,169,255,.08);border-color:rgba(108,169,255,.18)}.metric-k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.metric-v{font-size:15px;line-height:1.2;font-weight:850;letter-spacing:-.02em;margin-top:6px;color:var(--text);text-wrap:balance}.metric-v.is-long{font-size:13px;line-height:1.25;letter-spacing:-.01em;font-weight:800}.metric-v.is-mid{font-size:13.5px;line-height:1.22;font-weight:800}.metric-chip.now .metric-v{color:#bff3d2}.metric-chip.goal .metric-v{color:#ffe6a0}.metric-chip.dir .metric-v{color:#c8e1ff}
 .ref-card{padding:15px 15px 14px}.ref-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.ref-lbl{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--text)}.ref-sub{display:block;font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.08em}.ref-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.ref-value-box{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:12px;padding:9px 10px}.ref-k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.ref-v{margin-top:6px;font-size:13px;line-height:1.45;color:var(--text);font-weight:700}.ref-reading{margin-top:12px;font-size:13px;line-height:1.6;color:var(--soft)}
-@media (max-width:1100px){.wrapper{padding:16px 12px 24px}.topbar{flex-direction:column;align-items:flex-start}.carousel-track,.focus-grid,.health-overview{grid-template-columns:1fr}}
-@media (max-width:760px){.meal-grid,.metric-mini,.ref-values{grid-template-columns:1fr}.h1{font-size:26px}.day-name{font-size:22px}.hero-title{font-size:24px}.health-value{font-size:28px}.carousel-controls{align-items:flex-start;flex-direction:column}.carousel-track{grid-template-columns:1fr}.carousel-track > *:nth-child(2){display:none}.carousel-buttons{display:none}}
+@media (max-width:1100px){.wrapper{padding:16px 12px 24px}.topbar{flex-direction:column;align-items:flex-start}.slide-grid,.focus-grid,.health-overview{grid-template-columns:1fr}}
+@media (max-width:760px){.meal-grid,.metric-mini,.ref-values{grid-template-columns:1fr}.h1{font-size:26px}.day-name{font-size:22px}.hero-title{font-size:24px}.health-value{font-size:28px}.carousel-controls{align-items:flex-start;flex-direction:column}.slide-grid{grid-template-columns:1fr}.carousel-buttons{display:none}}
 </style>
 </head>
 <body>
@@ -100,7 +106,8 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="daysNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-track" id="daysTrack"></div>
+      <div class="carousel-window"><div class="carousel-track" id="daysTrack"></div></div>
+      <div class="carousel-dots" id="daysDots"></div>
     </div>
     <div class="section-title">Lista della spesa — domenica o lunedì (~20 min)</div>
     <div class="carousel-shell">
@@ -111,7 +118,8 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="shoppingNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-track" id="shoppingTrack"></div>
+      <div class="carousel-window"><div class="carousel-track" id="shoppingTrack"></div></div>
+      <div class="carousel-dots" id="shoppingDots"></div>
     </div>
   </section>
   <section id="panel-sanitario" class="panel" aria-label="Quadro sanitario">
@@ -145,7 +153,8 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="detailNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-track" id="detailTrack"></div>
+      <div class="carousel-window"><div class="carousel-track" id="detailTrack"></div></div>
+      <div class="carousel-dots" id="detailDots"></div>
     </div>
   </section>
 </div>
@@ -175,10 +184,57 @@ function detailCard(item){return `<div class="ref-card"><div class="ref-top"><di
 function makePairs(indices){const pairs=[];for(let i=0;i<indices.length;i+=2){pairs.push(indices.slice(i,i+2));}return pairs;}
 function rotatedDayPairs(){const shown=[current,(current+1)%DAYS.length];const remaining=[];for(let i=0;i<DAYS.length;i++){if(!shown.includes(i)) remaining.push(i);}const result=[shown];const remPairs=makePairs(remaining);remPairs.forEach(pair=>{if(pair.length===1) pair.push(shown[0]);result.push(pair);});return result;}
 function mobileify(slides){return slides.map(pair=>pair.map(x=>[x])).flat();}
-function setupCarousel(trackId, metaId, prevId, nextId, slides, renderer, initialIndex=0){const track=document.getElementById(trackId);const meta=document.getElementById(metaId);let index=initialIndex;let startX=null;const effectiveSlides=isMobile?mobileify(slides):slides;function render(){track.innerHTML='';const currentSlides=effectiveSlides[index];currentSlides.forEach(slide=>{const value=Array.isArray(slide)?slide[0]:slide;const div=document.createElement('div');div.innerHTML=renderer(value);track.appendChild(div.firstElementChild);});meta.textContent=`${index+1} / ${effectiveSlides.length}`;}function goPrev(){index=(index-1+effectiveSlides.length)%effectiveSlides.length;render();}function goNext(){index=(index+1)%effectiveSlides.length;render();}document.getElementById(prevId).onclick=goPrev;document.getElementById(nextId).onclick=goNext;if(isMobile){track.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;},{passive:true});track.addEventListener('touchend',e=>{if(startX===null) return;const diff=e.changedTouches[0].clientX-startX;if(Math.abs(diff)>40){if(diff<0) goNext(); else goPrev();}startX=null;},{passive:true});}render();}
-setupCarousel('daysTrack','daysMeta','daysPrev','daysNext',rotatedDayPairs(),dayCard,0);
-setupCarousel('shoppingTrack','shoppingMeta','shoppingPrev','shoppingNext',makePairs([0,1,2,3]),i=>shoppingCard(SPESA[i]),0);
-setupCarousel('detailTrack','detailMeta','detailPrev','detailNext',makePairs(DETAILS.map((_,i)=>i)),i=>detailCard(DETAILS[i]),0);
+function setupCarousel(trackId, metaId, prevId, nextId, dotsId, slides, renderer, initialIndex=0){
+  const track=document.getElementById(trackId);
+  const meta=document.getElementById(metaId);
+  const dots=document.getElementById(dotsId);
+  let index=initialIndex;
+  let startX=null;
+  const effectiveSlides=isMobile?mobileify(slides):slides;
+  function build(){
+    track.innerHTML='';
+    effectiveSlides.forEach(group=>{
+      const slide=document.createElement('div');
+      slide.className='carousel-slide';
+      const grid=document.createElement('div');
+      grid.className='slide-grid';
+      group.forEach(item=>{
+        const value=Array.isArray(item)?item[0]:item;
+        const holder=document.createElement('div');
+        holder.innerHTML=renderer(value);
+        grid.appendChild(holder.firstElementChild);
+      });
+      slide.appendChild(grid);
+      track.appendChild(slide);
+    });
+    dots.innerHTML='';
+    effectiveSlides.forEach((_,i)=>{
+      const dot=document.createElement('button');
+      dot.className='carousel-dot';
+      dot.type='button';
+      dot.addEventListener('click',()=>{index=i;update();});
+      dots.appendChild(dot);
+    });
+  }
+  function update(){
+    track.style.transform=`translateX(-${index*100}%)`;
+    meta.textContent=`${index+1} / ${effectiveSlides.length}`;
+    [...dots.children].forEach((dot,i)=>dot.classList.toggle('active',i===index));
+  }
+  function goPrev(){index=(index-1+effectiveSlides.length)%effectiveSlides.length;update();}
+  function goNext(){index=(index+1)%effectiveSlides.length;update();}
+  document.getElementById(prevId).onclick=goPrev;
+  document.getElementById(nextId).onclick=goNext;
+  if(isMobile){
+    track.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;},{passive:true});
+    track.addEventListener('touchend',e=>{if(startX===null)return;const diff=e.changedTouches[0].clientX-startX;if(Math.abs(diff)>40){if(diff<0)goNext();else goPrev();}startX=null;},{passive:true});
+  }
+  build();
+  update();
+}
+setupCarousel('daysTrack','daysMeta','daysPrev','daysNext','daysDots',rotatedDayPairs(),dayCard,0);
+setupCarousel('shoppingTrack','shoppingMeta','shoppingPrev','shoppingNext','shoppingDots',makePairs([0,1,2,3]),i=>shoppingCard(SPESA[i]),0);
+setupCarousel('detailTrack','detailMeta','detailPrev','detailNext','detailDots',makePairs(DETAILS.map((_,i)=>i)),i=>detailCard(DETAILS[i]),0);
 </script>
 </body>
 </html>
