@@ -79,40 +79,33 @@
       <div class="top-right"><div class="status-strip"><span>Local mode</span> <strong>Adaptive</strong></div></div>
     </div>
 
-<div class="card mobile-quick"><div class="card-head"><div class="card-title">Quick trigger · mobile</div><div class="card-badge">touch first</div></div><div class="mobile-quick-grid"><button class="primary" data-action="routine_1">Proj on</button><button class="secondary" data-action="routine_4">Proj off</button><button class="primary" data-action="routine_7">Luci on</button><button class="secondary" data-action="routine_10">Luci off</button></div></div>
-
-    <div class="main-grid">
-      <div class="stack">
-        <div class="card"><div class="card-head"><div class="card-title">Orario</div><div class="card-badge">Live</div></div><div class="clock-box"><div class="ops-clock" id="clock">--:--:--</div><div class="ops-date" id="date">---</div><div class="ops-shift" id="dayPhase"></div></div></div>
-        <div class="card"><div class="card-head"><div class="card-title">Meteo e condizioni ambientali · Torino</div><div class="card-badge">Weather</div></div><div class="weather-overview"><div class="weather-hero"><div class="weather-city">Torino · situazione attuale</div><div class="weather-top"><div class="weather-now-wrap"><div class="weather-now" id="weather-temp-big">--°C</div><div class="weather-now-icon" id="weather-now-icon"></div></div><div class="weather-chip"><div class="k">Pioggia</div><div class="v" id="weather-rain-big">--%</div></div></div><div class="weather-chip"><div class="k">Umidità</div><div class="v" id="weather-humidity-big">--%</div></div></div><div class="weather-side"><div class="weather-chip"><div class="k">Vento</div><div class="v" id="weather-wind-big">-- km/h</div></div><div class="weather-chip"><div class="k">Aggiornamento</div><div class="v">Live</div></div></div></div><div class="metrics-grid"><div class="metric-card"><div class="metric-label">Temperatura</div><div class="metric-value" id="weather-temp">--°C</div></div><div class="metric-card"><div class="metric-label">Prob. pioggia</div><div class="metric-value" id="weather-rain">--%</div></div><div class="metric-card"><div class="metric-label">Umidità</div><div class="metric-value" id="weather-humidity">--%</div></div><div class="metric-card"><div class="metric-label">Vento</div><div class="metric-value" id="weather-wind">-- km/h</div></div></div></div>
-      </div>
-      <div class="stack">
-        <div class="card"><div class="card-head"><div class="card-title">Previsioni 6 giorni</div><div class="card-badge">Outlook</div></div><div id="forecast-grid" class="forecast-grid"></div></div>
-        <div class="card"><div class="card-head"><div class="card-title">Calendario</div><div class="card-badge">Agenda</div></div><div id="events-row" class="events-grid"></div></div>
-      </div>
-    </div>
-
-    <div class="card"><div class="card-head"><div class="card-title">Smart home</div><div class="card-badge">Comandi</div></div>
-      <div class="smart-layout">
-        <div class="smart-section-grid">
-          <div class="smart-block"><div class="smart-head"><div class="smart-title">Living room</div><div class="smart-led"></div></div><div class="smart-buttons"><button class="primary" data-action="routine_1">Proiettore on</button><button class="secondary" data-action="routine_4">Proiettore off</button><button class="primary" data-action="routine_7">Accendi luci living room</button><button class="secondary" data-action="routine_10">Spegni luci living room</button></div></div>
-          <div class="smart-block"><div class="smart-head"><div class="smart-title">Serrande</div><div class="smart-led"></div></div><div class="smart-buttons"><button class="primary" data-action="routine_13">Apri serrande</button><button class="secondary" data-action="routine_16">Chiudi serrande</button><button class="warm" data-action="routine_2">Apri serranda cucina</button><button class="warm" data-action="routine_5">Chiudi serranda cucina</button></div></div>
-          <div class="smart-block"><div class="smart-head"><div class="smart-title">Studio / bagno</div><div class="smart-led"></div></div><div class="smart-buttons"><button class="primary" data-action="routine_8">Apri serranda studio</button><button class="secondary" data-action="routine_11">Chiudi serranda studio</button><button class="warm" data-action="routine_14">Apri serranda bagno</button><button class="warm" data-action="routine_17">Chiudi serranda bagno</button></div></div>
-          <div class="smart-block"><div class="smart-head"><div class="smart-title">Comandi ausiliari</div><div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div></div><div class="smart-buttons"><button class="danger" data-action="routine_3">Routine 3</button><button class="danger" data-action="routine_6">Routine 6</button><button class="danger" data-action="routine_9">Routine 9</button><button class="danger" data-action="routine_12">Routine 12</button></div></div>
-        </div>
-        <div class="smart-side">
-          <div class="smart-block"><div class="smart-head"><div class="smart-title">Scene rapide</div><div class="smart-led"></div></div><div class="smart-scenes"><button data-action="routine_1">Wake mode</button><button data-action="routine_16">Night mode</button><button data-action="routine_7">Relax mode</button><button data-action="routine_4">All off</button></div></div>
-        </div>
-      </div>
-    </div>
+<div class="card mobile-quick">
+  <div class="card-head">
+    <div class="card-title">Trigger · mobile</div>
+    <div class="card-badge">all controls</div>
   </div>
-
-  <div class="mobile-trigger-dock">
+  <div class="mobile-quick-grid">
     <button class="primary" data-action="routine_1">Proj on</button>
     <button class="secondary" data-action="routine_4">Proj off</button>
     <button class="primary" data-action="routine_7">Luci on</button>
     <button class="secondary" data-action="routine_10">Luci off</button>
+
+    <button class="warm" data-action="routine_13">Apri serr.</button>
+    <button class="warm" data-action="routine_16">Chiudi serr.</button>
+    <button class="warm" data-action="routine_2">Apri cucina</button>
+    <button class="warm" data-action="routine_5">Chiudi cucina</button>
+
+    <button class="primary" data-action="routine_8">Apri studio</button>
+    <button class="secondary" data-action="routine_11">Chiudi studio</button>
+    <button class="warm" data-action="routine_14">Apri bagno</button>
+    <button class="warm" data-action="routine_17">Chiudi bagno</button>
+
+    <button class="danger" data-action="routine_3">Routine 3</button>
+    <button class="danger" data-action="routine_6">Routine 6</button>
+    <button class="danger" data-action="routine_9">Routine 9</button>
+    <button class="danger" data-action="routine_12">Routine 12</button>
   </div>
+</div>
 
   <script>
     function updateClock(){const now=new Date();document.getElementById('clock').textContent=now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});document.getElementById('date').textContent=now.toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const hour=now.getHours();let phase='Standby';if(hour>=6&&hour<12) phase='Mattina';else if(hour>=12&&hour<18) phase='Pomeriggio';else if(hour>=18&&hour<23) phase='Sera';else phase='Notte';document.getElementById('dayPhase').textContent=phase;}
