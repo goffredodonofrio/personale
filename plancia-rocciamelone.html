@@ -82,9 +82,11 @@
     .mobile-room-group + .mobile-room-group{padding-top:2px}
     .mobile-room-title{margin:0 0 8px;font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
 
-    @media (max-width:1280px){
-      .main-grid,.smart-layout,.weather-overview{grid-template-columns:1fr}
-      .metrics-grid,.forecast-grid,.smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.main-grid{
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  gap:12px;
+  align-items:start;
     }
 
     @media (max-width:760px){
