@@ -6,89 +6,33 @@
   <title>Plancia Rocciamelone</title>
   <style>
     :root{--bg-1:#050811;--bg-2:#091224;--panel:rgba(8,16,42,.92);--panel-2:rgba(10,21,56,.95);--line:rgba(142,180,255,.18);--text:#eef4ff;--muted:#98a8c8;--soft:#d8e6ff;--cyan:#59dbff;--green:#7ff0b2;--amber:#f4c242;--orange:#ff9d4d;--red:#ff6d63;--shadow:0 22px 60px rgba(0,0,0,.38);--radius:22px;--btn-primary:#244b90;--btn-primary-2:#2e63bd;--btn-secondary:#183767;--btn-warm:#64511f;--btn-scene:#1f6b63;--btn-danger:#5e2c38}
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;overflow-x:hidden}
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%;overflow-x:hidden}
     body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top right,rgba(89,219,255,.1),transparent 24%),radial-gradient(circle at bottom left,rgba(255,157,77,.08),transparent 20%),linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%);color:var(--text)}
-    .shell{max-width:1560px;margin:0 auto;padding:16px;display:grid;gap:12px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-    .top-left,.top-right,.status-strip{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .shell{max-width:1560px;margin:0 auto;padding:16px;display:grid;gap:12px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.top-left,.top-right,.status-strip{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .back-home,.chip{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;text-decoration:none;font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
-    .chip.accent{color:var(--cyan);border-color:rgba(89,219,255,.26)}
-    .chip.live{color:var(--green);border-color:rgba(127,240,178,.22)}
-    .status-strip{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-    .status-strip strong{color:var(--soft)}
-
-    .main-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:12px;align-items:start}
-    .stack{display:grid;gap:12px}
-    .card{position:relative;background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-    .card-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%)}
-    .card-title{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-    .card-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(89,219,255,.22);color:var(--cyan);font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;background:rgba(89,219,255,.08)}
-
-    .clock-box{padding:18px 16px 14px;border-radius:22px;border:1px solid rgba(140,182,255,.12);background:linear-gradient(180deg,rgba(14,26,68,.96) 0%,rgba(8,16,42,.92) 100%)}
-    .ops-clock{font-size:clamp(46px,8vw,78px);font-weight:900;line-height:.94;letter-spacing:-.05em;color:var(--cyan)}
-    .ops-date,.ops-shift{color:var(--soft);line-height:1.45;font-size:14px;margin-top:8px}
-
-    .weather-overview{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;padding:14px}
-    .weather-hero{padding:18px;border-radius:20px;background:linear-gradient(180deg,rgba(18,39,86,.88) 0%,rgba(9,20,48,.92) 100%);border:1px solid rgba(255,255,255,.08);display:grid;gap:10px}
-    .weather-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-    .weather-city{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-    .weather-now-wrap{display:flex;align-items:center;gap:12px}
-    .weather-now{font-size:56px;font-weight:900;letter-spacing:-.05em;color:var(--text)}
-    .weather-now-icon{width:46px;height:46px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex:0 0 46px}
-    .weather-now-icon svg{width:46px;height:46px;display:block}
-    .weather-side{display:grid;gap:10px}
-    .weather-chip{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
-    .weather-chip .k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
-    .weather-chip .v{margin-top:6px;font-size:18px;font-weight:900;color:var(--soft)}
-
-    .metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:14px}
-    .metric-card{padding:16px;position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08)}
-    .metric-label{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-    .metric-value{margin-top:8px;font-size:30px;font-weight:900;color:var(--text)}
-
-    .forecast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}
-    .ops-forecast-pill{background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;min-width:0;display:grid;gap:10px;color:var(--soft);font-size:12px;line-height:1.4}
-    .forecast-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-    .forecast-day{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
-    .forecast-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex:0 0 34px}
-    .forecast-icon svg{width:34px;height:34px;display:block}
-    .sun{fill:var(--amber)}
-    .cloud{fill:#cfe0ff}
-    .rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}
-    .forecast-temp{font-size:16px;font-weight:800;color:var(--text)}
-    .forecast-desc{color:var(--soft);text-transform:uppercase}
-
+    .chip.accent{color:var(--cyan);border-color:rgba(89,219,255,.26)} .chip.live{color:var(--green);border-color:rgba(127,240,178,.22)} .status-strip{padding:10px 14px;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)} .status-strip strong{color:var(--soft)}
+    .main-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:12px;align-items:start}.stack{display:grid;gap:12px}.card{position:relative;background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.card-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%)}
+    .card-title{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)} .card-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(89,219,255,.22);color:var(--cyan);font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;background:rgba(89,219,255,.08)}
+    .clock-box{padding:18px 16px 14px;border-radius:22px;border:1px solid rgba(140,182,255,.12);background:linear-gradient(180deg,rgba(14,26,68,.96) 0%,rgba(8,16,42,.92) 100%)}.ops-clock{font-size:clamp(46px,8vw,78px);font-weight:900;line-height:.94;letter-spacing:-.05em;color:var(--cyan)}.ops-date,.ops-shift{color:var(--soft);line-height:1.45;font-size:14px;margin-top:8px}
+    .weather-overview{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;padding:14px}.weather-hero{padding:18px;border-radius:20px;background:linear-gradient(180deg,rgba(18,39,86,.88) 0%,rgba(9,20,48,.92) 100%);border:1px solid rgba(255,255,255,.08);display:grid;gap:10px}.weather-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.weather-city{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.weather-now-wrap{display:flex;align-items:center;gap:12px}.weather-now{font-size:56px;font-weight:900;letter-spacing:-.05em;color:var(--text)}.weather-now-icon{width:46px;height:46px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex:0 0 46px}.weather-now-icon svg{width:46px;height:46px;display:block}.weather-side{display:grid;gap:10px}.weather-chip{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}.weather-chip .k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.weather-chip .v{margin-top:6px;font-size:18px;font-weight:900;color:var(--soft)}
+    .metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:14px}.metric-card{padding:16px;position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08)}.metric-label{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.metric-value{margin-top:8px;font-size:30px;font-weight:900;color:var(--text)}
+    .forecast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}.ops-forecast-pill,.lcars-day-block{background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;min-width:0}.ops-forecast-pill{display:grid;gap:10px;color:var(--soft);font-size:12px;line-height:1.4}.forecast-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.forecast-day{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.forecast-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex:0 0 34px}.forecast-icon svg{width:34px;height:34px;display:block}.sun{fill:var(--amber)}.cloud{fill:#cfe0ff}.rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}.forecast-temp{font-size:16px;font-weight:800;color:var(--text)}.forecast-desc{color:var(--soft);text-transform:uppercase}
+    .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}.lcars-day-block{display:grid;gap:10px}.lcars-day-header{display:flex;align-items:center;gap:8px;font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.lcars-day-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan)}.lcars-day-bar{height:1px;background:rgba(255,255,255,.08)}.lcars-day-events{display:grid;gap:8px}.lcars-day-event{display:flex;align-items:center;gap:8px;color:var(--soft);font-size:13px;line-height:1.4}.event-time{font-weight:800;color:var(--text)}.event-sep,.event-dot{color:var(--muted)}.lcars-calendar-loading,.lcars-calendar-error{padding:14px;color:var(--muted);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em}
     .mobile-quick{display:none}
     .mobile-trigger-dock{display:none}
-
-    .smart-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;padding:14px}
-    .smart-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .smart-block{border-radius:22px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);padding:12px;box-shadow:var(--shadow);display:grid;gap:10px}
-    .smart-head{display:flex;justify-content:space-between;align-items:center}
-    .smart-title{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-    .smart-led{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(127,240,178,.12)}
-    .smart-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .smart-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;padding:14px}.smart-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.smart-block{border-radius:22px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);padding:12px;box-shadow:var(--shadow);display:grid;gap:10px}.smart-head{display:flex;justify-content:space-between;align-items:center}.smart-title{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.smart-led{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(127,240,178,.12)}.smart-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .smart-buttons button,.smart-scenes button,.mobile-quick-grid button,.mobile-trigger-dock button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:72px;padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.08);text-transform:uppercase;font-weight:900;letter-spacing:.04em;color:var(--soft);font-size:12px;line-height:1.2;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow)}
     .smart-buttons .primary,.mobile-quick-grid .primary,.mobile-trigger-dock .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
     .smart-buttons .secondary,.mobile-quick-grid .secondary,.mobile-trigger-dock .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
     .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)}
     .smart-buttons .danger,.mobile-quick-grid .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
-    .smart-side{display:grid;gap:12px}
-    .smart-scenes{display:grid;gap:10px}
-    .smart-scenes button{background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%)}
-
+    .smart-side{display:grid;gap:12px}.smart-scenes{display:grid;gap:10px}.smart-scenes button{background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%)}
     .mobile-room-group{padding:0 12px 12px}
     .mobile-room-group + .mobile-room-group{padding-top:2px}
     .mobile-room-title{margin:0 0 8px;font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-
-.main-grid{
-  display:grid;
-  grid-template-columns:1.08fr .92fr;
-  gap:12px;
-  align-items:start;
-    }
-
+    .layout-card-body{padding:14px}
+    .layout-image{width:100%;display:block;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+    @media (max-width:1280px){.main-grid,.smart-layout,.weather-overview{grid-template-columns:1fr}.metrics-grid,.forecast-grid,.events-grid,.smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:760px){
       body{padding-bottom:24px}
       .shell{padding:12px;gap:10px}
@@ -164,47 +108,12 @@
 
     <div class="main-grid desktop-main">
       <div class="card">
-        <div class="card-head">
-          <div class="card-title">Orario e meteo · Torino</div>
-          <div class="card-badge">Live</div>
-        </div>
-
+        <div class="card-head"><div class="card-title">Orario e meteo · Torino</div><div class="card-badge">Live</div></div>
         <div class="stack" style="padding:14px;gap:12px;">
-          <div class="clock-box">
-            <div class="ops-clock" id="clock">--:--:--</div>
-            <div class="ops-date" id="date">---</div>
-            <div class="ops-shift" id="dayPhase"></div>
-          </div>
+          <div class="clock-box"><div class="ops-clock" id="clock">--:--:--</div><div class="ops-date" id="date">---</div><div class="ops-shift" id="dayPhase"></div></div>
 
           <div class="weather-overview" style="padding:0;">
-            <div class="weather-hero">
-              <div class="weather-city">Torino · situazione attuale</div>
-              <div class="weather-top">
-                <div class="weather-now-wrap">
-                  <div class="weather-now" id="weather-temp-big">--°C</div>
-                  <div class="weather-now-icon" id="weather-now-icon"></div>
-                </div>
-                <div class="weather-chip">
-                  <div class="k">Pioggia</div>
-                  <div class="v" id="weather-rain-big">--%</div>
-                </div>
-              </div>
-              <div class="weather-chip">
-                <div class="k">Umidità</div>
-                <div class="v" id="weather-humidity-big">--%</div>
-              </div>
-            </div>
-
-            <div class="weather-side">
-              <div class="weather-chip">
-                <div class="k">Vento</div>
-                <div class="v" id="weather-wind-big">-- km/h</div>
-              </div>
-              <div class="weather-chip">
-                <div class="k">Aggiornamento</div>
-                <div class="v">Live</div>
-              </div>
-            </div>
+            <div class="weather-hero"><div class="weather-city">Torino · situazione attuale</div><div class="weather-top"><div class="weather-now-wrap"><div class="weather-now" id="weather-temp-big">--°C</div><div class="weather-now-icon" id="weather-now-icon"></div></div><div class="weather-chip"><div class="k">Pioggia</div><div class="v" id="weather-rain-big">--%</div></div></div><div class="weather-chip"><div class="k">Umidità</div><div class="v" id="weather-humidity-big">--%</div></div></div><div class="weather-side"><div class="weather-chip"><div class="k">Vento</div><div class="v" id="weather-wind-big">-- km/h</div></div><div class="weather-chip"><div class="k">Aggiornamento</div><div class="v">Live</div></div></div>
           </div>
 
           <div class="metrics-grid" style="padding:0;">
@@ -217,16 +126,21 @@
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-title">Previsioni 6 giorni</div>
-          <div class="card-badge">Outlook</div>
+        <div class="card-head"><div class="card-title">Previsioni 6 giorni</div><div class="card-badge">Outlook</div></div>
+        $1
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Layout</div>
+            <div class="card-badge">Plan</div>
+          </div>
+          <div class="layout-card-body">
+            <img class="layout-image" src="/mnt/data/Screenshot 2026-04-17 alle 14.19.09.png" alt="Piantine Rocciamelone" />
+          </div>
         </div>
-        <div id="forecast-grid" class="forecast-grid"></div>
-      </div>
     </div>
 
-    <div class="card desktop-smart-home">
-      <div class="card-head"><div class="card-title">Smart home</div><div class="card-badge">Comandi</div></div>
+    <div class="card desktop-smart-home"><div class="card-head"><div class="card-title">Smart home</div><div class="card-badge">Comandi</div></div>
       <div class="smart-layout">
         <div class="smart-section-grid">
           <div class="smart-block"><div class="smart-head"><div class="smart-title">Living room</div><div class="smart-led"></div></div><div class="smart-buttons"><button class="primary" data-action="routine_1">Proiettore on</button><button class="secondary" data-action="routine_4">Proiettore off</button><button class="primary" data-action="routine_7">Accendi luci living room</button><button class="secondary" data-action="routine_10">Spegni luci living room</button></div></div>
@@ -259,6 +173,19 @@
     function weatherIconSvg(rainProb){if(rainProb>=50){return `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="cloud" d="M20 42h24a10 10 0 0 0 0-20 14 14 0 0 0-26-4 9 9 0 0 0 2 24Z"/><path class="rain" d="M24 46l-3 6M34 46l-3 6M44 46l-3 6" fill="none"/></svg>`;} if(rainProb>=20){return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle class="sun" cx="22" cy="22" r="8"/><path class="cloud" d="M24 42h20a9 9 0 0 0 0-18 12 12 0 0 0-22-2 8 8 0 0 0 2 20Z"/></svg>`;} return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle class="sun" cx="32" cy="32" r="12"/><g class="rain" fill="none"><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M49 15l-6 6M21 43l-6 6"/></g></svg>`;}
     async function loadWeather(){try{const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&forecast_days=7&hourly=relativehumidity_2m,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FRome`; const res=await fetch(url); const data=await res.json(); const cw=data.current_weather; if(!cw) throw new Error('weather'); const idx=closestIndex(cw.time,data.hourly.time); const currentRain=Math.round(data.hourly.precipitation_probability[idx] ?? 0); document.getElementById('weather-temp').textContent=`${Math.round(cw.temperature)}°C`; document.getElementById('weather-rain').textContent=`${currentRain}%`; document.getElementById('weather-humidity').textContent=`${data.hourly.relativehumidity_2m[idx]}%`; document.getElementById('weather-wind').textContent=`${Math.round(cw.windspeed)} km/h`; document.getElementById('weather-now-icon').innerHTML=weatherIconSvg(currentRain); syncWeatherHero(); const grid=document.getElementById('forecast-grid'); grid.innerHTML=''; for(let i=0;i<6;i++){const date=new Date(data.daily.time[i]); const label=i===0?'OGGI':date.toLocaleDateString('it-IT',{weekday:'short'}).toUpperCase(); const tmin=Math.round(data.daily.temperature_2m_min[i]); const tmax=Math.round(data.daily.temperature_2m_max[i]); const rainProb=Math.round(data.daily.precipitation_probability_max?.[i] ?? 0); grid.insertAdjacentHTML('beforeend',`<div class="ops-forecast-pill"><div class="forecast-top"><div class="forecast-day">${label}</div><div class="forecast-icon">${weatherIconSvg(rainProb)}</div></div><div class="forecast-temp">${tmin}° / ${tmax}°</div><div class="forecast-desc">PIOGGIA ${rainProb}%</div></div>`);} }catch(e){console.error('weather error',e);}}
     loadWeather(); setInterval(loadWeather, 15*60*1000);
+
+    const CALENDAR_URL='https://calendar.goffredo-donofrio.workers.dev/'; const DAYS_TO_SHOW=3, EXPANSION_DAYS=14, MAX_PAST_DAYS=60;
+    function dateToKey(d){return d.getFullYear().toString()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+    function keyToDate(key){return new Date(Number(key.slice(0,4)),Number(key.slice(4,6))-1,Number(key.slice(6,8)));}
+    function addDaysKey(key,days){const d=keyToDate(key); d.setDate(d.getDate()+days); return dateToKey(d);} function todayKey(){return dateToKey(new Date());}
+    function formatDayLabelFromKey(key){const d=keyToDate(key); return d.toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'short'}).toUpperCase();}
+    function parseDateTime(v){const y=+v.slice(0,4),m=+v.slice(4,6)-1,d=+v.slice(6,8),h=+v.slice(9,11),min=+v.slice(11,13); return v.endsWith('Z')?new Date(Date.UTC(y,m,d,h,min)):new Date(y,m,d,h,min);}
+    function parseICS(text){const lines=text.split(/\r?\n/); const events=[]; let current=null; for(let line of lines){line=line.trim(); if(line==='BEGIN:VEVENT') current={}; else if(line==='END:VEVENT'){if(current?.dayKey) events.push(current); current=null;} else if(!current) continue; else if(line.startsWith('SUMMARY:')) current.title=line.substring(8).replace(/\\n/g,' '); else if(line.startsWith('DTSTART')){const value=line.split(':')[1]; if(line.includes('VALUE=DATE')){current.allDay=true; current.dayKey=value; current.start=keyToDate(value);} else {current.allDay=false; current.start=parseDateTime(value); current.dayKey=dateToKey(current.start);}} else if(line.startsWith('RRULE:')) current.rrule=line.substring(6);} return events;}
+    function expandRecurringEvents(events,startKey,endKey){const out=[]; events.forEach(ev=>{if(!ev.rrule){if(ev.dayKey>=startKey&&ev.dayKey<=endKey) out.push(ev); return;} if(!ev.rrule.includes('FREQ=WEEKLY')) return; const byDay=ev.rrule.match(/BYDAY=([A-Z]{2})/)?.[1]; const dowMap={SU:0,MO:1,TU:2,WE:3,TH:4,FR:5,SA:6}; const targetDow=dowMap[byDay]; if(targetDow===undefined) return; const originalDate=keyToDate(ev.dayKey), startDate=keyToDate(startKey); const diff=(startDate-originalDate)/(1000*60*60*24); if(diff>MAX_PAST_DAYS) return; let cursor=keyToDate(startKey), endDate=keyToDate(endKey); while(cursor<=endDate){const cursorKey=dateToKey(cursor); if(cursorKey>=ev.dayKey&&cursor.getDay()===targetDow){out.push({title:ev.title,allDay:ev.allDay,start:ev.allDay?new Date(cursor):new Date(cursor.getFullYear(),cursor.getMonth(),cursor.getDate(),ev.start.getHours(),ev.start.getMinutes()),dayKey:cursorKey});} cursor.setDate(cursor.getDate()+1);}}); return out;}
+    function groupByDay(events,today){const map={}; events.filter(ev=>ev.dayKey>=today).sort((a,b)=>a.start-b.start).forEach(ev=>{(map[ev.dayKey]??=[]).push(ev);}); return map;}
+    function renderDay(dayKey, events){const wrap=document.createElement('div'); wrap.className='lcars-day-block'; wrap.innerHTML=`<div class="lcars-day-header"><div class="lcars-day-dot"></div><div>${formatDayLabelFromKey(dayKey)}</div></div><div class="lcars-day-bar"></div><div class="lcars-day-events"></div>`; const eventsWrap=wrap.querySelector('.lcars-day-events'); events.forEach(ev=>{const time=ev.allDay?'—':ev.start.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); const row=document.createElement('div'); row.className='lcars-day-event'; row.innerHTML=`<span class="event-dot">•</span><span class="event-time">${time}</span><span class="event-sep">|</span><span class="event-title">${ev.title}</span>`; eventsWrap.appendChild(row);}); return wrap;}
+    async function loadCalendarEvents(){const container=document.getElementById('events-row'); container.innerHTML='<div class="lcars-calendar-loading">Caricamento calendario…</div>'; try{const res=await fetch(CALENDAR_URL,{cache:'no-store'}); if(!res.ok) throw new Error(res.status); const text=await res.text(); const raw=parseICS(text); const today=todayKey(); const max=addDaysKey(today,EXPANSION_DAYS); const expanded=expandRecurringEvents(raw,today,max); const grouped=groupByDay(expanded,today); container.innerHTML=''; Object.keys(grouped).sort().slice(0,DAYS_TO_SHOW).forEach(dayKey=>container.appendChild(renderDay(dayKey,grouped[dayKey]))); if(!container.children.length){container.innerHTML='<div class="lcars-calendar-error">Nessun evento nei prossimi giorni</div>';}}catch(err){console.error('calendar error',err); container.innerHTML='<div class="lcars-calendar-error">Calendario offline</div>';}}
+    loadCalendarEvents(); setInterval(loadCalendarEvents, 15*60*1000);
 
     const MONKEY_MAP={routine_1:'accendi-proiettore-m',routine_4:'spegni-proiettore-m',routine_7:'accendi-luci-living-room-m',routine_10:'spegni-luci-living-room-m',routine_13:'apri-serrande-m',routine_16:'chiudi-serrande-m',routine_2:'apri-serranda-cucina-m',routine_5:'chiudi-serranda-cucina-m',routine_8:'apri-serranda-studio-m',routine_11:'chiudi-serranda-studio-m',routine_14:'apri-serranda-bagno-m',routine_17:'chiudi-serranda-bagno-m'};
     const VM_ACCESS_TOKEN='102bb4c064858a0ff8bd4039ae948b74';
