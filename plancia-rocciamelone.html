@@ -55,8 +55,18 @@
       .smart-side{order:-1}
       .mobile-quick{display:block}
       .mobile-quick .card-head{border-bottom:none}
-      .mobile-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 12px 12px}
-      .mobile-quick-grid button{min-height:64px;font-size:11px}
+      .mobile-quick-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  padding:0 12px 12px
+}
+.mobile-quick-grid button{
+  min-height:54px;
+  padding:10px 8px;
+  font-size:10px;
+  border-radius:14px
+}
       .mobile-trigger-dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;padding:10px;background:rgba(8,16,42,.94);border:1px solid rgba(255,255,255,.08);border-radius:20px;backdrop-filter:blur(16px);box-shadow:var(--shadow)}
       .mobile-trigger-dock button{min-height:54px;padding:10px 8px;font-size:10px;border-radius:14px}
     }
@@ -69,7 +79,7 @@
       <div class="top-right"><div class="status-strip"><span>Local mode</span> <strong>Adaptive</strong></div></div>
     </div>
 
-    <div class="card mobile-quick"><div class="card-head"><div class="card-title">Quick trigger · mobile</div><div class="card-badge">touch first</div></div><div class="mobile-quick-grid"><button class="primary" data-action="routine_1">Proiettore on</button><button class="secondary" data-action="routine_4">Proiettore off</button><button class="primary" data-action="routine_7">Luci on</button><button class="secondary" data-action="routine_10">Luci off</button><button class="warm" data-action="routine_13">Apri serrande</button><button class="warm" data-action="routine_16">Chiudi serrande</button></div></div>
+<div class="card mobile-quick"><div class="card-head"><div class="card-title">Quick trigger · mobile</div><div class="card-badge">touch first</div></div><div class="mobile-quick-grid"><button class="primary" data-action="routine_1">Proj on</button><button class="secondary" data-action="routine_4">Proj off</button><button class="primary" data-action="routine_7">Luci on</button><button class="secondary" data-action="routine_10">Luci off</button></div></div>
 
     <div class="main-grid">
       <div class="stack">
