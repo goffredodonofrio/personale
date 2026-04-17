@@ -18,12 +18,48 @@
     .metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:14px}.metric-card{padding:16px;position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08)}.metric-label{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.metric-value{margin-top:8px;font-size:30px;font-weight:900;color:var(--text)}
     .forecast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}.ops-forecast-pill,.lcars-day-block{background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;min-width:0}.ops-forecast-pill{display:grid;gap:10px;color:var(--soft);font-size:12px;line-height:1.4}.forecast-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.forecast-day{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.forecast-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex:0 0 34px}.forecast-icon svg{width:34px;height:34px;display:block}.sun{fill:var(--amber)}.cloud{fill:#cfe0ff}.rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}.forecast-temp{font-size:16px;font-weight:800;color:var(--text)}.forecast-desc{color:var(--soft);text-transform:uppercase}
     .events-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}.lcars-day-block{display:grid;gap:10px}.lcars-day-header{display:flex;align-items:center;gap:8px;font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.lcars-day-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan)}.lcars-day-bar{height:1px;background:rgba(255,255,255,.08)}.lcars-day-events{display:grid;gap:8px}.lcars-day-event{display:flex;align-items:center;gap:8px;color:var(--soft);font-size:13px;line-height:1.4}.event-time{font-weight:800;color:var(--text)}.event-sep,.event-dot{color:var(--muted)}.lcars-calendar-loading,.lcars-calendar-error{padding:14px;color:var(--muted);font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em}
+    .mobile-quick{display:none}
+    .mobile-trigger-dock{display:none}
     .smart-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;padding:14px}.smart-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.smart-block{border-radius:22px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);padding:12px;box-shadow:var(--shadow);display:grid;gap:10px}.smart-head{display:flex;justify-content:space-between;align-items:center}.smart-title{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.smart-led{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(127,240,178,.12)}.smart-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .smart-buttons button,.smart-scenes button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:72px;padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.08);text-transform:uppercase;font-weight:900;letter-spacing:.04em;color:var(--soft);font-size:12px;line-height:1.2;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow)}
-    .smart-buttons .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)} .smart-buttons .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)} .smart-buttons .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)} .smart-buttons .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
+    .smart-buttons button,.smart-scenes button,.mobile-quick-grid button,.mobile-trigger-dock button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:72px;padding:14px;border-radius:18px;border:1px solid rgba(255,255,255,.08);text-transform:uppercase;font-weight:900;letter-spacing:.04em;color:var(--soft);font-size:12px;line-height:1.2;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow)}
+    .smart-buttons .primary,.mobile-quick-grid .primary,.mobile-trigger-dock .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
+    .smart-buttons .secondary,.mobile-quick-grid .secondary,.mobile-trigger-dock .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
+    .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)}
+    .smart-buttons .danger,.mobile-quick-grid .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
     .smart-side{display:grid;gap:12px}.smart-scenes{display:grid;gap:10px}.smart-scenes button{background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%)}
     @media (max-width:1280px){.main-grid,.smart-layout,.weather-overview{grid-template-columns:1fr}.metrics-grid,.forecast-grid,.events-grid,.smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width:760px){.shell{padding:14px}.metrics-grid,.forecast-grid,.events-grid,.smart-buttons,.smart-section-grid{grid-template-columns:1fr}.ops-clock{font-size:54px}}
+    @media (max-width:760px){
+      body{padding-bottom:108px}
+      .shell{padding:12px;gap:10px}
+      .topbar{position:sticky;top:0;z-index:20;padding-top:max(0px, env(safe-area-inset-top));background:linear-gradient(180deg,rgba(5,8,17,.94) 0%,rgba(5,8,17,.82) 100%);backdrop-filter:blur(14px)}
+      .top-left,.top-right{width:100%;justify-content:space-between}
+      .back-home,.chip,.status-strip{padding:8px 10px;font-size:10px}
+      .card{border-radius:18px}
+      .card-head{padding:10px 12px}
+      .card-title,.card-badge{font-size:9px}
+      .ops-clock{font-size:42px}
+      .ops-date,.ops-shift{font-size:13px}
+      .weather-overview,.metrics-grid,.forecast-grid,.events-grid,.smart-buttons,.smart-section-grid{grid-template-columns:1fr}
+      .weather-overview,.metrics-grid,.forecast-grid,.events-grid,.smart-layout{padding:12px}
+      .weather-hero,.metric-card,.ops-forecast-pill,.lcars-day-block,.smart-block{border-radius:16px}
+      .weather-now{font-size:42px}
+      .weather-now-icon{width:38px;height:38px;flex-basis:38px}
+      .weather-now-icon svg{width:38px;height:38px}
+      .metric-card{padding:12px 14px}
+      .metric-value{font-size:24px}
+      .forecast-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+      .events-grid{display:grid;grid-template-columns:1fr}
+      .smart-layout{grid-template-columns:1fr;gap:10px}
+      .smart-buttons button,.smart-scenes button{min-height:62px;padding:12px;font-size:11px}
+      .smart-section-grid{gap:10px}
+      .smart-side{order:-1}
+      .mobile-quick{display:block}
+      .mobile-quick .card-head{border-bottom:none}
+      .mobile-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 12px 12px}
+      .mobile-quick-grid button{min-height:64px;font-size:11px}
+      .mobile-trigger-dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;padding:10px;background:rgba(8,16,42,.94);border:1px solid rgba(255,255,255,.08);border-radius:20px;backdrop-filter:blur(16px);box-shadow:var(--shadow)}
+      .mobile-trigger-dock button{min-height:54px;padding:10px 8px;font-size:10px;border-radius:14px}
+    }
   </style>
 </head>
 <body>
@@ -32,6 +68,8 @@
       <div class="top-left"><a class="back-home" href="dashboard.html">← Dashboard</a><div class="chip accent">Rocciamelone</div><div class="chip live">Systems online</div></div>
       <div class="top-right"><div class="status-strip"><span>Local mode</span> <strong>Adaptive</strong></div></div>
     </div>
+
+    <div class="card mobile-quick"><div class="card-head"><div class="card-title">Quick trigger · mobile</div><div class="card-badge">touch first</div></div><div class="mobile-quick-grid"><button class="primary" data-action="routine_1">Proiettore on</button><button class="secondary" data-action="routine_4">Proiettore off</button><button class="primary" data-action="routine_7">Luci on</button><button class="secondary" data-action="routine_10">Luci off</button><button class="warm" data-action="routine_13">Apri serrande</button><button class="warm" data-action="routine_16">Chiudi serrande</button></div></div>
 
     <div class="main-grid">
       <div class="stack">
@@ -58,6 +96,14 @@
       </div>
     </div>
   </div>
+
+  <div class="mobile-trigger-dock">
+    <button class="primary" data-action="routine_1">Proj on</button>
+    <button class="secondary" data-action="routine_4">Proj off</button>
+    <button class="primary" data-action="routine_7">Luci on</button>
+    <button class="secondary" data-action="routine_10">Luci off</button>
+  </div>
+
   <script>
     function updateClock(){const now=new Date();document.getElementById('clock').textContent=now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});document.getElementById('date').textContent=now.toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});const hour=now.getHours();let phase='Standby';if(hour>=6&&hour<12) phase='Mattina';else if(hour>=12&&hour<18) phase='Pomeriggio';else if(hour>=18&&hour<23) phase='Sera';else phase='Notte';document.getElementById('dayPhase').textContent=phase;}
     setInterval(updateClock,1000);updateClock();
