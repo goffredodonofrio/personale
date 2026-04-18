@@ -300,47 +300,59 @@
     .rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}
 
     /* =========================================================
-       MAIN LAYOUT (desktop): smart home + layout image
+       MAIN LAYOUT (desktop): smart home full width
        ========================================================= */
     .main-grid{
       display:grid;
-      grid-template-columns:minmax(0,1fr) minmax(280px,360px);
+      grid-template-columns:minmax(0,1fr);
       gap:12px;
       align-items:start;
     }
 
-    .layout-card-body{padding:14px}
-    .layout-image{
-      width:100%;
+    /* Layout card in mezzo tra info e trigger */
+    .layout-strip{
       display:block;
-      border-radius:18px;
+    }
+    .layout-card-body{
+      padding:10px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .layout-image{
+      display:block;
+      border-radius:14px;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.02);
+      max-height:150px;
+      max-width:100%;
+      width:auto;
+      object-fit:contain;
     }
 
     .mobile-quick{display:none}
 
     .smart-layout{
       display:grid;
-      grid-template-columns:minmax(0,1fr) minmax(220px,260px);
-      gap:14px;
-      padding:14px;
+      grid-template-columns:minmax(0,1fr) minmax(200px,240px);
+      gap:12px;
+      padding:12px;
     }
 
     .smart-section-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:12px;
+      gap:10px;
     }
 
     .smart-block{
-      border-radius:22px;
+      border-radius:18px;
       border:1px solid rgba(255,255,255,.08);
       background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);
-      padding:14px;
+      padding:12px;
       box-shadow:var(--shadow);
       display:grid;
-      gap:12px;
+      gap:10px;
     }
 
     .smart-head{
@@ -377,15 +389,15 @@
       align-items:center;
       justify-content:center;
       text-align:center;
-      min-height:88px;
-      padding:16px;
-      border-radius:18px;
+      min-height:66px;
+      padding:12px;
+      border-radius:14px;
       border:1px solid rgba(255,255,255,.08);
       text-transform:uppercase;
       font-weight:900;
       letter-spacing:.04em;
       color:var(--soft);
-      font-size:13px;
+      font-size:12px;
       line-height:1.2;
       cursor:pointer;
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow);
@@ -413,7 +425,7 @@
     .smart-scenes{display:grid;gap:10px}
     .smart-scenes button{
       background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%);
-      min-height:72px;
+      min-height:58px;
     }
 
     .mobile-room-group{padding:0 12px 12px}
@@ -560,7 +572,18 @@
       </div>
     </div>
 
-    <!-- ========== DESKTOP: smart home + layout ========== -->
+    <!-- ========== DESKTOP: layout piantina compatta ========== -->
+    <div class="card desktop-main layout-strip">
+      <div class="card-head">
+        <div class="card-title">Layout</div>
+        <div class="card-badge">Plan</div>
+      </div>
+      <div class="layout-card-body">
+        <img class="layout-image" src="Screenshot%202026-04-17%20alle%2014.19.09.png" alt="Piantine Rocciamelone" />
+      </div>
+    </div>
+
+    <!-- ========== DESKTOP: smart home full width ========== -->
     <div class="main-grid desktop-main">
       <div class="card">
         <div class="card-head">
@@ -622,16 +645,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Layout</div>
-          <div class="card-badge">Plan</div>
-        </div>
-        <div class="layout-card-body">
-          <img class="layout-image" src="Screenshot%202026-04-17%20alle%2014.19.09.png" alt="Piantine Rocciamelone" />
         </div>
       </div>
     </div>
