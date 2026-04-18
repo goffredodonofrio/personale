@@ -97,15 +97,6 @@
 
     .status-strip strong{color:var(--soft)}
 
-    .main-grid{
-      display:grid;
-      grid-template-columns:1.08fr .92fr;
-      gap:12px;
-      align-items:start;
-    }
-
-    .stack{display:grid;gap:12px}
-
     .card{
       position:relative;
       background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
@@ -146,210 +137,179 @@
       background:rgba(89,219,255,.08);
     }
 
-    .clock-box{
-      padding:18px 16px 14px;
-      border-radius:22px;
-      border:1px solid rgba(140,182,255,.12);
-      background:linear-gradient(180deg,rgba(14,26,68,.96) 0%,rgba(8,16,42,.92) 100%);
-    }
-
-    .ops-clock{
-      font-size:clamp(46px,8vw,78px);
-      font-weight:900;
-      line-height:.94;
-      letter-spacing:-.05em;
-      color:var(--cyan);
-    }
-
-    .ops-date,.ops-shift{
-      color:var(--soft);
-      line-height:1.45;
-      font-size:14px;
-      margin-top:8px;
-    }
-
-    .weather-overview{
+    /* =========================================================
+       INFO STRIP (desktop): clock + weather + forecast in 1 row
+       ========================================================= */
+    .info-strip{
       display:grid;
-      grid-template-columns:1.2fr .8fr;
+      grid-template-columns:minmax(220px,260px) minmax(280px,360px) minmax(0,1fr);
       gap:12px;
-      padding:14px;
+      align-items:stretch;
     }
 
-    .weather-hero{
-      padding:18px;
-      border-radius:20px;
-      background:linear-gradient(180deg,rgba(18,39,86,.88) 0%,rgba(9,20,48,.92) 100%);
-      border:1px solid rgba(255,255,255,.08);
-      display:grid;
-      gap:10px;
-    }
-
-    .weather-top{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:flex-start;
-    }
-
-    .weather-city{
-      font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-    }
-
-    .weather-now-wrap{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .weather-now{
-      font-size:56px;
-      font-weight:900;
-      letter-spacing:-.05em;
-      color:var(--text);
-    }
-
-    .weather-now-icon{
-      width:46px;
-      height:46px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--cyan);
-      flex:0 0 46px;
-    }
-
-    .weather-now-icon svg{
-      width:46px;
-      height:46px;
-      display:block;
-    }
-
-    .weather-side{
-      display:grid;
-      gap:10px;
-    }
-
-    .weather-chip{
+    .info-cell{
       padding:12px 14px;
-      border-radius:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
+      display:grid;
+      gap:8px;
+      align-content:center;
     }
 
-    .weather-chip .k{
-      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
-      text-transform:uppercase;
-      letter-spacing:.1em;
-      color:var(--muted);
+    /* Clock compatto */
+    .clock-compact{
+      align-content:center;
     }
-
-    .weather-chip .v{
-      margin-top:6px;
-      font-size:18px;
+    .clock-compact .ops-clock{
+      font-size:clamp(34px,3.6vw,46px);
       font-weight:900;
-      color:var(--soft);
+      line-height:.95;
+      letter-spacing:-.05em;
+      color:var(--cyan);
     }
-
-    .metrics-grid{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:12px;
-      padding:14px;
-    }
-
-    .metric-card{
-      padding:16px;
-      position:relative;
-      overflow:hidden;
-      border-radius:18px;
-      background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .metric-label{
-      font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-    }
-
-    .metric-value{
-      margin-top:8px;
-      font-size:30px;
-      font-weight:900;
-      color:var(--text);
-    }
-
-    .forecast-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-      padding:14px;
-    }
-
-    .ops-forecast-pill{
-      background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px;
-      padding:14px;
-      min-width:0;
-      display:grid;
-      gap:10px;
+    .clock-compact .ops-date,
+    .clock-compact .ops-shift{
       color:var(--soft);
       font-size:12px;
       line-height:1.4;
     }
-
-    .forecast-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-    }
-
-    .forecast-day{
+    .clock-compact .ops-shift{
+      color:var(--muted);
       font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
       letter-spacing:.12em;
-      color:var(--muted);
       text-transform:uppercase;
     }
 
-    .forecast-icon{
-      width:34px;
-      height:34px;
+    /* Meteo compatto */
+    .weather-cell{
+      gap:10px;
+    }
+    .weather-cell-top{
       display:flex;
       align-items:center;
-      justify-content:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .weather-cell-city{
+      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+    }
+    .weather-cell-main{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .weather-cell-icon{
+      width:38px;
+      height:38px;
+      flex:0 0 38px;
       color:var(--cyan);
-      flex:0 0 34px;
+    }
+    .weather-cell-icon svg{
+      width:38px;
+      height:38px;
+      display:block;
+    }
+    .weather-cell-temp{
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:var(--text);
+      line-height:1;
+    }
+    .weather-cell-chips{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:6px;
+    }
+    .weather-cell-chip{
+      padding:6px 8px;
+      border-radius:10px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      min-width:0;
+    }
+    .weather-cell-chip .k{
+      font:800 8px ui-monospace,SFMono-Regular,Menlo,monospace;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      color:var(--muted);
+    }
+    .weather-cell-chip .v{
+      margin-top:3px;
+      font-size:13px;
+      font-weight:900;
+      color:var(--soft);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .forecast-icon svg{
-      width:34px;
-      height:34px;
+    /* Previsioni compatte */
+    .forecast-cell{
+      padding:10px;
+    }
+    .forecast-grid{
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      gap:6px;
+    }
+    .forecast-pill{
+      background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:8px 6px;
+      min-width:0;
+      display:grid;
+      gap:4px;
+      color:var(--soft);
+      font-size:11px;
+      line-height:1.2;
+      text-align:center;
+    }
+    .forecast-pill .forecast-day{
+      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      letter-spacing:.1em;
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    .forecast-pill .forecast-icon{
+      width:26px;
+      height:26px;
+      margin:2px auto 0;
+      color:var(--cyan);
+    }
+    .forecast-pill .forecast-icon svg{
+      width:26px;
+      height:26px;
       display:block;
+    }
+    .forecast-pill .forecast-temp{
+      font-size:12px;
+      font-weight:800;
+      color:var(--text);
+    }
+    .forecast-pill .forecast-rain{
+      font-size:10px;
+      color:var(--cyan);
+      font-weight:700;
     }
 
     .sun{fill:var(--amber)}
     .cloud{fill:#cfe0ff}
     .rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}
 
-    .forecast-temp{
-      font-size:16px;
-      font-weight:800;
-      color:var(--text);
-    }
-
-    .forecast-desc{
-      color:var(--soft);
-      text-transform:uppercase;
+    /* =========================================================
+       MAIN LAYOUT (desktop): smart home + layout image
+       ========================================================= */
+    .main-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(280px,360px);
+      gap:12px;
+      align-items:start;
     }
 
     .layout-card-body{padding:14px}
-
     .layout-image{
       width:100%;
       display:block;
@@ -359,12 +319,11 @@
     }
 
     .mobile-quick{display:none}
-    .mobile-trigger-dock{display:none}
 
     .smart-layout{
       display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:12px;
+      grid-template-columns:minmax(0,1fr) minmax(220px,260px);
+      gap:14px;
       padding:14px;
     }
 
@@ -378,10 +337,10 @@
       border-radius:22px;
       border:1px solid rgba(255,255,255,.08);
       background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);
-      padding:12px;
+      padding:14px;
       box-shadow:var(--shadow);
       display:grid;
-      gap:10px;
+      gap:12px;
     }
 
     .smart-head{
@@ -413,34 +372,49 @@
 
     .smart-buttons button,
     .smart-scenes button,
-    .mobile-quick-grid button,
-    .mobile-trigger-dock button{
+    .mobile-quick-grid button{
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      min-height:72px;
-      padding:14px;
+      min-height:88px;
+      padding:16px;
       border-radius:18px;
       border:1px solid rgba(255,255,255,.08);
       text-transform:uppercase;
       font-weight:900;
       letter-spacing:.04em;
       color:var(--soft);
-      font-size:12px;
+      font-size:13px;
       line-height:1.2;
       cursor:pointer;
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow);
+      transition:transform .1s ease, filter .15s ease;
     }
 
-    .smart-buttons .primary,.mobile-quick-grid .primary,.mobile-trigger-dock .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
-    .smart-buttons .secondary,.mobile-quick-grid .secondary,.mobile-trigger-dock .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
+    .smart-buttons button:hover,
+    .smart-scenes button:hover,
+    .mobile-quick-grid button:hover{
+      filter:brightness(1.1);
+    }
+
+    .smart-buttons button:active,
+    .smart-scenes button:active,
+    .mobile-quick-grid button:active{
+      transform:translateY(1px);
+    }
+
+    .smart-buttons .primary,.mobile-quick-grid .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
+    .smart-buttons .secondary,.mobile-quick-grid .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
     .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)}
     .smart-buttons .danger,.mobile-quick-grid .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
 
     .smart-side{display:grid;gap:12px}
     .smart-scenes{display:grid;gap:10px}
-    .smart-scenes button{background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%)}
+    .smart-scenes button{
+      background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%);
+      min-height:72px;
+    }
 
     .mobile-room-group{padding:0 12px 12px}
     .mobile-room-group + .mobile-room-group{padding-top:2px}
@@ -453,8 +427,14 @@
     }
 
     @media (max-width:1280px){
-      .smart-layout,.weather-overview{grid-template-columns:1fr}
-      .metrics-grid,.forecast-grid,.smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .info-strip{
+        grid-template-columns:minmax(200px,240px) minmax(0,1fr);
+      }
+      .forecast-cell{grid-column:1 / -1}
+      .forecast-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+      .main-grid{grid-template-columns:1fr}
+      .smart-layout{grid-template-columns:1fr}
+      .smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
 
     @media (max-width:760px){
@@ -473,9 +453,7 @@
       .card{border-radius:18px}
       .card-head{padding:10px 12px}
       .card-title,.card-badge{font-size:9px}
-      .ops-clock{font-size:42px}
-      .ops-date,.ops-shift{font-size:13px}
-      .desktop-main,.desktop-smart-home,.mobile-trigger-dock{display:none !important}
+      .desktop-info,.desktop-main{display:none !important}
       .mobile-quick{display:block}
       .mobile-quick .card-head{border-bottom:none}
       .mobile-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -496,6 +474,7 @@
       </div>
     </div>
 
+    <!-- ========== MOBILE: trigger dock ========== -->
     <div class="card mobile-quick">
       <div class="card-head">
         <div class="card-title">Trigger · mobile</div>
@@ -543,140 +522,116 @@
       </div>
     </div>
 
-    <div class="main-grid desktop-main">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Orario e meteo · Torino</div>
-          <div class="card-badge">Live</div>
+    <!-- ========== DESKTOP: info strip compatta ========== -->
+    <div class="info-strip desktop-info">
+      <div class="card info-cell clock-compact">
+        <div class="ops-clock" id="clock">--:--:--</div>
+        <div class="ops-date" id="date">---</div>
+        <div class="ops-shift" id="dayPhase"></div>
+      </div>
+
+      <div class="card info-cell weather-cell">
+        <div class="weather-cell-top">
+          <div class="weather-cell-city">Torino · live</div>
+          <div class="weather-cell-city" style="color:var(--cyan)">Adaptive</div>
         </div>
-
-        <div class="stack" style="padding:14px;gap:12px;">
-          <div class="clock-box">
-            <div class="ops-clock" id="clock">--:--:--</div>
-            <div class="ops-date" id="date">---</div>
-            <div class="ops-shift" id="dayPhase"></div>
+        <div class="weather-cell-main">
+          <div class="weather-cell-icon" id="weather-now-icon"></div>
+          <div class="weather-cell-temp" id="weather-temp">--°C</div>
+        </div>
+        <div class="weather-cell-chips">
+          <div class="weather-cell-chip">
+            <div class="k">Pioggia</div>
+            <div class="v" id="weather-rain">--%</div>
           </div>
-
-          <div class="weather-overview" style="padding:0;">
-            <div class="weather-hero">
-              <div class="weather-city">Torino · situazione attuale</div>
-              <div class="weather-top">
-                <div class="weather-now-wrap">
-                  <div class="weather-now" id="weather-temp-big">--°C</div>
-                  <div class="weather-now-icon" id="weather-now-icon"></div>
-                </div>
-                <div class="weather-chip">
-                  <div class="k">Pioggia</div>
-                  <div class="v" id="weather-rain-big">--%</div>
-                </div>
-              </div>
-              <div class="weather-chip">
-                <div class="k">Umidità</div>
-                <div class="v" id="weather-humidity-big">--%</div>
-              </div>
-            </div>
-
-            <div class="weather-side">
-              <div class="weather-chip">
-                <div class="k">Vento</div>
-                <div class="v" id="weather-wind-big">-- km/h</div>
-              </div>
-              <div class="weather-chip">
-                <div class="k">Aggiornamento</div>
-                <div class="v">Live</div>
-              </div>
-            </div>
+          <div class="weather-cell-chip">
+            <div class="k">Umidità</div>
+            <div class="v" id="weather-humidity">--%</div>
           </div>
-
-          <div class="metrics-grid" style="padding:0;">
-            <div class="metric-card"><div class="metric-label">Temperatura</div><div class="metric-value" id="weather-temp">--°C</div></div>
-            <div class="metric-card"><div class="metric-label">Prob. pioggia</div><div class="metric-value" id="weather-rain">--%</div></div>
-            <div class="metric-card"><div class="metric-label">Umidità</div><div class="metric-value" id="weather-humidity">--%</div></div>
-            <div class="metric-card"><div class="metric-label">Vento</div><div class="metric-value" id="weather-wind">-- km/h</div></div>
+          <div class="weather-cell-chip">
+            <div class="k">Vento</div>
+            <div class="v" id="weather-wind">-- km/h</div>
           </div>
         </div>
       </div>
 
-      <div class="stack">
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">Previsioni 6 giorni</div>
-            <div class="card-badge">Outlook</div>
-          </div>
-          <div id="forecast-grid" class="forecast-grid"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">Layout</div>
-            <div class="card-badge">Plan</div>
-          </div>
-          <div class="layout-card-body">
-            <img class="layout-image" src="Screenshot%202026-04-17%20alle%2014.19.09.png" alt="Piantine Rocciamelone" />
-          </div>
-        </div>
+      <div class="card forecast-cell">
+        <div id="forecast-grid" class="forecast-grid"></div>
       </div>
     </div>
 
-    <div class="card desktop-smart-home">
-      <div class="card-head">
-        <div class="card-title">Smart home</div>
-        <div class="card-badge">Comandi</div>
-      </div>
+    <!-- ========== DESKTOP: smart home + layout ========== -->
+    <div class="main-grid desktop-main">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Smart home</div>
+          <div class="card-badge">Comandi</div>
+        </div>
 
-      <div class="smart-layout">
-        <div class="smart-section-grid">
-          <div class="smart-block">
-            <div class="smart-head"><div class="smart-title">Living room</div><div class="smart-led"></div></div>
-            <div class="smart-buttons">
-              <button class="primary" data-action="routine_1">Proiettore on</button>
-              <button class="secondary" data-action="routine_4">Proiettore off</button>
-              <button class="primary" data-action="routine_7">Accendi luci living room</button>
-              <button class="secondary" data-action="routine_10">Spegni luci living room</button>
+        <div class="smart-layout">
+          <div class="smart-section-grid">
+            <div class="smart-block">
+              <div class="smart-head"><div class="smart-title">Living room</div><div class="smart-led"></div></div>
+              <div class="smart-buttons">
+                <button class="primary" data-action="routine_1">Proiettore on</button>
+                <button class="secondary" data-action="routine_4">Proiettore off</button>
+                <button class="primary" data-action="routine_7">Accendi luci living room</button>
+                <button class="secondary" data-action="routine_10">Spegni luci living room</button>
+              </div>
+            </div>
+
+            <div class="smart-block">
+              <div class="smart-head"><div class="smart-title">Serrande</div><div class="smart-led"></div></div>
+              <div class="smart-buttons">
+                <button class="primary" data-action="routine_13">Apri serrande</button>
+                <button class="secondary" data-action="routine_16">Chiudi serrande</button>
+                <button class="warm" data-action="routine_2">Apri serranda cucina</button>
+                <button class="warm" data-action="routine_5">Chiudi serranda cucina</button>
+              </div>
+            </div>
+
+            <div class="smart-block">
+              <div class="smart-head"><div class="smart-title">Studio / bagno</div><div class="smart-led"></div></div>
+              <div class="smart-buttons">
+                <button class="primary" data-action="routine_8">Apri serranda studio</button>
+                <button class="secondary" data-action="routine_11">Chiudi serranda studio</button>
+                <button class="warm" data-action="routine_14">Apri serranda bagno</button>
+                <button class="warm" data-action="routine_17">Chiudi serranda bagno</button>
+              </div>
+            </div>
+
+            <div class="smart-block">
+              <div class="smart-head"><div class="smart-title">Comandi ausiliari</div><div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div></div>
+              <div class="smart-buttons">
+                <button class="danger" data-action="routine_3">Routine 3</button>
+                <button class="danger" data-action="routine_6">Routine 6</button>
+                <button class="danger" data-action="routine_9">Routine 9</button>
+                <button class="danger" data-action="routine_12">Routine 12</button>
+              </div>
             </div>
           </div>
 
-          <div class="smart-block">
-            <div class="smart-head"><div class="smart-title">Serrande</div><div class="smart-led"></div></div>
-            <div class="smart-buttons">
-              <button class="primary" data-action="routine_13">Apri serrande</button>
-              <button class="secondary" data-action="routine_16">Chiudi serrande</button>
-              <button class="warm" data-action="routine_2">Apri serranda cucina</button>
-              <button class="warm" data-action="routine_5">Chiudi serranda cucina</button>
-            </div>
-          </div>
-
-          <div class="smart-block">
-            <div class="smart-head"><div class="smart-title">Studio / bagno</div><div class="smart-led"></div></div>
-            <div class="smart-buttons">
-              <button class="primary" data-action="routine_8">Apri serranda studio</button>
-              <button class="secondary" data-action="routine_11">Chiudi serranda studio</button>
-              <button class="warm" data-action="routine_14">Apri serranda bagno</button>
-              <button class="warm" data-action="routine_17">Chiudi serranda bagno</button>
-            </div>
-          </div>
-
-          <div class="smart-block">
-            <div class="smart-head"><div class="smart-title">Comandi ausiliari</div><div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div></div>
-            <div class="smart-buttons">
-              <button class="danger" data-action="routine_3">Routine 3</button>
-              <button class="danger" data-action="routine_6">Routine 6</button>
-              <button class="danger" data-action="routine_9">Routine 9</button>
-              <button class="danger" data-action="routine_12">Routine 12</button>
+          <div class="smart-side">
+            <div class="smart-block">
+              <div class="smart-head"><div class="smart-title">Scene rapide</div><div class="smart-led"></div></div>
+              <div class="smart-scenes">
+                <button data-action="routine_1">Wake mode</button>
+                <button data-action="routine_16">Night mode</button>
+                <button data-action="routine_7">Relax mode</button>
+                <button data-action="routine_4">All off</button>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="smart-side">
-          <div class="smart-block">
-            <div class="smart-head"><div class="smart-title">Scene rapide</div><div class="smart-led"></div></div>
-            <div class="smart-scenes">
-              <button data-action="routine_1">Wake mode</button>
-              <button data-action="routine_16">Night mode</button>
-              <button data-action="routine_7">Relax mode</button>
-              <button data-action="routine_4">All off</button>
-            </div>
-          </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Layout</div>
+          <div class="card-badge">Plan</div>
+        </div>
+        <div class="layout-card-body">
+          <img class="layout-image" src="Screenshot%202026-04-17%20alle%2014.19.09.png" alt="Piantine Rocciamelone" />
         </div>
       </div>
     </div>
@@ -701,21 +656,6 @@
       else phase = 'Notte';
 
       phaseEl.textContent = phase;
-    }
-
-    function syncWeatherHero(){
-      const pairs = [
-        ['weather-temp','weather-temp-big'],
-        ['weather-rain','weather-rain-big'],
-        ['weather-humidity','weather-humidity-big'],
-        ['weather-wind','weather-wind-big']
-      ];
-
-      pairs.forEach(([sourceId,targetId])=>{
-        const source = document.getElementById(sourceId);
-        const target = document.getElementById(targetId);
-        if(source && target) target.textContent = source.textContent;
-      });
     }
 
     const LAT = 45.0703;
@@ -771,8 +711,6 @@
         if(weatherWind) weatherWind.textContent = `${Math.round(cw.windspeed)} km/h`;
         if(weatherNowIcon) weatherNowIcon.innerHTML = weatherIconSvg(currentRain);
 
-        syncWeatherHero();
-
         if(grid){
           grid.innerHTML = '';
           for(let i=0;i<6;i++){
@@ -783,13 +721,11 @@
             const rainProb = Math.round(data.daily.precipitation_probability_max?.[i] ?? 0);
 
             grid.insertAdjacentHTML('beforeend', `
-              <div class="ops-forecast-pill">
-                <div class="forecast-top">
-                  <div class="forecast-day">${label}</div>
-                  <div class="forecast-icon">${weatherIconSvg(rainProb)}</div>
-                </div>
+              <div class="forecast-pill">
+                <div class="forecast-day">${label}</div>
+                <div class="forecast-icon">${weatherIconSvg(rainProb)}</div>
                 <div class="forecast-temp">${tmin}° / ${tmax}°</div>
-                <div class="forecast-desc">PIOGGIA ${rainProb}%</div>
+                <div class="forecast-rain">${rainProb}%</div>
               </div>
             `);
           }
