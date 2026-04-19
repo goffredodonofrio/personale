@@ -4,22 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Plancia Rocciamelone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg-1:#050811;
-      --bg-2:#091224;
-      --panel:rgba(8,16,42,.92);
-      --panel-2:rgba(10,21,56,.95);
-      --line:rgba(142,180,255,.18);
+      --bg-0:#07090e;
+      --bg-1:#0b1017;
+      --bg-2:#0f1521;
+      --panel:rgba(15,19,27,.92);
+      --panel-2:rgba(20,26,36,.92);
+      --line:rgba(115,157,222,.22);
+      --line-strong:rgba(115,157,222,.42);
       --text:#eef4ff;
-      --muted:#98a8c8;
+      --muted:#9aa9bf;
+      --muted-2:#6b7a90;
       --soft:#d8e6ff;
-      --cyan:#59dbff;
-      --green:#7ff0b2;
+      --blue:#6ca9ff;
+      --blue-2:#5bc0ff;
+      --blue-soft:rgba(108,169,255,.12);
+      --cyan:#5bc0ff;
       --amber:#f4c242;
-      --red:#ff6d63;
-      --shadow:0 22px 60px rgba(0,0,0,.38);
+      --orange:#f28c3a;
+      --green:#7ff0b2;
+      --gold-soft:rgba(244,194,66,.14);
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --shadow-strong:0 32px 70px rgba(0,0,0,.55);
       --radius:22px;
+      --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
       --btn-primary:#244b90;
       --btn-primary-2:#2e63bd;
       --btn-secondary:#183767;
@@ -33,14 +45,44 @@
 
     body{
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at top right,rgba(89,219,255,.1),transparent 24%),
-        radial-gradient(circle at bottom left,rgba(255,157,77,.08),transparent 20%),
-        linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%);
       color:var(--text);
+      background-color:var(--bg-0);
+      background-image:
+        radial-gradient(1100px 700px at 88% -10%,rgba(108,169,255,.18),transparent 60%),
+        radial-gradient(900px 600px at -10% 110%,rgba(242,140,58,.13),transparent 60%),
+        linear-gradient(180deg,var(--bg-1) 0%,var(--bg-0) 100%);
+      background-attachment:fixed;
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(115,157,222,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(115,157,222,.035) 1px,transparent 1px);
+      background-size:44px 44px;
+      mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
+      -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
+      z-index:0;
     }
 
+    /* --------- ICON SYSTEM (coerente con la home) --------- */
+    .ico{display:inline-block;vertical-align:middle;color:var(--cyan)}
+    .ico svg{width:100%;height:100%;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+    .ico .bg{opacity:.18}
+    .ico .mid{opacity:.55}
+    .ico .hi{opacity:1}
+    .ico.gold{color:var(--amber);filter:drop-shadow(0 0 10px rgba(244,194,66,.25))}
+    .ico.blue{color:var(--blue);filter:drop-shadow(0 0 10px rgba(108,169,255,.30))}
+    .ico.cyan{color:var(--cyan);filter:drop-shadow(0 0 10px rgba(91,192,255,.28))}
+    .ico.green{color:var(--green);filter:drop-shadow(0 0 10px rgba(127,240,178,.25))}
+    .ico.soft{color:var(--soft)}
+
     .shell{
+      position:relative;
+      z-index:1;
       max-width:1560px;
       margin:0 auto;
       padding:16px;
@@ -70,31 +112,30 @@
       padding:10px 14px;
       border-radius:999px;
       text-decoration:none;
-      font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 11px var(--mono);
       letter-spacing:.12em;
       text-transform:uppercase;
       color:var(--soft);
       background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       box-shadow:var(--shadow);
       backdrop-filter:blur(10px);
     }
-
-    .chip.accent{color:var(--cyan);border-color:rgba(89,219,255,.26)}
+    .chip.accent{color:var(--cyan);border-color:rgba(91,192,255,.26)}
     .chip.live{color:var(--green);border-color:rgba(127,240,178,.22)}
+    .chip .ico{width:14px;height:14px}
 
     .status-strip{
       padding:10px 14px;
       border-radius:999px;
       background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       box-shadow:var(--shadow);
-      font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 11px var(--mono);
       letter-spacing:.08em;
       text-transform:uppercase;
       color:var(--muted);
     }
-
     .status-strip strong{color:var(--soft)}
 
     .card{
@@ -116,8 +157,16 @@
       background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%);
     }
 
+    .card-head-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .card-head-left .ico{width:20px;height:20px;flex:0 0 20px}
+
     .card-title{
-      font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 11px var(--mono);
       text-transform:uppercase;
       letter-spacing:.12em;
       color:var(--muted);
@@ -129,16 +178,16 @@
       gap:6px;
       padding:5px 8px;
       border-radius:999px;
-      border:1px solid rgba(89,219,255,.22);
+      border:1px solid rgba(91,192,255,.22);
       color:var(--cyan);
-      font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 10px var(--mono);
       letter-spacing:.08em;
       text-transform:uppercase;
-      background:rgba(89,219,255,.08);
+      background:rgba(91,192,255,.08);
     }
 
     /* =========================================================
-       INFO STRIP (desktop): clock + weather + forecast in 1 row
+       INFO STRIP (desktop): clock + weather + forecast
        ========================================================= */
     .info-strip{
       display:grid;
@@ -154,9 +203,14 @@
       align-content:center;
     }
 
-    /* Clock compatto */
-    .clock-compact{
-      align-content:center;
+    .clock-compact{align-content:center;position:relative}
+    .clock-compact .clock-ico{
+      position:absolute;
+      top:10px;
+      right:12px;
+      width:28px;
+      height:28px;
+      opacity:.6;
     }
     .clock-compact .ops-clock{
       font-size:clamp(34px,3.6vw,46px);
@@ -164,6 +218,7 @@
       line-height:.95;
       letter-spacing:-.05em;
       color:var(--cyan);
+      font-family:var(--mono);
     }
     .clock-compact .ops-date,
     .clock-compact .ops-shift{
@@ -173,15 +228,13 @@
     }
     .clock-compact .ops-shift{
       color:var(--muted);
-      font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 10px var(--mono);
       letter-spacing:.12em;
       text-transform:uppercase;
     }
 
     /* Meteo compatto */
-    .weather-cell{
-      gap:10px;
-    }
+    .weather-cell{gap:10px}
     .weather-cell-top{
       display:flex;
       align-items:center;
@@ -189,7 +242,7 @@
       gap:10px;
     }
     .weather-cell-city{
-      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 9px var(--mono);
       text-transform:uppercase;
       letter-spacing:.12em;
       color:var(--muted);
@@ -197,25 +250,20 @@
     .weather-cell-main{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
     }
     .weather-cell-icon{
-      width:38px;
-      height:38px;
-      flex:0 0 38px;
-      color:var(--cyan);
-    }
-    .weather-cell-icon svg{
-      width:38px;
-      height:38px;
-      display:block;
+      width:52px;
+      height:52px;
+      flex:0 0 52px;
     }
     .weather-cell-temp{
-      font-size:34px;
+      font-size:36px;
       font-weight:900;
       letter-spacing:-.04em;
       color:var(--text);
       line-height:1;
+      font-family:var(--mono);
     }
     .weather-cell-chips{
       display:grid;
@@ -226,29 +274,33 @@
       padding:6px 8px;
       border-radius:10px;
       background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       min-width:0;
+      display:flex;
+      align-items:center;
+      gap:6px;
     }
+    .weather-cell-chip .ico{width:16px;height:16px;flex:0 0 16px}
+    .weather-cell-chip .chip-content{display:grid;min-width:0}
     .weather-cell-chip .k{
-      font:800 8px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 8px var(--mono);
       text-transform:uppercase;
       letter-spacing:.1em;
       color:var(--muted);
     }
     .weather-cell-chip .v{
-      margin-top:3px;
+      margin-top:2px;
       font-size:13px;
       font-weight:900;
       color:var(--soft);
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+      font-family:var(--mono);
     }
 
     /* Previsioni compatte */
-    .forecast-cell{
-      padding:10px;
-    }
+    .forecast-cell{padding:10px}
     .forecast-grid{
       display:grid;
       grid-template-columns:repeat(6,minmax(0,1fr));
@@ -256,7 +308,7 @@
     }
     .forecast-pill{
       background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       border-radius:12px;
       padding:8px 6px;
       min-width:0;
@@ -268,36 +320,121 @@
       text-align:center;
     }
     .forecast-pill .forecast-day{
-      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 9px var(--mono);
       letter-spacing:.1em;
       color:var(--muted);
       text-transform:uppercase;
     }
     .forecast-pill .forecast-icon{
-      width:26px;
-      height:26px;
+      width:32px;
+      height:32px;
       margin:2px auto 0;
-      color:var(--cyan);
-    }
-    .forecast-pill .forecast-icon svg{
-      width:26px;
-      height:26px;
-      display:block;
     }
     .forecast-pill .forecast-temp{
       font-size:12px;
       font-weight:800;
       color:var(--text);
+      font-family:var(--mono);
     }
     .forecast-pill .forecast-rain{
       font-size:10px;
       color:var(--cyan);
       font-weight:700;
+      font-family:var(--mono);
     }
 
-    .sun{fill:var(--amber)}
-    .cloud{fill:#cfe0ff}
-    .rain{stroke:var(--cyan);stroke-width:2.2;stroke-linecap:round}
+    /* =========================================================
+       MEDIA ROW (desktop): scene rapide + piantina
+       ========================================================= */
+    .media-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      align-items:stretch;
+    }
+    .media-row > .card{display:flex;flex-direction:column}
+
+    .scenes-card-body{
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+      min-height:0;
+    }
+    .smart-scenes{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      flex:1;
+    }
+    .scene-btn{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:12px;
+      text-align:left;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:.04em;
+      color:var(--soft);
+      font-size:13px;
+      line-height:1.15;
+      cursor:pointer;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow);
+      transition:transform .12s ease,filter .15s ease,border-color .15s ease;
+      background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%);
+      min-height:64px;
+    }
+    .scene-btn:hover{filter:brightness(1.12);border-color:var(--line-strong)}
+    .scene-btn:active{transform:translateY(1px)}
+    .scene-btn .ico{width:32px;height:32px;flex:0 0 32px}
+
+    .layout-card-body{
+      padding:14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex:1;
+      min-height:0;
+    }
+    .floorplan{
+      width:100%;
+      max-height:200px;
+      color:var(--cyan);
+    }
+    .floorplan svg{
+      width:100%;
+      height:auto;
+      max-height:200px;
+      display:block;
+      fill:none;
+      stroke:currentColor;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .floorplan .walls{stroke-width:2;opacity:1}
+    .floorplan .walls-inner{stroke-width:1.4;opacity:.55;stroke-dasharray:4 4}
+    .floorplan .room-fill{fill:rgba(91,192,255,.04);stroke:none}
+    .floorplan .label{
+      fill:var(--soft);
+      stroke:none;
+      font:800 10px var(--mono);
+      letter-spacing:.15em;
+      text-transform:uppercase;
+    }
+    .floorplan .sublabel{
+      fill:var(--muted);
+      stroke:none;
+      font:700 7px var(--mono);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .floorplan .device{stroke-width:1.4;opacity:.85}
+    .floorplan .device-glow{fill:var(--cyan);stroke:none;opacity:.9}
+    .floorplan .door{stroke-width:1.2;opacity:.55;stroke-dasharray:2 2;fill:none}
 
     /* =========================================================
        MAIN LAYOUT (desktop): smart home full width
@@ -307,51 +444,6 @@
       grid-template-columns:minmax(0,1fr);
       gap:12px;
       align-items:start;
-    }
-
-    /* Riga media: piantina + scene rapide affiancate */
-    .media-row{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      align-items:stretch;
-    }
-    .media-row > .card{display:flex;flex-direction:column}
-    .layout-card-body{
-      padding:10px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex:1;
-      min-height:0;
-    }
-    .layout-image{
-      display:block;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.02);
-      max-height:170px;
-      max-width:100%;
-      width:auto;
-      object-fit:contain;
-    }
-
-    /* Scene rapide come card affiancato */
-    .scenes-card-body{
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      flex:1;
-      min-height:0;
-    }
-    .scenes-card-body .smart-scenes{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
-      flex:1;
-    }
-    .scenes-card-body .smart-scenes button{
-      min-height:auto;
     }
 
     .mobile-quick{display:none}
@@ -371,7 +463,7 @@
 
     .smart-block{
       border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);
       padding:12px;
       box-shadow:var(--shadow);
@@ -384,9 +476,16 @@
       justify-content:space-between;
       align-items:center;
     }
+    .smart-head-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .smart-head-left .ico{width:22px;height:22px;flex:0 0 22px}
 
     .smart-title{
-      font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;
+      font:800 10px var(--mono);
       text-transform:uppercase;
       letter-spacing:.12em;
       color:var(--muted);
@@ -407,16 +506,16 @@
     }
 
     .smart-buttons button,
-    .smart-scenes button,
     .mobile-quick-grid button{
       display:flex;
       align-items:center;
-      justify-content:center;
-      text-align:center;
+      justify-content:flex-start;
+      text-align:left;
+      gap:10px;
       min-height:66px;
       padding:12px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid var(--line);
       text-transform:uppercase;
       font-weight:900;
       letter-spacing:.04em;
@@ -425,51 +524,40 @@
       line-height:1.2;
       cursor:pointer;
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow);
-      transition:transform .1s ease, filter .15s ease;
+      transition:transform .12s ease,filter .15s ease;
     }
+    .smart-buttons button .ico,
+    .mobile-quick-grid button .ico{width:22px;height:22px;flex:0 0 22px}
 
     .smart-buttons button:hover,
-    .smart-scenes button:hover,
-    .mobile-quick-grid button:hover{
-      filter:brightness(1.1);
-    }
-
+    .mobile-quick-grid button:hover{filter:brightness(1.12)}
     .smart-buttons button:active,
-    .smart-scenes button:active,
-    .mobile-quick-grid button:active{
-      transform:translateY(1px);
-    }
+    .mobile-quick-grid button:active{transform:translateY(1px)}
 
     .smart-buttons .primary,.mobile-quick-grid .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
     .smart-buttons .secondary,.mobile-quick-grid .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
     .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)}
     .smart-buttons .danger,.mobile-quick-grid .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
 
-    .smart-side{display:grid;gap:12px}
-    .smart-scenes{display:grid;gap:10px}
-    .smart-scenes button{
-      background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%);
-      min-height:58px;
-    }
-
     .mobile-room-group{padding:0 12px 12px}
     .mobile-room-group + .mobile-room-group{padding-top:2px}
     .mobile-room-title{
       margin:0 0 8px;
-      font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font:800 9px var(--mono);
       text-transform:uppercase;
       letter-spacing:.12em;
       color:var(--muted);
     }
+    .mobile-room-title .ico{width:16px;height:16px}
 
     @media (max-width:1280px){
-      .info-strip{
-        grid-template-columns:minmax(200px,240px) minmax(0,1fr);
-      }
+      .info-strip{grid-template-columns:minmax(200px,240px) minmax(0,1fr)}
       .forecast-cell{grid-column:1 / -1}
       .forecast-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
       .main-grid{grid-template-columns:1fr}
-      .smart-layout{grid-template-columns:1fr}
       .smart-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .media-row{grid-template-columns:1fr}
     }
@@ -481,7 +569,7 @@
         position:sticky;
         top:0;
         z-index:20;
-        padding-top:max(0px, env(safe-area-inset-top));
+        padding-top:max(0px,env(safe-area-inset-top));
         background:linear-gradient(180deg,rgba(5,8,17,.94) 0%,rgba(5,8,17,.82) 100%);
         backdrop-filter:blur(14px);
       }
@@ -493,12 +581,209 @@
       .desktop-info,.desktop-main,.media-row{display:none !important}
       .mobile-quick{display:block}
       .mobile-quick .card-head{border-bottom:none}
-      .mobile-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-      .mobile-quick-grid button{min-height:54px;padding:10px 8px;font-size:10px;border-radius:14px;line-height:1.15}
+      .mobile-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .mobile-quick-grid button{min-height:56px;padding:10px;font-size:11px;border-radius:12px;line-height:1.15}
     }
   </style>
 </head>
 <body>
+
+  <!-- ================= SVG ICON LIBRARY ================= -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- Frame esagonale + cerchio tratteggiato (usato come base icone) -->
+      <symbol id="ico-frame" viewBox="0 0 96 96">
+        <path class="bg" d="M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z"/>
+        <circle class="mid" cx="48" cy="48" r="26" stroke-dasharray="2 4"/>
+      </symbol>
+
+      <!-- Meteo: sole -->
+      <symbol id="ico-sun" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <circle class="hi" cx="48" cy="48" r="13"/>
+        <path class="hi" d="M48 22 L48 16 M48 74 L48 80 M22 48 L16 48 M74 48 L80 48 M30 30 L26 26 M66 66 L70 70 M66 30 L70 26 M30 66 L26 70"/>
+      </symbol>
+
+      <!-- Meteo: sole con nuvola -->
+      <symbol id="ico-partly" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <circle class="hi" cx="38" cy="38" r="9"/>
+        <path class="hi" d="M38 24 L38 20 M24 38 L20 38 M28 28 L25 25 M48 28 L51 25"/>
+        <path class="hi" d="M30 64 Q30 54 40 54 Q44 46 54 48 Q64 48 66 58 Q74 58 74 66 L30 66 Q26 66 30 64 Z"/>
+      </symbol>
+
+      <!-- Meteo: pioggia -->
+      <symbol id="ico-rain" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <path class="hi" d="M26 50 Q26 40 36 40 Q40 30 52 32 Q64 32 66 46 Q76 46 76 54 L26 54 Q22 54 26 52 Z"/>
+        <path class="hi" d="M34 62 L30 72 M48 62 L44 72 M62 62 L58 72"/>
+      </symbol>
+
+      <!-- Orologio -->
+      <symbol id="ico-clock" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <circle class="hi" cx="48" cy="48" r="18"/>
+        <path class="hi" d="M48 34 L48 48 L58 54"/>
+      </symbol>
+
+      <!-- Pioggia (chip) -->
+      <symbol id="ico-drop" viewBox="0 0 96 96">
+        <path class="hi" d="M48 18 Q32 38 32 56 Q32 70 48 70 Q64 70 64 56 Q64 38 48 18 Z"/>
+      </symbol>
+
+      <!-- Umidità -->
+      <symbol id="ico-humidity" viewBox="0 0 96 96">
+        <path class="hi" d="M48 14 Q28 40 28 58 Q28 74 48 74 Q68 74 68 58 Q68 40 48 14 Z"/>
+        <path class="mid" d="M40 56 Q44 62 50 60"/>
+      </symbol>
+
+      <!-- Vento -->
+      <symbol id="ico-wind" viewBox="0 0 96 96">
+        <path class="hi" d="M16 36 H60 Q70 36 70 28 Q70 20 62 20"/>
+        <path class="hi" d="M16 50 H72 Q82 50 82 58 Q82 66 74 66"/>
+        <path class="hi" d="M16 64 H46 Q54 64 54 70 Q54 76 48 76"/>
+      </symbol>
+
+      <!-- Previsioni/outlook -->
+      <symbol id="ico-chart" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <path class="hi" d="M22 64 L36 48 L48 56 L60 38 L74 46"/>
+        <circle class="hi" cx="22" cy="64" r="2" fill="currentColor"/>
+        <circle class="hi" cx="36" cy="48" r="2" fill="currentColor"/>
+        <circle class="hi" cx="48" cy="56" r="2" fill="currentColor"/>
+        <circle class="hi" cx="60" cy="38" r="2" fill="currentColor"/>
+        <circle class="hi" cx="74" cy="46" r="2" fill="currentColor"/>
+      </symbol>
+
+      <!-- Living / divano -->
+      <symbol id="ico-sofa" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <path class="hi" d="M24 46 L24 40 Q24 34 30 34 L66 34 Q72 34 72 40 L72 46"/>
+        <path class="hi" d="M20 46 Q20 42 24 42 L72 42 Q76 42 76 46 L76 58 L20 58 Z"/>
+        <path class="hi" d="M28 58 L28 64 M68 58 L68 64"/>
+      </symbol>
+
+      <!-- Serrande -->
+      <symbol id="ico-shutter" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <rect class="hi" x="28" y="26" width="40" height="44" rx="2"/>
+        <line class="hi" x1="28" y1="36" x2="68" y2="36"/>
+        <line class="hi" x1="28" y1="44" x2="68" y2="44"/>
+        <line class="hi" x1="28" y1="52" x2="68" y2="52"/>
+        <line class="hi" x1="28" y1="60" x2="68" y2="60"/>
+      </symbol>
+
+      <!-- Studio -->
+      <symbol id="ico-desk" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <rect class="hi" x="26" y="30" width="44" height="22" rx="2"/>
+        <path class="hi" d="M30 52 L30 64 M66 52 L66 64"/>
+        <line class="hi" x1="22" y1="68" x2="74" y2="68"/>
+        <circle class="hi" cx="36" cy="38" r="1.4" fill="currentColor"/>
+      </symbol>
+
+      <!-- Bagno -->
+      <symbol id="ico-bath" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <path class="hi" d="M24 46 L72 46 L70 58 Q70 64 64 64 L32 64 Q26 64 26 58 Z"/>
+        <line class="hi" x1="22" y1="46" x2="74" y2="46"/>
+        <path class="hi" d="M48 32 L48 38 Q48 42 52 42 L58 42"/>
+        <line class="hi" x1="34" y1="64" x2="34" y2="70"/>
+        <line class="hi" x1="62" y1="64" x2="62" y2="70"/>
+      </symbol>
+
+      <!-- Ausiliari / sliders -->
+      <symbol id="ico-sliders" viewBox="0 0 96 96">
+        <use href="#ico-frame"/>
+        <line class="hi" x1="24" y1="34" x2="72" y2="34"/>
+        <circle class="hi" cx="40" cy="34" r="4" fill="var(--bg-1)"/>
+        <line class="hi" x1="24" y1="48" x2="72" y2="48"/>
+        <circle class="hi" cx="58" cy="48" r="4" fill="var(--bg-1)"/>
+        <line class="hi" x1="24" y1="62" x2="72" y2="62"/>
+        <circle class="hi" cx="34" cy="62" r="4" fill="var(--bg-1)"/>
+      </symbol>
+
+      <!-- Proiettore -->
+      <symbol id="ico-proj" viewBox="0 0 96 96">
+        <rect class="hi" x="20" y="34" width="40" height="26" rx="4"/>
+        <circle class="hi" cx="38" cy="47" r="7"/>
+        <circle class="hi" cx="38" cy="47" r="3" fill="currentColor"/>
+        <line class="hi" x1="64" y1="44" x2="76" y2="40"/>
+        <line class="hi" x1="64" y1="50" x2="76" y2="52"/>
+        <line class="mid" x1="64" y1="47" x2="74" y2="46"/>
+      </symbol>
+
+      <!-- Lampadina -->
+      <symbol id="ico-bulb" viewBox="0 0 96 96">
+        <path class="hi" d="M48 18 Q32 18 32 36 Q32 46 40 54 L40 62 L56 62 L56 54 Q64 46 64 36 Q64 18 48 18 Z"/>
+        <line class="hi" x1="40" y1="66" x2="56" y2="66"/>
+        <line class="hi" x1="42" y1="70" x2="54" y2="70"/>
+      </symbol>
+
+      <!-- Lampadina off -->
+      <symbol id="ico-bulb-off" viewBox="0 0 96 96">
+        <path class="mid" d="M48 18 Q32 18 32 36 Q32 46 40 54 L40 62 L56 62 L56 54 Q64 46 64 36 Q64 18 48 18 Z"/>
+        <line class="hi" x1="40" y1="66" x2="56" y2="66"/>
+        <line class="hi" x1="42" y1="70" x2="54" y2="70"/>
+        <line class="hi" x1="26" y1="26" x2="70" y2="70"/>
+      </symbol>
+
+      <!-- Freccia su / apri -->
+      <symbol id="ico-up" viewBox="0 0 96 96">
+        <line class="hi" x1="48" y1="72" x2="48" y2="24"/>
+        <path class="hi" d="M32 40 L48 24 L64 40"/>
+      </symbol>
+
+      <!-- Freccia giù / chiudi -->
+      <symbol id="ico-down" viewBox="0 0 96 96">
+        <line class="hi" x1="48" y1="24" x2="48" y2="72"/>
+        <path class="hi" d="M32 56 L48 72 L64 56"/>
+      </symbol>
+
+      <!-- Power -->
+      <symbol id="ico-power" viewBox="0 0 96 96">
+        <path class="hi" d="M32 30 Q22 38 22 52 Q22 72 48 72 Q74 72 74 52 Q74 38 64 30"/>
+        <line class="hi" x1="48" y1="20" x2="48" y2="46"/>
+      </symbol>
+
+      <!-- Alba / wake -->
+      <symbol id="ico-sunrise" viewBox="0 0 96 96">
+        <path class="hi" d="M18 64 L78 64"/>
+        <path class="hi" d="M28 64 Q28 48 48 48 Q68 48 68 64"/>
+        <circle class="mid" cx="48" cy="56" r="5" fill="currentColor"/>
+        <line class="hi" x1="48" y1="30" x2="48" y2="38"/>
+        <line class="hi" x1="28" y1="42" x2="33" y2="46"/>
+        <line class="hi" x1="68" y1="42" x2="63" y2="46"/>
+        <line class="hi" x1="16" y1="52" x2="22" y2="52"/>
+        <line class="hi" x1="80" y1="52" x2="74" y2="52"/>
+        <path class="mid" d="M14 70 L82 70" stroke-dasharray="3 4"/>
+      </symbol>
+
+      <!-- Luna / night -->
+      <symbol id="ico-moon" viewBox="0 0 96 96">
+        <path class="hi" d="M60 20 Q38 22 36 46 Q34 70 58 76 Q42 78 30 62 Q20 44 32 28 Q44 16 60 20 Z"/>
+        <circle class="hi" cx="70" cy="30" r="1.6" fill="currentColor"/>
+        <circle class="hi" cx="76" cy="42" r="1.2" fill="currentColor"/>
+        <circle class="hi" cx="66" cy="54" r="1" fill="currentColor"/>
+      </symbol>
+
+      <!-- Onde / relax -->
+      <symbol id="ico-waves" viewBox="0 0 96 96">
+        <path class="hi" d="M16 32 Q26 22 36 32 T56 32 T76 32 T80 32"/>
+        <path class="hi" d="M16 48 Q26 38 36 48 T56 48 T76 48 T80 48"/>
+        <path class="hi" d="M16 64 Q26 54 36 64 T56 64 T76 64 T80 64"/>
+      </symbol>
+
+      <!-- Cucina -->
+      <symbol id="ico-kitchen" viewBox="0 0 96 96">
+        <rect class="hi" x="24" y="30" width="48" height="40" rx="3"/>
+        <line class="hi" x1="24" y1="42" x2="72" y2="42"/>
+        <circle class="hi" cx="36" cy="54" r="4"/>
+        <circle class="hi" cx="56" cy="54" r="4"/>
+      </symbol>
+    </defs>
+  </svg>
+
   <div class="shell">
     <div class="topbar">
       <div class="top-left">
@@ -514,54 +799,58 @@
     <!-- ========== MOBILE: trigger dock ========== -->
     <div class="card mobile-quick">
       <div class="card-head">
-        <div class="card-title">Trigger · mobile</div>
+        <div class="card-head-left">
+          <span class="ico cyan"><svg><use href="#ico-sliders"/></svg></span>
+          <div class="card-title">Trigger · mobile</div>
+        </div>
         <div class="card-badge">all controls</div>
       </div>
 
       <div class="mobile-room-group">
-        <div class="mobile-room-title">Living room</div>
+        <div class="mobile-room-title"><span class="ico cyan"><svg><use href="#ico-sofa"/></svg></span> Living room</div>
         <div class="mobile-quick-grid">
-          <button class="primary" data-action="routine_1">Proj on</button>
-          <button class="secondary" data-action="routine_4">Proj off</button>
-          <button class="primary" data-action="routine_7">Luci on</button>
-          <button class="secondary" data-action="routine_10">Luci off</button>
+          <button class="primary" data-action="routine_1"><span class="ico soft"><svg><use href="#ico-proj"/></svg></span> Proj on</button>
+          <button class="secondary" data-action="routine_4"><span class="ico soft"><svg><use href="#ico-proj"/></svg></span> Proj off</button>
+          <button class="primary" data-action="routine_7"><span class="ico gold"><svg><use href="#ico-bulb"/></svg></span> Luci on</button>
+          <button class="secondary" data-action="routine_10"><span class="ico soft"><svg><use href="#ico-bulb-off"/></svg></span> Luci off</button>
         </div>
       </div>
 
       <div class="mobile-room-group">
-        <div class="mobile-room-title">Serrande</div>
+        <div class="mobile-room-title"><span class="ico cyan"><svg><use href="#ico-shutter"/></svg></span> Serrande</div>
         <div class="mobile-quick-grid">
-          <button class="warm" data-action="routine_13">Apri tutte</button>
-          <button class="warm" data-action="routine_16">Chiudi tutte</button>
-          <button class="warm" data-action="routine_2">Apri cucina</button>
-          <button class="warm" data-action="routine_5">Chiudi cucina</button>
+          <button class="warm" data-action="routine_13"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri tutte</button>
+          <button class="warm" data-action="routine_16"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi tutte</button>
+          <button class="warm" data-action="routine_2"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri cucina</button>
+          <button class="warm" data-action="routine_5"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi cucina</button>
         </div>
       </div>
 
       <div class="mobile-room-group">
-        <div class="mobile-room-title">Studio / bagno</div>
+        <div class="mobile-room-title"><span class="ico cyan"><svg><use href="#ico-desk"/></svg></span> Studio / bagno</div>
         <div class="mobile-quick-grid">
-          <button class="primary" data-action="routine_8">Apri studio</button>
-          <button class="secondary" data-action="routine_11">Chiudi studio</button>
-          <button class="warm" data-action="routine_14">Apri bagno</button>
-          <button class="warm" data-action="routine_17">Chiudi bagno</button>
+          <button class="primary" data-action="routine_8"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri studio</button>
+          <button class="secondary" data-action="routine_11"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi studio</button>
+          <button class="warm" data-action="routine_14"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri bagno</button>
+          <button class="warm" data-action="routine_17"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi bagno</button>
         </div>
       </div>
 
       <div class="mobile-room-group">
-        <div class="mobile-room-title">Utility</div>
+        <div class="mobile-room-title"><span class="ico cyan"><svg><use href="#ico-sliders"/></svg></span> Utility</div>
         <div class="mobile-quick-grid">
-          <button class="danger" data-action="routine_3">Routine 3</button>
-          <button class="danger" data-action="routine_6">Routine 6</button>
-          <button class="danger" data-action="routine_9">Routine 9</button>
-          <button class="danger" data-action="routine_12">Routine 12</button>
+          <button class="danger" data-action="routine_3"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 3</button>
+          <button class="danger" data-action="routine_6"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 6</button>
+          <button class="danger" data-action="routine_9"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 9</button>
+          <button class="danger" data-action="routine_12"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 12</button>
         </div>
       </div>
     </div>
 
-    <!-- ========== DESKTOP: info strip compatta ========== -->
+    <!-- ========== DESKTOP: info strip ========== -->
     <div class="info-strip desktop-info">
       <div class="card info-cell clock-compact">
+        <span class="ico cyan clock-ico"><svg><use href="#ico-clock"/></svg></span>
         <div class="ops-clock" id="clock">--:--:--</div>
         <div class="ops-date" id="date">---</div>
         <div class="ops-shift" id="dayPhase"></div>
@@ -573,21 +862,30 @@
           <div class="weather-cell-city" style="color:var(--cyan)">Adaptive</div>
         </div>
         <div class="weather-cell-main">
-          <div class="weather-cell-icon" id="weather-now-icon"></div>
+          <span class="ico cyan weather-cell-icon" id="weather-now-icon"></span>
           <div class="weather-cell-temp" id="weather-temp">--°C</div>
         </div>
         <div class="weather-cell-chips">
           <div class="weather-cell-chip">
-            <div class="k">Pioggia</div>
-            <div class="v" id="weather-rain">--%</div>
+            <span class="ico cyan"><svg><use href="#ico-drop"/></svg></span>
+            <div class="chip-content">
+              <div class="k">Pioggia</div>
+              <div class="v" id="weather-rain">--%</div>
+            </div>
           </div>
           <div class="weather-cell-chip">
-            <div class="k">Umidità</div>
-            <div class="v" id="weather-humidity">--%</div>
+            <span class="ico blue"><svg><use href="#ico-humidity"/></svg></span>
+            <div class="chip-content">
+              <div class="k">Umid</div>
+              <div class="v" id="weather-humidity">--%</div>
+            </div>
           </div>
           <div class="weather-cell-chip">
-            <div class="k">Vento</div>
-            <div class="v" id="weather-wind">-- km/h</div>
+            <span class="ico soft"><svg><use href="#ico-wind"/></svg></span>
+            <div class="chip-content">
+              <div class="k">Vento</div>
+              <div class="v" id="weather-wind">-- km/h</div>
+            </div>
           </div>
         </div>
       </div>
@@ -601,77 +899,173 @@
     <div class="media-row">
       <div class="card">
         <div class="card-head">
-          <div class="card-title">Scene rapide</div>
+          <div class="card-head-left">
+            <span class="ico cyan"><svg><use href="#ico-sliders"/></svg></span>
+            <div class="card-title">Scene rapide</div>
+          </div>
           <div class="card-badge">Presets</div>
         </div>
         <div class="scenes-card-body">
           <div class="smart-scenes">
-            <button data-action="routine_1">Wake mode</button>
-            <button data-action="routine_16">Night mode</button>
-            <button data-action="routine_7">Relax mode</button>
-            <button data-action="routine_4">All off</button>
+            <button class="scene-btn" data-action="routine_1">
+              <span class="ico gold"><svg><use href="#ico-sunrise"/></svg></span>
+              Wake mode
+            </button>
+            <button class="scene-btn" data-action="routine_16">
+              <span class="ico blue"><svg><use href="#ico-moon"/></svg></span>
+              Night mode
+            </button>
+            <button class="scene-btn" data-action="routine_7">
+              <span class="ico cyan"><svg><use href="#ico-waves"/></svg></span>
+              Relax mode
+            </button>
+            <button class="scene-btn" data-action="routine_4">
+              <span class="ico soft"><svg><use href="#ico-power"/></svg></span>
+              All off
+            </button>
           </div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-head">
-          <div class="card-title">Layout</div>
+          <div class="card-head-left">
+            <span class="ico cyan"><svg><use href="#ico-frame"/></svg></span>
+            <div class="card-title">Layout</div>
+          </div>
           <div class="card-badge">Plan</div>
         </div>
         <div class="layout-card-body">
-          <img class="layout-image" src="Screenshot%202026-04-17%20alle%2014.19.09.png" alt="Piantine Rocciamelone" />
+          <div class="floorplan">
+            <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" aria-label="Piantina Rocciamelone">
+              <!-- riempimento ambienti -->
+              <rect class="room-fill" x="14" y="14" width="186" height="110"/>
+              <rect class="room-fill" x="200" y="14" width="130" height="110"/>
+              <rect class="room-fill" x="330" y="14" width="136" height="110"/>
+              <rect class="room-fill" x="14" y="124" width="230" height="82"/>
+              <rect class="room-fill" x="244" y="124" width="222" height="82"/>
+
+              <!-- muri perimetrali -->
+              <rect class="walls" x="14" y="14" width="452" height="192" rx="4"/>
+
+              <!-- muri interni -->
+              <line class="walls-inner" x1="200" y1="14" x2="200" y2="124"/>
+              <line class="walls-inner" x1="330" y1="14" x2="330" y2="124"/>
+              <line class="walls-inner" x1="14" y1="124" x2="466" y2="124"/>
+              <line class="walls-inner" x1="244" y1="124" x2="244" y2="206"/>
+
+              <!-- porte -->
+              <path class="door" d="M180 124 A20 20 0 0 1 200 144"/>
+              <path class="door" d="M310 124 A20 20 0 0 1 330 144"/>
+              <path class="door" d="M224 124 A20 20 0 0 1 244 144"/>
+              <path class="door" d="M330 144 A20 20 0 0 1 350 164"/>
+
+              <!-- etichette -->
+              <text class="label" x="107" y="70" text-anchor="middle">Living</text>
+              <text class="sublabel" x="107" y="86" text-anchor="middle">Proiettore · Luci</text>
+
+              <text class="label" x="265" y="70" text-anchor="middle">Cucina</text>
+              <text class="sublabel" x="265" y="86" text-anchor="middle">Serranda</text>
+
+              <text class="label" x="398" y="70" text-anchor="middle">Studio</text>
+              <text class="sublabel" x="398" y="86" text-anchor="middle">Serranda</text>
+
+              <text class="label" x="129" y="162" text-anchor="middle">Camera</text>
+              <text class="sublabel" x="129" y="178" text-anchor="middle">Zona notte</text>
+
+              <text class="label" x="355" y="162" text-anchor="middle">Bagno</text>
+              <text class="sublabel" x="355" y="178" text-anchor="middle">Serranda</text>
+
+              <!-- dispositivi (pallini luminosi) -->
+              <circle class="device-glow" cx="70" cy="40" r="3"/>
+              <circle class="device-glow" cx="150" cy="40" r="3"/>
+              <circle class="device-glow" cx="265" cy="34" r="3"/>
+              <circle class="device-glow" cx="398" cy="34" r="3"/>
+              <circle class="device-glow" cx="355" cy="134" r="3"/>
+              <circle class="device-glow" cx="129" cy="134" r="3"/>
+
+              <!-- collegamenti soft -->
+              <line class="device" x1="70" y1="40" x2="150" y2="40" stroke="currentColor" stroke-dasharray="2 3" opacity=".35"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ========== DESKTOP: smart home full width ========== -->
+    <!-- ========== DESKTOP: smart home ========== -->
     <div class="main-grid desktop-main">
       <div class="card">
         <div class="card-head">
-          <div class="card-title">Smart home</div>
+          <div class="card-head-left">
+            <span class="ico cyan"><svg><use href="#ico-sliders"/></svg></span>
+            <div class="card-title">Smart home</div>
+          </div>
           <div class="card-badge">Comandi</div>
         </div>
 
         <div class="smart-layout">
           <div class="smart-section-grid">
             <div class="smart-block">
-              <div class="smart-head"><div class="smart-title">Living room</div><div class="smart-led"></div></div>
+              <div class="smart-head">
+                <div class="smart-head-left">
+                  <span class="ico cyan"><svg><use href="#ico-sofa"/></svg></span>
+                  <div class="smart-title">Living room</div>
+                </div>
+                <div class="smart-led"></div>
+              </div>
               <div class="smart-buttons">
-                <button class="primary" data-action="routine_1">Proiettore on</button>
-                <button class="secondary" data-action="routine_4">Proiettore off</button>
-                <button class="primary" data-action="routine_7">Accendi luci living room</button>
-                <button class="secondary" data-action="routine_10">Spegni luci living room</button>
+                <button class="primary" data-action="routine_1"><span class="ico soft"><svg><use href="#ico-proj"/></svg></span> Proiettore on</button>
+                <button class="secondary" data-action="routine_4"><span class="ico soft"><svg><use href="#ico-proj"/></svg></span> Proiettore off</button>
+                <button class="primary" data-action="routine_7"><span class="ico gold"><svg><use href="#ico-bulb"/></svg></span> Accendi luci</button>
+                <button class="secondary" data-action="routine_10"><span class="ico soft"><svg><use href="#ico-bulb-off"/></svg></span> Spegni luci</button>
               </div>
             </div>
 
             <div class="smart-block">
-              <div class="smart-head"><div class="smart-title">Serrande</div><div class="smart-led"></div></div>
+              <div class="smart-head">
+                <div class="smart-head-left">
+                  <span class="ico cyan"><svg><use href="#ico-shutter"/></svg></span>
+                  <div class="smart-title">Serrande</div>
+                </div>
+                <div class="smart-led"></div>
+              </div>
               <div class="smart-buttons">
-                <button class="primary" data-action="routine_13">Apri serrande</button>
-                <button class="secondary" data-action="routine_16">Chiudi serrande</button>
-                <button class="warm" data-action="routine_2">Apri serranda cucina</button>
-                <button class="warm" data-action="routine_5">Chiudi serranda cucina</button>
+                <button class="primary" data-action="routine_13"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri tutte</button>
+                <button class="secondary" data-action="routine_16"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi tutte</button>
+                <button class="warm" data-action="routine_2"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri cucina</button>
+                <button class="warm" data-action="routine_5"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi cucina</button>
               </div>
             </div>
 
             <div class="smart-block">
-              <div class="smart-head"><div class="smart-title">Studio / bagno</div><div class="smart-led"></div></div>
+              <div class="smart-head">
+                <div class="smart-head-left">
+                  <span class="ico cyan"><svg><use href="#ico-desk"/></svg></span>
+                  <div class="smart-title">Studio / bagno</div>
+                </div>
+                <div class="smart-led"></div>
+              </div>
               <div class="smart-buttons">
-                <button class="primary" data-action="routine_8">Apri serranda studio</button>
-                <button class="secondary" data-action="routine_11">Chiudi serranda studio</button>
-                <button class="warm" data-action="routine_14">Apri serranda bagno</button>
-                <button class="warm" data-action="routine_17">Chiudi serranda bagno</button>
+                <button class="primary" data-action="routine_8"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri studio</button>
+                <button class="secondary" data-action="routine_11"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi studio</button>
+                <button class="warm" data-action="routine_14"><span class="ico soft"><svg><use href="#ico-up"/></svg></span> Apri bagno</button>
+                <button class="warm" data-action="routine_17"><span class="ico soft"><svg><use href="#ico-down"/></svg></span> Chiudi bagno</button>
               </div>
             </div>
 
             <div class="smart-block">
-              <div class="smart-head"><div class="smart-title">Comandi ausiliari</div><div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div></div>
+              <div class="smart-head">
+                <div class="smart-head-left">
+                  <span class="ico gold"><svg><use href="#ico-sliders"/></svg></span>
+                  <div class="smart-title">Comandi ausiliari</div>
+                </div>
+                <div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div>
+              </div>
               <div class="smart-buttons">
-                <button class="danger" data-action="routine_3">Routine 3</button>
-                <button class="danger" data-action="routine_6">Routine 6</button>
-                <button class="danger" data-action="routine_9">Routine 9</button>
-                <button class="danger" data-action="routine_12">Routine 12</button>
+                <button class="danger" data-action="routine_3"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 3</button>
+                <button class="danger" data-action="routine_6"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 6</button>
+                <button class="danger" data-action="routine_9"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 9</button>
+                <button class="danger" data-action="routine_12"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 12</button>
               </div>
             </div>
           </div>
@@ -708,26 +1102,21 @@
       let best = 0;
       let min = Infinity;
       const target = new Date(targetIso).getTime();
-
       arr.forEach((x,i)=>{
         const d = Math.abs(new Date(x).getTime() - target);
-        if(d < min){
-          min = d;
-          best = i;
-        }
+        if(d < min){min = d;best = i;}
       });
-
       return best;
     }
 
+    function weatherIconId(rainProb){
+      if(rainProb >= 50) return 'ico-rain';
+      if(rainProb >= 20) return 'ico-partly';
+      return 'ico-sun';
+    }
+
     function weatherIconSvg(rainProb){
-      if(rainProb >= 50){
-        return `<svg viewBox="0 0 64 64" aria-hidden="true"><path class="cloud" d="M20 42h24a10 10 0 0 0 0-20 14 14 0 0 0-26-4 9 9 0 0 0 2 24Z"/><path class="rain" d="M24 46l-3 6M34 46l-3 6M44 46l-3 6" fill="none"/></svg>`;
-      }
-      if(rainProb >= 20){
-        return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle class="sun" cx="22" cy="22" r="8"/><path class="cloud" d="M24 42h20a9 9 0 0 0 0-18 12 12 0 0 0-22-2 8 8 0 0 0 2 20Z"/></svg>`;
-      }
-      return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle class="sun" cx="32" cy="32" r="12"/><g class="rain" fill="none"><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M49 15l-6 6M21 43l-6 6"/></g></svg>`;
+      return `<svg viewBox="0 0 96 96"><use href="#${weatherIconId(rainProb)}"/></svg>`;
     }
 
     async function loadWeather(){
@@ -766,7 +1155,7 @@
             grid.insertAdjacentHTML('beforeend', `
               <div class="forecast-pill">
                 <div class="forecast-day">${label}</div>
-                <div class="forecast-icon">${weatherIconSvg(rainProb)}</div>
+                <span class="ico cyan forecast-icon">${weatherIconSvg(rainProb)}</span>
                 <div class="forecast-temp">${tmin}° / ${tmax}°</div>
                 <div class="forecast-rain">${rainProb}%</div>
               </div>
@@ -798,10 +1187,7 @@
 
     async function trigger(action){
       const monkey = MONKEY_MAP[action];
-      if(!monkey){
-        console.warn('Nessun monkey configurato per', action);
-        return;
-      }
+      if(!monkey){console.warn('Nessun monkey configurato per', action);return;}
 
       const payload = {
         access_token: VM_ACCESS_TOKEN,
@@ -815,7 +1201,6 @@
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify(payload)
         });
-
         if(!res.ok){
           const text = await res.text();
           console.error('Errore VoiceMonkey:', res.status, text);
