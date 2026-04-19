@@ -205,6 +205,12 @@ body::before{
 .focus-dot.a{background:#c79ca4;box-shadow:0 0 0 3px rgba(199,156,164,.18)}
 .focus-dot.b{background:#c7b07f;box-shadow:0 0 0 3px rgba(199,176,127,.18)}
 .focus-dot.c{background:#9fb8a6;box-shadow:0 0 0 3px rgba(159,184,166,.18)}
+/* hero cockpit hex ornament (matches dashboard visual language) */
+.health-hero::after{
+  content:"";position:absolute;right:-80px;bottom:-80px;width:260px;height:260px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><path d='M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z' fill='none' stroke='%23f4c242' stroke-width='0.5' opacity='0.4'/><circle cx='48' cy='48' r='32' fill='none' stroke='%236ca9ff' stroke-width='0.4' stroke-dasharray='2 4' opacity='0.3'/></svg>") no-repeat center/contain;
+  pointer-events:none;
+}
 
 /* ── HEALTH CARDS ── */
 .health-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}
@@ -325,6 +331,82 @@ body::before{
 </style>
 </head>
 <body>
+
+<!-- ═══ SVG SYMBOL LIBRARY (coherent con dashboard/plancia) ═══ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- hex frame shared across health icons -->
+    <symbol id="frame-hex" viewBox="0 0 96 96">
+      <path d="M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="frame-hex-outline" viewBox="0 0 96 96">
+      <path d="M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z"/>
+    </symbol>
+    <symbol id="frame-dash" viewBox="0 0 96 96">
+      <circle cx="48" cy="48" r="32" stroke-dasharray="2 4"/>
+    </symbol>
+
+    <!-- small inline icons -->
+    <symbol id="ico-fork" viewBox="0 0 24 24">
+      <path d="M7 3v7a2 2 0 0 0 2 2v9M7 3v5M11 3v5M9 3v5M17 3c-2 0-3 1.5-3 4s1 5 3 5v9"/>
+    </symbol>
+    <symbol id="ico-cart" viewBox="0 0 24 24">
+      <path d="M3 4h2l2 12h12l2-8H6"/>
+      <circle cx="9" cy="20" r="1.6"/>
+      <circle cx="17" cy="20" r="1.6"/>
+    </symbol>
+    <symbol id="ico-pulse" viewBox="0 0 24 24">
+      <path d="M3 12h4l2-5 4 10 2-5h6"/>
+    </symbol>
+    <symbol id="ico-stethoscope" viewBox="0 0 24 24">
+      <path d="M5 3v6a5 5 0 0 0 10 0V3"/>
+      <path d="M10 14v3a4 4 0 0 0 8 0v-2"/>
+      <circle cx="18" cy="11" r="2"/>
+    </symbol>
+    <symbol id="ico-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+    </symbol>
+    <symbol id="ico-bowl" viewBox="0 0 24 24">
+      <path d="M3 11h18"/>
+      <path d="M4 11a8 8 0 0 0 16 0"/>
+      <path d="M8 7c1-1 3-1 4 0s3 1 4 0"/>
+    </symbol>
+    <symbol id="ico-moon" viewBox="0 0 24 24">
+      <path d="M20 14a8 8 0 1 1-10-10 6 6 0 0 0 10 10z"/>
+    </symbol>
+    <symbol id="ico-coffee" viewBox="0 0 24 24">
+      <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/>
+      <path d="M17 9h2a3 3 0 0 1 0 6h-2"/>
+      <path d="M8 3c-1 1-1 2 0 3M12 3c-1 1-1 2 0 3"/>
+    </symbol>
+    <symbol id="ico-bag" viewBox="0 0 24 24">
+      <path d="M5 7h14l-1 13H6zM9 7V5a3 3 0 0 1 6 0v2"/>
+    </symbol>
+    <symbol id="ico-truck" viewBox="0 0 24 24">
+      <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7"/>
+      <circle cx="7" cy="18" r="1.6"/>
+      <circle cx="17" cy="18" r="1.6"/>
+    </symbol>
+    <symbol id="ico-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="5"/>
+      <circle cx="12" cy="12" r="1.5"/>
+    </symbol>
+    <symbol id="ico-chart" viewBox="0 0 24 24">
+      <path d="M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-9"/>
+    </symbol>
+    <symbol id="ico-check" viewBox="0 0 24 24">
+      <path d="M4 12l5 5L20 6"/>
+    </symbol>
+    <symbol id="ico-salad" viewBox="0 0 24 24">
+      <path d="M3 10h18"/>
+      <path d="M5 10a7 7 0 0 0 14 0"/>
+      <path d="M9 7c1-2 5-2 6 0M8 8c-1-2-3-2-4 0M16 8c1-2 3-2 4 0"/>
+    </symbol>
+  </defs>
+</svg>
+
 <div class="shell">
 
   <header class="topbar">
@@ -342,8 +424,14 @@ body::before{
   </header>
 
   <nav class="menu-nav" role="tablist" aria-label="Sezioni principali">
-    <button class="menu-btn active" type="button" data-panel="alimentare">Piano alimentare</button>
-    <button class="menu-btn" type="button" data-panel="sanitario">Quadro sanitario</button>
+    <button class="menu-btn active" type="button" data-panel="alimentare">
+      <span class="ico"><svg><use href="#ico-fork"/></svg></span>
+      Piano alimentare
+    </button>
+    <button class="menu-btn" type="button" data-panel="sanitario">
+      <span class="ico"><svg><use href="#ico-stethoscope"/></svg></span>
+      Quadro sanitario
+    </button>
   </nav>
 
   <!-- ── PANEL ALIMENTARE ── -->
@@ -351,6 +439,7 @@ body::before{
 
     <div class="section-head">
       <div class="title-group">
+        <span class="title-ico"><svg><use href="#ico-bowl"/></svg></span>
         <span class="section-num">01</span>
         <h2>Menù settimana</h2>
       </div>
@@ -370,6 +459,7 @@ body::before{
 
     <div class="section-head" style="margin-top:28px">
       <div class="title-group">
+        <span class="title-ico"><svg><use href="#ico-cart"/></svg></span>
         <span class="section-num">02</span>
         <h2>Lista della spesa</h2>
       </div>
@@ -398,7 +488,7 @@ body::before{
       <p>Una vista più chiara e leggibile del quadro generale: priorità, segnali positivi, aree da correggere e follow-up. L'obiettivo non è comprimere tutto, ma far emergere subito cosa conta davvero.</p>
       <div class="focus-grid">
         <div class="focus-card">
-          <div class="focus-title">Fuochi principali</div>
+          <div class="focus-title"><span class="ico amber sm"><svg><use href="#ico-target"/></svg></span>Fuochi principali</div>
           <div class="focus-list">
             <div class="focus-item"><span class="focus-dot a"></span><span><strong>Focus:</strong> area epatico-metabolica — fegato, peso, glicemia, lipidi.</span></div>
             <div class="focus-item"><span class="focus-dot b"></span><span><strong>Segnale positivo:</strong> peso in calo, ALT molto migliorata rispetto ai picchi storici.</span></div>
@@ -406,7 +496,7 @@ body::before{
           </div>
         </div>
         <div class="focus-card">
-          <div class="focus-title">Messaggio chiave</div>
+          <div class="focus-title"><span class="ico cyan sm"><svg><use href="#ico-pulse"/></svg></span>Messaggio chiave</div>
           <div class="focus-list">
             <div class="focus-item"><span class="focus-dot b"></span><span><strong>Tono clinico:</strong> quadro serio, ma senza letture allarmistiche.</span></div>
             <div class="focus-item"><span class="focus-dot a"></span><span><strong>Obiettivo:</strong> portare i marker principali in area stabile e leggibile.</span></div>
@@ -417,6 +507,7 @@ body::before{
 
     <div class="section-head">
       <div class="title-group">
+        <span class="title-ico gold"><svg><use href="#ico-target"/></svg></span>
         <span class="section-num gold">03</span>
         <h2>Indicatori chiave</h2>
       </div>
@@ -429,23 +520,16 @@ body::before{
       <div class="health-card ok">
         <span class="card-index">01 / PESO</span>
         <div class="metric-icon" aria-hidden="true">
-          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <!-- scale body glow -->
-            <rect class="bg" x="14" y="36" width="68" height="48" rx="18" fill="currentColor" stroke="none"/>
-            <!-- platform top ellipse (perspective) -->
-            <ellipse class="mid" cx="48" cy="41" rx="30" ry="9"/>
-            <!-- scale body -->
-            <path class="hi" d="M16 50 Q16 36 48 36 Q80 36 80 50 L80 70 Q80 82 48 82 Q16 82 16 70 Z"/>
-            <!-- digital display -->
-            <rect class="hi" x="30" y="57" width="36" height="15" rx="4"/>
-            <!-- display readout lines (weight number suggestion) -->
-            <path class="hi" d="M37 64 L59 64"/>
-            <path class="mid" d="M40 61 L56 61"/>
-            <!-- foot ovals on platform -->
-            <ellipse class="mid" cx="39" cy="41" rx="7" ry="4"/>
-            <ellipse class="mid" cx="57" cy="41" rx="7" ry="4"/>
-            <!-- downward arrow above scale -->
-            <path class="mid" d="M48 12 L48 30 M43 26 L48 32 L53 26"/>
+          <svg viewBox="0 0 96 96">
+            <use href="#frame-hex" class="bg"/>
+            <use href="#frame-dash" class="mid"/>
+            <!-- scale body core (compact, centered) -->
+            <ellipse class="mid" cx="48" cy="40" rx="20" ry="5"/>
+            <path class="hi" d="M30 46 Q30 38 48 38 Q66 38 66 46 L66 64 Q66 72 48 72 Q30 72 30 64 Z"/>
+            <rect class="hi" x="38" y="50" width="20" height="10" rx="2.5"/>
+            <path class="hi" d="M42 55 L54 55"/>
+            <!-- downward arrow -->
+            <path class="mid" d="M48 22 L48 32 M45 30 L48 33 L51 30"/>
           </svg>
         </div>
         <div class="health-top">
@@ -465,23 +549,17 @@ body::before{
       <div class="health-card warn">
         <span class="card-index">02 / BMI</span>
         <div class="metric-icon" aria-hidden="true">
-          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <!-- ambient halo -->
-            <circle class="bg" cx="48" cy="48" r="36" fill="currentColor" stroke="none"/>
-            <!-- height measurement bracket left -->
-            <path class="mid" d="M22 16 L18 16 L18 80 L22 80"/>
-            <!-- height measurement bracket right -->
-            <path class="mid" d="M74 16 L78 16 L78 80 L74 80"/>
-            <!-- mid-body horizontal measure line -->
-            <line class="bg" x1="18" y1="48" x2="78" y2="48"/>
-            <!-- head -->
-            <circle class="hi" cx="48" cy="22" r="7"/>
-            <!-- torso + hips -->
-            <path class="hi" d="M34 36 Q32 42 33 50 L35 60 Q37 66 41 67 L55 67 Q59 66 61 60 L63 50 Q64 42 62 36 Q56 30 48 30 Q40 30 34 36 Z"/>
-            <!-- arms -->
-            <path class="mid" d="M34 37 L26 52 M62 37 L70 52"/>
-            <!-- legs -->
-            <path class="hi" d="M41 67 L39 82 M55 67 L57 82"/>
+          <svg viewBox="0 0 96 96">
+            <use href="#frame-hex" class="bg"/>
+            <use href="#frame-dash" class="mid"/>
+            <!-- height measurement brackets -->
+            <path class="mid" d="M28 24 L26 24 L26 72 L28 72"/>
+            <path class="mid" d="M68 24 L70 24 L70 72 L68 72"/>
+            <!-- head + body -->
+            <circle class="hi" cx="48" cy="30" r="5"/>
+            <path class="hi" d="M38 42 Q37 48 38 54 L40 62 Q42 66 44 66 L52 66 Q54 66 56 62 L58 54 Q59 48 58 42 Q54 38 48 38 Q42 38 38 42 Z"/>
+            <path class="mid" d="M38 43 L33 54 M58 43 L63 54"/>
+            <path class="hi" d="M44 66 L43 74 M52 66 L53 74"/>
           </svg>
         </div>
         <div class="health-top">
@@ -501,17 +579,16 @@ body::before{
       <div class="health-card warn">
         <span class="card-index">03 / FEGATO</span>
         <div class="metric-icon" aria-hidden="true">
-          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <!-- liver glow fill -->
-            <path class="bg" d="M22 44 Q20 26 36 22 Q52 18 66 28 Q78 24 82 38 Q88 56 76 68 Q66 78 52 73 Q38 76 28 64 Q16 54 22 44 Z" fill="currentColor" stroke="none"/>
-            <!-- liver outer dashed (steatosis suggestion) -->
-            <path class="mid" d="M24 46 Q22 28 38 24 Q54 20 66 30 Q76 26 80 40 Q84 58 74 68 Q64 76 52 71 Q38 74 28 64 Q18 54 24 46 Z" stroke-dasharray="2.5 3"/>
-            <!-- liver main outline — asymmetric, right lobe larger -->
-            <path class="hi" d="M26 48 Q24 30 40 26 Q56 22 68 32 Q78 28 82 42 Q86 60 76 70 Q66 78 52 73 Q38 74 28 64 Q20 54 26 48 Z"/>
-            <!-- hepatic vasculature branching (portal vein) -->
-            <path class="mid" d="M50 54 L50 44 M50 44 L40 36 M50 44 L60 36 M40 36 L34 29 M40 36 L44 29 M60 36 L55 29 M60 36 L65 30"/>
+          <svg viewBox="0 0 96 96">
+            <use href="#frame-hex" class="bg"/>
+            <use href="#frame-dash" class="mid"/>
+            <!-- liver shape (compact within hex) -->
+            <path class="hi" d="M30 48 Q28 36 40 32 Q52 28 62 36 Q70 32 72 44 Q74 58 66 64 Q58 70 50 67 Q42 68 36 62 Q28 56 30 48 Z"/>
+            <path class="mid" d="M32 49 Q30 38 41 34 Q52 30 61 37 Q69 34 70 45 Q72 57 65 62 Q58 67 50 65 Q42 66 37 61 Q30 55 32 49 Z" stroke-dasharray="2 3"/>
+            <!-- vasculature -->
+            <path class="mid" d="M50 52 L50 44 M50 44 L44 40 M50 44 L56 40"/>
             <!-- gallbladder -->
-            <ellipse class="hi" cx="60" cy="68" rx="7" ry="5"/>
+            <ellipse class="hi" cx="56" cy="61" rx="4" ry="3"/>
           </svg>
         </div>
         <div class="health-top">
@@ -531,21 +608,17 @@ body::before{
       <div class="health-card attn">
         <span class="card-index">04 / LIPIDI</span>
         <div class="metric-icon" aria-hidden="true">
-          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <!-- artery outer wall glow -->
-            <circle class="bg" cx="48" cy="48" r="36" fill="currentColor" stroke="none"/>
-            <!-- outer vessel wall -->
-            <circle class="hi" cx="48" cy="48" r="33"/>
-            <!-- inner vessel wall dashed -->
-            <circle class="mid" cx="48" cy="48" r="25" stroke-dasharray="3 4"/>
-            <!-- plaque ring (fatty deposits between walls) -->
-            <path class="hi" d="M48 14 Q60 17 68 26 Q78 30 80 42 Q86 54 76 64 Q72 74 60 76 Q48 84 36 78 Q26 74 20 64 Q12 52 18 40 Q22 28 32 24 Q38 16 48 14 Z"/>
-            <!-- lumen circle (clear blood channel) -->
-            <circle class="hi" cx="48" cy="48" r="14"/>
-            <!-- lipid particles drifting in lumen -->
-            <circle class="mid" cx="42" cy="44" r="3.2" fill="currentColor" stroke="none"/>
-            <circle class="mid" cx="55" cy="50" r="2.8" fill="currentColor" stroke="none"/>
-            <circle class="mid" cx="46" cy="54" r="2.2" fill="currentColor" stroke="none"/>
+          <svg viewBox="0 0 96 96">
+            <use href="#frame-hex" class="bg"/>
+            <use href="#frame-dash" class="mid"/>
+            <!-- artery cross-section -->
+            <circle class="hi" cx="48" cy="48" r="22"/>
+            <circle class="mid" cx="48" cy="48" r="16" stroke-dasharray="3 4"/>
+            <circle class="hi" cx="48" cy="48" r="9"/>
+            <!-- lipid particles -->
+            <circle class="mid" cx="44" cy="46" r="2" fill="currentColor" stroke="none"/>
+            <circle class="mid" cx="52" cy="50" r="1.8" fill="currentColor" stroke="none"/>
+            <circle class="mid" cx="47" cy="52" r="1.4" fill="currentColor" stroke="none"/>
           </svg>
         </div>
         <div class="health-top">
@@ -565,17 +638,14 @@ body::before{
       <div class="health-card mid">
         <span class="card-index">05 / GLUCOSIO</span>
         <div class="metric-icon" aria-hidden="true">
-          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <!-- blood drop glow fill -->
-            <path class="bg" d="M48 16 Q63 33 67 51 Q71 65 63 73 Q57 79 48 79 Q39 79 33 73 Q25 65 29 51 Q33 33 48 16 Z" fill="currentColor" stroke="none"/>
-            <!-- drop mid outline -->
-            <path class="mid" d="M48 20 Q61 36 65 52 Q68 64 61 72 Q55 77 48 77 Q41 77 35 72 Q28 64 31 52 Q35 36 48 20 Z" stroke-dasharray="2 3"/>
-            <!-- drop main outline -->
-            <path class="hi" d="M48 18 Q62 35 66 52 Q70 66 62 74 Q56 80 48 80 Q40 80 34 74 Q26 66 30 52 Q34 35 48 18 Z"/>
-            <!-- glucose/ECG wave inside drop -->
-            <path class="hi" d="M32 55 L38 55 L41 47 L45 63 L49 45 L53 55 L64 55"/>
-            <!-- specular glare on drop -->
-            <path class="bg" d="M41 32 Q44 27 50 30" stroke-width="2.2"/>
+          <svg viewBox="0 0 96 96">
+            <use href="#frame-hex" class="bg"/>
+            <use href="#frame-dash" class="mid"/>
+            <!-- blood drop -->
+            <path class="mid" d="M48 28 Q58 40 61 52 Q63 62 57 67 Q52 71 48 71 Q44 71 39 67 Q33 62 35 52 Q38 40 48 28 Z" stroke-dasharray="2 3"/>
+            <path class="hi" d="M48 26 Q59 39 62 52 Q64 63 58 68 Q52 72 48 72 Q44 72 38 68 Q32 63 34 52 Q37 39 48 26 Z"/>
+            <!-- ECG wave -->
+            <path class="hi" d="M38 56 L42 56 L44 50 L47 62 L50 48 L53 56 L58 56"/>
           </svg>
         </div>
         <div class="health-top">
@@ -595,6 +665,7 @@ body::before{
 
     <div class="section-head">
       <div class="title-group">
+        <span class="title-ico gold"><svg><use href="#ico-chart"/></svg></span>
         <span class="section-num gold">04</span>
         <h2>Lettura dettagliata</h2>
       </div>
@@ -643,9 +714,10 @@ const DETAILS=[{lbl:"Peso",sub:"Traiettoria corporea",now:"78.2 kg",goal:"70 kg"
 
 const isMobile=window.matchMedia('(max-width:560px)').matches;
 
-function mealBlock(label,cls,item,withKcal=true){return `<div class="meal-item ${cls}"><div class="meal-kicker">${label}</div><div class="meal-top"><div class="meal-title">${item.nome}</div>${withKcal?`<div class="kcal">${item.kcal} kcal</div>`:''}</div><div class="meal-note">${item.note}</div></div>`;}
+const MEAL_ICONS={col:'ico-coffee',pra:'ico-salad',cen:'ico-moon',bar:'ico-bag',del:'ico-truck'};
+function mealBlock(label,cls,item,withKcal=true){const ico=MEAL_ICONS[cls]||'ico-fork';return `<div class="meal-item ${cls}"><div class="meal-kicker"><span class="ico"><svg><use href="#${ico}"/></svg></span>${label}</div><div class="meal-top"><div class="meal-title">${item.nome}</div>${withKcal?`<div class="kcal">${item.kcal} kcal</div>`:''}</div><div class="meal-note">${item.note}</div></div>`;}
 function dayCard(i){const total=COLAZIONI[i].kcal+PRANZI[i].kcal+CENE[i].kcal;const isToday=i===current;return `<div class="day-card ${isToday?'today':''}"><div class="day-head"><div><div class="day-name">${DAYS[i]}</div><div class="day-summary">~${total} kcal totali</div></div><div class="day-meta">${isToday?'<span class="pill today">oggi</span>':''}<span class="pill">sett.</span></div></div><div class="meal-grid">${mealBlock('Colazione','col',COLAZIONI[i])}${mealBlock('Pranzo','pra',PRANZI[i])}${mealBlock('Cena','cen',CENE[i])}${mealBlock('Bar / tavola calda','bar',BAR[i],false)}${mealBlock('Delivery','del',DELIVERY[i],false)}</div></div>`;}
-function shoppingCard(group){return `<div class="spesa-card"><h3>${group.rep}</h3><div class="spesa-list">${group.items.map(item=>`<label class="spesa-item"><span class="check" aria-hidden="true">✓</span><input type="checkbox" style="display:none" onchange="this.closest('label').classList.toggle('done',this.checked)"><span class="item-text">${item}</span></label>`).join('')}</div></div>`;}
+function shoppingCard(group){return `<div class="spesa-card"><h3><span class="ico cyan"><svg><use href="#ico-check"/></svg></span>${group.rep}</h3><div class="spesa-list">${group.items.map(item=>`<label class="spesa-item"><span class="check" aria-hidden="true">✓</span><input type="checkbox" style="display:none" onchange="this.closest('label').classList.toggle('done',this.checked)"><span class="item-text">${item}</span></label>`).join('')}</div></div>`;}
 function detailCard(item){return `<div class="ref-card"><div><div class="ref-lbl">${item.lbl}</div><span class="ref-sub">${item.sub}</span></div><div class="ref-values"><div class="ref-value-box"><div class="ref-k">Ora</div><div class="ref-v">${item.now}</div></div><div class="ref-value-box"><div class="ref-k">Obiettivo</div><div class="ref-v">${item.goal}</div></div></div><div class="ref-reading">${item.reading}</div></div>`;}
 
 function makePairs(items){const r=[];for(let i=0;i<items.length;i+=2)r.push(items.slice(i,i+2));return r;}
