@@ -3,102 +3,359 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cockpit salute</title>
+<title>Cockpit Salute · Goffredo d'Onofrio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#0a0d12;
+  --bg-0:#07090e;
+  --bg-1:#0b1017;
+  --bg-2:#0f1521;
   --panel:rgba(15,19,27,.92);
   --panel-2:rgba(20,26,36,.92);
   --line:rgba(115,157,222,.22);
-  --line-strong:rgba(108,169,255,.42);
-  --muted:#9aa9bf;
+  --line-strong:rgba(115,157,222,.42);
   --text:#eef4ff;
-  --soft:#dde6f2;
-  --soft-2:#c7d3e4;
+  --muted:#9aa9bf;
+  --muted-2:#6b7a90;
   --blue:#6ca9ff;
   --blue-2:#5bc0ff;
+  --blue-soft:rgba(108,169,255,.12);
   --amber:#f4c242;
   --orange:#f28c3a;
   --green:#7ee0a6;
   --red:#e56a6a;
+  --gold-soft:rgba(244,194,66,.14);
+  --green-soft:rgba(126,224,166,.14);
+  --red-soft:rgba(229,106,106,.14);
   --shadow:0 20px 50px rgba(0,0,0,.35);
+  --shadow-strong:0 32px 70px rgba(0,0,0,.55);
+  --radius:28px;
+  --radius-sm:14px;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *{box-sizing:border-box}
-html,body{overflow-x:hidden}
-body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.16), transparent 28%),radial-gradient(circle at bottom left, rgba(242,140,58,.12), transparent 24%),linear-gradient(180deg,#0b1017 0%,#080b10 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif}
-.wrapper{max-width:1500px;padding:20px 18px 28px;margin:0 auto}
-.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px;flex-wrap:wrap}
-.h1{font-size:30px;font-weight:900;letter-spacing:-.03em}
-.sub{color:var(--soft-2);font-size:14px;margin-top:4px;line-height:1.5}
-.topbar-right{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.date,.back-home{font:800 12px ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:999px;color:var(--text);backdrop-filter:blur(10px);box-shadow:var(--shadow);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
-.back-home{display:inline-flex;align-items:center;gap:8px}
-.menu-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.menu-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--soft);border-radius:14px;padding:10px 14px;font:800 12px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:all .15s ease}
-.menu-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background-color:var(--bg-0);
+  background-image:
+    radial-gradient(1100px 700px at 88% -10%,rgba(108,169,255,.18),transparent 60%),
+    radial-gradient(900px 600px at -10% 110%,rgba(242,140,58,.13),transparent 60%),
+    linear-gradient(180deg,var(--bg-1) 0%,var(--bg-0) 100%);
+  background-attachment:fixed;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(115,157,222,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(115,157,222,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
+  z-index:0;
+}
+.shell{position:relative;z-index:1;max-width:1380px;margin:0 auto;padding:36px 22px 56px}
+
+/* ── TOPBAR ── */
+.topbar{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;
+  padding:14px 18px;border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.045) 0%,rgba(255,255,255,.02) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(10px);
+  margin-bottom:28px;
+}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand-mark{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--amber) 0%,var(--orange) 100%);
+  color:#0a0600;font-weight:900;font-size:15px;letter-spacing:-.02em;
+  box-shadow:0 8px 24px rgba(244,194,66,.35);flex-shrink:0;font-family:var(--mono);
+}
+.brand-text{min-width:0}
+.brand-eyebrow{font:800 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);margin-bottom:6px}
+.brand-title{margin:0;font-size:clamp(18px,2.2vw,22px);letter-spacing:-.02em;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-title em{font-style:normal;color:var(--amber)}
+.topbar-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.back-home{
+  display:inline-flex;align-items:center;gap:8px;
+  font:800 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);
+  padding:10px 14px;border-radius:999px;color:var(--muted);text-decoration:none;
+  transition:background .18s,border-color .18s,color .18s;
+}
+.back-home:hover{background:rgba(255,255,255,.08);border-color:var(--line-strong);color:var(--text)}
+.date{font:800 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+
+/* ── NAV ── */
+.menu-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.menu-btn{
+  appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  color:var(--muted);border-radius:14px;padding:10px 16px;
+  font:800 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:all .15s ease;
+}
+.menu-btn:hover{background:rgba(108,169,255,.08);border-color:var(--line-strong)}
 .menu-btn.active{background:linear-gradient(180deg,rgba(108,169,255,.18) 0%,rgba(91,192,255,.12) 100%);border-color:rgba(108,169,255,.34);color:var(--text)}
 .panel{display:none}.panel.active{display:block}
-.card,.dashboard-hero,.health-card,.ref-card,.focus-card,.spesa-card,.day-card,.meal-item{background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
-.section-title{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);margin:14px 0 10px}
-.carousel-shell{display:grid;gap:10px}
+
+/* ── SECTION HEAD ── */
+.section-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+  margin:8px 0 18px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;
+}
+.section-head .title-group{display:flex;align-items:baseline;gap:14px;min-width:0}
+.section-num{font:800 11px/1 var(--mono);letter-spacing:.2em;color:var(--blue)}
+.section-num.gold{color:var(--amber)}
+.section-head h2{margin:0;font-size:14px;text-transform:uppercase;letter-spacing:.22em;color:var(--text);font-weight:800}
+.section-sub{color:var(--muted);font-size:13px}
+
+/* ── CAROUSEL ── */
+.carousel-shell{display:grid;gap:14px}
 .carousel-controls{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.carousel-meta{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.carousel-meta{font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px}
+.carousel-meta::before{content:"";width:22px;height:1px;background:var(--line-strong)}
 .carousel-buttons{display:flex;gap:8px}
-.carousel-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 14px;font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-.carousel-btn:hover{background:rgba(255,255,255,.08)}
-.carousel-window{overflow:hidden;position:relative}
+.carousel-btn{
+  appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  color:var(--text);border-radius:999px;padding:10px 16px;
+  font:800 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;transition:background .18s,border-color .18s,transform .18s;
+}
+.carousel-btn:hover{background:rgba(108,169,255,.10);border-color:var(--line-strong)}
+.carousel-btn:active{transform:translateY(1px)}
+.carousel-window{overflow:hidden;position:relative;cursor:grab}
+.carousel-window.dragging{cursor:grabbing}
 .carousel-track{display:flex;gap:0;transition:transform .35s cubic-bezier(.22,.8,.36,1);will-change:transform;touch-action:pan-y;user-select:none}
-.carousel-track.is-dragging{transition:none;cursor:grabbing}
-.carousel-slide{min-width:100%;padding-right:0}
+.carousel-track.is-dragging{transition:none}
+.carousel-slide{min-width:100%;padding:2px}
 .slide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:2px}
-.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);border:0;cursor:pointer;padding:0;transition:transform .18s ease, background .18s ease, box-shadow .18s ease}
-.carousel-dot.active{background:var(--blue);box-shadow:0 0 0 4px rgba(108,169,255,.12);transform:scale(1.12)}
-.day-card{padding:14px;display:grid;gap:12px}
-.day-card.today{border-color:var(--line-strong);background:linear-gradient(180deg,rgba(108,169,255,.16) 0%,rgba(20,26,36,.96) 100%)}
-.day-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;padding-bottom:2px}
-.day-name{font-size:24px;font-weight:900;letter-spacing:-.03em}
-.day-meta{display:flex;gap:8px;flex-wrap:wrap}
-.pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--soft)}
-.pill.today{background:rgba(108,169,255,.20);border-color:rgba(108,169,255,.46);color:var(--text)}
-.day-summary{font-size:13px;line-height:1.55;color:var(--soft-2)}
-.meal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.meal-item{padding:12px 12px 11px;background:rgba(255,255,255,.05)}
-.meal-item.col{background:rgba(91,192,255,.10);border-color:rgba(91,192,255,.20)}
-.meal-item.pra{background:rgba(126,224,166,.10);border-color:rgba(126,224,166,.20)}
-.meal-item.cen{background:rgba(108,169,255,.10);border-color:rgba(108,169,255,.20)}
-.meal-item.bar{background:rgba(244,194,66,.10);border-color:rgba(244,194,66,.20)}
-.meal-item.del{background:rgba(229,106,106,.10);border-color:rgba(229,106,106,.20)}
-.meal-item.full{grid-column:1 / -1}
-.meal-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.meal-kicker{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}.meal-title{font-size:14px;font-weight:900;line-height:1.3;color:var(--text)}.kcal{font:800 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--amber);white-space:nowrap}.meal-note{font-size:12px;color:var(--soft);line-height:1.55;margin-top:8px}
-.spesa-card{padding:14px 15px}.spesa-card h3{margin:0 0 10px;font-size:14px;color:var(--text)}.spesa-list{display:grid;gap:8px}.spesa-item{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--soft);line-height:1.45;cursor:pointer;padding:8px 6px;border-radius:10px;transition:background .15s ease}.spesa-item:hover{background:rgba(255,255,255,.04)}.check{width:16px;height:16px;border:1.8px solid rgba(255,255,255,.24);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 16px;background:rgba(255,255,255,.04);transition:all .15s ease;font:800 11px/1 system-ui,-apple-system,sans-serif;color:transparent}.spesa-item.done .check{background:var(--blue);border-color:var(--blue);color:#fff}.spesa-item.done .item-text{color:#7f8ea4;text-decoration:line-through}
-.dashboard-hero{padding:18px 18px 16px;margin:0 0 14px;position:relative;overflow:hidden}.dashboard-hero:before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle, rgba(108,169,255,.12) 0%, rgba(108,169,255,0) 70%)}
-.hero-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;position:relative}.hero-title{font-size:28px;font-weight:900;letter-spacing:-.03em;color:var(--text)}.hero-sub{font-size:14px;color:var(--soft);line-height:1.7;max-width:920px}.hero-tags{display:flex;gap:6px;flex-wrap:wrap}.hero-tag{padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.focus-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:12px;margin-top:14px}.focus-card{padding:14px 14px 13px}.focus-title{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px}.focus-list{display:grid;gap:8px}.focus-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--soft);line-height:1.55}.focus-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex:0 0 10px}.focus-dot.a{background:#c79ca4}.focus-dot.b{background:#c7b07f}.focus-dot.c{background:#9fb8a6}
-.health-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}.health-card{padding:16px 16px 14px;position:relative;overflow:hidden}.health-card:after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:linear-gradient(90deg,rgba(212,224,234,.5) 0%,rgba(182,201,217,.8) 100%)}.health-card.ok:after{background:linear-gradient(90deg,rgba(126,224,166,.45) 0%,rgba(126,224,166,.8) 100%)}.health-card.warn:after{background:linear-gradient(90deg,rgba(244,194,66,.45) 0%,rgba(244,194,66,.8) 100%)}.health-card.attn:after{background:linear-gradient(90deg,rgba(229,106,106,.45) 0%,rgba(229,106,106,.8) 100%)}.health-card.mid:after{background:linear-gradient(90deg,rgba(108,169,255,.45) 0%,rgba(108,169,255,.8) 100%)}
-.health-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.health-label{font:800 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.health-value{font-size:30px;font-weight:900;letter-spacing:-.03em;margin-top:6px}.health-note{font-size:14px;color:var(--soft);line-height:1.65;margin-top:8px;max-width:40ch}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 7px;font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.badge.ok{background:rgba(126,224,166,.14);color:#bff3d2;border:1px solid rgba(126,224,166,.24)}.badge.warn{background:rgba(244,194,66,.14);color:#ffe6a0;border:1px solid rgba(244,194,66,.24)}.badge.attn{background:rgba(229,106,106,.14);color:#ffc0c0;border:1px solid rgba(229,106,106,.24)}.badge.mid{background:rgba(108,169,255,.14);color:#c8e1ff;border:1px solid rgba(108,169,255,.24)}
-.metric-mini{margin-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric-chip{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:12px;padding:9px 10px;min-height:62px;display:flex;flex-direction:column;justify-content:space-between}.metric-chip.now{background:rgba(126,224,166,.08);border-color:rgba(126,224,166,.18)}.metric-chip.goal{background:rgba(244,194,66,.08);border-color:rgba(244,194,66,.18)}.metric-chip.dir{background:rgba(108,169,255,.08);border-color:rgba(108,169,255,.18)}.metric-k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.metric-v{font-size:15px;line-height:1.2;font-weight:850;letter-spacing:-.02em;margin-top:6px;color:var(--text);text-wrap:balance}.metric-v.is-long{font-size:13px;line-height:1.25;letter-spacing:-.01em;font-weight:800}.metric-v.is-mid{font-size:13.5px;line-height:1.22;font-weight:800}.metric-chip.now .metric-v{color:#bff3d2}.metric-chip.goal .metric-v{color:#ffe6a0}.metric-chip.dir .metric-v{color:#c8e1ff}
-.ref-card{padding:15px 15px 14px}.ref-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.ref-lbl{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--text)}.ref-sub{display:block;font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.08em}.ref-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.ref-value-box{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:12px;padding:9px 10px}.ref-k{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.ref-v{margin-top:6px;font-size:13px;line-height:1.45;color:var(--text);font-weight:700}.ref-reading{margin-top:12px;font-size:13px;line-height:1.6;color:var(--soft)}
-@media (max-width:1100px){.wrapper{padding:16px 12px 24px}.topbar{flex-direction:column;align-items:flex-start}.slide-grid,.focus-grid,.health-overview{grid-template-columns:1fr}}
-@media (max-width:760px){.meal-grid,.metric-mini,.ref-values{grid-template-columns:1fr}.h1{font-size:26px}.day-name{font-size:22px}.hero-title{font-size:24px}.health-value{font-size:28px}.carousel-controls{align-items:flex-start;flex-direction:column}.slide-grid{grid-template-columns:1fr}.carousel-buttons{display:none}}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
+.carousel-dot{width:26px;height:4px;border-radius:999px;background:rgba(255,255,255,.10);border:0;cursor:pointer;padding:0;transition:background .2s,transform .2s,width .2s}
+.carousel-dot:hover{background:rgba(255,255,255,.2)}
+.carousel-dot.active{background:var(--blue);width:40px;box-shadow:0 0 0 3px rgba(108,169,255,.12)}
+
+/* ── DAY CARD (alimentare) ── */
+.day-card{
+  position:relative;overflow:hidden;padding:20px 20px 18px;
+  border-radius:var(--radius);
+  background:radial-gradient(500px 260px at 88% -10%,rgba(108,169,255,.06),transparent 70%),linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(12px);
+}
+.day-card.today{border-color:var(--line-strong);background:radial-gradient(500px 260px at 88% -10%,rgba(108,169,255,.12),transparent 70%),linear-gradient(180deg,rgba(108,169,255,.10) 0%,var(--panel-2) 100%)}
+.day-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.day-name{font-size:22px;font-weight:900;letter-spacing:-.03em}
+.day-summary{font:600 12px/1 var(--mono);color:var(--muted);margin-top:5px;letter-spacing:.05em}
+.day-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font:800 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted)}
+.pill.today{background:rgba(108,169,255,.18);border-color:rgba(108,169,255,.4);color:var(--text)}
+.meal-grid{display:grid;gap:8px}
+.meal-item{padding:12px 13px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.meal-item.col{background:rgba(91,192,255,.08);border-color:rgba(91,192,255,.18)}
+.meal-item.pra{background:rgba(126,224,166,.08);border-color:rgba(126,224,166,.18)}
+.meal-item.cen{background:rgba(108,169,255,.08);border-color:rgba(108,169,255,.18)}
+.meal-item.bar{background:rgba(244,194,66,.07);border-color:rgba(244,194,66,.16)}
+.meal-item.del{background:rgba(229,106,106,.07);border-color:rgba(229,106,106,.16)}
+.meal-kicker{font:800 9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:5px}
+.meal-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.meal-title{font-size:13px;font-weight:800;line-height:1.3;color:var(--text)}
+.kcal{font:800 11px/1 var(--mono);color:var(--amber);white-space:nowrap}
+.meal-note{font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:7px}
+
+/* ── SPESA ── */
+.spesa-card{
+  padding:18px 18px 16px;border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(12px);
+}
+.spesa-card h3{margin:0 0 12px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--text)}
+.spesa-list{display:grid;gap:7px}
+.spesa-item{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);line-height:1.45;cursor:pointer;padding:7px 6px;border-radius:10px;transition:background .15s}
+.spesa-item:hover{background:rgba(255,255,255,.04)}
+.check{width:16px;height:16px;border:1.5px solid rgba(255,255,255,.2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 16px;background:rgba(255,255,255,.03);transition:all .15s;font:800 10px/1 system-ui;color:transparent}
+.spesa-item.done .check{background:var(--blue);border-color:var(--blue);color:#fff}
+.spesa-item.done .item-text{color:var(--muted-2);text-decoration:line-through}
+
+/* ── HEALTH HERO ── */
+.health-hero{
+  padding:22px 22px 20px;border-radius:var(--radius);
+  background:radial-gradient(800px 400px at 90% -20%,rgba(244,194,66,.08),transparent 60%),linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(12px);
+  margin-bottom:20px;position:relative;overflow:hidden;
+}
+.health-hero::before{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(244,194,66,.10) 0%,transparent 70%)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font:800 11px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.hero-eyebrow::before{content:"";display:block;width:28px;height:1px;background:var(--amber);opacity:.7}
+.health-hero h2{margin:0 0 8px;font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.035em}
+.health-hero h2 em{font-style:normal;color:var(--amber)}
+.health-hero p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;max-width:72ch}
+.focus-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:18px}
+.focus-card{
+  padding:16px;border-radius:18px;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);
+}
+.focus-title{font:800 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted-2);margin-bottom:10px}
+.focus-list{display:grid;gap:9px}
+.focus-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.55}
+.focus-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.focus-dot.a{background:#c79ca4;box-shadow:0 0 0 3px rgba(199,156,164,.18)}
+.focus-dot.b{background:#c7b07f;box-shadow:0 0 0 3px rgba(199,176,127,.18)}
+.focus-dot.c{background:#9fb8a6;box-shadow:0 0 0 3px rgba(159,184,166,.18)}
+
+/* ── HEALTH CARDS ── */
+.health-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.health-card{
+  position:relative;overflow:hidden;
+  padding:18px 18px 16px 22px;min-height:180px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  border-radius:var(--radius);
+  background:radial-gradient(400px 200px at 90% -10%,rgba(108,169,255,.06),transparent 70%),linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(12px);
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+}
+.health-card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:var(--shadow-strong)}
+/* left accent bar */
+.health-card::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;border-radius:28px 0 0 28px}
+.health-card.ok::before{background:linear-gradient(180deg,#7ee0a6 0%,#4cc882 100%);box-shadow:0 0 24px rgba(126,224,166,.4)}
+.health-card.warn::before{background:linear-gradient(180deg,var(--amber) 0%,var(--orange) 100%);box-shadow:0 0 24px rgba(244,194,66,.4)}
+.health-card.attn::before{background:linear-gradient(180deg,var(--red) 0%,#c94444 100%);box-shadow:0 0 24px rgba(229,106,106,.4)}
+.health-card.mid::before{background:linear-gradient(180deg,var(--blue-2) 0%,var(--blue) 100%);box-shadow:0 0 24px rgba(108,169,255,.4)}
+/* dot matrix background */
+.health-card::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 60%,transparent 100%);opacity:.4}
+/* card index */
+.card-index{position:absolute;top:14px;right:14px;font:800 9px/1 var(--mono);letter-spacing:.18em;color:var(--muted-2);z-index:2}
+/* metric icon - coherent hex-framed style matching dashboard/plancia */
+.metric-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:64px;height:64px;pointer-events:none;opacity:.78;z-index:1;transition:opacity .22s,transform .22s}
+.metric-icon svg{width:100%;height:100%;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.health-card:hover .metric-icon{opacity:1;transform:translateY(-50%) scale(1.06)}
+.health-card.ok .metric-icon{color:var(--green);filter:drop-shadow(0 0 10px rgba(126,224,166,.3))}
+.health-card.warn .metric-icon{color:var(--amber);filter:drop-shadow(0 0 10px rgba(244,194,66,.25))}
+.health-card.attn .metric-icon{color:var(--red);filter:drop-shadow(0 0 10px rgba(229,106,106,.25))}
+.health-card.mid .metric-icon{color:var(--blue);filter:drop-shadow(0 0 10px rgba(108,169,255,.3))}
+.metric-icon .bg{opacity:.18}
+.metric-icon .mid{opacity:.55}
+.metric-icon .hi{opacity:1}
+/* coherent small icon in section-heads / meal kickers */
+.ico{display:inline-flex;width:18px;height:18px;vertical-align:middle;color:var(--blue);flex:0 0 18px}
+.ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ico.amber{color:var(--amber)}
+.ico.green{color:var(--green)}
+.ico.red{color:var(--red)}
+.ico.cyan{color:var(--blue-2)}
+.ico.sm{width:14px;height:14px;flex:0 0 14px}
+.ico.lg{width:22px;height:22px;flex:0 0 22px}
+/* menu button icon */
+.menu-btn{display:inline-flex;align-items:center;gap:9px}
+.menu-btn .ico{color:currentColor;opacity:.75}
+.menu-btn.active .ico{opacity:1;color:var(--blue-2)}
+/* section head icon marker */
+.section-head .title-group{align-items:center}
+.section-head .title-ico{width:28px;height:28px;border:1px solid var(--line-strong);border-radius:8px;display:grid;place-items:center;color:var(--blue);background:rgba(108,169,255,.05);flex-shrink:0}
+.section-head .title-ico.gold{color:var(--amber);background:rgba(244,194,66,.05);border-color:rgba(244,194,66,.32)}
+.section-head .title-ico svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* meal kicker icon */
+.meal-kicker{display:inline-flex;align-items:center;gap:7px}
+.meal-kicker .ico{width:12px;height:12px;flex:0 0 12px}
+/* spesa heading icon */
+.spesa-card h3{display:inline-flex;align-items:center;gap:9px}
+/* focus card icon */
+.focus-title{display:inline-flex;align-items:center;gap:8px}
+/* card content */
+.health-top{position:relative;z-index:2}
+.health-label{font:800 9px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;color:var(--muted-2);margin-bottom:6px}
+.health-value{font-size:28px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:8px}
+.health-card.ok .health-value{color:#bff3d2}
+.health-card.warn .health-value{color:#ffe6a0}
+.health-card.attn .health-value{color:#ffc0c0}
+.health-card.mid .health-value{color:#c8e1ff}
+.health-note{font-size:12px;color:var(--muted);line-height:1.6;max-width:28ch;position:relative;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 8px;font:800 9px/1 var(--mono);text-transform:uppercase;letter-spacing:.09em;white-space:nowrap;margin-bottom:6px}
+.badge.ok{background:rgba(126,224,166,.14);color:#bff3d2;border:1px solid rgba(126,224,166,.28)}
+.badge.warn{background:rgba(244,194,66,.14);color:#ffe6a0;border:1px solid rgba(244,194,66,.28)}
+.badge.attn{background:rgba(229,106,106,.14);color:#ffc0c0;border:1px solid rgba(229,106,106,.28)}
+.badge.mid{background:rgba(108,169,255,.14);color:#c8e1ff;border:1px solid rgba(108,169,255,.28)}
+/* metric chips */
+.metric-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px;position:relative;z-index:2}
+.metric-chip{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);border-radius:11px;padding:8px 9px;display:flex;flex-direction:column;justify-content:space-between;min-height:56px}
+.metric-chip.now{background:rgba(126,224,166,.07);border-color:rgba(126,224,166,.18)}
+.metric-chip.goal{background:rgba(244,194,66,.07);border-color:rgba(244,194,66,.18)}
+.metric-chip.dir{background:rgba(108,169,255,.07);border-color:rgba(108,169,255,.18)}
+.metric-k{font:800 8px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted-2)}
+.metric-v{font-size:13px;font-weight:800;letter-spacing:-.01em;margin-top:5px;color:var(--text);line-height:1.2}
+.metric-v.is-mid{font-size:11.5px}
+.metric-chip.now .metric-v{color:#bff3d2}
+.metric-chip.goal .metric-v{color:#ffe6a0}
+.metric-chip.dir .metric-v{color:#c8e1ff}
+
+/* ── DETAIL CARD ── */
+.ref-card{
+  padding:18px 18px 16px;border-radius:var(--radius);
+  background:radial-gradient(400px 200px at 90% -10%,rgba(108,169,255,.05),transparent 70%),linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(12px);
+  position:relative;overflow:hidden;
+}
+.ref-card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;border-radius:28px 0 0 28px;background:linear-gradient(180deg,var(--blue-2) 0%,var(--blue) 100%);opacity:.6}
+.ref-lbl{font-size:17px;font-weight:900;letter-spacing:-.02em;color:var(--text)}
+.ref-sub{display:block;font:700 10px/1 var(--mono);color:var(--muted-2);margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+.ref-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.ref-value-box{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);border-radius:12px;padding:9px 10px}
+.ref-k{font:800 9px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted-2)}
+.ref-v{margin-top:6px;font-size:13px;line-height:1.45;color:var(--text);font-weight:700}
+.ref-reading{margin-top:12px;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* ── FOOTER ── */
+.footer{margin-top:48px;padding:22px 2px 6px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted-2);font:700 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.footer-mark{display:inline-flex;align-items:center;gap:10px;color:var(--muted)}
+.footer-mark .mini{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 3px var(--gold-soft)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.health-overview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.slide-grid{grid-template-columns:1fr}.focus-grid{grid-template-columns:1fr}}
+@media(max-width:560px){
+  .shell{padding:24px 14px 40px}
+  .topbar{grid-template-columns:1fr;gap:14px}
+  .health-overview{grid-template-columns:1fr}
+  .carousel-buttons{display:none}
+  .health-card{min-height:auto}
+}
 </style>
 </head>
 <body>
-<div class="wrapper">
-  <div class="topbar">
-    <div>
-      <a class="back-home" href="dashboard.html">← Dashboard</a>
-      <div class="h1" style="margin-top:14px">Cockpit salute</div>
-      <div class="sub">Settimana completa · colazione + pranzo + cena + alternative fuori casa</div>
+<div class="shell">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">G·D</div>
+      <div class="brand-text">
+        <div class="brand-eyebrow">Salute</div>
+        <h1 class="brand-title">Cockpit <em>Salute</em></h1>
+      </div>
     </div>
-    <div class="topbar-right"><div class="date" id="todayDate"></div></div>
-  </div>
-  <div class="menu-nav" role="tablist" aria-label="Sezioni principali">
+    <div class="topbar-right">
+      <div class="date" id="todayDate"></div>
+      <a class="back-home" href="index.html">← Home</a>
+    </div>
+  </header>
+
+  <nav class="menu-nav" role="tablist" aria-label="Sezioni principali">
     <button class="menu-btn active" type="button" data-panel="alimentare">Piano alimentare</button>
     <button class="menu-btn" type="button" data-panel="sanitario">Quadro sanitario</button>
-  </div>
+  </nav>
+
+  <!-- ── PANEL ALIMENTARE ── -->
   <section id="panel-alimentare" class="panel active" aria-label="Piano alimentare">
-    <div class="section-title">Menù settimana</div>
+
+    <div class="section-head">
+      <div class="title-group">
+        <span class="section-num">01</span>
+        <h2>Menù settimana</h2>
+      </div>
+      <span class="section-sub">Colazione + pranzo + cena + alternative fuori casa</span>
+    </div>
     <div class="carousel-shell">
       <div class="carousel-controls">
         <div class="carousel-meta" id="daysMeta">Visualizzazione giorni</div>
@@ -107,10 +364,17 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="daysNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-window"><div class="carousel-track" id="daysTrack"></div></div>
+      <div class="carousel-window" id="daysWindow"><div class="carousel-track" id="daysTrack"></div></div>
       <div class="carousel-dots" id="daysDots"></div>
     </div>
-    <div class="section-title">Lista della spesa — domenica o lunedì (~20 min)</div>
+
+    <div class="section-head" style="margin-top:28px">
+      <div class="title-group">
+        <span class="section-num">02</span>
+        <h2>Lista della spesa</h2>
+      </div>
+      <span class="section-sub">Domenica o lunedì · ~20 min</span>
+    </div>
     <div class="carousel-shell">
       <div class="carousel-controls">
         <div class="carousel-meta" id="shoppingMeta">Visualizzazione spesa</div>
@@ -119,33 +383,223 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="shoppingNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-window"><div class="carousel-track" id="shoppingTrack"></div></div>
+      <div class="carousel-window" id="shoppingWindow"><div class="carousel-track" id="shoppingTrack"></div></div>
       <div class="carousel-dots" id="shoppingDots"></div>
     </div>
+
   </section>
+
+  <!-- ── PANEL SANITARIO ── -->
   <section id="panel-sanitario" class="panel" aria-label="Quadro sanitario">
-    <div class="section-title">Cockpit salute</div>
-    <div class="dashboard-hero">
-      <div class="hero-top">
-        <div>
-          <div class="hero-title">Cockpit salute · stato attuale + obiettivi</div>
-          <div class="hero-sub">Una vista più chiara e leggibile del quadro generale: priorità, segnali positivi, aree da correggere e follow-up. L’obiettivo non è comprimere tutto, ma far emergere subito cosa conta davvero.</div>
-        </div>
-        <div class="hero-tags"><div class="hero-tag">core: fegato</div><div class="hero-tag">metabolico</div><div class="hero-tag">target</div><div class="hero-tag">follow-up</div></div>
-      </div>
+
+    <div class="health-hero">
+      <div class="hero-eyebrow">Stato attuale + obiettivi</div>
+      <h2>Cockpit <em>salute</em></h2>
+      <p>Una vista più chiara e leggibile del quadro generale: priorità, segnali positivi, aree da correggere e follow-up. L'obiettivo non è comprimere tutto, ma far emergere subito cosa conta davvero.</p>
       <div class="focus-grid">
-        <div class="focus-card"><div class="focus-title">Fuochi principali</div><div class="focus-list"><div class="focus-item"><span class="focus-dot a"></span><span><strong>Focus principale:</strong> area epatico-metabolica, con attenzione a fegato, peso, glicemia e profilo lipidico.</span></div><div class="focus-item"><span class="focus-dot b"></span><span><strong>Segnale positivo:</strong> il peso sta scendendo e anche ALT è molto meglio rispetto ai picchi storici.</span></div><div class="focus-item"><span class="focus-dot c"></span><span><strong>Priorità pratica:</strong> consolidare il trend e trasformare i dati ancora incerti in dati confermati.</span></div></div></div>
-        <div class="focus-card"><div class="focus-title">Messaggio chiave</div><div class="focus-list"><div class="focus-item"><span class="focus-dot b"></span><span><strong>Tono clinico:</strong> quadro da seguire con serietà, ma senza letture allarmistiche.</span></div><div class="focus-item"><span class="focus-dot a"></span><span><strong>Obiettivo:</strong> ridurre la zona grigia e portare i marker principali in un’area più stabile e leggibile.</span></div></div></div>
+        <div class="focus-card">
+          <div class="focus-title">Fuochi principali</div>
+          <div class="focus-list">
+            <div class="focus-item"><span class="focus-dot a"></span><span><strong>Focus:</strong> area epatico-metabolica — fegato, peso, glicemia, lipidi.</span></div>
+            <div class="focus-item"><span class="focus-dot b"></span><span><strong>Segnale positivo:</strong> peso in calo, ALT molto migliorata rispetto ai picchi storici.</span></div>
+            <div class="focus-item"><span class="focus-dot c"></span><span><strong>Priorità:</strong> consolidare il trend e trasformare i dati incerti in dati confermati.</span></div>
+          </div>
+        </div>
+        <div class="focus-card">
+          <div class="focus-title">Messaggio chiave</div>
+          <div class="focus-list">
+            <div class="focus-item"><span class="focus-dot b"></span><span><strong>Tono clinico:</strong> quadro serio, ma senza letture allarmistiche.</span></div>
+            <div class="focus-item"><span class="focus-dot a"></span><span><strong>Obiettivo:</strong> portare i marker principali in area stabile e leggibile.</span></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="health-overview">
-      <div class="health-card ok"><div class="health-top"><div><div class="health-label">Peso attuale</div><div class="health-value" style="color:#bff3d2">78.2 kg</div></div><div class="badge ok">in calo</div></div><div class="health-note">Trend favorevole: −2.5 kg rispetto al 29/03. È il segnale più immediato che la direzione generale è corretta.</div><div class="metric-mini"><div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">78.2 kg</div></div><div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">70 kg</div></div><div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">−2.5 kg</div></div></div></div>
-      <div class="health-card warn"><div class="health-top"><div><div class="health-label">BMI</div><div class="health-value" style="color:#ffe6a0">27.7</div></div><div class="badge warn">sovrappeso</div></div><div class="health-note">In miglioramento, ma ancora sopra il target &lt;25. Resta un indicatore chiave del lavoro ancora da fare.</div><div class="metric-mini"><div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">27.7</div></div><div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v">&lt;25</div></div><div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">in calo</div></div></div></div>
-      <div class="health-card warn"><div class="health-top"><div><div class="health-label">ALT</div><div class="health-value" style="color:#ffe6a0">60 UI/L</div></div><div class="badge warn">cronica</div></div><div class="health-note">Molto meglio dei picchi storici, ma mai davvero normalizzata dal 2016. Va portata dentro range con continuità.</div><div class="metric-mini"><div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">60 UI/L</div></div><div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">7–55 UI/L</div></div><div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">153 → 60</div></div></div></div>
-      <div class="health-card attn"><div class="health-top"><div><div class="health-label">Colesterolo</div><div class="health-value" style="color:#ffc0c0">235</div></div><div class="badge attn">attenzione</div></div><div class="health-note">Totale elevato. LDL stimato ~167 e non ancora misurato direttamente: è una delle aree più importanti da chiarire meglio.</div><div class="metric-mini"><div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">Tot. 235</div></div><div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">↓ lipidi</div></div><div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">correzione</div></div></div></div>
-      <div class="health-card mid"><div class="health-top"><div><div class="health-label">Glicemia</div><div class="health-value" style="color:#c8e1ff">107</div></div><div class="badge mid">da confermare</div></div><div class="health-note">Dato isolato in contesto di polmonite + steroidi. Da rileggere a digiuno, senza sovrainterpretarlo prima del controllo giusto.</div><div class="metric-mini"><div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">107</div></div><div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">70–99 mg/dL</div></div><div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">check</div></div></div></div>
+
+    <div class="section-head">
+      <div class="title-group">
+        <span class="section-num gold">03</span>
+        <h2>Indicatori chiave</h2>
+      </div>
+      <span class="section-sub">Valori attuali, obiettivi e direzione</span>
     </div>
-    <div class="section-title">Lettura dettagliata</div>
+
+    <div class="health-overview">
+
+      <!-- PESO -->
+      <div class="health-card ok">
+        <span class="card-index">01 / PESO</span>
+        <div class="metric-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- scale body glow -->
+            <rect class="bg" x="14" y="36" width="68" height="48" rx="18" fill="currentColor" stroke="none"/>
+            <!-- platform top ellipse (perspective) -->
+            <ellipse class="mid" cx="48" cy="41" rx="30" ry="9"/>
+            <!-- scale body -->
+            <path class="hi" d="M16 50 Q16 36 48 36 Q80 36 80 50 L80 70 Q80 82 48 82 Q16 82 16 70 Z"/>
+            <!-- digital display -->
+            <rect class="hi" x="30" y="57" width="36" height="15" rx="4"/>
+            <!-- display readout lines (weight number suggestion) -->
+            <path class="hi" d="M37 64 L59 64"/>
+            <path class="mid" d="M40 61 L56 61"/>
+            <!-- foot ovals on platform -->
+            <ellipse class="mid" cx="39" cy="41" rx="7" ry="4"/>
+            <ellipse class="mid" cx="57" cy="41" rx="7" ry="4"/>
+            <!-- downward arrow above scale -->
+            <path class="mid" d="M48 12 L48 30 M43 26 L48 32 L53 26"/>
+          </svg>
+        </div>
+        <div class="health-top">
+          <div class="badge ok">in calo</div>
+          <div class="health-label">Peso attuale</div>
+          <div class="health-value">78.2 kg</div>
+        </div>
+        <div class="health-note">Trend favorevole: −2.5 kg rispetto al 29/03.</div>
+        <div class="metric-mini">
+          <div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">78.2 kg</div></div>
+          <div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">70 kg</div></div>
+          <div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">−2.5 kg</div></div>
+        </div>
+      </div>
+
+      <!-- BMI -->
+      <div class="health-card warn">
+        <span class="card-index">02 / BMI</span>
+        <div class="metric-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- ambient halo -->
+            <circle class="bg" cx="48" cy="48" r="36" fill="currentColor" stroke="none"/>
+            <!-- height measurement bracket left -->
+            <path class="mid" d="M22 16 L18 16 L18 80 L22 80"/>
+            <!-- height measurement bracket right -->
+            <path class="mid" d="M74 16 L78 16 L78 80 L74 80"/>
+            <!-- mid-body horizontal measure line -->
+            <line class="bg" x1="18" y1="48" x2="78" y2="48"/>
+            <!-- head -->
+            <circle class="hi" cx="48" cy="22" r="7"/>
+            <!-- torso + hips -->
+            <path class="hi" d="M34 36 Q32 42 33 50 L35 60 Q37 66 41 67 L55 67 Q59 66 61 60 L63 50 Q64 42 62 36 Q56 30 48 30 Q40 30 34 36 Z"/>
+            <!-- arms -->
+            <path class="mid" d="M34 37 L26 52 M62 37 L70 52"/>
+            <!-- legs -->
+            <path class="hi" d="M41 67 L39 82 M55 67 L57 82"/>
+          </svg>
+        </div>
+        <div class="health-top">
+          <div class="badge warn">sovrappeso</div>
+          <div class="health-label">BMI</div>
+          <div class="health-value">27.7</div>
+        </div>
+        <div class="health-note">In miglioramento, ancora sopra il target &lt;25.</div>
+        <div class="metric-mini">
+          <div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">27.7</div></div>
+          <div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v">&lt;25</div></div>
+          <div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">in calo</div></div>
+        </div>
+      </div>
+
+      <!-- ALT -->
+      <div class="health-card warn">
+        <span class="card-index">03 / FEGATO</span>
+        <div class="metric-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- liver glow fill -->
+            <path class="bg" d="M22 44 Q20 26 36 22 Q52 18 66 28 Q78 24 82 38 Q88 56 76 68 Q66 78 52 73 Q38 76 28 64 Q16 54 22 44 Z" fill="currentColor" stroke="none"/>
+            <!-- liver outer dashed (steatosis suggestion) -->
+            <path class="mid" d="M24 46 Q22 28 38 24 Q54 20 66 30 Q76 26 80 40 Q84 58 74 68 Q64 76 52 71 Q38 74 28 64 Q18 54 24 46 Z" stroke-dasharray="2.5 3"/>
+            <!-- liver main outline — asymmetric, right lobe larger -->
+            <path class="hi" d="M26 48 Q24 30 40 26 Q56 22 68 32 Q78 28 82 42 Q86 60 76 70 Q66 78 52 73 Q38 74 28 64 Q20 54 26 48 Z"/>
+            <!-- hepatic vasculature branching (portal vein) -->
+            <path class="mid" d="M50 54 L50 44 M50 44 L40 36 M50 44 L60 36 M40 36 L34 29 M40 36 L44 29 M60 36 L55 29 M60 36 L65 30"/>
+            <!-- gallbladder -->
+            <ellipse class="hi" cx="60" cy="68" rx="7" ry="5"/>
+          </svg>
+        </div>
+        <div class="health-top">
+          <div class="badge warn">cronica</div>
+          <div class="health-label">ALT</div>
+          <div class="health-value">60 UI/L</div>
+        </div>
+        <div class="health-note">Mai normalizzata dal 2016. Trend migliorativo in corso.</div>
+        <div class="metric-mini">
+          <div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">60 UI/L</div></div>
+          <div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">7–55</div></div>
+          <div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">153→60</div></div>
+        </div>
+      </div>
+
+      <!-- COLESTEROLO -->
+      <div class="health-card attn">
+        <span class="card-index">04 / LIPIDI</span>
+        <div class="metric-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- artery outer wall glow -->
+            <circle class="bg" cx="48" cy="48" r="36" fill="currentColor" stroke="none"/>
+            <!-- outer vessel wall -->
+            <circle class="hi" cx="48" cy="48" r="33"/>
+            <!-- inner vessel wall dashed -->
+            <circle class="mid" cx="48" cy="48" r="25" stroke-dasharray="3 4"/>
+            <!-- plaque ring (fatty deposits between walls) -->
+            <path class="hi" d="M48 14 Q60 17 68 26 Q78 30 80 42 Q86 54 76 64 Q72 74 60 76 Q48 84 36 78 Q26 74 20 64 Q12 52 18 40 Q22 28 32 24 Q38 16 48 14 Z"/>
+            <!-- lumen circle (clear blood channel) -->
+            <circle class="hi" cx="48" cy="48" r="14"/>
+            <!-- lipid particles drifting in lumen -->
+            <circle class="mid" cx="42" cy="44" r="3.2" fill="currentColor" stroke="none"/>
+            <circle class="mid" cx="55" cy="50" r="2.8" fill="currentColor" stroke="none"/>
+            <circle class="mid" cx="46" cy="54" r="2.2" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div class="health-top">
+          <div class="badge attn">attenzione</div>
+          <div class="health-label">Colesterolo · set 2023</div>
+          <div class="health-value">235</div>
+        </div>
+        <div class="health-note">LDL stimato ~167, non ancora misurato direttamente.</div>
+        <div class="metric-mini">
+          <div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">Tot. 235</div></div>
+          <div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">↓ lipidi</div></div>
+          <div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">correzione</div></div>
+        </div>
+      </div>
+
+      <!-- GLICEMIA -->
+      <div class="health-card mid">
+        <span class="card-index">05 / GLUCOSIO</span>
+        <div class="metric-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <!-- blood drop glow fill -->
+            <path class="bg" d="M48 16 Q63 33 67 51 Q71 65 63 73 Q57 79 48 79 Q39 79 33 73 Q25 65 29 51 Q33 33 48 16 Z" fill="currentColor" stroke="none"/>
+            <!-- drop mid outline -->
+            <path class="mid" d="M48 20 Q61 36 65 52 Q68 64 61 72 Q55 77 48 77 Q41 77 35 72 Q28 64 31 52 Q35 36 48 20 Z" stroke-dasharray="2 3"/>
+            <!-- drop main outline -->
+            <path class="hi" d="M48 18 Q62 35 66 52 Q70 66 62 74 Q56 80 48 80 Q40 80 34 74 Q26 66 30 52 Q34 35 48 18 Z"/>
+            <!-- glucose/ECG wave inside drop -->
+            <path class="hi" d="M32 55 L38 55 L41 47 L45 63 L49 45 L53 55 L64 55"/>
+            <!-- specular glare on drop -->
+            <path class="bg" d="M41 32 Q44 27 50 30" stroke-width="2.2"/>
+          </svg>
+        </div>
+        <div class="health-top">
+          <div class="badge mid">da confermare</div>
+          <div class="health-label">Glicemia</div>
+          <div class="health-value">107</div>
+        </div>
+        <div class="health-note">Dato in contesto acuto (polmonite + steroidi). Da ricontrollare.</div>
+        <div class="metric-mini">
+          <div class="metric-chip now"><div class="metric-k">Ora</div><div class="metric-v">107</div></div>
+          <div class="metric-chip goal"><div class="metric-k">Obiettivo</div><div class="metric-v is-mid">70–99</div></div>
+          <div class="metric-chip dir"><div class="metric-k">Direzione</div><div class="metric-v is-mid">check</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-head">
+      <div class="title-group">
+        <span class="section-num gold">04</span>
+        <h2>Lettura dettagliata</h2>
+      </div>
+      <span class="section-sub">Analisi per indicatore</span>
+    </div>
     <div class="carousel-shell">
       <div class="carousel-controls">
         <div class="carousel-meta" id="detailMeta">Visualizzazione dettaglio</div>
@@ -154,122 +608,89 @@ body{margin:0;background:radial-gradient(circle at top right, rgba(108,169,255,.
           <button class="carousel-btn" type="button" id="detailNext">Next →</button>
         </div>
       </div>
-      <div class="carousel-window"><div class="carousel-track" id="detailTrack"></div></div>
+      <div class="carousel-window" id="detailWindow"><div class="carousel-track" id="detailTrack"></div></div>
       <div class="carousel-dots" id="detailDots"></div>
     </div>
+
   </section>
+
+  <footer class="footer">
+    <div class="footer-mark"><span class="mini"></span> Cockpit salute</div>
+    <span>Goffredo d'Onofrio</span>
+  </footer>
+
 </div>
 <script>
 const DAYS=["Lunedì","Martedì","Mercoledì","Giovedì","Venerdì"];
 const menuButtons=document.querySelectorAll('.menu-btn');
-const panels={alimentare:document.getElementById('panel-alimentare'), sanitario:document.getElementById('panel-sanitario')};
+const panels={alimentare:document.getElementById('panel-alimentare'),sanitario:document.getElementById('panel-sanitario')};
 menuButtons.forEach(btn=>{btn.addEventListener('click',()=>{const target=btn.dataset.panel;menuButtons.forEach(b=>b.classList.toggle('active',b===btn));Object.entries(panels).forEach(([key,panel])=>panel.classList.toggle('active',key===target));});});
-const COLAZIONI=[{nome:"Yogurt + avena",kcal:380,note:"Yogurt greco 0% 150g · avena 40g · kiwi o mirtilli 100g · noci 15g · caffè senza zucchero. Prepara la sera in barattolo."},{nome:"Uova strapazzate",kcal:360,note:"2 uova intere · 1 cucchiaio latte · sale e pepe · caffè senza zucchero. Padella antiaderente 3 min. Colina ottima per il fegato."},{nome:"Overnight oats",kcal:400,note:"Avena 50g · latte p.s. 150ml · yogurt greco 80g · ½ banana · cannella. Prepara la sera, mangia al mattino direttamente dal barattolo."},{nome:"Yogurt + frutta secca",kcal:340,note:"Yogurt greco 0% 200g · mandorle o noci 20g · stevia o miele 1 cucchiaino (opz.) · caffè senza zucchero. Versione più rapida: 1 minuto."},{nome:"Uova sode + yogurt",kcal:420,note:"2 uova sode (prep. sera, durano 3 gg) · yogurt greco 0% 100g · frutta secca 15g. Max proteine: ~25g. Ideale nei giorni GoFit."}];
-const PRANZI=[{nome:"Bowl proteica",kcal:520,note:"Farro precotto 80g · tonno al naturale · pomodorini · rucola · olio EVO · limone. Nessuna cottura: apri, condisci, mangia."},{nome:"Insalata di legumi",kcal:480,note:"Ceci o lenticchie 200g · tonno o pollo 80g · carote grattugiate · olio EVO · aceto di mele. L'aceto abbassa l'indice glicemico."},{nome:"Plate nordico",kcal:490,note:"Salmone affumicato 100g · avocado ½ · cetrioli · crackers integrali · limone · pepe. Omega-3: ottimi per la steatosi epatica."},{nome:"Wrap integrale",kcal:560,note:"Piadina integrale · hummus 2 cucchiai · petto di pollo 100g · insalata mista · pomodoro. Prepara la mattina in 5 min, porta in borsa."},{nome:"Yogurt + proteine",kcal:430,note:"Yogurt greco 0% 200g · 2 uova sode · frutta secca 20g · frutta fresca. Ideale come pranzo leggero nei giorni di allenamento GoFit."}];
-const CENE=[{nome:"Branzino/orata + verdure",kcal:510,note:"Pesce bianco 150g · zucchine o peperoni · olio EVO · limone · prezzemolo. Padella 4 min/lato o forno 200° 15 min. Piace ai bimbi."},{nome:"Pollo + patate al forno",kcal:540,note:"Petto di pollo 150g · patate a spicchi · rosmarino · aglio · olio EVO. Forno 200° per 25 min. Classico famiglia, IG moderato."},{nome:"Frittata di verdure",kcal:440,note:"3 uova · zucchine o spinaci · parmigiano 20g · olio EVO · 1 fetta pane integrale. Verdure 5 min in padella, poi aggiungi le uova e copri."},{nome:"Zuppa di legumi",kcal:480,note:"Ceci o fagioli 200g · carote, sedano, cipolla · pelati · olio EVO · crostini integrali. Fibra solubile: abbassa colesterolo e glicemia."},{nome:"Sgombro/tonno fresco + insalata",kcal:490,note:"Sgombro o tonno fresco 150g · rucola · pomodorini · olio EVO + limone. Omega-3 elevati: ottimi per colesterolo e fegato. Max 2× settimana. Bistecca magra: max 1×/sett."}];
-const BAR=[{nome:"Secondo + contorno ✅",note:"Carne o pesce con verdure grigliate. No salse. Prima scelta sempre."},{nome:"Insalata proteica ✅",note:"Con tonno, uovo sodo o pollo. Olio + aceto di mele. No maionese."},{nome:"Pasta al pomodoro ✅",note:"Porzione media. Solo se integrale disponibile. No panna o burro."},{nome:"Minestra di verdure ✅",note:"Con legumi se disponibile. Alternativa leggera, buona per il fegato."},{nome:"NO: panino/pizza/fritto ❌",note:"Evita salumi grassi, pizza in teglia e fritti. Peggiorano la steatosi."}];
-const DELIVERY=[{nome:"Poke bowl 🟢",note:"Base riso integrale o quinoa + proteina. Evita salse cremose e extra avocado fritto."},{nome:"Sushi / chirashi 🟢",note:"Pesce crudo sì. No rolls fritti o tempura. Max 10–12 pezzi."},{nome:"Insalata gourmet 🟢",note:"Aggiungi sempre una proteina. Condimento leggero e a parte."},{nome:"Cucina mediterranea 🟢",note:"Pesce, legumi, verdure grigliate. Il miglior fallback rapido."},{nome:"Burger/pizza 🔴 → solo emergenza",note:"Se costretto: no salse, no patatine, wrap integrale se disponibile. Max 1×/settimana."}];
-const SPESA=[{rep:"🌅 Colazione",items:["Yogurt greco 0% ×7","Uova ×12","Fiocchi d'avena 500g","Kiwi ×4 · mirtilli","Mandorle o noci 200g","Latte p.s. 1L","Banane ×4 · cannella"]},{rep:"🥗 Pranzo (ufficio)",items:["Farro/orzo precotto in busta","Ceci/lenticchie lattina ×3","Tonno al naturale ×4","Salmone affumicato 200g","Petto di pollo affettato 200g","Hummus pronto · piadine integrali","Crackers integrali · avocado ×2"]},{rep:"🌙 Cena (famiglia)",items:["Branzino o orata 600g","Petto di pollo intero 600g","Bistecca magra 300g","Uova sode (già conteggiate)","Fagioli/ceci lattina ×2"]},{rep:"🥬 Verdure & frutta",items:["Insalata mista · rucola","Pomodorini 500g","Zucchine ×4 · spinaci 200g","Cetrioli ×2 · carote ×4","Peperoni ×2 · patate 500g","Limoni ×4 · mele ×4","Olio EVO · aceto di mele"]}];
-const DETAILS=[{lbl:"Peso",sub:"Traiettoria corporea",now:"78.2 kg",goal:"70 kg",reading:"In calo, con un segnale favorevole già leggibile. È la base più concreta su cui costruire il resto."},{lbl:"BMI",sub:"Assetto ponderale",now:"27.7",goal:"<25",reading:"In miglioramento, ma ancora in fascia sovrappeso. Va letto come indicatore di processo, non solo come numero isolato."},{lbl:"ALT",sub:"Fegato / transaminasi",now:"60 UI/L",goal:"7–55 UI/L",reading:"Miglioramento netto rispetto al passato, ma non ancora piena normalizzazione. Resta uno dei numeri da seguire con più continuità."},{lbl:"Colesterolo totale",sub:"Rischio metabolico · set 2023",now:"235 mg/dL",goal:"Riduzione + LDL definito",reading:"Dato alto nel contesto del quadro. Va aggiornato e letto insieme all’LDL in modo più preciso."},{lbl:"LDL",sub:"Dato incompleto",now:"Stimato ~167",goal:"Misurazione diretta",reading:"È uno dei punti da chiarire meglio. Finché resta stimato, rende il quadro meno netto del necessario."},{lbl:"Glicemia",sub:"Metabolismo glucidico",now:"107 mg/dL",goal:"70–99 mg/dL",reading:"Dato da rileggere a digiuno. Il punto non è il singolo valore, ma capire se è stato episodico o se merita conferma."},{lbl:"Coagulazione",sub:"APTT / PT",now:"APTT 42.6 · ratio 1.37",goal:"Controllo fuori contesto acuto",reading:"Anomalia isolata, ancora non definita. Da ripetere nel momento giusto, senza tirare conclusioni premature."},{lbl:"Respiratorio",sub:"Iperreattività bronchiale",now:"Sospetta",goal:"Definizione funzionale",reading:"Quadro non ancora chiuso. La spirometria è il passaggio naturale per capire se resta solo un sospetto o qualcosa di più definito."}];
+
 const today=new Date();
 const jsDay=today.getDay();
 const current=(jsDay>=1&&jsDay<=5)?jsDay-1:0;
 const months=["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
 const realDays=["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
 document.getElementById('todayDate').textContent=`${realDays[jsDay]} ${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
-const isMobile=window.matchMedia('(max-width: 760px)').matches;
-function mealBlock(label, cls, item, withKcal=true, full=false){return `<div class="meal-item ${cls} ${full?'full':''}"><div class="meal-kicker">${label}</div><div class="meal-top"><div class="meal-title">${item.nome}</div>${withKcal?`<div class="kcal">${item.kcal} kcal</div>`:''}</div><div class="meal-note">${item.note}</div></div>`;}
-function dayCard(i){const total=COLAZIONI[i].kcal+PRANZI[i].kcal+CENE[i].kcal;const isToday=i===current;return `<div class="day-card ${isToday?'today':''}"><div class="day-head"><div><div class="day-name">${DAYS[i]}</div><div class="day-summary">Totale giornaliero stimato: ~${total} kcal</div></div><div class="day-meta">${isToday?'<span class="pill today">oggi</span>':''}<span class="pill">settimana</span></div></div><div class="meal-grid">${mealBlock('Colazione','col',COLAZIONI[i],true,false)}${mealBlock('Pranzo','pra',PRANZI[i],true,false)}${mealBlock('Cena','cen',CENE[i],true,false)}${mealBlock('Alternativa bar','bar',BAR[i],false,true)}${mealBlock('Alternativa delivery','del',DELIVERY[i],false,true)}</div></div>`;}
+
+const COLAZIONI=[{nome:"Yogurt + avena",kcal:380,note:"Yogurt greco 0% 150g · avena 40g · kiwi o mirtilli 100g · noci 15g · caffè senza zucchero."},{nome:"Uova strapazzate",kcal:360,note:"2 uova intere · 1 cucchiaio latte · sale e pepe · caffè senza zucchero. Colina ottima per il fegato."},{nome:"Overnight oats",kcal:400,note:"Avena 50g · latte p.s. 150ml · yogurt greco 80g · ½ banana · cannella. Prepara la sera."},{nome:"Yogurt + frutta secca",kcal:340,note:"Yogurt greco 0% 200g · mandorle o noci 20g · caffè senza zucchero. 1 minuto."},{nome:"Uova sode + yogurt",kcal:420,note:"2 uova sode · yogurt greco 0% 100g · frutta secca 15g. ~25g proteine. Ideale GoFit."}];
+const PRANZI=[{nome:"Bowl proteica",kcal:520,note:"Farro precotto 80g · tonno al naturale · pomodorini · rucola · olio EVO · limone."},{nome:"Insalata di legumi",kcal:480,note:"Ceci o lenticchie 200g · tonno o pollo 80g · carote · olio EVO · aceto di mele."},{nome:"Plate nordico",kcal:490,note:"Salmone affumicato 100g · avocado ½ · cetrioli · crackers integrali · limone · pepe."},{nome:"Wrap integrale",kcal:560,note:"Piadina integrale · hummus 2 cucchiai · petto di pollo 100g · insalata · pomodoro."},{nome:"Yogurt + proteine",kcal:430,note:"Yogurt greco 0% 200g · 2 uova sode · frutta secca 20g · frutta fresca."}];
+const CENE=[{nome:"Branzino/orata + verdure",kcal:510,note:"Pesce bianco 150g · zucchine o peperoni · olio EVO · limone · prezzemolo. 15 min forno 200°."},{nome:"Pollo + patate al forno",kcal:540,note:"Petto di pollo 150g · patate a spicchi · rosmarino · aglio · olio EVO. 25 min."},{nome:"Frittata di verdure",kcal:440,note:"3 uova · zucchine o spinaci · parmigiano 20g · olio EVO · 1 fetta pane integrale."},{nome:"Zuppa di legumi",kcal:480,note:"Ceci o fagioli 200g · carote, sedano, cipolla · pelati · olio EVO · crostini integrali."},{nome:"Sgombro/tonno fresco + insalata",kcal:490,note:"Sgombro o tonno fresco 150g · rucola · pomodorini · olio EVO + limone. Max 2× sett."}];
+const BAR=[{nome:"Secondo + contorno ✅",note:"Carne o pesce con verdure grigliate. No salse. Prima scelta sempre."},{nome:"Insalata proteica ✅",note:"Con tonno, uovo sodo o pollo. Olio + aceto di mele. No maionese."},{nome:"Pasta al pomodoro ✅",note:"Porzione media. Solo se integrale disponibile. No panna o burro."},{nome:"Minestra di verdure ✅",note:"Con legumi se disponibile. Alternativa leggera, ottima per il fegato."},{nome:"NO: panino/pizza/fritto ❌",note:"Evita salumi grassi, pizza in teglia e fritti. Peggiorano la steatosi."}];
+const DELIVERY=[{nome:"Poke bowl 🟢",note:"Base riso integrale o quinoa + proteina. Evita salse cremose."},{nome:"Sushi / chirashi 🟢",note:"Pesce crudo sì. No rolls fritti o tempura. Max 10–12 pezzi."},{nome:"Insalata gourmet 🟢",note:"Aggiungi sempre una proteina. Condimento leggero e a parte."},{nome:"Cucina mediterranea 🟢",note:"Pesce, legumi, verdure grigliate. Il miglior fallback rapido."},{nome:"Burger/pizza 🔴 solo emergenza",note:"Se costretto: no salse, no patatine, wrap integrale se disponibile."}];
+const SPESA=[{rep:"🌅 Colazione",items:["Yogurt greco 0% ×7","Uova ×12","Fiocchi d'avena 500g","Kiwi ×4 · mirtilli","Mandorle o noci 200g","Latte p.s. 1L","Banane ×4 · cannella"]},{rep:"🥗 Pranzo (ufficio)",items:["Farro/orzo precotto in busta","Ceci/lenticchie lattina ×3","Tonno al naturale ×4","Salmone affumicato 200g","Petto di pollo affettato 200g","Hummus pronto · piadine integrali","Crackers integrali · avocado ×2"]},{rep:"🌙 Cena (famiglia)",items:["Branzino o orata 600g","Petto di pollo intero 600g","Bistecca magra 300g","Uova sode","Fagioli/ceci lattina ×2"]},{rep:"🥬 Verdure & frutta",items:["Insalata mista · rucola","Pomodorini 500g","Zucchine ×4 · spinaci 200g","Cetrioli ×2 · carote ×4","Peperoni ×2 · patate 500g","Limoni ×4 · mele ×4","Olio EVO · aceto di mele"]}];
+const DETAILS=[{lbl:"Peso",sub:"Traiettoria corporea",now:"78.2 kg",goal:"70 kg",reading:"In calo, con un segnale favorevole già leggibile. È la base più concreta su cui costruire il resto."},{lbl:"BMI",sub:"Assetto ponderale",now:"27.7",goal:"<25",reading:"In miglioramento, ma ancora in fascia sovrappeso. Va letto come indicatore di processo, non solo come numero isolato."},{lbl:"ALT",sub:"Fegato / transaminasi",now:"60 UI/L",goal:"7–55 UI/L",reading:"Miglioramento netto rispetto al passato, ma non ancora piena normalizzazione. Resta uno dei numeri da seguire con più continuità."},{lbl:"Colesterolo totale",sub:"Rischio metabolico · set 2023",now:"235 mg/dL",goal:"Riduzione + LDL definito",reading:"Dato alto nel contesto del quadro. Va aggiornato e letto insieme all'LDL in modo più preciso."},{lbl:"LDL",sub:"Dato incompleto",now:"Stimato ~167",goal:"Misurazione diretta",reading:"È uno dei punti da chiarire meglio. Finché resta stimato, rende il quadro meno netto del necessario."},{lbl:"Glicemia",sub:"Metabolismo glucidico",now:"107 mg/dL",goal:"70–99 mg/dL",reading:"Dato da rileggere a digiuno. Il punto non è il singolo valore, ma capire se è stato episodico o se merita conferma."},{lbl:"Coagulazione",sub:"APTT / PT",now:"APTT 42.6 · ratio 1.37",goal:"Controllo fuori contesto acuto",reading:"Anomalia isolata, ancora non definita. Da ripetere nel momento giusto, senza tirare conclusioni premature."},{lbl:"Respiratorio",sub:"Iperreattività bronchiale",now:"Sospetta",goal:"Definizione funzionale",reading:"Quadro non ancora chiuso. La spirometria è il passaggio naturale per capire se resta solo un sospetto."}];
+
+const isMobile=window.matchMedia('(max-width:560px)').matches;
+
+function mealBlock(label,cls,item,withKcal=true){return `<div class="meal-item ${cls}"><div class="meal-kicker">${label}</div><div class="meal-top"><div class="meal-title">${item.nome}</div>${withKcal?`<div class="kcal">${item.kcal} kcal</div>`:''}</div><div class="meal-note">${item.note}</div></div>`;}
+function dayCard(i){const total=COLAZIONI[i].kcal+PRANZI[i].kcal+CENE[i].kcal;const isToday=i===current;return `<div class="day-card ${isToday?'today':''}"><div class="day-head"><div><div class="day-name">${DAYS[i]}</div><div class="day-summary">~${total} kcal totali</div></div><div class="day-meta">${isToday?'<span class="pill today">oggi</span>':''}<span class="pill">sett.</span></div></div><div class="meal-grid">${mealBlock('Colazione','col',COLAZIONI[i])}${mealBlock('Pranzo','pra',PRANZI[i])}${mealBlock('Cena','cen',CENE[i])}${mealBlock('Bar / tavola calda','bar',BAR[i],false)}${mealBlock('Delivery','del',DELIVERY[i],false)}</div></div>`;}
 function shoppingCard(group){return `<div class="spesa-card"><h3>${group.rep}</h3><div class="spesa-list">${group.items.map(item=>`<label class="spesa-item"><span class="check" aria-hidden="true">✓</span><input type="checkbox" style="display:none" onchange="this.closest('label').classList.toggle('done',this.checked)"><span class="item-text">${item}</span></label>`).join('')}</div></div>`;}
-function detailCard(item){return `<div class="ref-card"><div class="ref-top"><div><div class="ref-lbl">${item.lbl}</div><span class="ref-sub">${item.sub}</span></div></div><div class="ref-values"><div class="ref-value-box"><div class="ref-k">Ora</div><div class="ref-v">${item.now}</div></div><div class="ref-value-box"><div class="ref-k">Obiettivo</div><div class="ref-v">${item.goal}</div></div></div><div class="ref-reading">${item.reading}</div></div>`;}
-function makePairs(indices){const pairs=[];for(let i=0;i<indices.length;i+=2){pairs.push(indices.slice(i,i+2));}return pairs;}
-function rotatedDayPairs(){const shown=[current,(current+1)%DAYS.length];const remaining=[];for(let i=0;i<DAYS.length;i++){if(!shown.includes(i)) remaining.push(i);}const result=[shown];const remPairs=makePairs(remaining);remPairs.forEach(pair=>{if(pair.length===1) pair.push(shown[0]);result.push(pair);});return result;}
+function detailCard(item){return `<div class="ref-card"><div><div class="ref-lbl">${item.lbl}</div><span class="ref-sub">${item.sub}</span></div><div class="ref-values"><div class="ref-value-box"><div class="ref-k">Ora</div><div class="ref-v">${item.now}</div></div><div class="ref-value-box"><div class="ref-k">Obiettivo</div><div class="ref-v">${item.goal}</div></div></div><div class="ref-reading">${item.reading}</div></div>`;}
+
+function makePairs(items){const r=[];for(let i=0;i<items.length;i+=2)r.push(items.slice(i,i+2));return r;}
+function rotatedDayPairs(){const shown=[current,(current+1)%DAYS.length];const rem=[];for(let i=0;i<DAYS.length;i++){if(!shown.includes(i))rem.push(i);}const result=[shown];makePairs(rem).forEach(p=>{if(p.length===1)p.push(shown[0]);result.push(p);});return result;}
 function mobileify(slides){return slides.map(pair=>pair.map(x=>[x])).flat();}
-function setupCarousel(trackId, metaId, prevId, nextId, dotsId, slides, renderer, initialIndex=0){
+
+function setupCarousel(trackId,windowId,metaId,prevId,nextId,dotsId,slides,renderer,init=0){
   const track=document.getElementById(trackId);
+  const viewport=document.getElementById(windowId);
   const meta=document.getElementById(metaId);
   const dots=document.getElementById(dotsId);
-  let index=initialIndex;
-  let startX=0;
-  let currentX=0;
-  let dragOffset=0;
-  let dragging=false;
-  const effectiveSlides=isMobile?mobileify(slides):slides;
+  let index=init,startX=0,dragOffset=0,dragging=false;
+  const eff=isMobile?mobileify(slides):slides;
   function build(){
     track.innerHTML='';
-    effectiveSlides.forEach(group=>{
-      const slide=document.createElement('div');
-      slide.className='carousel-slide';
-      const grid=document.createElement('div');
-      grid.className='slide-grid';
-      group.forEach(item=>{
-        const value=Array.isArray(item)?item[0]:item;
-        const holder=document.createElement('div');
-        holder.innerHTML=renderer(value);
-        grid.appendChild(holder.firstElementChild);
-      });
-      slide.appendChild(grid);
-      track.appendChild(slide);
+    eff.forEach(group=>{
+      const slide=document.createElement('div');slide.className='carousel-slide';
+      const grid=document.createElement('div');grid.className='slide-grid';
+      group.forEach(item=>{const val=Array.isArray(item)?item[0]:item;const h=document.createElement('div');h.innerHTML=renderer(val);grid.appendChild(h.firstElementChild);});
+      slide.appendChild(grid);track.appendChild(slide);
     });
     dots.innerHTML='';
-    effectiveSlides.forEach((_,i)=>{
-      const dot=document.createElement('button');
-      dot.className='carousel-dot';
-      dot.type='button';
-      dot.addEventListener('click',()=>{index=i;dragOffset=0;update(true);});
-      dots.appendChild(dot);
-    });
+    eff.forEach((_,i)=>{const dot=document.createElement('button');dot.className='carousel-dot';dot.type='button';dot.addEventListener('click',()=>{index=i;dragOffset=0;update(true);});dots.appendChild(dot);});
   }
-  function update(animated=true){
-    track.classList.toggle('is-dragging', !animated);
-    if(animated){ track.style.transition='transform .35s cubic-bezier(.22,.8,.36,1)'; }
-    else { track.style.transition='none'; }
+  function update(anim=true){
+    track.classList.toggle('is-dragging',!anim);
+    track.style.transition=anim?'transform .35s cubic-bezier(.22,.8,.36,1)':'none';
     track.style.transform=`translate3d(calc(-${index*100}% + ${dragOffset}px),0,0)`;
-    meta.textContent=`${index+1} / ${effectiveSlides.length}`;
-    [...dots.children].forEach((dot,i)=>dot.classList.toggle('active',i===index));
+    meta.textContent=`${String(index+1).padStart(2,'0')} / ${String(eff.length).padStart(2,'0')}`;
+    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===index));
   }
-  function goPrev(){index=(index-1+effectiveSlides.length)%effectiveSlides.length;dragOffset=0;update(true);}
-  function goNext(){index=(index+1)%effectiveSlides.length;dragOffset=0;update(true);}
-  document.getElementById(prevId).onclick=goPrev;
-  document.getElementById(nextId).onclick=goNext;
-  if(isMobile){
-    track.addEventListener('touchstart',e=>{
-      dragging=true;
-      startX=e.changedTouches[0].clientX;
-      currentX=startX;
-      dragOffset=0;
-      update(false);
-    },{passive:true});
-    track.addEventListener('touchmove',e=>{
-      if(!dragging) return;
-      currentX=e.changedTouches[0].clientX;
-      dragOffset=currentX-startX;
-      update(false);
-    },{passive:true});
-    track.addEventListener('touchend',e=>{
-      if(!dragging) return;
-      const diff=e.changedTouches[0].clientX-startX;
-      dragging=false;
-      const threshold=50;
-      if(Math.abs(diff)>threshold){
-        if(diff<0) index=(index+1)%effectiveSlides.length;
-        else index=(index-1+effectiveSlides.length)%effectiveSlides.length;
-      }
-      dragOffset=0;
-      update(true);
-    },{passive:true});
-    track.addEventListener('touchcancel',()=>{
-      dragging=false;
-      dragOffset=0;
-      update(true);
-    },{passive:true});
-  }
-  build();
-  update(true);
+  document.getElementById(prevId).onclick=()=>{index=(index-1+eff.length)%eff.length;dragOffset=0;update(true);};
+  document.getElementById(nextId).onclick=()=>{index=(index+1)%eff.length;dragOffset=0;update(true);};
+  viewport.addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;dragOffset=0;update(false);});
+  window.addEventListener('mousemove',e=>{if(!dragging)return;dragOffset=e.clientX-startX;update(false);});
+  window.addEventListener('mouseup',e=>{if(!dragging)return;const diff=e.clientX-startX;dragging=false;if(Math.abs(diff)>50){if(diff<0)index=(index+1)%eff.length;else index=(index-1+eff.length)%eff.length;}dragOffset=0;update(true);});
+  viewport.addEventListener('touchstart',e=>{dragging=true;startX=e.changedTouches[0].clientX;dragOffset=0;update(false);},{passive:true});
+  viewport.addEventListener('touchmove',e=>{if(!dragging)return;dragOffset=e.changedTouches[0].clientX-startX;update(false);},{passive:true});
+  viewport.addEventListener('touchend',e=>{if(!dragging)return;const diff=e.changedTouches[0].clientX-startX;dragging=false;if(Math.abs(diff)>50){if(diff<0)index=(index+1)%eff.length;else index=(index-1+eff.length)%eff.length;}dragOffset=0;update(true);},{passive:true});
+  build();update(true);
 }
-setupCarousel('daysTrack','daysMeta','daysPrev','daysNext','daysDots',rotatedDayPairs(),dayCard,0);
-setupCarousel('shoppingTrack','shoppingMeta','shoppingPrev','shoppingNext','shoppingDots',makePairs([0,1,2,3]),i=>shoppingCard(SPESA[i]),0);
-setupCarousel('detailTrack','detailMeta','detailPrev','detailNext','detailDots',makePairs(DETAILS.map((_,i)=>i)),i=>detailCard(DETAILS[i]),0);
+
+setupCarousel('daysTrack','daysWindow','daysMeta','daysPrev','daysNext','daysDots',rotatedDayPairs(),dayCard,0);
+setupCarousel('shoppingTrack','shoppingWindow','shoppingMeta','shoppingPrev','shoppingNext','shoppingDots',makePairs([0,1,2,3]),i=>shoppingCard(SPESA[i]),0);
+setupCarousel('detailTrack','detailWindow','detailMeta','detailPrev','detailNext','detailDots',makePairs(DETAILS.map((_,i)=>i)),i=>detailCard(DETAILS[i]),0);
 </script>
 </body>
 </html>
