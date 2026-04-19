@@ -1,664 +1,790 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-    <title>RCM 1821-B — Plancia Principale</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" type="text/css" href="assets/classic.css">
-
-    <!-- FONT ANTONIO LOCALI -->
-    <style>
-    @font-face {
-        font-family: "Antonio";
-        src: url("assets/Antonio-Regular.woff2") format("woff2"),
-             url("assets/Antonio-Regular.woff") format("woff");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }
-
-    @font-face {
-        font-family: "Antonio";
-        src: url("assets/Antonio-Bold.woff2") format("woff2"),
-             url("assets/Antonio-Bold.woff") format("woff");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-    }
-
-    html, body, button, a, span, div, p, h1, h2, h3, h4, h5, h6 {
-        font-family: "Antonio", system-ui, sans-serif !important;
-    }
-    </style>
-
-    <!-- STILI LCARS + OPS PANEL + SMART GRID -->
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard personale · Goffredo d'Onofrio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
     :root {
-        --lcars-amber: #f4c242;
-        --lcars-orange: #f28c3a;
-        --lcars-red: #f26e8a;
-        --lcars-bg: #000000;
-
-        --ld-blue-main: #6CA9FF;
-        --ld-blue-dark: #4F7ED8;
-        --ld-blue-line: #5BC0FF;
-        --ld-yellow: #FFE089;
-        --ld-purple: #A7B4FF;
-        --ld-black: #000000;
-        --ld-panel: #151518;
+      --bg-0: #07090e;
+      --bg-1: #0b1017;
+      --bg-2: #0f1521;
+      --panel: rgba(15, 19, 27, 0.92);
+      --panel-2: rgba(20, 26, 36, 0.92);
+      --line: rgba(115, 157, 222, 0.22);
+      --line-strong: rgba(115, 157, 222, 0.42);
+      --text: #eef4ff;
+      --muted: #9aa9bf;
+      --muted-2: #6b7a90;
+      --blue: #6ca9ff;
+      --blue-2: #5bc0ff;
+      --blue-soft: rgba(108,169,255,0.12);
+      --amber: #f4c242;
+      --orange: #f28c3a;
+      --gold-soft: rgba(244,194,66,0.14);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      --shadow-strong: 0 32px 70px rgba(0, 0, 0, 0.55);
+      --radius: 28px;
+      --radius-sm: 14px;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     }
-
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; overflow-x: hidden; }
     body {
-        background: var(--lcars-bg);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background-color: var(--bg-0);
+      background-image:
+        radial-gradient(1100px 700px at 88% -10%, rgba(108,169,255,0.18), transparent 60%),
+        radial-gradient(900px 600px at -10% 110%, rgba(242,140,58,0.13), transparent 60%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+      background-attachment: fixed;
+      position: relative;
+    }
+    /* micro-grid overlay to give a cockpit feel */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(115,157,222,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(115,157,222,0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 80%);
+      z-index: 0;
+    }
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 36px 22px 56px;
     }
 
-    main {
-        padding-top: 0;
+    /* ===== HEADER / HERO ===== */
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin-bottom: 28px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-2) 100%);
+      color: #061022;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -.02em;
+      box-shadow: 0 8px 24px rgba(108,169,255,.35);
+      flex-shrink: 0;
+    }
+    .brand-text { min-width: 0; }
+    .brand-eyebrow {
+      font: 800 10px/1 var(--mono);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+      margin-bottom: 6px;
+    }
+    .brand-title {
+      margin: 0;
+      font-size: clamp(18px, 2.2vw, 22px);
+      letter-spacing: -.02em;
+      font-weight: 800;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand-title em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .status-box {
+      min-width: 220px;
+      padding: 10px 16px;
+      border-radius: 16px;
+      background: rgba(8, 12, 20, 0.55);
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 14px;
+      align-items: center;
+    }
+    .status-box::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue-2);
+      grid-row: span 2;
+      box-shadow: 0 0 0 4px rgba(91,192,255,.14), 0 0 12px rgba(91,192,255,.6);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+    .status-label {
+      color: var(--muted-2);
+      font: 800 10px/1 var(--mono);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .status-time {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--text);
+    }
+    .status-date {
+      grid-column: 2;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    /* WRAPPER PANNELLO OPS */
-    .status-grid-wrapper {
-        position: relative;
-        margin-top: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+    /* ===== HERO BLOCK ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      margin-bottom: 36px;
+      align-items: end;
+    }
+    .hero-copy {
+      padding: 4px 4px 4px 2px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font: 800 11px/1 var(--mono);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .hero-eyebrow::before {
+      content: "";
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--blue);
+      opacity: .7;
+    }
+    .hero-title {
+      margin: 0;
+      font-size: clamp(36px, 5.6vw, 62px);
+      line-height: .98;
+      letter-spacing: -.045em;
+      font-weight: 800;
+    }
+    .hero-title .accent {
+      background: linear-gradient(90deg, var(--blue) 0%, var(--blue-2) 60%, var(--amber) 120%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-lede {
+      margin: 16px 0 0;
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .hero-meta {
+      justify-self: end;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+      text-align: right;
+    }
+    .hero-meta .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font: 700 11px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .hero-meta .chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 0 3px var(--gold-soft);
+    }
+    .hero-meta .chip .dot.blue {
+      background: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-soft);
     }
 
-    .status-grid-wrapper::before,
-    .status-grid-wrapper::after {
-        content: none !important;
+    /* ===== SECTION HEAD ===== */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 8px 0 18px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    .section-head .title-group {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      min-width: 0;
+    }
+    .section-head .section-num {
+      font: 800 11px/1 var(--mono);
+      letter-spacing: .2em;
+      color: var(--blue);
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      color: var(--text);
+      font-weight: 800;
+    }
+    .section-head .section-sub {
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    /* ================================
-       LCARS OPS PANEL — CLOCK + METEO
-       ================================ */
-    .ops-panel {
-        background: rgba(0, 0, 0, 0.88);
-        border-radius: 32px;
-        padding: 2.5rem 2.5rem 2.2rem;
-        margin-top: 1rem;
-        border-left: 14px solid var(--ld-blue-line);
-        box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
+    /* ===== CAROUSEL ===== */
+    .carousel-shell { display: grid; gap: 14px; }
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .carousel-meta {
+      font: 700 11px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .carousel-meta::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: var(--line-strong);
+    }
+    .carousel-buttons { display: flex; gap: 8px; }
+    .carousel-btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font: 800 11px var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .carousel-btn:hover {
+      background: rgba(108,169,255,.10);
+      border-color: var(--line-strong);
+    }
+    .carousel-btn:active { transform: translateY(1px); }
+    .carousel-window { overflow: hidden; position: relative; cursor: grab; }
+    .carousel-window.dragging { cursor: grabbing; }
+    .carousel-track {
+      display: flex;
+      gap: 0;
+      transition: transform .35s cubic-bezier(.22,.8,.36,1);
+      will-change: transform;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    .carousel-track.is-dragging { transition: none; }
+    .carousel-slide { min-width: 100%; padding: 2px; }
+    .slide-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .carousel-dot {
+      width: 26px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 0;
+      cursor: pointer;
+      padding: 0;
+      transition: background .2s ease, transform .2s ease, width .2s ease;
+    }
+    .carousel-dot:hover { background: rgba(255,255,255,.2); }
+    .carousel-dot.active {
+      background: var(--blue);
+      width: 40px;
+      box-shadow: 0 0 0 3px rgba(108,169,255,.12);
     }
 
-    /* RIGA PRINCIPALE */
-    .ops-header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 2.5rem;
+    /* ===== PROJECT CARDS ===== */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      padding: 18px 18px 16px 22px;
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(500px 260px at 88% -10%, rgba(108,169,255,.08), transparent 70%),
+        linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-strong);
+    }
+    .project-card::after {
+      /* faint dotted matrix in background */
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 60%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 60%, transparent 100%);
+      opacity: .35;
+    }
+    .accent-blue::before,
+    .accent-gold::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      border-radius: 28px 0 0 28px;
+    }
+    .accent-blue::before {
+      background: linear-gradient(180deg, var(--blue-2) 0%, var(--blue) 100%);
+      box-shadow: 0 0 24px rgba(108,169,255,.45);
+    }
+    .accent-gold::before {
+      background: linear-gradient(180deg, var(--amber) 0%, var(--orange) 100%);
+      box-shadow: 0 0 24px rgba(242,140,58,.38);
+    }
+    /* index badge top-right */
+    .accent-blue .project-index,
+    .accent-gold .project-index {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font: 800 9px/1 var(--mono);
+      letter-spacing: .18em;
+      color: var(--muted-2);
+      z-index: 2;
+    }
+    /* futuristic stylized icon */
+    .project-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 64px;
+      height: 64px;
+      pointer-events: none;
+      opacity: .78;
+      z-index: 0;
+    }
+    .project-icon svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .accent-blue .project-icon { color: var(--blue); filter: drop-shadow(0 0 12px rgba(108,169,255,.35)); }
+    .accent-gold .project-icon { color: var(--amber); filter: drop-shadow(0 0 12px rgba(244,194,66,.30)); }
+    .project-icon .bg { opacity: .18; }
+    .project-icon .mid { opacity: .55; }
+    .project-icon .hi { opacity: 1; }
+    .project-card:hover .project-icon { opacity: 1; }
+    .project-icon { transition: opacity .22s ease; }
+    .project-top { position: relative; z-index: 1; }
+    .tag-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font: 800 9px/1 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      color: var(--muted);
+    }
+    .accent-blue .tag:first-child {
+      color: var(--blue);
+      border-color: rgba(108,169,255,.35);
+      background: var(--blue-soft);
+    }
+    .accent-gold .tag:first-child {
+      color: var(--amber);
+      border-color: rgba(244,194,66,.4);
+      background: var(--gold-soft);
+    }
+    .project-title {
+      font-size: clamp(22px, 2vw, 28px);
+      line-height: 1;
+      letter-spacing: -.035em;
+      margin: 0;
+      font-weight: 800;
+      padding-right: 56px;
+    }
+    .project-text {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 46ch;
+      position: relative;
+      z-index: 1;
+    }
+    .project-cta {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font: 800 9px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .project-card:hover .project-cta {
+      background: rgba(108,169,255,.12);
+      border-color: rgba(108,169,255,.45);
+      transform: translateX(3px);
+    }
+    .accent-gold:hover .project-cta {
+      background: rgba(244,194,66,.12);
+      border-color: rgba(244,194,66,.45);
     }
 
-    /* ORA */
-    .ops-clock {
-        font-size: 4.8rem;
-        font-weight: 700;
-        color: var(--ld-blue-main);
-        line-height: 1;
-        margin-bottom: 0.4rem;
+    /* ===== FOOTER ===== */
+    .footer {
+      margin-top: 48px;
+      padding: 22px 2px 6px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted-2);
+      font: 700 11px/1.4 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .footer .footer-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+    .footer .footer-mark .mini {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-soft);
     }
 
-    .ops-weather-title {
-        margin-top: 1rem;
-        font-size: 1.1rem;
-        color: var(--ld-blue-line);
-        line-height: 1.2;
-        letter-spacing: 0.17em;
-        text-transform: uppercase;
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1180px) {
+      .slide-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
-
-    /* COLONNA METRICHE (DESTRA) */
-    .ops-metrics-column {
-        display: flex;
-        flex-direction: column;
-        gap: 0.55rem;
-        width: 260px; /* larghezza perfetta per Echo Show 15 */
+    @media (max-width: 900px) {
+      .slide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-
-    /* PILL METRICHE ultra compatte */
-    .ops-metric-pill {
-        background: var(--ld-blue-main);
-        border-radius: 999px;
-        padding: 0.55rem 1.2rem;
-        border: 2px solid var(--ld-blue-line);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        letter-spacing: 0.07em;
-        font-size: 0.95rem;
-        color: #fff;
+    @media (max-width: 560px) {
+      .shell { padding: 24px 14px 40px; }
+      .topbar { grid-template-columns: 1fr; gap: 14px; }
+      .status-box { min-width: 0; }
+      .slide-grid { grid-template-columns: 1fr; }
+      .project-card { border-radius: 22px; padding: 20px 20px 18px 24px; }
+      .carousel-controls { align-items: flex-start; flex-direction: column; }
+      .carousel-buttons { display: none; }
+      .section-head { padding-top: 14px; }
+      .footer { flex-direction: column; align-items: flex-start; }
     }
-
-    /* PREVISIONI INLINEA */
-    .ops-forecast-row {
-        margin-top: 1.7rem;
-        display: flex;
-        gap: 1rem;
-        flex-wrap: nowrap;
-    }
-
-    .ops-forecast-row .ops-forecast-pill {
-        background: var(--ld-blue-main);
-        border-radius: 999px;
-        padding: 0.65rem 1.4rem;
-        border: 2px solid var(--ld-blue-line);
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        color: white;
-        text-transform: uppercase;
-        font-size: 0.95rem;
-    }
-
-    .ops-forecast-row .condition {
-        color: black; /* come richiesto */
-        font-weight: 700;
-    }
-
-    /* ================================
-       CALENDARIO — RIGA EVENTI (LCARS)
-       ================================ */
-    .ops-events-row {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding: 0.4rem 0.2rem;
-    }
-
-    .ops-event-pill {
-        background: var(--ld-blue-main);
-        border-radius: 26px;
-        padding: 1rem 1.2rem;
-        border: 2px solid var(--ld-blue-line);
-        color: #fff;
-        min-width: 220px;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        text-transform: uppercase;
-    }
-
-    .ops-event-header {
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        opacity: 0.95;
-    }
-
-    .ops-event-title {
-        font-weight: 700;
-        color: #000;          /* “stile meteo”: evidenzia in nero */
-        background: #fff;
-        border-radius: 999px;
-        padding: 0.25rem 0.7rem;
-        display: inline-block;
-        width: fit-content;
-    }
-
-    .ops-event-footer {
-        font-weight: 700;
-        opacity: 0.95;
-        letter-spacing: 0.05em;
-    }
-
-    /* BLOCCO IMMAGINE PIANTINA (rimossa dalla pagina ma teniamo gli stili in caso) */
-    .lcars-image-block {
-        background: rgba(0, 0, 0, 0.85);
-        border-radius: 18px;
-        padding: 0;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .lcars-image-block img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    /* SMART GRID BOTTONI PRINCIPALI */
-    .smart-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        margin-top: 1.5rem;
-        padding: 0 0.5rem;
-    }
-
-    .smart-grid a {
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        height: 80px;
-        padding: 0 1.5rem 0.6rem 1.5rem;
-        border-radius: 100vmax;
-        text-decoration: none;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: black;
-        font-size: 1.05rem;
-        position: relative;
-        transition: transform 0.15s ease-out;
-        cursor: pointer;
-    }
-
-    .smart-grid a:hover {
-        transform: scale(1.03);
-    }
-
-    /* COLONNA 1 — GRADAZIONE ARANCIONE */
-    .btn-orange-1 { background: #FFB469; }
-    .btn-orange-2 { background: #F99A4B; }
-    .btn-orange-3 { background: #F28C3A; }
-    .btn-orange-4 { background: #E97C28; }
-    .btn-orange-5 { background: #DE6F1B; }
-    .btn-orange-6 { background: #C95F0F; }
-
-    /* COLONNA 2 — GRADAZIONE GIALLO/AMBRA */
-    .btn-yellow-1 { background: #F4C242; }
-    .btn-yellow-2 { background: #E8B32F; }
-    .btn-yellow-3 { background: #DFA624; }
-    .btn-yellow-4 { background: #D49718; }
-    .btn-yellow-5 { background: #C6880F; }
-    .btn-yellow-6 { background: #B27605; }
-
-    /* COLONNA 3 — GRADAZIONE ROSSO LCARS */
-    .btn-red-1 { background: #E56A6A; }
-    .btn-red-2 { background: #D95959; }
-    .btn-red-3 { background: #CC5050; }
-    .btn-red-4 { background: #B63F3F; }
-    .btn-red-5 { background: #A33232; }
-    .btn-red-6 { background: #8C2929; }
-
-    /* RESPONSIVE PER ECHO SHOW 15 VERTICALE */
-    @media (max-width: 1100px) {
-        .smart-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .smart-grid a {
-            height: 70px;
-            font-size: 0.9rem;
-        }
-    }
-    </style>
+  </style>
 </head>
-
 <body>
+  <div class="shell">
 
-    <section class="wrap-standard" id="column-3">
-        <div class="wrap">
-            <!-- SOLO COLONNA DESTRA TOP LCARS (DATA CASCADE) -->
-            <div class="right-frame-top">
-                <div class="data-cascade-button-group">
-                    <div class="data-cascade-wrapper" id="default">
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">CHE</div>
-                            <div class="dc-row-1">NASCE</div>
-                            <div class="dc-row-2">E</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-3">ESTATE</div>
-                            <div class="dc-row-4">CHE</div>
-                            <div class="dc-row-5">MUORE</div>
-                            <div class="dc-row-6">DESIGN</div>
-                            <div class="dc-row-7">THE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">END</div>
-                            <div class="dc-row-1">OF</div>
-                            <div class="dc-row-2">PATRIARCHY</div>
-                            <div class="dc-row-3">TU</div>
-                            <div class="dc-row-3">SEI</div>
-                            <div class="dc-row-4">TROPPO</div>
-                            <div class="dc-row-5">BIANCA</div>
-                            <div class="dc-row-6">PER</div>
-                            <div class="dc-row-7">RESTARE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">MANO</div>
-                            <div class="dc-row-1">NELLA</div>
-                            <div class="dc-row-2">MANO</div>
-                            <div class="dc-row-3">CON</div>
-                            <div class="dc-row-3">TE</div>
-                            <div class="dc-row-4">STESSO</div>
-                            <div class="dc-row-5">EDOARDO</div>
-                            <div class="dc-row-6">BIANCA</div>
-                            <div class="dc-row-7">CAROLINA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">CHE</div>
-                            <div class="dc-row-1">NASCE</div>
-                            <div class="dc-row-2">E</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-3">ESTATE</div>
-                            <div class="dc-row-4">CHE</div>
-                            <div class="dc-row-5">MUORE</div>
-                            <div class="dc-row-6">DESIGN</div>
-                            <div class="dc-row-7">THE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">END</div>
-                            <div class="dc-row-1">OF</div>
-                            <div class="dc-row-2">PATRIARCHY</div>
-                            <div class="dc-row-3">TU</div>
-                            <div class="dc-row-3">SEI</div>
-                            <div class="dc-row-4">TROPPO</div>
-                            <div class="dc-row-5">BIANCA</div>
-                            <div class="dc-row-6">PER</div>
-                            <div class="dc-row-7">RESTARE</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">LA</div>
-                            <div class="dc-row-1">FELICITA'</div>
-                            <div class="dc-row-2">E'</div>
-                            <div class="dc-row-3">SEMPLICE</div>
-                            <div class="dc-row-3">UN'</div>
-                            <div class="dc-row-4">ORA</div>
-                            <div class="dc-row-5">AL</div>
-                            <div class="dc-row-6">GIORNO</div>
-                            <div class="dc-row-7">BISOGNA</div>
-                        </div>
-                        <div class="data-column">
-                            <div class="dc-row-1">ESSERE</div>
-                            <div class="dc-row-1">FELICI</div>
-                            <div class="dc-row-2">IL</div>
-                            <div class="dc-row-3">31</div>
-                            <div class="dc-row-3">DI</div>
-                            <div class="dc-row-4">AGOSTO</div>
-                            <div class="dc-row-5">C'E'</div>
-                            <div class="dc-row-6">UN</div>
-                            <div class="dc-row-7">AMORE</div>
-                        </div>
-                    </div>
-
-                    <nav>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">ACCENDI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">SPEGNI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">APRI</button>
-                        <button onclick="playSoundAndRedirect('audio2', '#')">CHIUDI</button>
-                    </nav>
-                </div>
-
-                <div class="bar-panel first-bar-panel">
-                    <div class="bar-1"></div><div class="bar-2"></div>
-                    <div class="bar-3"></div><div class="bar-4"></div>
-                    <div class="bar-5"></div>
-                </div>
-            </div>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">G·D</div>
+        <div class="brand-text">
+          <div class="brand-eyebrow">Personale</div>
+          <h1 class="brand-title">Dashboard <em>Goffredo d'Onofrio</em></h1>
         </div>
+      </div>
+      <div class="status-box" role="status" aria-live="polite">
+        <span class="status-label">Torino · Local</span>
+        <span class="status-time" id="clock">--:--</span>
+        <span class="status-date" id="date">--</span>
+      </div>
+    </header>
 
-        <!-- CORPO PRINCIPALE -->
-        <div class="wrap" id="gap">
+    <div class="section-head">
+      <div class="title-group">
+        <span class="section-num">01</span>
+        <h2>Progetti</h2>
+      </div>
+      <span class="section-sub">Accessi rapidi ai moduli già presenti</span>
+    </div>
 
-            <div class="left-frame">
-                <button onclick="topFunction(); playSoundAndRedirect('audio4', '#')" id="topBtn">
-                    <span class="hop">RCM</span> 1821 - B
-                </button>
-
-                <div>
-                    <div class="panel-3"><span class="hop">ORA E DATA</span></div>
-                    <div class="panel-4"><span class="hop"></span></div>
-                    <div class="panel-5"><span class="hop">-METEO</span></div>
-                    <div class="panel-6"><span class="hop"></span></div>
-                    <div class="panel-7"><span class="hop">SMART HOME</span></div>
-                    <div class="panel-8"><span class="hop"></span></div>
-                </div>
-            </div>
-
-            <!-- RIGHT FRAME -->
-            <div class="right-frame">
-
-                <div class="bar-panel">
-                    <div class="bar-6"></div><div class="bar-7"></div>
-                    <div class="bar-8"></div><div class="bar-9"></div>
-                    <div class="bar-10"></div>
-                </div>
-
-                <main>
-                    <div class="status-grid-wrapper">
-
-                        <!-- OPS PANEL: ORA + METEO -->
-                        <div class="ops-panel">
-
-                            <div class="ops-header-row">
-
-                                <!-- SINISTRA: OROLOGIO -->
-                                <div class="ops-clock-block">
-                                    <div class="ops-clock" id="clock">--:--:--</div>
-                                    <div class="ops-date" id="date">---</div>
-                                    <div class="ops-stardate" id="stardate">STARDATE ---</div>
-                                    <div class="ops-shift" id="dayPhase"></div>
-
-                                    <div class="ops-weather-title">Environmental Conditions<br>// Torino</div>
-                                </div>
-
-                                <!-- DESTRA: METRICS COMPATTE -->
-                                <div class="ops-metrics-column">
-                                    <div class="ops-metric-pill">
-                                        <span>TEMPERATURA</span>
-                                        <span class="ops-metric-value" id="weather-temp">--°C</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>PROB PIOGGIA</span>
-                                        <span class="ops-metric-value" id="weather-rain">--%</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>UMIDITÀ</span>
-                                        <span class="ops-metric-value" id="weather-humidity">--%</span>
-                                    </div>
-
-                                    <div class="ops-metric-pill">
-                                        <span>VENTO</span>
-                                        <span class="ops-metric-value" id="weather-wind">-- km/h</span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- PREVISIONI -->
-                            <div id="forecast-grid" class="ops-forecast-row"></div>
-                        </div>
-
-                        <!-- CALENDARIO FAMIGLIA — LCARS OPS -->
-                        <div class="ops-events-row" id="events-row"></div>
-
-                        <div class="bar-panel" style="margin-top:2rem;">
-                            <div class="bar-6"></div><div class="bar-7"></div>
-                            <div class="bar-9"></div><div class="bar-10"></div>
-                        </div>
-
-                        <!-- SMART HOME CONTROL -->
-                        <div class="smart-grid">
-                            <a class="btn-orange-1" onclick="playBeep(); trigger('routine_1')">PROIETTORE ON</a>
-                            <a class="btn-orange-2" onclick="playBeep(); trigger('routine_4')">PROIETTORE OFF</a>
-                            <a class="btn-orange-3" onclick="playBeep(); trigger('routine_7')">ACCENDI LUCI LIVING ROOM</a>
-                            <a class="btn-orange-4" onclick="playBeep(); trigger('routine_10')">SPEGNI LUCI LIVING ROOM</a>
-                            <a class="btn-orange-5" onclick="playBeep(); trigger('routine_13')">APRI SERRANDE</a>
-                            <a class="btn-orange-6" onclick="playBeep(); trigger('routine_16')">CHIUDI SERRANDE</a>
-
-                            <a class="btn-yellow-1" onclick="playBeep(); trigger('routine_2')">APRI SERRANDA CUCINA</a>
-                            <a class="btn-yellow-2" onclick="playBeep(); trigger('routine_5')">CHIUDI SERRANDA CUCINA</a>
-                            <a class="btn-yellow-3" onclick="playBeep(); trigger('routine_8')">APRI SERRANDA STUDIO</a>
-                            <a class="btn-yellow-4" onclick="playBeep(); trigger('routine_11')">CHIUDI SERRANDA STUDIO</a>
-                            <a class="btn-yellow-5" onclick="playBeep(); trigger('routine_14')">APRI SERRANDA BAGNO</a>
-                            <a class="btn-yellow-6" onclick="playBeep(); trigger('routine_17')">CHIUDI SERRANDA BAGNO</a>
-
-                            <a class="btn-red-1" onclick="playBeep(); trigger('routine_3')">ROUTINE 3</a>
-                            <a class="btn-red-2" onclick="playBeep(); trigger('routine_6')">ROUTINE 6</a>
-                            <a class="btn-red-3" onclick="playBeep(); trigger('routine_9')">ROUTINE 9</a>
-                            <a class="btn-red-4" onclick="playBeep(); trigger('routine_12')">ROUTINE 12</a>
-                            <a class="btn-red-5" onclick="playBeep(); trigger('routine_15')">ROUTINE 15</a>
-                            <a class="btn-red-6" onclick="playBeep(); trigger('routine_18')">ROUTINE 18</a>
-                        </div>
-
-                </main>
-            </div>
+    <div class="carousel-shell">
+      <div class="carousel-controls">
+        <div class="carousel-meta" id="projectsMeta">Visualizzazione progetti</div>
+        <div class="carousel-buttons">
+          <button class="carousel-btn" type="button" id="projectsPrev">← Prev</button>
+          <button class="carousel-btn" type="button" id="projectsNext">Next →</button>
         </div>
-    </section>
+      </div>
+      <div class="carousel-window" id="projectsWindow"><div class="carousel-track" id="projectsTrack"></div></div>
+      <div class="carousel-dots" id="projectsDots"></div>
+    </div>
 
-    <!-- SCRIPT LCARS -->
-    <script src="assets/lcars.js"></script>
-    <!-- SCRIPT METEO -->
-    <script src="assets/meteo.js"></script>
-    <!-- SCRIPT CALENDARIO -->
-    <script src="assets/calendar.js"></script>
+    <footer class="footer">
+      <div class="footer-mark"><span class="mini"></span></div>
+    </footer>
+  </div>
 
-    <!-- OROLOGIO + STARDATE + DAY PHASE -->
-    <script>
+  <script>
     function updateClock() {
-        const now = new Date();
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('date').textContent = now.toLocaleDateString('it-IT', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
-        document.getElementById("clock").textContent = now.toLocaleTimeString("it-IT", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        });
+    const isMobile = window.matchMedia('(max-width: 560px)').matches;
+    const projectCards = [
+      `
+      <a class="project-card accent-blue" href="plancia-rocciamelone.html">
+        <span class="project-index">01 / SMART HOME</span>
+        <div class="project-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path class="bg" d="M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z" />
+            <circle class="mid" cx="48" cy="48" r="26" stroke-dasharray="2 4" />
+            <path class="hi" d="M30 54 L48 38 L66 54" />
+            <path class="hi" d="M34 51 V68 H62 V51" />
+            <path class="hi" d="M44 68 V58 H52 V68" />
+            <path class="mid" d="M40 30 Q48 24 56 30" />
+            <path class="bg" d="M36 25 Q48 16 60 25" />
+            <circle class="hi" cx="48" cy="28" r="1.4" fill="currentColor" />
+          </svg>
+        </div>
+        <div class="project-top">
+          <div class="tag-row">
+            <span class="tag">home</span>
+            <span class="tag">smart home</span>
+            <span class="tag">meteo + agenda</span>
+          </div>
+          <p class="project-title">Smart<br>Home</p>
+        </div>
+        <div>
+          <div class="project-cta">Apri progetto →</div>
+        </div>
+      </a>`,
+      `
+      <a class="project-card accent-gold" href="cockpit-salute.html">
+        <span class="project-index">02 / HEALTH</span>
+        <div class="project-icon" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path class="bg" d="M48 6 L84 27 L84 69 L48 90 L12 69 L12 27 Z" />
+            <circle class="mid" cx="48" cy="48" r="24" stroke-dasharray="1 3" />
+            <path class="hi" d="M22 50 L34 50 L40 38 L48 60 L54 42 L60 50 L74 50" />
+            <circle class="hi" cx="22" cy="50" r="1.6" fill="currentColor" />
+            <circle class="hi" cx="74" cy="50" r="1.6" fill="currentColor" />
+          </svg>
+        </div>
+        <div class="project-top">
+          <div class="tag-row">
+            <span class="tag">health</span>
+            <span class="tag">alimentazione</span>
+            <span class="tag">dashboard</span>
+          </div>
+          <p class="project-title">Cockpit<br>Salute</p>
+        </div>
+        <div>
+          <div class="project-cta">Apri progetto →</div>
+        </div>
+      </a>`
+    ];
 
-        document.getElementById("date").textContent = now.toLocaleDateString("it-IT", {
-            weekday: "short",
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        });
-
-        let sd = (now.getTime() / 1000 / 60 / 60 / 24 - 735000) * 5;
-        document.getElementById("stardate").textContent = "STARDATE " + sd.toFixed(1);
-
-        const hour = now.getHours();
-        let phase = "ALPHA SHIFT // STANDBY";
-
-        if (hour >= 6 && hour < 12) {
-            phase = "ALPHA SHIFT // MORNING OPS";
-        } else if (hour >= 12 && hour < 18) {
-            phase = "BETA SHIFT // DAY OPS";
-        } else if (hour >= 18 && hour < 23) {
-            phase = "GAMMA SHIFT // EVENING";
-        } else {
-            phase = "NIGHT WATCH // SILENT RUN";
-        }
-
-        document.getElementById("dayPhase").textContent = phase;
+    function makeGroups(items, size) {
+      const groups = [];
+      for (let i = 0; i < items.length; i += size) groups.push(items.slice(i, i + size));
+      return groups;
     }
 
-    setInterval(updateClock, 1000);
-    updateClock();
-    </script>
+    function mobileify(slides) {
+      return slides.map(group => group.map(x => [x])).flat();
+    }
 
-    <!-- 🔥 VOICE MONKEY: TRIGGER -->
-    <script>
-      const MONKEY_MAP = {
-        routine_1:  "accendi-proiettore-m",
-        routine_4:  "spegni-proiettore-m",
-        routine_7:  "accendi-luci-living-room-m",
-        routine_10: "spegni-luci-living-room-m",
-        routine_13: "apri-serrande-m",
-        routine_16: "chiudi-serrande-m",
-        routine_2:  "apri-serranda-cucina-m",
-        routine_5:  "chiudi-serranda-cucina-m",
-        routine_8:  "apri-serranda-studio-m",
-        routine_11: "chiudi-serranda-studio-m",
-        routine_14: "apri-serranda-bagno-m",
-        routine_17: "chiudi-serranda-bagno-m"
+    function setupCarousel(trackId, windowId, metaId, prevId, nextId, dotsId, items) {
+      const track = document.getElementById(trackId);
+      const viewport = document.getElementById(windowId);
+      const meta = document.getElementById(metaId);
+      const dots = document.getElementById(dotsId);
+      const baseSlides = makeGroups(items, 4);
+      const slides = isMobile ? mobileify(baseSlides) : baseSlides;
+      let index = 0;
+      let startX = 0;
+      let dragOffset = 0;
+      let dragging = false;
+
+      function build() {
+        track.innerHTML = '';
+        slides.forEach(group => {
+          const slide = document.createElement('div');
+          slide.className = 'carousel-slide';
+          const grid = document.createElement('div');
+          grid.className = 'slide-grid';
+          group.forEach(item => {
+            const value = Array.isArray(item) ? item[0] : item;
+            const holder = document.createElement('div');
+            holder.innerHTML = value;
+            grid.appendChild(holder.firstElementChild);
+          });
+          slide.appendChild(grid);
+          track.appendChild(slide);
+        });
+        dots.innerHTML = '';
+        slides.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot';
+          dot.type = 'button';
+          dot.addEventListener('click', () => { index = i; dragOffset = 0; update(true); });
+          dots.appendChild(dot);
+        });
+      }
+
+      function update(animated = true) {
+        viewport.classList.toggle('dragging', !animated);
+        track.classList.toggle('is-dragging', !animated);
+        track.style.transition = animated ? 'transform .35s cubic-bezier(.22,.8,.36,1)' : 'none';
+        track.style.transform = `translate3d(calc(-${index * 100}% + ${dragOffset}px),0,0)`;
+        meta.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        [...dots.children].forEach((dot, i) => dot.classList.toggle('active', i === index));
+      }
+
+      function goPrev() { index = (index - 1 + slides.length) % slides.length; dragOffset = 0; update(true); }
+      function goNext() { index = (index + 1) % slides.length; dragOffset = 0; update(true); }
+
+      document.getElementById(prevId).onclick = goPrev;
+      document.getElementById(nextId).onclick = goNext;
+
+      const startDrag = (clientX) => {
+        dragging = true;
+        startX = clientX;
+        dragOffset = 0;
+        update(false);
+      };
+      const moveDrag = (clientX) => {
+        if (!dragging) return;
+        dragOffset = clientX - startX;
+        update(false);
+      };
+      const endDrag = (clientX) => {
+        if (!dragging) return;
+        const diff = clientX - startX;
+        dragging = false;
+        if (Math.abs(diff) > 50) {
+          if (diff < 0) index = (index + 1) % slides.length;
+          else index = (index - 1 + slides.length) % slides.length;
+        }
+        dragOffset = 0;
+        update(true);
       };
 
-      const VM_ACCESS_TOKEN = "102bb4c064858a0ff8bd4039ae948b74";
-      const VM_SECRET_TOKEN = "f0276dc81f732a45d7c4cfbe289837c7";
+      viewport.addEventListener('mousedown', e => startDrag(e.clientX));
+      window.addEventListener('mousemove', e => moveDrag(e.clientX));
+      window.addEventListener('mouseup', e => endDrag(e.clientX));
+      viewport.addEventListener('mouseleave', e => { if (dragging) endDrag(e.clientX); });
 
-      async function trigger(action) {
-        const monkey = MONKEY_MAP[action];
-        console.log("🐵 trigger() CALLED for:", action, "→", monkey);
+      viewport.addEventListener('touchstart', e => startDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchmove', e => moveDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX), { passive: true });
+      viewport.addEventListener('touchcancel', () => { dragging = false; dragOffset = 0; update(true); }, { passive: true });
 
-        if (!monkey) {
-          console.warn("⚠️ Nessun monkey configurato per", action);
-          return;
-        }
-
-        const payload = {
-          access_token: VM_ACCESS_TOKEN,
-          secret_token: VM_SECRET_TOKEN,
-          monkey: monkey
-        };
-
-        try {
-          console.log("📡 POST → https://api.voicemonkey.io/trigger", payload);
-          const res = await fetch("https://api.voicemonkey.io/trigger", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-
-          console.log("✅ VoiceMonkey response status:", res.status);
-
-          if (!res.ok) {
-            const text = await res.text();
-            console.error("❌ Errore VoiceMonkey:", res.status, text);
-          }
-        } catch (err) {
-          console.error("🔥 ERRORE FETCH:", err);
-        }
-      }
-    </script>
-
-    <!-- BEEP GENERALE PER TUTTI I PULSANTI SMART GRID -->
-    <script>
-    function playBeep() {
-        const audio = new Audio("assets/beep4.mp3");
-        audio.volume = 0.35;
-        audio.play().catch(e => console.warn("Audio blocked:", e));
+      build();
+      update(true);
     }
-    </script>
 
+    setupCarousel('projectsTrack', 'projectsWindow', 'projectsMeta', 'projectsPrev', 'projectsNext', 'projectsDots', projectCards);
+  </script>
 </body>
 </html>
