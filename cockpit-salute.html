@@ -73,7 +73,7 @@ body::before{
 .brand-mark{
   width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
   background:linear-gradient(135deg,var(--amber) 0%,var(--orange) 100%);
-  color:#0a0600;font-weight:900;font-size:15px;letter-spacing:-.02em;
+  color:#0a0600;font-weight:900;font-size:14px;letter-spacing:-.02em;
   box-shadow:0 8px 24px rgba(244,194,66,.35);flex-shrink:0;font-family:var(--mono);
 }
 .brand-text{min-width:0}
@@ -90,6 +90,8 @@ body::before{
 }
 .back-home:hover{background:rgba(255,255,255,.08);border-color:var(--line-strong);color:var(--text)}
 .date{font:800 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+.date-strip{font:800 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);padding:6px 6px 18px 4px;display:flex;align-items:center;gap:10px}
+.date-strip::before{content:"";display:block;width:24px;height:1px;background:var(--line-strong)}
 
 /* ── NAV ── */
 .menu-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
@@ -411,17 +413,17 @@ body::before{
 
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark" aria-hidden="true">G·D</div>
+      <div class="brand-mark" aria-hidden="true">GdO</div>
       <div class="brand-text">
         <div class="brand-eyebrow">Salute</div>
         <h1 class="brand-title">Cockpit <em>Salute</em></h1>
       </div>
     </div>
     <div class="topbar-right">
-      <div class="date" id="todayDate"></div>
       <a class="back-home" href="index.html">← Home</a>
     </div>
   </header>
+  <div class="date-strip" id="todayDate"></div>
 
   <nav class="menu-nav" role="tablist" aria-label="Sezioni principali">
     <button class="menu-btn active" type="button" data-panel="alimentare">
