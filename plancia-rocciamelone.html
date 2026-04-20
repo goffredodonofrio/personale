@@ -98,14 +98,27 @@
       flex-wrap:wrap;
     }
 
-    .top-left,.top-right,.status-strip{
+    .top-left,.top-right{
       display:flex;
-      gap:8px;
+      gap:12px;
       align-items:center;
       flex-wrap:wrap;
     }
 
-    .back-home,.chip{
+    /* brand-mark coerente con cockpit-salute / dashboard */
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand-mark{
+      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#5bc0ff 0%,#6ca9ff 100%);
+      color:#06121f;font-weight:900;font-size:14px;letter-spacing:-.02em;
+      box-shadow:0 8px 24px rgba(91,192,255,.32);flex-shrink:0;font-family:var(--mono);
+    }
+    .brand-text{min-width:0}
+    .brand-eyebrow{font:800 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .brand-title{margin:0;font-size:clamp(16px,2vw,20px);letter-spacing:-.02em;font-weight:800;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand-title em{font-style:normal;color:var(--cyan)}
+
+    .back-home{
       display:inline-flex;
       align-items:center;
       gap:8px;
@@ -115,28 +128,14 @@
       font:800 11px var(--mono);
       letter-spacing:.12em;
       text-transform:uppercase;
-      color:var(--soft);
-      background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
+      color:var(--muted);
+      background:rgba(255,255,255,.04);
       border:1px solid var(--line);
       box-shadow:var(--shadow);
       backdrop-filter:blur(10px);
+      transition:background .18s,border-color .18s,color .18s;
     }
-    .chip.accent{color:var(--cyan);border-color:rgba(91,192,255,.26)}
-    .chip.live{color:var(--green);border-color:rgba(127,240,178,.22)}
-    .chip .ico{width:14px;height:14px}
-
-    .status-strip{
-      padding:10px 14px;
-      border-radius:999px;
-      background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      font:800 11px var(--mono);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    .status-strip strong{color:var(--soft)}
+    .back-home:hover{background:rgba(255,255,255,.08);color:var(--soft)}
 
     .card{
       position:relative;
@@ -590,7 +589,10 @@
         backdrop-filter:blur(14px);
       }
       .top-left,.top-right{width:100%;justify-content:space-between}
-      .back-home,.chip,.status-strip{padding:8px 10px;font-size:10px}
+      .back-home{padding:8px 10px;font-size:10px}
+      .brand-mark{width:36px;height:36px;font-size:12px}
+      .brand-eyebrow{font-size:9px;margin-bottom:3px}
+      .brand-title{font-size:14px}
       .card{border-radius:18px}
       .card-head{padding:10px 12px}
       .card-title,.card-badge{font-size:9px}
@@ -801,12 +803,16 @@
   <div class="shell">
     <div class="topbar">
       <div class="top-left">
-        <a class="back-home" href="dashboard.html">← Dashboard</a>
-        <div class="chip accent">Rocciamelone</div>
-        <div class="chip live">Systems online</div>
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">GdO</div>
+          <div class="brand-text">
+            <div class="brand-eyebrow">Smart Home</div>
+            <h1 class="brand-title">Plancia <em>Rocciamelone</em></h1>
+          </div>
+        </div>
       </div>
       <div class="top-right">
-        <div class="status-strip"><span>Local mode</span> <strong>Adaptive</strong></div>
+        <a class="back-home" href="index.html">← Home</a>
       </div>
     </div>
 
