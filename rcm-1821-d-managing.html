@@ -9,135 +9,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg-0:#07090e;
-      --bg-1:#0b1017;
-      --bg-2:#0f1521;
-      --panel:rgba(15,19,27,.92);
-      --panel-2:rgba(20,26,36,.92);
-      --line:rgba(115,157,222,.22);
-      --line-strong:rgba(115,157,222,.42);
-      --text:#eef4ff;
-      --muted:#9aa9bf;
-      --muted-2:#6b7a90;
-      --soft:#d8e6ff;
-      --blue:#6ca9ff;
-      --blue-2:#5bc0ff;
-      --blue-soft:rgba(108,169,255,.12);
-      --cyan:#5bc0ff;
-      --amber:#f4c242;
-      --orange:#f28c3a;
-      --green:#7ff0b2;
-      --red:#ff6b7a;
-      --gold-soft:rgba(244,194,66,.14);
-      --shadow:0 20px 50px rgba(0,0,0,.35);
-      --shadow-strong:0 32px 70px rgba(0,0,0,.55);
-      --radius:22px;
+      --bg-0:#07090e;--bg-1:#0b1017;--bg-2:#0f1521;
+      --panel:rgba(15,19,27,.92);--panel-2:rgba(20,26,36,.92);
+      --line:rgba(115,157,222,.22);--line-strong:rgba(115,157,222,.42);
+      --text:#eef4ff;--muted:#9aa9bf;--muted-2:#6b7a90;--soft:#d8e6ff;
+      --blue:#6ca9ff;--cyan:#5bc0ff;--amber:#f4c242;--orange:#f28c3a;--green:#7ff0b2;--red:#ff6b7a;
+      --shadow:0 20px 50px rgba(0,0,0,.35);--radius:22px;
       --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;overflow-x:hidden}
-    body{
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
-      background-color:var(--bg-0);
-      background-image:
-        radial-gradient(1100px 700px at 88% -10%,rgba(108,169,255,.18),transparent 60%),
-        radial-gradient(900px 600px at -10% 110%,rgba(242,140,58,.13),transparent 60%),
-        linear-gradient(180deg,var(--bg-1) 0%,var(--bg-0) 100%);
-      background-attachment:fixed;
-      position:relative;
-    }
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background-image:
-        linear-gradient(rgba(115,157,222,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(115,157,222,.035) 1px,transparent 1px);
-      background-size:44px 44px;
-      mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
-      -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
-      z-index:0;
-    }
-    .shell{
-      position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;display:grid;gap:12px;
-    }
-    /* TOPBAR */
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;overflow-x:hidden}
+    body{font-family:Inter,system-ui,sans-serif;color:var(--text);background-color:var(--bg-0);
+      background-image:radial-gradient(1100px 700px at 88% -10%,rgba(108,169,255,.18),transparent 60%),radial-gradient(900px 600px at -10% 110%,rgba(242,140,58,.13),transparent 60%),linear-gradient(180deg,var(--bg-1) 0%,var(--bg-0) 100%);background-attachment:fixed;}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;
+      background-image:linear-gradient(rgba(115,157,222,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(115,157,222,.035) 1px,transparent 1px);
+      background-size:44px 44px;mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);z-index:0;}
+    .shell{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;display:grid;gap:12px;}
     .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
     .top-left,.top-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
     .brand{display:flex;align-items:center;gap:14px;min-width:0}
-    .brand-mark{
-      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
-      background:linear-gradient(135deg,#5bc0ff 0%,#6ca9ff 100%);
-      color:#06121f;font-weight:900;font-size:14px;letter-spacing:-.02em;
-      box-shadow:0 8px 24px rgba(91,192,255,.32);flex-shrink:0;font-family:var(--mono);
-    }
-    .brand-text{min-width:0}
-    .brand-eyebrow{font:800 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-    .brand-title{margin:0;font-size:clamp(16px,2vw,20px);letter-spacing:-.02em;font-weight:800;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .brand-title em{font-style:normal;color:var(--cyan)}
-    .back-home{
-      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;
-      text-decoration:none;font:800 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;
-      color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);
-      box-shadow:var(--shadow);backdrop-filter:blur(10px);transition:background .18s,border-color .18s,color .18s;
-    }
+    .brand-mark{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#5bc0ff 0%,#6ca9ff 100%);color:#06121f;font-weight:900;font-size:14px;letter-spacing:-.02em;box-shadow:0 8px 24px rgba(91,192,255,.32);flex-shrink:0;font-family:var(--mono);}
+    .brand-text{min-width:0}.brand-eyebrow{font:800 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .brand-title{margin:0;font-size:clamp(16px,2vw,20px);letter-spacing:-.02em;font-weight:800;color:var(--soft);}.brand-title em{font-style:normal;color:var(--cyan)}
+    .back-home{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;text-decoration:none;font:800 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(10px);transition:background .18s,border-color .18s,color .18s;}
     .back-home:hover{background:rgba(255,255,255,.08);color:var(--soft)}
-    /* CARDS */
-    .card{
-      position:relative;background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);
-      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
-    }
-    .card-head{
-      display:flex;justify-content:space-between;gap:10px;align-items:center;
-      padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);
-      background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%);
-    }
+    .card{position:relative;background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+    .card-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%);}
     .card-head-left{display:flex;align-items:center;gap:10px;min-width:0;}
     .card-title{font:800 11px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);}
-    .card-badge{
-      display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;
-      border:1px solid rgba(91,192,255,.22);color:var(--cyan);font:800 10px var(--mono);
-      letter-spacing:.08em;text-transform:uppercase;background:rgba(91,192,255,.08);
-    }
+    .card-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(91,192,255,.22);color:var(--cyan);font:800 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(91,192,255,.08);}
     .card-badge.amber{border-color:rgba(244,194,66,.3);color:var(--amber);background:rgba(244,194,66,.08);}
     .card-badge.green{border-color:rgba(127,240,178,.3);color:var(--green);background:rgba(127,240,178,.08);}
     .card-badge.red{border-color:rgba(255,107,122,.3);color:var(--red);background:rgba(255,107,122,.08);}
+    .card-badge.ok{border-color:rgba(127,240,178,.3);color:var(--green);background:rgba(127,240,178,.08);}
     .card-body{padding:16px;}
-    /* GRID LAYOUT */
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
     .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-    /* INFO ROWS */
     .info-table{display:grid;gap:0;width:100%;}
-    .info-row{
-      display:grid;grid-template-columns:minmax(140px,200px) 1fr;
-      gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start;
-    }
+    .info-row{display:grid;grid-template-columns:minmax(160px,210px) 1fr;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start;}
     .info-row:last-child{border-bottom:none;}
     .info-key{font:800 10px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding-top:2px;}
     .info-val{font-size:13px;color:var(--text);line-height:1.5;}
     .info-val strong{color:var(--cyan);font-weight:700;}
-    .info-val code{
-      font-family:var(--mono);font-size:11px;background:rgba(91,192,255,.1);
-      color:var(--cyan);padding:2px 6px;border-radius:5px;
-    }
-    /* CHIPS */
+    .info-val code{font-family:var(--mono);font-size:11px;background:rgba(91,192,255,.1);color:var(--cyan);padding:2px 6px;border-radius:5px;}
+    .info-val .ok{color:var(--green);}
+    .info-val .warn{color:var(--amber);}
+    .info-val .muted{color:var(--muted);}
     .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
-    .chip{
-      padding:4px 10px;border-radius:999px;font:700 11px var(--mono);
-      background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--soft);
-    }
+    .chip{padding:4px 10px;border-radius:999px;font:700 11px var(--mono);background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--soft);}
     .chip.cyan{background:rgba(91,192,255,.1);border-color:rgba(91,192,255,.3);color:var(--cyan);}
     .chip.amber{background:rgba(244,194,66,.1);border-color:rgba(244,194,66,.3);color:var(--amber);}
     .chip.green{background:rgba(127,240,178,.1);border-color:rgba(127,240,178,.3);color:var(--green);}
     .chip.red{background:rgba(255,107,122,.1);border-color:rgba(255,107,122,.3);color:var(--red);}
-    /* RIFIUTI CALENDAR */
     .rifiuti-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
-    .rif-day{
-      border-radius:12px;padding:10px 6px;text-align:center;
-      border:1px solid var(--line);background:rgba(255,255,255,.03);
-    }
+    .rif-day{border-radius:12px;padding:10px 6px;text-align:center;border:1px solid var(--line);background:rgba(255,255,255,.03);}
     .rif-day.active{border-color:rgba(91,192,255,.4);background:rgba(91,192,255,.07);}
     .rif-day.active.green{border-color:rgba(127,240,178,.4);background:rgba(127,240,178,.07);}
     .rif-day.active.amber{border-color:rgba(244,194,66,.4);background:rgba(244,194,66,.07);}
@@ -152,124 +76,107 @@
     .rif-item.vetro{background:rgba(91,192,255,.15);color:var(--cyan);}
     .rif-item.nonrec{background:rgba(255,107,122,.15);color:var(--red);}
     .rif-item.sfalci{background:rgba(127,240,178,.15);color:var(--green);}
-    /* NOTE BOX */
-    .note-box{
-      padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.03);
-      border:1px solid var(--line);font-size:13px;line-height:1.6;color:var(--soft);margin-top:10px;
-    }
-    .note-box p{margin:0 0 6px;}
-    .note-box p:last-child{margin:0;}
-    /* SECTION TITLE */
-    .section-title{
-      font:800 10px var(--mono);text-transform:uppercase;letter-spacing:.14em;
-      color:var(--muted);margin:0 0 10px;
-    }
-    /* PLACEHOLDER */
-    .placeholder{
-      padding:14px;border-radius:12px;border:1px dashed rgba(115,157,222,.25);
-      color:var(--muted-2);font-size:12px;font-style:italic;text-align:center;margin-top:4px;
-    }
-    /* CONTACT CARD */
+    .note-box{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:13px;line-height:1.6;color:var(--soft);margin-top:10px;}
+    .note-box p{margin:0 0 6px;}.note-box p:last-child{margin:0;}
+    .section-title{font:800 10px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:0 0 10px;}
     .contacts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
-    .contact-card{
-      padding:12px 14px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(255,255,255,.03);display:grid;gap:4px;
-    }
+    .contact-card{padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);display:grid;gap:4px;}
     .contact-name{font-size:13px;font-weight:700;color:var(--soft);}
     .contact-role{font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
-    .contact-info{font-size:12px;color:var(--text);margin-top:2px;}
+    .contact-info{font-size:12px;color:var(--text);margin-top:2px;line-height:1.5;}
     .contact-info a{color:var(--cyan);text-decoration:none;}
-    /* RESPONSIVE */
-    @media(max-width:760px){
-      .grid-2,.grid-3{grid-template-columns:1fr;}
-      .rifiuti-grid{grid-template-columns:repeat(4,1fr);}
-      .info-row{grid-template-columns:1fr;gap:2px;}
-      .info-key{padding-top:0;}
-    }
+    .status-row{display:flex;align-items:center;gap:8px;padding:6px 0;}
+    .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .status-dot.green{background:var(--green);box-shadow:0 0 0 3px rgba(127,240,178,.15);}
+    .status-dot.amber{background:var(--amber);box-shadow:0 0 0 3px rgba(244,194,66,.15);}
+    .status-dot.red{background:var(--red);box-shadow:0 0 0 3px rgba(255,107,122,.15);}
+    .device-list{display:grid;gap:6px;margin-top:8px;}
+    .device-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:12px;}
+    .device-name{font-weight:600;color:var(--soft);}
+    .device-detail{color:var(--muted);font-family:var(--mono);font-size:10px;}
+    @media(max-width:760px){.grid-2,.grid-3{grid-template-columns:1fr;}.rifiuti-grid{grid-template-columns:repeat(4,1fr);}.info-row{grid-template-columns:1fr;gap:2px;}.info-key{padding-top:0;}}
   </style>
 </head>
 <body>
-
   <div class="shell">
 
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="top-left">
         <div class="brand">
-          <div class="brand-mark" aria-hidden="true">RCM</div>
+          <div class="brand-mark">RCM</div>
           <div class="brand-text">
             <div class="brand-eyebrow">Vademecum Casa</div>
             <h1 class="brand-title">RCM-1821-D <em>Managing</em></h1>
           </div>
         </div>
       </div>
-      <div class="top-right">
-        <a class="back-home" href="index.html">← Home</a>
-      </div>
+      <div class="top-right"><a class="back-home" href="index.html">← Home</a></div>
     </div>
 
     <!-- DATI CATASTALI -->
     <div class="card">
-      <div class="card-head">
-        <div class="card-head-left">
-          <div class="card-title">📋 Dati catastali &amp; amministrativi</div>
-        </div>
-        <div class="card-badge">Admin</div>
-      </div>
+      <div class="card-head"><div class="card-head-left"><div class="card-title">📋 Dati catastali &amp; amministrativi</div></div><div class="card-badge">Admin</div></div>
       <div class="card-body">
-        <div class="info-table">
-          <div class="info-row"><div class="info-key">Indirizzo</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Foglio / Mappale</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Categoria catastale</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Rendita catastale</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Codice fiscale immobile</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Proprietario</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Amministratore condominio</div><div class="info-val"><strong>—</strong></div></div>
-          <div class="info-row"><div class="info-key">Note</div><div class="info-val">—</div></div>
+        <div class="grid-2">
+          <div>
+            <div class="section-title">Identificativo immobile</div>
+            <div class="info-table">
+              <div class="info-row"><div class="info-key">Indirizzo</div><div class="info-val"><strong>Via Rocciamelone 30</strong><br><span class="muted">San Mauro Torinese (TO)</span></div></div>
+              <div class="info-row"><div class="info-key">Foglio</div><div class="info-val"><strong>21</strong></div></div>
+              <div class="info-row"><div class="info-key">Particella / Mappale</div><div class="info-val"><strong>1228</strong></div></div>
+              <div class="info-row"><div class="info-key">Subalterno</div><div class="info-val"><strong>1</strong></div></div>
+              <div class="info-row"><div class="info-key">Sezione urbana</div><div class="info-val"><span class="muted">Vuota (non utilizzata da San Mauro Torinese)</span></div></div>
+              <div class="info-row"><div class="info-key">Data atto</div><div class="info-val"><strong>29 maggio 2026</strong></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">Note amministrative</div>
+            <div class="note-box">
+              <p>⚠️ La particella corretta è <strong>1228</strong>, non 1258 — differenza rilevata tra screenshot e DOCFA ufficiale.</p>
+              <p>📄 Documenti su Google Drive: <a href="https://drive.google.com/drive/u/2/folders/1fpIyWSmWAVA3WNIw5KKRy3j2WSIioGp4" style="color:var(--cyan)">Sezione Via Rocciamelone</a></p>
+              <p>🏛️ Cambio residenza: portale <code>cambioindirizzo.interno.gov.it</code> — campo Sezione: lasciare vuoto o inserire trattino.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- IMPIANTO ELETTRICO + SOLARE -->
+    <!-- SOLARE + ELETTRICO -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">⚡ Impianto elettrico</div>
-          </div>
-          <div class="card-badge amber">Elettrico</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Gestore fornitura</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Potenza contrattuale</div><div class="info-val"><strong>—</strong> kW</div></div>
-            <div class="info-row"><div class="info-key">Contatore</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Interruttore generale</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Schema circuiti</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Ultima verifica</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Inverter</div><div class="info-val"><strong>SolarEdge HD-Wave</strong></div></div>
+            <div class="info-row"><div class="info-key">Batteria</div><div class="info-val"><strong class="ok">✅ Installata</strong> — capacità da verificare in app</div></div>
+            <div class="info-row"><div class="info-key">Connessione cloud</div><div class="info-val"><strong>LAN via cavo</strong><br><span class="muted">TP-Link Extender (locale caldaia) → cavo patch → porta LAN inverter</span></div></div>
+            <div class="info-row"><div class="info-key">Portale monitoraggio</div><div class="info-val"><code>monitoring.solaredge.com</code><br><span class="muted">App: mySolarEdge</span></div></div>
+            <div class="info-row"><div class="info-key">Portale GSE</div><div class="info-val"><code>applicazioni.gse.it</code><br><span class="muted">Credenziali GSE già configurate</span></div></div>
+            <div class="info-row"><div class="info-key">Incentivo</div><div class="info-val"><strong>Ritiro Dedicato (RD)</strong><br><span class="muted">SSP chiuso ai nuovi impianti dal 29/05/2025</span></div></div>
+            <div class="info-row"><div class="info-key">Fornitore energia</div><div class="info-val"><strong>Iren</strong></div></div>
+            <div class="info-row"><div class="info-key">Export stimato</div><div class="info-val">~30 kWh/giorno · <strong>~400–600 €/anno</strong> con RD</div></div>
+            <div class="info-row"><div class="info-key">Produzione (prime 3gg)</div><div class="info-val">95.5 kWh prodotti · 0.27 kWh importati dalla rete</div></div>
+          </div>
+          <div class="note-box" style="margin-top:12px;">
+            <p>⚠️ Richiedere Ritiro Dedicato su <code>applicazioni.gse.it</code> entro <strong>60 giorni</strong> dall'entrata in esercizio. Verificare se il contratto si è attivato automaticamente (Modello Unico).</p>
+            <p>🔋 Se la batteria risulta inattiva: aggiornamento firmware da remoto (il tecnico interviene via cloud SolarEdge, non serve visita in loco).</p>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">☀️ Impianto solare / fotovoltaico</div>
-          </div>
-          <div class="card-badge amber">Solar</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico</div></div><div class="card-badge amber">Elettrico</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Installatore</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Potenza picco</div><div class="info-val"><strong>—</strong> kWp</div></div>
-            <div class="info-row"><div class="info-key">N° pannelli</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Inverter</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Accumulo / batteria</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">GSE / incentivi</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">App monitoraggio</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Produzione media</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Gestore fornitura</div><div class="info-val"><strong>Iren</strong></div></div>
+            <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>—</code></div></div>
+            <div class="info-row"><div class="info-key">Potenza contrattuale</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">Locale caldaia</div></div>
+            <div class="info-row"><div class="info-key">Note installazione</div><div class="info-val">Presa singola installata dall'elettricista — prevista aggiunta seconda presa con derivazione</div></div>
+          </div>
+          <div class="note-box" style="margin-top:12px;">
+            <p>Per aggiungere una seconda presa: derivazione dalla presa esistente con cavo 3×1,5mm², scatola da incasso, canalina o scasso a muro. In alternativa richiamare l'elettricista (≈ 1 ora di lavoro).</p>
           </div>
         </div>
       </div>
@@ -278,45 +185,42 @@
     <!-- RETE + DOMOTICA -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">📡 Rete &amp; connettività</div>
-          </div>
-          <div class="card-badge">Network</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Provider attuale</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Tipologia</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Router</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">SSID WiFi 2.4GHz</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">SSID WiFi 5GHz</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Password WiFi</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">IP router</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Recesso Tiscali</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Provider attuale</div><div class="info-val"><strong class="ok">✅ Starlink Gen 4</strong></div></div>
+            <div class="info-row"><div class="info-key">Router</div><div class="info-val"><strong>Starlink Gen 4</strong> — porte Ethernet integrate</div></div>
+            <div class="info-row"><div class="info-key">Switch</div><div class="info-val">Sì — collegato a Starlink</div></div>
+            <div class="info-row"><div class="info-key">Access Point</div><div class="info-val"><strong>TP-Link Omada EAP</strong> "AC-Living Room"<br><code>IP 192.168.1.59</code> · MAC <code>CC-BA-BD-51-BE-5E</code></div></div>
+            <div class="info-row"><div class="info-key">SSID obiettivo</div><div class="info-val"><code>Rocciamelone</code> — 2.4 GHz + 5 GHz band steering</div></div>
+            <div class="info-row"><div class="info-key">Controller Omada</div><div class="info-val"><code>omada.tplinkcloud.com</code> · Sito: <code>#RCM-1821-D</code></div></div>
+            <div class="info-row"><div class="info-key">Subnet</div><div class="info-val"><code>192.168.1.0/24</code> (DHCP Starlink)</div></div>
+            <div class="info-row"><div class="info-key">Recesso Tiscali</div><div class="info-val"><span class="ok">✅ Fatto</span> — modulo disdetta inviato per trasloco</div></div>
+          </div>
+          <div class="note-box" style="margin-top:10px;">
+            <p>TP-Link Extender nel locale caldaia collegato all'inverter SolarEdge via cavo LAN patch corto.</p>
+            <p>Per aggiungere altri piani: AP Omada aggiuntivi in mesh wireless (se niente cavi tra piani) o cablati su switch PoE.</p>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">🏠 Domotica · Shelly</div>
-          </div>
-          <div class="card-badge">Shelly</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">🏠 Domotica · Shelly</div></div><div class="card-badge">Shelly</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">App</div><div class="info-val">Shelly Smart Control</div></div>
-            <div class="info-row"><div class="info-key">Cloud</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Dispositivi</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Shelly Smart Control</strong></div></div>
+            <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Skill <strong>Shelly Smart Control</strong> su Alexa</div></div>
+            <div class="info-row"><div class="info-key">WiFi richiesto</div><div class="info-val"><code>2.4 GHz</code> — i dispositivi non vedono il 5 GHz</div></div>
           </div>
           <div class="section-title" style="margin-top:14px;">Dispositivi installati</div>
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Shelly 1</div><div class="info-val">— · IP <code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Shelly 2</div><div class="info-val">— · IP <code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Shelly 3</div><div class="info-val">— · IP <code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Note</div><div class="info-val">—</div></div>
+          <div class="device-list">
+            <div class="device-item"><span class="device-name">Serranda 1–8</span><span class="device-detail">Shelly Plus 2PM · Modalità tapparella</span></div>
+            <div class="device-item"><span class="device-name">Interruttore 1–4</span><span class="device-detail">Shelly 1 / Plus 1 o presa smart</span></div>
+            <div class="device-item"><span class="device-name">Schermo proiettore</span><span class="device-detail">Shelly Plus 2PM ordinato <span class="chip amber" style="font-size:9px;padding:2px 6px;">da installare</span></span></div>
+          </div>
+          <div class="note-box" style="margin-top:10px;">
+            <p>Il telo ESMART Expert CSX 100" usa RF 433 MHz (non IR). Lo Shelly Plus 2PM va installato nel cassonetto del telo intercettando i 4 fili del motore: marrone (salita), nero (discesa), blu (neutro), giallo-verde (terra).</p>
+            <p>Dopo installazione: calibrazione automatica nell'app → la skill Alexa espone il telo come "Serranda 9".</p>
           </div>
         </div>
       </div>
@@ -325,44 +229,37 @@
     <!-- ANTIFURTO + CANCELLO -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">🔒 Antifurto · Ajax</div>
-          </div>
-          <div class="card-badge red">Security</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">🔒 Antifurto · Ajax</div></div><div class="card-badge red">Security</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Hub</div><div class="info-val">Ajax Hub <strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">ID Hub</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">App</div><div class="info-val">Ajax Security System</div></div>
-            <div class="info-row"><div class="info-key">Codice inserimento</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Sirena</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Sensori</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Telecomandi</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Centrale telefonica</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Note procedure</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Sistema</div><div class="info-val"><strong>Ajax Systems</strong> — installato e attivo</div></div>
+            <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Ajax Security System</strong></div></div>
+            <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Radio Jeweller — funziona senza internet (locale)</div></div>
+            <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val"><span class="warn">⚠️ Nessuna skill ufficiale</span> — solo armamento via voce, <strong>non</strong> disarmamento (EN 50131)</div></div>
+            <div class="info-row"><div class="info-key">Pannello fisico</div><div class="info-val"><strong class="warn">Da acquistare</strong> — KeyPad Plus (~95–115€) con RFID tag raccomandato</div></div>
+            <div class="info-row"><div class="info-key">Accessori da valutare</div><div class="info-val">SpaceControl ~30€ · Tag RFID ~10–15€ cad.<br>Echo Hub ~199€ come pannello smart home supplementare</div></div>
+          </div>
+          <div class="note-box" style="margin-top:12px;">
+            <p>Setup consigliato: <strong>KeyPad Plus all'ingresso + 3–4 Tag RFID</strong> — disarmo "tap & go" sotto i 200€. Tablet Android con app Ajax per pannello supplementare ricco.</p>
+            <p>Non usare Echo Show/Hub come pannello allarme principale — dipende da WiFi+cloud e non ha il tamper del KeyPad fisico.</p>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">🚗 Cancello</div>
-          </div>
-          <div class="card-badge">Cancello</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">🚗 Cancello</div></div><div class="card-badge">Cancello</div></div>
         <div class="card-body">
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Marca / modello</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Centrale</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Telecomandi</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Codice telecomando</div><div class="info-val"><code>—</code></div></div>
-            <div class="info-row"><div class="info-key">Fotocellule</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Fine corsa</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Apertura manuale</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Manutenzione</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Battente ad anta singola</strong></div></div>
+            <div class="info-row"><div class="info-key">Materiale</div><div class="info-val">Ferro</div></div>
+            <div class="info-row"><div class="info-key">Colore attuale</div><div class="info-val">Rosso/bordeaux</div></div>
+            <div class="info-row"><div class="info-key">Colore previsto</div><div class="info-val">Grigio antracite <code>RAL 7016</code></div></div>
+            <div class="info-row"><div class="info-key">Motorizzazione</div><div class="info-val"><strong class="warn">Da installare</strong> — attuatore lineare o braccio articolato</div></div>
+            <div class="info-row"><div class="info-key">Compatibilità motore</div><div class="info-val">Verificare portata, larghezza anta, tipo attacco staffa prima di acquistare il nuovo cancello</div></div>
+          </div>
+          <div class="note-box" style="margin-top:12px;">
+            <p>Per verniciatura fai-da-te: primer antiruggine + smalto ferro da esterni (2 mani). Verniciare prima dell'installazione motore per evitare graffi. Costo professionale: 180–350€ materiali inclusi.</p>
+            <p>Se si sostituisce il cancello: portare specifiche del motore al fornitore per verificare compatibilità.</p>
           </div>
         </div>
       </div>
@@ -370,32 +267,31 @@
 
     <!-- ARIA CONDIZIONATA -->
     <div class="card">
-      <div class="card-head">
-        <div class="card-head-left">
-          <div class="card-title">❄️ Aria condizionata</div>
-        </div>
-        <div class="card-badge cyan">HVAC</div>
-      </div>
+      <div class="card-head"><div class="card-head-left"><div class="card-title">❄️ Aria condizionata · IDEMA</div></div><div class="card-badge cyan">HVAC</div></div>
       <div class="card-body">
         <div class="grid-2">
           <div>
-            <div class="section-title">Unità interne</div>
+            <div class="section-title">Impianto</div>
             <div class="info-table">
-              <div class="info-row"><div class="info-key">Unità 1</div><div class="info-val">— · <code>—</code></div></div>
-              <div class="info-row"><div class="info-key">Unità 2</div><div class="info-val">— · <code>—</code></div></div>
-              <div class="info-row"><div class="info-key">Unità 3</div><div class="info-val">— · <code>—</code></div></div>
+              <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Canalizzato (ducted)</strong> — aria distribuita via bocchette a soffitto in tutti gli ambienti</div></div>
+              <div class="info-row"><div class="info-key">Unità esterna</div><div class="info-val"><strong>IDEMA IOZ-70M-R32</strong><br><span class="muted">7 kW, monofase, gas R32</span></div></div>
+              <div class="info-row"><div class="info-key">Unità interna</div><div class="info-val"><strong>IDEMA ITZ-70-R32</strong><br><span class="muted">Canalizzabile, nascosta nel controsoffitto</span></div></div>
+              <div class="info-row"><div class="info-key">Data installazione</div><div class="info-val">30 maggio 2026</div></div>
+              <div class="info-row"><div class="info-key">Protocollo controllo</div><div class="info-val"><strong>Proprietario Midea</strong> — <span class="warn">incompatibile con Nest diretto</span></div></div>
             </div>
           </div>
           <div>
-            <div class="section-title">Dati tecnici</div>
+            <div class="section-title">Controllo</div>
             <div class="info-table">
-              <div class="info-row"><div class="info-key">Marca</div><div class="info-val"><strong>—</strong></div></div>
-              <div class="info-row"><div class="info-key">Modello unità esterna</div><div class="info-val">—</div></div>
-              <div class="info-row"><div class="info-key">Gas refrigerante</div><div class="info-val">—</div></div>
-              <div class="info-row"><div class="info-key">Installatore</div><div class="info-val">—</div></div>
-              <div class="info-row"><div class="info-key">Data installazione</div><div class="info-val">—</div></div>
-              <div class="info-row"><div class="info-key">Manutenzione filtri</div><div class="info-val">ogni — mesi</div></div>
-              <div class="info-row"><div class="info-key">App / WiFi</div><div class="info-val">—</div></div>
+              <div class="info-row"><div class="info-key">Termostato a parete</div><div class="info-val"><strong class="ok">✅ KJR-120C/TF-E</strong> già installato</div></div>
+              <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val"><strong class="ok">✅ RG10A-E2S</strong> nella confezione</div></div>
+              <div class="info-row"><div class="info-key">Modulo WiFi</div><div class="info-val"><strong class="warn">⚠️ WF-60A1-C</strong> da acquistare e installare (nell'unità interna nel controsoffitto)</div></div>
+              <div class="info-row"><div class="info-key">App WiFi</div><div class="info-val"><strong>MSmartHome</strong> (Midea) — iOS e Android<br><span class="muted">Richiede WiFi 2.4 GHz</span></div></div>
+              <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Tramite skill MSmartHome (dopo installazione WF-60A1-C)</div></div>
+            </div>
+            <div class="note-box" style="margin-top:8px;">
+              <p>Il modulo WF-60A1-C va inserito in una porta dedicata sulla scheda dell'unità interna nel controsoffitto — lavoro da ~10 minuti per un tecnico.</p>
+              <p>Il Nest Thermostat <strong>non è compatibile</strong> direttamente (protocollo proprietario Midea).</p>
             </div>
           </div>
         </div>
@@ -404,12 +300,7 @@
 
     <!-- RACCOLTA RIFIUTI -->
     <div class="card">
-      <div class="card-head">
-        <div class="card-head-left">
-          <div class="card-title">♻️ Raccolta rifiuti</div>
-        </div>
-        <div class="card-badge green">Calendario</div>
-      </div>
+      <div class="card-head"><div class="card-head-left"><div class="card-title">♻️ Raccolta rifiuti · San Mauro Torinese</div></div><div class="card-badge green">Calendario</div></div>
       <div class="card-body">
         <div class="rifiuti-grid">
           <div class="rif-day active green">
@@ -419,14 +310,8 @@
               <div class="rif-item carta">Carta</div>
             </div>
           </div>
-          <div class="rif-day">
-            <div class="rif-day-name">Mar</div>
-            <div class="rif-items"></div>
-          </div>
-          <div class="rif-day">
-            <div class="rif-day-name">Mer</div>
-            <div class="rif-items"></div>
-          </div>
+          <div class="rif-day"><div class="rif-day-name">Mar</div><div class="rif-items"></div></div>
+          <div class="rif-day"><div class="rif-day-name">Mer</div><div class="rif-items"></div></div>
           <div class="rif-day active amber">
             <div class="rif-day-name">Gio</div>
             <div class="rif-items">
@@ -440,10 +325,7 @@
               <div class="rif-item sfalci">Sfalci</div>
             </div>
           </div>
-          <div class="rif-day">
-            <div class="rif-day-name">Sab</div>
-            <div class="rif-items"></div>
-          </div>
+          <div class="rif-day"><div class="rif-day-name">Sab</div><div class="rif-items"></div></div>
           <div class="rif-day active red">
             <div class="rif-day-name">Dom</div>
             <div class="rif-items">
@@ -453,91 +335,112 @@
           </div>
         </div>
         <div class="note-box" style="margin-top:12px;">
-          <p>⚠️ Verificare orari esposizione sacchi col Comune. I sacchi vanno esposti la sera prima o entro le ore indicate.</p>
-          <p>Il calendario può variare durante le festività — controllare le comunicazioni del gestore rifiuti locale.</p>
+          <p>⚠️ Sacchi da esporre la <strong>sera precedente</strong> o entro l'orario indicato dal Comune di San Mauro Torinese.</p>
+          <p>Il calendario può variare nelle festività — verificare le comunicazioni del gestore rifiuti locale.</p>
         </div>
       </div>
     </div>
 
-    <!-- PULIZIA + ACCESSORI -->
+    <!-- PULIZIA + ATTREZZATURE -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">🧹 Pulizia &amp; manutenzione ordinaria</div>
-          </div>
-          <div class="card-badge">Pulizia</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">🧹 Pulizia &amp; manutenzione ordinaria</div></div><div class="card-badge">Pulizia</div></div>
         <div class="card-body">
-          <div class="section-title">Frequenze consigliate</div>
+          <div class="section-title">Pavimenti casa (>100 mq)</div>
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Pavimenti</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Vetri / finestre</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Filtri AC</div><div class="info-val">— mesi</div></div>
-            <div class="info-row"><div class="info-key">Caldaia / scaldabagno</div><div class="info-val">— annuale</div></div>
-            <div class="info-row"><div class="info-key">Grondaie</div><div class="info-val">— annuale</div></div>
-            <div class="info-row"><div class="info-key">Giardino / prato</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Tipo pavimenti</div><div class="info-val">Gres/ceramica · Parquet · Laminato/LVT</div></div>
+            <div class="info-row"><div class="info-key">Aspirapolvere</div><div class="info-val"><strong>Dreame V20 Pro-A</strong> — 90 min, anti-groviglio, tutti i pavimenti</div></div>
+            <div class="info-row"><div class="info-key">Lavapavimenti</div><div class="info-val">Vileda Revolution (~€35) — per parquet e laminato</div></div>
+            <div class="info-row"><div class="info-key">Vaporetto</div><div class="info-val">Polti Vaporetto — <strong>solo su gres</strong> (fughe, bagno, cucina)</div></div>
+            <div class="info-row"><div class="info-key">Robot aspirapolvere</div><div class="info-val">Raccomandato per manutenzione quotidiana su 100+ mq</div></div>
           </div>
-          <div class="section-title" style="margin-top:14px;">Prodotti / fornitori</div>
+          <div class="section-title" style="margin-top:14px;">Manutenzione periodica</div>
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Impresa pulizie</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Prodotti consigliati</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Filtri AC</div><div class="info-val">Ogni <strong>1–2 mesi</strong> in estate</div></div>
+            <div class="info-row"><div class="info-key">Caldaia / scaldabagno</div><div class="info-val">Annuale</div></div>
+            <div class="info-row"><div class="info-key">Grondaie</div><div class="info-val">Annuale</div></div>
+            <div class="info-row"><div class="info-key">Giardino / prato</div><div class="info-val">—</div></div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-title">📦 Attrezzature &amp; accessori</div>
-          </div>
-          <div class="card-badge">Accessori</div>
-        </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">📦 Attrezzature · Telo proiettore</div></div><div class="card-badge">Accessori</div></div>
         <div class="card-body">
           <div class="section-title">Telo proiettore</div>
           <div class="info-table">
-            <div class="info-row"><div class="info-key">Marca / modello</div><div class="info-val"><strong>—</strong></div></div>
-            <div class="info-row"><div class="info-key">Dimensione</div><div class="info-val">—″</div></div>
-            <div class="info-row"><div class="info-key">Tipo</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Motorizzato</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val">—</div></div>
-            <div class="info-row"><div class="info-key">Note installazione</div><div class="info-val">—</div></div>
+            <div class="info-row"><div class="info-key">Modello</div><div class="info-val"><strong>ESMART Expert CSX</strong></div></div>
+            <div class="info-row"><div class="info-key">Dimensione</div><div class="info-val"><strong>100″</strong> · 221 × 125 cm · 16:9</div></div>
+            <div class="info-row"><div class="info-key">Tipo</div><div class="info-val">Motorizzato, da incasso a soffitto</div></div>
+            <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val"><strong>RF 433 MHz</strong> (NON infrarossi — verificato)</div></div>
+            <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val">Incluso — RF originale ESMART</div></div>
+            <div class="info-row"><div class="info-key">Controllo smart</div><div class="info-val"><strong class="warn">Shelly Plus 2PM in installazione</strong><br><span class="muted">Va nel cassonetto intercettando fili motore: marrone (salita) nero (discesa) blu (neutro)</span></div></div>
+            <div class="info-row"><div class="info-key">App / Alexa</div><div class="info-val">Dopo Shelly: <code>Alexa, abbassa lo schermo al 70%</code></div></div>
+            <div class="info-row"><div class="info-key">Assistenza ESMART</div><div class="info-val"><a href="mailto:assistenza@esmartitalia.it" style="color:var(--cyan)">assistenza@esmartitalia.it</a></div></div>
           </div>
-          <div class="section-title" style="margin-top:14px;">Altro</div>
-          <div class="placeholder">Aggiungi attrezzature e accessori</div>
         </div>
       </div>
     </div>
 
-    <!-- CONTATTI & FORNITORI -->
+    <!-- SMART HOME ECOSYSTEM -->
     <div class="card">
-      <div class="card-head">
-        <div class="card-head-left">
-          <div class="card-title">📞 Contatti &amp; fornitori</div>
+      <div class="card-head"><div class="card-head-left"><div class="card-title">🔊 Ecosistema smart home · Amazon Alexa</div></div><div class="card-badge">IoT</div></div>
+      <div class="card-body">
+        <div class="grid-2">
+          <div>
+            <div class="section-title">Dispositivi Amazon Echo</div>
+            <div class="device-list">
+              <div class="device-item"><span class="device-name">Echo Studio ×2</span><span class="device-detail">Living Room · Hub Zigbee integrato</span></div>
+              <div class="device-item"><span class="device-name">Echo Pop ×2</span><span class="device-detail">Studio + Camera Matrimoniale</span></div>
+              <div class="device-item"><span class="device-name">Echo Show 15 2ª gen</span><span class="device-detail">Living Room</span></div>
+              <div class="device-item"><span class="device-name">Echo Show 15 orig.</span><span class="device-detail">Living Room</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="section-title">Lampadine IKEA Tradfri</div>
+            <div class="info-table">
+              <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Zigbee 3.0 (no Matter — verificato)</div></div>
+              <div class="info-row"><div class="info-key">Hub</div><div class="info-val"><span class="warn">⚠️ Nessun DIRIGERA</span> — da acquistare</div></div>
+              <div class="info-row"><div class="info-key">Pairing Alexa diretto</div><div class="info-val"><span class="warn">⚠️ Instabile</span> — Echo Studio ha hub Zigbee ma compatibilità Tradfri traballante</div></div>
+              <div class="info-row"><div class="info-key">Soluzione DIY prevista</div><div class="info-val">Raspberry Pi + Sonoff Zigbee Dongle Plus + Home Assistant + Zigbee2MQTT → Emulated Hue per Alexa</div></div>
+            </div>
+            <div class="note-box" style="margin-top:8px;">
+              <p>Acquisti previsti: Raspberry Pi 4 (~€50–80) + Sonoff Zigbee 3.0 USB Dongle Plus EFR32MG21 (~€25).</p>
+            </div>
+          </div>
         </div>
-        <div class="card-badge">Rubrica</div>
       </div>
+    </div>
+
+    <!-- CONTATTI -->
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">📞 Contatti &amp; fornitori</div></div><div class="card-badge">Rubrica</div></div>
       <div class="card-body">
         <div class="contacts-grid">
+          <div class="contact-card">
+            <div class="contact-role">Impianto solare</div>
+            <div class="contact-name">— (tecnico SolarEdge)</div>
+            <div class="contact-info">Supporto cloud SolarEdge: <a href="tel:+390289015641">+39 02 89015641</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-role">Aria condizionata IDEMA</div>
+            <div class="contact-name">—</div>
+            <div class="contact-info"><a href="https://idemaclima.it" style="color:var(--cyan)">idemaclima.it</a> per rivenditori autorizzati</div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-role">Telo proiettore ESMART</div>
+            <div class="contact-name">Assistenza ESMART Italia</div>
+            <div class="contact-info"><a href="mailto:assistenza@esmartitalia.it">assistenza@esmartitalia.it</a></div>
+          </div>
           <div class="contact-card">
             <div class="contact-role">Elettricista</div>
             <div class="contact-name">—</div>
             <div class="contact-info">—</div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Idraulico</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Impianto solare</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
-          </div>
-          <div class="contact-card">
             <div class="contact-role">Antifurto Ajax</div>
             <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
+            <div class="contact-info">App Ajax Security System</div>
           </div>
           <div class="contact-card">
             <div class="contact-role">Cancello</div>
@@ -545,47 +448,41 @@
             <div class="contact-info">—</div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Aria condizionata</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
+            <div class="contact-role">Fornitore energia</div>
+            <div class="contact-name">Iren</div>
+            <div class="contact-info"><a href="https://www.gruppoiren.it" style="color:var(--cyan)">gruppoiren.it</a></div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Provider internet</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
+            <div class="contact-role">GSE (fotovoltaico)</div>
+            <div class="contact-name">Gestore Servizi Energetici</div>
+            <div class="contact-info"><a href="https://applicazioni.gse.it" style="color:var(--cyan)">applicazioni.gse.it</a></div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Amministratore</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
+            <div class="contact-role">Emergenza Enel</div>
+            <div class="contact-name">E-Distribuzione</div>
+            <div class="contact-info"><a href="tel:803500">803 500</a> (gratuito)</div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Emergenza gas</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info">—</div>
+            <div class="contact-role">Comune San Mauro T.se</div>
+            <div class="contact-name">Ufficio Anagrafe</div>
+            <div class="contact-info"><a href="https://sanmaurotorinese.it" style="color:var(--cyan)">sanmaurotorinese.it</a></div>
           </div>
           <div class="contact-card">
-            <div class="contact-role">Emergenza enel</div>
-            <div class="contact-name">Enel Emergenze</div>
-            <div class="contact-info"><a href="tel:803500">803 500</a></div>
+            <div class="contact-role">Catasto / Agenzia Entrate</div>
+            <div class="contact-name">—</div>
+            <div class="contact-info"><a href="tel:800909696">800 909 696</a> (gratuito)<br><a href="https://sister.agenziaentrate.gov.it" style="color:var(--cyan)">sister.agenziaentrate.gov.it</a></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER NOTE -->
     <div class="note-box" style="margin-bottom:16px;">
       <p style="color:var(--muted);font-size:12px;text-align:center;">
         RCM-1821-D Managing · Aggiornato: <span id="lastUpdate"></span> ·
         <a href="plancia-rocciamelone.html" style="color:var(--cyan);text-decoration:none;">→ Plancia Smart Home</a>
       </p>
     </div>
-
   </div>
-
-  <script>
-    document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('it-IT', {day:'2-digit',month:'long',year:'numeric'});
-  </script>
-
+  <script>document.getElementById('lastUpdate').textContent=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});</script>
 </body>
 </html>
