@@ -309,6 +309,25 @@ body::before { display: none; }
 .mant-red    { background: rgba(220,38,38,0.10);  color: #991b1b; }
 .mant-purple { background: rgba(124,58,237,0.10); color: #5b21b6; }
 
+.mant-year-label {
+  font: 800 11px/1 "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--muted-2);
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  background: var(--bg-1);
+  border-radius: 8px;
+  display: inline-block;
+}
+.mant-month-urgent {
+  border-color: rgba(217,119,6,0.35) !important;
+  background: rgba(217,119,6,0.04) !important;
+}
+.mant-month-urgent .mant-month-name { color: #92400e; }
+.mant-table-row-alert { background: rgba(217,119,6,0.05); }
+.mant-table-row-alert div:first-child { color: #92400e; font-weight: 800; }
+
 /* ── Maintenance table ── */
 .mant-table {
   border: 1.5px solid var(--line);
@@ -709,153 +728,164 @@ body::before { display: none; }
 
     <!-- CALENDARIO MANUTENZIONI -->
     <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Annuale</div></div>
+      <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Da giugno 2026</div></div>
       <div class="card-body">
 
         <div class="mant-legend">
           <span class="mant-dot mant-dot-blu"></span><span>Impianti tecnici</span>
-          <span class="mant-dot mant-dot-amber"></span><span>Climatizzazione</span>
+          <span class="mant-dot mant-dot-amber"></span><span>Climatizzazione AC</span>
           <span class="mant-dot mant-dot-green"></span><span>Pulizia / esterno</span>
           <span class="mant-dot mant-dot-red"></span><span>Sicurezza</span>
           <span class="mant-dot mant-dot-purple"></span><span>Contratti / scadenze</span>
         </div>
 
+        <!-- ANNO 1: GIU 2026 – MAG 2027 -->
+        <div class="mant-year-label">Anno 1 · Giugno 2026 – Maggio 2027</div>
         <div class="mant-grid">
 
-          <div class="mant-month">
-            <div class="mant-month-name">Gen</div>
+          <div class="mant-month mant-month-urgent">
+            <div class="mant-month-name">Giu 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-red">Ajax — check batterie sensori</div>
+              <div class="mant-task mant-purple">⚠️ GSE Ritiro Dedicato — scade ~29 lug</div>
+              <div class="mant-task mant-amber">AC: 1ª pulizia filtri (appena installato)</div>
+              <div class="mant-task mant-blu">SolarEdge: primo accesso portale + verifica</div>
+            </div>
+          </div>
+
+          <div class="mant-month mant-month-urgent">
+            <div class="mant-month-name">Lug 2026</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-purple">⚠️ GSE: deadline Ritiro Dedicato (entro fine mese)</div>
+              <div class="mant-task mant-amber">AC: pulizia filtri</div>
+              <div class="mant-task mant-blu">SolarEdge: verifica produzione 1° mese pieno</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Feb</div>
+            <div class="mant-month-name">Ago 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-blu">SolarEdge — verifica portale produzione</div>
+              <div class="mant-task mant-amber">AC: pulizia filtri</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Mar</div>
+            <div class="mant-month-name">Set 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-green">Pulizia pannelli solari</div>
-              <div class="mant-task mant-amber">Pulizia filtri AC — avvio stagione</div>
+              <div class="mant-task mant-blu">Caldaia: 1ª revisione annuale</div>
+              <div class="mant-task mant-amber">AC: fine stagione + pulizia filtri</div>
+              <div class="mant-task mant-green">Pannelli solari: 1ª pulizia post-estate</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Apr</div>
+            <div class="mant-month-name">Ott 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-green">Prato — primo taglio + concimazione</div>
-              <div class="mant-task mant-amber">Test AC raffreddamento</div>
+              <div class="mant-task mant-blu">Scaldabagno: 1° check anodo magnesio</div>
+              <div class="mant-task mant-green">Grondaie: 1ª pulizia foglie</div>
+              <div class="mant-task mant-amber">AC: test modalità riscaldamento</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Mag</div>
+            <div class="mant-month-name">Nov 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-amber">Filtri AC — 1° pulizia mensile</div>
-              <div class="mant-task mant-blu">Shelly — verifica serrande</div>
+              <div class="mant-task mant-red">Ajax: 1° test sirene e sensori</div>
+              <div class="mant-task mant-blu">Shelly: 1ª verifica calibrazione serrande</div>
+              <div class="mant-task mant-green">Grondaie: 2ª pulizia</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Giu</div>
+            <div class="mant-month-name">Dic 2026</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
-              <div class="mant-task mant-green">Prato — taglio settimanale</div>
+              <div class="mant-task mant-purple">Iren Luce: valuta rinnovo (scade apr 2027)</div>
+              <div class="mant-task mant-red">Estintori: verifica scadenza/manometro</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Lug</div>
+            <div class="mant-month-name">Gen 2027</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
-              <div class="mant-task mant-blu">SolarEdge — verifica picco produzione</div>
+              <div class="mant-task mant-red">Ajax: 1° check batterie sensori</div>
+              <div class="mant-task mant-blu">SolarEdge: verifica produzione invernale</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Ago</div>
+            <div class="mant-month-name">Feb 2027</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
+              <div class="mant-task mant-blu">SolarEdge: portale — produzione attesa vs reale</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Set</div>
+            <div class="mant-month-name">Mar 2027</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-amber">Filtri AC — ultimo ciclo / spegnimento</div>
-              <div class="mant-task mant-blu">Caldaia — revisione annuale</div>
-              <div class="mant-task mant-green">Pulizia pannelli solari — post estate</div>
+              <div class="mant-task mant-green">Pannelli solari: 2ª pulizia pre-estate</div>
+              <div class="mant-task mant-amber">AC: avvio stagione + pulizia filtri</div>
+            </div>
+          </div>
+
+          <div class="mant-month mant-month-urgent">
+            <div class="mant-month-name">Apr 2027</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-purple">⚠️ Scadenza offerta luce Iren 30/04/2027</div>
+              <div class="mant-task mant-green">Prato: 1° taglio + concimazione</div>
+              <div class="mant-task mant-amber">AC: test raffreddamento</div>
             </div>
           </div>
 
           <div class="mant-month">
-            <div class="mant-month-name">Ott</div>
+            <div class="mant-month-name">Mag 2027</div>
             <div class="mant-tasks">
-              <div class="mant-task mant-blu">Scaldabagno — check anodo magnesio</div>
-              <div class="mant-task mant-green">Grondaie — pulizia foglie</div>
-              <div class="mant-task mant-amber">Test AC riscaldamento</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Nov</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-red">Ajax — test sirene e sensori</div>
-              <div class="mant-task mant-green">Grondaie — 2° pulizia</div>
-              <div class="mant-task mant-blu">SolarEdge — verifica batteria invernale</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Dic</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-purple">Iren Luce — verifica offerta (scad. apr 2027)</div>
-              <div class="mant-task mant-red">Estintori — verifica scadenza</div>
+              <div class="mant-task mant-amber">AC: pulizia filtri mensile</div>
+              <div class="mant-task mant-blu">Shelly: verifica serrande (semestrale)</div>
             </div>
           </div>
 
         </div>
 
+        <!-- REGIME ANNUALE -->
+        <div class="mant-year-label" style="margin-top:24px;">Regime annuale · Da giugno 2027 in poi</div>
         <div class="mant-table">
           <div class="mant-table-head">
-            <div>Intervento</div><div>Frequenza</div><div>Periodo consigliato</div><div>Note</div>
+            <div>Intervento</div><div>Quando</div><div>Frequenza</div><div>Note operative</div>
           </div>
           <div class="mant-table-row">
-            <div>Caldaia / scaldabagno</div><div class="mant-freq">Annuale</div><div>Settembre</div><div>Tecnico autorizzato — obbligatorio per legge</div>
+            <div>Filtri AC (IDEMA)</div><div>Giu → Set</div><div class="mant-freq">Mensile</div><div>Fai-da-te dai pannelli interni — non servono attrezzi</div>
           </div>
           <div class="mant-table-row">
-            <div>Filtri climatizzatore (AC)</div><div class="mant-freq">Ogni 1–2 mesi</div><div>Giu–Set</div><div>Accessibili dai pannelli interni — fai-da-te</div>
+            <div>Caldaia + scaldabagno</div><div>Settembre</div><div class="mant-freq">Annuale</div><div>Tecnico autorizzato — obbligatorio per legge</div>
           </div>
           <div class="mant-table-row">
-            <div>Pulizia pannelli solari</div><div class="mant-freq">2× anno</div><div>Mar + Set</div><div>Acqua e panno morbido — non graffiare il vetro</div>
+            <div>Pannelli solari (pulizia)</div><div>Set + Mar</div><div class="mant-freq">2× anno</div><div>Acqua e panno morbido — non graffiare il vetro</div>
           </div>
           <div class="mant-table-row">
-            <div>Verifica SolarEdge portale</div><div class="mant-freq">Mensile</div><div>Tutto l'anno</div><div><code>monitoring.solaredge.com</code> — controllare produzione attesa</div>
+            <div>SolarEdge portale</div><div>Tutto l'anno</div><div class="mant-freq">Mensile</div><div><code>monitoring.solaredge.com</code> — produzione attesa vs reale</div>
           </div>
           <div class="mant-table-row">
-            <div>Grondaie</div><div class="mant-freq">Annuale</div><div>Ottobre/Novembre</div><div>Dopo caduta foglie — rimuovere detriti</div>
+            <div>Grondaie</div><div>Ott + Nov</div><div class="mant-freq">1–2× anno</div><div>Dopo caduta foglie — detriti e ostruzione</div>
           </div>
           <div class="mant-table-row">
-            <div>Sistema Ajax — batterie</div><div class="mant-freq">Annuale</div><div>Gennaio</div><div>App Ajax → stato batterie sensori e hub</div>
+            <div>Scaldabagno — anodo Mg</div><div>Ottobre</div><div class="mant-freq">Annuale</div><div>Sostituire se consumato — evita corrosione serbatoio</div>
           </div>
           <div class="mant-table-row">
-            <div>Sistema Ajax — test</div><div class="mant-freq">Semestrale</div><div>Gen + Nov</div><div>Test sirene, verifica zone, simulazione allarme</div>
+            <div>Ajax — test sirene</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>Test zone, simulazione allarme, verifica notifiche</div>
           </div>
           <div class="mant-table-row">
-            <div>Shelly — serrande</div><div class="mant-freq">Semestrale</div><div>Mag + Nov</div><div>Verifica calibrazione tapparelle nell'app</div>
+            <div>Ajax — batterie sensori</div><div>Gennaio</div><div class="mant-freq">Annuale</div><div>App Ajax → stato batterie hub e sensori perimetrali</div>
           </div>
           <div class="mant-table-row">
-            <div>Estintori</div><div class="mant-freq">Annuale</div><div>Dicembre</div><div>Verifica scadenza manometro e ricarica se necessario</div>
+            <div>Shelly — calibrazione serrande</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>App Shelly → verifica posizioni su/giù di ogni tapparella</div>
           </div>
           <div class="mant-table-row">
-            <div>Offerta luce Iren</div><div class="mant-freq">Scadenza apr 2027</div><div>Dic 2026</div><div>Confrontare mercato e valutare rinnovo/switch</div>
+            <div>Estintori</div><div>Dicembre</div><div class="mant-freq">Annuale</div><div>Verifica manometro e scadenza ricarica</div>
           </div>
-          <div class="mant-table-row">
-            <div>Offerta gas Iren</div><div class="mant-freq">Scadenza apr 2028</div><div>Dic 2027</div><div>Confrontare mercato e valutare rinnovo/switch</div>
+          <div class="mant-table-row mant-table-row-alert">
+            <div>⚠️ Offerta luce Iren</div><div>Dic 2026</div><div class="mant-freq">Scade apr 2027</div><div>Confrontare mercato — valutare switch o rinnovo</div>
+          </div>
+          <div class="mant-table-row mant-table-row-alert">
+            <div>⚠️ Offerta gas Iren</div><div>Dic 2027</div><div class="mant-freq">Scade apr 2028</div><div>Confrontare mercato — valutare switch o rinnovo</div>
           </div>
         </div>
 
