@@ -209,6 +209,152 @@ body::before { display: none; }
 .status-dot.green { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.15); }
 .status-dot.amber { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
 .status-dot.red   { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
+
+/* ── Impianto elettrico & gas — scadenze strip ── */
+.eg-scadenze {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 10px;
+  padding: 16px;
+  background: var(--bg-1);
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+}
+.eg-scad-item { display: flex; flex-direction: column; gap: 4px; }
+.eg-scad-label { font: 700 10px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--muted-2); }
+.eg-scad-date { font-size: 14px; font-weight: 800; color: var(--text); }
+.eg-scad-date a { color: var(--blue); text-decoration: none; font-weight: 700; }
+.eg-mono { font-family: "JetBrains Mono", monospace; font-size: 13px !important; }
+
+/* ── emergency box ── */
+.eg-emergency {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(29,106,248,0.05);
+  border: 1.5px solid rgba(29,106,248,0.18);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  align-items: center;
+}
+.eg-emergency-red {
+  background: rgba(220,38,38,0.05);
+  border-color: rgba(220,38,38,0.18);
+}
+.eg-emerg-label { font: 700 9px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--muted-2); grid-column: 1; }
+.eg-emerg-who { font-size: 13px; font-weight: 700; color: var(--text); grid-column: 1; }
+.eg-emerg-num {
+  grid-column: 2; grid-row: 1 / 3;
+  font: 800 22px/1 "JetBrains Mono", monospace;
+  color: var(--blue);
+  text-decoration: none;
+  align-self: center;
+  letter-spacing: -.02em;
+}
+.eg-emergency-red .eg-emerg-num { color: #dc2626; }
+.eg-emerg-note { font-size: 11px; color: var(--muted); grid-column: 1; }
+
+/* ── Calendario manutenzioni ── */
+.mant-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.mant-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.mant-dot-blu    { background: #1d6af8; }
+.mant-dot-amber  { background: #d97706; }
+.mant-dot-green  { background: #16a34a; }
+.mant-dot-red    { background: #dc2626; }
+.mant-dot-purple { background: #7c3aed; }
+
+.mant-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0,1fr));
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.mant-month {
+  background: var(--bg-1);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 10px;
+  min-height: 100px;
+}
+.mant-month-name {
+  font: 800 11px/1 "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted-2);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.mant-tasks { display: flex; flex-direction: column; gap: 4px; }
+.mant-task {
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 600;
+  padding: 4px 7px;
+  border-radius: 6px;
+}
+.mant-blu    { background: rgba(29,106,248,0.10); color: #1e40af; }
+.mant-amber  { background: rgba(217,119,6,0.10);  color: #92400e; }
+.mant-green  { background: rgba(22,163,74,0.10);  color: #15803d; }
+.mant-red    { background: rgba(220,38,38,0.10);  color: #991b1b; }
+.mant-purple { background: rgba(124,58,237,0.10); color: #5b21b6; }
+
+/* ── Maintenance table ── */
+.mant-table {
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.mant-table-head {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 2.5fr;
+  gap: 0;
+  background: var(--bg-1);
+  padding: 10px 16px;
+  font: 700 10px/1 "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted-2);
+  border-bottom: 1.5px solid var(--line);
+}
+.mant-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 2.5fr;
+  gap: 0;
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  font-size: 13px;
+  color: var(--text);
+  align-items: start;
+  line-height: 1.45;
+  transition: background .12s;
+}
+.mant-table-row:last-child { border-bottom: none; }
+.mant-table-row:hover { background: var(--bg-1); }
+.mant-table-row div:first-child { font-weight: 700; }
+.mant-freq { color: var(--muted); font-size: 12px; }
+.mant-table-row div:nth-child(4) { color: var(--muted); font-size: 12.5px; }
+.mant-table-row code { font-size: 11px; background: rgba(29,106,248,0.08); color: var(--blue); padding: 1px 5px; border-radius: 4px; }
+
+@media (max-width: 760px) {
+  .eg-scadenze { grid-template-columns: 1fr 1fr; }
+  .mant-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .mant-table-head, .mant-table-row { grid-template-columns: 1fr 1fr; }
+  .mant-table-head div:nth-child(3),
+  .mant-table-head div:nth-child(4),
+  .mant-table-row div:nth-child(3),
+  .mant-table-row div:nth-child(4) { display: none; }
+  .eg-emergency { grid-template-columns: 1fr auto; }
+}
 </style>
 </head>
 <body>
@@ -280,36 +426,104 @@ body::before { display: none; }
       </div>
 
       <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren</div></div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico</div></div>
         <div class="card-body">
-          <div class="grid-2">
-            <div>
-              <div class="section-title">Energia elettrica</div>
-              <div class="info-table">
-                <div class="info-row"><div class="info-key">Gestore</div><div class="info-val"><strong>Iren Mercato</strong> · n. cliente <code>10102545989</code></div></div>
-                <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>IT001E01678616</code></div></div>
-                <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14733095</code></div></div>
-                <div class="info-row"><div class="info-key">Potenza impegnata</div><div class="info-val"><strong>3,0 kW</strong> · BT 220V · Domestico Non Residente</div></div>
-                <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Iren Prima Scelta Luce Fissa · scad. 30/04/2027</div></div>
-                <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">E-Distribuzione S.p.A. · <a href="tel:803500" style="color:var(--cyan)">803 500</a></div></div>
-                <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">Locale caldaia</div></div>
-              </div>
+
+          <!-- scadenze in evidenza -->
+          <div class="eg-scadenze">
+            <div class="eg-scad-item">
+              <div class="eg-scad-label">Luce · scadenza offerta</div>
+              <div class="eg-scad-date">30 apr 2027</div>
             </div>
-            <div>
-              <div class="section-title">Gas metano</div>
-              <div class="info-table">
-                <div class="info-row"><div class="info-key">Gestore</div><div class="info-val"><strong>Iren Mercato</strong> · n. cliente <code>10102545989</code></div></div>
-                <div class="info-row"><div class="info-key">PDR</div><div class="info-val"><code>02800000245018</code></div></div>
-                <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14731530</code></div></div>
-                <div class="info-row"><div class="info-key">Portata contatore</div><div class="info-val">Classe G4 · matricola <code>MTSB035601565263</code></div></div>
-                <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Iren Revolution Spese Protette Gas Prezzo Fisso · scad. 30/04/2028</div></div>
-                <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">Italgas Reti S.p.A. · <a href="tel:800900999" style="color:var(--cyan)">800 900 999</a></div></div>
-              </div>
+            <div class="eg-scad-item">
+              <div class="eg-scad-label">Gas · scadenza offerta</div>
+              <div class="eg-scad-date">30 apr 2028</div>
+            </div>
+            <div class="eg-scad-item">
+              <div class="eg-scad-label">N° cliente Iren (entrambi)</div>
+              <div class="eg-scad-date eg-mono">10102545989</div>
+            </div>
+            <div class="eg-scad-item">
+              <div class="eg-scad-label">Portale self-service</div>
+              <div class="eg-scad-date"><a href="https://www.irenlucegas.it" target="_blank">irenlucegas.it</a></div>
             </div>
           </div>
-          <div class="note-box" style="margin-top:12px;">
-            <p>Per aggiungere una seconda presa: derivazione con cavo 3×1,5mm², scatola da incasso, canalina. Elettricista: Pino Perrone (<a href="tel:+39335266435" style="color:var(--cyan)">+39 335 266435</a>).</p>
+
+          <div class="grid-2" style="margin-top:20px;gap:20px;">
+
+            <!-- ELETTRICITÀ -->
+            <div>
+              <div class="section-title">⚡ Energia elettrica</div>
+              <div class="info-table">
+                <div class="info-row">
+                  <div class="info-key">POD</div>
+                  <div class="info-val"><code>IT001E01678616</code></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">N° contratto</div>
+                  <div class="info-val"><code>14733095</code></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Potenza / tipo</div>
+                  <div class="info-val"><strong>3,0 kW</strong> · BT 220V · Domestico Non Residente<br><span class="muted" style="font-size:12px;">⚠️ Da aggiornare a Residente dopo cambio residenza</span></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Offerta</div>
+                  <div class="info-val">Prima Scelta Luce Fissa<br><span class="muted">scad. <strong>30/04/2027</strong></span></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Quadro elettrico</div>
+                  <div class="info-val">📍 Locale caldaia</div>
+                </div>
+              </div>
+              <div class="eg-emergency">
+                <div class="eg-emerg-label">Guasto rete elettrica</div>
+                <div class="eg-emerg-who">E-Distribuzione S.p.A.</div>
+                <a class="eg-emerg-num" href="tel:803500">803 500</a>
+                <div class="eg-emerg-note">gratuito · 24h</div>
+              </div>
+            </div>
+
+            <!-- GAS -->
+            <div>
+              <div class="section-title">🔥 Gas metano</div>
+              <div class="info-table">
+                <div class="info-row">
+                  <div class="info-key">PDR</div>
+                  <div class="info-val"><code>02800000245018</code></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">N° contratto</div>
+                  <div class="info-val"><code>14731530</code></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Contatore</div>
+                  <div class="info-val">Classe G4<br><span class="muted">matricola <code>MTSB035601565263</code></span></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Offerta</div>
+                  <div class="info-val">Revolution Spese Protette Prezzo Fisso<br><span class="muted">scad. <strong>30/04/2028</strong></span></div>
+                </div>
+                <div class="info-row">
+                  <div class="info-key">Distributore</div>
+                  <div class="info-val">Italgas Reti S.p.A.</div>
+                </div>
+              </div>
+              <div class="eg-emergency eg-emergency-red">
+                <div class="eg-emerg-label">Fuga di gas / emergenza</div>
+                <div class="eg-emerg-who">Italgas Reti S.p.A.</div>
+                <a class="eg-emerg-num" href="tel:800900999">800 900 999</a>
+                <div class="eg-emerg-note">gratuito · 24h · apri finestre e non usare interruttori</div>
+              </div>
+            </div>
+
           </div>
+
+          <div class="note-box" style="margin-top:16px;">
+            <p>💡 <strong>Nuova presa elettrica:</strong> derivazione con cavo 3×1,5mm², scatola da incasso, canalina. Rivolgersi a Pino Perrone (<a href="tel:+39335266435">+39 335 266435</a>).</p>
+            <p>🏠 <strong>Cambio a Residente:</strong> dopo cambio di residenza anagrafica, aggiornare il contratto luce da "Domestico Non Residente" a "Residente" su <a href="https://www.irenlucegas.it">irenlucegas.it</a> — si ottengono tariffe agevolate.</p>
+          </div>
+
         </div>
       </div>
     </div>
@@ -516,6 +730,161 @@ body::before { display: none; }
             <div class="info-row"><div class="info-key">Assistenza ESMART</div><div class="info-val"><a href="mailto:assistenza@esmartitalia.it" style="color:var(--cyan)">assistenza@esmartitalia.it</a></div></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- CALENDARIO MANUTENZIONI -->
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Annuale</div></div>
+      <div class="card-body">
+
+        <div class="mant-legend">
+          <span class="mant-dot mant-dot-blu"></span><span>Impianti tecnici</span>
+          <span class="mant-dot mant-dot-amber"></span><span>Climatizzazione</span>
+          <span class="mant-dot mant-dot-green"></span><span>Pulizia / esterno</span>
+          <span class="mant-dot mant-dot-red"></span><span>Sicurezza</span>
+          <span class="mant-dot mant-dot-purple"></span><span>Contratti / scadenze</span>
+        </div>
+
+        <div class="mant-grid">
+
+          <div class="mant-month">
+            <div class="mant-month-name">Gen</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-red">Ajax — check batterie sensori</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Feb</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-blu">SolarEdge — verifica portale produzione</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Mar</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-green">Pulizia pannelli solari</div>
+              <div class="mant-task mant-amber">Pulizia filtri AC — avvio stagione</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Apr</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-green">Prato — primo taglio + concimazione</div>
+              <div class="mant-task mant-amber">Test AC raffreddamento</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Mag</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-amber">Filtri AC — 1° pulizia mensile</div>
+              <div class="mant-task mant-blu">Shelly — verifica serrande</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Giu</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
+              <div class="mant-task mant-green">Prato — taglio settimanale</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Lug</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
+              <div class="mant-task mant-blu">SolarEdge — verifica picco produzione</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Ago</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-amber">Filtri AC — pulizia mensile</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Set</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-amber">Filtri AC — ultimo ciclo / spegnimento</div>
+              <div class="mant-task mant-blu">Caldaia — revisione annuale</div>
+              <div class="mant-task mant-green">Pulizia pannelli solari — post estate</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Ott</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-blu">Scaldabagno — check anodo magnesio</div>
+              <div class="mant-task mant-green">Grondaie — pulizia foglie</div>
+              <div class="mant-task mant-amber">Test AC riscaldamento</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Nov</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-red">Ajax — test sirene e sensori</div>
+              <div class="mant-task mant-green">Grondaie — 2° pulizia</div>
+              <div class="mant-task mant-blu">SolarEdge — verifica batteria invernale</div>
+            </div>
+          </div>
+
+          <div class="mant-month">
+            <div class="mant-month-name">Dic</div>
+            <div class="mant-tasks">
+              <div class="mant-task mant-purple">Iren Luce — verifica offerta (scad. apr 2027)</div>
+              <div class="mant-task mant-red">Estintori — verifica scadenza</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mant-table">
+          <div class="mant-table-head">
+            <div>Intervento</div><div>Frequenza</div><div>Periodo consigliato</div><div>Note</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Caldaia / scaldabagno</div><div class="mant-freq">Annuale</div><div>Settembre</div><div>Tecnico autorizzato — obbligatorio per legge</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Filtri climatizzatore (AC)</div><div class="mant-freq">Ogni 1–2 mesi</div><div>Giu–Set</div><div>Accessibili dai pannelli interni — fai-da-te</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Pulizia pannelli solari</div><div class="mant-freq">2× anno</div><div>Mar + Set</div><div>Acqua e panno morbido — non graffiare il vetro</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Verifica SolarEdge portale</div><div class="mant-freq">Mensile</div><div>Tutto l'anno</div><div><code>monitoring.solaredge.com</code> — controllare produzione attesa</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Grondaie</div><div class="mant-freq">Annuale</div><div>Ottobre/Novembre</div><div>Dopo caduta foglie — rimuovere detriti</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Sistema Ajax — batterie</div><div class="mant-freq">Annuale</div><div>Gennaio</div><div>App Ajax → stato batterie sensori e hub</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Sistema Ajax — test</div><div class="mant-freq">Semestrale</div><div>Gen + Nov</div><div>Test sirene, verifica zone, simulazione allarme</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Shelly — serrande</div><div class="mant-freq">Semestrale</div><div>Mag + Nov</div><div>Verifica calibrazione tapparelle nell'app</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Estintori</div><div class="mant-freq">Annuale</div><div>Dicembre</div><div>Verifica scadenza manometro e ricarica se necessario</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Offerta luce Iren</div><div class="mant-freq">Scadenza apr 2027</div><div>Dic 2026</div><div>Confrontare mercato e valutare rinnovo/switch</div>
+          </div>
+          <div class="mant-table-row">
+            <div>Offerta gas Iren</div><div class="mant-freq">Scadenza apr 2028</div><div>Dic 2027</div><div>Confrontare mercato e valutare rinnovo/switch</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
