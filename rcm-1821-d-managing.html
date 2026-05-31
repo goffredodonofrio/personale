@@ -210,18 +210,40 @@ body::before { display: none; }
 .status-dot.amber { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
 .status-dot.red   { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
 
-/* ── Compattazione grid-3 ── */
+/* ── Card in grid-3: meno scolastiche ── */
+.grid-3 .card {
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.05);
+}
+.grid-3 .card-head {
+  background: transparent;
+  border-bottom-color: rgba(0,0,0,0.055);
+  padding: 12px 14px 10px;
+}
+.grid-3 .card-title { color: var(--muted-2); font-size: 10px; letter-spacing: .1em; }
+.grid-3 .card-badge { display: none; }
 .grid-3 .card-body { padding: 12px 14px; }
-.grid-3 .card-head { padding: 10px 14px; }
-.grid-3 .info-row { padding: 6px 0; grid-template-columns: minmax(90px,120px) 1fr; gap: 6px 10px; }
+.grid-3 .info-row {
+  padding: 6px 0;
+  grid-template-columns: minmax(90px,120px) 1fr;
+  gap: 6px 10px;
+  border-bottom-color: rgba(0,0,0,0.04);
+}
 .grid-3 .info-val { font-size: 12.5px; }
 .grid-3 .info-key { font-size: 9.5px; }
-.grid-3 .section-title { margin-bottom: 8px; padding-bottom: 6px; font-size: 10px; }
-.grid-3 .note-box { padding: 10px 12px; font-size: 12px; margin-top: 8px; }
-.grid-3 .device-item { padding: 7px 10px; }
+.grid-3 .section-title { margin-bottom: 6px; padding-bottom: 5px; font-size: 10px; border-bottom-color: rgba(0,0,0,0.06); }
+.grid-3 .note-box {
+  background: var(--bg-1);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.grid-3 .device-item { padding: 7px 10px; background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.05); }
 .grid-3 .device-name { font-size: 12px; }
 .grid-3 .device-detail { font-size: 10.5px; }
-.grid-3 .contact-card { padding: 12px; }
+.grid-3 .contact-card { padding: 12px; box-shadow: none; border-color: rgba(0,0,0,0.06); }
 .grid-3 .contact-name { font-size: 13px; }
 .grid-3 .rifiuti-grid { gap: 4px; }
 .grid-3 .rif-day { padding: 7px 4px; }
@@ -229,6 +251,14 @@ body::before { display: none; }
 .grid-3 .rif-item { font-size: 9.5px; padding: 2px 4px; }
 /* Fix overflow: collassa grid-2 interne dentro card strette */
 .grid-3 .card-body .grid-2 { grid-template-columns: 1fr; gap: 0; }
+
+/* ── Numeri mese: nascosti ── */
+.mant-num { display: none; }
+.mant-month-name { padding: 8px 12px 7px; align-items: center; }
+.mant-name-text { flex-direction: row; align-items: baseline; gap: 5px; }
+.mant-name-short { font-size: 12px; font-weight: 800; color: var(--text); letter-spacing: -.01em; text-transform: none; }
+.mant-name-year { color: var(--muted-2); font-size: 9px; font-weight: 600; }
+.mant-month-urgent .mant-name-short { color: #92400e; }
 
 /* ── Solar full-width 2-col ── */
 .solar-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
