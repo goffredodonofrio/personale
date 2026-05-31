@@ -210,6 +210,24 @@ body::before { display: none; }
 .status-dot.amber { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
 .status-dot.red   { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
 
+/* ── Compattazione grid-3 ── */
+.grid-3 .card-body { padding: 12px 14px; }
+.grid-3 .card-head { padding: 10px 14px; }
+.grid-3 .info-row { padding: 6px 0; grid-template-columns: minmax(100px,140px) 1fr; gap: 6px 10px; }
+.grid-3 .info-val { font-size: 12.5px; }
+.grid-3 .info-key { font-size: 9.5px; }
+.grid-3 .section-title { margin-bottom: 8px; padding-bottom: 6px; font-size: 10px; }
+.grid-3 .note-box { padding: 10px 12px; font-size: 12.5px; margin-top: 8px; }
+.grid-3 .device-item { padding: 7px 10px; }
+.grid-3 .device-name { font-size: 12px; }
+.grid-3 .device-detail { font-size: 10.5px; }
+.grid-3 .contact-card { padding: 12px; }
+.grid-3 .contact-name { font-size: 13px; }
+.grid-3 .rifiuti-grid { gap: 4px; }
+.grid-3 .rif-day { padding: 7px 4px; }
+.grid-3 .rif-day-name { font-size: 8px; margin-bottom: 4px; }
+.grid-3 .rif-item { font-size: 9.5px; padding: 2px 4px; }
+
 /* ── Solar full-width 2-col ── */
 .solar-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
 .solar-kpi { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
@@ -397,604 +415,597 @@ body::before { display: none; }
       <div class="top-right"><a class="back-home" href="index.html">← Home</a></div>
     </div>
 
-    <!-- DATI CATASTALI -->
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">📋 Dati catastali &amp; amministrativi</div></div><div class="card-badge">Admin</div></div>
-      <div class="card-body">
-        <div class="grid-2">
-          <div>
-            <div class="section-title">Identificativo immobile</div>
-            <div class="info-table">
-              <div class="info-row"><div class="info-key">Indirizzo</div><div class="info-val"><strong>Via Rocciamelone 30</strong><br><span class="muted">San Mauro Torinese (TO)</span></div></div>
-              <div class="info-row"><div class="info-key">Foglio</div><div class="info-val"><strong>21</strong></div></div>
-              <div class="info-row"><div class="info-key">Particella / Mappale</div><div class="info-val"><strong>1228</strong></div></div>
-              <div class="info-row"><div class="info-key">Subalterno</div><div class="info-val"><strong>1</strong></div></div>
-              <div class="info-row"><div class="info-key">Sezione urbana</div><div class="info-val"><span class="muted">Vuota (non utilizzata da San Mauro Torinese)</span></div></div>
-              <div class="info-row"><div class="info-key">Data atto</div><div class="info-val"><strong>29 maggio 2026</strong></div></div>
+    
+
+    <!-- CALENDARIO MANUTENZIONI -->
+        <div class="card">
+          <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Da giugno 2026</div></div>
+          <div class="card-body">
+    
+            <div class="mant-legend">
+              <span class="mant-dot mant-dot-blu"></span><span>Impianti tecnici</span>
+              <span class="mant-dot mant-dot-amber"></span><span>Climatizzazione AC</span>
+              <span class="mant-dot mant-dot-green"></span><span>Pulizia / esterno</span>
+              <span class="mant-dot mant-dot-red"></span><span>Sicurezza</span>
+              <span class="mant-dot mant-dot-purple"></span><span>Contratti / scadenze</span>
             </div>
-          </div>
-          <div>
-            <div class="section-title">Note amministrative</div>
-            <div class="note-box">
-              <p>⚠️ La particella corretta è <strong>1228</strong>, non 1258 — differenza rilevata tra screenshot e DOCFA ufficiale.</p>
-              <p>📄 Documenti su Google Drive: <a href="https://drive.google.com/drive/u/2/folders/1fpIyWSmWAVA3WNIw5KKRy3j2WSIioGp4" style="color:var(--cyan)">Sezione Via Rocciamelone</a></p>
-              <p>🏛️ Cambio residenza: portale <code>cambioindirizzo.interno.gov.it</code> — campo Sezione: lasciare vuoto o inserire trattino.</p>
+    
+            <!-- ANNO 1: GIU 2026 – MAG 2027 -->
+            <div class="mant-year-label">Anno 1 · Giugno 2026 – Maggio 2027</div>
+            <div class="mant-grid">
+    
+              <div class="mant-month mant-month-urgent">
+                <div class="mant-month-name">Giu 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-purple">⚠️ GSE Ritiro Dedicato — scade ~29 lug</div>
+                  <div class="mant-task mant-amber">AC: 1ª pulizia filtri (appena installato)</div>
+                  <div class="mant-task mant-blu">SolarEdge: primo accesso portale + verifica</div>
+                </div>
+              </div>
+    
+              <div class="mant-month mant-month-urgent">
+                <div class="mant-month-name">Lug 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-purple">⚠️ GSE: deadline Ritiro Dedicato (entro fine mese)</div>
+                  <div class="mant-task mant-amber">AC: pulizia filtri</div>
+                  <div class="mant-task mant-blu">SolarEdge: verifica produzione 1° mese pieno</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Ago 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-amber">AC: pulizia filtri</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Set 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-blu">Caldaia: 1ª revisione annuale</div>
+                  <div class="mant-task mant-amber">AC: fine stagione + pulizia filtri</div>
+                  <div class="mant-task mant-green">Pannelli solari: 1ª pulizia post-estate</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Ott 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-blu">Scaldabagno: 1° check anodo magnesio</div>
+                  <div class="mant-task mant-green">Grondaie: 1ª pulizia foglie</div>
+                  <div class="mant-task mant-amber">AC: test modalità riscaldamento</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Nov 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-red">Ajax: 1° test sirene e sensori</div>
+                  <div class="mant-task mant-blu">Shelly: 1ª verifica calibrazione serrande</div>
+                  <div class="mant-task mant-green">Grondaie: 2ª pulizia</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Dic 2026</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-purple">Iren Luce: valuta rinnovo (scade apr 2027)</div>
+                  <div class="mant-task mant-red">Estintori: verifica scadenza/manometro</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Gen 2027</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-red">Ajax: 1° check batterie sensori</div>
+                  <div class="mant-task mant-blu">SolarEdge: verifica produzione invernale</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Feb 2027</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-blu">SolarEdge: portale — produzione attesa vs reale</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Mar 2027</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-green">Pannelli solari: 2ª pulizia pre-estate</div>
+                  <div class="mant-task mant-amber">AC: avvio stagione + pulizia filtri</div>
+                </div>
+              </div>
+    
+              <div class="mant-month mant-month-urgent">
+                <div class="mant-month-name">Apr 2027</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-purple">⚠️ Scadenza offerta luce Iren 30/04/2027</div>
+                  <div class="mant-task mant-green">Prato: 1° taglio + concimazione</div>
+                  <div class="mant-task mant-amber">AC: test raffreddamento</div>
+                </div>
+              </div>
+    
+              <div class="mant-month">
+                <div class="mant-month-name">Mag 2027</div>
+                <div class="mant-tasks">
+                  <div class="mant-task mant-amber">AC: pulizia filtri mensile</div>
+                  <div class="mant-task mant-blu">Shelly: verifica serrande (semestrale)</div>
+                </div>
+              </div>
+    
             </div>
+    
+            <!-- REGIME ANNUALE -->
+            <div class="mant-year-label" style="margin-top:24px;">Regime annuale · Da giugno 2027 in poi</div>
+            <div class="mant-table">
+              <div class="mant-table-head">
+                <div>Intervento</div><div>Quando</div><div>Frequenza</div><div>Note operative</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Filtri AC (IDEMA)</div><div>Giu → Set</div><div class="mant-freq">Mensile</div><div>Fai-da-te dai pannelli interni — non servono attrezzi</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Caldaia + scaldabagno</div><div>Settembre</div><div class="mant-freq">Annuale</div><div>Tecnico autorizzato — obbligatorio per legge</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Pannelli solari (pulizia)</div><div>Set + Mar</div><div class="mant-freq">2× anno</div><div>Acqua e panno morbido — non graffiare il vetro</div>
+              </div>
+              <div class="mant-table-row">
+                <div>SolarEdge portale</div><div>Tutto l'anno</div><div class="mant-freq">Mensile</div><div><code>monitoring.solaredge.com</code> — produzione attesa vs reale</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Grondaie</div><div>Ott + Nov</div><div class="mant-freq">1–2× anno</div><div>Dopo caduta foglie — detriti e ostruzione</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Scaldabagno — anodo Mg</div><div>Ottobre</div><div class="mant-freq">Annuale</div><div>Sostituire se consumato — evita corrosione serbatoio</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Ajax — test sirene</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>Test zone, simulazione allarme, verifica notifiche</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Ajax — batterie sensori</div><div>Gennaio</div><div class="mant-freq">Annuale</div><div>App Ajax → stato batterie hub e sensori perimetrali</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Shelly — calibrazione serrande</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>App Shelly → verifica posizioni su/giù di ogni tapparella</div>
+              </div>
+              <div class="mant-table-row">
+                <div>Estintori</div><div>Dicembre</div><div class="mant-freq">Annuale</div><div>Verifica manometro e scadenza ricarica</div>
+              </div>
+              <div class="mant-table-row mant-table-row-alert">
+                <div>⚠️ Offerta luce Iren</div><div>Dic 2026</div><div class="mant-freq">Scade apr 2027</div><div>Confrontare mercato — valutare switch o rinnovo</div>
+              </div>
+              <div class="mant-table-row mant-table-row-alert">
+                <div>⚠️ Offerta gas Iren</div><div>Dic 2027</div><div class="mant-freq">Scade apr 2028</div><div>Confrontare mercato — valutare switch o rinnovo</div>
+              </div>
+            </div>
+    
           </div>
         </div>
-      </div>
+
+    <!-- DATI · ANTIFURTO · CANCELLO -->
+    <div class="grid-3">
+      <div class="card">
+            <div class="card-head"><div class="card-head-left"><div class="card-title">📋 Dati catastali &amp; amministrativi</div></div><div class="card-badge">Admin</div></div>
+            <div class="card-body">
+              <div class="grid-2">
+                <div>
+                  <div class="section-title">Identificativo immobile</div>
+                  <div class="info-table">
+                    <div class="info-row"><div class="info-key">Indirizzo</div><div class="info-val"><strong>Via Rocciamelone 30</strong><br><span class="muted">San Mauro Torinese (TO)</span></div></div>
+                    <div class="info-row"><div class="info-key">Foglio</div><div class="info-val"><strong>21</strong></div></div>
+                    <div class="info-row"><div class="info-key">Particella / Mappale</div><div class="info-val"><strong>1228</strong></div></div>
+                    <div class="info-row"><div class="info-key">Subalterno</div><div class="info-val"><strong>1</strong></div></div>
+                    <div class="info-row"><div class="info-key">Sezione urbana</div><div class="info-val"><span class="muted">Vuota (non utilizzata da San Mauro Torinese)</span></div></div>
+                    <div class="info-row"><div class="info-key">Data atto</div><div class="info-val"><strong>29 maggio 2026</strong></div></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="section-title">Note amministrative</div>
+                  <div class="note-box">
+                    <p>⚠️ La particella corretta è <strong>1228</strong>, non 1258 — differenza rilevata tra screenshot e DOCFA ufficiale.</p>
+                    <p>📄 Documenti su Google Drive: <a href="https://drive.google.com/drive/u/2/folders/1fpIyWSmWAVA3WNIw5KKRy3j2WSIioGp4" style="color:var(--cyan)">Sezione Via Rocciamelone</a></p>
+                    <p>🏛️ Cambio residenza: portale <code>cambioindirizzo.interno.gov.it</code> — campo Sezione: lasciare vuoto o inserire trattino.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="card">
+              <div class="card-head"><div class="card-head-left"><div class="card-title">🔒 Antifurto · Ajax</div></div><div class="card-badge red">Security</div></div>
+              <div class="card-body">
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Sistema</div><div class="info-val"><strong>Ajax Systems</strong> — installato e attivo</div></div>
+                  <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Ajax Security System</strong></div></div>
+                  <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Radio Jeweller — funziona senza internet (locale)</div></div>
+                  <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val"><span class="warn">⚠️ Nessuna skill ufficiale</span> — solo armamento via voce, <strong>non</strong> disarmamento (EN 50131)</div></div>
+                  <div class="info-row"><div class="info-key">Installatori</div><div class="info-val"><strong>Davide Fodale</strong> e <strong>Enzo Morreale</strong></div></div>
+                  <div class="info-row"><div class="info-key">Pannello fisico</div><div class="info-val"><strong class="warn">Da acquistare</strong> — KeyPad Plus (~95–115€) con RFID tag raccomandato</div></div>
+                  <div class="info-row"><div class="info-key">Accessori da valutare</div><div class="info-val">SpaceControl ~30€ · Tag RFID ~10–15€ cad.<br>Echo Hub ~199€ come pannello smart home supplementare</div></div>
+                </div>
+                <div class="note-box" style="margin-top:12px;">
+                  <p>Setup consigliato: <strong>KeyPad Plus all'ingresso + 3–4 Tag RFID</strong> — disarmo "tap & go" sotto i 200€. Tablet Android con app Ajax per pannello supplementare ricco.</p>
+                  <p>Non usare Echo Show/Hub come pannello allarme principale — dipende da WiFi+cloud e non ha il tamper del KeyPad fisico.</p>
+                </div>
+              </div>
+            </div>
+      <div class="card">
+              <div class="card-head"><div class="card-head-left"><div class="card-title">🚗 Cancello</div></div><div class="card-badge">Cancello</div></div>
+              <div class="card-body">
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Battente ad anta singola</strong></div></div>
+                  <div class="info-row"><div class="info-key">Materiale</div><div class="info-val">Ferro</div></div>
+                  <div class="info-row"><div class="info-key">Colore attuale</div><div class="info-val">Rosso/bordeaux</div></div>
+                  <div class="info-row"><div class="info-key">Colore previsto</div><div class="info-val">Grigio antracite <code>RAL 7016</code></div></div>
+                  <div class="info-row"><div class="info-key">Motorizzazione</div><div class="info-val"><strong class="warn">Da installare</strong> — attuatore lineare o braccio articolato</div></div>
+                  <div class="info-row"><div class="info-key">Installatore motore</div><div class="info-val"><strong>Pino Perrone</strong> · <a href="tel:+39335266435" style="color:var(--cyan)">+39 335 266435</a></div></div>
+                  <div class="info-row"><div class="info-key">Compatibilità motore</div><div class="info-val">Verificare portata, larghezza anta, tipo attacco staffa prima di acquistare il nuovo cancello</div></div>
+                </div>
+                <div class="note-box" style="margin-top:12px;">
+                  <p>Per verniciatura fai-da-te: primer antiruggine + smalto ferro da esterni (2 mani). Verniciare prima dell'installazione motore per evitare graffi. Costo professionale: 180–350€ materiali inclusi.</p>
+                  <p>Se si sostituisce il cancello: portare specifiche del motore al fornitore per verificare compatibilità.</p>
+                </div>
+              </div>
+            </div>
     </div>
 
     <!-- SOLARE -->
     <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
-      <div class="card-body">
-        <div class="solar-grid">
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Inverter</div><div class="info-val"><strong>SolarEdge HD-Wave</strong></div></div>
-            <div class="info-row"><div class="info-key">Batteria</div><div class="info-val"><span class="ok">✅ Installata</span> — capacità verificare in app</div></div>
-            <div class="info-row"><div class="info-key">Connessione cloud</div><div class="info-val"><strong>LAN via cavo</strong> · TP-Link Extender (locale caldaia) → porta LAN inverter</div></div>
-            <div class="info-row"><div class="info-key">Monitoraggio</div><div class="info-val"><code>monitoring.solaredge.com</code> · App: <strong>mySolarEdge</strong></div></div>
-            <div class="info-row"><div class="info-key">Portale GSE</div><div class="info-val"><code>applicazioni.gse.it</code> — credenziali configurate</div></div>
-            <div class="info-row"><div class="info-key">Incentivo</div><div class="info-val"><strong>Ritiro Dedicato (RD)</strong> · SSP chiuso dal 29/05/2025</div></div>
-            <div class="info-row"><div class="info-key">Export stimato</div><div class="info-val">~30 kWh/gg · <strong>~400–600 €/anno</strong> con RD</div></div>
-            <div class="info-row"><div class="info-key">Produzione prime 3gg</div><div class="info-val">95.5 kWh prodotti · 0.27 kWh importati dalla rete</div></div>
-          </div>
-          <div>
-            <div class="note-box">
-              <p>⚠️ Richiedere Ritiro Dedicato su <code>applicazioni.gse.it</code> entro <strong>60 giorni</strong> dall'entrata in esercizio. Verificare se il contratto si è attivato automaticamente (Modello Unico).</p>
-              <p>🔋 Se la batteria risulta inattiva: aggiornamento firmware da remoto — il tecnico interviene via cloud SolarEdge, non serve visita in loco.</p>
-            </div>
-            <div class="solar-kpi">
-              <div class="solar-kpi-item"><div class="solar-kpi-label">Fornitore</div><div class="solar-kpi-val">Iren</div></div>
-              <div class="solar-kpi-item"><div class="solar-kpi-label">Tech Roberto Galleno</div><div class="solar-kpi-val"><a href="tel:+393396305950">+39 339 630 5950</a></div></div>
-              <div class="solar-kpi-item"><div class="solar-kpi-label">Supporto SolarEdge</div><div class="solar-kpi-val"><a href="tel:+390289015641">+39 02 89015641</a></div></div>
+          <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
+          <div class="card-body">
+            <div class="solar-grid">
+              <div class="info-table">
+                <div class="info-row"><div class="info-key">Inverter</div><div class="info-val"><strong>SolarEdge HD-Wave</strong></div></div>
+                <div class="info-row"><div class="info-key">Batteria</div><div class="info-val"><span class="ok">✅ Installata</span> — capacità verificare in app</div></div>
+                <div class="info-row"><div class="info-key">Connessione cloud</div><div class="info-val"><strong>LAN via cavo</strong> · TP-Link Extender (locale caldaia) → porta LAN inverter</div></div>
+                <div class="info-row"><div class="info-key">Monitoraggio</div><div class="info-val"><code>monitoring.solaredge.com</code> · App: <strong>mySolarEdge</strong></div></div>
+                <div class="info-row"><div class="info-key">Portale GSE</div><div class="info-val"><code>applicazioni.gse.it</code> — credenziali configurate</div></div>
+                <div class="info-row"><div class="info-key">Incentivo</div><div class="info-val"><strong>Ritiro Dedicato (RD)</strong> · SSP chiuso dal 29/05/2025</div></div>
+                <div class="info-row"><div class="info-key">Export stimato</div><div class="info-val">~30 kWh/gg · <strong>~400–600 €/anno</strong> con RD</div></div>
+                <div class="info-row"><div class="info-key">Produzione prime 3gg</div><div class="info-val">95.5 kWh prodotti · 0.27 kWh importati dalla rete</div></div>
+              </div>
+              <div>
+                <div class="note-box">
+                  <p>⚠️ Richiedere Ritiro Dedicato su <code>applicazioni.gse.it</code> entro <strong>60 giorni</strong> dall'entrata in esercizio. Verificare se il contratto si è attivato automaticamente (Modello Unico).</p>
+                  <p>🔋 Se la batteria risulta inattiva: aggiornamento firmware da remoto — il tecnico interviene via cloud SolarEdge, non serve visita in loco.</p>
+                </div>
+                <div class="solar-kpi">
+                  <div class="solar-kpi-item"><div class="solar-kpi-label">Fornitore</div><div class="solar-kpi-val">Iren</div></div>
+                  <div class="solar-kpi-item"><div class="solar-kpi-label">Tech Roberto Galleno</div><div class="solar-kpi-val"><a href="tel:+393396305950">+39 339 630 5950</a></div></div>
+                  <div class="solar-kpi-item"><div class="solar-kpi-label">Supporto SolarEdge</div><div class="solar-kpi-val"><a href="tel:+390289015641">+39 02 89015641</a></div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
     <!-- ELETTRICO + GAS -->
     <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico · N° cliente <strong style="font-family:var(--mono);letter-spacing:0">10102545989</strong></div></div>
-      <div class="card-body">
-        <div class="eg-grid">
-
-          <!-- LUCE -->
-          <div class="eg-col">
-            <div class="section-title">⚡ Energia elettrica</div>
-            <div class="info-table eg-compact">
-              <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>IT001E01678616</code></div></div>
-              <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14733095</code></div></div>
-              <div class="info-row"><div class="info-key">Potenza</div><div class="info-val"><strong>3,0 kW</strong> · BT 220V</div></div>
-              <div class="info-row"><div class="info-key">Tipo utenza</div><div class="info-val">Domestico Non Residente <span class="warn">⚠️</span></div></div>
-              <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Prima Scelta Luce Fissa · scad. <strong>30/04/2027</strong></div></div>
-              <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">📍 Locale caldaia</div></div>
-              <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">E-Distribuzione S.p.A.</div></div>
-            </div>
-            <div class="eg-emerg-inline">
-              <span class="eg-emerg-inline-label">🔵 Guasto luce</span>
-              <a class="eg-emerg-inline-num" href="tel:803500">803 500</a>
-              <span class="eg-emerg-inline-note">gratuito 24h</span>
-            </div>
-          </div>
-
-          <!-- GAS -->
-          <div class="eg-col">
-            <div class="section-title">🔥 Gas metano</div>
-            <div class="info-table eg-compact">
-              <div class="info-row"><div class="info-key">PDR</div><div class="info-val"><code>02800000245018</code></div></div>
-              <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14731530</code></div></div>
-              <div class="info-row"><div class="info-key">Contatore</div><div class="info-val">Classe G4</div></div>
-              <div class="info-row"><div class="info-key">Matricola</div><div class="info-val"><code>MTSB035601565263</code></div></div>
-              <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Revolution Spese Protette Fisso · scad. <strong>30/04/2028</strong></div></div>
-              <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">Italgas Reti S.p.A.</div></div>
-            </div>
-            <div class="eg-emerg-inline eg-emerg-inline-red">
-              <span class="eg-emerg-inline-label">🔴 Fuga gas / emergenza</span>
-              <a class="eg-emerg-inline-num" href="tel:800900999">800 900 999</a>
-              <span class="eg-emerg-inline-note">gratuito 24h · apri finestre, non usare interruttori</span>
-            </div>
-          </div>
-
-          <!-- NOTE & AZIONI -->
-          <div class="eg-col">
-            <div class="section-title">📋 Azioni da fare</div>
-            <div class="eg-actions">
-              <div class="eg-action-item eg-action-warn">
-                <div class="eg-action-title">Cambia a "Domestico Residente"</div>
-                <div class="eg-action-body">Dopo cambio residenza anagrafica → aggiornare su <a href="https://www.irenlucegas.it">irenlucegas.it</a>. Tariffe agevolate.</div>
+          <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico · N° cliente <strong style="font-family:var(--mono);letter-spacing:0">10102545989</strong></div></div>
+          <div class="card-body">
+            <div class="eg-grid">
+    
+              <!-- LUCE -->
+              <div class="eg-col">
+                <div class="section-title">⚡ Energia elettrica</div>
+                <div class="info-table eg-compact">
+                  <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>IT001E01678616</code></div></div>
+                  <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14733095</code></div></div>
+                  <div class="info-row"><div class="info-key">Potenza</div><div class="info-val"><strong>3,0 kW</strong> · BT 220V</div></div>
+                  <div class="info-row"><div class="info-key">Tipo utenza</div><div class="info-val">Domestico Non Residente <span class="warn">⚠️</span></div></div>
+                  <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Prima Scelta Luce Fissa · scad. <strong>30/04/2027</strong></div></div>
+                  <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">📍 Locale caldaia</div></div>
+                  <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">E-Distribuzione S.p.A.</div></div>
+                </div>
+                <div class="eg-emerg-inline">
+                  <span class="eg-emerg-inline-label">🔵 Guasto luce</span>
+                  <a class="eg-emerg-inline-num" href="tel:803500">803 500</a>
+                  <span class="eg-emerg-inline-note">gratuito 24h</span>
+                </div>
               </div>
-              <div class="eg-action-item eg-action-blu">
-                <div class="eg-action-title">Portale self-service Iren</div>
-                <div class="eg-action-body"><a href="https://www.irenlucegas.it">irenlucegas.it</a> — bollette, autolettura, variazioni contrattuali</div>
+    
+              <!-- GAS -->
+              <div class="eg-col">
+                <div class="section-title">🔥 Gas metano</div>
+                <div class="info-table eg-compact">
+                  <div class="info-row"><div class="info-key">PDR</div><div class="info-val"><code>02800000245018</code></div></div>
+                  <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14731530</code></div></div>
+                  <div class="info-row"><div class="info-key">Contatore</div><div class="info-val">Classe G4</div></div>
+                  <div class="info-row"><div class="info-key">Matricola</div><div class="info-val"><code>MTSB035601565263</code></div></div>
+                  <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Revolution Spese Protette Fisso · scad. <strong>30/04/2028</strong></div></div>
+                  <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">Italgas Reti S.p.A.</div></div>
+                </div>
+                <div class="eg-emerg-inline eg-emerg-inline-red">
+                  <span class="eg-emerg-inline-label">🔴 Fuga gas / emergenza</span>
+                  <a class="eg-emerg-inline-num" href="tel:800900999">800 900 999</a>
+                  <span class="eg-emerg-inline-note">gratuito 24h · apri finestre, non usare interruttori</span>
+                </div>
               </div>
-              <div class="eg-action-item eg-action-neu">
-                <div class="eg-action-title">Nuova presa elettrica</div>
-                <div class="eg-action-body">Cavo 3×1,5mm², scatola da incasso, canalina — Pino Perrone <a href="tel:+39335266435">+39 335 266435</a></div>
+    
+              <!-- NOTE & AZIONI -->
+              <div class="eg-col">
+                <div class="section-title">📋 Azioni da fare</div>
+                <div class="eg-actions">
+                  <div class="eg-action-item eg-action-warn">
+                    <div class="eg-action-title">Cambia a "Domestico Residente"</div>
+                    <div class="eg-action-body">Dopo cambio residenza anagrafica → aggiornare su <a href="https://www.irenlucegas.it">irenlucegas.it</a>. Tariffe agevolate.</div>
+                  </div>
+                  <div class="eg-action-item eg-action-blu">
+                    <div class="eg-action-title">Portale self-service Iren</div>
+                    <div class="eg-action-body"><a href="https://www.irenlucegas.it">irenlucegas.it</a> — bollette, autolettura, variazioni contrattuali</div>
+                  </div>
+                  <div class="eg-action-item eg-action-neu">
+                    <div class="eg-action-title">Nuova presa elettrica</div>
+                    <div class="eg-action-body">Cavo 3×1,5mm², scatola da incasso, canalina — Pino Perrone <a href="tel:+39335266435">+39 335 266435</a></div>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+
+    <!-- RETE · DOMOTICA · AC -->
+    <div class="grid-3">
+      <div class="card">
+              <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
+              <div class="card-body">
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Provider attuale</div><div class="info-val"><strong class="ok">✅ Starlink Gen 4</strong></div></div>
+                  <div class="info-row"><div class="info-key">Recesso Tiscali</div><div class="info-val"><span class="ok">✅ Fatto</span> — modulo disdetta inviato per trasloco</div></div>
+                  <div class="info-row"><div class="info-key">SSID WiFi</div><div class="info-val"><code>Rocciamelone</code> — 2.4 GHz + 5 GHz (band steering)</div></div>
+                  <div class="info-row"><div class="info-key">Subnet</div><div class="info-val"><code>192.168.1.0/24</code> — DHCP gestito da Starlink</div></div>
+                  <div class="info-row"><div class="info-key">Controller Omada</div><div class="info-val"><code>omada.tplinkcloud.com</code> · Sito: <code>#RCM-1821-D</code></div></div>
+                </div>
+                <div class="section-title" style="margin-top:14px;">Topologia di rete</div>
+                <div class="device-list">
+                  <div class="device-item"><span class="device-name">① Starlink Gen 4</span><span class="device-detail">Router / DHCP / NAT — porte Ethernet integrate</span></div>
+                  <div class="device-item"><span class="device-name">② Switch</span><span class="device-detail">Collegato a Starlink via Ethernet</span></div>
+                  <div class="device-item"><span class="device-name">③ TP-Link Omada EAP "AC-Living Room"</span><span class="device-detail">AP WiFi · IP <code>192.168.1.59</code> · MAC <code>CC-BA-BD-51-BE-5E</code></span></div>
+                  <div class="device-item"><span class="device-name">④ TP-Link Extender (locale caldaia)</span><span class="device-detail">Estende il WiFi al piano tecnico → cavo LAN patch → SolarEdge inverter</span></div>
+                </div>
+                <div class="note-box" style="margin-top:10px;">
+                  <p>Per coprire altri piani: aggiungere AP Omada in mesh wireless (senza cavi tra piani) o cablati su switch PoE. Tutti gli AP Omada si configurano automaticamente con lo stesso SSID dal controller cloud.</p>
+                </div>
+              </div>
+            </div>
+      <div class="card">
+              <div class="card-head"><div class="card-head-left"><div class="card-title">🏠 Domotica · Shelly</div></div><div class="card-badge">Shelly</div></div>
+              <div class="card-body">
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Shelly Smart Control</strong></div></div>
+                  <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Skill <strong>Shelly Smart Control</strong> su Alexa</div></div>
+                  <div class="info-row"><div class="info-key">WiFi richiesto</div><div class="info-val"><code>2.4 GHz</code> — i dispositivi non vedono il 5 GHz</div></div>
+                </div>
+                <div class="section-title" style="margin-top:14px;">Dispositivi installati</div>
+                <div class="device-list">
+                  <div class="device-item"><span class="device-name">Serranda 1–8</span><span class="device-detail">Shelly Plus 2PM · Modalità tapparella</span></div>
+                  <div class="device-item"><span class="device-name">Interruttore 1–4</span><span class="device-detail">Shelly 1 / Plus 1 o presa smart</span></div>
+                  <div class="device-item"><span class="device-name">Schermo proiettore</span><span class="device-detail">Shelly Plus 2PM ordinato <span class="chip amber" style="font-size:9px;padding:2px 6px;">da installare</span></span></div>
+                </div>
+                <div class="note-box" style="margin-top:10px;">
+                  <p>Il telo ESMART Expert CSX 100" usa RF 433 MHz (non IR). Lo Shelly Plus 2PM va installato nel cassonetto del telo intercettando i 4 fili del motore: marrone (salita), nero (discesa), blu (neutro), giallo-verde (terra).</p>
+                  <p>Dopo installazione: calibrazione automatica nell'app → la skill Alexa espone il telo come "Serranda 9".</p>
+                </div>
+              </div>
+            </div>
+      <div class="card">
+            <div class="card-head"><div class="card-head-left"><div class="card-title">❄️ Aria condizionata · IDEMA</div></div><div class="card-badge cyan">HVAC</div></div>
+            <div class="card-body">
+              <div class="grid-2">
+                <div>
+                  <div class="section-title">Impianto</div>
+                  <div class="info-table">
+                    <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Canalizzato (ducted)</strong> — aria distribuita via bocchette a soffitto in tutti gli ambienti</div></div>
+                    <div class="info-row"><div class="info-key">Unità esterna</div><div class="info-val"><strong>IDEMA IOZ-70M-R32</strong><br><span class="muted">7 kW, monofase, gas R32</span></div></div>
+                    <div class="info-row"><div class="info-key">Unità interna</div><div class="info-val"><strong>IDEMA ITZ-70-R32</strong><br><span class="muted">Canalizzabile, nascosta nel controsoffitto</span></div></div>
+                    <div class="info-row"><div class="info-key">Data installazione</div><div class="info-val">30 maggio 2026</div></div>
+                    <div class="info-row"><div class="info-key">Protocollo controllo</div><div class="info-val"><strong>Proprietario Midea</strong> — <span class="warn">incompatibile con Nest diretto</span></div></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="section-title">Controllo</div>
+                  <div class="info-table">
+                    <div class="info-row"><div class="info-key">Termostato a parete</div><div class="info-val"><strong class="ok">✅ KJR-120C/TF-E</strong> già installato</div></div>
+                    <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val"><strong class="ok">✅ RG10A-E2S</strong> nella confezione</div></div>
+                    <div class="info-row"><div class="info-key">Modulo WiFi</div><div class="info-val"><strong class="warn">⚠️ WF-60A1-C</strong> da acquistare e installare (nell'unità interna nel controsoffitto)</div></div>
+                    <div class="info-row"><div class="info-key">App WiFi</div><div class="info-val"><strong>MSmartHome</strong> (Midea) — iOS e Android<br><span class="muted">Richiede WiFi 2.4 GHz</span></div></div>
+                    <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Tramite skill MSmartHome (dopo installazione WF-60A1-C)</div></div>
+                  </div>
+                  <div class="note-box" style="margin-top:8px;">
+                    <p>Il modulo WF-60A1-C va inserito in una porta dedicata sulla scheda dell'unità interna nel controsoffitto — lavoro da ~10 minuti per un tecnico.</p>
+                    <p>Il Nest Thermostat <strong>non è compatibile</strong> direttamente (protocollo proprietario Midea).</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-        </div>
-      </div>
     </div>
 
-    <!-- RETE + DOMOTICA -->
-    <div class="grid-2">
+    <!-- RIFIUTI · PULIZIA · ATTREZZATURE -->
+    <div class="grid-3">
       <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
-        <div class="card-body">
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Provider attuale</div><div class="info-val"><strong class="ok">✅ Starlink Gen 4</strong></div></div>
-            <div class="info-row"><div class="info-key">Recesso Tiscali</div><div class="info-val"><span class="ok">✅ Fatto</span> — modulo disdetta inviato per trasloco</div></div>
-            <div class="info-row"><div class="info-key">SSID WiFi</div><div class="info-val"><code>Rocciamelone</code> — 2.4 GHz + 5 GHz (band steering)</div></div>
-            <div class="info-row"><div class="info-key">Subnet</div><div class="info-val"><code>192.168.1.0/24</code> — DHCP gestito da Starlink</div></div>
-            <div class="info-row"><div class="info-key">Controller Omada</div><div class="info-val"><code>omada.tplinkcloud.com</code> · Sito: <code>#RCM-1821-D</code></div></div>
+            <div class="card-head"><div class="card-head-left"><div class="card-title">♻️ Raccolta rifiuti · San Mauro Torinese</div></div><div class="card-badge green">Calendario</div></div>
+            <div class="card-body">
+              <div class="rifiuti-grid">
+                <div class="rif-day active green">
+                  <div class="rif-day-name">Lun</div>
+                  <div class="rif-items">
+                    <div class="rif-item organico">Organico</div>
+                    <div class="rif-item carta">Carta</div>
+                  </div>
+                </div>
+                <div class="rif-day"><div class="rif-day-name">Mar</div><div class="rif-items"></div></div>
+                <div class="rif-day"><div class="rif-day-name">Mer</div><div class="rif-items"></div></div>
+                <div class="rif-day active amber">
+                  <div class="rif-day-name">Gio</div>
+                  <div class="rif-items">
+                    <div class="rif-item organico">Organico</div>
+                  </div>
+                </div>
+                <div class="rif-day active amber">
+                  <div class="rif-day-name">Ven</div>
+                  <div class="rif-items">
+                    <div class="rif-item plastica">Plastica</div>
+                    <div class="rif-item sfalci">Sfalci</div>
+                  </div>
+                </div>
+                <div class="rif-day"><div class="rif-day-name">Sab</div><div class="rif-items"></div></div>
+                <div class="rif-day active red">
+                  <div class="rif-day-name">Dom</div>
+                  <div class="rif-items">
+                    <div class="rif-item nonrec">Non riciclabile</div>
+                    <div class="rif-item vetro">Vetro</div>
+                  </div>
+                </div>
+              </div>
+              <div class="note-box" style="margin-top:12px;">
+                <p>⚠️ Sacchi da esporre la <strong>sera precedente</strong> o entro l'orario indicato dal Comune di San Mauro Torinese.</p>
+                <p>Il calendario può variare nelle festività — verificare le comunicazioni del gestore rifiuti locale.</p>
+              </div>
+            </div>
           </div>
-          <div class="section-title" style="margin-top:14px;">Topologia di rete</div>
-          <div class="device-list">
-            <div class="device-item"><span class="device-name">① Starlink Gen 4</span><span class="device-detail">Router / DHCP / NAT — porte Ethernet integrate</span></div>
-            <div class="device-item"><span class="device-name">② Switch</span><span class="device-detail">Collegato a Starlink via Ethernet</span></div>
-            <div class="device-item"><span class="device-name">③ TP-Link Omada EAP "AC-Living Room"</span><span class="device-detail">AP WiFi · IP <code>192.168.1.59</code> · MAC <code>CC-BA-BD-51-BE-5E</code></span></div>
-            <div class="device-item"><span class="device-name">④ TP-Link Extender (locale caldaia)</span><span class="device-detail">Estende il WiFi al piano tecnico → cavo LAN patch → SolarEdge inverter</span></div>
-          </div>
-          <div class="note-box" style="margin-top:10px;">
-            <p>Per coprire altri piani: aggiungere AP Omada in mesh wireless (senza cavi tra piani) o cablati su switch PoE. Tutti gli AP Omada si configurano automaticamente con lo stesso SSID dal controller cloud.</p>
-          </div>
-        </div>
-      </div>
-
       <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">🏠 Domotica · Shelly</div></div><div class="card-badge">Shelly</div></div>
-        <div class="card-body">
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Shelly Smart Control</strong></div></div>
-            <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Skill <strong>Shelly Smart Control</strong> su Alexa</div></div>
-            <div class="info-row"><div class="info-key">WiFi richiesto</div><div class="info-val"><code>2.4 GHz</code> — i dispositivi non vedono il 5 GHz</div></div>
-          </div>
-          <div class="section-title" style="margin-top:14px;">Dispositivi installati</div>
-          <div class="device-list">
-            <div class="device-item"><span class="device-name">Serranda 1–8</span><span class="device-detail">Shelly Plus 2PM · Modalità tapparella</span></div>
-            <div class="device-item"><span class="device-name">Interruttore 1–4</span><span class="device-detail">Shelly 1 / Plus 1 o presa smart</span></div>
-            <div class="device-item"><span class="device-name">Schermo proiettore</span><span class="device-detail">Shelly Plus 2PM ordinato <span class="chip amber" style="font-size:9px;padding:2px 6px;">da installare</span></span></div>
-          </div>
-          <div class="note-box" style="margin-top:10px;">
-            <p>Il telo ESMART Expert CSX 100" usa RF 433 MHz (non IR). Lo Shelly Plus 2PM va installato nel cassonetto del telo intercettando i 4 fili del motore: marrone (salita), nero (discesa), blu (neutro), giallo-verde (terra).</p>
-            <p>Dopo installazione: calibrazione automatica nell'app → la skill Alexa espone il telo come "Serranda 9".</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ANTIFURTO + CANCELLO -->
-    <div class="grid-2">
+              <div class="card-head"><div class="card-head-left"><div class="card-title">🧹 Pulizia &amp; manutenzione ordinaria</div></div><div class="card-badge">Pulizia</div></div>
+              <div class="card-body">
+                <div class="section-title">Pavimenti casa (>100 mq)</div>
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Tipo pavimenti</div><div class="info-val">Gres/ceramica · Parquet · Laminato/LVT</div></div>
+                  <div class="info-row"><div class="info-key">Aspirapolvere</div><div class="info-val"><strong>Dreame V20 Pro-A</strong> — 90 min, anti-groviglio, tutti i pavimenti</div></div>
+                  <div class="info-row"><div class="info-key">Lavapavimenti</div><div class="info-val">Vileda Revolution (~€35) — per parquet e laminato</div></div>
+                  <div class="info-row"><div class="info-key">Vaporetto</div><div class="info-val">Polti Vaporetto — <strong>solo su gres</strong> (fughe, bagno, cucina)</div></div>
+                  <div class="info-row"><div class="info-key">Robot aspirapolvere</div><div class="info-val">Raccomandato per manutenzione quotidiana su 100+ mq</div></div>
+                </div>
+                <div class="section-title" style="margin-top:14px;">Manutenzione periodica</div>
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Filtri AC</div><div class="info-val">Ogni <strong>1–2 mesi</strong> in estate</div></div>
+                  <div class="info-row"><div class="info-key">Caldaia / scaldabagno</div><div class="info-val">Annuale</div></div>
+                  <div class="info-row"><div class="info-key">Grondaie</div><div class="info-val">Annuale</div></div>
+                  <div class="info-row"><div class="info-key">Giardino / prato</div><div class="info-val">—</div></div>
+                </div>
+              </div>
+            </div>
       <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">🔒 Antifurto · Ajax</div></div><div class="card-badge red">Security</div></div>
-        <div class="card-body">
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Sistema</div><div class="info-val"><strong>Ajax Systems</strong> — installato e attivo</div></div>
-            <div class="info-row"><div class="info-key">App</div><div class="info-val"><strong>Ajax Security System</strong></div></div>
-            <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Radio Jeweller — funziona senza internet (locale)</div></div>
-            <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val"><span class="warn">⚠️ Nessuna skill ufficiale</span> — solo armamento via voce, <strong>non</strong> disarmamento (EN 50131)</div></div>
-            <div class="info-row"><div class="info-key">Installatori</div><div class="info-val"><strong>Davide Fodale</strong> e <strong>Enzo Morreale</strong></div></div>
-            <div class="info-row"><div class="info-key">Pannello fisico</div><div class="info-val"><strong class="warn">Da acquistare</strong> — KeyPad Plus (~95–115€) con RFID tag raccomandato</div></div>
-            <div class="info-row"><div class="info-key">Accessori da valutare</div><div class="info-val">SpaceControl ~30€ · Tag RFID ~10–15€ cad.<br>Echo Hub ~199€ come pannello smart home supplementare</div></div>
-          </div>
-          <div class="note-box" style="margin-top:12px;">
-            <p>Setup consigliato: <strong>KeyPad Plus all'ingresso + 3–4 Tag RFID</strong> — disarmo "tap & go" sotto i 200€. Tablet Android con app Ajax per pannello supplementare ricco.</p>
-            <p>Non usare Echo Show/Hub come pannello allarme principale — dipende da WiFi+cloud e non ha il tamper del KeyPad fisico.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">🚗 Cancello</div></div><div class="card-badge">Cancello</div></div>
-        <div class="card-body">
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Battente ad anta singola</strong></div></div>
-            <div class="info-row"><div class="info-key">Materiale</div><div class="info-val">Ferro</div></div>
-            <div class="info-row"><div class="info-key">Colore attuale</div><div class="info-val">Rosso/bordeaux</div></div>
-            <div class="info-row"><div class="info-key">Colore previsto</div><div class="info-val">Grigio antracite <code>RAL 7016</code></div></div>
-            <div class="info-row"><div class="info-key">Motorizzazione</div><div class="info-val"><strong class="warn">Da installare</strong> — attuatore lineare o braccio articolato</div></div>
-            <div class="info-row"><div class="info-key">Installatore motore</div><div class="info-val"><strong>Pino Perrone</strong> · <a href="tel:+39335266435" style="color:var(--cyan)">+39 335 266435</a></div></div>
-            <div class="info-row"><div class="info-key">Compatibilità motore</div><div class="info-val">Verificare portata, larghezza anta, tipo attacco staffa prima di acquistare il nuovo cancello</div></div>
-          </div>
-          <div class="note-box" style="margin-top:12px;">
-            <p>Per verniciatura fai-da-te: primer antiruggine + smalto ferro da esterni (2 mani). Verniciare prima dell'installazione motore per evitare graffi. Costo professionale: 180–350€ materiali inclusi.</p>
-            <p>Se si sostituisce il cancello: portare specifiche del motore al fornitore per verificare compatibilità.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ARIA CONDIZIONATA -->
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">❄️ Aria condizionata · IDEMA</div></div><div class="card-badge cyan">HVAC</div></div>
-      <div class="card-body">
-        <div class="grid-2">
-          <div>
-            <div class="section-title">Impianto</div>
-            <div class="info-table">
-              <div class="info-row"><div class="info-key">Tipo</div><div class="info-val"><strong>Canalizzato (ducted)</strong> — aria distribuita via bocchette a soffitto in tutti gli ambienti</div></div>
-              <div class="info-row"><div class="info-key">Unità esterna</div><div class="info-val"><strong>IDEMA IOZ-70M-R32</strong><br><span class="muted">7 kW, monofase, gas R32</span></div></div>
-              <div class="info-row"><div class="info-key">Unità interna</div><div class="info-val"><strong>IDEMA ITZ-70-R32</strong><br><span class="muted">Canalizzabile, nascosta nel controsoffitto</span></div></div>
-              <div class="info-row"><div class="info-key">Data installazione</div><div class="info-val">30 maggio 2026</div></div>
-              <div class="info-row"><div class="info-key">Protocollo controllo</div><div class="info-val"><strong>Proprietario Midea</strong> — <span class="warn">incompatibile con Nest diretto</span></div></div>
+              <div class="card-head"><div class="card-head-left"><div class="card-title">📦 Attrezzature · Telo proiettore</div></div><div class="card-badge">Accessori</div></div>
+              <div class="card-body">
+                <div class="section-title">Telo proiettore</div>
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Modello</div><div class="info-val"><strong>ESMART Expert CSX</strong></div></div>
+                  <div class="info-row"><div class="info-key">Dimensione</div><div class="info-val"><strong>100″</strong> · 221 × 125 cm · 16:9</div></div>
+                  <div class="info-row"><div class="info-key">Tipo</div><div class="info-val">Motorizzato, da incasso a soffitto</div></div>
+                  <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val"><strong>RF 433 MHz</strong> (NON infrarossi — verificato)</div></div>
+                  <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val">Incluso — RF originale ESMART</div></div>
+                  <div class="info-row"><div class="info-key">Controllo smart</div><div class="info-val"><strong class="warn">Shelly Plus 2PM in installazione</strong><br><span class="muted">Va nel cassonetto intercettando fili motore: marrone (salita) nero (discesa) blu (neutro)</span></div></div>
+                  <div class="info-row"><div class="info-key">App / Alexa</div><div class="info-val">Dopo Shelly: <code>Alexa, abbassa lo schermo al 70%</code></div></div>
+                  <div class="info-row"><div class="info-key">Assistenza ESMART</div><div class="info-val"><a href="mailto:assistenza@esmartitalia.it" style="color:var(--cyan)">assistenza@esmartitalia.it</a></div></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <div class="section-title">Controllo</div>
-            <div class="info-table">
-              <div class="info-row"><div class="info-key">Termostato a parete</div><div class="info-val"><strong class="ok">✅ KJR-120C/TF-E</strong> già installato</div></div>
-              <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val"><strong class="ok">✅ RG10A-E2S</strong> nella confezione</div></div>
-              <div class="info-row"><div class="info-key">Modulo WiFi</div><div class="info-val"><strong class="warn">⚠️ WF-60A1-C</strong> da acquistare e installare (nell'unità interna nel controsoffitto)</div></div>
-              <div class="info-row"><div class="info-key">App WiFi</div><div class="info-val"><strong>MSmartHome</strong> (Midea) — iOS e Android<br><span class="muted">Richiede WiFi 2.4 GHz</span></div></div>
-              <div class="info-row"><div class="info-key">Integrazione Alexa</div><div class="info-val">Tramite skill MSmartHome (dopo installazione WF-60A1-C)</div></div>
-            </div>
-            <div class="note-box" style="margin-top:8px;">
-              <p>Il modulo WF-60A1-C va inserito in una porta dedicata sulla scheda dell'unità interna nel controsoffitto — lavoro da ~10 minuti per un tecnico.</p>
-              <p>Il Nest Thermostat <strong>non è compatibile</strong> direttamente (protocollo proprietario Midea).</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- RACCOLTA RIFIUTI -->
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">♻️ Raccolta rifiuti · San Mauro Torinese</div></div><div class="card-badge green">Calendario</div></div>
-      <div class="card-body">
-        <div class="rifiuti-grid">
-          <div class="rif-day active green">
-            <div class="rif-day-name">Lun</div>
-            <div class="rif-items">
-              <div class="rif-item organico">Organico</div>
-              <div class="rif-item carta">Carta</div>
-            </div>
-          </div>
-          <div class="rif-day"><div class="rif-day-name">Mar</div><div class="rif-items"></div></div>
-          <div class="rif-day"><div class="rif-day-name">Mer</div><div class="rif-items"></div></div>
-          <div class="rif-day active amber">
-            <div class="rif-day-name">Gio</div>
-            <div class="rif-items">
-              <div class="rif-item organico">Organico</div>
-            </div>
-          </div>
-          <div class="rif-day active amber">
-            <div class="rif-day-name">Ven</div>
-            <div class="rif-items">
-              <div class="rif-item plastica">Plastica</div>
-              <div class="rif-item sfalci">Sfalci</div>
-            </div>
-          </div>
-          <div class="rif-day"><div class="rif-day-name">Sab</div><div class="rif-items"></div></div>
-          <div class="rif-day active red">
-            <div class="rif-day-name">Dom</div>
-            <div class="rif-items">
-              <div class="rif-item nonrec">Non riciclabile</div>
-              <div class="rif-item vetro">Vetro</div>
-            </div>
-          </div>
-        </div>
-        <div class="note-box" style="margin-top:12px;">
-          <p>⚠️ Sacchi da esporre la <strong>sera precedente</strong> o entro l'orario indicato dal Comune di San Mauro Torinese.</p>
-          <p>Il calendario può variare nelle festività — verificare le comunicazioni del gestore rifiuti locale.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- PULIZIA + ATTREZZATURE -->
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">🧹 Pulizia &amp; manutenzione ordinaria</div></div><div class="card-badge">Pulizia</div></div>
-        <div class="card-body">
-          <div class="section-title">Pavimenti casa (>100 mq)</div>
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Tipo pavimenti</div><div class="info-val">Gres/ceramica · Parquet · Laminato/LVT</div></div>
-            <div class="info-row"><div class="info-key">Aspirapolvere</div><div class="info-val"><strong>Dreame V20 Pro-A</strong> — 90 min, anti-groviglio, tutti i pavimenti</div></div>
-            <div class="info-row"><div class="info-key">Lavapavimenti</div><div class="info-val">Vileda Revolution (~€35) — per parquet e laminato</div></div>
-            <div class="info-row"><div class="info-key">Vaporetto</div><div class="info-val">Polti Vaporetto — <strong>solo su gres</strong> (fughe, bagno, cucina)</div></div>
-            <div class="info-row"><div class="info-key">Robot aspirapolvere</div><div class="info-val">Raccomandato per manutenzione quotidiana su 100+ mq</div></div>
-          </div>
-          <div class="section-title" style="margin-top:14px;">Manutenzione periodica</div>
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Filtri AC</div><div class="info-val">Ogni <strong>1–2 mesi</strong> in estate</div></div>
-            <div class="info-row"><div class="info-key">Caldaia / scaldabagno</div><div class="info-val">Annuale</div></div>
-            <div class="info-row"><div class="info-key">Grondaie</div><div class="info-val">Annuale</div></div>
-            <div class="info-row"><div class="info-key">Giardino / prato</div><div class="info-val">—</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">📦 Attrezzature · Telo proiettore</div></div><div class="card-badge">Accessori</div></div>
-        <div class="card-body">
-          <div class="section-title">Telo proiettore</div>
-          <div class="info-table">
-            <div class="info-row"><div class="info-key">Modello</div><div class="info-val"><strong>ESMART Expert CSX</strong></div></div>
-            <div class="info-row"><div class="info-key">Dimensione</div><div class="info-val"><strong>100″</strong> · 221 × 125 cm · 16:9</div></div>
-            <div class="info-row"><div class="info-key">Tipo</div><div class="info-val">Motorizzato, da incasso a soffitto</div></div>
-            <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val"><strong>RF 433 MHz</strong> (NON infrarossi — verificato)</div></div>
-            <div class="info-row"><div class="info-key">Telecomando</div><div class="info-val">Incluso — RF originale ESMART</div></div>
-            <div class="info-row"><div class="info-key">Controllo smart</div><div class="info-val"><strong class="warn">Shelly Plus 2PM in installazione</strong><br><span class="muted">Va nel cassonetto intercettando fili motore: marrone (salita) nero (discesa) blu (neutro)</span></div></div>
-            <div class="info-row"><div class="info-key">App / Alexa</div><div class="info-val">Dopo Shelly: <code>Alexa, abbassa lo schermo al 70%</code></div></div>
-            <div class="info-row"><div class="info-key">Assistenza ESMART</div><div class="info-val"><a href="mailto:assistenza@esmartitalia.it" style="color:var(--cyan)">assistenza@esmartitalia.it</a></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CALENDARIO MANUTENZIONI -->
-    <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Da giugno 2026</div></div>
-      <div class="card-body">
-
-        <div class="mant-legend">
-          <span class="mant-dot mant-dot-blu"></span><span>Impianti tecnici</span>
-          <span class="mant-dot mant-dot-amber"></span><span>Climatizzazione AC</span>
-          <span class="mant-dot mant-dot-green"></span><span>Pulizia / esterno</span>
-          <span class="mant-dot mant-dot-red"></span><span>Sicurezza</span>
-          <span class="mant-dot mant-dot-purple"></span><span>Contratti / scadenze</span>
-        </div>
-
-        <!-- ANNO 1: GIU 2026 – MAG 2027 -->
-        <div class="mant-year-label">Anno 1 · Giugno 2026 – Maggio 2027</div>
-        <div class="mant-grid">
-
-          <div class="mant-month mant-month-urgent">
-            <div class="mant-month-name">Giu 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-purple">⚠️ GSE Ritiro Dedicato — scade ~29 lug</div>
-              <div class="mant-task mant-amber">AC: 1ª pulizia filtri (appena installato)</div>
-              <div class="mant-task mant-blu">SolarEdge: primo accesso portale + verifica</div>
-            </div>
-          </div>
-
-          <div class="mant-month mant-month-urgent">
-            <div class="mant-month-name">Lug 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-purple">⚠️ GSE: deadline Ritiro Dedicato (entro fine mese)</div>
-              <div class="mant-task mant-amber">AC: pulizia filtri</div>
-              <div class="mant-task mant-blu">SolarEdge: verifica produzione 1° mese pieno</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Ago 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-amber">AC: pulizia filtri</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Set 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-blu">Caldaia: 1ª revisione annuale</div>
-              <div class="mant-task mant-amber">AC: fine stagione + pulizia filtri</div>
-              <div class="mant-task mant-green">Pannelli solari: 1ª pulizia post-estate</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Ott 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-blu">Scaldabagno: 1° check anodo magnesio</div>
-              <div class="mant-task mant-green">Grondaie: 1ª pulizia foglie</div>
-              <div class="mant-task mant-amber">AC: test modalità riscaldamento</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Nov 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-red">Ajax: 1° test sirene e sensori</div>
-              <div class="mant-task mant-blu">Shelly: 1ª verifica calibrazione serrande</div>
-              <div class="mant-task mant-green">Grondaie: 2ª pulizia</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Dic 2026</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-purple">Iren Luce: valuta rinnovo (scade apr 2027)</div>
-              <div class="mant-task mant-red">Estintori: verifica scadenza/manometro</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Gen 2027</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-red">Ajax: 1° check batterie sensori</div>
-              <div class="mant-task mant-blu">SolarEdge: verifica produzione invernale</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Feb 2027</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-blu">SolarEdge: portale — produzione attesa vs reale</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Mar 2027</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-green">Pannelli solari: 2ª pulizia pre-estate</div>
-              <div class="mant-task mant-amber">AC: avvio stagione + pulizia filtri</div>
-            </div>
-          </div>
-
-          <div class="mant-month mant-month-urgent">
-            <div class="mant-month-name">Apr 2027</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-purple">⚠️ Scadenza offerta luce Iren 30/04/2027</div>
-              <div class="mant-task mant-green">Prato: 1° taglio + concimazione</div>
-              <div class="mant-task mant-amber">AC: test raffreddamento</div>
-            </div>
-          </div>
-
-          <div class="mant-month">
-            <div class="mant-month-name">Mag 2027</div>
-            <div class="mant-tasks">
-              <div class="mant-task mant-amber">AC: pulizia filtri mensile</div>
-              <div class="mant-task mant-blu">Shelly: verifica serrande (semestrale)</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- REGIME ANNUALE -->
-        <div class="mant-year-label" style="margin-top:24px;">Regime annuale · Da giugno 2027 in poi</div>
-        <div class="mant-table">
-          <div class="mant-table-head">
-            <div>Intervento</div><div>Quando</div><div>Frequenza</div><div>Note operative</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Filtri AC (IDEMA)</div><div>Giu → Set</div><div class="mant-freq">Mensile</div><div>Fai-da-te dai pannelli interni — non servono attrezzi</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Caldaia + scaldabagno</div><div>Settembre</div><div class="mant-freq">Annuale</div><div>Tecnico autorizzato — obbligatorio per legge</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Pannelli solari (pulizia)</div><div>Set + Mar</div><div class="mant-freq">2× anno</div><div>Acqua e panno morbido — non graffiare il vetro</div>
-          </div>
-          <div class="mant-table-row">
-            <div>SolarEdge portale</div><div>Tutto l'anno</div><div class="mant-freq">Mensile</div><div><code>monitoring.solaredge.com</code> — produzione attesa vs reale</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Grondaie</div><div>Ott + Nov</div><div class="mant-freq">1–2× anno</div><div>Dopo caduta foglie — detriti e ostruzione</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Scaldabagno — anodo Mg</div><div>Ottobre</div><div class="mant-freq">Annuale</div><div>Sostituire se consumato — evita corrosione serbatoio</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Ajax — test sirene</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>Test zone, simulazione allarme, verifica notifiche</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Ajax — batterie sensori</div><div>Gennaio</div><div class="mant-freq">Annuale</div><div>App Ajax → stato batterie hub e sensori perimetrali</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Shelly — calibrazione serrande</div><div>Nov + Mag</div><div class="mant-freq">Semestrale</div><div>App Shelly → verifica posizioni su/giù di ogni tapparella</div>
-          </div>
-          <div class="mant-table-row">
-            <div>Estintori</div><div>Dicembre</div><div class="mant-freq">Annuale</div><div>Verifica manometro e scadenza ricarica</div>
-          </div>
-          <div class="mant-table-row mant-table-row-alert">
-            <div>⚠️ Offerta luce Iren</div><div>Dic 2026</div><div class="mant-freq">Scade apr 2027</div><div>Confrontare mercato — valutare switch o rinnovo</div>
-          </div>
-          <div class="mant-table-row mant-table-row-alert">
-            <div>⚠️ Offerta gas Iren</div><div>Dic 2027</div><div class="mant-freq">Scade apr 2028</div><div>Confrontare mercato — valutare switch o rinnovo</div>
-          </div>
-        </div>
-
-      </div>
     </div>
 
     <!-- SMART HOME ECOSYSTEM -->
     <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">🔊 Ecosistema smart home · Amazon Alexa</div></div><div class="card-badge">IoT</div></div>
-      <div class="card-body">
-        <div class="grid-2">
-          <div>
-            <div class="section-title">Dispositivi Amazon Echo</div>
-            <div class="device-list">
-              <div class="device-item"><span class="device-name">Echo Studio ×2</span><span class="device-detail">Living Room · Hub Zigbee integrato</span></div>
-              <div class="device-item"><span class="device-name">Echo Pop ×2</span><span class="device-detail">Studio + Camera Matrimoniale</span></div>
-              <div class="device-item"><span class="device-name">Echo Show 15 2ª gen</span><span class="device-detail">Living Room</span></div>
-              <div class="device-item"><span class="device-name">Echo Show 15 orig.</span><span class="device-detail">Living Room</span></div>
-            </div>
-          </div>
-          <div>
-            <div class="section-title">Lampadine IKEA Tradfri</div>
-            <div class="info-table">
-              <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Zigbee 3.0 (no Matter — verificato)</div></div>
-              <div class="info-row"><div class="info-key">Hub</div><div class="info-val"><span class="warn">⚠️ Nessun DIRIGERA</span> — da acquistare</div></div>
-              <div class="info-row"><div class="info-key">Pairing Alexa diretto</div><div class="info-val"><span class="warn">⚠️ Instabile</span> — Echo Studio ha hub Zigbee ma compatibilità Tradfri traballante</div></div>
-              <div class="info-row"><div class="info-key">Soluzione DIY prevista</div><div class="info-val">Raspberry Pi + Sonoff Zigbee Dongle Plus + Home Assistant + Zigbee2MQTT → Emulated Hue per Alexa</div></div>
-            </div>
-            <div class="note-box" style="margin-top:8px;">
-              <p>Acquisti previsti: Raspberry Pi 4 (~€50–80) + Sonoff Zigbee 3.0 USB Dongle Plus EFR32MG21 (~€25).</p>
+          <div class="card-head"><div class="card-head-left"><div class="card-title">🔊 Ecosistema smart home · Amazon Alexa</div></div><div class="card-badge">IoT</div></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div>
+                <div class="section-title">Dispositivi Amazon Echo</div>
+                <div class="device-list">
+                  <div class="device-item"><span class="device-name">Echo Studio ×2</span><span class="device-detail">Living Room · Hub Zigbee integrato</span></div>
+                  <div class="device-item"><span class="device-name">Echo Pop ×2</span><span class="device-detail">Studio + Camera Matrimoniale</span></div>
+                  <div class="device-item"><span class="device-name">Echo Show 15 2ª gen</span><span class="device-detail">Living Room</span></div>
+                  <div class="device-item"><span class="device-name">Echo Show 15 orig.</span><span class="device-detail">Living Room</span></div>
+                </div>
+              </div>
+              <div>
+                <div class="section-title">Lampadine IKEA Tradfri</div>
+                <div class="info-table">
+                  <div class="info-row"><div class="info-key">Protocollo</div><div class="info-val">Zigbee 3.0 (no Matter — verificato)</div></div>
+                  <div class="info-row"><div class="info-key">Hub</div><div class="info-val"><span class="warn">⚠️ Nessun DIRIGERA</span> — da acquistare</div></div>
+                  <div class="info-row"><div class="info-key">Pairing Alexa diretto</div><div class="info-val"><span class="warn">⚠️ Instabile</span> — Echo Studio ha hub Zigbee ma compatibilità Tradfri traballante</div></div>
+                  <div class="info-row"><div class="info-key">Soluzione DIY prevista</div><div class="info-val">Raspberry Pi + Sonoff Zigbee Dongle Plus + Home Assistant + Zigbee2MQTT → Emulated Hue per Alexa</div></div>
+                </div>
+                <div class="note-box" style="margin-top:8px;">
+                  <p>Acquisti previsti: Raspberry Pi 4 (~€50–80) + Sonoff Zigbee 3.0 USB Dongle Plus EFR32MG21 (~€25).</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
     <!-- CONTATTI -->
     <div class="card">
-      <div class="card-head"><div class="card-head-left"><div class="card-title">📞 Contatti &amp; fornitori</div></div><div class="card-badge">Rubrica</div></div>
-      <div class="card-body">
-        <div class="contacts-grid">
-          <div class="contact-card">
-            <div class="contact-role">Elettricista · Cancello</div>
-            <div class="contact-name">Pino Perrone</div>
-            <div class="contact-info"><a href="tel:+39335266435">+39 335 266435</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Muratore / Lavori edili</div>
-            <div class="contact-name">Davide Addamo</div>
-            <div class="contact-info"><a href="tel:+393396709887">+39 339 6709887</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Antifurto Ajax</div>
-            <div class="contact-name">Davide Fodale · Enzo Morreale</div>
-            <div class="contact-info">Installatori sistema Ajax</div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Idraulico</div>
-            <div class="contact-name">Carlo</div>
-            <div class="contact-info">Numero: chiedere a Carolina</div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Impianto solare SolarEdge</div>
-            <div class="contact-name">Roberto Galleno</div>
-            <div class="contact-info"><a href="tel:+393396305950">+39 339 630 5950</a><br><span style="color:var(--muted);font-size:11px;">Supporto SolarEdge: <a href="tel:+390289015641" style="color:var(--cyan)">+39 02 89015641</a></span></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Aria condizionata IDEMA</div>
-            <div class="contact-name">—</div>
-            <div class="contact-info"><a href="https://idemaclima.it" style="color:var(--cyan)">idemaclima.it</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Telo proiettore ESMART</div>
-            <div class="contact-name">Assistenza ESMART Italia</div>
-            <div class="contact-info"><a href="mailto:assistenza@esmartitalia.it">assistenza@esmartitalia.it</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Fornitore energia · gas</div>
-            <div class="contact-name">Iren Mercato</div>
-            <div class="contact-info"><a href="tel:800969696">800 96 96 96</a> · <a href="https://www.irenlucegas.it" style="color:var(--cyan)">irenlucegas.it</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">GSE (fotovoltaico)</div>
-            <div class="contact-name">Gestore Servizi Energetici</div>
-            <div class="contact-info"><a href="https://applicazioni.gse.it" style="color:var(--cyan)">applicazioni.gse.it</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Emergenza elettrica</div>
-            <div class="contact-name">E-Distribuzione</div>
-            <div class="contact-info"><a href="tel:803500">803 500</a> (gratuito, 24h)</div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Assistenza caldaia</div>
-            <div class="contact-name">Vaillant</div>
-            <div class="contact-info"><a href="tel:011746314">011 746314</a></div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Emergenza gas</div>
-            <div class="contact-name">Italgas Reti</div>
-            <div class="contact-info"><a href="tel:800900999">800 900 999</a> (gratuito, 24h)</div>
-          </div>
-          <div class="contact-card">
-            <div class="contact-role">Comune San Mauro T.se</div>
-            <div class="contact-name">Ufficio Anagrafe</div>
-            <div class="contact-info"><a href="https://sanmaurotorinese.it" style="color:var(--cyan)">sanmaurotorinese.it</a></div>
+          <div class="card-head"><div class="card-head-left"><div class="card-title">📞 Contatti &amp; fornitori</div></div><div class="card-badge">Rubrica</div></div>
+          <div class="card-body">
+            <div class="contacts-grid">
+              <div class="contact-card">
+                <div class="contact-role">Elettricista · Cancello</div>
+                <div class="contact-name">Pino Perrone</div>
+                <div class="contact-info"><a href="tel:+39335266435">+39 335 266435</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Muratore / Lavori edili</div>
+                <div class="contact-name">Davide Addamo</div>
+                <div class="contact-info"><a href="tel:+393396709887">+39 339 6709887</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Antifurto Ajax</div>
+                <div class="contact-name">Davide Fodale · Enzo Morreale</div>
+                <div class="contact-info">Installatori sistema Ajax</div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Idraulico</div>
+                <div class="contact-name">Carlo</div>
+                <div class="contact-info">Numero: chiedere a Carolina</div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Impianto solare SolarEdge</div>
+                <div class="contact-name">Roberto Galleno</div>
+                <div class="contact-info"><a href="tel:+393396305950">+39 339 630 5950</a><br><span style="color:var(--muted);font-size:11px;">Supporto SolarEdge: <a href="tel:+390289015641" style="color:var(--cyan)">+39 02 89015641</a></span></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Aria condizionata IDEMA</div>
+                <div class="contact-name">—</div>
+                <div class="contact-info"><a href="https://idemaclima.it" style="color:var(--cyan)">idemaclima.it</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Telo proiettore ESMART</div>
+                <div class="contact-name">Assistenza ESMART Italia</div>
+                <div class="contact-info"><a href="mailto:assistenza@esmartitalia.it">assistenza@esmartitalia.it</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Fornitore energia · gas</div>
+                <div class="contact-name">Iren Mercato</div>
+                <div class="contact-info"><a href="tel:800969696">800 96 96 96</a> · <a href="https://www.irenlucegas.it" style="color:var(--cyan)">irenlucegas.it</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">GSE (fotovoltaico)</div>
+                <div class="contact-name">Gestore Servizi Energetici</div>
+                <div class="contact-info"><a href="https://applicazioni.gse.it" style="color:var(--cyan)">applicazioni.gse.it</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Emergenza elettrica</div>
+                <div class="contact-name">E-Distribuzione</div>
+                <div class="contact-info"><a href="tel:803500">803 500</a> (gratuito, 24h)</div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Assistenza caldaia</div>
+                <div class="contact-name">Vaillant</div>
+                <div class="contact-info"><a href="tel:011746314">011 746314</a></div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Emergenza gas</div>
+                <div class="contact-name">Italgas Reti</div>
+                <div class="contact-info"><a href="tel:800900999">800 900 999</a> (gratuito, 24h)</div>
+              </div>
+              <div class="contact-card">
+                <div class="contact-role">Comune San Mauro T.se</div>
+                <div class="contact-name">Ufficio Anagrafe</div>
+                <div class="contact-info"><a href="https://sanmaurotorinese.it" style="color:var(--cyan)">sanmaurotorinese.it</a></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
     <div class="note-box" style="margin-bottom:16px;">
       <p style="color:var(--muted);font-size:12px;text-align:center;">
