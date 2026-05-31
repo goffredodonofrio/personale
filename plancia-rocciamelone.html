@@ -603,6 +603,78 @@
       .mobile-quick-grid button{min-height:56px;padding:10px;font-size:11px;border-radius:12px;line-height:1.15}
     }
   </style>
+<style>
+/* ======= LIGHT THEME OVERRIDE ======= */
+:root {
+  --bg-0: #f5f4f1;
+  --bg-1: #eceae5;
+  --bg-2: #e4e2dd;
+  --panel: #ffffff;
+  --panel-2: #f9f8f6;
+  --line: rgba(0,0,0,0.08);
+  --line-strong: rgba(0,0,0,0.15);
+  --text: #111110;
+  --muted: #6b6860;
+  --muted-2: #9e9b96;
+  --soft: #ffffff;
+  --blue: #1d6af8;
+  --blue-2: #2563eb;
+  --blue-soft: rgba(29,106,248,0.10);
+  --cyan: #1d6af8;
+  --amber: #d97706;
+  --orange: #ea580c;
+  --green: #16a34a;
+  --gold-soft: rgba(217,119,6,0.12);
+  --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.07);
+  --shadow-strong: 0 4px 16px rgba(0,0,0,0.10), 0 20px 48px rgba(0,0,0,0.12);
+  --btn-primary: #1d6af8;
+  --btn-primary-2: #2563eb;
+  --btn-secondary: #3b82f6;
+  --btn-warm: #d97706;
+  --btn-scene: #0d9488;
+  --btn-danger: #dc2626;
+}
+body { background: var(--bg-0); background-image: none; }
+body::before { display: none; }
+.topbar { background: var(--panel); }
+.back-home { background: var(--panel); color: var(--muted); border-color: var(--line); box-shadow: var(--shadow); backdrop-filter: none; }
+.back-home:hover { background: var(--bg-1); color: var(--text); }
+.brand-mark { background: var(--blue); color: #fff; box-shadow: none; }
+.brand-title { color: var(--text); }
+.brand-eyebrow { color: var(--muted-2); }
+.card { background: var(--panel); border-color: var(--line); box-shadow: var(--shadow); }
+.card-head { background: var(--panel); border-color: var(--line); }
+.card-title { color: var(--muted); }
+.card-badge { background: rgba(29,106,248,0.08); border-color: rgba(29,106,248,0.22); color: var(--blue); }
+.ops-clock { color: var(--text); }
+.ops-date { color: var(--muted); }
+.ops-shift { color: var(--muted-2); }
+.weather-cell-chip { background: var(--bg-1); border-color: var(--line); }
+.weather-cell-chip .k { color: var(--muted-2); }
+.weather-cell-chip .v { color: var(--text); }
+.weather-cell-city { color: var(--muted-2); }
+.weather-cell-temp { color: var(--text); }
+.forecast-pill { background: var(--bg-1); border-color: var(--line); color: var(--muted); }
+.forecast-day { color: var(--muted-2); }
+.forecast-temp { color: var(--text); }
+.forecast-rain { color: var(--blue); }
+.smart-block { background: var(--bg-1); border-color: var(--line); box-shadow: none; }
+.smart-title { color: var(--muted); }
+.smart-buttons button, .mobile-quick-grid button { border-color: rgba(0,0,0,0.10); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.smart-buttons .secondary, .mobile-quick-grid .secondary { background: linear-gradient(180deg, #60a5fa 0%, var(--btn-secondary) 100%); }
+.smart-buttons .warm, .mobile-quick-grid .warm { background: linear-gradient(180deg, #f59e0b 0%, var(--btn-warm) 100%); }
+.smart-buttons .danger, .mobile-quick-grid .danger { background: linear-gradient(180deg, #ef4444 0%, var(--btn-danger) 100%); }
+.scene-btn { color: #fff; border-color: rgba(0,0,0,0.10); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.floorplan { color: var(--blue); }
+.floorplan .label { fill: var(--text); }
+.floorplan .sublabel { fill: var(--muted); }
+.floorplan .room-fill { fill: rgba(29,106,248,0.04); }
+.floorplan .walls { stroke: var(--text); opacity: 0.6; }
+.floorplan .walls-inner { stroke: var(--muted-2); }
+.floorplan .device-glow { fill: var(--blue); }
+.mobile-room-title { color: var(--muted); }
+.smart-led { background: var(--green); box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
+</style>
 </head>
 <body>
 
