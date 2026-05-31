@@ -210,50 +210,51 @@ body::before { display: none; }
 .status-dot.amber { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
 .status-dot.red   { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.15); }
 
-/* ── Impianto elettrico & gas — scadenze strip ── */
-.eg-scadenze {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap: 10px;
-  padding: 16px;
-  background: var(--bg-1);
-  border-radius: 14px;
-  border: 1.5px solid var(--line);
-}
-.eg-scad-item { display: flex; flex-direction: column; gap: 4px; }
-.eg-scad-label { font: 700 10px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--muted-2); }
-.eg-scad-date { font-size: 14px; font-weight: 800; color: var(--text); }
-.eg-scad-date a { color: var(--blue); text-decoration: none; font-weight: 700; }
-.eg-mono { font-family: "JetBrains Mono", monospace; font-size: 13px !important; }
+/* ── Solar full-width 2-col ── */
+.solar-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+.solar-kpi { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
+.solar-kpi-item { background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.solar-kpi-label { font: 700 9px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted-2); margin-bottom: 4px; }
+.solar-kpi-val { font-size: 13px; font-weight: 700; color: var(--text); }
+.solar-kpi-val a { color: var(--blue); text-decoration: none; }
 
-/* ── emergency box ── */
-.eg-emergency {
-  margin-top: 14px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(29,106,248,0.05);
-  border: 1.5px solid rgba(29,106,248,0.18);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2px 12px;
+/* ── Elettrico & Gas 3-col ── */
+.eg-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.eg-col { padding: 0 20px; border-right: 1px solid var(--line); }
+.eg-col:first-child { padding-left: 0; }
+.eg-col:last-child { padding-right: 0; border-right: none; }
+.eg-compact .info-row { padding: 7px 0; }
+.eg-compact .info-key { font-size: 10px; }
+.eg-compact .info-val { font-size: 13px; }
+
+/* ── emergency inline ── */
+.eg-emerg-inline {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(29,106,248,0.06);
+  border: 1px solid rgba(29,106,248,0.18);
+  flex-wrap: wrap;
 }
-.eg-emergency-red {
-  background: rgba(220,38,38,0.05);
-  border-color: rgba(220,38,38,0.18);
-}
-.eg-emerg-label { font: 700 9px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--muted-2); grid-column: 1; }
-.eg-emerg-who { font-size: 13px; font-weight: 700; color: var(--text); grid-column: 1; }
-.eg-emerg-num {
-  grid-column: 2; grid-row: 1 / 3;
-  font: 800 22px/1 "JetBrains Mono", monospace;
-  color: var(--blue);
-  text-decoration: none;
-  align-self: center;
-  letter-spacing: -.02em;
-}
-.eg-emergency-red .eg-emerg-num { color: #dc2626; }
-.eg-emerg-note { font-size: 11px; color: var(--muted); grid-column: 1; }
+.eg-emerg-inline-red { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.18); }
+.eg-emerg-inline-label { font: 700 10px/1 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted-2); flex-shrink: 0; }
+.eg-emerg-inline-num { font: 800 16px/1 "JetBrains Mono", monospace; color: var(--blue); text-decoration: none; flex-shrink: 0; }
+.eg-emerg-inline-red .eg-emerg-inline-num { color: #dc2626; }
+.eg-emerg-inline-note { font-size: 11px; color: var(--muted); }
+
+/* ── azioni col ── */
+.eg-actions { display: flex; flex-direction: column; gap: 8px; }
+.eg-action-item { padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); }
+.eg-action-title { font-size: 12px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+.eg-action-body { font-size: 12px; color: var(--muted); line-height: 1.45; }
+.eg-action-body a { color: var(--blue); }
+.eg-action-warn { background: rgba(217,119,6,0.07); border-color: rgba(217,119,6,0.22); }
+.eg-action-warn .eg-action-title { color: #92400e; }
+.eg-action-blu  { background: rgba(29,106,248,0.06); border-color: rgba(29,106,248,0.18); }
+.eg-action-neu  { background: var(--bg-1); }
 
 /* ── Calendario manutenzioni ── */
 .mant-legend {
@@ -345,15 +346,18 @@ body::before { display: none; }
 .mant-table-row div:nth-child(4) { color: var(--muted); font-size: 12.5px; }
 .mant-table-row code { font-size: 11px; background: rgba(29,106,248,0.08); color: var(--blue); padding: 1px 5px; border-radius: 4px; }
 
-@media (max-width: 760px) {
-  .eg-scadenze { grid-template-columns: 1fr 1fr; }
-  .mant-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+@media (max-width: 900px) {
+  .solar-grid { grid-template-columns: 1fr; }
+  .solar-kpi { grid-template-columns: 1fr 1fr; }
+  .eg-grid { grid-template-columns: 1fr; }
+  .eg-col { padding: 16px 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .eg-col:last-child { border-bottom: none; }
+  .mant-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
   .mant-table-head, .mant-table-row { grid-template-columns: 1fr 1fr; }
   .mant-table-head div:nth-child(3),
   .mant-table-head div:nth-child(4),
   .mant-table-row div:nth-child(3),
   .mant-table-row div:nth-child(4) { display: none; }
-  .eg-emergency { grid-template-columns: 1fr auto; }
 }
 </style>
 </head>
@@ -402,126 +406,96 @@ body::before { display: none; }
       </div>
     </div>
 
-    <!-- SOLARE + ELETTRICO -->
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
-        <div class="card-body">
+    <!-- SOLARE -->
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
+      <div class="card-body">
+        <div class="solar-grid">
           <div class="info-table">
             <div class="info-row"><div class="info-key">Inverter</div><div class="info-val"><strong>SolarEdge HD-Wave</strong></div></div>
-            <div class="info-row"><div class="info-key">Batteria</div><div class="info-val"><strong class="ok">✅ Installata</strong> — capacità da verificare in app</div></div>
-            <div class="info-row"><div class="info-key">Connessione cloud</div><div class="info-val"><strong>LAN via cavo</strong><br><span class="muted">TP-Link Extender (locale caldaia) → cavo patch → porta LAN inverter</span></div></div>
-            <div class="info-row"><div class="info-key">Portale monitoraggio</div><div class="info-val"><code>monitoring.solaredge.com</code><br><span class="muted">App: mySolarEdge</span></div></div>
-            <div class="info-row"><div class="info-key">Portale GSE</div><div class="info-val"><code>applicazioni.gse.it</code><br><span class="muted">Credenziali GSE già configurate</span></div></div>
-            <div class="info-row"><div class="info-key">Incentivo</div><div class="info-val"><strong>Ritiro Dedicato (RD)</strong><br><span class="muted">SSP chiuso ai nuovi impianti dal 29/05/2025</span></div></div>
-            <div class="info-row"><div class="info-key">Fornitore energia</div><div class="info-val"><strong>Iren</strong></div></div>
-            <div class="info-row"><div class="info-key">Export stimato</div><div class="info-val">~30 kWh/giorno · <strong>~400–600 €/anno</strong> con RD</div></div>
-            <div class="info-row"><div class="info-key">Produzione (prime 3gg)</div><div class="info-val">95.5 kWh prodotti · 0.27 kWh importati dalla rete</div></div>
+            <div class="info-row"><div class="info-key">Batteria</div><div class="info-val"><span class="ok">✅ Installata</span> — capacità verificare in app</div></div>
+            <div class="info-row"><div class="info-key">Connessione cloud</div><div class="info-val"><strong>LAN via cavo</strong> · TP-Link Extender (locale caldaia) → porta LAN inverter</div></div>
+            <div class="info-row"><div class="info-key">Monitoraggio</div><div class="info-val"><code>monitoring.solaredge.com</code> · App: <strong>mySolarEdge</strong></div></div>
+            <div class="info-row"><div class="info-key">Portale GSE</div><div class="info-val"><code>applicazioni.gse.it</code> — credenziali configurate</div></div>
+            <div class="info-row"><div class="info-key">Incentivo</div><div class="info-val"><strong>Ritiro Dedicato (RD)</strong> · SSP chiuso dal 29/05/2025</div></div>
+            <div class="info-row"><div class="info-key">Export stimato</div><div class="info-val">~30 kWh/gg · <strong>~400–600 €/anno</strong> con RD</div></div>
+            <div class="info-row"><div class="info-key">Produzione prime 3gg</div><div class="info-val">95.5 kWh prodotti · 0.27 kWh importati dalla rete</div></div>
           </div>
-          <div class="note-box" style="margin-top:12px;">
-            <p>⚠️ Richiedere Ritiro Dedicato su <code>applicazioni.gse.it</code> entro <strong>60 giorni</strong> dall'entrata in esercizio. Verificare se il contratto si è attivato automaticamente (Modello Unico).</p>
-            <p>🔋 Se la batteria risulta inattiva: aggiornamento firmware da remoto (il tecnico interviene via cloud SolarEdge, non serve visita in loco).</p>
+          <div>
+            <div class="note-box">
+              <p>⚠️ Richiedere Ritiro Dedicato su <code>applicazioni.gse.it</code> entro <strong>60 giorni</strong> dall'entrata in esercizio. Verificare se il contratto si è attivato automaticamente (Modello Unico).</p>
+              <p>🔋 Se la batteria risulta inattiva: aggiornamento firmware da remoto — il tecnico interviene via cloud SolarEdge, non serve visita in loco.</p>
+            </div>
+            <div class="solar-kpi">
+              <div class="solar-kpi-item"><div class="solar-kpi-label">Fornitore</div><div class="solar-kpi-val">Iren</div></div>
+              <div class="solar-kpi-item"><div class="solar-kpi-label">Tech Roberto Galleno</div><div class="solar-kpi-val"><a href="tel:+393396305950">+39 339 630 5950</a></div></div>
+              <div class="solar-kpi-item"><div class="solar-kpi-label">Supporto SolarEdge</div><div class="solar-kpi-val"><a href="tel:+390289015641">+39 02 89015641</a></div></div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="card">
-        <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico</div></div>
-        <div class="card-body">
+    <!-- ELETTRICO + GAS -->
+    <div class="card">
+      <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico · N° cliente <strong style="font-family:var(--mono);letter-spacing:0">10102545989</strong></div></div>
+      <div class="card-body">
+        <div class="eg-grid">
 
-          <!-- scadenze in evidenza -->
-          <div class="eg-scadenze">
-            <div class="eg-scad-item">
-              <div class="eg-scad-label">Luce · scadenza offerta</div>
-              <div class="eg-scad-date">30 apr 2027</div>
+          <!-- LUCE -->
+          <div class="eg-col">
+            <div class="section-title">⚡ Energia elettrica</div>
+            <div class="info-table eg-compact">
+              <div class="info-row"><div class="info-key">POD</div><div class="info-val"><code>IT001E01678616</code></div></div>
+              <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14733095</code></div></div>
+              <div class="info-row"><div class="info-key">Potenza</div><div class="info-val"><strong>3,0 kW</strong> · BT 220V</div></div>
+              <div class="info-row"><div class="info-key">Tipo utenza</div><div class="info-val">Domestico Non Residente <span class="warn">⚠️</span></div></div>
+              <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Prima Scelta Luce Fissa · scad. <strong>30/04/2027</strong></div></div>
+              <div class="info-row"><div class="info-key">Quadro elettrico</div><div class="info-val">📍 Locale caldaia</div></div>
+              <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">E-Distribuzione S.p.A.</div></div>
             </div>
-            <div class="eg-scad-item">
-              <div class="eg-scad-label">Gas · scadenza offerta</div>
-              <div class="eg-scad-date">30 apr 2028</div>
-            </div>
-            <div class="eg-scad-item">
-              <div class="eg-scad-label">N° cliente Iren (entrambi)</div>
-              <div class="eg-scad-date eg-mono">10102545989</div>
-            </div>
-            <div class="eg-scad-item">
-              <div class="eg-scad-label">Portale self-service</div>
-              <div class="eg-scad-date"><a href="https://www.irenlucegas.it" target="_blank">irenlucegas.it</a></div>
+            <div class="eg-emerg-inline">
+              <span class="eg-emerg-inline-label">🔵 Guasto luce</span>
+              <a class="eg-emerg-inline-num" href="tel:803500">803 500</a>
+              <span class="eg-emerg-inline-note">gratuito 24h</span>
             </div>
           </div>
 
-          <div class="grid-2" style="margin-top:20px;gap:20px;">
-
-            <!-- ELETTRICITÀ -->
-            <div>
-              <div class="section-title">⚡ Energia elettrica</div>
-              <div class="info-table">
-                <div class="info-row">
-                  <div class="info-key">POD</div>
-                  <div class="info-val"><code>IT001E01678616</code></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">N° contratto</div>
-                  <div class="info-val"><code>14733095</code></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Potenza / tipo</div>
-                  <div class="info-val"><strong>3,0 kW</strong> · BT 220V · Domestico Non Residente<br><span class="muted" style="font-size:12px;">⚠️ Da aggiornare a Residente dopo cambio residenza</span></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Offerta</div>
-                  <div class="info-val">Prima Scelta Luce Fissa<br><span class="muted">scad. <strong>30/04/2027</strong></span></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Quadro elettrico</div>
-                  <div class="info-val">📍 Locale caldaia</div>
-                </div>
-              </div>
-              <div class="eg-emergency">
-                <div class="eg-emerg-label">Guasto rete elettrica</div>
-                <div class="eg-emerg-who">E-Distribuzione S.p.A.</div>
-                <a class="eg-emerg-num" href="tel:803500">803 500</a>
-                <div class="eg-emerg-note">gratuito · 24h</div>
-              </div>
+          <!-- GAS -->
+          <div class="eg-col">
+            <div class="section-title">🔥 Gas metano</div>
+            <div class="info-table eg-compact">
+              <div class="info-row"><div class="info-key">PDR</div><div class="info-val"><code>02800000245018</code></div></div>
+              <div class="info-row"><div class="info-key">N° contratto</div><div class="info-val"><code>14731530</code></div></div>
+              <div class="info-row"><div class="info-key">Contatore</div><div class="info-val">Classe G4</div></div>
+              <div class="info-row"><div class="info-key">Matricola</div><div class="info-val"><code>MTSB035601565263</code></div></div>
+              <div class="info-row"><div class="info-key">Offerta</div><div class="info-val">Revolution Spese Protette Fisso · scad. <strong>30/04/2028</strong></div></div>
+              <div class="info-row"><div class="info-key">Distributore</div><div class="info-val">Italgas Reti S.p.A.</div></div>
             </div>
-
-            <!-- GAS -->
-            <div>
-              <div class="section-title">🔥 Gas metano</div>
-              <div class="info-table">
-                <div class="info-row">
-                  <div class="info-key">PDR</div>
-                  <div class="info-val"><code>02800000245018</code></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">N° contratto</div>
-                  <div class="info-val"><code>14731530</code></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Contatore</div>
-                  <div class="info-val">Classe G4<br><span class="muted">matricola <code>MTSB035601565263</code></span></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Offerta</div>
-                  <div class="info-val">Revolution Spese Protette Prezzo Fisso<br><span class="muted">scad. <strong>30/04/2028</strong></span></div>
-                </div>
-                <div class="info-row">
-                  <div class="info-key">Distributore</div>
-                  <div class="info-val">Italgas Reti S.p.A.</div>
-                </div>
-              </div>
-              <div class="eg-emergency eg-emergency-red">
-                <div class="eg-emerg-label">Fuga di gas / emergenza</div>
-                <div class="eg-emerg-who">Italgas Reti S.p.A.</div>
-                <a class="eg-emerg-num" href="tel:800900999">800 900 999</a>
-                <div class="eg-emerg-note">gratuito · 24h · apri finestre e non usare interruttori</div>
-              </div>
+            <div class="eg-emerg-inline eg-emerg-inline-red">
+              <span class="eg-emerg-inline-label">🔴 Fuga gas / emergenza</span>
+              <a class="eg-emerg-inline-num" href="tel:800900999">800 900 999</a>
+              <span class="eg-emerg-inline-note">gratuito 24h · apri finestre, non usare interruttori</span>
             </div>
-
           </div>
 
-          <div class="note-box" style="margin-top:16px;">
-            <p>💡 <strong>Nuova presa elettrica:</strong> derivazione con cavo 3×1,5mm², scatola da incasso, canalina. Rivolgersi a Pino Perrone (<a href="tel:+39335266435">+39 335 266435</a>).</p>
-            <p>🏠 <strong>Cambio a Residente:</strong> dopo cambio di residenza anagrafica, aggiornare il contratto luce da "Domestico Non Residente" a "Residente" su <a href="https://www.irenlucegas.it">irenlucegas.it</a> — si ottengono tariffe agevolate.</p>
+          <!-- NOTE & AZIONI -->
+          <div class="eg-col">
+            <div class="section-title">📋 Azioni da fare</div>
+            <div class="eg-actions">
+              <div class="eg-action-item eg-action-warn">
+                <div class="eg-action-title">Cambia a "Domestico Residente"</div>
+                <div class="eg-action-body">Dopo cambio residenza anagrafica → aggiornare su <a href="https://www.irenlucegas.it">irenlucegas.it</a>. Tariffe agevolate.</div>
+              </div>
+              <div class="eg-action-item eg-action-blu">
+                <div class="eg-action-title">Portale self-service Iren</div>
+                <div class="eg-action-body"><a href="https://www.irenlucegas.it">irenlucegas.it</a> — bollette, autolettura, variazioni contrattuali</div>
+              </div>
+              <div class="eg-action-item eg-action-neu">
+                <div class="eg-action-title">Nuova presa elettrica</div>
+                <div class="eg-action-body">Cavo 3×1,5mm², scatola da incasso, canalina — Pino Perrone <a href="tel:+39335266435">+39 335 266435</a></div>
+              </div>
+            </div>
           </div>
 
         </div>
