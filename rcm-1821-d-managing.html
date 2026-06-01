@@ -474,6 +474,53 @@ body::before { display: none; }
   .mant-table-row div:nth-child(4) { display: none; }
 }
 
+/* ── SIDEBAR + LAYOUT ── */
+html, body { height: 100%; }
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 220px; min-width: 220px;
+  background: #1a1040;
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0;
+  height: 100vh; overflow-y: auto;
+  z-index: 200;
+  box-shadow: 4px 0 24px rgba(20,5,70,0.22);
+}
+.sidebar-brand { padding: 24px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.sidebar-mark {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.12); border-radius: 10px;
+  display: grid; place-items: center;
+  font: 700 12px/1 "JetBrains Mono", monospace; color: #fff;
+  margin-bottom: 12px;
+}
+.sidebar-title { font: 800 14px/1 Inter, sans-serif; color: #fff; letter-spacing: -.02em; }
+.sidebar-sub { font: 500 9px/1 "JetBrains Mono", monospace; color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: .18em; margin-top: 5px; }
+.sidebar-nav { flex: 1; padding: 10px; list-style: none; margin: 0; display: flex; flex-direction: column; gap: 1px; }
+.sidebar-nav li { display: block; }
+.sidebar-nav a.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  text-decoration: none; color: rgba(255,255,255,0.48);
+  font: 500 13px/1.2 Inter, sans-serif;
+  transition: background .15s, color .15s;
+}
+.sidebar-nav a.nav-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.82); }
+.sidebar-nav a.nav-item.active { background: rgba(255,255,255,0.13); color: #fff; font-weight: 700; }
+.nav-icon { font-size: 15px; flex-shrink: 0; }
+.sidebar-footer { padding: 14px 10px; border-top: 1px solid rgba(255,255,255,0.07); }
+.sidebar-footer a { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 10px; text-decoration: none; color: rgba(255,255,255,0.4); font: 500 12px/1 Inter, sans-serif; transition: background .15s, color .15s; }
+.sidebar-footer a:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.75); }
+.main-content { flex: 1; margin-left: 220px; min-width: 0; overflow-x: hidden; }
+.layout .topbar { display: none; }
+.layout .shell { max-width: 1300px; margin: 0 auto; padding: 28px 28px 72px; }
+html { scroll-behavior: smooth; }
+@media (max-width: 860px) {
+  .sidebar { display: none; }
+  .main-content { margin-left: 0; }
+  .layout .topbar { display: flex !important; }
+}
+
 /* ── Reference: card senza bordi, shadow morbida ── */
 .card { border: none !important; box-shadow: 0 2px 8px rgba(80,50,180,0.07), 0 8px 28px rgba(80,50,180,0.09) !important; }
 .card-head { border-bottom: 1px solid rgba(92,61,186,0.07) !important; }
@@ -505,6 +552,52 @@ body::before { display: none; }
 </style>
 </head>
 <body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-mark">RCM</div>
+      <div class="sidebar-title">RCM-1821-D</div>
+      <div class="sidebar-sub">Managing</div>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="#s-calendario" class="nav-item" data-section="s-calendario">
+        <span class="nav-icon">🗓️</span> Calendario
+      </a></li>
+      <li><a href="#s-catastale" class="nav-item" data-section="s-catastale">
+        <span class="nav-icon">📋</span> Catastale
+      </a></li>
+      <li><a href="#s-solare" class="nav-item" data-section="s-solare">
+        <span class="nav-icon">☀️</span> Fotovoltaico
+      </a></li>
+      <li><a href="#s-elettrico" class="nav-item" data-section="s-elettrico">
+        <span class="nav-icon">⚡</span> Elettrico & Gas
+      </a></li>
+      <li><a href="#s-rete" class="nav-item" data-section="s-rete">
+        <span class="nav-icon">📡</span> Rete & Domotica
+      </a></li>
+<li><a href="#s-rifiuti" class="nav-item" data-section="s-rifiuti">
+        <span class="nav-icon">♻️</span> Rifiuti & Pulizia
+      </a></li>
+      <li><a href="#s-smarthome" class="nav-item" data-section="s-smarthome">
+        <span class="nav-icon">🔊</span> Smart Home
+      </a></li>
+      <li><a href="#s-contatti" class="nav-item" data-section="s-contatti">
+        <span class="nav-icon">📞</span> Contatti
+      </a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="index.html">
+        <span style="font-size:14px">←</span> Home
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
   <div class="shell">
 
     <!-- TOPBAR -->
@@ -524,7 +617,7 @@ body::before { display: none; }
     
 
     <!-- CALENDARIO MANUTENZIONI -->
-        <div class="card">
+        <div class="card" id="s-calendario">
           <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Da giugno 2026</div></div>
           <div class="card-body">
     
@@ -690,7 +783,7 @@ body::before { display: none; }
         </div>
 
     <!-- DATI · ANTIFURTO · CANCELLO -->
-    <div class="grid-3">
+    <div class="grid-3" id="s-catastale">
       <div class="card">
             <div class="card-head"><div class="card-head-left"><div class="card-title">📋 Dati catastali &amp; amministrativi</div></div><div class="card-badge">Admin</div></div>
             <div class="card-body">
@@ -748,7 +841,7 @@ body::before { display: none; }
     </div>
 
     <!-- SOLARE -->
-    <div class="card">
+    <div class="card" id="s-solare">
           <div class="card-head"><div class="card-head-left"><div class="card-title">☀️ Impianto solare · SolarEdge</div></div><div class="card-badge amber">Solar</div></div>
           <div class="card-body">
             <div class="solar-grid">
@@ -774,7 +867,7 @@ body::before { display: none; }
         </div>
 
     <!-- ELETTRICO + GAS -->
-    <div class="card">
+    <div class="card" id="s-elettrico">
           <div class="card-head"><div class="card-head-left"><div class="card-title">⚡ Impianto elettrico &amp; gas</div></div><div class="card-badge amber">Iren · Gestore unico · N° cliente <strong style="font-family:var(--mono);letter-spacing:0">10102545989</strong></div></div>
           <div class="card-body">
             <div class="eg-grid">
@@ -836,7 +929,7 @@ body::before { display: none; }
         </div>
 
     <!-- RETE · DOMOTICA · AC -->
-    <div class="grid-3">
+    <div class="grid-3" id="s-rete">
       <div class="card">
               <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
               <div class="card-body">
@@ -902,7 +995,7 @@ body::before { display: none; }
     </div>
 
     <!-- RIFIUTI · PULIZIA · ATTREZZATURE -->
-    <div class="grid-3">
+    <div class="grid-3" id="s-rifiuti">
       <div class="card">
             <div class="card-head"><div class="card-head-left"><div class="card-title">♻️ Raccolta rifiuti · San Mauro Torinese</div></div><div class="card-badge green">Calendario</div></div>
             <div class="card-body">
@@ -983,7 +1076,7 @@ body::before { display: none; }
     </div>
 
     <!-- SMART HOME ECOSYSTEM -->
-    <div class="card">
+    <div class="card" id="s-smarthome">
           <div class="card-head"><div class="card-head-left"><div class="card-title">🔊 Ecosistema smart home · Amazon Alexa</div></div><div class="card-badge">IoT</div></div>
           <div class="card-body">
             <div class="grid-2">
@@ -1013,7 +1106,7 @@ body::before { display: none; }
         </div>
 
     <!-- CONTATTI -->
-    <div class="card">
+    <div class="card" id="s-contatti">
           <div class="card-head"><div class="card-head-left"><div class="card-title">📞 Contatti &amp; fornitori</div></div><div class="card-badge">Rubrica</div></div>
           <div class="card-body">
             <div class="contacts-grid">
@@ -1093,6 +1186,46 @@ body::before { display: none; }
       </p>
     </div>
   </div>
-  <script>document.getElementById('lastUpdate').textContent=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});</script>
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+  <script>
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+
+    // Sidebar active state on scroll
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = ['s-calendario','s-catastale','s-solare','s-elettrico','s-rete','s-rifiuti','s-smarthome','s-contatti'];
+
+    function setActive(id) {
+      navItems.forEach(a => {
+        a.classList.toggle('active', a.dataset.section === id);
+      });
+    }
+
+    // Set first active on load
+    setActive('s-calendario');
+
+    // IntersectionObserver for scroll-based active
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Click: smooth scroll + immediate active
+    navItems.forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const id = a.dataset.section;
+        setActive(id);
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>
