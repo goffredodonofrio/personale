@@ -518,17 +518,18 @@ html, body { height: 100%; }
 .layout .shell { max-width: 1300px; margin: 0 auto; padding: 28px 28px 72px; }
 html { scroll-behavior: smooth; }
 
-/* ── Focus: sezione attiva al 100%, le altre sfumate ── */
+/* ── Focus: sezione attiva piena, le altre svaniscono ── */
+[id^="s-"] {
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
 .shell.has-focus [id^="s-"] {
-  opacity: 0.15;
-  filter: blur(1.5px) saturate(0.4);
-  transition: opacity 0.4s ease, filter 0.4s ease;
+  opacity: 0.08 !important;
+  filter: blur(2px) grayscale(0.5) !important;
   pointer-events: none;
 }
 .shell.has-focus [id^="s-"].focused-section {
-  opacity: 1;
-  filter: none;
-  transition: opacity 0.4s ease, filter 0.4s ease;
+  opacity: 1 !important;
+  filter: none !important;
   pointer-events: auto;
 }
 
@@ -1208,6 +1209,10 @@ html { scroll-behavior: smooth; }
   <script>
     document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
 
+    // Attende che tutto sia pronto
+    window.addEventListener('load', initSidebar);
+    function initSidebar() {
+
     const navItems = document.querySelectorAll('.nav-item');
     const sections = ['s-calendario','s-catastale','s-solare','s-elettrico','s-rete','s-rifiuti','s-smarthome','s-contatti'];
     const shell = document.querySelector('.shell');
@@ -1269,9 +1274,11 @@ html { scroll-behavior: smooth; }
     // ESC → rimuovi focus
     document.addEventListener('keydown', e => { if (e.key === 'Escape') clearFocus(); });
 
-    // Default al caricamento: calendario in primo piano
+    // Default: calendario in primo piano
     setActive('s-calendario');
     focusSection('s-calendario');
+
+    } // end initSidebar
   </script>
 </body>
 </html>
