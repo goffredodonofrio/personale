@@ -479,42 +479,57 @@ html, body { height: 100%; }
 .layout { display: flex; min-height: 100vh; }
 .sidebar {
   width: 220px; min-width: 220px;
-  background: #1a1040;
+  background: #f0eeff;
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0;
   height: 100vh; overflow-y: auto;
   z-index: 200;
-  box-shadow: 4px 0 24px rgba(20,5,70,0.22);
+  box-shadow: 2px 0 16px rgba(92,61,186,0.10);
+  border-right: 1px solid rgba(92,61,186,0.10);
 }
-.sidebar-brand { padding: 24px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.sidebar-brand { padding: 24px 20px 18px; border-bottom: 1px solid rgba(92,61,186,0.10); }
 .sidebar-mark {
   width: 38px; height: 38px;
-  background: rgba(255,255,255,0.12); border-radius: 10px;
+  background: #5c3dba; border-radius: 10px;
   display: grid; place-items: center;
   font: 700 12px/1 "JetBrains Mono", monospace; color: #fff;
   margin-bottom: 12px;
 }
-.sidebar-title { font: 800 14px/1 Inter, sans-serif; color: #fff; letter-spacing: -.02em; }
-.sidebar-sub { font: 500 9px/1 "JetBrains Mono", monospace; color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: .18em; margin-top: 5px; }
+.sidebar-title { font: 800 14px/1 Inter, sans-serif; color: #1a1535; letter-spacing: -.02em; }
+.sidebar-sub { font: 500 9px/1 "JetBrains Mono", monospace; color: #9e9bba; text-transform: uppercase; letter-spacing: .18em; margin-top: 5px; }
 .sidebar-nav { flex: 1; padding: 10px; list-style: none; margin: 0; display: flex; flex-direction: column; gap: 1px; }
 .sidebar-nav li { display: block; }
 .sidebar-nav a.nav-item {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 12px; border-radius: 10px;
-  text-decoration: none; color: rgba(255,255,255,0.48);
+  text-decoration: none; color: #6b678e;
   font: 500 13px/1.2 Inter, sans-serif;
   transition: background .15s, color .15s;
 }
-.sidebar-nav a.nav-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.82); }
-.sidebar-nav a.nav-item.active { background: rgba(255,255,255,0.13); color: #fff; font-weight: 700; }
+.sidebar-nav a.nav-item:hover { background: rgba(92,61,186,0.08); color: #3d2880; }
+.sidebar-nav a.nav-item.active { background: rgba(92,61,186,0.12); color: #3d2880; font-weight: 700; }
+.sidebar-nav a.nav-item.active .nav-icon { filter: none; }
 .nav-icon { font-size: 15px; flex-shrink: 0; }
-.sidebar-footer { padding: 14px 10px; border-top: 1px solid rgba(255,255,255,0.07); }
-.sidebar-footer a { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 10px; text-decoration: none; color: rgba(255,255,255,0.4); font: 500 12px/1 Inter, sans-serif; transition: background .15s, color .15s; }
-.sidebar-footer a:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.75); }
+.sidebar-footer { padding: 14px 10px; border-top: 1px solid rgba(92,61,186,0.10); }
+.sidebar-footer a { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 10px; text-decoration: none; color: #9e9bba; font: 500 12px/1 Inter, sans-serif; transition: background .15s, color .15s; }
+.sidebar-footer a:hover { background: rgba(92,61,186,0.08); color: #3d2880; }
 .main-content { flex: 1; margin-left: 220px; min-width: 0; overflow-x: hidden; }
 .layout .topbar { display: none; }
 .layout .shell { max-width: 1300px; margin: 0 auto; padding: 28px 28px 72px; }
 html { scroll-behavior: smooth; }
+
+/* ── Focus: sezione attiva al 100%, le altre in dissolvenza ── */
+.shell.has-focus [id^="s-"] {
+  opacity: 0.18;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.shell.has-focus [id^="s-"].focused-section {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: auto;
+}
+
 @media (max-width: 860px) {
   .sidebar { display: none; }
   .main-content { margin-left: 0; }
@@ -1191,41 +1206,66 @@ html { scroll-behavior: smooth; }
   <script>
     document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
 
-    // Sidebar active state on scroll
     const navItems = document.querySelectorAll('.nav-item');
     const sections = ['s-calendario','s-catastale','s-solare','s-elettrico','s-rete','s-rifiuti','s-smarthome','s-contatti'];
+    const shell = document.querySelector('.shell');
+    let focusedId = null;
 
+    // Evidenzia voce sidebar
     function setActive(id) {
-      navItems.forEach(a => {
-        a.classList.toggle('active', a.dataset.section === id);
+      navItems.forEach(a => a.classList.toggle('active', a.dataset.section === id));
+    }
+
+    // Focus sezione: attiva al 100%, le altre in dissolvenza
+    function focusSection(id) {
+      if (focusedId === id) {
+        // Click sulla stessa voce → rimuovi focus
+        clearFocus();
+        return;
+      }
+      focusedId = id;
+      shell.classList.add('has-focus');
+      sections.forEach(sid => {
+        const el = document.getElementById(sid);
+        if (!el) return;
+        el.classList.toggle('focused-section', sid === id);
       });
     }
 
-    // Set first active on load
-    setActive('s-calendario');
+    function clearFocus() {
+      focusedId = null;
+      shell.classList.remove('has-focus');
+      sections.forEach(sid => {
+        const el = document.getElementById(sid);
+        if (el) el.classList.remove('focused-section');
+      });
+    }
 
-    // IntersectionObserver for scroll-based active
+    // Scroll: aggiorna active nella sidebar (solo evidenzia, non fa focus)
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) setActive(entry.target.id);
       });
     }, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
-
     sections.forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
-    // Click: smooth scroll + immediate active
+    // Click sidebar: focus sezione + scroll
     navItems.forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
         const id = a.dataset.section;
         setActive(id);
+        focusSection(id);
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    // Click sulla pagina fuori dalle sezioni → rimuovi focus
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') clearFocus(); });
   </script>
 </body>
 </html>
