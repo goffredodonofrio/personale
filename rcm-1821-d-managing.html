@@ -99,23 +99,23 @@
 <style>
 /* ======= LIGHT THEME ======= */
 :root {
-  --bg-0: #f5f4f1;
-  --bg-1: #eceae5;
+  --bg-0: #f2f0fb;
+  --bg-1: #e9e5f6;
   --panel: #ffffff;
-  --line: rgba(0,0,0,0.07);
-  --line-strong: rgba(0,0,0,0.14);
-  --text: #111110;
-  --muted: #5a5652;
-  --muted-2: #9a9691;
-  --soft: #111110;
-  --blue: #1d6af8;
-  --cyan: #1d6af8;
+  --line: rgba(92,61,186,0.00);
+  --line-strong: rgba(92,61,186,0.10);
+  --text: #1a1535;
+  --muted: #6b678e;
+  --muted-2: #9e9bba;
+  --soft: #1a1535;
+  --blue: #5c3dba;
+  --cyan: #5c3dba;
   --amber: #d97706;
   --orange: #ea580c;
-  --green: #16a34a;
-  --red: #dc2626;
-  --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.06);
-  --radius: 22px;
+  --green: #1ab86c;
+  --red: #e03e3e;
+  --shadow: 0 2px 8px rgba(80,50,180,0.07), 0 8px 28px rgba(80,50,180,0.09);
+  --radius: 20px;
 }
 
 body { background: var(--bg-0); background-image: none; font-size: 14px; }
@@ -473,6 +473,35 @@ body::before { display: none; }
   .mant-table-row div:nth-child(3),
   .mant-table-row div:nth-child(4) { display: none; }
 }
+
+/* ── Reference: card senza bordi, shadow morbida ── */
+.card { border: none !important; box-shadow: 0 2px 8px rgba(80,50,180,0.07), 0 8px 28px rgba(80,50,180,0.09) !important; }
+.card-head { border-bottom: 1px solid rgba(92,61,186,0.07) !important; }
+.contact-card { border: none !important; box-shadow: 0 1px 4px rgba(80,50,180,0.06), 0 4px 16px rgba(80,50,180,0.07) !important; }
+.contact-card:hover { box-shadow: 0 4px 16px rgba(80,50,180,0.14), 0 12px 36px rgba(80,50,180,0.10) !important; }
+.device-item { border: none !important; background: rgba(92,61,186,0.04) !important; }
+.rif-day { border-color: transparent !important; background: rgba(92,61,186,0.04) !important; }
+.rif-day.active        { background: rgba(92,61,186,0.10) !important; }
+.rif-day.active.green  { background: rgba(26,184,108,0.10) !important; }
+.rif-day.active.amber  { background: rgba(217,119,6,0.10)  !important; }
+.rif-day.active.red    { background: rgba(224,62,62,0.10)  !important; }
+.eg-emerg-inline { border: none !important; }
+.mant-grid { border: none !important; }
+.mant-month { border-right-color: rgba(92,61,186,0.08) !important; border-bottom-color: rgba(92,61,186,0.08) !important; }
+.mant-month-name { background: rgba(92,61,186,0.04) !important; border-bottom-color: rgba(92,61,186,0.08) !important; }
+.mant-month-urgent .mant-month-name { background: rgba(217,119,6,0.08) !important; }
+.mant-table { border-color: rgba(92,61,186,0.08) !important; }
+.mant-table-head { background: rgba(92,61,186,0.04) !important; border-bottom-color: rgba(92,61,186,0.08) !important; }
+.note-box { background: rgba(92,61,186,0.04); }
+.section-title { color: var(--muted-2); }
+.back-home { border: 1px solid rgba(92,61,186,0.14) !important; }
+.info-val code { background: rgba(92,61,186,0.07); border: none; color: var(--blue); }
+.solar-kpi-item { border: none !important; background: rgba(92,61,186,0.04) !important; }
+.eg-action-item { border: none !important; }
+.eg-action-warn { background: rgba(217,119,6,0.07) !important; }
+.eg-action-blu  { background: rgba(92,61,186,0.07) !important; }
+.eg-action-neu  { background: rgba(92,61,186,0.04) !important; }
+
 </style>
 </head>
 <body>

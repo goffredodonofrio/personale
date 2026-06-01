@@ -9,24 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #f5f4f1;
-      --bg-1:      #eceae5;
+      --bg:        #f2f0fb;
+      --bg-1:      #e9e5f6;
       --surface:   #ffffff;
       --surface-2: #f9f8f6;
-      --border:    rgba(0,0,0,0.08);
-      --border-md: rgba(0,0,0,0.14);
-      --text:      #111110;
-      --muted:     #6b6860;
-      --muted-2:   #9e9b96;
-      --blue:      #1d6af8;
-      --blue-light:#e8efff;
+      --border:    rgba(92,61,186,0.06);
+      --border-md: rgba(92,61,186,0.12);
+      --text:      #1a1535;
+      --muted:     #6b678e;
+      --muted-2:   #9e9bba;
+      --blue:      #5c3dba;
+      --blue-light:#ede9ff;
       --amber:     #d97706;
       --amber-light:#fef3c7;
-      --green:     #16a34a;
-      --green-light:#dcfce7;
-      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
-      --shadow:    0 2px 8px rgba(0,0,0,0.07), 0 12px 36px rgba(0,0,0,0.08);
-      --shadow-lg: 0 4px 16px rgba(0,0,0,0.08), 0 24px 60px rgba(0,0,0,0.12);
+      --green:     #1ab86c;
+      --green-light:#d0f7e8;
+      --shadow-sm: 0 2px 6px rgba(80,50,180,0.07), 0 6px 20px rgba(80,50,180,0.07);
+      --shadow:    0 2px 8px rgba(80,50,180,0.07), 0 12px 36px rgba(80,50,180,0.09);
+      --shadow-lg: 0 4px 16px rgba(80,50,180,0.09), 0 24px 60px rgba(80,50,180,0.12);
       --radius:    24px;
       --radius-sm: 14px;
       --mono:      "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -409,6 +409,16 @@
       .section-sub { display: none; }
       .footer { flex-direction: column; align-items: flex-start; }
     }
+  
+/* ── Reference: card senza bordi ── */
+body { background: var(--bg); }
+.topbar { border: none !important; box-shadow: 0 2px 8px rgba(80,50,180,0.07), 0 8px 28px rgba(80,50,180,0.09); }
+.project-card { border: none !important; }
+.accent-blue  { background: linear-gradient(160deg, #ede9ff 0%, var(--surface) 55%); }
+.accent-amber { background: linear-gradient(160deg, var(--amber-light) 0%, var(--surface) 55%); }
+.accent-green { background: linear-gradient(160deg, var(--green-light) 0%, var(--surface) 55%); }
+.card-dot, .carousel-dot.active { background: var(--blue); }
+
   </style>
 </head>
 <body>
