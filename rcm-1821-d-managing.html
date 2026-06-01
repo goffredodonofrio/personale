@@ -518,15 +518,17 @@ html, body { height: 100%; }
 .layout .shell { max-width: 1300px; margin: 0 auto; padding: 28px 28px 72px; }
 html { scroll-behavior: smooth; }
 
-/* ── Focus: sezione attiva al 100%, le altre in dissolvenza ── */
+/* ── Focus: sezione attiva al 100%, le altre sfumate ── */
 .shell.has-focus [id^="s-"] {
-  opacity: 0.18;
-  transition: opacity 0.3s ease;
+  opacity: 0.15;
+  filter: blur(1.5px) saturate(0.4);
+  transition: opacity 0.4s ease, filter 0.4s ease;
   pointer-events: none;
 }
 .shell.has-focus [id^="s-"].focused-section {
   opacity: 1;
-  transition: opacity 0.3s ease;
+  filter: none;
+  transition: opacity 0.4s ease, filter 0.4s ease;
   pointer-events: auto;
 }
 
@@ -1264,8 +1266,12 @@ html { scroll-behavior: smooth; }
       });
     });
 
-    // Click sulla pagina fuori dalle sezioni → rimuovi focus
+    // ESC → rimuovi focus
     document.addEventListener('keydown', e => { if (e.key === 'Escape') clearFocus(); });
+
+    // Default al caricamento: calendario in primo piano
+    setActive('s-calendario');
+    focusSection('s-calendario');
   </script>
 </body>
 </html>
