@@ -949,24 +949,59 @@ html { scroll-behavior: smooth; }
     <!-- RETE · DOMOTICA · AC -->
     <div class="grid-3" id="s-rete">
       <div class="card">
-              <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
-              <div class="card-body">
-                <div class="info-table">
-                  <div class="info-row"><div class="info-key">Provider attuale</div><div class="info-val"><strong class="ok">✅ Starlink Gen 4</strong></div></div>
-                  <div class="info-row"><div class="info-key">Recesso Tiscali</div><div class="info-val"><span class="ok">✅ Fatto</span> — modulo disdetta inviato per trasloco</div></div>
-                  <div class="info-row"><div class="info-key">SSID WiFi</div><div class="info-val"><code>Rocciamelone</code> — 2.4 GHz + 5 GHz (band steering)</div></div>
-                  <div class="info-row"><div class="info-key">Subnet</div><div class="info-val"><code>192.168.1.0/24</code> — DHCP gestito da Starlink</div></div>
-                  <div class="info-row"><div class="info-key">Controller Omada</div><div class="info-val"><code>omada.tplinkcloud.com</code> · Sito: <code>#RCM-1821-D</code></div></div>
-                </div>
-                <div class="section-title" style="margin-top:14px;">Topologia di rete</div>
-                <div class="device-list">
-                  <div class="device-item"><span class="device-name">① Starlink Gen 4</span><span class="device-detail">Router / DHCP / NAT — porte Ethernet integrate</span></div>
-                  <div class="device-item"><span class="device-name">② Switch</span><span class="device-detail">Collegato a Starlink via Ethernet</span></div>
-                  <div class="device-item"><span class="device-name">③ TP-Link Omada EAP "AC-Living Room"</span><span class="device-detail">AP WiFi · IP <code>192.168.1.59</code> · MAC <code>CC-BA-BD-51-BE-5E</code></span></div>
-                  <div class="device-item"><span class="device-name">④ TP-Link Extender (locale caldaia)</span><span class="device-detail">Estende il WiFi al piano tecnico → cavo LAN patch → SolarEdge inverter</span></div>
-                </div>
-              </div>
+        <div class="card-head"><div class="card-head-left"><div class="card-title">📡 Rete &amp; connettività</div></div><div class="card-badge">Network</div></div>
+        <div class="card-body">
+
+          <div class="section-title">Internet · Router</div>
+          <div class="info-table">
+            <div class="info-row"><div class="info-key">Provider</div><div class="info-val"><strong>Starlink Gen 4</strong> · satellite</div></div>
+            <div class="info-row"><div class="info-key">IP router</div><div class="info-val"><code>192.168.1.1</code> · DHCP, NAT, firewall</div></div>
+            <div class="info-row"><div class="info-key">Subnet</div><div class="info-val"><code>192.168.1.0/24</code></div></div>
+            <div class="info-row"><div class="info-key">Gestione</div><div class="info-val">App Starlink (mobile)</div></div>
+          </div>
+
+          <div class="section-title" style="margin-top:14px;">Switch · TP-Link ES210GMP</div>
+          <div class="info-table">
+            <div class="info-row"><div class="info-key">IP</div><div class="info-val"><code>192.168.1.253</code></div></div>
+            <div class="info-row"><div class="info-key">MAC</div><div class="info-val"><code>8C:86:DD:10:58:47</code></div></div>
+            <div class="info-row"><div class="info-key">Porte</div><div class="info-val">10 porte · 8 PoE+ · 123W budget</div></div>
+            <div class="info-row"><div class="info-key">Gestione</div><div class="info-val">Browser → <code>192.168.1.253</code></div></div>
+          </div>
+
+          <div class="section-title" style="margin-top:14px;">Access Point</div>
+          <div class="device-list">
+            <div class="device-item">
+              <span class="device-name">EAP650 #1 · <code>192.168.1.176</code></span>
+              <span class="device-detail">Wi-Fi 6 AX3000 · PoE · vicino allo switch · Omada Mesh</span>
             </div>
+            <div class="device-item">
+              <span class="device-name">EAP650 #2 · <code>192.168.1.117</code></span>
+              <span class="device-detail">Wi-Fi 6 AX3000 · PoE · Living Room · Omada Mesh</span>
+            </div>
+            <div class="device-item">
+              <span class="device-name">EAP650 #3 · <code>192.168.1.59</code></span>
+              <span class="device-detail">Wi-Fi 6 AX3000 · PoE · Piano -1 · Omada Mesh</span>
+            </div>
+            <div class="device-item">
+              <span class="device-name">AX1600 · Mansarda</span>
+              <span class="device-detail">Wi-Fi 6 AX1500 · PoE · standalone Tether · non in mesh Omada</span>
+            </div>
+          </div>
+
+          <div class="section-title" style="margin-top:14px;">Wi-Fi</div>
+          <div class="info-table">
+            <div class="info-row"><div class="info-key">SSID principale</div><div class="info-val"><code>#RCM-1821-D</code> · 2.4+5 GHz · band steering</div></div>
+            <div class="info-row"><div class="info-key">SSID backup</div><div class="info-val"><code>#RCM-1821-D (backup)</code> · solo Starlink · fallback manuale</div></div>
+            <div class="info-row"><div class="info-key">Gestione mesh</div><div class="info-val">App TP-Link Omada · 3× EAP650 · locale</div></div>
+          </div>
+
+          <div class="note-box" style="margin-top:12px;">
+            <p>⚠️ <strong>Da verificare (alta priorità):</strong> controllare nel pannello switch (Switching → Port Settings) se i cavi verso gli AP sono CAT5 o CAT6. Se CAT5, gli AP linkano a 100M invece di 1G.</p>
+            <p>💡 <strong>Upgrade futuro:</strong> EAP610 in mansarda (~50€) per completare il mesh Omada · ER605 per VLAN e rete IoT separata (~80€).</p>
+          </div>
+
+        </div>
+      </div>
       <div class="card">
               <div class="card-head"><div class="card-head-left"><div class="card-title">🏠 Domotica · Shelly</div></div><div class="card-badge">Shelly</div></div>
               <div class="card-body">
