@@ -1,0 +1,270 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style media="print">
+  @page{size:A4;margin:18mm 16mm}
+  body{padding:0;font-size:10.5pt;line-height:1.45;background:#FBFAF5;color:#1F2A26}
+  nav.parts{display:none}
+  header.cover{padding-block:70mm 20mm;page-break-after:always;border-bottom:none;text-align:center}
+  .names{justify-content:center}
+  h1{font-size:42pt}
+  section{page-break-inside:auto;padding-block:6mm 2mm}
+  #regole,#mattina,#conseguenze{page-break-before:always} article.art{margin:9pt 0}
+  article.art,.note,.tbl,.two,.steps li{page-break-inside:avoid}
+  h2,h3,h4{page-break-after:avoid}
+  .tbl{overflow:visible}
+  table{font-size:10pt}
+  .sign div{height:70px}
+  a{color:inherit;text-decoration:none}
+</style>
+<title>La Costituzione della nostra famiglia</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+  :root{
+    --paper:#FBFAF5; --ink:#1F2A26; --muted:#5F6E67; --line:#D6DED9;
+    --green:#2E5E4E; --green-soft:#E6F0EA; --green-ink:#1E3F35;
+    --mustard:#D9A93C; --mustard-soft:#FBF3DC; --mustard-ink:#6E4F0C;
+    --display:"Bricolage Grotesque", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    --body:"Literata", Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#141D19; --ink:#E7EDE9; --muted:#9CAAA3; --line:#2C3A34;
+      --green:#8FC4AE; --green-soft:#1C2B25; --green-ink:#BFE0D0;
+      --mustard:#D9A93C; --mustard-soft:#2A2312; --mustard-ink:#E7C874;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#141D19; --ink:#E7EDE9; --muted:#9CAAA3; --line:#2C3A34;
+    --green:#8FC4AE; --green-soft:#1C2B25; --green-ink:#BFE0D0;
+    --mustard:#D9A93C; --mustard-soft:#2A2312; --mustard-ink:#E7C874;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding-inline:20px;padding-block:0 80px}
+  a{color:var(--green)}
+  .wrap{max-width:68ch;margin:0 auto}
+
+  header.cover{padding-block:64px 40px;border-bottom:3px double var(--green)}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,64px);line-height:.98;letter-spacing:-.02em;margin:10px 0 6px;text-wrap:balance}
+  h1 em{font-style:normal;color:var(--green)}
+  .names{font-family:var(--display);font-weight:500;font-size:20px;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px 18px}
+  .names span::before{content:"·";color:var(--green);margin-right:18px}
+  .names span:first-child::before{content:none;margin:0}
+  .meta{color:var(--muted);font-style:italic;margin-top:14px;font-size:15px}
+
+  nav.parts{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px;z-index:2;overflow-x:auto}
+  nav.parts ul{list-style:none;margin:0;padding:0;display:flex;gap:6px;white-space:nowrap}
+  nav.parts a{font-family:var(--display);font-weight:700;font-size:13px;text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:999px}
+  nav.parts a:hover,nav.parts a:focus-visible{background:var(--green-soft);color:var(--green-ink);outline:none}
+
+  section{padding-block:36px 8px}
+  h2{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.01em;margin:0 0 4px;text-wrap:balance}
+  h2 small{display:block;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .lede{color:var(--muted);font-style:italic;margin:0 0 20px}
+  p{margin:0 0 14px}
+
+  article.art{display:grid;grid-template-columns:64px 1fr;gap:0 14px;margin:22px 0;align-items:baseline}
+  article.art .n{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.06em;color:var(--green);padding-top:5px}
+  article.art h3{font-family:var(--display);font-weight:700;font-size:20px;margin:0 0 6px;line-height:1.2}
+  article.art p{margin:0}
+  @media (max-width:480px){article.art{grid-template-columns:1fr;gap:2px}}
+
+  .note{background:var(--mustard-soft);border-left:4px solid var(--mustard);padding:12px 16px;margin:6px 0 22px;font-size:15px;line-height:1.5}
+  .note b{font-family:var(--display);color:var(--mustard-ink);letter-spacing:.02em}
+  .blank{display:inline-block;min-width:3.2em;border-bottom:1px solid var(--ink);vertical-align:baseline}
+
+  h4{font-family:var(--display);font-weight:700;font-size:16px;margin:26px 0 10px}
+  .tbl{overflow-x:auto;margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:var(--green-soft);color:var(--green-ink);font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.04em}
+  td ul{margin:0;padding-left:18px}
+  td ul li{margin:2px 0}
+  .routine th:first-child,.routine td:first-child{white-space:nowrap;font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;color:var(--green-ink)}
+  .tag{display:inline-block;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--green-soft);color:var(--green-ink);margin-left:6px;vertical-align:middle}
+  .tag.help{background:var(--mustard-soft);color:var(--mustard-ink)}
+  .check{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+  .check li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+  .check li::before{content:"";width:16px;height:16px;border:2px solid var(--green);border-radius:4px;margin-top:4px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+  @media (max-width:560px){.two{grid-template-columns:1fr}}
+  .two > div{border:1px solid var(--line);border-top:3px solid var(--green);padding:12px 14px}
+  .two h5{font-family:var(--display);font-weight:800;font-size:15px;margin:0 0 8px}
+  .fine{color:var(--muted);font-style:italic;font-size:15px;margin-top:12px}
+
+  .steps{list-style:none;padding:0;margin:0 0 10px;display:grid;gap:10px}
+  .steps li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+  .steps .k{width:34px;height:34px;border-radius:50%;background:var(--green);color:var(--paper);font-family:var(--display);font-weight:800;display:grid;place-items:center;font-size:15px}
+
+  .sign{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  .sign div{border:1px solid var(--line);border-top:3px solid var(--green);height:96px;padding:8px 10px;font-family:var(--display);font-weight:700;font-size:14px}
+  @media (max-width:560px){.sign{grid-template-columns:repeat(2,1fr)}}
+  .place{text-align:right;color:var(--muted);font-style:italic;margin-top:14px}
+  footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px;font-style:italic}
+</style>
+
+<div class="wrap">
+<header class="cover">
+  <div class="eyebrow">Versione 2 · bozza da discutere</div>
+  <h1>La Costituzione <em>della nostra famiglia</em></h1>
+  <div class="names"><span>Goffredo</span><span>Carolina</span><span>Edoardo</span><span>Bianca</span></div>
+  <p class="meta">Approvata dal Consiglio di famiglia il <span class="blank"></span> / <span class="blank"></span> / 2026 · si rilegge insieme ogni tre mesi</p>
+</header>
+
+<nav class="parts" aria-label="Parti della Costituzione"><ul>
+  <li><a href="#preambolo">Preambolo</a></li>
+  <li><a href="#valori">I · Valori</a></li>
+  <li><a href="#diritti">II · Diritti</a></li>
+  <li><a href="#doveri">III · Doveri</a></li>
+  <li><a href="#regole">IV · Regole</a></li>
+  <li><a href="#compiti">V · Compiti</a></li>
+  <li><a href="#mattina">VI · Mattina</a></li>
+  <li><a href="#conseguenze">VII · Conseguenze</a></li>
+  <li><a href="#consiglio">VIII · Consiglio</a></li>
+</ul></nav>
+
+<section id="preambolo">
+  <h2>Preambolo</h2>
+  <p>Noi — Goffredo, Carolina, Edoardo e Bianca — siamo una famiglia. Viviamo nella stessa casa, mangiamo alla stessa tavola e ci vogliamo bene anche nei giorni storti.</p>
+  <p>Abbiamo scritto questa Costituzione insieme, grandi e piccoli, perché le cose importanti è meglio dirle chiaramente e metterle per iscritto. Qui ci sono le cose in cui crediamo, i diritti di ognuno, i doveri di ognuno, le regole della casa e cosa succede quando qualcuno le dimentica.</p>
+  <p>Questa Costituzione vale per tutti e quattro allo stesso modo: non ci sono regole solo per i bambini o solo per i grandi. Chi ha più anni ha più responsabilità, non più diritti.</p>
+  <p>Non è scritta nella pietra. Se una regola non funziona, se ne parla e si cambia. Ma finché è scritta qui, vale.</p>
+</section>
+
+<section id="valori">
+  <h2><small>Parte I</small>I nostri valori</h2>
+  <p class="lede">Le cose in cui crediamo. Sono la bussola: quando una regola non basta, ci si orienta con questi.</p>
+  <article class="art"><div class="n">ART. 1</div><div><h3>Accoglienza</h3><p>La nostra casa è aperta. Chi arriva — un amico, un parente, un compagno di scuola, qualcuno che ha bisogno — è il benvenuto. Nessuno viene giudicato per come è, da dove viene o cosa ha.</p></div></article>
+  <article class="art"><div class="n">ART. 2</div><div><h3>Dialogo</h3><p>Le cose si dicono con le parole, non con le urla, i musi lunghi o le porte sbattute. Si parla a turno e si ascolta fino alla fine. Se siamo troppo arrabbiati per parlare, lo diciamo e ne riparliamo dopo.</p></div></article>
+  <article class="art"><div class="n">ART. 3</div><div><h3>Empatia</h3><p>Prima di rispondere, proviamo a capire cosa sente l'altro. Anche quando non siamo d'accordo. Anche quando pensiamo di avere ragione. «Come ti sei sentito?» è una domanda che in questa casa si fa spesso.</p></div></article>
+  <article class="art"><div class="n">ART. 4</div><div><h3>Rispetto</h3><p>Rispettiamo le persone, le loro cose, i loro spazi e i loro tempi. Il corpo di ognuno è suo: nessuno tocca, spinge o abbraccia chi non vuole. Le cose degli altri si chiedono prima di prenderle.</p></div></article>
+  <article class="art"><div class="n">ART. 5</div><div><h3>Anti-fascismo</h3><p>Nessuno vale più di un altro. In questa famiglia stiamo sempre dalla parte di chi è più piccolo, più debole o lasciato solo, e mai dalla parte di chi comanda con la paura, la forza o la prepotenza. Ognuno è libero di pensare con la propria testa e di dire quello che pensa.</p></div></article>
+  <article class="art"><div class="n">ART. 6</div><div><h3>Fratellanza</h3><p>Edoardo e Bianca sono una squadra, e la squadra siamo tutti e quattro. Ci si aiuta, ci si difende, non ci si prende in giro per far ridere gli altri. Chi vince festeggia con gli altri, chi perde viene consolato.</p></div></article>
+  <article class="art"><div class="n">ART. 7</div><div><h3>Amore</h3><p>Ci vogliamo bene sempre, anche quando litighiamo, anche quando qualcuno sbaglia. L'amore non si toglie come punizione. E si dice: «ti voglio bene» in questa casa non è mai di troppo.</p></div></article>
+  <article class="art"><div class="n">ART. 8</div><div><h3>Parità di genere</h3><p>Maschi e femmine possono fare le stesse cose, dentro e fuori casa: cucinare, giocare a calcio, piangere, riparare, ballare, comandare, prendersi cura. I compiti di casa non hanno un sesso e i giochi nemmeno.</p></div></article>
+  <article class="art"><div class="n">ART. 9</div><div><h3>Cooperazione reciproca</h3><p>A ciascuno secondo i suoi bisogni, da ciascuno secondo le sue possibilità. Chi ha bisogno di più aiuto ne riceve di più, chi può fare di più fa di più: non si tiene il conto. Bianca non fa le stesse cose di Edoardo, e Edoardo non fa le stesse cose di mamma e papà, ma ognuno fa la sua parte.</p></div></article>
+</section>
+
+<section id="diritti">
+  <h2><small>Parte II</small>I diritti di ognuno</h2>
+  <p class="lede">Valgono per tutti e quattro. I diritti vengono prima dei doveri, non per caso.</p>
+  <article class="art"><div class="n">ART. 10</div><div><h3>Diritto a sentirsi al sicuro</h3><p>Ognuno ha diritto a sentirsi al sicuro, nel corpo e nel cuore. Nessuno in questa casa viene picchiato, minacciato, umiliato o deriso. Casa nostra è il posto dove si può sbagliare senza paura.</p></div></article>
+  <article class="art"><div class="n">ART. 11</div><div><h3>Diritto di esprimersi</h3><p>Ognuno può dire quello che pensa e quello che sente, sempre: la gioia, la rabbia, la paura, la tristezza, il «non sono d'accordo». Nessuna emozione è sbagliata. Si può essere in disaccordo con mamma e papà, e dirlo.</p></div></article>
+  <article class="art"><div class="n">ART. 12</div><div><h3>Diritto al rispetto</h3><p>Ognuno ha diritto a essere trattato con rispetto: per come è fatto, per le sue idee, per le sue cose e per i suoi tempi. Anche i piccoli. Anche quando hanno torto.</p></div></article>
+  <article class="art"><div class="n">ART. 13</div><div><h3>Diritto di essere ascoltati</h3><p>Quando qualcuno parla, gli altri ascoltano davvero: senza telefono in mano, senza interrompere, guardandolo. Chi ha qualcosa di importante da dire ha diritto a un momento in cui dirlo.</p></div></article>
+  <article class="art"><div class="n">ART. 14</div><div><h3>Diritto di giocare</h3><p>Giocare è un diritto, non un premio. Ogni giorno c'è tempo per giocare — da soli, insieme, fuori, dentro — e nessuno lo toglie per punizione. Vale anche per i grandi: anche mamma e papà hanno diritto a un po' di tempo per sé.</p></div></article>
+</section>
+
+<section id="doveri">
+  <h2><small>Parte III</small>I doveri di ognuno</h2>
+  <p class="lede">A ogni diritto corrisponde un dovere: quello di garantire lo stesso diritto agli altri.</p>
+  <article class="art"><div class="n">ART. 15</div><div><h3>Dovere di far sentire gli altri al sicuro</h3><p>Niente mani addosso, niente parole che fanno male apposta, niente prese in giro su come uno è fatto. Se qualcuno dice «basta», ci si ferma.</p></div></article>
+  <article class="art"><div class="n">ART. 16</div><div><h3>Dovere di dire le cose</h3><p>Se qualcosa non va, lo si dice a chi di dovere, con le parole. Non si tiene il muso, non si fanno dispetti al posto di parlare, non si mente.</p></div></article>
+  <article class="art"><div class="n">ART. 17</div><div><h3>Dovere di rispettare</h3><p>Le persone, le cose degli altri, le cose di tutti (la casa, i giochi in comune, il cibo) e gli spazi: nella camera di qualcuno si entra bussando.</p></div></article>
+  <article class="art"><div class="n">ART. 18</div><div><h3>Dovere di ascoltare</h3><p>Quando parla un altro, si ascolta fino alla fine. Chi è più grande ascolta chi è più piccolo con la stessa attenzione.</p></div></article>
+  <article class="art"><div class="n">ART. 19</div><div><h3>Dovere di prendersi cura della casa</h3><p>La casa è di tutti e tutti la tengono in ordine, ognuno per quanto può in base all'età. I compiti sono nella Parte V.</p></div></article>
+  <article class="art"><div class="n">ART. 20</div><div><h3>Dovere di chiedere scusa e di riparare</h3><p>Chi sbaglia lo riconosce, chiede scusa guardando l'altro e, se può, ripara. Vale anche per mamma e papà: se un grande urla, chiede scusa come tutti.</p></div></article>
+</section>
+
+<section id="regole">
+  <h2><small>Parte IV</small>Le regole della casa</h2>
+  <p class="lede">Poche, chiare, verificabili. Scritte in positivo: dicono cosa si fa, non solo cosa non si fa.</p>
+  <div class="note"><b>Da decidere insieme:</b> queste dieci regole sono una proposta di partenza. Nel Consiglio di famiglia se ne tolgono, se ne aggiungono e si riscrivono con le parole di tutti. Il limite è dieci: se sono di più, nessuno se le ricorda.</div>
+  <article class="art"><div class="n">ART. 21</div><div><h3>A tavola si mangia insieme</h3><p>A cena siamo tutti a tavola, senza telefoni, tablet o TV. Si aspetta che tutti abbiano finito prima di alzarsi.</p></div></article>
+  <article class="art"><div class="n">ART. 22</div><div><h3>Gli schermi esistono solo in tre momenti</h3><p>La serata cinema, l'orario dei cartoni e l'orario dei videogiochi (da definire: quali giorni, quanto). Fuori da quei momenti gli schermi non esistono: non si chiedono, non si contrattano. Quando il tempo finisce, si spegne senza discutere. I telefoni dei grandi stanno in tasca quando si gioca o si mangia insieme.</p><p style="margin-top:8px"><em>Patto digitale.</em> Quando Edoardo e Bianca saranno più grandi e avranno un telefono o un profilo loro, scriveremo insieme un Patto digitale — cosa si usa, quando, cosa si condivide e con chi — che diventerà un allegato di questa Costituzione, con le stesse regole per cambiarlo.</p></div></article>
+  <article class="art"><div class="n">ART. 23</div><div><h3>Le mani non si usano per litigare</h3><p>Mai. Se si è arrabbiati, si usano le parole o ci si allontana per calmarsi.</p></div></article>
+  <article class="art"><div class="n">ART. 24</div><div><h3>Le parole si scelgono</h3><p>Niente parolacce contro le persone, niente «sei stupido», «sei cattivo», «non ti voglio più bene». Si può dire «sono arrabbiatissimo con te».</p></div></article>
+  <article class="art"><div class="n">ART. 25</div><div><h3>Ognuno riordina quello che usa</h3><p>I giochi tirati fuori si rimettono a posto prima di tirarne fuori altri, e comunque prima di cena.</p></div></article>
+  <article class="art"><div class="n">ART. 26</div><div><h3>La sera ha un orario</h3><p>Ognuno ha il suo orario di nanna (da definire per Edoardo e per Bianca). Prima si legge o si racconta una storia, e questa non salta mai.</p></div></article>
+  <article class="art"><div class="n">ART. 27</div><div><h3>Si bussa e si chiede</h3><p>Prima di entrare nella stanza di qualcuno si bussa; prima di prendere una cosa di qualcuno si chiede.</p></div></article>
+  <article class="art"><div class="n">ART. 28</div><div><h3>Le promesse si mantengono</h3><p>Se un grande promette una cosa, la fa. Se un bambino promette una cosa, la fa. Se non si può, lo si dice subito e si spiega perché.</p></div></article>
+  <article class="art"><div class="n">ART. 29</div><div><h3>La domenica c'è il Consiglio di famiglia</h3><p>Un momento fisso della settimana (da definire quando) in cui ci si siede tutti e quattro, ognuno può dire cosa è andato bene e cosa no, e si decidono le cose. Vedi Parte VIII.</p></div></article>
+  <article class="art"><div class="n">ART. 30</div><div><h3>Ogni giorno una cosa bella</h3><p>Prima di dormire ognuno dice una cosa bella della giornata. Anche piccola. Anche nei giorni brutti.</p></div></article>
+</section>
+
+<section id="compiti">
+  <h2><small>Parte V</small>I compiti</h2>
+  <p class="lede">Chi fa cosa. I compiti non hanno un sesso e non sono una punizione: sono il modo in cui ci si prende cura della casa di tutti.</p>
+  <div class="note"><b>Da decidere insieme:</b> la tabella è una proposta tarata sull'età (8 e 5 anni). Aggiustate i compiti, gli orari e la rotazione settimanale. Mettere anche i compiti di mamma e papà serve: i bambini devono vedere che la Costituzione vale per tutti.</div>
+  <h4>Compiti fissi (di ognuno, tutti i giorni)</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Chi</th><th>Cosa</th><th>Quando</th></tr></thead>
+    <tbody>
+      <tr><td>Bianca</td><td><ul><li>Mettere i tovaglioli e le posate a tavola</li><li>Rimettere i giochi nel cesto</li><li>Mettere i vestiti sporchi nel cesto del bucato</li></ul></td><td>Prima di cena / prima del bagnetto</td></tr>
+      <tr><td>Edoardo</td><td><ul><li>Rifare il letto</li><li>Preparare lo zaino per la scuola</li><li>Portare il proprio piatto in cucina</li><li>Riordinare la scrivania</li></ul></td><td>Mattina / dopo i pasti / sera</td></tr>
+      <tr><td>Carolina</td><td><em>da compilare — es. spesa, bucato, organizzazione della settimana</em></td><td></td></tr>
+      <tr><td>Goffredo</td><td><em>da compilare — es. cucina, lavastoviglie, pulizie del weekend</em></td><td></td></tr>
+    </tbody>
+  </table></div>
+  <h4>Compiti a turno (cambiano ogni settimana)</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Compito</th><th>Settimana 1</th><th>Settimana 2</th><th>Settimana 3</th></tr></thead>
+    <tbody>
+      <tr><td>Apparecchiare la tavola</td><td>Edo</td><td>Bia</td><td>Edo</td></tr>
+      <tr><td>Sparecchiare</td><td>Bia</td><td>Edo</td><td>Bia</td></tr>
+      <tr><td>Innaffiare le piante / dare da mangiare a…</td><td>Edo</td><td>Bia</td><td>Edo</td></tr>
+      <tr><td>Scegliere il film della sera</td><td>Bia</td><td>Edo</td><td>Bia</td></tr>
+      <tr><td>Aiutare a preparare la cena (un piatto semplice)</td><td>Edo + papà</td><td>Bia + mamma</td><td>Edo + mamma</td></tr>
+    </tbody>
+  </table></div>
+  <p class="fine">Chi ha fatto il suo compito lo segna sulla tabella appesa in cucina. Un compito «dimenticato» non è una tragedia: vale l'Art. 36.</p>
+</section>
+
+<section id="mattina">
+  <h2><small>Parte VI</small>Le routine della mattina</h2>
+  <p class="lede">Prima di scuola e prima dell'asilo. L'obiettivo è doppio: uscire in orario senza correre, e che Edoardo e Bianca facciano da soli sempre più cose.</p>
+  <div class="note"><b>Da decidere insieme:</b> gli orari qui sotto sono un esempio (sveglia 7:00, uscita 8:05). Metteteci i vostri: partite dall'ora in cui bisogna essere fuori dalla porta e andate a ritroso. Edoardo e Bianca sanno già fare quasi tutto da soli: la tabella serve a dirlo per iscritto, così anche i grandi si ricordano di non intervenire.</div>
+
+  <article class="art"><div class="n">ART. 31</div><div><h3>La mattina si prepara la sera</h3><p>Vestiti scelti e messi sulla sedia, zaino e cartellina pronti vicino alla porta, scarpe accanto allo zaino. Chi prepara la sera non decide niente la mattina: si fa e basta. Anche mamma e papà preparano la sera le loro cose.</p></div></article>
+  <article class="art"><div class="n">ART. 32</div><div><h3>Quello che si dimentica, si dimentica</h3><p>Se la merenda, il quaderno o il grembiule restano a casa, mamma e papà non corrono a scuola a portarli. Se ne parla la sera, si aggiunge alla checklist, e la mattina dopo si controlla meglio. La prima volta è un promemoria, dalla seconda si impara. La musica della mattina invece c'è sempre: una playlist uguale ogni giorno, così si capisce a che punto siamo senza guardare l'orologio.</p></div></article>
+  <article class="art"><div class="n">ART. 33</div><div><h3>Comanda il timer, non mamma e papà</h3><p>Ogni tappa ha un orario scritto sulla tabella in cucina. Chi è in ritardo se ne accorge guardando l'orologio, non perché glielo urla qualcuno. I grandi possono ricordare la tappa una volta sola, con calma («è l'ora delle scarpe»); poi lasciano fare.</p></div></article>
+  <article class="art"><div class="n">ART. 34</div><div><h3>Ognuno fa da solo quello che sa fare</h3><p>Se una cosa la sai fare, la fai tu, anche se un grande farebbe prima. I grandi non rifanno quello che un bambino ha già fatto (un letto storto è un letto fatto). Chi ha finito la sua lista può aiutare gli altri, non il contrario.</p></div></article>
+
+  <h4>La tabella della mattina (giorni di scuola)</h4>
+  <div class="tbl"><table class="routine">
+    <thead><tr><th>Ora</th><th>Edoardo (8)</th><th>Bianca (5)</th><th>Mamma e papà</th></tr></thead>
+    <tbody>
+      <tr><td>7:00</td><td>Sveglia con la sua sveglia <span class="tag">da solo</span></td><td>Sveglia con la musica, coccola di 5 minuti <span class="tag">da sola</span></td><td>Uno accende la playlist, l'altro prepara la colazione</td></tr>
+      <tr><td>7:05</td><td>Bagno: pipì, viso, denti dopo colazione <span class="tag">da solo</span></td><td>Bagno: pipì, viso <span class="tag">da sola</span></td><td>Restano fuori dal bagno se non chiamati</td></tr>
+      <tr><td>7:15</td><td>Si veste con i vestiti della sedia <span class="tag">da solo</span></td><td>Si veste con i vestiti della sedia <span class="tag">da sola</span></td><td>Aiutano solo se chiamati; niente «dai, muoviti»</td></tr>
+      <tr><td>7:25</td><td colspan="2">Colazione a tavola tutti insieme. Ognuno porta la propria tazza nel lavello.</td><td>Colazione con i bambini, non in piedi</td></tr>
+      <tr><td>7:45</td><td>Denti <span class="tag">da solo</span>, controlla lo zaino con la checklist</td><td>Denti <span class="tag">da sola</span>, prende il suo zainetto</td><td>Guardano le checklist alla fine, non rifanno niente</td></tr>
+      <tr><td>7:55</td><td>Scarpe e giacca <span class="tag">da solo</span></td><td>Scarpe e giacca <span class="tag">da sola</span></td><td>Chiavi, borsa, merende: preparate la sera</td></tr>
+      <tr><td>8:05</td><td colspan="3">Fuori dalla porta. Chi è pronto prima aspetta gli altri leggendo o giocando.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="two">
+    <div><h5>Checklist di Edoardo (sul frigo)</h5>
+      <ul class="check"><li>Letto rifatto</li><li>Vestito</li><li>Colazione e tazza nel lavello</li><li>Denti</li><li>Zaino: diario, astuccio, merenda, borraccia</li><li>Scarpe e giacca</li></ul></div>
+    <div><h5>Checklist di Bianca (disegnata, con i bollini)</h5>
+      <ul class="check"><li>Pipì e viso</li><li>Vestita</li><li>Colazione</li><li>Denti</li><li>Zainetto (borraccia, merenda)</li><li>Scarpe</li></ul></div>
+  </div>
+  <p class="fine">Ogni bollino vale. Cinque mattine su cinque con la lista completa: il Consiglio di famiglia del weekend decide un piccolo premio (non cose, esperienze: scegliere la gita, la torta, il gioco della sera). Se una mattina va storta, vale l'Art. 36: si ricorda, non si sgrida.</p>
+</section>
+
+<section id="conseguenze">
+  <h2><small>Parte VII</small>Quando le regole non vengono rispettate</h2>
+  <p class="lede">Le conseguenze si decidono adesso, a mente fredda, non nel momento della rabbia. Sono proporzionate e servono a riparare, non a far male.</p>
+  <article class="art"><div class="n">ART. 35</div><div><h3>Principi</h3><p>Nessuna conseguenza toglie mai: il cibo, la storia della sera, l'abbraccio, il «ti voglio bene», il diritto di giocare (Art. 14). Le conseguenze riguardano i privilegi, non i diritti. E valgono per tutti: anche mamma e papà hanno le loro.</p></div></article>
+  <ol class="steps">
+    <li><span class="k">1</span><div><article class="art" style="margin:0;grid-template-columns:1fr"><div><h3>Art. 36 — Il promemoria</h3><p>La prima volta si ricorda la regola, con calma, magari indicando la Costituzione: «Art. 25». Non è una sgridata. È un aiuto a ricordare. Se serve, si fa insieme.</p></div></article></div></li>
+    <li><span class="k">2</span><div><article class="art" style="margin:0;grid-template-columns:1fr"><div><h3>Art. 37 — La riparazione</h3><p>Se la regola viene ignorata di nuovo o se qualcuno ha subito un torto, chi ha sbagliato ripara: chi non ha riordinato riordina e in più aiuta a riordinare uno spazio comune; chi ha detto una parola brutta chiede scusa guardando l'altro e fa una cosa gentile per lui; chi ha rotto qualcosa aiuta ad aggiustarla o contribuisce con la paghetta.</p></div></article></div></li>
+    <li><span class="k">3</span><div><article class="art" style="margin:0;grid-template-columns:1fr"><div><h3>Art. 38 — La pausa e il privilegio</h3><p>Se la cosa continua, si fa una pausa: ci si allontana qualche minuto per calmarsi (tanti minuti quanti sono gli anni, al massimo). Poi si perde un privilegio per quel giorno — per esempio il tempo di schermo o il dolce — mai per più di un giorno e mai qualcosa promesso in precedenza.</p></div></article></div></li>
+  </ol>
+  <article class="art"><div class="n">ART. 39</div><div><h3>Le conseguenze per i grandi</h3><p>Se mamma o papà urlano, usano parole che fanno male o guardano il telefono mentre qualcuno parla: chiedono scusa davanti a tutti e (da definire insieme: es. il giorno dopo tocca a loro un compito in più, oppure i bambini scelgono il film o il dolce).</p></div></article>
+  <article class="art"><div class="n">ART. 40</div><div><h3>Il ricorso</h3><p>Chi pensa di aver ricevuto una conseguenza ingiusta può dirlo subito («faccio ricorso») e portarla al Consiglio di famiglia. Nel frattempo la conseguenza resta, ma al Consiglio si ascoltano tutti e si decide insieme.</p></div></article>
+</section>
+
+<section id="consiglio">
+  <h2><small>Parte VIII</small>Il Consiglio di famiglia e le modifiche</h2>
+  <article class="art"><div class="n">ART. 41</div><div><h3>Il Consiglio di famiglia</h3><p>Si riunisce una volta a settimana (giorno e ora da definire), dura al massimo venti minuti e ha sempre lo stesso ordine: 1) ognuno dice una cosa bella della settimana; 2) ognuno dice una cosa che non è andata; 3) si guardano i compiti e si fa la rotazione; 4) proposte e ricorsi; 5) si decide una cosa bella da fare insieme. Parla uno alla volta: chi ha in mano l'oggetto della parola (da scegliere) parla, gli altri ascoltano.</p></div></article>
+  <article class="art"><div class="n">ART. 42</div><div><h3>Come si cambia la Costituzione</h3><p>Chiunque, anche Bianca, può proporre di aggiungere, togliere o cambiare un articolo. La proposta si discute al Consiglio. Si cambia se tutti e quattro sono d'accordo dopo averne parlato; se non c'è accordo, se ne riparla la settimana dopo. Ogni tre mesi la si rilegge tutta insieme, dall'inizio.</p></div></article>
+  <article class="art"><div class="n">ART. 43</div><div><h3>Dove sta</h3><p>Una copia è appesa in cucina, dove tutti la vedono. Per Bianca, che ancora non legge, le regole principali sono anche disegnate.</p></div></article>
+  <article class="art"><div class="n">ART. 44</div><div><h3>Firme</h3><p>Firmando, ognuno promette di provarci ogni giorno. Non di essere perfetto: di provarci.</p></div></article>
+  <div class="sign"><div>Goffredo</div><div>Carolina</div><div>Edoardo</div><div>Bianca</div></div>
+  <p class="place">San Mauro Torinese, <span class="blank"></span> / <span class="blank"></span> / 2026</p>
+</section>
+
+<footer>Bozza v2 · le parti gialle sono da decidere insieme al Consiglio di famiglia. · <a href="Costituzione-famiglia.pdf">PDF</a> · <a href="fogli-di-casa.html">I fogli di casa</a></footer>
+</div>
+
+</html>
