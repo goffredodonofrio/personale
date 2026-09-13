@@ -4,46 +4,30 @@
   {
    "id": "gof",
    "name": "Goffredo",
-   "color": "#2F6FB5"
+   "color": "#1d6af8"
   },
   {
    "id": "caro",
    "name": "Carolina",
-   "color": "#C4552D"
+   "color": "#c2410c"
   },
   {
    "id": "lidia",
    "name": "Lidia",
-   "color": "#2E8B57"
+   "color": "#16a34a"
   },
   {
    "id": "franco",
    "name": "Franco",
-   "color": "#7BA23F"
+   "color": "#65a30d"
   },
   {
    "id": "baby",
    "name": "Babysitter",
-   "color": "#7B5CC7"
+   "color": "#7c3aed"
   }
  ],
  "recurring": [
-  {
-   "id": "palestra-gof",
-   "title": "Palestra",
-   "who": "gof",
-   "days": [],
-   "slot": "m",
-   "freq": "weekly"
-  },
-  {
-   "id": "palestra-caro",
-   "title": "Palestra",
-   "who": "caro",
-   "days": [],
-   "slot": "m",
-   "freq": "weekly"
-  },
   {
    "id": "spesa",
    "title": "Spesa",
@@ -56,9 +40,11 @@
   },
   {
    "id": "volley",
-   "title": "Volley",
+   "title": "Pallavolo",
    "who": "caro",
-   "days": [],
+   "days": [
+    2
+   ],
    "slot": "s",
    "freq": "weekly"
   },
@@ -112,7 +98,7 @@
       "p": "lidia",
       "s": "both"
      },
-     "note": "Carolina a Milano, rientro 18:30 + ritiro mobile.",
+     "note": "Carolina a Milano, rientro previsto per le 18:00",
      "extra": []
     },
     "2026-09-16": {
@@ -168,6 +154,10 @@
      "extra": []
     }
    }
+  },
+  "2026-09-21": {
+   "days": {},
+   "label": "Edo esce alle 16:30 · Bia alle 17:00"
   }
  }
 }
