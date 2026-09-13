@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260913193507">
+<meta name="build" content="20260913193632">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -107,6 +107,11 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .avs .av+.av{margin-left:-9px}
 .av.none{background:transparent;border:1.5px dashed var(--border-md);color:var(--muted-2);box-shadow:none}
 .av.ask{background:var(--amber-light);border:1.5px solid #f59e0b;color:#b45309;box-shadow:none}
+.who{display:inline-block;padding:5px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,#fff);color:color-mix(in srgb,var(--c) 78%,#000);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);font-size:12.5px;font-weight:700;line-height:1;white-space:nowrap}
+.avs{gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.who.none{background:transparent;border:1px dashed var(--border-md);color:var(--muted-2);font-weight:500}
+.who.ask{background:var(--amber-light);border-color:#f59e0b;color:#b45309}
+.pop .who{font-size:12px}
 
 /* week */
 .week{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -123,7 +128,7 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .day.today .addx{color:rgba(255,255,255,.85)}
 .day.today .addx:hover{background:rgba(255,255,255,.2);color:#fff}
 .evs{display:flex;flex-direction:column;flex:1}
-.ev{display:grid;grid-template-columns:44px 36px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 14px 10px 16px;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;width:100%;min-width:0;color:var(--text)}
+.ev{display:grid;grid-template-columns:44px 36px minmax(0,1fr) minmax(0,auto);align-items:center;gap:10px;padding:10px 14px 10px 16px;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;width:100%;min-width:0;color:var(--text)}
 .ev:hover{background:var(--blue-light)}
 .day.weekend .ev:hover{background:#f1efe9}
 .ev .tm{font:600 12.5px/1.2 var(--mono);color:var(--muted);letter-spacing:-.02em}
@@ -263,7 +268,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   <section class="week" id="week"></section>
 
   <footer class="foot">
-    <span id="hint">Tocca una riga per cambiare chi se ne occupa. Gli avatar gialli con "?" sono ancora da decidere.</span>
+    <span id="hint">Tocca una riga per cambiare chi se ne occupa. Le etichette gialle "chi?" sono ancora da decidere.</span>
     <div class="actions">
       <button class="btn ghost" id="reload">Ricarica dati</button>
       <button class="btn ghost danger" id="clearweek">Svuota questa settimana</button>
@@ -441,10 +446,10 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function uid(){ return Math.random().toString(36).slice(2,9); }
   function avatarsHtml(v, ask){
-    if(v === BOTH){ const a = personById(PARENTS[0]), b = personById(PARENTS[1]); return '<span class="avs">'+[a,b].map(p => p ? '<span class="av" style="--c:'+p.color+'">'+esc(p.name[0])+'</span>' : '').join('')+'</span>'; }
+    if(v === BOTH){ const a = personById(PARENTS[0]), b = personById(PARENTS[1]); return '<span class="avs">'+[a,b].map(p => p ? '<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>' : '').join('')+'</span>'; }
     const p = v ? personById(v) : null;
-    if(p) return '<span class="avs"><span class="av" style="--c:'+p.color+'" title="'+esc(p.name)+'">'+esc(p.name[0])+'</span></span>';
-    return '<span class="avs"><span class="av '+(ask?'ask':'none')+'">'+(ask?'?':'–')+'</span></span>';
+    if(p) return '<span class="avs"><span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span></span>';
+    return '<span class="avs"><span class="who '+(ask?'ask':'none')+'">'+(ask?'chi?':'nessuno')+'</span></span>';
   }
 
   // ---------- GitHub ----------
@@ -602,7 +607,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     const k = iso(mondayOf(now)), i = (now.getDay()+6)%7;
     const x = {i, d:now, dIso:todayIso, data: (state.weeks[k] && state.weeks[k].days[todayIso]) || {edo:{},bia:{},note:'',extra:[]}, we:i>=5};
     const evs = dayEvents(x, k).filter(e => !e.dim);
-    document.getElementById('todayList').innerHTML = evs.slice(0,6).map(e => '<span>'+esc(e.time)+' '+esc(e.title)+(e.who ? ' · '+esc(whoLabel(e.who,true)) : '')+'</span>').join('');
+    document.getElementById('todayList').innerHTML = evs.slice(0,6).map(e => '<span>'+esc(e.time)+' '+esc(e.title)+(e.who ? ' · '+esc(whoLabel(e.who)) : '')+'</span>').join('');
   }
   function tickClock(){ const n = new Date(); document.getElementById('clock').textContent = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'); }
   tickClock(); setInterval(tickClock, 15000);
@@ -658,9 +663,9 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   }
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closePop(); });
   function peopleItems(cur, both){
-    const items = [{value:'', label:'Nessuno', av:'<span class="av none">–</span>', cur:!cur}];
-    for(const p of state.people) items.push({value:p.id, label:p.name, av:'<span class="av" style="--c:'+p.color+'">'+esc(p.name[0])+'</span>', cur:cur===p.id});
-    if(both) items.push({value:BOTH, label:parentNames(), av:avatarsHtml(BOTH,false), cur:cur===BOTH});
+    const items = [{value:'', label:'Nessuno', av:'', cur:!cur}];
+    for(const p of state.people) items.push({value:p.id, label:'', av:'<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>', cur:cur===p.id});
+    if(both) items.push({value:BOTH, label:'', av:avatarsHtml(BOTH,false), cur:cur===BOTH});
     return items;
   }
 
@@ -687,8 +692,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       renderWeek(); markDirty();
     }else if(k === 'gym'){
       const d = day(weekKey, dIso, false), cur = d ? d.gym || '' : '';
-      const items = [{value:'', label:'Nessuno', av:'<span class="av none">–</span>', cur:!cur}];
-      for(const id of PARENTS){ const p = personById(id); if(p) items.push({value:id, label:p.name + ' va in palestra', av:'<span class="av" style="--c:'+p.color+'">'+esc(p.name[0])+'</span>', cur:cur===id}); }
+      const items = [{value:'', label:'Nessuno', av:'', cur:!cur}];
+      for(const id of PARENTS){ const p = personById(id); if(p) items.push({value:id, label:' va in palestra', av:'<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>', cur:cur===id}); }
       const v = await openPop(b, items, 'Palestra · l\'altro accompagna Edoardo e Bianca');
       if(v === null) return;
       day(weekKey, dIso, true).gym = v; renderWeek(); markDirty();
