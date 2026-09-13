@@ -163,7 +163,17 @@
       "m": ""
      },
      "note": "",
-     "extra": []
+     "extra": [
+      {
+       "id": "x-jxh9wf9",
+       "slot": "p",
+       "title": "Festa Edoardo",
+       "time": "15:30",
+       "who": "both",
+       "kind": "fam",
+       "icon": "riunione"
+      }
+     ]
     }
    },
    "times": {
