@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Famiglia · Spazio personale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Baloo+2:wght@800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#f5f4f1;--surface:#fff;--border:rgba(0,0,0,.08);--text:#111110;--muted:#6b6860;--muted-2:#9e9b96;
+      --green:#2E5E4E;--green-light:#e3efe8;--amber:#d97706;--amber-light:#fef3c7;--blue:#1d6af8;--blue-light:#e8efff;--violet:#7c3aed;--violet-light:#ede9fe;
+      --shadow:0 2px 8px rgba(0,0,0,.07),0 12px 36px rgba(0,0,0,.08);--radius:24px}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;padding-inline:20px;padding-block:0 60px}
+    .wrap{max-width:1040px;margin:0 auto}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+    .back{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none}
+    .back:hover{color:var(--text)}
+    .hero{padding:24px 0 30px}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+    h1{font-family:"Baloo 2",Inter,sans-serif;font-size:clamp(40px,7vw,68px);line-height:.95;margin:8px 0 12px;letter-spacing:-.01em}
+    h1 span{color:var(--green)}
+    .lead{font-size:16px;color:var(--muted);max-width:56ch;margin:0}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+    .card{display:flex;flex-direction:column;gap:18px;min-height:250px;padding:26px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:transform .2s}
+    .card:hover{transform:translateY(-3px)}
+    .card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px}
+    .c-green{background:linear-gradient(160deg,var(--green-light) 0%,var(--surface) 55%)}.c-green::after{background:var(--green)}.c-green .ico{color:var(--green)}
+    .c-amber{background:linear-gradient(160deg,var(--amber-light) 0%,var(--surface) 55%)}.c-amber::after{background:var(--amber)}.c-amber .ico{color:var(--amber)}
+    .c-blue{background:linear-gradient(160deg,var(--blue-light) 0%,var(--surface) 55%)}.c-blue::after{background:var(--blue)}.c-blue .ico{color:var(--blue)}
+    .ico{width:48px;height:48px}.ico svg{width:100%;height:100%}
+    .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:4px 10px;background:rgba(255,255,255,.6)}
+    .name{font-size:26px;font-weight:800;line-height:1.1;margin:6px 0 0}
+    .desc{font-size:14px;color:var(--muted);line-height:1.5;margin:0}
+    .cta{margin-top:auto;font-size:13px;font-weight:700}
+    .sub{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:26px;font-size:14px}
+    .sub a{color:var(--muted);text-decoration:none;font-weight:600}.sub a:hover{color:var(--text)}
+    .sub a::before{content:"↓ ";color:var(--muted-2)}
+    footer{margin-top:60px;font-size:12px;color:var(--muted-2)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="index.html">← Spazio personale</a><span class="tag">Goffredo · Carolina · Edoardo · Bianca</span></div>
+  <section class="hero">
+    <div class="eyebrow">Progetto</div>
+    <h1>La nostra <span>famiglia</span></h1>
+    <p class="lead">La Costituzione che abbiamo scritto insieme, gli orari della mattina e le schede da appendere in casa. Tutto in un posto solo, anche dal telefono.</p>
+  </section>
+  <div class="grid">
+    <a class="card c-green" href="costituzione-famiglia.html">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h6M9 16h6M9 8h2"/></svg></div>
+      <div><span class="tag">Parte I–VIII</span><p class="name">La Costituzione</p></div>
+      <p class="desc">Valori, diritti e doveri, le regole della casa, i compiti, la mattina, cosa succede se, il Consiglio di famiglia.</p>
+      <div class="cta">Leggi →</div>
+    </a>
+    <a class="card c-amber" href="orari-mattina.html">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6M12 2v3"/></svg></div>
+      <div><span class="tag">Giorni di scuola</span><p class="name">Gli orari</p></div>
+      <p class="desc">La tabella della mattina, tappa per tappa: cosa fa Edo, cosa fa Bianca, cosa fanno (e non fanno) mamma e papà.</p>
+      <div class="cta">Apri →</div>
+    </a>
+    <a class="card c-blue" href="fogli-di-casa.html">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><circle cx="17" cy="17" r="3" fill="currentColor" stroke="none" opacity=".25"/></svg></div>
+      <div><span class="tag">5 fogli A4</span><p class="name">Le schede</p></div>
+      <p class="desc">Le mattine di Bianca ed Edo con i bollini, le regole, i valori e "cosa succede se", disegnati per chi ancora non legge.</p>
+      <div class="cta">Guarda e stampa →</div>
+    </a>
+  </div>
+  <div class="sub">
+    <a href="Costituzione-famiglia.pdf">Costituzione (PDF)</a>
+    <a href="Fogli-di-casa.pdf">Schede da stampare (PDF)</a>
+  </div>
+  <footer>Bozza v2 · si rilegge insieme ogni tre mesi</footer>
+</div>
+</body>
+</html>
