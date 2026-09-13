@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260913194442">
+<meta name="build" content="20260913194627">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -39,7 +39,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 .hidden{display:none!important}
 a{color:var(--blue)}
 .eyebrow{font:700 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
-svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;display:block}
+svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
 
 /* hero */
 .hero{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:18px 22px;border-radius:var(--radius);background:linear-gradient(135deg,#1d6af8 0%,#4f8bff 60%,#6ea0ff 100%);color:#fff;box-shadow:var(--shadow)}
@@ -133,7 +133,8 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .day.weekend .ev:hover{background:#f1efe9}
 .ev .tm{font:600 12.5px/1.2 var(--mono);color:var(--muted);letter-spacing:-.02em}
 .ev .tm small{display:block;font-weight:500;color:var(--muted-2)}
-.ev .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;background:var(--ic,#94a3b8)}
+.ev .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:var(--ic,#94a3b8);background:color-mix(in srgb,var(--ic,#94a3b8) 16%,#fff)}
+.ev .ic svg.i{width:22px;height:22px}
 .ev .tx{min-width:0}
 .ev .tx b{display:block;font-size:14.5px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
 .ev .tx small{display:block;font-size:12px;color:var(--muted);line-height:1.3;margin-top:1px}
@@ -176,7 +177,7 @@ details.panel[open] summary::after{content:"–"}
 .recrow .icsel{display:flex;gap:2px}
 .recrow .icsel button{width:30px;height:30px;border-radius:9px;border:1px solid transparent;background:transparent;display:grid;place-items:center;color:var(--muted-2);padding:0}
 .recrow .icsel button svg.i{width:17px;height:17px}
-.recrow .icsel button.on{background:var(--ic);color:#fff}
+.recrow .icsel button.on{background:color-mix(in srgb,var(--ic) 18%,#fff);color:var(--ic);border-color:color-mix(in srgb,var(--ic) 40%,transparent)}
 .days7{display:flex;gap:3px}
 .days7 button{width:27px;height:27px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font:700 11px var(--mono);color:var(--muted);padding:0}
 .days7 button.on{background:var(--text);color:#fff;border-color:transparent}
@@ -215,7 +216,7 @@ dialog p{margin:0 0 10px;color:var(--muted);font-size:13.5px}
 .iconpick{display:flex;flex-wrap:wrap;gap:6px}
 .iconpick label{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;color:var(--muted);position:relative}
 .iconpick input{position:absolute;opacity:0;width:0;height:0}
-.iconpick label:has(input:checked){background:var(--ic);color:#fff;border-color:transparent}
+.iconpick label:has(input:checked){background:color-mix(in srgb,var(--ic) 18%,#fff);color:var(--ic);border-color:color-mix(in srgb,var(--ic) 40%,transparent)}
 .dlg-actions{display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap}
 .dlg-actions .right{display:flex;gap:8px;margin-left:auto}
 ol.steps{margin:0 0 12px;padding-left:20px;color:var(--muted);font-size:13px}
@@ -360,20 +361,20 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   const MONTHS_IT = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
   const PALETTE = ['#1d6af8','#c2410c','#16a34a','#65a30d','#7c3aed','#d97706','#0d9488','#db2777','#475569','#b91c1c'];
   const ICONS = {
-    scuola:{c:'#f97316',s:'<path d="M4 19V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path d="M4 19h16"/><path d="M8 5V3h8v2"/><path d="M9 11h6M9 15h6"/>'},
-    casa:{c:'#0ea5e9',s:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'},
-    sera:{c:'#4338ca',s:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'},
-    palestra:{c:'#7c3aed',s:'<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>'},
-    spesa:{c:'#16a34a',s:'<path d="M3 4h2l2.5 11h11L21 7H6.5"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>'},
-    sport:{c:'#db2777',s:'<circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 0 0 18M3 12h18M5.5 6.5c4 3 9 3 13 0M5.5 17.5c4-3 9-3 13 0"/>'},
-    riunione:{c:'#0d9488',s:'<circle cx="8" cy="9" r="3"/><circle cx="16.5" cy="10" r="2.5"/><path d="M2.5 20a5.5 5.5 0 0 1 11 0M13.5 19.5a4 4 0 0 1 8 0"/>'},
-    budget:{c:'#d97706',s:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M7 12h.01M17 12h.01"/>'},
-    lavoro:{c:'#111110',s:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/>'},
-    famiglia:{c:'#e11d48',s:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>'},
-    salute:{c:'#ef4444',s:'<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>'},
-    viaggio:{c:'#2563eb',s:'<path d="M3 17h18M5 17l2-9h10l2 9M9 8V5h6v3"/><circle cx="8" cy="19" r="1.3"/><circle cx="16" cy="19" r="1.3"/>'},
-    cibo:{c:'#f59e0b',s:'<path d="M5 3v18M5 10c2 0 3-1 3-3V3M8 3v7M15 3c-2 1-3 4-3 7 0 2 1 3 3 3v8M15 3v10"/>'},
-    altro:{c:'#94a3b8',s:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2.5"/>'}
+    scuola:{c:'#f97316',s:'<path d="M8 8V6a4 4 0 0 1 8 0v2"/><rect x="5" y="8" width="14" height="13" rx="4"/><path d="M9 14h6M9 18h4"/><path d="M5 12h14"/>'},
+    casa:{c:'#0ea5e9',s:'<path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v10h12V10"/><path d="M12 17.5s-3-2-3-4a1.7 1.7 0 0 1 3-1 1.7 1.7 0 0 1 3 1c0 2-3 4-3 4z"/>'},
+    sera:{c:'#4338ca',s:'<path d="M14 3.5a7.5 7.5 0 1 0 6.5 10.8A8 8 0 0 1 14 3.5z"/><path d="M5 4v3M3.5 5.5h3M20 17v2M19 18h2"/>'},
+    palestra:{c:'#7c3aed',s:'<rect x="2" y="9" width="3" height="6" rx="1"/><rect x="5" y="7" width="3" height="10" rx="1"/><rect x="16" y="7" width="3" height="10" rx="1"/><rect x="19" y="9" width="3" height="6" rx="1"/><path d="M8 12h8"/>'},
+    spesa:{c:'#16a34a',s:'<path d="M4 10h16l-1.5 9a2 2 0 0 1-2 1.5h-9a2 2 0 0 1-2-1.5z"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/><path d="M10 14v3M14 14v3"/>'},
+    sport:{c:'#db2777',s:'<circle cx="12" cy="12" r="8.5"/><path d="M4 9.5c3 1 5.5 3 7 6.5M12 3.5c-1 3 0 6.5 2.5 9.5M20.5 11c-3 .5-6 2-8.5 4.5"/>'},
+    riunione:{c:'#0d9488',s:'<path d="M4 6h10a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M18 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v3l-3-3h-2"/>'},
+    budget:{c:'#d97706',s:'<path d="M5 12a6 6 0 0 1 6-6h4a5 5 0 0 1 5 5v1l2 1v3l-2 1a5 5 0 0 1-3 3v1h-3v-1h-3v1H8v-2a6 6 0 0 1-3-5z"/><path d="M15 10h.01"/><path d="M10 6V4"/>'},
+    lavoro:{c:'#111110',s:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M2 19h20"/><path d="M8 9h8M8 13h5"/>'},
+    famiglia:{c:'#e11d48',s:'<path d="M12 20s-7.5-4.5-7.5-10A4 4 0 0 1 12 8a4 4 0 0 1 7.5 2c0 5.5-7.5 10-7.5 10z"/>'},
+    salute:{c:'#ef4444',s:'<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M10.5 10.5l3 3M13.5 10.5l-3 3"/>'},
+    viaggio:{c:'#2563eb',s:'<path d="M5 16l1.5-6a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="14" width="18" height="5" rx="2"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/><path d="M7 12h10"/>'},
+    cibo:{c:'#f59e0b',s:'<path d="M4 14h16"/><path d="M5 14a7 7 0 0 1 14 0"/><path d="M3 18h18"/><path d="M12 5v2M9 9h.01M14 10h.01"/>'},
+    altro:{c:'#94a3b8',s:'<path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.4l-5.3 2.8 1.1-5.9-4.3-4.1 5.9-.8z"/>'}
   };
   const ICON_LIST = ['scuola','casa','sera','palestra','spesa','sport','riunione','budget','lavoro','famiglia','salute','viaggio','cibo','altro'];
   function ico(k){ const d = ICONS[k] || ICONS.altro; return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+d.s+'</svg>'; }
