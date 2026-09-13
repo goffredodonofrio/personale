@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260913193339">
+<meta name="build" content="20260913193507">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -245,8 +245,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     <button class="btn ghost" id="thisweek">Questa settimana</button>
     <span class="spacer"></span>
     <div class="times">
-      <label>Uscita Edo <input type="time" id="tEdo"></label>
-      <label>Uscita Bia <input type="time" id="tBia"></label>
+      <label>Uscita Edoardo <input type="time" id="tEdo"></label>
+      <label>Uscita Bianca <input type="time" id="tBia"></label>
     </div>
     <button class="btn ghost" id="copyprev" title="Riporta le assegnazioni dei bambini dalla settimana precedente">Copia settimana precedente</button>
   </section>
@@ -289,7 +289,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <dialog id="extraDlg">
   <form method="dialog" id="extraForm">
     <h3 id="extraTitleH">Impegno</h3>
-    <label class="field">Cosa<input type="text" id="extraTitle" maxlength="48" required autocomplete="off" placeholder="es. Dentista Edo, cena dai nonni, trasferta"></label>
+    <label class="field">Cosa<input type="text" id="extraTitle" maxlength="48" required autocomplete="off" placeholder="es. Dentista Edoardo, cena dai nonni, trasferta"></label>
     <div class="fields2">
       <label class="field">Ora<input type="time" id="extraTime"></label>
       <label class="field">Tipo<select id="extraKind"><option value="">Impegno</option><option value="fam">Famiglia</option><option value="lav">Lavoro</option></select></label>
@@ -315,8 +315,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     <div class="fields2">
       <label class="field">Palestra<input type="time" id="sGym"></label>
       <label class="field">Accompagnamento<input type="time" id="sDrop"></label>
-      <label class="field">Uscita Edo (default)<input type="time" id="sEdo"></label>
-      <label class="field">Uscita Bia (default)<input type="time" id="sBia"></label>
+      <label class="field">Uscita Edoardo (default)<input type="time" id="sEdo"></label>
+      <label class="field">Uscita Bianca (default)<input type="time" id="sBia"></label>
       <label class="field">Sera<input type="time" id="sEve"></label>
     </div>
     <h4>Salvataggio condiviso</h4>
@@ -344,7 +344,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   const GH = {owner:'goffredodonofrio', repo:'personale', branch:'main', path:'calendario/dati.json'};
   const TOKEN_KEY = 'calfam-gh-token', CACHE_KEY = 'calfam-cache';
   const START = '2026-09-14';
-  const KIDS = [{id:'edo',name:'Edo',full:'Edoardo'},{id:'bia',name:'Bia',full:'Bianca'}];
+  const KIDS = [{id:'edo',name:'Edoardo',full:'Edoardo'},{id:'bia',name:'Bianca',full:'Bianca'}];
   const SLOTS = [{id:'m',name:'Mattina',def:'09:00'},{id:'p',name:'Pomeriggio',def:'15:00'},{id:'s',name:'Sera',def:'20:00'}];
   const PARENTS = ['gof','caro'], BOTH = 'both';
   const DAYS_IT = ['lunedì','martedì','mercoledì','giovedì','venerdì','sabato','domenica'];
@@ -526,14 +526,14 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     if(!x.we){
       ev.push({k:'gym', time:T.gym, icon:'palestra', title:'Palestra', sub: data.gym ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:!data.gym, ask:false});
       const em = (data.edo||{}).m || '', bm = (data.bia||{}).m || '';
-      if(em && em === bm) ev.push({k:'kid', kid:'both', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edo e Bia', sub:'scuola', who:em, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', kid:'bia', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Bia', sub:'scuola', who:bm, ask:true}); }
+      if(em && em === bm) ev.push({k:'kid', kid:'both', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
+      else{ ev.push({k:'kid', kid:'edo', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', kid:'bia', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
       const ep = (data.edo||{}).p || '', bp = (data.bia||{}).p || '';
-      if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edo e Bia', sub:'uscita', who:ep, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bia', sub:'uscita '+WT.bia, who:bp, ask:true}); }
+      if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
+      else{ ev.push({k:'kid', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bianca', sub:'uscita '+WT.bia, who:bp, ask:true}); }
       const es = (data.edo||{}).s || '', bs = (data.bia||{}).s || '';
-      if(es && es === bs) ev.push({k:'kid', kid:'both', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edo e Bia', sub:'cena e nanna', who:es, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', kid:'bia', slot:'s', time:T.eve, icon:'sera', title:'Sera con Bia', sub:'cena e nanna', who:bs, ask:true}); }
+      if(es && es === bs) ev.push({k:'kid', kid:'both', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
+      else{ ev.push({k:'kid', kid:'edo', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', kid:'bia', slot:'s', time:T.eve, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
     }
     for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', id:r.id, time:r.time, icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:!r.who});
     for(const e of (data.extra||[])) ev.push({k:'extra', id:e.id, time:e.time || (SLOTS.find(s => s.id === e.slot)||SLOTS[1]).def, icon:e.icon || (e.kind === 'lav' ? 'lavoro' : e.kind === 'fam' ? 'famiglia' : 'altro'), title:e.title, sub:'', who:e.who||'', kind:e.kind||'', ask:false, dim:false, noTime:!e.time});
@@ -675,8 +675,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       const slot = b.dataset.slot, kid = b.dataset.kid, d = day(weekKey, dIso, false);
       const cur = d ? (kid === 'both' ? (d.edo||{})[slot] : (d[kid]||{})[slot]) || '' : '';
       const items = peopleItems(cur, slot === 's');
-      if(kid !== 'both') items.push('hr', {value:'__same', label:'Stessa persona per Edo e Bia', av:''});
-      else items.push('hr', {value:'__split', label:'Separa Edo e Bia', av:''});
+      if(kid !== 'both') items.push('hr', {value:'__same', label:'Stessa persona per Edoardo e Bianca', av:''});
+      else items.push('hr', {value:'__split', label:'Separa Edoardo e Bianca', av:''});
       const v = await openPop(b, items, b.querySelector('.tx b').textContent);
       if(v === null) return;
       const dd = day(weekKey, dIso, true);
@@ -689,7 +689,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       const d = day(weekKey, dIso, false), cur = d ? d.gym || '' : '';
       const items = [{value:'', label:'Nessuno', av:'<span class="av none">–</span>', cur:!cur}];
       for(const id of PARENTS){ const p = personById(id); if(p) items.push({value:id, label:p.name + ' va in palestra', av:'<span class="av" style="--c:'+p.color+'">'+esc(p.name[0])+'</span>', cur:cur===id}); }
-      const v = await openPop(b, items, 'Palestra · l\'altro accompagna Edo e Bia');
+      const v = await openPop(b, items, 'Palestra · l\'altro accompagna Edoardo e Bianca');
       if(v === null) return;
       day(weekKey, dIso, true).gym = v; renderWeek(); markDirty();
     }else if(k === 'rec'){
