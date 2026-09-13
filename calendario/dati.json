@@ -1,5 +1,5 @@
 {
- "v": 1,
+ "v": 2,
  "people": [
   {
    "id": "gof",
@@ -36,7 +36,9 @@
     5
    ],
    "slot": "m",
-   "freq": "weekly"
+   "freq": "weekly",
+   "icon": "spesa",
+   "time": "10:00"
   },
   {
    "id": "volley",
@@ -46,7 +48,9 @@
     2
    ],
    "slot": "s",
-   "freq": "weekly"
+   "freq": "weekly",
+   "icon": "sport",
+   "time": "20:30"
   },
   {
    "id": "riunione",
@@ -56,7 +60,9 @@
     6
    ],
    "slot": "s",
-   "freq": "weekly"
+   "freq": "weekly",
+   "icon": "riunione",
+   "time": "21:00"
   },
   {
    "id": "budget",
@@ -66,12 +72,13 @@
     6
    ],
    "slot": "p",
-   "freq": "monthly"
+   "freq": "monthly",
+   "icon": "budget",
+   "time": "16:00"
   }
  ],
  "weeks": {
   "2026-09-14": {
-   "label": "Edo esce alle 12:30 · Bia alle 16:30",
    "days": {
     "2026-09-14": {
      "edo": {
@@ -158,11 +165,25 @@
      "note": "",
      "extra": []
     }
+   },
+   "times": {
+    "edo": "12:30",
+    "bia": "16:30"
    }
   },
   "2026-09-21": {
    "days": {},
-   "label": "Edo esce alle 16:30 · Bia alle 17:00"
+   "times": {
+    "edo": "16:30",
+    "bia": "17:00"
+   }
   }
+ },
+ "times": {
+  "gym": "07:00",
+  "drop": "08:15",
+  "edo": "16:30",
+  "bia": "17:00",
+  "eve": "19:30"
  }
 }
