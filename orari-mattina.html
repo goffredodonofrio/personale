@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gli orari della mattina · Famiglia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Baloo+2:wght@800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#f5f4f1;--surface:#fff;--border:rgba(0,0,0,.08);--text:#111110;--muted:#6b6860;--muted-2:#9e9b96;
+      --green:#2E5E4E;--green-light:#e3efe8;--amber:#d97706;--amber-light:#fef3c7;--tom:#E4573D;--sky:#4A90C6;--plum:#8D5BB8;
+      --shadow:0 2px 8px rgba(0,0,0,.07),0 12px 36px rgba(0,0,0,.08)}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;padding-inline:20px;padding-block:0 60px;font-size:15px;line-height:1.5}
+    .wrap{max-width:860px;margin:0 auto}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:22px 0;gap:12px;flex-wrap:wrap}
+    .back{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none}.back:hover{color:var(--text)}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+    h1{font-family:"Baloo 2",Inter,sans-serif;font-size:clamp(36px,7vw,60px);line-height:.95;margin:8px 0 10px}
+    .lead{color:var(--muted);max-width:60ch;margin:0 0 18px}
+    .note{background:var(--amber-light);border-left:4px solid var(--amber);padding:10px 14px;border-radius:0 12px 12px 0;font-size:14px;margin:0 0 26px}
+    .note b{color:#8a5a06}
+    .row{display:grid;grid-template-columns:72px 1fr 1fr 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start}
+    .row.head{padding:6px 0 10px;border-bottom:2px solid var(--text);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+    .t{font-family:"Baloo 2",Inter,sans-serif;font-size:24px;font-weight:800;line-height:1;color:var(--green);font-variant-numeric:tabular-nums}
+    .who{display:none;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+    .edo .who{color:var(--sky)}.bia .who{color:var(--tom)}.gr .who{color:var(--plum)}
+    .gr{color:var(--muted)}
+    .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--green-light);color:var(--green);margin-left:4px;vertical-align:middle}
+    .span{grid-column:2 / span 3}
+    @media(max-width:640px){
+      .row{grid-template-columns:60px 1fr;row-gap:8px}
+      .row.head{display:none}
+      .row > div:not(.t){grid-column:2}
+      .who{display:block}
+      .span{grid-column:2}
+    }
+    h2{font-family:"Baloo 2",Inter,sans-serif;font-size:26px;margin:40px 0 10px}
+    .rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    @media(max-width:640px){.rules{grid-template-columns:1fr}}
+    .rule{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+    .rule b{display:block;font-size:16px;margin-bottom:4px}
+    .rule p{margin:0;color:var(--muted);font-size:14px}
+    .links{margin-top:32px;font-size:14px;display:flex;gap:18px;flex-wrap:wrap}
+    .links a{color:var(--green);font-weight:600;text-decoration:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="famiglia.html">← Famiglia</a><a class="back" href="costituzione-famiglia.html#mattina">Costituzione, Parte VI →</a></div>
+  <div class="eyebrow">Giorni di scuola</div>
+  <h1>Gli orari della mattina</h1>
+  <p class="lead">Si parte dall'ora in cui bisogna essere fuori dalla porta e si va a ritroso. Ogni tappa ha il suo orario: chi è in ritardo se ne accorge dall'orologio, non perché glielo urla qualcuno.</p>
+  <div class="note"><b>Da confermare:</b> gli orari sono un esempio (sveglia 7:00, uscita 8:05). Quando li decidete, li sistemo.</div>
+
+  <div class="row head"><div>Ora</div><div>Edoardo</div><div>Bianca</div><div>Mamma e papà</div></div>
+
+  <div class="row"><div class="t">7:00</div>
+    <div class="edo"><div class="who">Edo</div>Sveglia con la sua sveglia <span class="tag">da solo</span></div>
+    <div class="bia"><div class="who">Bianca</div>Sveglia con la musica, coccola di 5 minuti <span class="tag">da sola</span></div>
+    <div class="gr"><div class="who">Grandi</div>Uno accende la playlist, l'altro prepara la colazione</div></div>
+
+  <div class="row"><div class="t">7:05</div>
+    <div class="edo"><div class="who">Edo</div>Bagno: pipì, viso <span class="tag">da solo</span></div>
+    <div class="bia"><div class="who">Bianca</div>Bagno: pipì, viso <span class="tag">da sola</span></div>
+    <div class="gr"><div class="who">Grandi</div>Restano fuori dal bagno se non chiamati</div></div>
+
+  <div class="row"><div class="t">7:15</div>
+    <div class="edo"><div class="who">Edo</div>Letto rifatto, si veste con i vestiti della sedia <span class="tag">da solo</span></div>
+    <div class="bia"><div class="who">Bianca</div>Si veste con i vestiti della sedia <span class="tag">da sola</span></div>
+    <div class="gr"><div class="who">Grandi</div>Aiutano solo se chiamati; niente «dai, muoviti»</div></div>
+
+  <div class="row"><div class="t">7:25</div>
+    <div class="span">Colazione a tavola tutti insieme. Ognuno porta la propria tazza nel lavello. <span class="gr" style="display:block;margin-top:4px">Mamma e papà fanno colazione con i bambini, non in piedi.</span></div></div>
+
+  <div class="row"><div class="t">7:45</div>
+    <div class="edo"><div class="who">Edo</div>Denti <span class="tag">da solo</span>, controlla lo zaino con la checklist: diario, astuccio, merenda, borraccia</div>
+    <div class="bia"><div class="who">Bianca</div>Denti <span class="tag">da sola</span>, prende il suo zainetto</div>
+    <div class="gr"><div class="who">Grandi</div>Guardano le checklist alla fine, non rifanno niente</div></div>
+
+  <div class="row"><div class="t">7:55</div>
+    <div class="edo"><div class="who">Edo</div>Scarpe e giacca <span class="tag">da solo</span></div>
+    <div class="bia"><div class="who">Bianca</div>Scarpe e giacca <span class="tag">da sola</span></div>
+    <div class="gr"><div class="who">Grandi</div>Chiavi, borsa, merende: preparate la sera</div></div>
+
+  <div class="row"><div class="t">8:05</div>
+    <div class="span"><b>Fuori dalla porta.</b> Chi è pronto prima aspetta gli altri leggendo o giocando.</div></div>
+
+  <h2>Le quattro regole della mattina</h2>
+  <div class="rules">
+    <div class="rule"><b>La mattina si prepara la sera</b><p>Vestiti sulla sedia, zaino alla porta, scarpe accanto allo zaino. La mattina non si decide niente: si fa.</p></div>
+    <div class="rule"><b>Quello che si dimentica, si dimentica</b><p>Merenda o quaderno rimasti a casa non vengono portati a scuola di corsa. Se ne parla la sera e si aggiorna la checklist.</p></div>
+    <div class="rule"><b>Comanda il timer, non mamma e papà</b><p>I grandi ricordano la tappa una volta sola, con calma («è l'ora delle scarpe»); poi lasciano fare.</p></div>
+    <div class="rule"><b>Ognuno fa da solo quello che sa fare</b><p>Anche se un grande farebbe prima. Un letto storto è un letto fatto.</p></div>
+  </div>
+
+  <div class="links"><a href="fogli-di-casa.html">Le schede con i bollini →</a><a href="costituzione-famiglia.html#mattina">Il testo completo (Art. 31–34) →</a></div>
+</div>
+</body>
+</html>
