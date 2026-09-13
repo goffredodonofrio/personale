@@ -107,7 +107,17 @@
       "s": "both"
      },
      "note": "",
-     "extra": [],
+     "extra": [
+      {
+       "id": "x-694uabz",
+       "slot": "p",
+       "title": "Ritiro Mobile",
+       "time": "18:30",
+       "who": "both",
+       "kind": "",
+       "icon": "altro"
+      }
+     ],
      "gym": ""
     },
     "2026-09-16": {
