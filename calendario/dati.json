@@ -1,0 +1,129 @@
+{
+ "v": 1,
+ "people": [
+  {
+   "id": "gof",
+   "name": "Goffredo",
+   "color": "#2F6FB5"
+  },
+  {
+   "id": "caro",
+   "name": "Carolina",
+   "color": "#C4552D"
+  },
+  {
+   "id": "lidia",
+   "name": "Lidia",
+   "color": "#2E8B57"
+  },
+  {
+   "id": "franco",
+   "name": "Franco",
+   "color": "#7BA23F"
+  },
+  {
+   "id": "baby",
+   "name": "Babysitter",
+   "color": "#7B5CC7"
+  }
+ ],
+ "recurring": [
+  {
+   "id": "palestra-gof",
+   "title": "Palestra",
+   "who": "gof",
+   "days": [],
+   "slot": "m",
+   "freq": "weekly"
+  },
+  {
+   "id": "palestra-caro",
+   "title": "Palestra",
+   "who": "caro",
+   "days": [],
+   "slot": "m",
+   "freq": "weekly"
+  },
+  {
+   "id": "spesa",
+   "title": "Spesa",
+   "who": "",
+   "days": [
+    5
+   ],
+   "slot": "m",
+   "freq": "weekly"
+  },
+  {
+   "id": "volley",
+   "title": "Volley",
+   "who": "caro",
+   "days": [],
+   "slot": "s",
+   "freq": "weekly"
+  },
+  {
+   "id": "riunione",
+   "title": "Riunione familiare",
+   "who": "both",
+   "days": [
+    6
+   ],
+   "slot": "s",
+   "freq": "weekly"
+  },
+  {
+   "id": "budget",
+   "title": "Riunione budget",
+   "who": "both",
+   "days": [
+    6
+   ],
+   "slot": "p",
+   "freq": "monthly"
+  }
+ ],
+ "weeks": {
+  "2026-09-14": {
+   "label": "Edo esce alle 12:30 · Bia alle 16:30",
+   "days": {
+    "2026-09-14": {
+     "edo": {
+      "m": "gof",
+      "p": "lidia"
+     },
+     "bia": {
+      "m": "caro",
+      "p": "lidia"
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-09-15": {
+     "edo": {
+      "m": "gof",
+      "p": "gof"
+     },
+     "bia": {
+      "m": "lidia",
+      "p": "lidia"
+     },
+     "note": "Carolina a Milano, rientro 18:30 + ritiro mobile.",
+     "extra": []
+    },
+    "2026-09-16": {
+     "edo": {
+      "m": "caro",
+      "p": "gof"
+     },
+     "bia": {
+      "m": "gof",
+      "p": ""
+     },
+     "note": "Ritiro Bia: da decidere",
+     "extra": []
+    }
+   }
+  }
+ }
+}
