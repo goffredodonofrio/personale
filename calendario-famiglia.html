@@ -78,7 +78,7 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 input::placeholder,textarea::placeholder{color:var(--muted-2)}
 
 /* legend */
-.legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 4px}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px}
 .legend .lbl{font:700 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);margin-right:6px}
 .chip{display:inline-flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:13px}
 .chip .av{width:22px;height:22px;font-size:10px}
@@ -241,10 +241,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     <button class="btn ghost" id="copyprev" title="Riporta le assegnazioni dei bambini dalla settimana precedente">Copia settimana precedente</button>
   </section>
 
-  <section class="legend" id="legend" aria-label="Persone"></section>
-
   <details class="panel" id="recPanel">
-    <summary><span>Attività ricorrenti <small id="recSummary"></small></span></summary>
+    <summary><span>Attività ricorrenti <small>spesa, pallavolo, riunioni… compaiono da sole nei giorni scelti</small></span></summary>
     <div class="rec-list" id="recList"></div>
     <div class="rec-foot">
       <button class="btn" id="addRec">+ Nuova attività ricorrente</button>
@@ -301,6 +299,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <dialog id="ghDlg">
   <form method="dialog" id="ghForm">
     <h3>Impostazioni</h3>
+    <h4>Persone</h4>
+    <div class="legend" id="legend" aria-label="Persone"></div>
     <h4>Orari standard</h4>
     <div class="fields2">
       <label class="field">Palestra<input type="time" id="sGym"></label>
@@ -579,11 +579,9 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     return {c, empty};
   }
   function renderLegend(){
-    const {c, empty} = counts();
-    let h = '<span class="lbl">Turni lun–ven</span>';
-    for(const p of state.people) h += '<span class="chip"><span class="av" style="--c:'+esc(p.color)+'">'+esc(p.name[0])+'</span><span class="n">'+esc(p.name)+'</span><span class="cnt">'+(c[p.id]||0)+'</span><button data-edit="'+esc(p.id)+'" title="Rinomina o cambia colore" aria-label="Modifica '+esc(p.name)+'">✎</button></span>';
-    h += '<span class="chip'+(empty?' empty':'')+'"><span class="n">Da decidere</span><span class="cnt">'+empty+'</span></span>';
-    h += '<button class="chip add" data-add="1">+ Aggiungi persona</button>';
+    let h = '';
+    for(const p of state.people) h += '<span class="chip"><span class="av" style="--c:'+esc(p.color)+'">'+esc(p.name[0])+'</span><span class="n">'+esc(p.name)+'</span><button type="button" data-edit="'+esc(p.id)+'" title="Rinomina o cambia colore" aria-label="Modifica '+esc(p.name)+'">✎</button></span>';
+    h += '<button type="button" class="chip add" data-add="1">+ Aggiungi persona</button>';
     legendEl.innerHTML = h;
   }
   function renderHero(){
@@ -620,11 +618,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       h += '</div>';
     }
     recList.innerHTML = h || '<div class="rec-foot">Nessuna attività ricorrente.</div>';
-    const parts = state.recurring.map(r => {
-      const dd = (r.days||[]).map(i => DAYS_SHORT[i].toLowerCase()).join('/');
-      return esc(r.title) + (r.who ? ' · ' + esc(whoLabel(r.who,true)) : ' · <em>chi?</em>') + ' · ' + (dd ? dd + ' ' + esc(r.time||'') : '<em>giorno?</em>') + (r.freq === 'monthly' ? ' (mensile)' : '');
-    });
-    document.getElementById('recSummary').innerHTML = parts.length ? parts.join(' &nbsp;·&nbsp; ') : 'nessuna';
+
   }
   function renderAll(){ renderWeek(); renderLegend(); renderRecurring(); renderHero(); }
 
@@ -817,8 +811,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     dlg.showModal(); nameIn.focus();
   }
   legendEl.addEventListener('click', e => {
-    const ed = e.target.closest('[data-edit]'); if(ed){ openPerson(ed.dataset.edit); return; }
-    if(e.target.closest('[data-add]')) openPerson(null);
+    const ed = e.target.closest('[data-edit]'); if(ed){ ghDlg.close(); openPerson(ed.dataset.edit); return; }
+    if(e.target.closest('[data-add]')){ ghDlg.close(); openPerson(null); }
   });
   document.getElementById('personCancel').addEventListener('click', () => dlg.close());
   form.addEventListener('submit', e => {
