@@ -119,12 +119,12 @@
      "edo": {
       "m": "caro",
       "p": "gof",
-      "s": "both"
+      "s": "gof"
      },
      "bia": {
       "m": "gof",
       "p": "gof",
-      "s": "both"
+      "s": "gof"
      },
      "note": "",
      "extra": []
@@ -154,6 +154,14 @@
       "p": "caro",
       "s": "both"
      },
+     "note": "",
+     "extra": []
+    },
+    "2026-09-19": {
+     "edo": {
+      "m": "gof"
+     },
+     "bia": {},
      "note": "",
      "extra": []
     }
