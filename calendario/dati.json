@@ -33,6 +33,7 @@
    "title": "Spesa",
    "who": "",
    "days": [
+    4,
     5
    ],
    "slot": "m",
