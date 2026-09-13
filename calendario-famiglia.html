@@ -37,7 +37,7 @@ a{color:var(--blue)}
 .head h1{font-size:18px;font-weight:700;letter-spacing:-.025em}
 .head .sub{margin:3px 0 0;color:var(--muted);font-size:12.5px}
 .headright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.status{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:7px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface-2);max-width:44ch;line-height:1.3}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--muted);padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface-2);line-height:1;cursor:help}
 .status .dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--muted-2)}
 .status[data-s="saved"] .dot,.status[data-s="ok"] .dot{background:var(--green)}
 .status[data-s="saving"] .dot{background:var(--amber);animation:pulse 1s infinite}
@@ -191,7 +191,9 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 details.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow-sm)}
 details.panel summary{cursor:pointer;padding:14px 18px;font-size:15px;font-weight:700;letter-spacing:-.02em;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
 details.panel summary::-webkit-details-marker{display:none}
-details.panel summary small{font-size:12.5px;font-weight:400;color:var(--muted);margin-left:8px}
+details.panel summary small{font-size:12.5px;font-weight:400;color:var(--muted);margin-left:8px;line-height:1.5}
+details.panel summary small em{font-style:normal;color:#b45309;background:var(--amber-light);padding:1px 6px;border-radius:6px;font-weight:600}
+details.panel summary>span{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;min-width:0}
 details.panel summary::after{content:"+";font:400 22px/1 var(--mono);color:var(--muted-2)}
 details.panel[open] summary::after{content:"–"}
 .rec-list{border-top:1px solid var(--border);display:flex;flex-direction:column}
@@ -246,13 +248,13 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       <div>
         <div class="eyebrow">Famiglia</div>
         <h1>Calendario familiare</h1>
-        <p class="sub">Chi accompagna, chi ritira, chi c'è la sera · attività della settimana</p>
+        <p class="sub">Chi accompagna, chi ritira, chi c'è la sera</p>
       </div>
     </div>
     <div class="headright">
       <div class="status" id="status" data-s="init"><span class="dot"></span><span id="statusText">Caricamento…</span></div>
       <button class="iconbtn" id="settingsBtn" title="Collega GitHub per salvare" aria-label="Impostazioni">⚙</button>
-      <a class="btn ghost" href="index.html">← Dashboard</a>
+      <a class="btn ghost" href="index.html">Dashboard</a>
     </div>
   </header>
 
@@ -263,13 +265,11 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       <button class="iconbtn" id="next" aria-label="Settimana successiva">›</button>
     </div>
     <button class="btn ghost" id="thisweek">Questa settimana</button>
-    <div class="weeknote"><label for="weeklabelin">Vale tutta la settimana</label><input type="text" id="weeklabelin" maxlength="70" placeholder="es. Edo esce alle 12:30 · Bia alle 16:30"></div>
-    <button class="btn" id="copyprev" title="Riporta le assegnazioni dei bambini dalla settimana precedente">Copia settimana precedente</button>
+    <div class="weeknote"><label for="weeklabelin">Orari</label><input type="text" id="weeklabelin" maxlength="70" placeholder="es. Edo esce alle 12:30 · Bia alle 16:30"></div>
+    <button class="btn ghost" id="copyprev" title="Riporta le assegnazioni dei bambini dalla settimana precedente">Copia settimana precedente</button>
   </section>
 
   <section class="legend" id="legend" aria-label="Persone"></section>
-
-  <section id="week" class="weekwrap"></section>
 
   <details class="panel" id="recPanel">
     <summary><span>Attività ricorrenti <small>spesa, riunioni, pallavolo… compaiono da sole nei giorni scelti</small></span></summary>
@@ -279,6 +279,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       <span>Mensile = la prima settimana del mese in cui cade quel giorno. Le attività di un solo giorno si aggiungono con il "+" dentro la fascia.</span>
     </div>
   </details>
+
+  <section id="week" class="weekwrap"></section>
 
   <footer class="foot">
     <span id="hint">Le caselle tratteggiate sono ancora da decidere.</span>
@@ -415,7 +417,8 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   // ---------- GitHub ----------
   const statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
   let mode = 'init', saveTimer = null, dirty = false, saving = false;
-  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = text; }
+  const SHORT = {init:'Caricamento…', ok:'Collegato', saved:'Salvato', saving:'Salvataggio…', readonly:'Sola lettura', error:'Problema', local:'Solo qui'};
+  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = SHORT[s] || text; statusEl.title = text; }
   function apiUrl(){ return 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/contents/'+GH.path; }
   function headers(withAuth){
     const h = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
@@ -614,8 +617,12 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       h += '</div>';
     }
     recList.innerHTML = h || '<div class="rec-foot">Nessuna attività ricorrente.</div>';
-    const unset = state.recurring.filter(r => !(r.days||[]).length).length;
-    document.getElementById('recPanel').querySelector('summary small').textContent = unset ? unset + (unset === 1 ? ' attività senza giorno: aprila e scegli quando' : ' attività senza giorno: aprile e scegli quando') : 'spesa, riunioni, pallavolo… compaiono da sole nei giorni scelti';
+    const parts = state.recurring.map(r => {
+      const dd = (r.days||[]).map(i => DAYS_SHORT[i].toLowerCase()).join('/');
+      const sl = (SLOTS.find(x => x.id === r.slot)||{}).name || '';
+      return esc(r.title) + (r.who ? ' · ' + esc(whoLabel(r.who,true)) : ' · <em>chi?</em>') + ' · ' + (dd ? dd + ' ' + sl.toLowerCase() : '<em>giorno?</em>') + (r.freq === 'monthly' ? ' (mensile)' : '');
+    });
+    document.getElementById('recPanel').querySelector('summary small').innerHTML = parts.length ? parts.join(' &nbsp;·&nbsp; ') : 'nessuna';
   }
   function renderAll(){ renderWeek(); renderLegend(); renderRecurring(); }
 
