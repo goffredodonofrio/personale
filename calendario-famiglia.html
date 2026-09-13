@@ -60,7 +60,7 @@ a{color:var(--blue)}
 .btn.ghost{background:transparent}
 .btn.danger{color:#b91c1c}
 .btn:disabled{opacity:.5;cursor:default}
-.weeknote{display:flex;align-items:center;gap:10px;flex:1 1 260px;min-width:0}
+.weeknote{display:flex;align-items:center;gap:10px;flex:1 1 320px;min-width:0}
 .weeknote label{font:700 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap}
 .weeknote input{flex:1;min-width:0;font:inherit;font-size:13px;color:var(--text);padding:9px 12px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2)}
 input::placeholder,textarea::placeholder{color:var(--muted-2)}
@@ -151,6 +151,42 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
   body{padding-inline:14px}
 }
 
+
+/* timetable (schermi larghi) */
+.tt{display:grid;grid-template-columns:118px repeat(5,minmax(0,1.1fr)) repeat(2,minmax(0,.9fr));background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.tt .corner{padding:10px 12px;display:flex;align-items:flex-end}
+.tt .corner .wl{font:600 11px/1.3 var(--sans);color:#92400e;background:var(--amber-light);border-radius:8px;padding:4px 8px}
+.tt .th{padding:12px 12px 10px;border-left:1px solid var(--border);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tt .th .dn{font:700 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tt .th .dd{font:800 24px/1 var(--sans);letter-spacing:-.03em}
+.tt .th.we{background:var(--surface-2)}
+.tt .th.today{background:var(--blue-light)}
+.tt .th.today .dn,.tt .th.today .dd{color:var(--blue)}
+.tt .th .today-tag{font:700 9px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:#fff;background:var(--blue);padding:4px 6px;border-radius:999px;margin-left:auto}
+.tt .rl{--sc:var(--surface);--sl:var(--muted-2);border-top:1px solid var(--border);padding:12px 12px;background:var(--sc);box-shadow:inset 4px 0 0 var(--sl);display:flex;flex-direction:column;gap:3px}
+.tt .rl b{font-size:13.5px;letter-spacing:-.01em;color:var(--text)}
+.tt .rl span{font:700 9.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--sl)}
+.tt .rl.s-gym,.tt .cell.s-gym{--sc:#f5f3ff;--sl:#7c3aed}
+.tt .rl.s-m,.tt .cell.s-m{--sc:#fffbeb;--sl:#d97706}
+.tt .rl.s-p,.tt .cell.s-p{--sc:#eff6ff;--sl:#1d6af8}
+.tt .rl.s-s,.tt .cell.s-s{--sc:#eef2ff;--sl:#4338ca}
+.tt .rl.s-note,.tt .cell.s-note{--sc:var(--surface);--sl:var(--muted-2)}
+.tt .cell{--sc:var(--surface);position:relative;border-top:1px solid var(--border);border-left:1px solid var(--border);padding:8px 8px 8px;background:color-mix(in srgb,var(--sc) 55%,var(--surface));display:flex;flex-direction:column;gap:6px;min-width:0}
+.tt .cell.we{background:var(--surface-2)}
+.tt .cell.today{box-shadow:inset 0 0 0 2px var(--blue-light)}
+.tt .cell .addx{position:absolute;right:6px;top:6px;width:20px;height:20px;border-radius:6px;border:0;background:transparent;color:transparent;font-size:15px;line-height:1;padding:0}
+.tt .cell:hover .addx{color:var(--muted-2)}
+.tt .cell .addx:hover{color:var(--blue);background:var(--blue-light)}
+.tt .cell.s-note{padding:4px}
+.tt .cell .note{border:0;padding:6px 8px;min-height:2.2em;font-size:12px}
+.tt .cell .kids{gap:5px}
+.tt .pill{min-height:32px;font-size:12.5px;padding:4px 7px}
+.tt .act{font-size:12px;padding:5px 8px}
+.tt .act.gym{min-height:32px}
+.tt .free{padding:7px 8px;font-size:11.5px}
+.weekwrap .week{display:none}
+@media (max-width:900px){ .tt{display:none} .weekwrap .week{display:grid} }
+
 /* recurring panel */
 details.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow-sm)}
 details.panel summary{cursor:pointer;padding:14px 18px;font-size:15px;font-weight:700;letter-spacing:-.02em;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -233,7 +269,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 
   <section class="legend" id="legend" aria-label="Persone"></section>
 
-  <section class="week" id="week"></section>
+  <section id="week" class="weekwrap"></section>
 
   <details class="panel" id="recPanel">
     <summary><span>Attività ricorrenti <small>spesa, riunioni, pallavolo… compaiono da sole nei giorni scelti</small></span></summary>
@@ -473,43 +509,66 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     return '<button type="button" class="act '+kind+(v?'':' unset')+(a.kind?' k-'+a.kind:'')+'" data-pick="'+kind+'" data-id="'+esc(a.id)+'" data-day="'+dIso+'" title="'+esc(a.title)+(v?' · '+esc(whoLabel(v)):'')+'">'+sw+'<span class="t">'+esc(a.title)+'</span>'+tag+'<span class="w">'+(v ? esc(whoLabel(v,true)) : (a.kind ? '' : 'chi?'))+'</span></button>';
   }
 
+  function gymBtn(dIso, data){
+    const g = data.gym || '', gc = g ? colorOf(g) : null;
+    return '<button type="button" class="act gym'+(g?' on':'')+'" data-pick="gym" data-day="'+dIso+'" title="Chi va in palestra: l\'altro accompagna Edo e Bia">'+(gc ? '<span class="sw" style="--c:'+gc[0]+'"></span>' : '<span class="sw none"></span>')+'<span class="t">'+(g ? esc(whoLabel(g)) : 'Nessuno')+'</span><span class="w">'+(g ? 'l\'altro accompagna' : 'chi va?')+'</span></button>';
+  }
+  function slotBody(dIso, i, d, s, data, we){
+    let html = '';
+    const ve = (data.edo||{})[s.id] || '', vb = (data.bia||{})[s.id] || '';
+    if(!we) html += '<div class="kids">'+pillHtml(dIso,KIDS[0],s,ve,i)+pillHtml(dIso,KIDS[1],s,vb,i)+'</div>';
+    const recs = recurringFor(i, d, s.id), extras = (data.extra||[]).filter(x => x.slot === s.id);
+    if(we && !recs.length && !extras.length) html += '<button type="button" class="free" data-addextra="'+dIso+'" data-slot="'+s.id+'">Libero · aggiungi</button>';
+    if(recs.length || extras.length){
+      html += '<div class="acts">';
+      for(const r of recs) html += actHtml(r,'rec',dIso);
+      for(const x of extras) html += actHtml(x,'extra',dIso);
+      html += '</div>';
+    }
+    return html;
+  }
+  function addBtn(dIso, s){ return '<button type="button" class="addx" data-addextra="'+dIso+'" data-slot="'+s.id+'" title="Aggiungi un impegno">+</button>'; }
+
   function renderWeek(){
     const mon = parse(weekKey);
     weekText.textContent = weekLabel(mon);
     const wlabel = (week(weekKey,false)||{}).label || '';
     weekLabelIn.value = wlabel;
-    let html = '';
-    for(let i=0;i<7;i++){
-      const d = addDays(mon,i), dIso = iso(d), data = day(weekKey,dIso,false) || {edo:{},bia:{},note:'',extra:[]};
-      const isToday = dIso === todayIso, we = i >= 5;
-      html += '<article class="day'+(isToday?' today':'')+(we?' weekend':'')+'" data-day="'+dIso+'">';
-      html += '<div class="dayhead"><h2><span class="dn">'+DAYS_SHORT[i]+'</span><span class="dd">'+d.getDate()+'</span></h2>'+(isToday?'<span class="today-tag">Oggi</span>':'')+'</div>';
-      if(wlabel && !we) html += '<div class="daytag">'+esc(wlabel)+'</div>';
-      html += '<div class="slots">';
-      if(!we){
-        const g = data.gym || '', gc = g ? colorOf(g) : null;
-        html += '<div class="slot s-gym"><div class="sh"><span><b>Palestra</b>prima di accompagnare</span></div>';
-        html += '<button type="button" class="act gym'+(g?' on':'')+'" data-pick="gym" data-day="'+dIso+'" title="Chi va in palestra: l\'altro accompagna Edo e Bia">'+(gc ? '<span class="sw" style="--c:'+gc[0]+'"></span>' : '<span class="sw none"></span>')+'<span class="t">'+(g ? esc(whoLabel(g)) : 'Nessuno')+'</span><span class="w">'+(g ? 'l\'altro accompagna' : 'chi va?')+'</span></button></div>';
-      }
-      for(const s of SLOTS){
-        html += '<div class="slot s-'+s.id+'"><div class="sh"><span><b>'+s.name+'</b> · '+(we ? s.whint : s.hint)+'</span><button type="button" data-addextra="'+dIso+'" data-slot="'+s.id+'" title="Aggiungi attività di questo giorno">+</button></div>';
-        const ve = (data.edo||{})[s.id] || '', vb = (data.bia||{})[s.id] || '';
-        if(!we) html += '<div class="kids">'+pillHtml(dIso,KIDS[0],s,ve,i)+pillHtml(dIso,KIDS[1],s,vb,i)+'</div>';
-        const recs = recurringFor(i, d, s.id), extras = (data.extra||[]).filter(x => x.slot === s.id);
-        if(we && !recs.length && !extras.length) html += '<button type="button" class="free" data-addextra="'+dIso+'" data-slot="'+s.id+'">Libero · aggiungi un impegno</button>';
-        if(recs.length || extras.length){
-          html += '<div class="acts">';
-          for(const r of recs) html += actHtml(r,'rec',dIso);
-          for(const x of extras) html += actHtml(x,'extra',dIso);
-          html += '</div>';
-        }
-        html += '</div>';
-      }
-      html += '</div>';
-      html += '<textarea class="note" data-day="'+dIso+'" rows="1" placeholder="Note…" maxlength="300">'+esc(data.note||'')+'</textarea>';
-      html += '</article>';
+    const days = [];
+    for(let i=0;i<7;i++){ const d = addDays(mon,i), dIso = iso(d); days.push({i, d, dIso, data: day(weekKey,dIso,false) || {edo:{},bia:{},note:'',extra:[]}, isToday: dIso === todayIso, we: i >= 5}); }
+
+    // ---- vista tabella (schermi larghi): righe = fasce, colonne = giorni ----
+    let tt = '<div class="tt" role="table" aria-label="Settimana">';
+    tt += '<div class="corner">'+(wlabel ? '<span class="wl">'+esc(wlabel)+'</span>' : '')+'</div>';
+    for(const x of days) tt += '<div class="th'+(x.isToday?' today':'')+(x.we?' we':'')+'"><span class="dn">'+DAYS_SHORT[x.i]+'</span><span class="dd">'+x.d.getDate()+'</span>'+(x.isToday?'<span class="today-tag">Oggi</span>':'')+'</div>';
+    tt += '<div class="rl s-gym"><b>Palestra</b><span>prima di accompagnare</span></div>';
+    for(const x of days) tt += '<div class="cell s-gym'+(x.we?' we':'')+(x.isToday?' today':'')+'">'+(x.we ? '' : gymBtn(x.dIso, x.data))+'</div>';
+    for(const s of SLOTS){
+      tt += '<div class="rl s-'+s.id+'"><b>'+s.name+'</b><span>'+s.hint+'</span></div>';
+      for(const x of days) tt += '<div class="cell s-'+s.id+(x.we?' we':'')+(x.isToday?' today':'')+'">'+slotBody(x.dIso,x.i,x.d,s,x.data,x.we)+addBtn(x.dIso,s)+'</div>';
     }
-    weekEl.innerHTML = html;
+    tt += '<div class="rl s-note"><b>Note</b></div>';
+    for(const x of days) tt += '<div class="cell s-note'+(x.we?' we':'')+'"><textarea class="note" data-day="'+x.dIso+'" rows="1" placeholder="…" maxlength="300">'+esc(x.data.note||'')+'</textarea></div>';
+    tt += '</div>';
+
+    // ---- vista a schede (telefono): un giorno sotto l'altro ----
+    let cards = '<div class="week">';
+    for(const x of days){
+      cards += '<article class="day'+(x.isToday?' today':'')+(x.we?' weekend':'')+'" data-day="'+x.dIso+'">';
+      cards += '<div class="dayhead"><h2><span class="dn">'+DAYS_SHORT[x.i]+'</span><span class="dd">'+x.d.getDate()+'</span></h2>'+(x.isToday?'<span class="today-tag">Oggi</span>':'')+'</div>';
+      if(wlabel && !x.we) cards += '<div class="daytag">'+esc(wlabel)+'</div>';
+      cards += '<div class="slots">';
+      if(!x.we) cards += '<div class="slot s-gym"><div class="sh"><span><b>Palestra</b>prima di accompagnare</span></div>'+gymBtn(x.dIso, x.data)+'</div>';
+      for(const s of SLOTS){
+        cards += '<div class="slot s-'+s.id+'"><div class="sh"><span><b>'+s.name+'</b> · '+(x.we ? s.whint : s.hint)+'</span><button type="button" data-addextra="'+x.dIso+'" data-slot="'+s.id+'" title="Aggiungi un impegno">+</button></div>';
+        cards += slotBody(x.dIso,x.i,x.d,s,x.data,x.we)+'</div>';
+      }
+      cards += '</div>';
+      cards += '<textarea class="note" data-day="'+x.dIso+'" rows="1" placeholder="Note…" maxlength="300">'+esc(x.data.note||'')+'</textarea>';
+      cards += '</article>';
+    }
+    cards += '</div>';
+    weekEl.innerHTML = tt + cards;
     weekEl.querySelectorAll('.note').forEach(autosize);
   }
   function autosize(t){ t.style.height = 'auto'; t.style.height = (t.scrollHeight + 2) + 'px'; }
@@ -641,7 +700,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   });
   weekEl.addEventListener('input', e => { if(e.target.matches('.note')) autosize(e.target); });
   weekEl.addEventListener('change', e => {
-    if(e.target.matches('.note')){ day(weekKey, e.target.dataset.day, true).note = e.target.value.trim(); markDirty(); }
+    if(e.target.matches('.note')){ const v = e.target.value.trim(); day(weekKey, e.target.dataset.day, true).note = v; weekEl.querySelectorAll('.note[data-day="'+e.target.dataset.day+'"]').forEach(t => { if(t !== e.target){ t.value = v; autosize(t); } }); markDirty(); }
   });
 
   // ---------- eventi: barra ----------
