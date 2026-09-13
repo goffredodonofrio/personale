@@ -115,6 +115,9 @@ input::placeholder,textarea::placeholder{color:var(--ink-3)}
 .act.rec{border-style:solid}
 .act.extra{background:var(--surface)}
 .act.unset{border-color:var(--warn);color:var(--warn)}
+.act.gym{background:var(--surface);border-style:dashed}
+.act.gym.on{border-style:solid;background:var(--accent-soft);border-color:transparent}
+.act.gym .w{color:var(--ink)}
 .note{border:0;border-top:1px solid var(--line);background:transparent;padding:8px 10px;width:100%;font:inherit;font-size:13px;line-height:1.4;color:var(--ink);resize:none;min-height:2.6em;overflow:hidden}
 .note:focus{background:var(--surface-2);outline:none}
 .day.weekend .note:focus{background:var(--surface)}
@@ -218,7 +221,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
   <section class="week" id="week"></section>
 
   <details class="panel" id="recPanel">
-    <summary><span>Attività ricorrenti <small>palestra, spesa, riunioni, volley… compaiono da sole nei giorni scelti</small></span></summary>
+    <summary><span>Attività ricorrenti <small>spesa, riunioni, pallavolo… compaiono da sole nei giorni scelti</small></span></summary>
     <div class="rec-list" id="recList"></div>
     <div class="rec-foot">
       <button class="btn" id="addRec">+ Nuova attività ricorrente</button>
@@ -308,10 +311,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
     v:1,
     people:[{id:'gof',name:'Goffredo',color:'#2F6FB5'},{id:'caro',name:'Carolina',color:'#C4552D'},{id:'lidia',name:'Lidia',color:'#2E8B57'},{id:'franco',name:'Franco',color:'#7BA23F'},{id:'baby',name:'Babysitter',color:'#7B5CC7'}],
     recurring:[
-      {id:'palestra-gof',title:'Palestra',who:'gof',days:[],slot:'m',freq:'weekly'},
-      {id:'palestra-caro',title:'Palestra',who:'caro',days:[],slot:'m',freq:'weekly'},
       {id:'spesa',title:'Spesa',who:'',days:[5],slot:'m',freq:'weekly'},
-      {id:'volley',title:'Volley',who:'caro',days:[],slot:'s',freq:'weekly'},
+      {id:'volley',title:'Pallavolo',who:'caro',days:[2],slot:'s',freq:'weekly'},
       {id:'riunione',title:'Riunione familiare',who:BOTH,days:[6],slot:'s',freq:'weekly'},
       {id:'budget',title:'Riunione budget',who:BOTH,days:[6],slot:'p',freq:'monthly'}
     ],
@@ -471,6 +472,10 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
       for(const s of SLOTS){
         html += '<div class="slot"><div class="sh"><span><b>'+s.name+'</b> · '+(we ? s.whint : s.hint)+'</span><button type="button" data-addextra="'+dIso+'" data-slot="'+s.id+'" title="Aggiungi attività di questo giorno">+</button></div>';
         const ve = (data.edo||{})[s.id] || '', vb = (data.bia||{})[s.id] || '';
+        if(s.id === 'm' && !we){
+          const g = data.gym || '', gc = g ? colorOf(g) : null;
+          html += '<div class="acts"><button type="button" class="act gym'+(g?' on':'')+'" data-pick="gym" data-day="'+dIso+'" title="Chi va in palestra prima di accompagnare i bambini">'+(gc ? '<span class="sw" style="--c:'+gc[0]+'"></span>' : '<span class="sw none"></span>')+'<span class="t">Palestra</span><span class="w">'+(g ? esc(whoLabel(g,true)) : 'prima di accompagnare')+'</span></button></div>';
+        }
         html += '<div class="kids">'+pillHtml(dIso,KIDS[0],s,ve,i)+pillHtml(dIso,KIDS[1],s,vb,i)+'</div>';
         const recs = recurringFor(i, d, s.id), extras = (data.extra||[]).filter(x => x.slot === s.id);
         if(recs.length || extras.length){
@@ -532,7 +537,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
     }
     recList.innerHTML = h || '<div class="rec-foot">Nessuna attività ricorrente.</div>';
     const unset = state.recurring.filter(r => !(r.days||[]).length).length;
-    document.getElementById('recPanel').querySelector('summary small').textContent = unset ? unset + (unset === 1 ? ' attività senza giorno: aprila e scegli quando' : ' attività senza giorno: aprile e scegli quando') : 'palestra, spesa, riunioni, volley… compaiono da sole nei giorni scelti';
+    document.getElementById('recPanel').querySelector('summary small').textContent = unset ? unset + (unset === 1 ? ' attività senza giorno: aprila e scegli quando' : ' attività senza giorno: aprile e scegli quando') : 'spesa, riunioni, pallavolo… compaiono da sole nei giorni scelti';
   }
   function renderAll(){ renderWeek(); renderLegend(); renderRecurring(); }
 
@@ -586,6 +591,13 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
       if(v === '__same'){ const src = dd[kid.id][s.id] || ''; dd.edo[s.id] = src; dd.bia[s.id] = src; }
       else dd[kid.id][s.id] = v;
       renderWeek(); markDirty();
+    }else if(kind === 'gym'){
+      const d = day(weekKey, b.dataset.day, false), cur = d ? d.gym || '' : '';
+      const items = [{value:'', label:'— nessuno', cur:!cur}];
+      for(const id of PARENTS){ const p = personById(id); if(p) items.push({value:id, label:p.name + ' va in palestra', color:p.color, cur:cur===id}); }
+      const v = await openPop(b, items, 'Palestra la mattina · l\'altro accompagna Edo e Bia');
+      if(v === null) return;
+      day(weekKey, b.dataset.day, true).gym = v; renderWeek(); markDirty();
     }else if(kind === 'rec'){
       const r = state.recurring.find(x => x.id === b.dataset.id); if(!r) return;
       const items = peopleItems(r.who||'', true);
@@ -622,7 +634,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
     for(let i=0;i<7;i++){
       const src = pw.days[iso(addDays(pmon,i))]; if(!src) continue;
       const dst = day(weekKey, iso(addDays(mon,i)), true);
-      dst.edo = clone(src.edo||{}); dst.bia = clone(src.bia||{});
+      dst.edo = clone(src.edo||{}); dst.bia = clone(src.bia||{}); dst.gym = src.gym || '';
     }
     if(pw.label && !week(weekKey,true).label) week(weekKey,true).label = pw.label;
     renderAll(); markDirty();
