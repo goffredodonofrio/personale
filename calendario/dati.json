@@ -33,8 +33,7 @@
    "title": "Spesa",
    "who": "",
    "days": [
-    4,
-    5
+    4
    ],
    "slot": "m",
    "freq": "weekly",
