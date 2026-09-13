@@ -9,24 +9,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #f2f0fb;
-      --bg-1:      #e9e5f6;
+      --bg:        #f5f4f1;
+      --bg-1:      #eceae5;
       --surface:   #ffffff;
       --surface-2: #f9f8f6;
-      --border:    rgba(92,61,186,0.06);
-      --border-md: rgba(92,61,186,0.12);
-      --text:      #1a1535;
-      --muted:     #6b678e;
-      --muted-2:   #9e9bba;
-      --blue:      #5c3dba;
-      --blue-light:#ede9ff;
+      --border:    rgba(0,0,0,0.08);
+      --border-md: rgba(0,0,0,0.14);
+      --text:      #111110;
+      --muted:     #6b6860;
+      --muted-2:   #9e9b96;
+      --blue:      #1d6af8;
+      --blue-light:#e8efff;
       --amber:     #d97706;
       --amber-light:#fef3c7;
-      --green:     #1ab86c;
-      --green-light:#d0f7e8;
-      --shadow-sm: 0 2px 6px rgba(80,50,180,0.07), 0 6px 20px rgba(80,50,180,0.07);
-      --shadow:    0 2px 8px rgba(80,50,180,0.07), 0 12px 36px rgba(80,50,180,0.09);
-      --shadow-lg: 0 4px 16px rgba(80,50,180,0.09), 0 24px 60px rgba(80,50,180,0.12);
+      --green:     #16a34a;
+      --green-light:#dcfce7;
+      --violet:    #7c3aed;
+      --violet-light:#ede9fe;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+      --shadow:    0 2px 8px rgba(0,0,0,0.07), 0 12px 36px rgba(0,0,0,0.08);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.08), 0 24px 60px rgba(0,0,0,0.12);
       --radius:    24px;
       --radius-sm: 14px;
       --mono:      "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -271,7 +273,8 @@
     /* accent strips */
     .accent-blue::after,
     .accent-amber::after,
-    .accent-green::after {
+    .accent-green::after,
+    .accent-violet::after {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -281,11 +284,13 @@
     .accent-blue::after  { background: var(--blue); }
     .accent-amber::after { background: var(--amber); }
     .accent-green::after { background: var(--green); }
+    .accent-violet::after { background: var(--violet); }
 
     /* color-tinted card background */
     .accent-blue  { background: linear-gradient(160deg, var(--blue-light) 0%, var(--surface) 55%); }
     .accent-amber { background: linear-gradient(160deg, var(--amber-light) 0%, var(--surface) 55%); }
     .accent-green { background: linear-gradient(160deg, var(--green-light) 0%, var(--surface) 55%); }
+    .accent-violet { background: linear-gradient(160deg, var(--violet-light) 0%, var(--surface) 55%); }
 
     .card-top {
       display: flex;
@@ -312,6 +317,7 @@
     .accent-blue  .card-tag:first-child { color: var(--blue);  border-color: rgba(29,106,248,.25); background: rgba(29,106,248,.07); }
     .accent-amber .card-tag:first-child { color: var(--amber); border-color: rgba(217,119,6,.25);  background: rgba(217,119,6,.07);  }
     .accent-green .card-tag:first-child { color: var(--green); border-color: rgba(22,163,74,.25);  background: rgba(22,163,74,.07);  }
+    .accent-violet .card-tag:first-child { color: var(--violet); border-color: rgba(124,58,237,.25); background: rgba(124,58,237,.07); }
 
     .card-name {
       font-size: clamp(32px, 3.6vw, 44px);
@@ -350,6 +356,7 @@
     .accent-blue:hover  .card-cta { color: var(--blue);  border-color: var(--blue); }
     .accent-amber:hover .card-cta { color: var(--amber); border-color: var(--amber); }
     .accent-green:hover .card-cta { color: var(--green); border-color: var(--green); }
+    .accent-violet:hover .card-cta { color: var(--violet); border-color: var(--violet); }
 
     /* card icon — large, top-right corner */
     .card-icon {
@@ -371,6 +378,7 @@
     .accent-blue  .card-icon svg { color: var(--blue); }
     .accent-amber .card-icon svg { color: var(--amber); }
     .accent-green .card-icon svg { color: var(--green); }
+    .accent-violet .card-icon svg { color: var(--violet); }
 
     /* ===== FOOTER ===== */
     .footer {
@@ -409,16 +417,6 @@
       .section-sub { display: none; }
       .footer { flex-direction: column; align-items: flex-start; }
     }
-  
-/* ── Reference: card senza bordi ── */
-body { background: var(--bg); }
-.topbar { border: none !important; box-shadow: 0 2px 8px rgba(80,50,180,0.07), 0 8px 28px rgba(80,50,180,0.09); }
-.project-card { border: none !important; }
-.accent-blue  { background: linear-gradient(160deg, #ede9ff 0%, var(--surface) 55%); }
-.accent-amber { background: linear-gradient(160deg, var(--amber-light) 0%, var(--surface) 55%); }
-.accent-green { background: linear-gradient(160deg, var(--green-light) 0%, var(--surface) 55%); }
-.card-dot, .carousel-dot.active { background: var(--blue); }
-
   </style>
 </head>
 <body>
@@ -483,27 +481,45 @@ body { background: var(--bg); }
     const isMobile = window.matchMedia('(max-width: 680px)').matches;
 
     const projectCards = [
-      `<a class="project-card accent-green" href="rcm-1821-d-managing.html">
+      `<a class="project-card accent-green" href="famiglia.html">
         <div class="card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <path d="M9 22V12h6v10"/>
-            <circle cx="17" cy="7" r="3"/>
-            <path d="M15.5 5.5l3 3"/>
+            <circle cx="8" cy="6" r="2.5"/><circle cx="16" cy="7" r="2"/>
+            <path d="M4 21v-6a4 4 0 0 1 4-4 4 4 0 0 1 4 4v6M12 21v-5a3 3 0 0 1 3-3 3 3 0 0 1 3 3v5"/>
+            <path d="M8 11h8"/>
           </svg>
         </div>
         <div class="card-top">
           <div class="card-tags">
-            <span class="card-tag">RCM-1821-D</span>
-            <span class="card-tag">Managing</span>
+            <span class="card-tag">Famiglia</span>
+            <span class="card-tag">Costituzione</span>
           </div>
-          <p class="card-name">RCM‑1821‑D<br>Managing</p>
+          <p class="card-name">Famiglia</p>
         </div>
         <div class="card-bottom">
-          <div class="card-cta">Apri vademecum →</div>
+          <div class="card-cta">Apri progetto →</div>
         </div>
       </a>`,
-
+      `<a class="project-card accent-blue" href="plancia-rocciamelone.html">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+            <path d="M8.5 7.5Q12 4 15.5 7.5"/>
+            <path d="M6.5 6Q12 1 17.5 6"/>
+          </svg>
+        </div>
+        <div class="card-top">
+          <div class="card-tags">
+            <span class="card-tag">Home</span>
+            <span class="card-tag">Smart</span>
+          </div>
+          <p class="card-name">Smart<br>Home</p>
+        </div>
+        <div class="card-bottom">
+          <div class="card-cta">Apri progetto →</div>
+        </div>
+      </a>`,
 
       `<a class="project-card accent-amber" href="cockpit-salute.html">
         <div class="card-icon" aria-hidden="true">
@@ -518,6 +534,26 @@ body { background: var(--bg); }
             <span class="card-tag">Cockpit</span>
           </div>
           <p class="card-name">Cockpit<br>Salute</p>
+        </div>
+        <div class="card-bottom">
+          <div class="card-cta">Apri progetto →</div>
+        </div>
+      </a>`,
+
+      `<a class="project-card accent-violet" href="finance.html">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="M7 15l4-5 3 3 5-7"/>
+            <circle cx="19" cy="6" r="1.4" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div class="card-top">
+          <div class="card-tags">
+            <span class="card-tag">Finance</span>
+            <span class="card-tag">Conto</span>
+          </div>
+          <p class="card-name">Finance</p>
         </div>
         <div class="card-bottom">
           <div class="card-cta">Apri progetto →</div>
