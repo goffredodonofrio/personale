@@ -90,11 +90,13 @@
     "2026-09-14": {
      "edo": {
       "m": "gof",
-      "p": "lidia"
+      "p": "lidia",
+      "s": "both"
      },
      "bia": {
       "m": "caro",
-      "p": "lidia"
+      "p": "lidia",
+      "s": "both"
      },
      "note": "",
      "extra": []
@@ -102,11 +104,13 @@
     "2026-09-15": {
      "edo": {
       "m": "gof",
-      "p": "gof"
+      "p": "lidia",
+      "s": "both"
      },
      "bia": {
       "m": "lidia",
-      "p": "lidia"
+      "p": "lidia",
+      "s": "both"
      },
      "note": "Carolina a Milano, rientro 18:30 + ritiro mobile.",
      "extra": []
@@ -114,13 +118,43 @@
     "2026-09-16": {
      "edo": {
       "m": "caro",
-      "p": "gof"
+      "p": "gof",
+      "s": "both"
      },
      "bia": {
       "m": "gof",
-      "p": ""
+      "p": "gof",
+      "s": "both"
      },
-     "note": "Ritiro Bia: da decidere",
+     "note": "",
+     "extra": []
+    },
+    "2026-09-17": {
+     "edo": {
+      "m": "gof",
+      "p": "gof",
+      "s": "both"
+     },
+     "bia": {
+      "m": "caro",
+      "p": "caro",
+      "s": "both"
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-09-18": {
+     "edo": {
+      "m": "gof",
+      "p": "gof",
+      "s": "both"
+     },
+     "bia": {
+      "m": "caro",
+      "p": "caro",
+      "s": "both"
+     },
+     "note": "",
      "extra": []
     }
    }
