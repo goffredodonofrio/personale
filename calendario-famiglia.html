@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260919151834">
+<meta name="build" content="20260919152141">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -552,25 +552,25 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   function tkey(t){ return t && /^\d{1,2}:\d{2}$/.test(t) ? t.padStart(5,'0') : '99:99'; }
   function dayEvents(x, key){
     const ev = [], data = x.data, T = state.times, WT0 = weekTimes(key), O = data.t || {};
-    const T2 = {gym:O.gym||T.gym, drop:O.drop||T.drop, eve:O.eve||T.eve}, WT = {edo:O.edo||WT0.edo, bia:O.bia||WT0.bia};
+    const T2 = {gym:O.gym||T.gym, dropE:O.drop_edo||O.drop||T.drop, dropB:O.drop_bia||O.drop||T.drop, eveE:O.eve_edo||O.eve||T.eve, eveB:O.eve_bia||O.eve||T.eve}, WT = {edo:O.edo||WT0.edo, bia:O.bia||WT0.bia};
     if(!x.we){
       ev.push({k:'gym', tk:'gym', time:T2.gym, icon:'palestra', title:'Palestra', sub: data.gym ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:!data.gym, ask:false});
       const em = (data.edo||{}).m || '', bm = (data.bia||{}).m || '';
-      if(em && em === bm) ev.push({k:'kid', tk:'drop', kid:'both', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
-      else{ ev.push({k:'kid', tk:'drop', kid:'edo', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', tk:'drop', kid:'bia', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
+      if(em && em === bm && T2.dropE === T2.dropB) ev.push({k:'kid', tk:'drop', kid:'both', slot:'m', time:T2.dropE, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
+      else{ ev.push({k:'kid', tk:'drop_edo', kid:'edo', slot:'m', time:T2.dropE, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', tk:'drop_bia', kid:'bia', slot:'m', time:T2.dropB, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
       const ep = (data.edo||{}).p || '', bp = (data.bia||{}).p || '';
       if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', tk:'edo', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
       else{ ev.push({k:'kid', tk:'edo', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', tk:'bia', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bianca', sub:'uscita '+WT.bia, who:bp, ask:true}); }
       const es = (data.edo||{}).s || '', bs = (data.bia||{}).s || '';
-      if(es && es === bs) ev.push({k:'kid', tk:'eve', kid:'both', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
-      else{ ev.push({k:'kid', tk:'eve', kid:'edo', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', tk:'eve', kid:'bia', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
+      if(es && es === bs && T2.eveE === T2.eveB) ev.push({k:'kid', tk:'eve', kid:'both', slot:'s', time:T2.eveE, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
+      else{ ev.push({k:'kid', tk:'eve_edo', kid:'edo', slot:'s', time:T2.eveE, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', tk:'eve_bia', kid:'bia', slot:'s', time:T2.eveB, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
     }
     for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', tk:'rec:'+r.id, id:r.id, time:(O['rec:'+r.id]||r.time), icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:!r.who});
     for(const e of (data.extra||[])) ev.push({k:'extra', id:e.id, time:e.time || (SLOTS.find(s => s.id === e.slot)||SLOTS[1]).def, icon:e.icon || (e.kind === 'lav' ? 'lavoro' : e.kind === 'fam' ? 'famiglia' : 'altro'), title:e.title, sub:'', who:e.who||'', kind:e.kind||'', ask:false, dim:false, noTime:!e.time});
     ev.sort((a,b) => tkey(a.time).localeCompare(tkey(b.time)));
     return ev;
   }
-  function x_over(dIso, tk){ const d = day(weekKey, dIso, false); return !!(d && d.t && d.t[tk]); }
+  function x_over(dIso, tk){ const d = day(weekKey, dIso, false); if(!d || !d.t) return false; const base = tk.replace(/_(edo|bia)$/,''); return !!(d.t[tk] || (base !== tk && d.t[base])); }
   function evHtml(e, dIso){
     const attrs = ' data-k="'+e.k+'" data-day="'+dIso+'"' + (e.kid ? ' data-kid="'+e.kid+'" data-slot="'+e.slot+'"' : '') + (e.id ? ' data-id="'+esc(e.id)+'"' : '');
     return '<button type="button" class="ev'+(e.dim?' dim':'')+(e.kind?' kind-'+e.kind:'')+'"'+attrs+' title="'+esc(e.title)+(e.who?' · '+esc(whoLabel(e.who)):'')+'">'
@@ -723,7 +723,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     if(tmEl){
       if(k === 'extra'){ const d = day(weekKey, dIso, false); const x = d && d.extra.find(y => y.id === b.dataset.id); if(x) openTimePop(tmEl, x.time||'', v => { x.time = v; renderWeek(); renderHero(); markDirty(); }, null); return; }
       const tk = tmEl.dataset.tk; const d = day(weekKey, dIso, false); const cur = (d && d.t && d.t[tk]) || tmEl.textContent.trim();
-      openTimePop(tmEl, cur, v => { const dd = day(weekKey, dIso, true); dd.t = dd.t || {}; if(v) dd.t[tk] = v; else delete dd.t[tk]; renderWeek(); renderHero(); markDirty(); }, true);
+      openTimePop(tmEl, cur, v => { const dd = day(weekKey, dIso, true); dd.t = dd.t || {}; const keys = (tk === 'drop' || tk === 'eve') ? [tk, tk+'_edo', tk+'_bia'] : [tk]; for(const kk of keys) delete dd.t[kk]; if(v) dd.t[tk] = v; renderWeek(); renderHero(); markDirty(); }, true);
       return;
     }
     if(k === 'kid'){
