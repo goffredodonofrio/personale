@@ -243,7 +243,9 @@
      "edo": {
       "m": "caro"
      },
-     "bia": {},
+     "bia": {
+      "m": "caro"
+     },
      "note": "",
      "extra": []
     }
