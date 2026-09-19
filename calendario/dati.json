@@ -278,7 +278,9 @@
      "edo": {
       "p": "caro"
      },
-     "bia": {},
+     "bia": {
+      "p": "caro"
+     },
      "note": "",
      "extra": [],
      "t": {
