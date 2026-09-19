@@ -221,7 +221,17 @@
       "p": "caro"
      },
      "note": "",
-     "extra": [],
+     "extra": [
+      {
+       "id": "x-5ny6vmc",
+       "slot": "p",
+       "title": "Prova Circo Bianca",
+       "time": "17:30",
+       "who": "caro",
+       "kind": "fam",
+       "icon": "altro"
+      }
+     ],
      "t": {
       "edo": "16:30",
       "bia": "17:30"
