@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260914072218">
+<meta name="build" content="20260919151834">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -132,6 +132,11 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .ev{display:grid;grid-template-columns:44px 36px minmax(0,1fr) minmax(0,auto);align-items:center;gap:10px;padding:10px 14px 10px 16px;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;width:100%;min-width:0;color:var(--text)}
 .ev:hover{background:var(--blue-light)}
 .day.weekend .ev:hover{background:#f1efe9}
+.ev .tm.edit{cursor:pointer;border-radius:6px;padding:3px 4px;margin-left:-4px}
+.ev .tm.edit:hover{background:var(--blue-light);color:var(--blue)}
+.ev .tm.over{color:var(--blue);text-decoration:underline dotted}
+.tpop{position:absolute;z-index:60;background:var(--surface);border:1px solid var(--border-md);border-radius:14px;box-shadow:var(--shadow);padding:10px;display:flex;gap:8px;align-items:center}
+.tpop input[type=time]{font:600 15px var(--sans);padding:7px 9px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text)}
 .ev .tm{font:600 12.5px/1.2 var(--mono);color:var(--muted);letter-spacing:-.02em}
 .ev .tm small{display:block;font-weight:500;color:var(--muted-2)}
 .ev .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:var(--ic,#94a3b8);background:color-mix(in srgb,var(--ic,#94a3b8) 16%,#fff)}
@@ -287,7 +292,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   <section class="week" id="week"></section>
 
   <footer class="foot">
-    <span id="hint">Tocca una riga per cambiare chi se ne occupa. Le etichette gialle "chi?" sono ancora da decidere.</span>
+    <span id="hint">Tocca una riga per cambiare chi se ne occupa, tocca l'orario per cambiarlo solo quel giorno. Le etichette gialle "chi?" sono ancora da decidere.</span>
     <div class="actions">
       <button class="btn ghost" id="reload">Ricarica dati</button>
       <button class="btn ghost danger" id="clearweek">Svuota questa settimana</button>
@@ -546,28 +551,30 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   }
   function tkey(t){ return t && /^\d{1,2}:\d{2}$/.test(t) ? t.padStart(5,'0') : '99:99'; }
   function dayEvents(x, key){
-    const ev = [], data = x.data, T = state.times, WT = weekTimes(key);
+    const ev = [], data = x.data, T = state.times, WT0 = weekTimes(key), O = data.t || {};
+    const T2 = {gym:O.gym||T.gym, drop:O.drop||T.drop, eve:O.eve||T.eve}, WT = {edo:O.edo||WT0.edo, bia:O.bia||WT0.bia};
     if(!x.we){
-      ev.push({k:'gym', time:T.gym, icon:'palestra', title:'Palestra', sub: data.gym ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:!data.gym, ask:false});
+      ev.push({k:'gym', tk:'gym', time:T2.gym, icon:'palestra', title:'Palestra', sub: data.gym ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:!data.gym, ask:false});
       const em = (data.edo||{}).m || '', bm = (data.bia||{}).m || '';
-      if(em && em === bm) ev.push({k:'kid', kid:'both', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', kid:'bia', slot:'m', time:T.drop, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
+      if(em && em === bm) ev.push({k:'kid', tk:'drop', kid:'both', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
+      else{ ev.push({k:'kid', tk:'drop', kid:'edo', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', tk:'drop', kid:'bia', slot:'m', time:T2.drop, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
       const ep = (data.edo||{}).p || '', bp = (data.bia||{}).p || '';
-      if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bianca', sub:'uscita '+WT.bia, who:bp, ask:true}); }
+      if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', tk:'edo', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
+      else{ ev.push({k:'kid', tk:'edo', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', tk:'bia', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bianca', sub:'uscita '+WT.bia, who:bp, ask:true}); }
       const es = (data.edo||{}).s || '', bs = (data.bia||{}).s || '';
-      if(es && es === bs) ev.push({k:'kid', kid:'both', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
-      else{ ev.push({k:'kid', kid:'edo', slot:'s', time:T.eve, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', kid:'bia', slot:'s', time:T.eve, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
+      if(es && es === bs) ev.push({k:'kid', tk:'eve', kid:'both', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
+      else{ ev.push({k:'kid', tk:'eve', kid:'edo', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', tk:'eve', kid:'bia', slot:'s', time:T2.eve, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
     }
-    for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', id:r.id, time:r.time, icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:!r.who});
+    for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', tk:'rec:'+r.id, id:r.id, time:(O['rec:'+r.id]||r.time), icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:!r.who});
     for(const e of (data.extra||[])) ev.push({k:'extra', id:e.id, time:e.time || (SLOTS.find(s => s.id === e.slot)||SLOTS[1]).def, icon:e.icon || (e.kind === 'lav' ? 'lavoro' : e.kind === 'fam' ? 'famiglia' : 'altro'), title:e.title, sub:'', who:e.who||'', kind:e.kind||'', ask:false, dim:false, noTime:!e.time});
     ev.sort((a,b) => tkey(a.time).localeCompare(tkey(b.time)));
     return ev;
   }
+  function x_over(dIso, tk){ const d = day(weekKey, dIso, false); return !!(d && d.t && d.t[tk]); }
   function evHtml(e, dIso){
     const attrs = ' data-k="'+e.k+'" data-day="'+dIso+'"' + (e.kid ? ' data-kid="'+e.kid+'" data-slot="'+e.slot+'"' : '') + (e.id ? ' data-id="'+esc(e.id)+'"' : '');
     return '<button type="button" class="ev'+(e.dim?' dim':'')+(e.kind?' kind-'+e.kind:'')+'"'+attrs+' title="'+esc(e.title)+(e.who?' · '+esc(whoLabel(e.who)):'')+'">'
-      + '<span class="tm">'+(e.noTime ? '<small>—</small>' : esc(e.time))+'</span>'
+      + '<span class="tm'+(e.tk||e.k==='extra'?' edit':'')+(e.tk && (x_over(dIso,e.tk)) ? ' over':'')+'"'+(e.tk?' data-tk="'+esc(e.tk)+'"':'')+' title="Cambia orario">'+(e.noTime ? '<small>—</small>' : esc(e.time))+'</span>'
       + '<span class="ic" style="--ic:'+icoColor(e.icon)+'">'+ico(e.icon)+'</span>'
       + '<span class="tx"><b>'+esc(e.title)+'</b>'+(e.sub?'<small>'+esc(e.sub)+'</small>':'')+'</span>'
       + avatarsHtml(e.who, e.ask) + '</button>';
@@ -682,6 +689,22 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     });
   }
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closePop(); });
+  function openTimePop(anchor, cur, onSet, allowReset){
+    closePop();
+    pop = document.createElement('div'); pop.className = 'tpop';
+    pop.innerHTML = '<input type="time" value="'+esc(cur)+'" aria-label="Orario"><button type="button" class="btn primary" data-ok>OK</button>'+(allowReset ? '<button type="button" class="btn ghost" data-reset title="Torna all\'orario standard">Standard</button>' : '');
+    document.body.appendChild(pop);
+    const r = anchor.getBoundingClientRect(), pw = pop.offsetWidth;
+    let left = r.left + window.scrollX, top = r.bottom + window.scrollY + 4;
+    if(left + pw > window.scrollX + window.innerWidth - 8) left = window.scrollX + window.innerWidth - pw - 8;
+    pop.style.left = left + 'px'; pop.style.top = top + 'px';
+    const inp = pop.querySelector('input'); inp.focus();
+    const done = v => { closePop(); onSet(v); };
+    pop.querySelector('[data-ok]').addEventListener('click', () => done(inp.value));
+    inp.addEventListener('keydown', ev => { if(ev.key === 'Enter'){ ev.preventDefault(); done(inp.value); } });
+    const rs = pop.querySelector('[data-reset]'); if(rs) rs.addEventListener('click', () => done(''));
+    setTimeout(() => document.addEventListener('click', function h2(ev){ if(pop && !pop.contains(ev.target)){ closePop(); } if(!pop) document.removeEventListener('click', h2); }), 0);
+  }
   function peopleItems(cur, both){
     const items = [{value:'', label:'Nessuno', av:'', cur:!cur}];
     for(const p of state.people) items.push({value:p.id, label:'', av:'<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>', cur:cur===p.id});
@@ -696,6 +719,13 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     const b = e.target.closest('.ev'); if(!b) return;
     e.stopPropagation();
     const k = b.dataset.k, dIso = b.dataset.day;
+    const tmEl = e.target.closest('.tm.edit');
+    if(tmEl){
+      if(k === 'extra'){ const d = day(weekKey, dIso, false); const x = d && d.extra.find(y => y.id === b.dataset.id); if(x) openTimePop(tmEl, x.time||'', v => { x.time = v; renderWeek(); renderHero(); markDirty(); }, null); return; }
+      const tk = tmEl.dataset.tk; const d = day(weekKey, dIso, false); const cur = (d && d.t && d.t[tk]) || tmEl.textContent.trim();
+      openTimePop(tmEl, cur, v => { const dd = day(weekKey, dIso, true); dd.t = dd.t || {}; if(v) dd.t[tk] = v; else delete dd.t[tk]; renderWeek(); renderHero(); markDirty(); }, true);
+      return;
+    }
     if(k === 'kid'){
       const slot = b.dataset.slot, kid = b.dataset.kid, d = day(weekKey, dIso, false);
       const cur = d ? (kid === 'both' ? (d.edo||{})[slot] : (d[kid]||{})[slot]) || '' : '';
@@ -757,7 +787,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     for(let i=0;i<7;i++){
       const src = pw.days[iso(addDays(pmon,i))]; if(!src) continue;
       const dst = day(weekKey, iso(addDays(mon,i)), true);
-      dst.edo = clone(src.edo||{}); dst.bia = clone(src.bia||{}); dst.gym = src.gym || '';
+      dst.edo = clone(src.edo||{}); dst.bia = clone(src.bia||{}); dst.gym = src.gym || ''; if(src.t) dst.t = clone(src.t);
     }
     renderAll(); markDirty();
   });
