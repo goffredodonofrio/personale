@@ -201,7 +201,8 @@
      },
      "bia": {
       "p": "gof",
-      "m": "caro"
+      "m": "caro",
+      "s": "both"
      },
      "note": "",
      "extra": [],
