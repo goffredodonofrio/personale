@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260920121906">
+<meta name="build" content="20260920122124">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -130,10 +130,12 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .day.today .addx:hover{background:rgba(255,255,255,.2);color:#fff}
 .evs{display:flex;flex-direction:column;flex:1}
 .ev{display:grid;grid-template-columns:44px 36px minmax(0,1fr) minmax(0,auto);align-items:center;gap:10px;padding:10px 14px 10px 16px;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;width:100%;min-width:0;color:var(--text)}
-.ev.gymrow{background:linear-gradient(90deg,#ede9fe 0%,#f5f3ff 100%);box-shadow:inset 4px 0 0 #7c3aed}
-.ev.gymrow:hover{background:#e4defc}
-.ev.gymrow.dim{background:#faf8ff}
-.ev.gymrow.dim .tx b{color:#6d5aa8}
+.ev.gymrow{background:#ddd6fe;box-shadow:inset 5px 0 0 #7c3aed}
+.ev.gymrow:hover{background:#c4b5fd}
+.ev.gymrow.dim{background:#e9e4fd}
+.ev.gymrow.dim .tx b{color:#5b3fb8}
+.ev.gymrow .ic{background:#7c3aed;color:#fff}
+.ev.gymrow .tm{color:#4c1d95}
 .ev:hover{background:var(--blue-light)}
 .day.weekend .ev:hover{background:#f1efe9}
 .ev .tm.edit{cursor:pointer;border-radius:6px;padding:3px 4px;margin-left:-4px}
