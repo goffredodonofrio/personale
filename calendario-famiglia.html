@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260919152141">
+<meta name="build" content="20260920121906">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -130,6 +130,10 @@ input::placeholder,textarea::placeholder{color:var(--muted-2)}
 .day.today .addx:hover{background:rgba(255,255,255,.2);color:#fff}
 .evs{display:flex;flex-direction:column;flex:1}
 .ev{display:grid;grid-template-columns:44px 36px minmax(0,1fr) minmax(0,auto);align-items:center;gap:10px;padding:10px 14px 10px 16px;border:0;border-bottom:1px solid var(--border);background:transparent;text-align:left;width:100%;min-width:0;color:var(--text)}
+.ev.gymrow{background:linear-gradient(90deg,#ede9fe 0%,#f5f3ff 100%);box-shadow:inset 4px 0 0 #7c3aed}
+.ev.gymrow:hover{background:#e4defc}
+.ev.gymrow.dim{background:#faf8ff}
+.ev.gymrow.dim .tx b{color:#6d5aa8}
 .ev:hover{background:var(--blue-light)}
 .day.weekend .ev:hover{background:#f1efe9}
 .ev .tm.edit{cursor:pointer;border-radius:6px;padding:3px 4px;margin-left:-4px}
@@ -573,7 +577,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   function x_over(dIso, tk){ const d = day(weekKey, dIso, false); if(!d || !d.t) return false; const base = tk.replace(/_(edo|bia)$/,''); return !!(d.t[tk] || (base !== tk && d.t[base])); }
   function evHtml(e, dIso){
     const attrs = ' data-k="'+e.k+'" data-day="'+dIso+'"' + (e.kid ? ' data-kid="'+e.kid+'" data-slot="'+e.slot+'"' : '') + (e.id ? ' data-id="'+esc(e.id)+'"' : '');
-    return '<button type="button" class="ev'+(e.dim?' dim':'')+(e.kind?' kind-'+e.kind:'')+'"'+attrs+' title="'+esc(e.title)+(e.who?' · '+esc(whoLabel(e.who)):'')+'">'
+    return '<button type="button" class="ev'+(e.dim?' dim':'')+(e.kind?' kind-'+e.kind:'')+(e.k==='gym'?' gymrow':'')+'"'+attrs+' title="'+esc(e.title)+(e.who?' · '+esc(whoLabel(e.who)):'')+'">'
       + '<span class="tm'+(e.tk||e.k==='extra'?' edit':'')+(e.tk && (x_over(dIso,e.tk)) ? ' over':'')+'"'+(e.tk?' data-tk="'+esc(e.tk)+'"':'')+' title="Cambia orario">'+(e.noTime ? '<small>—</small>' : esc(e.time))+'</span>'
       + '<span class="ic" style="--ic:'+icoColor(e.icon)+'">'+ico(e.icon)+'</span>'
       + '<span class="tx"><b>'+esc(e.title)+'</b>'+(e.sub?'<small>'+esc(e.sub)+'</small>':'')+'</span>'
