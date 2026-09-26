@@ -101,8 +101,10 @@
   {
    "id": "corso-bia",
    "title": "Mini Basket",
-   "who": "k:bia",
-   "days": [],
+   "who": "k:edo",
+   "days": [
+    4
+   ],
    "slot": "p",
    "time": "17:00",
    "icon": "corso",
