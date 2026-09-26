@@ -90,7 +90,9 @@
    "id": "corso-edo",
    "title": "Arte",
    "who": "k:edo",
-   "days": [],
+   "days": [
+    0
+   ],
    "slot": "p",
    "time": "17:00",
    "icon": "corso",
