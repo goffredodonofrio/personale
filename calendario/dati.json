@@ -320,11 +320,13 @@
     "2026-09-29": {
      "edo": {
       "m": "caro",
-      "p": "baby"
+      "p": "baby",
+      "s": "both"
      },
      "bia": {
       "m": "caro",
-      "p": "baby"
+      "p": "baby",
+      "s": "both"
      },
      "note": "",
      "extra": [],
