@@ -85,6 +85,26 @@
    "time": "15:00",
    "icon": "altro",
    "freq": "weekly"
+  },
+  {
+   "id": "corso-edo",
+   "title": "Corso Edoardo",
+   "who": "k:edo",
+   "days": [],
+   "slot": "p",
+   "time": "17:00",
+   "icon": "corso",
+   "freq": "weekly"
+  },
+  {
+   "id": "corso-bia",
+   "title": "Corso Bianca",
+   "who": "k:bia",
+   "days": [],
+   "slot": "p",
+   "time": "17:00",
+   "icon": "corso",
+   "freq": "weekly"
   }
  ],
  "weeks": {
