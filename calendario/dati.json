@@ -75,6 +75,16 @@
    "freq": "monthly",
    "icon": "budget",
    "time": "16:00"
+  },
+  {
+   "id": "r-typy8x5",
+   "title": "Nuova attività",
+   "who": "",
+   "days": [],
+   "slot": "p",
+   "time": "15:00",
+   "icon": "altro",
+   "freq": "weekly"
   }
  ],
  "weeks": {
