@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260920122124">
+<meta name="build" content="20260926172538">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -382,6 +382,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   const KIDS = [{id:'edo',name:'Edoardo',full:'Edoardo'},{id:'bia',name:'Bianca',full:'Bianca'}];
   const SLOTS = [{id:'m',name:'Mattina',def:'09:00'},{id:'p',name:'Pomeriggio',def:'15:00'},{id:'s',name:'Sera',def:'20:00'}];
   const PARENTS = ['gof','caro'], BOTH = 'both';
+  const KIDWHO = {'k:edo':{name:'Edoardo',color:'#0284c7'}, 'k:bia':{name:'Bianca',color:'#d946ef'}, 'k:both':{name:'Edoardo e Bianca',color:'#7c3aed'}};
   const DAYS_IT = ['lunedì','martedì','mercoledì','giovedì','venerdì','sabato','domenica'];
   const DAYS_SHORT = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
   const DAYS_1 = ['L','M','M','G','V','S','D'];
@@ -401,9 +402,12 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     salute:{c:'#ef4444',s:'<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M10.5 10.5l3 3M13.5 10.5l-3 3"/>'},
     viaggio:{c:'#2563eb',s:'<path d="M5 16l1.5-6a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="14" width="18" height="5" rx="2"/><circle cx="7.5" cy="19.5" r="1.5"/><circle cx="16.5" cy="19.5" r="1.5"/><path d="M7 12h10"/>'},
     cibo:{c:'#f59e0b',s:'<path d="M4 14h16"/><path d="M5 14a7 7 0 0 1 14 0"/><path d="M3 18h18"/><path d="M12 5v2M9 9h.01M14 10h.01"/>'},
+    corso:{c:'#0284c7',s:'<path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/><path d="M7 9h3M7 12h3"/>'},
+    musica:{c:'#d946ef',s:'<path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>'},
+    nuoto:{c:'#0ea5e9',s:'<path d="M3 17c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"/><path d="M3 21c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5"/><circle cx="16" cy="7" r="2"/><path d="M4 13l5-5 4 3"/>'},
     altro:{c:'#94a3b8',s:'<path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.4l-5.3 2.8 1.1-5.9-4.3-4.1 5.9-.8z"/>'}
   };
-  const ICON_LIST = ['scuola','casa','sera','palestra','spesa','sport','riunione','budget','lavoro','famiglia','salute','viaggio','cibo','altro'];
+  const ICON_LIST = ['scuola','casa','sera','palestra','spesa','sport','corso','musica','nuoto','riunione','budget','lavoro','famiglia','salute','viaggio','cibo','altro'];
   function ico(k){ const d = ICONS[k] || ICONS.altro; return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+d.s+'</svg>'; }
   function icoColor(k){ return (ICONS[k] || ICONS.altro).c; }
 
@@ -472,12 +476,12 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   function weekTimes(key){ const w = week(key,false); return Object.assign({edo:state.times.edo, bia:state.times.bia}, (w && w.times) || {}); }
   function personById(id){ return state.people.find(p => p.id === id); }
   function parentNames(short){ return PARENTS.map(id => (personById(id)||{}).name).filter(Boolean).map(n => short ? n[0] : n).join(short ? '+' : ' e '); }
-  function whoLabel(v, short){ if(v === BOTH) return parentNames(short); const p = personById(v); return p ? p.name : ''; }
+  function whoLabel(v, short){ if(v === BOTH) return parentNames(short); if(KIDWHO[v]) return KIDWHO[v].name; const p = personById(v); return p ? p.name : ''; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function uid(){ return Math.random().toString(36).slice(2,9); }
   function avatarsHtml(v, ask){
     if(v === BOTH){ const a = personById(PARENTS[0]), b = personById(PARENTS[1]); return '<span class="avs">'+[a,b].map(p => p ? '<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>' : '').join('')+'</span>'; }
-    const p = v ? personById(v) : null;
+    const p = v ? (personById(v) || KIDWHO[v]) : null;
     if(p) return '<span class="avs"><span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span></span>';
     return '<span class="avs"><span class="who '+(ask?'ask':'none')+'">'+(ask?'chi?':'nessuno')+'</span></span>';
   }
@@ -650,6 +654,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     let h = '<option value="">— chi?</option>';
     for(const p of state.people) h += '<option value="'+esc(p.id)+'"'+(p.id===sel?' selected':'')+'>'+esc(p.name)+'</option>';
     h += '<option value="'+BOTH+'"'+(sel===BOTH?' selected':'')+'>'+esc(parentNames())+'</option>';
+    for(const k in KIDWHO) h += '<option value="'+k+'"'+(sel===k?' selected':'')+'>'+esc(KIDWHO[k].name)+'</option>';
     return h;
   }
   function renderRecurring(){
@@ -711,10 +716,11 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     const rs = pop.querySelector('[data-reset]'); if(rs) rs.addEventListener('click', () => done(''));
     setTimeout(() => document.addEventListener('click', function h2(ev){ if(pop && !pop.contains(ev.target)){ closePop(); } if(!pop) document.removeEventListener('click', h2); }), 0);
   }
-  function peopleItems(cur, both){
+  function peopleItems(cur, both, kids){
     const items = [{value:'', label:'Nessuno', av:'', cur:!cur}];
     for(const p of state.people) items.push({value:p.id, label:'', av:'<span class="who" style="--c:'+p.color+'">'+esc(p.name)+'</span>', cur:cur===p.id});
     if(both) items.push({value:BOTH, label:'', av:avatarsHtml(BOTH,false), cur:cur===BOTH});
+    if(kids){ items.push('hr'); for(const k in KIDWHO) items.push({value:k, label:'', av:'<span class="who" style="--c:'+KIDWHO[k].color+'">'+esc(KIDWHO[k].name)+'</span>', cur:cur===k}); }
     return items;
   }
 
@@ -755,7 +761,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       day(weekKey, dIso, true).gym = v; renderWeek(); markDirty();
     }else if(k === 'rec'){
       const r = state.recurring.find(x => x.id === b.dataset.id); if(!r) return;
-      const items = peopleItems(r.who||'', true);
+      const items = peopleItems(r.who||'', true, true);
       items.push('hr', {value:'__edit', label:'Modifica giorni, ora, icona…', av:''});
       const v = await openPop(b, items, r.title + ' · chi se ne occupa');
       if(v === null) return;
@@ -764,7 +770,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
     }else if(k === 'extra'){
       const d = day(weekKey, dIso, false); if(!d) return;
       const x = d.extra.find(y => y.id === b.dataset.id); if(!x) return;
-      const items = peopleItems(x.who||'', true);
+      const items = peopleItems(x.who||'', true, true);
       items.push('hr', {value:'__edit', label:'Modifica…', av:''}, {value:'__del', label:'Rimuovi', av:'', danger:true});
       const v = await openPop(b, items, x.title);
       if(v === null) return;
