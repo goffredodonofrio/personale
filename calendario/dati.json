@@ -29,18 +29,6 @@
  ],
  "recurring": [
   {
-   "id": "spesa",
-   "title": "Arte",
-   "who": "caro",
-   "days": [
-    4
-   ],
-   "slot": "m",
-   "freq": "monthly",
-   "icon": "spesa",
-   "time": "10:00"
-  },
-  {
    "id": "volley",
    "title": "Pallavolo",
    "who": "caro",
