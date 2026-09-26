@@ -41,18 +41,6 @@
    "time": "20:30"
   },
   {
-   "id": "riunione",
-   "title": "Riunione familiare",
-   "who": "both",
-   "days": [
-    6
-   ],
-   "slot": "s",
-   "freq": "weekly",
-   "icon": "riunione",
-   "time": "21:00"
-  },
-  {
    "id": "budget",
    "title": "Riunione budget",
    "who": "both",
