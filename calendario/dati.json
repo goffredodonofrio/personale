@@ -53,16 +53,6 @@
    "time": "16:00"
   },
   {
-   "id": "r-typy8x5",
-   "title": "Attività",
-   "who": "",
-   "days": [],
-   "slot": "p",
-   "time": "15:00",
-   "icon": "altro",
-   "freq": "weekly"
-  },
-  {
    "id": "corso-edo",
    "title": "Arte",
    "who": "k:edo",
