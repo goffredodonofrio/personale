@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261003163000">
+<meta name="build" content="20261003170000">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -254,7 +254,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261003163000">
+<meta name="build" content="20261003170000">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -597,7 +597,107 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 .whopick button.on{background:color-mix(in srgb,var(--c,#2E5E4E) 16%,#fff)}
 .chip .av.fav{background:color-mix(in srgb,var(--c) 30%,#fff)}
 .ev.kind-fam,.ev.kind-lav{--kbg:transparent}
-</style></head>
+</style><style id="skin2">
+/* ===== seconda passata: stessa pelle di hub / orari / costituzione ===== */
+:root{--mono:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;--serif:"Literata",Georgia,serif;--sun:#F2B632;--deep:#15302A;--paper:#FBFAF5;--paper-2:#F1EFE6;--ink:#1F2A26;--radius:22px;--radius-sm:16px}
+body{font-family:var(--sans);font-size:14.5px}
+/* hero */
+.hero{border-radius:26px;padding:22px 26px}
+.hero .sub{font-family:var(--serif);font-style:italic;font-size:15px;opacity:.85}
+.hero .today .dn{font-family:var(--sans)}
+.hero .today small,.hero .today span{font-family:var(--sans);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:11px;opacity:.85}
+.hero .iconbtn,.hero a.iconbtn{border-radius:999px;font-family:var(--sans);font-weight:700;letter-spacing:.02em}
+/* strada tratteggiata come nell'hub */
+.road{position:relative;margin:6px 0 2px;height:34px}
+.road svg{position:absolute;inset:0;width:100%;height:100%}
+.road path{fill:none;stroke:var(--sun);stroke-width:4;stroke-dasharray:10 14;stroke-linecap:round;animation:roadDraw 2.2s var(--ei) .8s both}
+@keyframes roadDraw{from{stroke-dashoffset:var(--L,2000)}to{stroke-dashoffset:0}}
+/* barre e pannelli */
+.bar,details.panel,.panel{border-radius:var(--radius);border:0;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.bar{padding:12px 16px}
+.weeklabel small,.times label,.legend .lbl,.dayhead .dn,.pop .ph,dialog h4,.field,.field label,summary small em,.ev .tx b::after{font-family:var(--sans) !important}
+.weeklabel span{font-weight:800;font-size:19px}
+.btn{font-family:var(--sans);font-weight:700;border-radius:999px;border:1.5px solid rgba(31,42,38,.16);background:var(--paper);padding:9px 16px;transition:transform .25s var(--eb),background .2s,border-color .2s}
+.btn:hover{background:var(--paper-2);border-color:rgba(31,42,38,.3);transform:translateY(-1px)}
+.btn.primary{background:var(--sun);color:var(--ink);border-color:transparent}
+.btn.primary:hover{background:#E0A620}
+.nav .iconbtn,.nav .btn{width:40px;height:40px;padding:0;display:grid;place-items:center;background:#2E5E4E;color:#F4EEDC;border-color:transparent;font-size:16px;font-weight:800}
+.nav .iconbtn:hover,.nav .btn:hover{background:#15302A;border-color:transparent}
+.nav .iconbtn{border-radius:999px;border:0;font-size:22px;line-height:1;padding-bottom:3px}
+.times input[type=time]{border-radius:999px;font-weight:700;border:1.5px solid rgba(31,42,38,.12)}
+summary{font-size:15px;font-weight:800;letter-spacing:-.01em}
+summary::after{font-family:var(--sans);font-weight:500}
+/* giorni */
+.day{border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.dayhead{background:var(--paper-2);padding:12px 14px 12px 18px}
+.dayhead .dn{font-weight:800;letter-spacing:.2em;color:#2E5E4E}
+.dayhead .dd{font-size:30px;font-weight:800}
+.day.today .dayhead{background:#2E5E4E;color:#F4EEDC}
+.day.today .dayhead .dn{color:#F4EEDC;opacity:.75}
+.day.today .dayhead .dd{color:var(--sun)}
+.day.today{box-shadow:0 0 0 3px var(--sun),0 10px 30px rgba(0,0,0,.18)}
+.day.weekend{background:var(--paper-2)} .day.weekend .dayhead{background:#E8E5D9}
+.day.today .dayhead,.day.today.weekend .dayhead{background:#2E5E4E !important;color:#F4EEDC}
+.day.today .dayhead .dn{color:#F4EEDC !important;opacity:.75}.day.today .dayhead .dd{color:var(--sun) !important}.day.today .note{color:#F4EEDC}
+.note{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--ink)}
+.note::placeholder{font-family:var(--serif);font-style:italic;color:rgba(31,42,38,.45)}
+.day.today .note::placeholder{color:rgba(244,238,220,.7)}
+.note.filled{background-color:#FBF0CC;border-color:#F2B632;font-family:var(--sans);font-style:normal;font-weight:700}
+.note.filled:focus{background-color:#FDF6DC}
+/* eventi */
+.ev{padding:11px 14px 11px 18px;border-bottom:1px solid rgba(31,42,38,.07);transition:background .2s}
+.ev:hover{background:#E3EFE8}
+.ev .tm{font:800 13px/1.2 var(--sans);color:#2E5E4E;letter-spacing:-.01em}
+.ev .tm.over{color:#B07E0C;text-decoration:underline dotted}
+.ev.dim .tm{color:var(--muted-2)}
+.ev .ic{border-radius:12px;background:#E3EFE8;color:#2E5E4E}
+.ev .tx b{font-weight:800;letter-spacing:-.01em}
+.ev .tx small{font-family:var(--serif);font-style:italic;font-size:12.5px}
+.ev.kind-lav .tx b::after{background:var(--ink);color:#F4EEDC;border-radius:999px;padding:3px 7px}
+.ev.kind-fam .tx b::after{background:#E3EFE8;color:#2E5E4E;border-radius:999px;padding:3px 7px}
+.ev.gymrow{background:#FBF0CC;box-shadow:inset 5px 0 0 var(--sun)}
+.ev.gymrow:hover{background:#F7E6B0}
+.ev.gymrow.dim{background:#FBF5DF}
+.ev.gymrow.dim .tx b{color:#8A6A14}
+.ev.gymrow .ic{background:var(--sun);color:var(--ink)}
+.ev.gymrow .tm{color:#8A6A14}
+.who{font-family:var(--sans);font-weight:700;border-radius:999px}
+.who.none{font-weight:600;font-family:var(--serif);font-style:italic}
+.who.ask{background:#FBF0CC;border-color:#F2B632;color:#8A6A14}
+/* legenda e chip */
+.chip{font-family:var(--sans);border-radius:999px;border:1.5px solid rgba(31,42,38,.12)}
+.chip.add{border-style:dashed}
+/* ricorrenti */
+.recrow input[type=text],.recrow select,.recrow input[type=time],.field input[type=text],.field input[type=password],.field input[type=time],.field select{border-radius:12px;border:1.5px solid rgba(31,42,38,.12);background:var(--paper);font-family:var(--sans);font-weight:600}
+.days7 button{border-radius:999px;font-family:var(--sans);font-weight:800}
+.days7 button.on{background:#2E5E4E;color:#F4EEDC}
+.recrow .icsel button.on{background:#E3EFE8;color:#2E5E4E;border-color:transparent}
+/* popup e dialoghi */
+.pop{border-radius:18px;border:0;box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.pop button{font-family:var(--sans);font-weight:600;border-radius:12px}
+.pop button.cur{background:#E3EFE8;color:#2E5E4E}
+dialog{border:0;border-radius:var(--radius);box-shadow:0 30px 60px rgba(0,0,0,.4);animation:dlgIn .5s var(--eb) both}
+dialog::backdrop{background:rgba(21,48,42,.55)}
+@keyframes dlgIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+dialog h3{font-family:var(--sans);font-weight:800;font-size:22px;letter-spacing:-.02em}
+dialog p{font-family:var(--serif);font-style:italic}
+.iconpick label.on,.iconpick input:checked+*,.iconpick label:has(input:checked){background:#E3EFE8;color:#2E5E4E;border-color:transparent}
+/* piede */
+.foot{color:rgba(244,238,220,.72);font-family:var(--serif);font-style:italic}
+.foot .btn{font-style:normal;background:rgba(255,255,255,.08);color:#F4EEDC;border-color:rgba(255,255,255,.2)}
+.foot .btn:hover{background:rgba(255,255,255,.16)}
+.foot .btn.primary{background:var(--sun);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.road path,dialog{animation:none !important}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var h=document.querySelector('.hero'); if(!h||document.querySelector('.road')) return;
+  var r=document.createElement('div'); r.className='road'; r.setAttribute('aria-hidden','true');
+  r.innerHTML='<svg viewBox="0 0 1000 40" preserveAspectRatio="none"><path d="M0 20 C 150 -10, 250 50, 400 20 S 650 -10, 800 20 S 950 50, 1000 20"/></svg>';
+  h.insertAdjacentElement('afterend',r);
+  var p=r.querySelector('path'); try{var L=p.getTotalLength(); p.style.setProperty('--L',L);}catch(e){}
+});
+</script></head>
 <body>
 <div class="wrap">
   <header class="hero">
