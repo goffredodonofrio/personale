@@ -563,7 +563,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 .av-body{transform-origin:50% 100%;animation:breathe 3s ease-in-out infinite;animation-delay:var(--bd,0s)}
 @keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.015)}}
 .leg{transform-origin:50% 0;transform-box:fill-box}
-@media (max-width:1100px){.hero-fam{display:none}}
+@media (max-width:1100px){.hero{grid-template-columns:auto 1fr auto}.hero-fam{grid-column:1/-1;justify-content:center;margin:-4px 0 -14px;order:5}.hero-fam svg{width:auto !important}.hero-fam span:nth-child(1) svg,.hero-fam span:nth-child(2) svg{height:62px !important}.hero-fam span:nth-child(3) svg{height:48px !important}.hero-fam span:nth-child(4) svg{height:40px !important}}
+@media (max-width:700px){.hero{grid-template-columns:auto 1fr}.hero-fam{justify-content:flex-start;margin:0 0 -12px}.hero .right{flex-wrap:wrap;gap:8px}.hero .tools{flex-wrap:wrap}}
 @media (prefers-reduced-motion:reduce){.hero-fam svg,.eye,.av-body{animation:none !important}}
 </style>
 </head>
