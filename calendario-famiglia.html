@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20260926172538">
+<meta name="build" content="20261003130701">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -250,6 +250,58 @@ ol.steps{margin:0 0 12px;padding-left:20px;color:var(--muted);font-size:13px}
 ol.steps li{margin-bottom:4px}
 code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5px;border-radius:5px}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
+<style id="skin">
+/* ===== pelle "Famiglia": verde profondo, giallo, Bricolage ===== */
+:root{
+  --bg:#15302A; --bg-1:#1C3B33; --surface:#FBFAF5; --surface-2:#F1EFE6;
+  --border:rgba(0,0,0,.08); --border-md:rgba(0,0,0,.16);
+  --text:#1F2A26; --muted:#5F6E67; --muted-2:#8A9792;
+  --blue:#2E5E4E; --blue-light:#E3EFE8; --green:#2E5E4E; --green-light:#E3EFE8; --amber:#C9900F; --amber-light:#FBF0CC; --violet:#8D5BB8; --violet-light:#EFE6F8;
+  --shadow-sm:0 2px 6px rgba(0,0,0,.18); --shadow:0 10px 30px rgba(0,0,0,.28);
+  --radius:22px; --radius-sm:14px;
+  --sans:"Bricolage Grotesque","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --eo:cubic-bezier(.16,1,.3,1); --eb:cubic-bezier(.34,1.56,.64,1); --ei:cubic-bezier(.65,0,.35,1);
+}
+body{color-scheme:dark}
+.hero{background:linear-gradient(135deg,#1C3B33 0%,#2E5E4E 70%,#3C7560 100%);color:#F4EEDC;border:1px solid rgba(255,255,255,.08)}
+.hero .today .dn{color:#F2B632;font-size:64px;font-weight:800;letter-spacing:-.04em}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.hero .eyebrow{color:#F2B632 !important;font-family:var(--sans);letter-spacing:.18em}
+.hero .clock{font-family:var(--sans);font-weight:800;color:#F2B632}
+.hero a.iconbtn,.hero .iconbtn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22)}
+.bar,details.panel,.day{border:0}
+.weeklabel small,.eyebrow,.times label,.dayhead .dn,.legend .lbl,.pop .ph,dialog h4,.field{font-family:var(--sans)}
+.btn.primary{background:#F2B632;color:#1F2A26} .btn.primary:hover{background:#E0A620}
+.days7 button.on{background:#2E5E4E}
+.day.today .dayhead{background:#2E5E4E;color:#F4EEDC}
+.day.today .dayhead .dd{color:#F2B632}
+.day.weekend{background:#F1EFE6}
+.ev:hover{background:#E3EFE8}
+.ev .tm.over,.pop button.cur,.dayhead .addx:hover{color:#2E5E4E}
+.foot{color:rgba(244,238,220,.7)} .foot a{color:#F2B632}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline-color:#F2B632}
+.chip.empty{background:#FBF0CC;color:#6E4F0C} .chip.empty .cnt{background:#F2B632;color:#1F2A26}
+/* ===== motion ===== */
+.hero{animation:heroIn .9s var(--eo) both}
+@keyframes heroIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+.hero .today .dn{display:inline-block;animation:popIn .8s var(--eb) .25s both}
+@keyframes popIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.hero h1,.hero .sub,.hero .todaylist{animation:rise .8s var(--eo) both} .hero .sub{animation-delay:.15s} .hero .todaylist{animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.bar{animation:rise .8s var(--eo) .35s both} details.panel{animation:rise .8s var(--eo) .45s both}
+.week .day{animation:cardIn .7s var(--eb) both;animation-delay:calc(.5s + var(--i,0)*.08s)}
+.week .day:nth-child(1){--i:0}.week .day:nth-child(2){--i:1}.week .day:nth-child(3){--i:2}.week .day:nth-child(4){--i:3}.week .day:nth-child(5){--i:4}.week .day:nth-child(6){--i:5}.week .day:nth-child(7){--i:6}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.ev{animation:evIn .5s var(--eo) both;animation-delay:calc(.7s + var(--i,0)*.08s + var(--j,0)*.05s)}
+.ev:nth-child(1){--j:0}.ev:nth-child(2){--j:1}.ev:nth-child(3){--j:2}.ev:nth-child(4){--j:3}.ev:nth-child(5){--j:4}.ev:nth-child(6){--j:5}.ev:nth-child(n+7){--j:6}
+@keyframes evIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.day.today{box-shadow:0 0 0 3px #F2B632,var(--shadow-sm)}
+.iconbtn,.btn{transition:transform .25s var(--eb),background .2s} .iconbtn:active,.btn:active{transform:scale(.94)}
+.hero a.iconbtn:hover{transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.hero,.hero *,.bar,details.panel,.week .day,.ev{animation:none !important}}
+@media (max-width:700px){.hero .today .dn{font-size:48px}.hero h1{font-size:22px}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -266,7 +318,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
       <div class="tools">
         <div class="status" id="status" data-s="init"><span class="dot"></span><span id="statusText">Caricamento…</span></div>
         <button class="iconbtn" id="settingsBtn" title="Impostazioni: orari e salvataggio" aria-label="Impostazioni">⚙</button>
-        <a class="iconbtn" href="index.html">Dashboard</a>
+        <a class="iconbtn" href="famiglia.html">Famiglia</a><a class="iconbtn" href="index.html">Dashboard</a>
       </div>
     </div>
   </header>
@@ -954,5 +1006,41 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
   load(true);
 })();
 </script>
+<style id="pt-css">
+#pt{position:fixed;inset:0;z-index:9999;pointer-events:none;background:#15302A;transform:translateX(-101%);display:flex;align-items:center;justify-content:center}
+#pt .dot{width:14px;height:14px;border-radius:50%;background:#F2B632;opacity:0;transform:scale(0)}
+#pt.in{animation:ptIn .45s cubic-bezier(.65,0,.35,1) both}
+#pt.out{animation:ptOut .55s cubic-bezier(.65,0,.35,1) .05s both}
+#pt.in .dot{animation:ptDot .3s cubic-bezier(.34,1.56,.64,1) .3s both}
+@keyframes ptIn{from{transform:translateX(-101%)}to{transform:translateX(0)}}
+@keyframes ptOut{from{transform:translateX(0)}to{transform:translateX(101%)}}
+@keyframes ptDot{to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){#pt{display:none}}
+</style>
+<div id="pt" aria-hidden="true"><span class="dot"></span></div>
+<script>
+(function(){
+  var pt=document.getElementById('pt'); if(!pt) return;
+  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // arrivo: se veniamo da una pagina della famiglia, la tenda è già chiusa e si apre
+  try{ if(sessionStorage.getItem('pt')==='1' && !rm){ sessionStorage.removeItem('pt'); pt.style.transform='translateX(0)'; requestAnimationFrame(function(){ pt.classList.add('out'); }); } }catch(e){}
+  addEventListener('pageshow',function(e){ if(e.persisted){ pt.className=''; pt.style.transform='translateX(-101%)'; } });
+  // partenza: link interni .html dello stesso sito
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a||rm) return;
+    var href=a.getAttribute('href')||''; if(!href||/^(#|mailto:|tel:|javascript:)/.test(href)) return;
+    if(a.target==='_blank'||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+    var u; try{ u=new URL(href,location.href); }catch(err){ return; }
+    if(u.origin!==location.origin) return;
+    if(!/\.html?$/i.test(u.pathname) && u.pathname!=='/' && !/\/$/.test(u.pathname)) return;
+    if(u.pathname===location.pathname && u.hash) return;
+    e.preventDefault();
+    try{ sessionStorage.setItem('pt','1'); }catch(err){}
+    pt.className='in'; pt.style.transform='';
+    setTimeout(function(){ location.href=u.href; },480);
+  },true);
+})();
+</script>
+
 </body>
 </html>
