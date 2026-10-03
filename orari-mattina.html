@@ -123,5 +123,41 @@
   document.querySelectorAll('.kids svg').forEach(s=>s.style.setProperty('--d',s.parentElement.style.getPropertyValue('--d')));
 })();
 </script>
+<style id="pt-css">
+#pt{position:fixed;inset:0;z-index:9999;pointer-events:none;background:#15302A;transform:translateX(-101%);display:flex;align-items:center;justify-content:center}
+#pt .dot{width:14px;height:14px;border-radius:50%;background:#F2B632;opacity:0;transform:scale(0)}
+#pt.in{animation:ptIn .45s cubic-bezier(.65,0,.35,1) both}
+#pt.out{animation:ptOut .55s cubic-bezier(.65,0,.35,1) .05s both}
+#pt.in .dot{animation:ptDot .3s cubic-bezier(.34,1.56,.64,1) .3s both}
+@keyframes ptIn{from{transform:translateX(-101%)}to{transform:translateX(0)}}
+@keyframes ptOut{from{transform:translateX(0)}to{transform:translateX(101%)}}
+@keyframes ptDot{to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){#pt{display:none}}
+</style>
+<div id="pt" aria-hidden="true"><span class="dot"></span></div>
+<script>
+(function(){
+  var pt=document.getElementById('pt'); if(!pt) return;
+  var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // arrivo: se veniamo da una pagina della famiglia, la tenda è già chiusa e si apre
+  try{ if(sessionStorage.getItem('pt')==='1' && !rm){ sessionStorage.removeItem('pt'); pt.style.transform='translateX(0)'; requestAnimationFrame(function(){ pt.classList.add('out'); }); } }catch(e){}
+  addEventListener('pageshow',function(e){ if(e.persisted){ pt.className=''; pt.style.transform='translateX(-101%)'; } });
+  // partenza: link interni .html dello stesso sito
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a||rm) return;
+    var href=a.getAttribute('href')||''; if(!href||/^(#|mailto:|tel:|javascript:)/.test(href)) return;
+    if(a.target==='_blank'||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+    var u; try{ u=new URL(href,location.href); }catch(err){ return; }
+    if(u.origin!==location.origin) return;
+    if(!/\.html?$/i.test(u.pathname) && u.pathname!=='/' && !/\/$/.test(u.pathname)) return;
+    if(u.pathname===location.pathname && u.hash) return;
+    e.preventDefault();
+    try{ sessionStorage.setItem('pt','1'); }catch(err){}
+    pt.className='in'; pt.style.transform='';
+    setTimeout(function(){ location.href=u.href; },480);
+  },true);
+})();
+</script>
+
 </body>
 </html>
