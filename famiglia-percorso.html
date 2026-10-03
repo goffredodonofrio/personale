@@ -164,7 +164,7 @@
   // ===== AVATAR =====
   const AV={
     goffredo:{h:120,skin:'#E3B48E',hair:'#2A221C',grey:'#8A8580',hairStyle:'short',beard:'#5A4A40',glasses:'#2A2A2E',eye:'#4B3426',shirt:'#A8432F',pants:'#C9B48A',frame:'#5FA57A',name:'Goffredo',watch:true},
-    carolina:{h:118,skin:'#EFC9AE',hair:'#3F2A20',hairStyle:'long',eye:'#7F9A6E',liner:true,shirt:'#1E1E22',pants:'#7E2E55',frame:'#8D5BB8',name:'Carolina'},
+    carolina:{h:118,skin:'#EFC9AE',hair:'#6B4A32',hairStyle:'curlylong',eye:'#7F9A6E',liner:true,shirt:'#1E1E22',pants:'#7E2E55',frame:'#8D5BB8',name:'Carolina'},
     edoardo:{h:92, skin:'#E8C19F',hair:'#8A6540',hairStyle:'mop',glasses:'#2B3A78',eye:'#8FB3A6',gap:true,shirt:'#F6F3EE',crest:true,pants:'#C6E22E',frame:'#4A90C6',name:'Edoardo'},
     bianca:{h:74, skin:'#EAC2A0',hair:'#2E1F18',hairStyle:'curly',eye:'#3A2418',bigeyes:true,shirt:'#F6F3EE',pants:'#5F7FB0',skirt:true,frame:'#E4573D',name:'Bianca'},
   };
@@ -174,6 +174,7 @@
     if(p.hairStyle==='short') hair=`<path d="M15 15 Q30 -3 45 15 L45 19 Q30 10 15 19Z" fill="${p.hair}"/><path d="M15 15 Q17 10 21 8 L21 17 Q17 17 15 19Z" fill="${p.grey}"/><path d="M45 15 Q43 10 39 8 L39 17 Q43 17 45 19Z" fill="${p.grey}"/>`;
     if(p.hairStyle==='long')  hair=`<path d="M13 17 Q30 -5 47 17 L49 44 Q45 48 41 42 L41 24 Q30 16 19 24 L19 42 Q15 48 11 44Z" fill="${p.hair}"/><path d="M14 17 Q22 2 38 8 Q34 14 22 15 Q17 15 14 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='mop')   hair=`<path d="M12 19 Q30 -7 48 19 L47 28 Q44 13 36 12 Q30 11 24 13 Q16 15 13 28Z" fill="${p.hair}"/><path d="M13 20 Q20 10 32 10 Q26 14 22 20Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='curlylong') hair=`<g fill="${p.hair}"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g>`;
     const beard=p.beard?`<path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="${p.beard}" opacity=".95"/>`:'';
     const liner=p.liner?`<path d="M19.5 17.5 Q24 15.5 28.5 17.5M31.5 17.5 Q36 15.5 40.5 17.5" fill="none" stroke="${ink}" stroke-width="1.2" stroke-linecap="round"/>`:'';
