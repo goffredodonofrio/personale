@@ -1,0 +1,261 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Il percorso della nostra famiglia</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap">
+<style>
+  :root{--paper:#FBFAF5;--ink:#1F2A26;--muted:#5F6E67;--green:#2E5E4E;--deep:#15302A;--cream:#F4EEDC;
+    --gof:#5FA57A;--car:#8D5BB8;--edo:#4A90C6;--bia:#E4573D;--sun:#F2B632;
+    --display:"Bricolage Grotesque","Avenir Next","Helvetica Neue",Arial,sans-serif;--body:"Literata",Georgia,serif;
+    --eo:cubic-bezier(.16,1,.3,1);--eb:cubic-bezier(.34,1.56,.64,1);--ei:cubic-bezier(.65,0,.35,1)}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--deep);color:var(--cream);font-family:var(--body);font-size:18px;line-height:1.5;padding-inline:0;padding-block:0;overflow-x:hidden}
+  #road{position:absolute;left:0;top:0;width:100%;z-index:0;pointer-events:none}
+  #road path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  #road .bg{stroke:rgba(255,255,255,.10);stroke-width:14}
+  #road .dash{stroke:var(--sun);stroke-width:4;stroke-dasharray:10 14}
+  #walk{position:absolute;z-index:3;left:0;top:0;width:0;height:0;pointer-events:none}
+  #walk .grp{position:absolute;left:-74px;top:-150px;display:flex;align-items:flex-end;gap:2px;transform-origin:50% 100%}
+  #walk svg{display:block;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
+  #walk .leg{transform-origin:50% 0;transform-box:fill-box}
+  body.moving #walk .leg.l{animation:step .5s ease-in-out infinite}
+  body.moving #walk .leg.r{animation:step .5s ease-in-out infinite reverse}
+  @keyframes step{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(16deg)}}
+  body.moving #walk .grp svg{animation:hop .5s ease-in-out infinite;animation-delay:var(--d)}
+  @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .ch{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5vw,72px) clamp(20px,6vw,96px)}
+  .ch .box{max-width:620px;padding:clamp(22px,3vw,40px);border-radius:24px;backdrop-filter:blur(6px)}
+  .ch.left .box{margin-right:auto} .ch.right .box{margin-left:auto}
+  .ch.light .box{background:rgba(251,250,245,.96);color:var(--ink)}
+  .ch.green .box{background:rgba(46,94,78,.96);color:var(--cream)}
+  .ch.deep .box{background:rgba(21,48,42,.92);color:var(--cream);border:1px solid rgba(255,255,255,.1)}
+  .ch.wide .box{max-width:1040px}
+  .k{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:.95;margin:0;text-wrap:balance}
+  .k.xl{font-size:clamp(42px,8vw,112px)} .k.l{font-size:clamp(30px,5vw,64px)}
+  .eyebrow{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.75;margin:0 0 14px}
+  .stop{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.2em;opacity:.55;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .stop i{width:10px;height:10px;border-radius:50%;background:var(--sun);display:inline-block}
+  .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+  .w>span{display:inline-block;transform:translateY(110%);opacity:0}
+  .in .w>span{animation:up .9s var(--eo) both;animation-delay:var(--d,0s)}
+  @keyframes up{from{transform:translateY(110%) rotate(2deg);opacity:0}to{transform:none;opacity:1}}
+  .fx{opacity:0;transform:translateY(22px)} .in .fx{animation:rise .9s var(--eo) both;animation-delay:var(--d,0s)}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes pop{to{transform:scale(1);opacity:1}}
+  #prog{position:fixed;left:0;top:0;height:4px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:var(--sun);z-index:9}
+  #nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:9}
+  #nav a{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);display:block;transition:transform .3s var(--eb),background .3s}
+  #nav a.on{background:var(--sun);transform:scale(1.5)}
+  @media (max-width:600px){#nav{display:none}}
+  /* famiglia */
+  .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px}
+  @media (max-width:760px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .card{position:relative;border-radius:18px;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;transform:scale(.6);opacity:0;color:#fff}
+  .in .card{animation:pop .8s var(--eb) both;animation-delay:var(--d)}
+  .card svg{width:min(120px,30vw);height:auto}
+  .card .nm{font-family:var(--display);font-weight:800;font-size:clamp(16px,2vw,24px)}
+  .card .role{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-top:-6px}
+  .vals{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px}
+  .vals .v{font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,52px);line-height:1;opacity:0;transform:translateY(20px) scale(.96)}
+  .in .vals .v{animation:vin .8s var(--eb) both;animation-delay:var(--d)}
+  @keyframes vin{to{opacity:1;transform:none}}
+  .rights{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:12px}
+  .rights li{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:center;font-family:var(--display);font-weight:700;font-size:clamp(18px,2.4vw,28px);line-height:1.15;opacity:0;transform:translateX(-18px)}
+  .in .rights li{animation:slide .7s var(--eo) both;animation-delay:var(--d)}
+  @keyframes slide{to{opacity:1;transform:none}}
+  .rights svg{width:36px;height:36px} .rights path{stroke-dasharray:40;stroke-dashoffset:40}
+  .in .rights path{animation:draw .5s var(--ei) both;animation-delay:calc(var(--d) + .35s)}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .tl{position:relative;margin-top:26px;padding-left:28px}
+  .tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:3px;background:currentColor;opacity:.35;transform:scaleY(0);transform-origin:50% 0}
+  .in .tl::before{animation:growY 2.4s var(--ei) .2s both} @keyframes growY{to{transform:scaleY(1)}}
+  .tl .s{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:baseline;padding:7px 0;opacity:0;transform:translateX(-10px);position:relative}
+  .in .tl .s{animation:slide .6s var(--eo) both;animation-delay:var(--d)}
+  .tl .s::before{content:"";position:absolute;left:-26px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--sun)}
+  .tl .t{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.6vw,30px);font-variant-numeric:tabular-nums}
+  .kids{display:flex;gap:10px;align-items:flex-end;margin-top:18px} .kids svg{height:90px;width:auto;opacity:0;transform:translateY(10px)}
+  .in .kids svg{animation:rise .8s var(--eo) both;animation-delay:var(--d)}
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:22px}
+  .rules div{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 14px 12px;font-family:var(--display);font-weight:700;font-size:clamp(15px,1.6vw,19px);line-height:1.15;opacity:0;transform:translateY(16px) rotate(-1.5deg)}
+  .in .rules div{animation:cardin .7s var(--eb) both;animation-delay:var(--d)} @keyframes cardin{to{opacity:1;transform:none}}
+  .rules b{display:block;font-size:10px;letter-spacing:.18em;opacity:.6;margin-bottom:5px}
+  .lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+  @media (max-width:640px){.lv{grid-template-columns:1fr}}
+  .lv div{opacity:0;transform:scale(.7)} .in .lv div{animation:cardin .8s var(--eb) both;animation-delay:var(--d)}
+  .lv .big{font-family:var(--display);font-weight:800;font-size:clamp(56px,10vw,120px);line-height:.85}
+  .lv .lab{font-family:var(--display);font-weight:800;font-size:clamp(18px,2.2vw,26px);margin-top:6px} .lv p{margin:4px 0 0;opacity:.8;font-size:15px}
+  .never{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .never span{border:2px solid currentColor;border-radius:999px;padding:6px 14px;font-family:var(--display);font-weight:800;font-size:15px;opacity:0;transform:scale(.6)}
+  .in .never span{animation:cardin .6s var(--eb) both;animation-delay:var(--d)}
+  .ring{position:relative;width:min(300px,62vw);height:min(300px,62vw);margin:20px auto 0}
+  .ring .av{position:absolute;left:50%;top:50%;width:64px;height:84px;margin:-42px -32px;transform:translate(0,0) scale(0);opacity:0}
+  .in .ring .av{animation:orbit 1.4s var(--eb) both;animation-delay:var(--d)} .ring .av svg{width:100%;height:100%}
+  @keyframes orbit{to{transform:translate(var(--x),var(--y)) scale(1);opacity:1}}
+  .ring::before{content:"";position:absolute;inset:0;border:3px dashed rgba(46,94,78,.35);border-radius:50%;transform:scale(0);opacity:0}
+  .in .ring::before{animation:pop 1.2s var(--eo) .3s both}
+  .sig{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:24px}
+  @media (max-width:640px){.sig{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .sig div{border-top:4px solid;padding-top:8px;font-family:var(--display);font-weight:800;clip-path:inset(0 100% 0 0)}
+  .in .sig div{animation:wipe 1s var(--ei) both;animation-delay:var(--d)} @keyframes wipe{to{clip-path:inset(0 0 0 0)}}
+  .cta{display:inline-block;margin-top:26px;background:var(--sun);color:var(--ink);text-decoration:none;font-family:var(--display);font-weight:800;padding:13px 20px;border-radius:999px;font-size:16px}
+  .hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important;clip-path:none !important}#walk{display:none}}
+</style>
+
+<div id="prog"></div>
+<nav id="nav" aria-label="Tappe"></nav>
+<svg id="road" aria-hidden="true"></svg>
+<div id="walk" aria-hidden="true"><div class="grp"></div></div>
+
+<section class="ch deep left in" id="c0"><div class="box">
+  <p class="eyebrow fx" style="--d:.2s">San Mauro Torinese · 2026 · un percorso in 9 tappe</p>
+  <h1 class="k xl"><span class="w"><span style="--d:0.30s">La</span></span> <span class="w"><span style="--d:0.40s">Costituzione</span></span><br><span class="w"><span style="--d:0.50s;color:var(--sun)">della</span></span> <span class="w"><span style="--d:0.58s;color:var(--sun)">nostra</span></span> <span class="w"><span style="--d:0.66s;color:var(--sun)">famiglia</span></span></h1>
+  <p class="fx" style="--d:1.3s;margin:22px 0 0;font-style:italic;opacity:.85">Scritta insieme, grandi e piccoli. Segui la strada gialla: a ogni tappa, un pezzo di noi.</p>
+</div><div class="hint">scorri ↓</div></section>
+
+<section class="ch light right" id="c1"><div class="box">
+  <div class="stop"><i></i>TAPPA 1 · CHI SIAMO</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">Siamo</span></span> <span class="w"><span style="--d:0.20s">in</span></span> <span class="w"><span style="--d:0.30s;color:var(--sun)">quattro.</span></span></h2>
+  <div class="grid4">
+    <div class="card" data-av="goffredo" style="background:var(--gof);--d:.3s"><span class="nm">Goffredo</span><span class="role">papà</span></div>
+    <div class="card" data-av="carolina" style="background:var(--car);--d:.45s"><span class="nm">Carolina</span><span class="role">mamma</span></div>
+    <div class="card" data-av="edoardo" style="background:var(--edo);--d:.6s"><span class="nm">Edoardo</span><span class="role">8 anni · scuola</span></div>
+    <div class="card" data-av="bianca" style="background:var(--bia);--d:.75s"><span class="nm">Bianca</span><span class="role">5 anni · asilo</span></div>
+  </div>
+</div></section>
+
+<section class="ch green left wide" id="c2"><div class="box">
+  <div class="stop"><i></i>TAPPA 2 · PARTE I</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">La</span></span> <span class="w"><span style="--d:0.20s">nostra</span></span> <span class="w"><span style="--d:0.30s;color:var(--sun)">bussola.</span></span></h2>
+  <div class="vals"><span class="v" style="--d:0.40s;">Accoglienza</span><span class="v" style="--d:0.54s;color:var(--sun)">Dialogo</span><span class="v" style="--d:0.68s;">Empatia</span><span class="v" style="--d:0.82s;">Rispetto</span><span class="v" style="--d:0.96s;color:var(--sun)">Anti-fascismo</span><span class="v" style="--d:1.10s;">Fratellanza</span><span class="v" style="--d:1.24s;">Amore</span><span class="v" style="--d:1.38s;color:var(--sun)">Parità di genere</span><span class="v" style="--d:1.52s;">Cooperazione</span></div>
+  <p class="fx" style="--d:1.9s;margin:22px 0 0;font-style:italic;opacity:.85">A ciascuno secondo i suoi bisogni, da ciascuno secondo le sue possibilità.</p>
+</div></section>
+
+<section class="ch light right" id="c3"><div class="box">
+  <div class="stop"><i></i>TAPPA 3 · PARTE II</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">Ognuno</span></span> <span class="w"><span style="--d:0.20s">ha</span></span> <span class="w"><span style="--d:0.30s">diritto</span></span> <span class="w"><span style="--d:0.40s;color:var(--sun)">a…</span></span></h2>
+  <ul class="rights"><li style="--d:0.40s"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>sentirsi al sicuro</span></li><li style="--d:0.60s"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>esprimersi — e non dire, se non si vuole</span></li><li style="--d:0.80s"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>essere rispettati</span></li><li style="--d:1.00s"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>essere ascoltati</span></li><li style="--d:1.20s"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>giocare</span></li></ul>
+  <p class="fx" style="--d:1.6s;margin:20px 0 0;color:var(--muted);font-style:italic">I diritti vengono prima dei doveri. Non per caso.</p>
+</div></section>
+
+<section class="ch deep left" id="c4"><div class="box">
+  <div class="stop"><i></i>TAPPA 4 · PARTE VI</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">La</span></span> <span class="w"><span style="--d:0.20s">mattina,</span></span> <span class="w"><span style="--d:0.30s;color:var(--sun)">da</span></span> <span class="w"><span style="--d:0.40s;color:var(--sun)">soli.</span></span></h2>
+  <div class="tl"><div class="s" style="--d:0.40s"><span class="t">7:00</span><span>Sveglia</span></div><div class="s" style="--d:0.66s"><span class="t">7:05</span><span>Bagno</span></div><div class="s" style="--d:0.92s"><span class="t">7:15</span><span>Letto e vestiti</span></div><div class="s" style="--d:1.18s"><span class="t">7:25</span><span>Colazione insieme</span></div><div class="s" style="--d:1.44s"><span class="t">7:45</span><span>Denti e zaino</span></div><div class="s" style="--d:1.70s"><span class="t">7:55</span><span>Scarpe e giacca</span></div><div class="s" style="--d:1.96s"><span class="t">8:05</span><span>Si parte!</span></div></div>
+  <div class="kids"><span data-av="edoardo" style="--d:2.2s"></span><span data-av="bianca" style="--d:2.4s"></span></div>
+  <p class="fx" style="--d:2.6s;margin:14px 0 0;opacity:.75;font-style:italic">Comanda il timer, non mamma e papà. Un letto storto è un letto fatto.</p>
+</div></section>
+
+<section class="ch green right wide" id="c5"><div class="box">
+  <div class="stop"><i></i>TAPPA 5 · PARTE IV</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">Dieci</span></span> <span class="w"><span style="--d:0.20s;color:var(--sun)">regole.</span></span></h2>
+  <div class="rules"><div style="--d:0.40s"><b>REGOLA 1</b>A tavola tutti insieme</div><div style="--d:0.49s"><b>REGOLA 2</b>Gli schermi solo nei loro momenti</div><div style="--d:0.58s"><b>REGOLA 3</b>Le mani non litigano</div><div style="--d:0.67s"><b>REGOLA 4</b>Le parole si scelgono</div><div style="--d:0.76s"><b>REGOLA 5</b>Ognuno riordina quello che usa</div><div style="--d:0.85s"><b>REGOLA 6</b>La sera ha un orario</div><div style="--d:0.94s"><b>REGOLA 7</b>Si bussa e si chiede</div><div style="--d:1.03s"><b>REGOLA 8</b>Le promesse si mantengono</div><div style="--d:1.12s"><b>REGOLA 9</b>La domenica c’è il Consiglio</div><div style="--d:1.21s"><b>REGOLA 10</b>Una cosa bella e una brutta</div></div>
+</div></section>
+
+<section class="ch deep left wide" id="c6"><div class="box">
+  <div class="stop"><i></i>TAPPA 6 · PARTE VII</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">Si</span></span> <span class="w"><span style="--d:0.20s">ripara,</span></span> <span class="w"><span style="--d:0.30s">non</span></span> <span class="w"><span style="--d:0.40s">si</span></span> <span class="w"><span style="--d:0.50s;color:var(--sun)">punisce.</span></span></h2>
+  <div class="lv">
+    <div style="--d:.5s;color:#8FD4A8"><div class="big">1</div><div class="lab">Il promemoria</div><p>Con calma, una volta sola.</p></div>
+    <div style="--d:.7s;color:var(--sun)"><div class="big">2</div><div class="lab">La riparazione</div><p>Scusa guardando negli occhi, e si aggiusta.</p></div>
+    <div style="--d:.9s;color:#FF8B73"><div class="big">3</div><div class="lab">La pausa</div><p>Qualche minuto. Poi, solo per oggi, un privilegio in meno.</p></div>
+  </div>
+  <div class="never"><span style="--d:1.3s;opacity:.6;border:0;padding-left:0">Mai senza:</span><span style="--d:1.40s">il cibo</span><span style="--d:1.52s">la storia della sera</span><span style="--d:1.64s">l’abbraccio</span><span style="--d:1.76s">il gioco</span><span style="--d:1.88s">ti voglio bene</span></div>
+</div></section>
+
+<section class="ch light right" id="c7"><div class="box" style="text-align:center">
+  <div class="stop" style="justify-content:center"><i></i>TAPPA 7 · PARTE VIII</div>
+  <h2 class="k l"><span class="w"><span style="--d:0.10s">Il</span></span> <span class="w"><span style="--d:0.20s">Consiglio</span></span> <span class="w"><span style="--d:0.30s">di</span></span> <span class="w"><span style="--d:0.40s;color:var(--sun)">famiglia.</span></span></h2>
+  <div class="ring">
+    <div class="av" data-av="goffredo" style="--x:0px;--y:-115px;--d:.5s"></div><div class="av" data-av="carolina" style="--x:115px;--y:0px;--d:.65s"></div><div class="av" data-av="edoardo" style="--x:0px;--y:115px;--d:.8s"></div><div class="av" data-av="bianca" style="--x:-115px;--y:0px;--d:.95s"></div>
+  </div>
+  <p class="fx" style="--d:1.4s;margin:22px 0 0;color:var(--muted)">Ogni domenica, venti minuti. Una cosa bella, una che non è andata, i turni, le proposte e i ricorsi. Chiunque, anche Bianca, può proporre di cambiare un articolo.</p>
+</div></section>
+
+<section class="ch green left" id="c8"><div class="box">
+  <div class="stop"><i></i>ARRIVO · ART. 44</div>
+  <h2 class="k xl"><span class="w"><span style="--d:0.10s">Non</span></span> <span class="w"><span style="--d:0.20s">di</span></span> <span class="w"><span style="--d:0.30s">essere</span></span> <span class="w"><span style="--d:0.40s">perfetti.</span></span><br><span class="w"><span style="--d:0.50s;color:var(--sun)">Di</span></span> <span class="w"><span style="--d:0.60s;color:var(--sun)">provarci.</span></span></h2>
+  <div class="sig"><div style="border-color:var(--gof);--d:1s">Goffredo</div><div style="border-color:var(--car);--d:1.15s">Carolina</div><div style="border-color:var(--edo);--d:1.3s">Edoardo</div><div style="border-color:var(--bia);--d:1.45s">Bianca</div></div>
+  <a class="cta fx" style="--d:1.8s" href="costituzione-famiglia.html">Leggi tutti i 44 articoli →</a>
+</div></section>
+
+<script>
+(function(){
+  // ---- avatar: colori presi dalle foto (vestiti, capelli), cornice nel colore di ognuno
+  const AV={
+    goffredo:{h:120,skin:'#E8BE9B',hair:'#2B241F',hairStyle:'short',beard:'#3A2F27',glasses:true,shirt:'#A8432F',pants:'#C9B48A',frame:'#5FA57A',name:'Goffredo'},
+    carolina:{h:116,skin:'#F0CBB0',hair:'#4A3327',hairStyle:'long',shirt:'#1E1E22',pants:'#7E2E55',frame:'#8D5BB8',name:'Carolina'},
+    edoardo:{h:90, skin:'#E9C3A3',hair:'#7A5A3A',hairStyle:'mop',glasses:true,shirt:'#F6F3EE',pants:'#C6E22E',frame:'#4A90C6',name:'Edoardo'},
+    bianca:{h:72, skin:'#EDC6A6',hair:'#3C2A22',hairStyle:'curly',shirt:'#F6F3EE',pants:'#5F7FB0',frame:'#E4573D',name:'Bianca'},
+  };
+  function avatar(k, opts={}){
+    const p=AV[k], ink='#1F2A26';
+    let hair='';
+    if(p.hairStyle==='short') hair=`<path d="M15 14 Q30 -2 45 14 L45 18 Q30 10 15 18Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='long')  hair=`<path d="M14 16 Q30 -4 46 16 L48 42 Q44 46 40 40 L40 22 Q30 14 20 22 L20 40 Q16 46 12 42Z" fill="${p.hair}"/><path d="M14 16 Q24 4 34 10 Q30 16 18 20Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='mop')   hair=`<path d="M13 18 Q30 -6 47 18 L46 26 Q42 12 30 12 Q18 12 14 26Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="16" cy="12" r="6"/><circle cx="24" cy="6" r="6"/><circle cx="34" cy="5" r="6"/><circle cx="43" cy="11" r="6"/><circle cx="13" cy="22" r="5"/><circle cx="47" cy="21" r="5"/></g>`;
+    const beard=p.beard?`<path d="M18 23 Q30 44 42 23 L42 30 Q30 42 18 30Z" fill="${p.beard}" opacity=".9"/>`:'';
+    const glasses=p.glasses?`<g fill="none" stroke="${ink}" stroke-width="1.8"><circle cx="24" cy="19" r="4.6"/><circle cx="36" cy="19" r="4.6"/><path d="M28.6 19h2.8"/></g>`:'';
+    const smile=`<path d="M25 ${p.beard?25:26} Q30 ${p.beard?29:31} 35 ${p.beard?25:26}" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linecap="round"/>`;
+    const frame=opts.frame?`<circle cx="30" cy="20" r="21" fill="none" stroke="${p.frame}" stroke-width="3"/>`:'';
+    const H=opts.h||p.h;
+    return `<svg viewBox="-4 -6 68 118" width="${H*0.58}" height="${H}" style="--d:${opts.d||0}s" role="img" aria-label="${p.name}">
+      <g class="leg l"><rect x="20" y="84" width="8" height="24" rx="3" fill="${p.pants}"/><rect x="18" y="104" width="12" height="6" rx="3" fill="${ink}"/></g>
+      <g class="leg r"><rect x="32" y="84" width="8" height="24" rx="3" fill="${p.pants}"/><rect x="30" y="104" width="12" height="6" rx="3" fill="${ink}"/></g>
+      <path d="M18 88 L18 56 Q18 44 30 44 Q42 44 42 56 L42 88 Z" fill="${p.shirt}"/>
+      <rect x="8" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="12" cy="84" r="5" fill="${p.skin}"/>
+      <rect x="44" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="48" cy="84" r="5" fill="${p.skin}"/>
+      <circle cx="30" cy="18" r="15" fill="${p.skin}"/>
+      ${hair}${beard}${glasses}<circle cx="24" cy="19" r="1.8" fill="${ink}"/><circle cx="36" cy="19" r="1.8" fill="${ink}"/>${smile}${frame}
+    </svg>`;
+  }
+  document.querySelectorAll('[data-av]').forEach(el=>{const k=el.dataset.av;const h=el.classList.contains('av')?84:(el.closest('.kids')?90:120);el.insertAdjacentHTML('afterbegin',avatar(k,{h,d:parseFloat(getComputedStyle(el).getPropertyValue('--d'))||0}));});
+  // ---- strada: una curva che attraversa tutte le tappe
+  const chs=[...document.querySelectorAll('.ch')];
+  const road=document.getElementById('road');
+  const bg=document.createElementNS('http://www.w3.org/2000/svg','path');
+  const dash=document.createElementNS('http://www.w3.org/2000/svg','path');
+  bg.setAttribute('class','bg');dash.setAttribute('class','dash');road.append(bg,dash);
+  let L=0, pts=[];
+  function build(){
+    const H=document.documentElement.scrollHeight, W=innerWidth;
+    road.setAttribute('viewBox',`0 0 ${W} ${H}`);road.style.height=H+'px';
+    // punti: a ogni tappa la strada passa dal lato opposto al box
+    pts=chs.map(c=>{const r=c.getBoundingClientRect();const y=r.top+scrollY+r.height*0.5;const x=c.classList.contains('right')?W*0.22:(c.classList.contains('left')?W*0.78:W*0.5);return [x,y];});
+    pts[0]=[W*0.78,pts[0][1]+chs[0].offsetHeight*0.1];
+    let d=`M ${pts[0][0]} ${pts[0][1]}`;
+    for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i];const my=(y0+y1)/2;d+=` C ${x0} ${my}, ${x1} ${my}, ${x1} ${y1}`;}
+    bg.setAttribute('d',d);dash.setAttribute('d',d);
+    L=dash.getTotalLength();dash.style.strokeDasharray='10 14';
+    bg.style.strokeDasharray=L;bg.style.strokeDashoffset=L;
+    update();
+  }
+  // ---- camminata
+  const walk=document.getElementById('walk'), grp=walk.querySelector('.grp');
+  grp.innerHTML=['goffredo','carolina','edoardo','bianca'].map((k,i)=>avatar(k,{d:i*0.12})).join('');
+  let lastP=0, moveT=null;
+  function update(){
+    const h=document.documentElement;const vh=innerHeight,st=scrollY;const max=h.scrollHeight-vh||1;
+    const ty=st+vh*0.55;
+    let lo=0,hi=L;for(let i=0;i<22;i++){const mid=(lo+hi)/2;if(dash.getPointAtLength(mid).y<ty)lo=mid;else hi=mid;}
+    const s=lo, p=s/L;
+    const pt=dash.getPointAtLength(s);
+    walk.style.transform=`translate(${pt.x}px,${pt.y}px)`;
+    const ahead=dash.getPointAtLength(Math.min(L,s+8));const dir=ahead.x-pt.x;grp.style.transform=`scaleX(${dir<0?-1:1})`;
+    bg.style.strokeDashoffset=L*(1-p);
+    document.getElementById('prog').style.transform='scaleX('+(st/max)+')';
+    if(Math.abs(p-lastP)>0.0005){document.body.classList.add('moving');clearTimeout(moveT);moveT=setTimeout(()=>document.body.classList.remove('moving'),180);}
+    lastP=p;
+  }
+  addEventListener('scroll',update,{passive:true});addEventListener('resize',build);
+  // ---- tappe: animazioni + nav
+  const nav=document.getElementById('nav');
+  chs.forEach((c,i)=>{const a=document.createElement('a');a.href='#'+c.id;a.setAttribute('aria-label','Tappa '+(i+1));nav.appendChild(a);});
+  const links=[...nav.children];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const i=chs.indexOf(e.target);links.forEach((l,j)=>l.classList.toggle('on',i===j));}}),{threshold:.4});
+  chs.forEach(c=>io.observe(c));
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(build); build(); setTimeout(build,800);
+})();
+</script>
+
+</html>
