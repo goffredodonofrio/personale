@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261003170000">
+<meta name="build" content="20261003173000">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -254,7 +254,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261003170000">
+<meta name="build" content="20261003173000">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -697,7 +697,58 @@ document.addEventListener('DOMContentLoaded',function(){
   h.insertAdjacentElement('afterend',r);
   var p=r.querySelector('path'); try{var L=p.getTotalLength(); p.style.setProperty('--L',L);}catch(e){}
 });
-</script></head>
+</script><style id="skin3">
+/* ===== giorni: card verdi scure (come la pagina Orari), avatar più grandi ===== */
+.day,.day.weekend{background:#1F4339;color:#F4EEDC;box-shadow:0 12px 30px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.06)}
+.day.weekend{background:#1A3A32}
+.dayhead,.day.weekend .dayhead{background:rgba(0,0,0,.18);border-bottom:1px solid rgba(255,255,255,.06)}
+.dayhead .dn{color:#F2B632 !important;opacity:1}
+.dayhead .dd{color:#F4EEDC}
+.day.today{box-shadow:0 0 0 3px var(--sun),0 12px 30px rgba(0,0,0,.28)}
+.day.today .dayhead,.day.today.weekend .dayhead{background:var(--sun) !important;color:var(--ink)}
+.day.today .dayhead .dn{color:var(--ink) !important;opacity:.7}
+.day.today .dayhead .dd{color:var(--ink) !important}
+.day.today .note{color:var(--ink)} .day.today .note::placeholder{color:rgba(31,42,38,.55)}
+.day.today .addx{color:var(--ink)} .day.today .addx:hover{background:rgba(0,0,0,.1)}
+.note{color:#F4EEDC} .note::placeholder{color:rgba(244,238,220,.55)}
+.note:focus{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#F4EEDC}
+.note.filled{background-color:#FBF0CC;color:var(--ink);border-color:#F2B632}
+.dayhead .addx{color:rgba(244,238,220,.8)} .dayhead .addx:hover{background:rgba(255,255,255,.14);color:#fff}
+.ev{border-bottom:1px solid rgba(255,255,255,.07);color:#F4EEDC;padding:12px 14px 12px 18px}
+.ev:hover{background:rgba(255,255,255,.06)}
+.ev .tm{color:var(--sun);font-size:14px}
+.ev .tm.edit:hover{background:rgba(255,255,255,.1);color:var(--sun)}
+.ev .tm.over{color:#FFD56A}
+.ev.dim .tm{color:rgba(244,238,220,.45)}
+.ev .tx b{color:#F4EEDC}
+.ev .tx small{color:rgba(244,238,220,.7)}
+.ev.dim .tx b{color:rgba(244,238,220,.55)}
+.ev .ic{background:rgba(255,255,255,.1);color:#F4EEDC}
+.ev.dim .ic{opacity:.5}
+.ev.gymrow{background:rgba(242,182,50,.12);box-shadow:inset 5px 0 0 var(--sun)}
+.ev.gymrow:hover{background:rgba(242,182,50,.2)}
+.ev.gymrow.dim{background:rgba(242,182,50,.06)}
+.ev.gymrow.dim .tx b{color:rgba(244,238,220,.55)}
+.ev.gymrow .ic{background:var(--sun);color:var(--ink)}
+.ev.gymrow .tm{color:var(--sun)}
+.ev.kind-lav .tx b::after{background:#F4EEDC;color:var(--ink)}
+.ev.kind-fam .tx b::after{background:rgba(255,255,255,.14);color:#F4EEDC}
+.day .empty,.day .free,.day [class*=empty]{color:rgba(244,238,220,.6);border-color:rgba(255,255,255,.2)}
+/* avatar più grandi nelle righe */
+.ev{grid-template-columns:44px 36px minmax(0,1fr) minmax(0,auto)}
+.ev .who{padding:3px 11px 3px 3px;font-size:13px;gap:7px;background:color-mix(in srgb,var(--c) 22%,#F4EEDC);border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);color:var(--ink)}
+.ev .who .face{width:30px;height:30px;background:color-mix(in srgb,var(--c) 38%,#fff)}
+.ev .who .face+.face{margin-left:-10px}
+.ev .who.none{background:transparent;border:1.5px dashed rgba(244,238,220,.35);color:rgba(244,238,220,.7);padding:6px 11px}
+.ev .who.ask{background:var(--sun);border-color:var(--sun);color:var(--ink);padding:6px 11px}
+.ev .avs{gap:6px}
+@media (max-width:700px){
+  .ev .who{padding:2px 9px 2px 2px;font-size:12px}
+  .ev .who .face{width:26px;height:26px}
+}
+/* hero: avatar più grandi */
+@media (min-width:1101px){.hero-fam span:nth-child(1) svg,.hero-fam span:nth-child(2) svg{height:118px !important;width:auto !important}.hero-fam span:nth-child(3) svg{height:90px !important;width:auto !important}.hero-fam span:nth-child(4) svg{height:74px !important;width:auto !important}.hero-fam{margin-bottom:-22px}}
+</style></head>
 <body>
 <div class="wrap">
   <header class="hero">
