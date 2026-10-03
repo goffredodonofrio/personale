@@ -116,6 +116,7 @@
       ${hair}${beard}${brows}${eyes}${liner}${glasses}${smile}</g>
     </svg>`;
   }
+  window.FACE=function(k,size){ const svg=avatar(k,{h:100}); return svg.replace(/viewBox="[^"]*" width="[^"]*" height="[^"]*"/,'class="face" viewBox="4 -13 52 52" width="'+(size||22)+'" height="'+(size||22)+'"'); };
   let bdI=0;
   document.querySelectorAll('[data-av]').forEach(el=>{const k=el.dataset.av;const h=parseInt(el.dataset.h||AV[k].h);el.insertAdjacentHTML('afterbegin',avatar(k,{h,d:parseFloat(getComputedStyle(el).getPropertyValue('--d'))||0,bd:(bdI++)*0.7%4}));});
 
@@ -159,5 +160,27 @@
 })();
 </script>
 
+<style id="tlfaces">
+.c b{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.c b .face{display:block;border-radius:50%;background:rgba(255,255,255,.14);width:30px;height:30px;flex:none;box-shadow:0 0 0 2px var(--fc,rgba(255,255,255,.25))}
+.c.edo b{--fc:#4A90C6}.c.bia b{--fc:#E4573D}.c.gr b{--fc:#5FA57A}
+.c.gr b .face+.face{margin-left:-12px;--fc:#8D5BB8;box-shadow:0 0 0 2px #8D5BB8}
+.c.gr b .face:first-child{box-shadow:0 0 0 2px #5FA57A}
+.r .all{display:flex;align-items:flex-start;gap:10px}
+.r .all .faces{display:flex;flex:none;margin-top:-2px}
+.r .all .faces .face{display:block;border-radius:50%;background:rgba(255,255,255,.14);width:28px;height:28px;box-shadow:0 0 0 2px #15302A}
+.r .all .faces .face+.face{margin-left:-9px}
+.r .all > span.txt{flex:1}
+@media (max-width:640px){.c b .face{width:26px;height:26px}.r .all .faces .face{width:24px;height:24px}}
+</style>
+<script>
+(function(){
+  if(!window.FACE) return;
+  document.querySelectorAll('.tl .c.edo > b').forEach(function(b){ b.insertAdjacentHTML('afterbegin', FACE('edoardo',30)); });
+  document.querySelectorAll('.tl .c.bia > b').forEach(function(b){ b.insertAdjacentHTML('afterbegin', FACE('bianca',30)); });
+  document.querySelectorAll('.tl .c.gr > b').forEach(function(b){ b.insertAdjacentHTML('afterbegin', FACE('goffredo',30)+FACE('carolina',30)); });
+  document.querySelectorAll('.tl .all').forEach(function(a){ var txt=document.createElement('span'); txt.className='txt'; while(a.firstChild) txt.appendChild(a.firstChild); var f=document.createElement('span'); f.className='faces'; f.innerHTML=FACE('goffredo',28)+FACE('carolina',28)+FACE('edoardo',28)+FACE('bianca',28); a.appendChild(f); a.appendChild(txt); });
+})();
+</script>
 </body>
 </html>
