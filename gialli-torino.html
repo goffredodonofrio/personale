@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261004204856">
+<meta name="build" content="20261004213412">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>I Gialli di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -639,9 +639,9 @@ window.PLACES = {
 // Avatar della famiglia: stessa fonte del calendario (README §3-4)
 (function(){
   const AV={
-    goffredo:{h:120,skin:'#E3B48E',hair:'#2F2621',hairStyle:'short',beard:'#55463C',glasses:'#2A2A2E',eye:'#4B3426',shirt:'#A8432F',pants:'#C9B48A',frame:'#5FA57A',name:'Goffredo',watch:true},
+    goffredo:{h:120,skin:'#E3B48E',hair:'#2F2621',hairStyle:'short',beard:'#1E1A18',glasses:'#2A2A2E',eye:'#4B3426',shirt:'#A8432F',pants:'#C9B48A',frame:'#5FA57A',name:'Goffredo',watch:true},
     carolina:{h:118,skin:'#EFC9AE',hair:'#6B4A32',hairStyle:'curlylong',eye:'#7F9A6E',liner:true,shirt:'#1E1E22',pants:'#7E2E55',frame:'#8D5BB8',name:'Carolina'},
-    edoardo:{h:92, skin:'#E8C19F',hair:'#8A6540',hairStyle:'mop',glasses:'#2B3A78',eye:'#8FB3A6',shirt:'#D63A30',crest:true,pants:'#C6E22E',frame:'#4A90C6',name:'Edoardo'},
+    edoardo:{h:92, skin:'#E8C19F',hair:'#A07A4E',hairStyle:'mop',glasses:'#2B3A78',eye:'#8FB3A6',shirt:'#A9D88E',crest:true,noblush:true,pants:'#C6E22E',frame:'#4A90C6',name:'Edoardo'},
     lidia:{h:112,skin:'#E8C4A6',hair:'#D9D4CC',hairStyle:'bun',glasses:'#8A5A3A',eye:'#5A4030',shirt:'#3F8F6B',pants:'#7A6F66',frame:'#16a34a',name:'Lidia'},
     franco:{h:116,skin:'#E3B48E',hair:'#CFCAC2',hairStyle:'baldside',moustache:true,eye:'#4B3426',shirt:'#8A9A3C',pants:'#55504A',frame:'#65a30d',name:'Franco'},
     baby:{h:116,skin:'#F0D2BB',hair:'#C98A3C',hairStyle:'ponytail',eye:'#5B7F9A',liner:true,shirt:'#7c3aed',pants:'#2F3A4A',frame:'#7c3aed',name:'Babysitter'},
@@ -653,7 +653,7 @@ window.PLACES = {
     let hair='';
     if(p.hairStyle==='short') hair=`<path d="M13 20 Q12 1 30 -1 Q48 1 47 20 L47 22 Q44 12 36 10 Q30 9 24 10 Q16 12 13 22Z" fill="${p.hair}"/><path d="M14 18 Q20 6 31 6 Q24 10 20 18Z" fill="${p.hair}"/><g fill="none" stroke="#D9D4CC" stroke-width="1.1" stroke-linecap="round" opacity=".9"><path d="M19 9 q3 -3 7 -3"/><path d="M26 5 q4 -1 8 1"/><path d="M36 7 q3 1 5 4"/><path d="M15 18 q1 -4 4 -6"/><path d="M44 17 q-1 -4 -3 -6"/><path d="M31 3 q3 0 5 1"/></g>`;
     if(p.hairStyle==='long')  hair=`<path d="M13 17 Q30 -5 47 17 L49 44 Q45 48 41 42 L41 24 Q30 16 19 24 L19 42 Q15 48 11 44Z" fill="${p.hair}"/><path d="M14 17 Q22 2 38 8 Q34 14 22 15 Q17 15 14 19Z" fill="${p.hair}"/>`;
-    if(p.hairStyle==='mop')   hair=`<path d="M11.5 34.5 Q6 28.5 9.5 22.5 Q5.5 15 10.5 9.5 Q12 3.5 19 2.5 Q23 -1.5 29 0.8 Q34.5 -1.5 39.5 1.8 Q46.5 2.5 49.5 9 Q54.5 15 50.5 22.5 Q54 28.5 48.5 34.5 Q46 31 45.3 26 L45 22 Q44 15.5 40.5 14 Q38 17.2 35 14.6 Q32 17.4 29.5 14.6 Q27 17.4 24.2 14.6 Q21 17.2 18.8 15 Q15.5 16.5 15 22 L14.7 26 Q14 31 11.5 34.5Z" fill="${p.hair}"/><path d="M49.5 9 Q56 9.5 55 15.5 Q53.5 12.5 51 13.5Z M10.5 9.5 Q5 9 5.5 14.5 Q7 12 9.5 13Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='mop')   hair=`<path d="M12.2 29.6 L10.4 26.4 Q8.6 25 8.6 22.4 L7.4 16.6 Q7.8 8.4 13.2 4.6 Q16 0.8 20.2 0.6 L22.6 -1.8 Q26 -0.6 28.4 -1.2 L31.4 -2.8 Q33.4 -0.6 37.6 -0.4 Q47.4 2.6 50.8 9.2 L53.2 13 Q52.2 13.8 52.4 15.6 Q53.6 19.4 52.6 22.4 L51.2 23.4 Q51.6 26.4 49.8 27.4 L48.2 29.6 L46.2 28.8 L45.4 30.4 L42.8 28.6 Q44.6 26.8 45.4 24 L45.7 21.5 Q45 13.6 39 11 Q33.6 11.8 28.4 15 Q24.2 17.8 20.8 23.2 L19.4 19.6 L16.4 23 L15.6 20 L15.4 24 Q16 27.5 17.2 28.6 L14.6 30.4 L13.8 28.8 L12.2 29.6Z" fill="${p.hair}"/><path d="M27.4 0 L29 -4.6 L31 -0.6Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='curlylong') hair=`<g fill="${p.hair}"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g>`;
     if(p.hairStyle==='bun') hair=`<circle cx="30" cy="-1" r="7" fill="${p.hair}"/><path d="M14 18 Q16 2 30 2 Q44 2 46 18 L46 21 Q40 10 30 10 Q20 10 14 21Z" fill="${p.hair}"/>`;
@@ -661,7 +661,7 @@ window.PLACES = {
     if(p.hairStyle==='ponytail') hair=`<path d="M14 18 Q14 2 30 1 Q46 2 46 18 L46 21 Q42 11 30 10 Q18 11 14 21Z" fill="${p.hair}"/><path d="M44 12 Q56 20 51 42 Q48 47 45 42 Q49 28 42 18Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='plain') hair=`<path d="M14 18 Q14 2 30 1 Q46 2 46 18 L46 21 Q42 11 30 10 Q18 11 14 21Z" fill="${p.hair}"/>`;
     const moustache=p.moustache?`<path d="M22 25 Q30 28.5 38 25 Q30 31 22 25Z" fill="${p.hair}"/>`:'';
-    const beard=p.beard?`<path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="${p.beard}" opacity=".95"/>`:'';
+    const beard=p.beard?`<path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="${p.beard}" opacity=".97"/><g fill="none" stroke="#D9D4CC" stroke-width="1" stroke-linecap="round" opacity=".9"><path d="M18.8 25.6 q.6 2 1.8 3.2"/><path d="M41.2 25.6 q-.6 2 -1.8 3.2"/><path d="M22.6 31.4 q1 1.4 2.4 2"/><path d="M37.4 31.4 q-1 1.4 -2.4 2"/><path d="M28.2 35.6 q1 .9 2.4 .9"/><path d="M32.8 35.3 q.9 .1 1.7 -.6"/></g>`:'';
     const liner=p.liner?`<path d="M19.5 17.5 Q24 15.5 28.5 17.5M31.5 17.5 Q36 15.5 40.5 17.5" fill="none" stroke="${ink}" stroke-width="1.2" stroke-linecap="round"/>`:'';
     const brows=`<path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="${p.hair}" stroke-width="1.6" stroke-linecap="round"/>`;
     const er=p.bigeyes?3.2:2.6, ir=p.bigeyes?2:1.6;
@@ -670,8 +670,8 @@ window.PLACES = {
     const mouthY=p.beard?26:(p.moustache?29:27);
     const smile=p.gap?`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/><path d="M28.4 ${mouthY+.6} h3.2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M30 ${mouthY+.2} v1.4" stroke="${ink}" stroke-width=".7"/>`
                   :`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/>`;
-    const cheeks=`<circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/>`;
-    const crest=p.crest?`<g transform="rotate(28 30 58)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#F4EEDC"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#F2B632"/></g>`:'';
+    const cheeks=p.noblush?'':`<circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/>`;
+    const crest=p.crest?`<g transform="translate(0 1.5)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#F4EEDC"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#F2B632"/></g>`:'';
     const watch=p.watch?`<rect x="43" y="74" width="10" height="4" rx="1.5" fill="#1F2A26"/>`:'';
     const legs=p.skirt
       ?`<path d="M17 84 L15 100 H45 L43 84Z" fill="${p.pants}"/><g class="leg l"><rect x="21" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="19" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g class="leg r"><rect x="32" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="30" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g>`
