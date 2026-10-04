@@ -23,10 +23,10 @@
    "id": "arance",
    "name": "Arance",
    "cat": "frutta",
-   "state": "low",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1791138040012
+   "u": 1791138043371
   },
   "limoni": {
    "id": "limoni",
