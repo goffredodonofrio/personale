@@ -1,37 +1,42 @@
 {
- "v": 2,
+ "v": 3,
  "people": [
   {
    "id": "gof",
    "name": "Goffredo",
-   "color": "#1d6af8"
+   "color": "#5FA57A"
   },
   {
    "id": "caro",
    "name": "Carolina",
-   "color": "#c2410c"
+   "color": "#8D5BB8"
   },
   {
    "id": "lidia",
    "name": "Lidia",
-   "color": "#16a34a"
+   "color": "#D98E32"
   },
   {
    "id": "franco",
    "name": "Franco",
-   "color": "#65a30d"
+   "color": "#6E8B3D"
   },
   {
    "id": "baby",
    "name": "Babysitter",
-   "color": "#7c3aed"
+   "color": "#C9607A"
   }
  ],
  "recurring": [
   {
    "id": "volley",
    "title": "Pallavolo",
-   "who": "caro",
+   "who": {
+    "by": [
+     "caro"
+    ],
+    "with": []
+   },
    "days": [
     2
    ],
@@ -43,7 +48,13 @@
   {
    "id": "budget",
    "title": "Riunione budget",
-   "who": "both",
+   "who": {
+    "by": [
+     "gof",
+     "caro"
+    ],
+    "with": []
+   },
    "days": [
     6
    ],
@@ -55,7 +66,12 @@
   {
    "id": "corso-edo",
    "title": "Edoardo | Arte",
-   "who": "k:edo",
+   "who": {
+    "by": [
+     "edo"
+    ],
+    "with": []
+   },
    "days": [
     0
    ],
@@ -67,7 +83,12 @@
   {
    "id": "corso-bia",
    "title": "Edoardo | Mini Basket",
-   "who": "k:edo",
+   "who": {
+    "by": [
+     "edo"
+    ],
+    "with": []
+   },
    "days": [
     4
    ],
@@ -82,29 +103,92 @@
    "days": {
     "2026-09-14": {
      "edo": {
-      "m": "gof",
-      "p": "lidia",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "lidia"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "lidia",
-      "s": "both"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "lidia"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "Goffredo torna tardi dal lavoro",
-     "extra": [],
-     "gym": ""
+     "extra": []
     },
     "2026-09-15": {
      "edo": {
-      "m": "gof",
-      "p": "lidia",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "lidia"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "lidia",
-      "p": "lidia",
-      "s": "both"
+      "m": {
+       "by": [
+        "lidia"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "lidia"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "Carolina a Milano, rietro alle 18.00",
      "extra": [
@@ -113,65 +197,163 @@
        "slot": "p",
        "title": "Ritiro Mobile",
        "time": "18:30",
-       "who": "both",
+       "who": {
+        "by": [
+         "gof",
+         "caro"
+        ],
+        "with": []
+       },
        "kind": "",
        "icon": "altro"
       }
-     ],
-     "gym": ""
+     ]
     },
     "2026-09-16": {
      "edo": {
-      "m": "caro",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "Partenza Lidia per la Calabria",
-     "extra": [],
-     "gym": ""
+     "extra": []
     },
     "2026-09-17": {
      "edo": {
-      "m": "gof",
-      "p": "gof",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
-     "extra": [],
-     "gym": ""
+     "extra": []
     },
     "2026-09-18": {
      "edo": {
-      "m": "gof",
-      "p": "gof",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
-     "gym": "gof"
+     "gym": {
+      "by": [
+       "gof"
+      ],
+      "with": []
+     }
     },
     "2026-09-19": {
-     "edo": {
-      "m": ""
-     },
-     "bia": {
-      "m": ""
-     },
+     "edo": {},
+     "bia": {},
      "note": "",
      "extra": [
       {
@@ -179,7 +361,13 @@
        "slot": "p",
        "title": "Festa Edoardo (w/ BDN e Giovanni) @ Rocciamelone",
        "time": "15:30",
-       "who": "both",
+       "who": {
+        "by": [
+         "gof",
+         "caro"
+        ],
+        "with": []
+       },
        "kind": "fam",
        "icon": "riunione"
       }
@@ -195,32 +383,101 @@
    "days": {
     "2026-09-21": {
      "edo": {
-      "p": "gof",
-      "m": "caro",
-      "s": "both"
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "p": "gof",
-      "m": "caro",
-      "s": "both"
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
      "t": {
       "bia": "17:30"
      },
-     "gym": "gof"
+     "gym": {
+      "by": [
+       "gof"
+      ],
+      "with": []
+     }
     },
     "2026-09-22": {
      "edo": {
-      "m": "gof",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [
@@ -229,7 +486,12 @@
        "slot": "p",
        "title": "Prova Circo Bianca",
        "time": "17:30",
-       "who": "caro",
+       "who": {
+        "by": [
+         "caro"
+        ],
+        "with": []
+       },
        "kind": "fam",
        "icon": "altro"
       }
@@ -241,32 +503,99 @@
     },
     "2026-09-23": {
      "edo": {
-      "m": "caro",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
-     "gym": "gof",
+     "gym": {
+      "by": [
+       "gof"
+      ],
+      "with": []
+     },
      "t": {
       "edo": "16:30"
      }
     },
     "2026-09-24": {
      "edo": {
-      "m": "gof",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
@@ -276,14 +605,46 @@
     },
     "2026-09-25": {
      "edo": {
-      "p": "caro",
-      "s": "both",
-      "m": "gof"
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      },
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "p": "caro",
-      "s": "both",
-      "m": "gof"
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      },
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
@@ -302,14 +663,45 @@
    "days": {
     "2026-09-28": {
      "edo": {
-      "m": "gof",
-      "p": "caro",
-      "s": "caro"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof",
-      "p": "caro",
-      "s": "both"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
@@ -320,55 +712,152 @@
     },
     "2026-09-29": {
      "edo": {
-      "m": "caro",
-      "p": "baby",
-      "s": "both"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "baby"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "baby",
-      "s": "both"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "baby"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof",
+        "caro"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
-     "gym": "gof"
+     "gym": {
+      "by": [
+       "gof"
+      ],
+      "with": []
+     }
     },
     "2026-09-30": {
      "edo": {
-      "m": "gof"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": []
     },
     "2026-10-01": {
      "edo": {
-      "m": "caro",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "caro",
-      "p": "gof",
-      "s": "gof"
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": []
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      },
+      "s": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": []
     },
     "2026-10-02": {
      "edo": {
-      "m": "gof"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "bia": {
-      "m": "gof"
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": []
+      }
      },
      "note": "",
      "extra": [],
      "t": {
       "edo": "18:00"
      }
+    }
+   }
+  },
+  "2026-10-05": {
+   "days": {
+    "2026-10-05": {
+     "edo": {},
+     "bia": {},
+     "note": "",
+     "extra": []
     }
    }
   }
