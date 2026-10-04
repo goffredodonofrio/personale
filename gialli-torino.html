@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="build" content="20261004204856">
+<script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
+<title>I Gialli di Torino</title>
+<meta name="theme-color" content="#0F1B22">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+
+/* ---------- mappa ---------- */
+.maplibregl-canvas{outline:none}
+.maplibregl-ctrl-attrib{font:11px/1.3 Arial,sans-serif}
+.mapbtns{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(64px + env(safe-area-inset-top));display:flex;flex-direction:column;gap:8px}
+#needle{display:inline-block;transform:rotate(-90deg);color:#E4573D;font-size:16px;transition:transform .1s linear}
+.avm{--s:1;width:44px;height:64px;pointer-events:none}
+.avm .avb{position:absolute;left:50%;bottom:4px;transform:translateX(-50%) scale(var(--s));transform-origin:50% 100%;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.avm .avb svg{display:block}
+.avm .shadow{position:absolute;left:50%;bottom:0;width:calc(26px*var(--s));height:calc(8px*var(--s));transform:translateX(-50%);border-radius:50%;background:rgba(0,0,0,.25)}
+.avm.walk .avb{animation:hop .36s ease-in-out infinite}
+@keyframes hop{50%{transform:translateX(-50%) translateY(calc(-4px*var(--s))) scale(var(--s))}}
+.avm .bike{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%) scale(var(--s));font-size:26px;display:none}
+.avm.onbike .bike{display:block}.avm.onbike .avb{bottom:calc(16px*var(--s))}
+.avm.lead::before{content:"";position:absolute;left:50%;bottom:-6px;width:calc(40px*var(--s));height:calc(14px*var(--s));transform:translateX(-50%);border-radius:50%;background:rgba(47,128,237,.28);box-shadow:0 0 0 2px rgba(47,128,237,.6)}
+.avm.away{opacity:0}
+.pin{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.pin .pd{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;background:#9AA3A0;box-shadow:0 4px 10px rgba(0,0,0,.3);border:2px solid #fff}
+.pin .pd span{transform:rotate(45deg);font:800 14px/1 var(--display);color:#fff}
+.pin.cur .pd{width:46px;height:46px;background:var(--gold);animation:pinb 1.2s ease-in-out infinite}
+.pin.cur .pd span{color:var(--ink);font-size:20px}
+.pin.done .pd{background:var(--ok)}
+@keyframes pinb{50%{transform:rotate(-45deg) translate(3px,-3px)}}
+.pin b{margin-top:4px;padding:3px 8px;border-radius:999px;background:#fff;color:var(--ink);font:800 11.5px/1.2 var(--display);box-shadow:0 2px 6px rgba(0,0,0,.25);white-space:nowrap}
+.pin.todo b{display:none}
+.stopm{display:none;align-items:center;gap:5px;padding:3px 8px 3px 3px;border-radius:999px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);font:800 11px/1 var(--display);color:#1F2A26;white-space:nowrap;cursor:pointer}
+.stopm i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#E07A2C;font-size:13px}
+body.mode-mezzi .stopm{display:flex}
+.vehm{font-size:30px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+body.riding #modes,body.riding #stopInfo,body.riding .acts,body.riding #joy,body.riding .hint{display:none!important}
+.ridebanner{position:absolute;left:50%;top:calc(76px + env(safe-area-inset-top));transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--gold);font:800 15px/1.2 var(--display);box-shadow:0 12px 30px rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
+#card{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;pointer-events:none}
+.sheet{pointer-events:auto;width:min(100%,560px);background:var(--paper);color:var(--ink);border-radius:22px 22px 0 0;padding:10px max(16px,env(safe-area-inset-left)) calc(16px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px rgba(0,0,0,.3);animation:up .4s var(--eo) both}
+.sheet .grab{width:40px;height:5px;border-radius:3px;background:#D8CFB6;margin:0 auto 10px}
+.sheet .kick2{font:800 11.5px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--brick)}
+.sheet h3{margin:6px 0 4px;font:800 26px/1.05 var(--display);letter-spacing:-.02em}
+.sheet .addr{font:700 13.5px/1.3 var(--display);color:var(--muted)}
+.sheet p{margin:8px 0 12px;font:400 15px/1.5 var(--serif)}
+.sheet .btns{display:flex;gap:8px;flex-wrap:wrap}
+.sheet .btns button{border:0;border-radius:999px;padding:11px 15px;font:800 14px/1 var(--display);background:var(--paper2);color:var(--ink)}
+.sheet .btns .pri{background:#1A73E8;color:#fff}
+.sheet .btns .gold{background:var(--gold)}
+#fw{position:fixed;inset:0;z-index:38;pointer-events:none;width:100%;height:100%}
+/* Layout: il gioco occupa tutto lo schermo; sopra, pannelli di carta come fascicoli di un detective, nei colori della famiglia */
+:root{
+  --night:#0F1B22; --night2:#172A33; --paper:#F7F1E1; --paper2:#EDE4CC; --ink:#1F2A26; --muted:#6A7570;
+  --gold:#F2B632; --brick:#B4532A; --ok:#5FA57A; --bad:#E4573D; --cream:#F4EEDC;
+  --display:"Bricolage Grotesque","Avenir Next",Arial,sans-serif; --serif:"Literata",Georgia,serif;
+  --eo:cubic-bezier(.16,1,.3,1); --eb:cubic-bezier(.34,1.56,.64,1);
+  color-scheme:dark;
+}
+html,body{height:100%;margin:0;background:var(--night);color:var(--cream);overflow:hidden;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+body{font:400 16px/1.5 var(--serif)}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+#stage{position:fixed;inset:0;touch-action:none}
+#stage canvas{display:block;width:100%;height:100%}
+.hidden{display:none!important}
+
+/* ---------- schermata iniziale ---------- */
+#start{position:fixed;inset:0;z-index:50;overflow-y:auto;-webkit-overflow-scrolling:touch;background:radial-gradient(120% 80% at 80% 0%,rgba(242,182,50,.16),transparent 60%),linear-gradient(180deg,rgba(15,27,34,.55),rgba(15,27,34,.92) 60%);padding:calc(24px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+.sw{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.kick{font:800 12px/1 var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0}
+#start h1{font:800 clamp(48px,10vw,104px)/.9 var(--display);letter-spacing:-.04em;margin:8px 0 0;text-wrap:balance}
+#start h1 em{font-style:normal;color:var(--gold);display:block}
+.lede{font:italic 400 clamp(16px,2.2vw,19px)/1.55 var(--serif);color:rgba(244,238,220,.82);max-width:60ch;margin:0}
+.pick-h{font:800 15px/1.2 var(--display);margin:6px 0 -6px}
+.players{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.players{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pl{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 10px 14px;border:0;border-radius:22px;background:var(--paper);color:var(--ink);box-shadow:0 18px 40px rgba(0,0,0,.35),inset 0 -4px 0 rgba(0,0,0,.08);transition:transform .35s var(--eb),box-shadow .3s}
+.pl:hover,.pl:focus-visible{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 24px 50px rgba(0,0,0,.45),inset 0 0 0 3px var(--c)}
+.pl:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.pl .av{height:118px;display:flex;align-items:flex-end}
+.pl .av svg{height:100%;width:auto}
+.pl .age{font:800 46px/1 var(--display);letter-spacing:-.03em;color:var(--c)}
+.pl .age small{font-size:15px;letter-spacing:0;margin-left:3px;color:var(--muted)}
+.pl .nm{font:800 17px/1 var(--display)}
+.pl .lv{font:italic 400 13px/1.3 var(--serif);color:var(--muted);text-align:center}
+.pl .prog{display:flex;gap:3px;margin-top:4px}
+.pl .prog i{width:9px;height:9px;border-radius:2px;background:#DCD3BA}
+.pl .prog i.on{background:var(--c)}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.how{grid-template-columns:1fr}}
+.how div{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.how b{display:block;font:800 14px/1.2 var(--display);color:var(--gold);margin-bottom:4px}
+.how p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(244,238,220,.8)}
+.loading{font:700 13px/1 var(--display);color:rgba(244,238,220,.6)}
+
+/* ---------- HUD ---------- */
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+#hud>*{pointer-events:auto}
+.bar{position:absolute;top:calc(10px + env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));display:flex;gap:8px;align-items:flex-start;pointer-events:none}
+.bar>*{pointer-events:auto}
+.chip{min-width:0;display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(15,27,34,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.chip .f{width:40px;height:40px;border-radius:50%;background:var(--c);overflow:hidden;display:grid;place-items:end center}
+.chip .f svg{width:40px;height:40px}
+.chip b{font:800 14px/1.1 var(--display);display:block}
+.chip small{font:700 11.5px/1 var(--display);color:rgba(244,238,220,.7)}
+.dots{display:flex;gap:3px;margin-top:4px}
+.dots i{width:10px;height:10px;border-radius:3px;background:rgba(255,255,255,.18)}
+.dots i.on{background:var(--gold)}
+.dots i.cur{box-shadow:0 0 0 2px var(--gold);background:transparent}
+.target{flex:1;min-width:0;max-width:340px;margin-left:auto;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:16px;background:rgba(15,27,34,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);max-width:46vw}
+.target .arr{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font:900 16px/1 Arial,sans-serif;transition:transform .15s linear}
+.target b{font:800 13.5px/1.15 var(--display);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.target small{font:700 11.5px/1 var(--display);color:rgba(244,238,220,.7)}
+.ibtn{width:42px;height:42px;border-radius:50%;border:0;background:rgba(15,27,34,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:17px;display:grid;place-items:center;flex:none}
+#mini{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(64px + env(safe-area-inset-top));width:150px;height:150px;border-radius:18px;background:rgba(15,27,34,.82);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+@media (max-width:600px){.chip small{display:none}.chip{padding-right:10px;gap:8px}.chip .f,.chip .f svg{width:34px;height:34px}.chip b{font-size:12.5px}.dots i{width:7px;height:7px;border-radius:2px}.target{padding:6px 10px 6px 6px;gap:8px}.target .arr{width:26px;height:26px}.target b{font-size:12px}.target small{font-size:10.5px}.ibtn{width:38px;height:38px;font-size:15px}.bar{gap:6px}}
+@media (max-width:420px){.chip > span:last-child > b{display:none}}
+#joy{position:absolute;left:calc(18px + env(safe-area-inset-left));bottom:calc(22px + env(safe-area-inset-bottom));width:132px;height:132px;border-radius:50%;background:rgba(15,27,34,.45);box-shadow:inset 0 0 0 2px rgba(244,238,220,.22);touch-action:none}
+#joy i{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(244,238,220,.85);box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.acts{position:absolute;right:max(16px,env(safe-area-inset-right));bottom:calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.big{border:0;border-radius:999px;padding:16px 22px;font:800 17px/1 var(--display);background:var(--gold);color:var(--ink);box-shadow:0 12px 30px rgba(242,182,50,.35),inset 0 -4px 0 rgba(0,0,0,.14);animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.taxi{border:0;border-radius:999px;padding:11px 16px;font:800 13.5px/1 var(--display);background:rgba(15,27,34,.82);color:var(--cream);box-shadow:inset 0 0 0 1.5px rgba(244,238,220,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.hint{position:absolute;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translateX(-50%);font:700 13px/1.3 var(--display);color:rgba(244,238,220,.75);text-align:center;pointer-events:none;width:min(60vw,420px);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+@media (max-width:700px){.hint{display:none}}
+@media (hover:hover) and (pointer:fine){#joy{display:none}}
+
+/* ---------- fascicolo del caso ---------- */
+#case{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;background:rgba(8,14,18,.55);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+@media (min-width:760px){#case{align-items:center}}
+.file{position:relative;width:min(100%,720px);max-height:calc(100dvh - 20px - env(safe-area-inset-top));overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--paper);color:var(--ink);border-radius:26px 26px 0 0;padding:20px max(18px,env(safe-area-inset-left)) calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.45);animation:up .5s var(--eo) both}
+@media (min-width:760px){.file{border-radius:26px;padding:26px 28px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.file::before{content:"";position:absolute;top:0;left:28px;width:110px;height:8px;border-radius:0 0 8px 8px;background:var(--brick)}
+.fh{display:flex;align-items:flex-start;gap:12px}
+.fh .stamp{flex:none;font:800 11px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--brick);border:2px solid var(--brick);border-radius:6px;padding:6px 8px;transform:rotate(-4deg);margin-top:4px}
+.fh .t{flex:1;min-width:0}
+.fh .pl2{font:800 11.5px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.fh h2{font:800 clamp(26px,5vw,36px)/1.02 var(--display);letter-spacing:-.02em;margin:6px 0 0;text-wrap:balance}
+.close{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:var(--paper2);font:800 16px/1 var(--display);color:var(--ink)}
+.story{display:flex;gap:12px;align-items:flex-start;margin:14px 0 0}
+.story p{margin:0;font:400 16.5px/1.55 var(--serif)}
+.say{flex:none;border:0;border-radius:999px;background:var(--ink);color:var(--gold);font:800 13px/1 var(--display);padding:9px 12px;white-space:nowrap}
+.sec{font:800 11.5px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+.clues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.clues{grid-template-columns:1fr}}
+.clue{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--paper2);min-height:56px}
+.clue .e{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:22px;background:#fff}
+.clue span{font:600 13.5px/1.3 var(--serif)}
+.clue.lock{background:repeating-linear-gradient(-45deg,#E6DCC1 0 8px,#EDE4CC 8px 16px);color:#9a927d}
+.clue.lock .e{background:transparent;font:800 18px/1 var(--display);color:#9a927d}
+.clue.new{animation:pop .6s var(--eb)}
+@keyframes pop{0%{transform:scale(.8)}}
+.q{margin-top:6px;padding:16px;border-radius:18px;background:#fff;box-shadow:0 0 0 1.5px #E6DCC1}
+.q h3{margin:0 0 12px;font:700 19px/1.35 var(--display);text-wrap:balance}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:420px){.opts.txt{grid-template-columns:1fr}}
+.opt{border:0;border-radius:14px;padding:14px 12px;min-height:54px;background:var(--paper2);color:var(--ink);font:700 15.5px/1.25 var(--display);text-align:left;transition:transform .25s var(--eb),background .2s}
+.opt:hover{transform:translateY(-2px);background:#E6DCC1}
+.opt:focus-visible{outline:3px solid var(--gold)}
+.opt.emo{font-size:52px;line-height:1;text-align:center;padding:16px 8px;min-height:96px}
+.opt.right{background:var(--ok);color:#fff}
+.opt.wrong{background:var(--bad);color:#fff;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{margin:10px 2px 0;font:700 14px/1.4 var(--display);min-height:20px}
+.fb.ok{color:#2f7a4d}.fb.no{color:#b42318}
+.sus{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.su{border:0;border-radius:16px;padding:14px 8px;background:var(--paper2);display:flex;flex-direction:column;align-items:center;gap:6px;font:700 14px/1.2 var(--display);color:var(--ink);text-align:center;transition:transform .25s var(--eb)}
+.su .e{font-size:44px;line-height:1}
+.su:disabled{cursor:default}
+.su.pickable:hover{transform:translateY(-3px);background:#E6DCC1}
+.su.right{background:var(--ok);color:#fff}
+.su.wrong{background:var(--bad);color:#fff;animation:shake .4s}
+.solved{margin-top:14px;padding:16px;border-radius:18px;background:var(--ink);color:var(--cream)}
+.solved b{display:block;font:800 22px/1.1 var(--display);color:var(--gold);margin-bottom:6px}
+.solved p{margin:0 0 12px;font:400 16px/1.55 var(--serif)}
+.go{border:0;border-radius:999px;padding:14px 20px;font:800 16px/1 var(--display);background:var(--gold);color:var(--ink);min-height:48px}
+
+/* ---------- finale ---------- */
+#final{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));background:radial-gradient(80% 60% at 50% 30%,rgba(242,182,50,.18),rgba(8,14,18,.55))}
+.diploma{width:min(100%,560px);max-height:100%;overflow-y:auto;background:var(--paper);color:var(--ink);border-radius:8px;padding:28px 26px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 10px #fff,inset 0 0 0 12px var(--gold);animation:up .8s var(--eo) both}
+.diploma .kick{color:var(--brick)}
+.diploma h2{font:800 clamp(30px,7vw,46px)/1 var(--display);letter-spacing:-.03em;margin:10px 0 6px}
+.diploma .who{height:150px;display:flex;justify-content:center;align-items:flex-end;margin:12px 0}
+.diploma .who svg{height:100%;width:auto}
+.diploma p{margin:0 auto 14px;max-width:44ch;font:400 16px/1.55 var(--serif)}
+.diploma .seal{display:inline-flex;align-items:center;gap:8px;font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--brick);margin-bottom:16px}
+.diploma .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.diploma .ghost{border:0;border-radius:999px;padding:14px 20px;font:800 15px/1 var(--display);background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px #CFC5A8}
+
+#toast{position:fixed;left:50%;top:calc(112px + env(safe-area-inset-top));transform:translate(-50%,-12px);opacity:0;z-index:60;padding:11px 16px;border-radius:999px;background:var(--ink);color:var(--cream);font:700 14px/1.2 var(--display);box-shadow:0 12px 30px rgba(0,0,0,.4);transition:opacity .3s,transform .4s var(--eo);pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#fade{position:fixed;inset:0;z-index:45;background:var(--night);opacity:0;pointer-events:none;transition:opacity .45s}
+#fade.on{opacity:1}
+#err{position:fixed;inset:auto 16px calc(16px + env(safe-area-inset-bottom));z-index:70;padding:12px 14px;border-radius:14px;background:var(--bad);color:#fff;font:700 14px/1.4 var(--display)}
+
+/* ---------- menu ---------- */
+.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:640px}
+@media (max-width:560px){.menu{grid-template-columns:1fr}}
+.mbtn{display:flex;align-items:center;gap:14px;padding:14px 16px;border:0;border-radius:18px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12);color:var(--cream);text-align:left;transition:transform .3s var(--eb),background .2s}
+.mbtn:hover,.mbtn:focus-visible{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.mbtn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.mbtn .ic{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.1);font:800 20px/1 var(--display);overflow:hidden}
+.mbtn .ic svg{width:44px;height:44px}
+.mbtn b{display:block;font:800 18px/1.1 var(--display)}
+.mbtn small{display:block;font:italic 400 13.5px/1.3 var(--serif);color:rgba(244,238,220,.72);margin-top:3px}
+.mbtn.pri{background:var(--gold);color:var(--ink);box-shadow:0 14px 34px rgba(242,182,50,.3),inset 0 -4px 0 rgba(0,0,0,.12)}
+.mbtn.pri .ic{background:var(--ink);color:var(--gold)}
+.mbtn.pri small{color:rgba(31,42,38,.75)}
+.shead{display:flex;align-items:center;gap:14px}
+.shead h2{margin:0;font:800 clamp(30px,6vw,48px)/1 var(--display);letter-spacing:-.03em}
+.back{flex:none;border:0;border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);font:800 14px/1 var(--display);color:var(--cream)}
+.stage{display:flex;align-items:center;gap:10px}
+.arrow{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18);font:800 32px/1 var(--display);color:var(--cream);display:grid;place-items:center;padding-bottom:4px}
+.arrow:hover{background:rgba(255,255,255,.18)}
+.selcard{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:end;gap:10px 24px;padding:22px 24px 20px;border-radius:28px;background:radial-gradient(70% 70% at 30% 75%,color-mix(in srgb,var(--c) 38%,transparent),transparent 70%),var(--paper);color:var(--ink);box-shadow:0 26px 60px rgba(0,0,0,.4);touch-action:pan-y;animation:swap .45s var(--eo)}
+@keyframes swap{from{opacity:.3;transform:translateX(var(--dx,0)) scale(.98)}}
+.selcard .big-av{grid-row:span 4;height:230px;display:flex;justify-content:center;align-items:flex-end;position:relative}
+.selcard .big-av::after{content:"";position:absolute;left:12%;right:12%;bottom:-6px;height:16px;border-radius:50%;background:rgba(0,0,0,.14)}
+.selcard .big-av svg{height:100%;width:auto;position:relative;z-index:1}
+.selcard .snm{font:800 clamp(34px,6vw,52px)/.95 var(--display);letter-spacing:-.03em}
+.selcard .sage{font:800 20px/1 var(--display);color:var(--c)}
+.selcard .slv{font:italic 400 15.5px/1.45 var(--serif);color:var(--muted)}
+.selcard .sprog{display:flex;flex-direction:column;gap:6px;font:700 13px/1.3 var(--display);color:var(--muted)}
+.selcard .bar10{display:flex;gap:4px}.selcard .bar10 i{flex:1;height:10px;border-radius:3px;background:#DCD3BA}.selcard .bar10 i.on{background:var(--c)}
+@media (max-width:620px){.selcard{grid-template-columns:1fr;text-align:center;padding:16px}.selcard .big-av{grid-row:auto;height:170px}.arrow{width:42px;height:42px;font-size:26px}.stage{gap:6px}}
+.thumbs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.thumb{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border:0;border-radius:999px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12);color:var(--cream);font:800 14px/1 var(--display)}
+.thumb .tf{width:38px;height:38px;border-radius:50%;background:var(--c);display:grid;place-items:end center;overflow:hidden}
+.thumb .tf svg{width:38px;height:38px}
+.thumb small{font-weight:700;opacity:.7;margin-left:2px}
+.thumb.on{background:var(--cream);color:var(--ink);box-shadow:0 0 0 3px var(--c)}
+.startbtn{align-self:center;border:0;border-radius:999px;padding:17px 28px;font:800 18px/1 var(--display);background:var(--gold);color:var(--ink);box-shadow:0 14px 34px rgba(242,182,50,.3),inset 0 -4px 0 rgba(0,0,0,.12);min-height:56px}
+.startbtn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.vpanel{display:flex;flex-direction:column;gap:12px;max-width:520px;padding:20px;border-radius:22px;background:var(--paper);color:var(--ink)}
+.vlab{font:800 11.5px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#vSel{font:600 16px/1.2 var(--display);padding:12px;border-radius:12px;border:0;background:var(--paper2);color:var(--ink)}
+.vseg{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--paper2)}
+.vseg button{flex:1;border:0;border-radius:10px;padding:12px 6px;background:transparent;font:800 14px/1 var(--display);color:var(--muted)}
+.vseg button.on{background:var(--ink);color:var(--gold)}
+.vpanel .startbtn{align-self:flex-start}
+.vnote{margin:0;font:400 14.5px/1.5 var(--serif);color:var(--muted)}
+
+/* ---------- modi di muoversi e mezzi ---------- */
+.modes{position:absolute;left:max(10px,env(safe-area-inset-left));top:calc(70px + env(safe-area-inset-top));display:flex;gap:3px;padding:4px;border-radius:999px;background:rgba(15,27,34,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.modes button{border:0;border-radius:999px;padding:8px 12px;background:transparent;color:var(--cream);font:800 13px/1 var(--display);display:flex;align-items:center;gap:6px;font-size:16px}
+.modes button span{font-size:13px}
+.modes button.on{background:var(--gold);color:var(--ink)}
+@media (max-width:600px){.modes{top:calc(60px + env(safe-area-inset-top))}.modes button{padding:8px 10px}.modes button:not(.on) span{display:none}}
+.stopinfo{position:absolute;left:max(10px,env(safe-area-inset-left));top:calc(118px + env(safe-area-inset-top));padding:8px 12px;border-radius:14px;background:rgba(15,27,34,.8);font:700 12.5px/1.3 var(--display);color:var(--cream);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);max-width:60vw}
+.stopinfo b{color:#7FC3F0}
+.big.blue{background:#3E86B0;color:#fff;box-shadow:0 12px 30px rgba(62,134,176,.4),inset 0 -4px 0 rgba(0,0,0,.18)}
+#ride{position:fixed;inset:0;z-index:35;display:flex;align-items:center;justify-content:center;padding:calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));background:rgba(8,14,18,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.ridebox{width:min(100%,620px);max-height:100%;overflow-y:auto;background:var(--paper);color:var(--ink);border-radius:24px;padding:18px;box-shadow:0 30px 70px rgba(0,0,0,.5);animation:up .45s var(--eo) both}
+.ridebox h3{margin:0 0 4px;font:800 26px/1.1 var(--display)}
+.ridebox .rsub{margin:0 0 12px;font:italic 400 15px/1.4 var(--serif);color:var(--muted)}
+.dest{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:16px;padding:12px 14px;margin-bottom:8px;background:var(--paper2);color:var(--ink);text-align:left;transition:transform .25s var(--eb)}
+.dest:hover{transform:translateX(3px)}
+.dest .vi{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:24px;background:#fff}
+.dest b{display:block;font:800 16px/1.2 var(--display)}
+.dest small{display:block;font:700 12.5px/1.3 var(--display);color:var(--muted)}
+.dest.next{background:var(--gold);box-shadow:0 10px 24px rgba(242,182,50,.35)}
+.dest.next small{color:rgba(31,42,38,.75)}
+.dest.reading{outline:3px solid var(--ink)}
+.ridemap{width:100%;aspect-ratio:1;max-height:56vh;display:block;margin:0 auto;border-radius:16px;background:#26332E}
+.ann{margin:12px 0 0;padding:12px 14px;border-radius:14px;background:var(--ink);color:var(--gold);font:800 16px/1.3 var(--display);display:flex;gap:10px;align-items:center}
+.ann .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);animation:pulse2 1s infinite}
+@keyframes pulse2{50%{opacity:.25}}
+.rclose{float:right;width:38px;height:38px;border-radius:50%;border:0;background:var(--paper2);font:800 16px/1 var(--display);color:var(--ink)}
+
+/* ---------- lettura evidenziata ---------- */
+.sn{transition:background .2s,box-shadow .2s;border-radius:4px}
+.sn.reading,.q h3.reading{background:rgba(242,182,50,.38);box-shadow:0 0 0 3px rgba(242,182,50,.38)}
+.opt.reading{box-shadow:0 0 0 4px var(--gold),0 10px 24px rgba(242,182,50,.35);transform:translateY(-3px) scale(1.03)}
+.opt .L{display:inline-grid;place-items:center;width:24px;height:24px;margin-right:8px;border-radius:7px;background:rgba(0,0,0,.08);font:800 12.5px/1 var(--display);vertical-align:1px}
+.opt.right .L,.opt.wrong .L{background:rgba(255,255,255,.25)}
+.su.reading{box-shadow:0 0 0 4px var(--gold)}
+
+/* ---------- mappa Google e Street View ---------- */
+.view{position:fixed;inset:0}
+.fill{width:100%;height:100%}
+.gm-style .gm-style-iw{font-family:var(--display)}
+.mapbtns{position:absolute;right:max(10px,env(safe-area-inset-right));top:calc(64px + env(safe-area-inset-top));display:flex;flex-direction:column;gap:8px}
+.svhint{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(15,27,34,.85);color:var(--cream);font:700 14px/1.3 var(--display);box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:calc(100vw - 32px);text-align:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.svhint b{color:var(--gold)}
+.ridebanner{position:absolute;left:50%;top:calc(76px + env(safe-area-inset-top));transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--gold);font:800 15px/1.2 var(--display);box-shadow:0 12px 30px rgba(0,0,0,.35);max-width:calc(100vw - 32px)}
+#card{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;pointer-events:none}
+.sheet{pointer-events:auto;width:min(100%,560px);max-height:72dvh;overflow-y:auto;background:var(--paper);color:var(--ink);border-radius:22px 22px 0 0;padding:10px max(16px,env(safe-area-inset-left)) calc(16px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px rgba(0,0,0,.3);animation:up .4s var(--eo) both}
+.sheet .grab{width:40px;height:5px;border-radius:3px;background:#D8CFB6;margin:0 auto 10px}
+.sheet .kick2{font:800 11.5px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--brick)}
+.sheet h3{margin:6px 0 4px;font:800 26px/1.05 var(--display);letter-spacing:-.02em}
+.sheet .addr{font:700 13.5px/1.3 var(--display);color:var(--muted)}
+.sheet p{margin:8px 0 12px;font:400 15px/1.5 var(--serif)}
+.travel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
+.tmode{border:0;border-radius:16px;padding:12px 6px 10px;background:var(--paper2);color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .25s var(--eb)}
+.tmode:hover{transform:translateY(-2px)}
+.tmode .e{font-size:30px;line-height:1}
+.tmode b{font:800 14px/1.1 var(--display)}
+.tmode small{font:700 12px/1.25 var(--display);color:var(--muted);text-align:center}
+.tmode.reading{box-shadow:0 0 0 3px var(--gold)}
+.sheet .row2{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sheet .row2 button{border:0;border-radius:999px;padding:11px 15px;font:800 14px/1 var(--display);background:var(--paper2);color:var(--ink)}
+#fw{position:fixed;inset:0;z-index:38;pointer-events:none;width:100%;height:100%}
+#case.peek{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.found{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 12px;border-radius:999px;background:var(--ok);color:#fff;font:800 14px/1 var(--display)}
+.attract-note{position:fixed;left:0;right:0;bottom:0;height:40%;background:linear-gradient(transparent,rgba(15,27,34,.9));pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="stage"></div>
+
+<section id="start" aria-label="Menu del gioco">
+  <!-- 1. titolo -->
+  <div class="sw" id="scrTitle">
+    <a class="back" href="famiglia.html" style="align-self:flex-start;text-decoration:none">← Famiglia</a>
+    <div>
+      <p class="kick">Un'avventura della famiglia · Torino</p>
+      <h1>I Gialli <em>di Torino</em></h1>
+    </div>
+    <p class="lede">Dieci misteri irrisolti tra Piazza Castello e la collina di Superga. Si gira nelle strade vere, a piedi, in bici o con i mezzi: ogni risposta giusta è un indizio, tre indizi smascherano il colpevole. Solo chi risolve tutti e dieci i gialli arriva al premio finale.</p>
+    <nav class="menu" aria-label="Menu">
+      <button type="button" class="mbtn pri" id="mPlay"><span class="ic">▶</span><span><b>Gioca</b><small>Scegli il detective</small></span></button>
+      <button type="button" class="mbtn hidden" id="mCont"><span class="ic" id="mContFace"></span><span><b id="mContT">Continua</b><small id="mContS"></small></span></button>
+      <button type="button" class="mbtn" id="mVoice"><span class="ic">🔊</span><span><b>La voce</b><small>Scegli chi legge e quanto veloce</small></span></button>
+      <button type="button" class="mbtn" id="mHow"><span class="ic">?</span><span><b>Come si gioca</b><small>Muoversi, indizi, colpevole</small></span></button>
+    </nav>
+    <div class="how hidden" id="howBox">
+      <div><b>Viaggia per Torino</b><p>Sulla mappa scegli come andare al prossimo giallo: a piedi, in bici o con i mezzi. Il viaggio dura pochi secondi, poi sei dentro le strade vere di Torino.</p></div>
+      <div><b>Cerca gli indizi</b><p>Nelle foto delle strade sono nascoste tre lenti 🔍: girati, fai qualche passo e toccale. Ogni lente è una domanda adatta alla tua età.</p></div>
+      <div><b>Smaschera il colpevole</b><p>Con tre indizi scegli chi è stato. Si può sbagliare e riprovare: un detective non si arrende mai.</p></div>
+    </div>
+    <p class="loading" id="loading">Costruisco Torino, blocco dopo blocco…</p>
+  </div>
+  <!-- 2. scelta del detective -->
+  <div class="sw hidden" id="scrSelect">
+    <div class="shead"><button type="button" class="back" id="selBack">← Menu</button><h2>Chi gioca?</h2></div>
+    <div class="stage" id="stage2">
+      <button type="button" class="arrow" id="selPrev" aria-label="Detective precedente">‹</button>
+      <div class="selcard" id="selCard"></div>
+      <button type="button" class="arrow" id="selNext" aria-label="Detective successivo">›</button>
+    </div>
+    <div class="thumbs" id="thumbs" role="tablist" aria-label="Detective"></div>
+    <button type="button" class="startbtn" id="selGo">Inizia l'indagine →</button>
+  </div>
+  <!-- 3. la voce -->
+  <div class="sw hidden" id="scrVoice">
+    <div class="shead"><button type="button" class="back" id="vBack">← Menu</button><h2>La voce che legge</h2></div>
+    <div class="vpanel">
+      <label class="vlab" for="vSel">Voce italiana</label>
+      <select id="vSel"></select>
+      <span class="vlab">Velocità</span>
+      <div class="vseg" id="vRate"><button type="button" data-r=".82">Lenta</button><button type="button" data-r=".95">Normale</button><button type="button" data-r="1.08">Svelta</button></div>
+      <button type="button" class="startbtn" id="vTest">▶ Prova la voce</button>
+      <p class="vnote" id="vNote"></p>
+    </div>
+  </div>
+</section>
+
+</head>
+<body>
+<div id="gmapW" class="view"><div id="gmap" class="fill"></div></div>
+<div id="panoW" class="view hidden"><div id="pano" class="fill"></div></div>
+<div id="hud" class="hidden">
+  <div class="bar">
+    <div class="chip" id="me"></div>
+    <div class="target" id="target"><span class="arr" id="arr">🔍</span><span><b id="tName">—</b><small id="tDist"></small></span></div>
+    <button type="button" class="ibtn" id="voice" title="Voce che legge le domande" aria-label="Voce">🔊</button>
+    <button type="button" class="ibtn" id="menu" title="Cambia detective" aria-label="Menu">☰</button>
+  </div>
+  <div class="mapbtns"><button type="button" class="ibtn" id="toMap" title="Mappa di Torino" aria-label="Mappa">🗺️</button><button type="button" class="ibtn hidden" id="helpBtn" title="Girati verso un indizio" aria-label="Aiuto">🧭</button></div>
+  <div class="svhint hidden" id="svHint"></div>
+  <div class="ridebanner hidden" id="rideBanner"></div>
+</div>
+<section id="card" class="hidden" aria-live="polite"><div class="sheet" id="sheet"></div></section>
+<canvas id="fw" aria-hidden="true"></canvas>
+<section id="ride" class="hidden" role="dialog" aria-modal="true"><div class="ridebox" id="rideBox"></div></section>
+<section id="case" class="hidden" aria-modal="true" role="dialog"><div class="file" id="file"></div></section>
+<section id="final" class="hidden" role="dialog" aria-modal="true"><div class="diploma" id="diploma"></div></section>
+<div id="fade"></div>
+<div id="toast" role="status"></div>
+
+<script>
+// ===================== DATI: i 10 gialli e le domande =====================
+// Coordinate del mondo: x verso est, z verso sud, 1 unità = 1 blocco (pianta schematica, non in scala)
+window.CASES = [
+  {id:'castello', place:'Piazza Castello', sub:'Palazzo Reale e Palazzo Madama', x:-4, z:16,
+   title:'La corona sparita',
+   story:'Stamattina la corona del Re non era più sul suo cuscino di velluto rosso, a Palazzo Reale. Le guardie non hanno visto nessuno uscire. Trova gli indizi e scopri chi l\'ha presa.',
+   clues:[['👣','Impronte bianche di farina sul pavimento lucido'],['🎂','Un profumo di torta appena sfornata nel corridoio'],['🧑‍🍳','Un cappello alto e bianco dimenticato vicino al trono']],
+   suspects:[['💂','La guardia'],['🧑‍🍳','Il cuoco di corte'],['🧹','La donna delle pulizie']], culprit:1,
+   end:'Era il cuoco di corte! Ha preso in prestito la corona per decorare la torta del compleanno del Re. Restituita, con un po\' di panna sopra.'},
+  {id:'egizio', place:'Museo Egizio', sub:'Via Accademia delle Scienze', x:14, z:24,
+   title:'Lo scarabeo d\'oro',
+   story:'Al Museo Egizio, il più importante del mondo dopo quello del Cairo, è sparito lo scarabeo d\'oro di un faraone. La vetrina era chiusa, ma qualcosa di piccolo è passato dalla fessura.',
+   clues:[['🐾','Piccole impronte morbide sulla polvere della vetrina'],['🥛','Una ciotola di latte vuota dietro una mummia'],['〰️','Peli grigi e lunghi impigliati nella fessura']],
+   suspects:[['👩‍🔬','L\'archeologa'],['🧒','Il bambino in gita'],['🐈','Il gatto del museo']], culprit:2,
+   end:'Il gatto del museo! Gli antichi Egizi amavano i gatti, e lui ama le cose che luccicano. Lo scarabeo era nella sua cuccia.'},
+  {id:'sancarlo', place:'Piazza San Carlo', sub:'Il salotto di Torino', x:-4, z:41,
+   title:'La sciarpa sul cavallo di bronzo',
+   story:'Ogni mattina la statua del cavallo di bronzo in Piazza San Carlo ha una sciarpa nuova al collo. Chi sale fin lassù di notte, senza farsi vedere?',
+   clues:[['🧶','Fili di lana colorata sul basamento della statua'],['🪡','Un ferro da maglia caduto tra i sampietrini'],['🪜','Una scaletta pieghevole nascosta sotto i portici']],
+   suspects:[['🐦','Il piccione'],['👵','La nonna sferruzzante'],['🌬️','Il vento']], culprit:1,
+   end:'La nonna sferruzzante! Pensava che il cavallo avesse freddo, e gli fa una sciarpa ogni notte. Ora le sciarpe vanno ai bambini del quartiere.'},
+  {id:'mole', place:'Mole Antonelliana', sub:'Museo Nazionale del Cinema', x:42, z:-12,
+   title:'La pellicola scomparsa',
+   story:'Dentro la Mole, nel Museo del Cinema, è sparita la pellicola del film più famoso del museo. Stasera c\'era la proiezione e la sala è piena!',
+   clues:[['🍿','Briciole di popcorn lungo la rampa a spirale'],['🧈','Impronte unte di burro sulla scatola della pellicola'],['🛍️','Un sacchetto a righe rosse e bianche sotto una poltrona']],
+   suspects:[['🎬','La regista'],['🍿','Il venditore di popcorn'],['🕴️','Il guardiano notturno']], culprit:1,
+   end:'Il venditore di popcorn! Lavora sempre durante i film e non ne ha mai visto uno intero. Ora ha un posto in prima fila.'},
+  {id:'portapalazzo', place:'Porta Palazzo', sub:'Il mercato all\'aperto più grande d\'Europa', x:-18, z:-45,
+   title:'Il ladro di gianduiotti',
+   story:'Al mercato di Porta Palazzo spariscono i gianduiotti, i cioccolatini di Torino fatti con le nocciole. Ogni giorno ne mancano un po\' dal banco del cioccolataio.',
+   clues:[['🌰','Gusci di nocciola sparsi sotto il banco'],['🌳','Graffi piccoli sul tronco dell\'albero vicino'],['🪶','Una coda morbida e rossiccia vista sul tendone']],
+   suspects:[['🧑‍🌾','Il fruttivendolo'],['🐿️','Lo scoiattolo'],['🍫','Il cioccolataio']], culprit:1,
+   end:'Lo scoiattolo! I gianduiotti sono fatti con le nocciole, e lui non ha resistito. Adesso il cioccolataio gli lascia una nocciola ogni mattina.'},
+  {id:'murazzi', place:'Murazzi del Po', sub:'Gli archi lungo il fiume', x:84, z:28,
+   title:'La barca senza remi',
+   story:'Ai Murazzi del Po i canottieri hanno trovato le barche senza remi. Nessuno ha sentito rumori, ma qualcuno ha lavorato tutta la notte.',
+   clues:[['🦷','Segni di denti grandi sul legno dei remi'],['🪵','Mucchi di rametti lungo la riva'],['🌊','Una piccola diga nuova in mezzo al fiume']],
+   suspects:[['🚣','Il canottiere'],['🎣','Il pescatore'],['🦫','Il castoro']], culprit:2,
+   end:'Il castoro! Ha usato i remi per costruire la sua diga. I canottieri gli hanno portato dei rami, e lui ha restituito i remi.'},
+  {id:'granmadre', place:'Gran Madre di Dio', sub:'Il tempio oltre il Po', x:105, z:18,
+   title:'La mappa del Graal',
+   story:'Una leggenda dice che una statua della Gran Madre guarda verso il posto dove è nascosto il Santo Graal. Ieri qualcuno ha preso la vecchia mappa della leggenda dall\'archivio.',
+   clues:[['👓','Un paio di occhiali da lettura sul gradino'],['📚','Una pila di libri antichi spostati'],['✏️','Appunti a matita con una calligrafia ordinata']],
+   suspects:[['🧭','L\'esploratore'],['👩‍🏫','La professoressa di storia'],['🧙','Il mago di strada']], culprit:1,
+   end:'La professoressa di storia! Stava studiando la mappa per la sua lezione. Il Graal? Resta un mistero: Torino è la città delle leggende.'},
+  {id:'valentino', place:'Parco del Valentino', sub:'Il Borgo Medievale', x:76, z:89,
+   title:'Il fantasma del Borgo',
+   story:'Nel Borgo Medievale del Valentino, di notte, si sente un "uuh uuh" e si vedono due occhi gialli dalla torre. Tutti dicono che è un fantasma!',
+   clues:[['🪶','Piume grigie e marroni sulle scale della torre'],['🌙','Il verso si sente solo quando è buio'],['🐭','Il borgo, da qualche settimana, non ha più topolini']],
+   suspects:[['👻','Il fantasma'],['🦉','Il gufo'],['🎺','Il trombettiere']], culprit:1,
+   end:'Era un gufo! Ha fatto il nido in cima alla torre e caccia i topolini di notte. Nessun fantasma, solo un nuovo abitante del Borgo.'},
+  {id:'lingotto', place:'Lingotto', sub:'La pista sul tetto', x:40, z:164,
+   title:'L\'auto fantasma',
+   story:'Sul tetto del Lingotto c\'è una pista dove una volta si provavano le automobili. Di notte qualcuno ci gira in tondo, con una luce blu, senza pilota.',
+   clues:[['🔩','Bulloni e rondelle lucide sulla pista'],['🔵','Una luce blu che lampeggia'],['📟','Un "bip bip" ogni volta che fa la curva']],
+   suspects:[['🏎️','Il pilota'],['🤖','Il robot della vecchia fabbrica'],['👵','La signora del piano di sotto']], culprit:1,
+   end:'Il robot della vecchia fabbrica! Era rimasto acceso da anni e di notte si allena sulla pista. Ora fa da guida ai visitatori.'},
+  {id:'superga', place:'Basilica di Superga', sub:'In cima alla collina', x:176, z:-58,
+   title:'Il segreto della collina',
+   story:'Dalla collina di Superga si vede tutta Torino e, nelle giornate limpide, le Alpi. Stasera sulla terrazza ci sono strane casse, e un biglietto: "Solo il miglior detective di Torino potrà vedere il premio".',
+   clues:[['🌈','Polvere colorata sulle casse di legno'],['🧯','Un secchio d\'acqua pronto, per sicurezza'],['🧵','Lunghe micce arrotolate dietro la balaustra']],
+   suspects:[['🔭','L\'astronoma'],['🎆','Il maestro dei fuochi d\'artificio'],['🔔','Il campanaro']], culprit:1,
+   end:'Il maestro dei fuochi d\'artificio! Ha preparato lo spettacolo per festeggiare chi avrebbe risolto tutti i gialli di Torino. Guarda il cielo!'},
+];
+
+// Domande. [domanda, [risposta giusta, sbagliata, sbagliata, sbagliata]] (le risposte si mescolano da sole)
+window.QADULT = [
+  ['Chi ha dipinto "La nascita di Venere"?',['Sandro Botticelli','Raffaello','Tiziano','Giotto']],
+  ['In che anno è caduto il Muro di Berlino?',['1989','1991','1987','1979']],
+  ['Qual è l\'elemento chimico con simbolo Au?',['Oro','Argento','Alluminio','Rame']],
+  ['Chi ha scritto "I promessi sposi"?',['Alessandro Manzoni','Ugo Foscolo','Giacomo Leopardi','Giovanni Verga']],
+  ['Qual è la capitale dell\'Australia?',['Canberra','Sydney','Melbourne','Perth']],
+  ['In che anno Torino diventò la prima capitale del Regno d\'Italia?',['1861','1848','1870','1865']],
+  ['Quanti sono i pianeti del Sistema Solare?',['8','9','7','10']],
+  ['Chi ha composto "Le quattro stagioni"?',['Antonio Vivaldi','Giuseppe Verdi','Gioachino Rossini','Giacomo Puccini']],
+  ['Qual è il fiume più lungo d\'Italia?',['Po','Tevere','Adige','Arno']],
+  ['Quanto è alta, circa, la Mole Antonelliana?',['167 metri','120 metri','210 metri','98 metri']],
+  ['Chi ha progettato la Mole Antonelliana?',['Alessandro Antonelli','Filippo Juvarra','Guarino Guarini','Carlo Mollino']],
+  ['Chi ha progettato la Basilica di Superga?',['Filippo Juvarra','Alessandro Antonelli','Gian Lorenzo Bernini','Francesco Borromini']],
+  ['Quale casa automobilistica è nata a Torino nel 1899?',['FIAT','Alfa Romeo','Ferrari','Maserati']],
+  ['In quale città si trova la Cappella degli Scrovegni?',['Padova','Verona','Assisi','Firenze']],
+  ['Chi ha scritto "Il nome della rosa"?',['Umberto Eco','Italo Calvino','Primo Levi','Alberto Moravia']],
+  ['In quale città è nato Primo Levi?',['Torino','Milano','Roma','Trieste']],
+  ['Qual è il gas più abbondante nell\'aria che respiriamo?',['Azoto','Ossigeno','Anidride carbonica','Argon']],
+  ['Quanto vale, circa, la velocità della luce nel vuoto?',['300.000 km al secondo','30.000 km al secondo','3 milioni di km al secondo','150.000 km al secondo']],
+  ['Chi ha formulato la teoria della relatività?',['Albert Einstein','Isaac Newton','Galileo Galilei','Niels Bohr']],
+  ['In che anno l\'uomo è sbarcato sulla Luna?',['1969','1965','1972','1959']],
+  ['Quando è entrata in vigore la Costituzione italiana?',['1° gennaio 1948','2 giugno 1946','25 aprile 1945','1° gennaio 1950']],
+  ['Qual è l\'oceano più grande?',['Pacifico','Atlantico','Indiano','Artico']],
+  ['Chi ha dipinto "Guernica"?',['Pablo Picasso','Salvador Dalí','Joan Miró','Henri Matisse']],
+  ['Quale bevanda torinese unisce caffè, cioccolato e crema di latte?',['Bicerin','Marocchino','Barbajada','Moretta']],
+  ['Il gianduiotto è fatto con cioccolato e…',['Nocciole','Mandorle','Pistacchi','Noci']],
+  ['Qual è la radice quadrata di 144?',['12','14','11','16']],
+  ['Chi ha scritto "Il Principe"?',['Niccolò Machiavelli','Francesco Guicciardini','Dante Alighieri','Francesco Petrarca']],
+  ['Quale città ha ospitato le Olimpiadi invernali del 2006?',['Torino','Cortina d\'Ampezzo','Milano','Innsbruck']],
+  ['In quale chiesa è custodita la Sindone?',['Duomo di Torino','Duomo di Milano','San Pietro a Roma','Basilica di Superga']],
+  ['Quale fiume, oltre al Po, attraversa Torino?',['Dora Riparia','Ticino','Tanaro','Adda']],
+  ['Quale pianeta è detto "pianeta rosso"?',['Marte','Venere','Giove','Mercurio']],
+  ['Dove si trova la maggior parte del DNA di una cellula?',['Nel nucleo','Nei ribosomi','Nella membrana','Nel citoplasma']],
+  ['Quante sono le regioni italiane?',['20','19','21','18']],
+  ['Chi ha dipinto il Cenacolo?',['Leonardo da Vinci','Michelangelo','Caravaggio','Raffaello']],
+  ['Quale metallo è liquido a temperatura ambiente?',['Mercurio','Piombo','Stagno','Zinco']],
+  ['In che anno è stata fondata la Juventus?',['1897','1906','1899','1911']],
+  ['Chi ha scritto "Così parlò Zarathustra"?',['Friedrich Nietzsche','Immanuel Kant','Georg Hegel','Arthur Schopenhauer']],
+  ['Qual è la montagna più alta delle Alpi?',['Monte Bianco','Monte Rosa','Cervino','Gran Paradiso']],
+  ['Quanti minuti ci sono in un giorno?',['1440','1240','1640','1340']],
+  ['In che anno Cristoforo Colombo arrivò in America?',['1492','1498','1502','1488']],
+  ['Chi ha scritto "Il barone rampante"?',['Italo Calvino','Cesare Pavese','Beppe Fenoglio','Dino Buzzati']],
+  ['Chi fu il primo re d\'Italia?',['Vittorio Emanuele II','Carlo Alberto','Umberto I','Vittorio Emanuele III']],
+  ['Com\'è il toro nello stemma di Torino?',['D\'oro su sfondo azzurro','Nero su sfondo bianco','Rosso su sfondo oro','Bianco su sfondo verde']],
+  ['Qual è l\'unità di misura della corrente elettrica?',['Ampere','Volt','Ohm','Watt']],
+  ['Quale scrittore di gialli ha creato Sherlock Holmes?',['Arthur Conan Doyle','Agatha Christie','Georges Simenon','Edgar Allan Poe']],
+  ['Come si chiama l\'investigatore belga di Agatha Christie?',['Hercule Poirot','Jules Maigret','Philip Marlowe','Nero Wolfe']],
+  ['Qual è il numero primo più piccolo?',['2','1','3','0']],
+  ['Quale scienziato pisano studiò la caduta dei gravi e il cannocchiale?',['Galileo Galilei','Evangelista Torricelli','Alessandro Volta','Enrico Fermi']],
+];
+
+window.QEDO = [
+  ['Quanto fa 7 × 8?',['56','54','48','63']],
+  ['Quanto fa 6 × 4?',['24','28','20','18']],
+  ['Quanto fa 9 × 3?',['27','24','36','21']],
+  ['Quanto fa 45 + 38?',['83','73','93','82']],
+  ['Quanto fa 100 − 37?',['63','73','67','53']],
+  ['Quanto fa 72 : 8?',['9','8','7','6']],
+  ['Qual è la metà di 50?',['25','20','30','15']],
+  ['Qual è il doppio di 15?',['30','25','35','45']],
+  ['Quanto fa 8 + 7?',['15','14','16','13']],
+  ['La mamma ha 12 caramelle e ne regala 5. Quante ne restano?',['7','6','8','17']],
+  ['3 decine e 4 unità fanno…',['34','43','7','304']],
+  ['Quale di questi numeri è pari?',['14','7','21','9']],
+  ['Quanti centimetri ci sono in un metro?',['100','10','1000','50']],
+  ['Quante ore ci sono in un giorno?',['24','12','60','20']],
+  ['Quanti giorni ha una settimana?',['7','5','6','10']],
+  ['Quanti mesi ci sono in un anno?',['12','10','11','13']],
+  ['In un anno normale, quanti giorni ha febbraio?',['28','30','31','29']],
+  ['Quanti lati ha un triangolo?',['3','4','5','6']],
+  ['Quale figura ha 4 lati uguali e 4 angoli retti?',['Il quadrato','Il triangolo','Il cerchio','Il rettangolo lungo']],
+  ['Nei numeri romani, quanto vale X?',['10','5','100','1']],
+  ['Quale di questi animali è un mammifero?',['Il delfino','Lo squalo','Il pinguino','La lucertola']],
+  ['Quante zampe ha un insetto?',['6','8','4','10']],
+  ['Quante zampe ha un ragno?',['8','6','4','10']],
+  ['Di che cosa si nutrono gli animali erbivori?',['Di piante','Di carne','Di pesci','Di insetti']],
+  ['Quale animale depone le uova?',['La gallina','La mucca','Il cane','Il cavallo']],
+  ['Come si chiama la rana quando è piccola?',['Girino','Bruco','Pulcino','Cucciolo']],
+  ['Il bruco, crescendo, diventa…',['Una farfalla','Una formica','Un ragno','Un\'ape']],
+  ['Come si chiama la parte della pianta che sta sotto terra?',['La radice','Il fusto','La foglia','Il fiore']],
+  ['Di che cosa hanno bisogno le piante per fare la fotosintesi?',['Della luce del sole','Del buio','Della neve','Del vento']],
+  ['Quale organo pompa il sangue nel corpo?',['Il cuore','Il polmone','Lo stomaco','Il cervello']],
+  ['A quanti gradi bolle l\'acqua?',['100 gradi','50 gradi','0 gradi','200 gradi']],
+  ['A quanti gradi l\'acqua diventa ghiaccio?',['0 gradi','10 gradi','100 gradi','−50 gradi']],
+  ['Che cosa misura il termometro?',['La temperatura','Il peso','La lunghezza','Il tempo']],
+  ['Qual è la stella più vicina alla Terra?',['Il Sole','La Luna','Marte','La Stella Polare']],
+  ['Su quale pianeta viviamo?',['La Terra','Marte','Giove','Venere']],
+  ['Più o meno quando si sono estinti i dinosauri?',['66 milioni di anni fa','6.000 anni fa','1.000 anni fa','100 anni fa']],
+  ['Chi studia i fossili dei dinosauri?',['Il paleontologo','L\'astronauta','Il veterinario','Il pompiere']],
+  ['Con che cosa scrivevano gli antichi Egizi?',['Con i geroglifici','Con le emoji','Con i numeri romani','Con l\'alfabeto Morse']],
+  ['Quale stagione viene dopo l\'inverno?',['La primavera','L\'estate','L\'autunno','Ancora l\'inverno']],
+  ['Qual è la capitale d\'Italia?',['Roma','Milano','Torino','Napoli']],
+  ['In quale regione si trova Torino?',['Piemonte','Lombardia','Liguria','Veneto']],
+  ['Quale fiume passa per Torino?',['Il Po','Il Tevere','L\'Arno','Il Nilo']],
+  ['In quale continente si trova l\'Italia?',['Europa','Asia','Africa','America']],
+  ['Come si chiama il mare a est dell\'Italia?',['Mar Adriatico','Mar Tirreno','Mar Ligure','Mar Baltico']],
+  ['Quale animale è il simbolo di Torino?',['Il toro','Il leone','L\'aquila','Il lupo']],
+  ['Dentro la Mole Antonelliana c\'è il museo del…',['Cinema','Mare','Calcio','Treno']],
+  ['Mescolando il giallo e il blu si ottiene il…',['Verde','Viola','Arancione','Marrone']],
+  ['Mescolando il rosso e il giallo si ottiene l\'…',['Arancione','Verde','Azzurro','Grigio']],
+  ['Quale strumento ha i tasti bianchi e neri?',['Il pianoforte','La chitarra','Il tamburo','Il flauto']],
+  ['Qual è il plurale di "uovo"?',['Le uova','Gli uovi','Le uove','Gli uova']],
+  ['Quale di queste parole è un verbo?',['Correre','Casa','Bello','Sotto']],
+  ['Qual è il contrario di "veloce"?',['Lento','Forte','Alto','Felice']],
+  ['Quale di questi è un nome proprio?',['Torino','città','fiume','gatto']],
+  ['Quale lettera viene dopo la M?',['N','L','O','P']],
+  ['Quale parola ha la doppia?',['Palla','Pala','Sale','Mela']],
+];
+
+// Bianca non legge: domande lette ad alta voce, risposte con figure. [domanda, [[emoji, nome], ...]] la prima è giusta
+window.QBIA = [
+  ['Quale animale fa "miao"?',[['🐱','gatto'],['🐶','cane'],['🐮','mucca'],['🐷','maiale']]],
+  ['Quale animale fa "muu"?',[['🐮','mucca'],['🐱','gatto'],['🐸','rana'],['🐔','gallina']]],
+  ['Chi fa "bau bau"?',[['🐶','cane'],['🐑','pecora'],['🐴','cavallo'],['🐭','topo']]],
+  ['Chi vive nel mare?',[['🐟','pesce'],['🐘','elefante'],['🐒','scimmia'],['🐓','gallo']]],
+  ['Che cosa si mangia?',[['🍎','mela'],['🚗','macchina'],['🧦','calzino'],['✏️','matita']]],
+  ['Quale animale è il più grande?',[['🐘','elefante'],['🐭','topo'],['🐜','formica'],['🐞','coccinella']]],
+  ['Quale animale è il più piccolo?',[['🐜','formica'],['🐘','elefante'],['🦒','giraffa'],['🐄','mucca']]],
+  ['Che cosa usi quando piove?',[['☂️','ombrello'],['🕶️','occhiali da sole'],['🩴','ciabatte'],['🎈','palloncino']]],
+  ['Che cosa metti ai piedi?',[['👟','scarpe'],['🧢','cappello'],['🧤','guanti'],['👓','occhiali']]],
+  ['Tocca il triangolo',[['🔺','triangolo'],['⚪','cerchio'],['🟦','quadrato'],['⭐','stella']]],
+  ['Tocca il cerchio',[['⚪','cerchio'],['🔺','triangolo'],['🟦','quadrato'],['❤️','cuore']]],
+  ['Tocca la stella',[['⭐','stella'],['🌙','luna'],['🔺','triangolo'],['⚪','cerchio']]],
+  ['Chi vola nel cielo?',[['🐦','uccellino'],['🐢','tartaruga'],['🐌','lumaca'],['🐟','pesce']]],
+  ['Che cosa è freddo?',[['🧊','ghiaccio'],['🔥','fuoco'],['☀️','sole'],['☕','tè caldo']]],
+  ['Che cosa vedi in cielo di notte?',[['🌙','luna'],['🌈','arcobaleno'],['☀️','sole'],['🦋','farfalla']]],
+  ['Con che cosa ti lavi i denti?',[['🪥','spazzolino'],['🍴','forchetta'],['🧹','scopa'],['✂️','forbici']]],
+  ['Quale frutto è giallo e lungo?',[['🍌','banana'],['🍎','mela'],['🍇','uva'],['🍊','arancia']]],
+  ['Quale verdura mangia il coniglio?',[['🥕','carota'],['🍕','pizza'],['🍩','ciambella'],['🧀','formaggio']]],
+  ['Quale animale ha la proboscide?',[['🐘','elefante'],['🦁','leone'],['🐻','orso'],['🐰','coniglio']]],
+  ['Chi fa le uova?',[['🐔','gallina'],['🐶','cane'],['🐱','gatto'],['🐴','cavallo']]],
+  ['Che cosa va sui binari?',[['🚂','treno'],['🚗','macchina'],['🚲','bicicletta'],['⛵','barca']]],
+  ['Che cosa vola e porta le persone in vacanza?',[['✈️','aereo'],['🚌','autobus'],['🚜','trattore'],['🛴','monopattino']]],
+  ['Tocca il colore rosso',[['🔴','rosso'],['🔵','blu'],['🟢','verde'],['🟡','giallo']]],
+  ['Tocca il colore blu',[['🔵','blu'],['🔴','rosso'],['🟡','giallo'],['🟢','verde']]],
+  ['Tocca il colore verde',[['🟢','verde'],['🟡','giallo'],['🔴','rosso'],['🔵','blu']]],
+  ['Tocca il colore giallo',[['🟡','giallo'],['🟢','verde'],['🔵','blu'],['🔴','rosso']]],
+  ['Quante dita ci sono in una mano?',[['5️⃣','cinque'],['3️⃣','tre'],['4️⃣','quattro'],['6️⃣','sei']]],
+  ['Conta le stelle: ⭐⭐⭐. Quante sono?',[['3️⃣','tre'],['2️⃣','due'],['4️⃣','quattro'],['5️⃣','cinque']]],
+  ['Conta le mele: 🍎🍎. Quante sono?',[['2️⃣','due'],['1️⃣','uno'],['3️⃣','tre'],['4️⃣','quattro']]],
+  ['Quale animale ha il collo lunghissimo?',[['🦒','giraffa'],['🐷','maiale'],['🐢','tartaruga'],['🐧','pinguino']]],
+  ['Con che cosa disegni?',[['🖍️','pastello'],['🥄','cucchiaio'],['🔑','chiave'],['🧽','spugna']]],
+  ['Che cosa c\'è in cielo di giorno?',[['☀️','sole'],['🌙','luna'],['🦉','gufo'],['🌟','stella cadente']]],
+  ['Chi dorme tutto l\'inverno nella tana?',[['🐻','orso'],['🐔','gallina'],['🐟','pesce'],['🐝','ape']]],
+  ['Quale animale salta e tiene il cucciolo nella tasca?',[['🦘','canguro'],['🐍','serpente'],['🐌','lumaca'],['🐙','polpo']]],
+  ['Che cosa serve per vedere al buio?',[['🔦','torcia'],['🧦','calzino'],['🍞','pane'],['🎒','zaino']]],
+  ['Quale animale ha la criniera?',[['🦁','leone'],['🐰','coniglio'],['🐸','rana'],['🐧','pinguino']]],
+  ['Quale di questi è un toro, il simbolo di Torino?',[['🐂','toro'],['🐑','pecora'],['🐐','capra'],['🐖','maiale']]],
+  ['Con che cosa si gioca a calcio?',[['⚽','pallone da calcio'],['🏀','pallone da basket'],['🎾','pallina da tennis'],['🏓','racchetta']]],
+  ['Trova la fragola uguale a questa: 🍓',[['🍓','fragola'],['🍒','ciliegie'],['🍎','mela'],['🍇','uva']]],
+  ['Che cosa mangi quando fa caldo?',[['🍦','gelato'],['🧣','sciarpa'],['🧤','guanti'],['⛄','pupazzo di neve']]],
+];
+
+// Chi gioca: età e gruppo di domande
+window.PLAYERS = [
+  {k:'goffredo', name:'Goffredo', age:43, group:'adult', color:'#5FA57A'},
+  {k:'carolina', name:'Carolina', age:42, group:'adult', color:'#8D5BB8'},
+  {k:'edoardo',  name:'Edoardo',  age:8,  group:'edo',   color:'#4A90C6'},
+  {k:'bianca',   name:'Bianca',   age:5,  group:'bia',   color:'#E4573D'},
+];
+
+// ===================== I LUOGHI VERI (coordinate da OpenStreetMap) =====================
+// lat, lon del punto dove si indaga; la fermata dei mezzi più vicina; scheda del luogo
+window.PLACES = {
+  castello:     {ll: [45.07018, 7.68548], kind: 'Piazza storica', addr: 'Piazza Castello', stop: null,
+                 fact: 'Al centro c\'è Palazzo Madama: un castello medievale con la facciata barocca di Filippo Juvarra. Oggi è il Museo Civico d\'Arte Antica.'},
+  egizio:       {ll: [45.06844, 7.68435], kind: 'Museo', addr: 'Via Accademia delle Scienze 6',
+                 fact: 'Aperto nel 1824, è il museo dedicato all\'antico Egitto più antico del mondo, e il più importante dopo quello del Cairo.'},
+  sancarlo:     {ll: [45.06795, 7.68280], kind: 'Piazza storica', addr: 'Piazza San Carlo',
+                 fact: 'Il "salotto di Torino": portici, le chiese gemelle di San Carlo e Santa Cristina e la statua di Emanuele Filiberto a cavallo, il Caval \'d Brons.'},
+  mole:         {ll: [45.06862, 7.69326], kind: 'Monumento e museo', addr: 'Via Montebello 20',
+                 fact: 'Progettata da Alessandro Antonelli, è alta 167,5 metri ed è il simbolo di Torino. Dentro c\'è il Museo Nazionale del Cinema.'},
+  portapalazzo: {ll: [45.07693, 7.68302], kind: 'Mercato', addr: 'Piazza della Repubblica',
+                 fact: 'È uno dei mercati all\'aperto più grandi d\'Europa: frutta, verdura, pesce, formaggi e il mercato coperto dell\'orologio.'},
+  murazzi:      {ll: [45.06470, 7.69786], kind: 'Lungofiume', addr: 'Murazzi del Po',
+                 fact: 'Le grandi arcate costruite nell\'Ottocento lungo la riva del Po, sotto i viali, tra il Ponte Vittorio Emanuele I e il Ponte Umberto I.'},
+  granmadre:    {ll: [45.06262, 7.69830], kind: 'Chiesa', addr: 'Piazza Gran Madre di Dio',
+                 fact: 'Chiesa neoclassica ispirata al Pantheon di Roma, costruita per festeggiare il ritorno a Torino del re Vittorio Emanuele I nel 1814.'},
+  valentino:    {ll: [45.04919, 7.68503], kind: 'Parco e museo', addr: 'Parco del Valentino, Viale Virgilio',
+                 fact: 'Il Borgo Medievale fu costruito per l\'Esposizione Generale Italiana del 1884: copia un villaggio e un castello del Piemonte del Quattrocento.'},
+  lingotto:     {ll: [45.03250, 7.66700], kind: 'Ex fabbrica FIAT', addr: 'Via Nizza',
+                 fact: 'Fabbrica FIAT inaugurata nel 1923, con la pista di prova delle automobili sul tetto. Oggi ci sono negozi, fiere e un giardino sulla pista.'},
+  superga:      {ll: [45.08020, 7.76720], kind: 'Basilica', addr: 'Strada della Basilica di Superga',
+                 fact: 'Progettata da Filippo Juvarra, sta in cima alla collina a 672 metri. Ci si arriva con la tranvia a dentiera Sassi–Superga.'},
+};
+
+// Avatar della famiglia: stessa fonte del calendario (README §3-4)
+(function(){
+  const AV={
+    goffredo:{h:120,skin:'#E3B48E',hair:'#2F2621',hairStyle:'short',beard:'#55463C',glasses:'#2A2A2E',eye:'#4B3426',shirt:'#A8432F',pants:'#C9B48A',frame:'#5FA57A',name:'Goffredo',watch:true},
+    carolina:{h:118,skin:'#EFC9AE',hair:'#6B4A32',hairStyle:'curlylong',eye:'#7F9A6E',liner:true,shirt:'#1E1E22',pants:'#7E2E55',frame:'#8D5BB8',name:'Carolina'},
+    edoardo:{h:92, skin:'#E8C19F',hair:'#8A6540',hairStyle:'mop',glasses:'#2B3A78',eye:'#8FB3A6',shirt:'#D63A30',crest:true,pants:'#C6E22E',frame:'#4A90C6',name:'Edoardo'},
+    lidia:{h:112,skin:'#E8C4A6',hair:'#D9D4CC',hairStyle:'bun',glasses:'#8A5A3A',eye:'#5A4030',shirt:'#3F8F6B',pants:'#7A6F66',frame:'#16a34a',name:'Lidia'},
+    franco:{h:116,skin:'#E3B48E',hair:'#CFCAC2',hairStyle:'baldside',moustache:true,eye:'#4B3426',shirt:'#8A9A3C',pants:'#55504A',frame:'#65a30d',name:'Franco'},
+    baby:{h:116,skin:'#F0D2BB',hair:'#C98A3C',hairStyle:'ponytail',eye:'#5B7F9A',liner:true,shirt:'#7c3aed',pants:'#2F3A4A',frame:'#7c3aed',name:'Babysitter'},
+    generic:{h:116,skin:'#E8C19F',hair:'#6B5040',hairStyle:'plain',eye:'#4B3426',shirt:'#9AA3A8',pants:'#55504A',frame:'#64748b',name:''},
+    bianca:{h:74, skin:'#EAC2A0',hair:'#2E1F18',hairStyle:'curly',eye:'#3A2418',bigeyes:true,shirt:'#F6F3EE',pants:'#5F7FB0',skirt:true,frame:'#E4573D',name:'Bianca'},
+  };
+  function avatar(k, opts={}){
+    const p=AV[k], ink='#1F2A26';
+    let hair='';
+    if(p.hairStyle==='short') hair=`<path d="M13 20 Q12 1 30 -1 Q48 1 47 20 L47 22 Q44 12 36 10 Q30 9 24 10 Q16 12 13 22Z" fill="${p.hair}"/><path d="M14 18 Q20 6 31 6 Q24 10 20 18Z" fill="${p.hair}"/><g fill="none" stroke="#D9D4CC" stroke-width="1.1" stroke-linecap="round" opacity=".9"><path d="M19 9 q3 -3 7 -3"/><path d="M26 5 q4 -1 8 1"/><path d="M36 7 q3 1 5 4"/><path d="M15 18 q1 -4 4 -6"/><path d="M44 17 q-1 -4 -3 -6"/><path d="M31 3 q3 0 5 1"/></g>`;
+    if(p.hairStyle==='long')  hair=`<path d="M13 17 Q30 -5 47 17 L49 44 Q45 48 41 42 L41 24 Q30 16 19 24 L19 42 Q15 48 11 44Z" fill="${p.hair}"/><path d="M14 17 Q22 2 38 8 Q34 14 22 15 Q17 15 14 19Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='mop')   hair=`<path d="M11.5 34.5 Q6 28.5 9.5 22.5 Q5.5 15 10.5 9.5 Q12 3.5 19 2.5 Q23 -1.5 29 0.8 Q34.5 -1.5 39.5 1.8 Q46.5 2.5 49.5 9 Q54.5 15 50.5 22.5 Q54 28.5 48.5 34.5 Q46 31 45.3 26 L45 22 Q44 15.5 40.5 14 Q38 17.2 35 14.6 Q32 17.4 29.5 14.6 Q27 17.4 24.2 14.6 Q21 17.2 18.8 15 Q15.5 16.5 15 22 L14.7 26 Q14 31 11.5 34.5Z" fill="${p.hair}"/><path d="M49.5 9 Q56 9.5 55 15.5 Q53.5 12.5 51 13.5Z M10.5 9.5 Q5 9 5.5 14.5 Q7 12 9.5 13Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='curlylong') hair=`<g fill="${p.hair}"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g>`;
+    if(p.hairStyle==='bun') hair=`<circle cx="30" cy="-1" r="7" fill="${p.hair}"/><path d="M14 18 Q16 2 30 2 Q44 2 46 18 L46 21 Q40 10 30 10 Q20 10 14 21Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='baldside') hair=`<path d="M14 15 Q14 7 19 5 L20 24 Q14 23 14 15Z" fill="${p.hair}"/><path d="M46 15 Q46 7 41 5 L40 24 Q46 23 46 15Z" fill="${p.hair}"/><path d="M26 5 q4 -2 8 0" fill="none" stroke="${p.hair}" stroke-width="1.6" stroke-linecap="round"/>`;
+    if(p.hairStyle==='ponytail') hair=`<path d="M14 18 Q14 2 30 1 Q46 2 46 18 L46 21 Q42 11 30 10 Q18 11 14 21Z" fill="${p.hair}"/><path d="M44 12 Q56 20 51 42 Q48 47 45 42 Q49 28 42 18Z" fill="${p.hair}"/>`;
+    if(p.hairStyle==='plain') hair=`<path d="M14 18 Q14 2 30 1 Q46 2 46 18 L46 21 Q42 11 30 10 Q18 11 14 21Z" fill="${p.hair}"/>`;
+    const moustache=p.moustache?`<path d="M22 25 Q30 28.5 38 25 Q30 31 22 25Z" fill="${p.hair}"/>`:'';
+    const beard=p.beard?`<path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="${p.beard}" opacity=".95"/>`:'';
+    const liner=p.liner?`<path d="M19.5 17.5 Q24 15.5 28.5 17.5M31.5 17.5 Q36 15.5 40.5 17.5" fill="none" stroke="${ink}" stroke-width="1.2" stroke-linecap="round"/>`:'';
+    const brows=`<path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="${p.hair}" stroke-width="1.6" stroke-linecap="round"/>`;
+    const er=p.bigeyes?3.2:2.6, ir=p.bigeyes?2:1.6;
+    const eyes=`<g class="eye"><ellipse cx="24" cy="19" rx="${er}" ry="${er+.4}" fill="#fff"/><circle cx="24.3" cy="19.3" r="${ir}" fill="${p.eye}"/><circle cx="24.3" cy="19.3" r="${ir*.5}" fill="${ink}"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="${er}" ry="${er+.4}" fill="#fff"/><circle cx="36.3" cy="19.3" r="${ir}" fill="${p.eye}"/><circle cx="36.3" cy="19.3" r="${ir*.5}" fill="${ink}"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g>`;
+    const glasses=p.glasses?`<g fill="none" stroke="${p.glasses}" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g>`:'';
+    const mouthY=p.beard?26:(p.moustache?29:27);
+    const smile=p.gap?`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/><path d="M28.4 ${mouthY+.6} h3.2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M30 ${mouthY+.2} v1.4" stroke="${ink}" stroke-width=".7"/>`
+                  :`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/>`;
+    const cheeks=`<circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/>`;
+    const crest=p.crest?`<g transform="rotate(28 30 58)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#F4EEDC"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#F2B632"/></g>`:'';
+    const watch=p.watch?`<rect x="43" y="74" width="10" height="4" rx="1.5" fill="#1F2A26"/>`:'';
+    const legs=p.skirt
+      ?`<path d="M17 84 L15 100 H45 L43 84Z" fill="${p.pants}"/><g class="leg l"><rect x="21" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="19" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g class="leg r"><rect x="32" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="30" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g>`
+      :`<g class="leg l"><rect x="20" y="84" width="8" height="${k==='edoardo'?14:24}" rx="3" fill="${p.pants}"/>${k==='edoardo'?'<rect x="20" y="97" width="8" height="10" rx="3" fill="'+p.skin+'"/>':''}<rect x="18" y="104" width="12" height="6" rx="3" fill="${ink}"/></g><g class="leg r"><rect x="32" y="84" width="8" height="${k==='edoardo'?14:24}" rx="3" fill="${p.pants}"/>${k==='edoardo'?'<rect x="32" y="97" width="8" height="10" rx="3" fill="'+p.skin+'"/>':''}<rect x="30" y="104" width="12" height="6" rx="3" fill="${ink}"/></g>`;
+    const H=opts.h||p.h; const bd=(opts.bd||0);
+    return `<svg viewBox="-6 -8 72 122" width="${H*0.59}" height="${H}" style="--d:${opts.d||0}s;--bd:${bd}s" role="img" aria-label="${p.name}">
+      ${legs}
+      <g class="av-body"><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="${p.shirt}"/>${crest}
+      <g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="11" cy="84" r="5" fill="${p.skin}"/></g>
+      <g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="49" cy="84" r="5" fill="${p.skin}"/>${watch}</g>
+      <rect x="26" y="34" width="8" height="12" fill="${p.skin}"/>
+      <circle cx="30" cy="19" r="15.5" fill="${p.skin}"/>${cheeks}
+      ${hair}${beard}${brows}${eyes}${liner}${glasses}${smile}${moustache}</g>
+    </svg>`;
+  }
+  window.AVATAR=avatar; window.AVDATA=AV;
+})();
+
+// ===================== GIOCO =====================
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const GENDER = {goffredo: 'm', carolina: 'f', edoardo: 'm', bianca: 'f'};
+const LEVEL = {adult: 'Cultura generale', edo: 'Terza elementare', bia: 'Figure e voce, senza leggere'};
+const bravo = k => GENDER[k] === 'f' ? 'Brava' : 'Bravo';
+
+// ---------- salvataggio (solo su questo dispositivo) ----------
+const SAVE_KEY = 'gialli-torino-v1';
+let SAVE = {players: {}, voice: {bianca: true, edoardo: true}};
+try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && s.players) SAVE = Object.assign(SAVE, s); } catch (e) {}
+function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) {} }
+function prog(k) { return SAVE.players[k] || (SAVE.players[k] = {solved: [], clues: {}, used: []}); }
+let P = null;   // chi gioca
+const curIndex = () => CASES.findIndex(c => !prog(P.k).solved.includes(c.id));
+
+let toastT = 0;
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2600); }
+
+function face(k, h) { return AVATAR(k, {h}); }
+
+
+// ===================== I GIALLI DI TORINO · Google Maps + Street View =====================
+const GKEY = 'AIzaSyBsP8fO6yKvEDGdjQ6CyiROxzAOfbtYzw4';   // chiave limitata al dominio goffredodonofrio.github.io
+const MOBILE = matchMedia('(pointer:coarse)').matches || innerWidth < 700;
+const LL = id => ({lat: PLACES[id].ll[0], lng: PLACES[id].ll[1]});
+const START_LL = {lat: 45.06965, lng: 7.68480};   // inizio di Via Roma, davanti a Piazza Castello
+function hav(a, b) { const R = 6371000, r = Math.PI / 180, dLa = (b.lat - a.lat) * r, dLo = (b.lng - a.lng) * r; const s = Math.sin(dLa / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(s)); }
+function headingTo(a, b) { const r = Math.PI / 180, y = Math.sin((b.lng - a.lng) * r) * Math.cos(b.lat * r), x = Math.cos(a.lat * r) * Math.sin(b.lat * r) - Math.sin(a.lat * r) * Math.cos(b.lat * r) * Math.cos((b.lng - a.lng) * r); return (Math.atan2(y, x) / r + 360) % 360; }
+function offset(p, dist, hdg) { const r = Math.PI / 180, R = 6371000, d = dist / R, h = hdg * r, la = p.lat * r, lo = p.lng * r; const la2 = Math.asin(Math.sin(la) * Math.cos(d) + Math.cos(la) * Math.sin(d) * Math.cos(h)); return {lat: la2 / r, lng: (lo + Math.atan2(Math.sin(h) * Math.sin(d) * Math.cos(la), Math.cos(d) - Math.sin(la) * Math.sin(la2))) / r}; }
+const fmtDist = d => d < 950 ? `${Math.round(d / 10) * 10} m` : `${(d / 1000).toFixed(1).replace('.', ',')} km`;
+const svgUrl = s => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.includes('xmlns=') ? s : s.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"'));
+
+for (const c of CASES) c.pl = PLACES[c.id];
+let map = null, pano = null, sv = null, ready = false, paused = true, attract = true, fireworksOn = false;
+let here = START_LL;            // dove si trova la famiglia
+let VIEW = 'map';
+
+// ---------- caricamento di Google Maps ----------
+window.gm_authFailure = () => { $('loading').textContent = 'Google Maps non accetta la chiave su questo indirizzo.'; };
+window.gInit = () => {
+  sv = new google.maps.StreetViewService();
+  map = new google.maps.Map($('gmap'), {center: START_LL, zoom: 15, disableDefaultUI: true, gestureHandling: 'greedy', clickableIcons: false, keyboardShortcuts: false,
+    styles: [{featureType: 'poi.business', stylers: [{visibility: 'off'}]}, {featureType: 'transit.station', elementType: 'labels.icon', stylers: [{visibility: 'on'}]}]});
+  pano = new google.maps.StreetViewPanorama($('pano'), {visible: true, addressControl: false, fullscreenControl: false, motionTracking: false, motionTrackingControl: false,
+    panControl: false, zoomControl: !MOBILE, enableCloseButton: false, linksControl: true, showRoadLabels: true, clickToGo: true});
+  map.setStreetView(pano);
+  addPins();
+  // dietro al menu: Piazza Castello che gira piano
+  goPano(LL('castello'), 'castello', () => { $('panoW').classList.remove('hidden'); $('gmapW').classList.add('hidden'); ready = true; $('loading').textContent = 'Torino è pronta.'; renderMenu(); });
+  requestAnimationFrame(loop);
+};
+(() => { const s = document.createElement('script'); s.async = true; s.src = `https://maps.googleapis.com/maps/api/js?key=${GKEY}&v=weekly&language=it&region=IT&loading=async&callback=gInit`;
+  s.onerror = () => { $('loading').textContent = 'Non riesco a caricare Google Maps: controlla la connessione e ricarica.'; }; document.head.appendChild(s); })();
+
+// trova la foto a 360° più vicina: prima quelle di Google (si cammina), poi quelle degli utenti
+function goPano(p, id, done) {
+  const ask = (opts, next) => sv.getPanorama(Object.assign({location: p, preference: google.maps.StreetViewPreference.NEAREST}, opts), (d, s) => s === 'OK' ? use(d) : next());
+  const use = d => { pano.setPano(d.location.pano); pano.setPov({heading: headingTo(d.location.latLng.toJSON(), p) || 0, pitch: 4}); pano.setZoom(MOBILE ? 0 : 1); if (done) done(d); };
+  ask({radius: 60, sources: [google.maps.StreetViewSource.GOOGLE]}, () => ask({radius: 120, sources: [google.maps.StreetViewSource.OUTDOOR]}, () => ask({radius: 400}, () => { toast('Qui Street View non c\'è: resto sulla mappa'); if (done) done(null); })));
+}
+
+// ---------- vista: mappa o strada ----------
+function showView(v) {
+  VIEW = v; $('gmapW').classList.toggle('hidden', v !== 'map'); $('panoW').classList.toggle('hidden', v !== 'street');
+  if (v === 'map') { google.maps.event.trigger(map, 'resize'); clearClues(); }
+  $('toMap').classList.toggle('hidden', v !== 'street'); $('helpBtn').classList.toggle('hidden', v !== 'street'); $('svHint').classList.toggle('hidden', v !== 'street');
+}
+let spin = 0;
+function loop(now) { requestAnimationFrame(loop); if (attract && pano && VIEW !== 'map') { spin += .06; const pv = pano.getPov(); pano.setPov({heading: (pv.heading + .06) % 360, pitch: pv.pitch}); } updateFireworks(1 / 60); }
+
+// ---------- segnaposto sulla mappa ----------
+const PINS = {}; let famMk = null, vehMk = null, trip = null;
+function pinIcon(j, state) {
+  const c = state === 'done' ? '#5FA57A' : state === 'cur' ? '#F2B632' : '#8E9A96', t = state === 'done' ? '✓' : state === 'cur' ? '?' : String(j + 1), s = state === 'cur' ? 52 : 38;
+  return {url: svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s * 1.3}" viewBox="0 0 40 52"><path d="M20 51C20 51 4 31 4 19a16 16 0 1 1 32 0c0 12-16 32-16 32z" fill="${c}" stroke="#fff" stroke-width="3"/><text x="20" y="25" text-anchor="middle" font-family="Arial" font-weight="900" font-size="16" fill="${state === 'cur' ? '#1F2A26' : '#fff'}">${t}</text></svg>`),
+    scaledSize: new google.maps.Size(s, s * 1.3), anchor: new google.maps.Point(s / 2, s * 1.3)};
+}
+function addPins() {
+  CASES.forEach((c, j) => { PINS[c.id] = new google.maps.Marker({map, position: LL(c.id), icon: pinIcon(j, 'todo'), title: c.place, zIndex: 10});
+    PINS[c.id].addListener('click', () => { if (P) openTravel(j); }); });
+}
+function updateMarkers() {
+  const i = curIndex();
+  CASES.forEach((c, j) => { const done = prog(P.k).solved.includes(c.id); PINS[c.id].setIcon(pinIcon(j, done ? 'done' : j === i ? 'cur' : 'todo')); PINS[c.id].setZIndex(j === i ? 30 : 10); });
+}
+function famIcon() { return {url: svgUrl(AVATAR(P.k, {h: 70})), scaledSize: new google.maps.Size(41, 70), anchor: new google.maps.Point(20, 68)}; }
+function placeFam() { if (!famMk) famMk = new google.maps.Marker({map, zIndex: 50, clickable: false}); famMk.setIcon(famIcon()); famMk.setPosition(here); }
+
+// ---------- HUD ----------
+function renderHUD() {
+  const n = prog(P.k).solved.length, i = curIndex();
+  $('me').innerHTML = `<span class="f" style="--c:${P.color}">${face(P.k, 46)}</span><span><b>${P.name}, ${P.age} anni</b><small>${n} di 10 gialli risolti</small><span class="dots">${CASES.map((c, j) => `<i class="${prog(P.k).solved.includes(c.id) ? 'on' : j === i ? 'cur' : ''}"></i>`).join('')}</span></span>`;
+  if (i < 0) { $('tName').textContent = 'Tutti i gialli risolti!'; $('tDist').textContent = ''; }
+  else if (VIEW === 'street' && CS0 && CS0.id === CASES[i].id) { $('tName').textContent = `${i + 1}. ${CASES[i].place}`; $('tDist').textContent = `Indizi trovati: ${found(CASES[i].id).length} di 3`; }
+  else { $('tName').textContent = `${i + 1}. ${CASES[i].place}`; $('tDist').textContent = `a ${fmtDist(hav(here, LL(CASES[i].id)))}`; }
+  voiceIcon();
+}
+
+// ---------- il viaggio: scegli il mezzo, si arriva in pochi secondi ----------
+function estimates(from, c) {
+  const d = hav(from, LL(c.id)), m = s => Math.max(1, Math.round(s / 60));
+  const mezzi = c.id === 'superga' ? {ic: '🚞', name: 'Bus e tranvia', t: m(d * 1.3 / 5.5 + 600), say: 'il bus fino a Sassi e poi la tranvia a dentiera fino a Superga'}
+    : c.id === 'lingotto' ? {ic: '🚇', name: 'Metro', t: m(d * 1.2 / 9 + 300), say: 'la metropolitana linea 1'}
+    : c.pl.ll[1] > 7.696 ? {ic: '🚌', name: 'Autobus', t: m(d * 1.3 / 5 + 300), say: "l'autobus"} : {ic: '🚋', name: 'Tram', t: m(d * 1.3 / 5 + 300), say: 'il tram'};
+  return {d, piedi: {ic: '🚶', name: 'A piedi', t: m(d * 1.3 / 1.3), say: 'a piedi'}, bici: {ic: '🚲', name: 'In bici', t: m(d * 1.3 / 4.2), say: 'in bici'}, mezzi};
+}
+function openTravel(j) {
+  const i = curIndex(); j = j === undefined ? i : j; if (j < 0) return;
+  const c = CASES[j], E = estimates(here, c), done = prog(P.k).solved.includes(c.id), isNext = j === i;
+  $('sheet').innerHTML = `<div class="grab"></div><div class="kick2">Giallo ${j + 1} di 10 · ${esc(c.pl.kind)}${done ? ' · risolto ✓' : ''}</div><h3>${esc(c.place)}</h3><div class="addr">📍 ${esc(c.pl.addr)} · a ${fmtDist(E.d)}</div><p>${esc(c.pl.fact)}</p>`
+    + (isNext ? `<div class="kick2" style="margin-bottom:8px">Come ci andiamo?</div><div class="travel">${['piedi', 'bici', 'mezzi'].map(k => `<button type="button" class="tmode" data-m="${k}"><span class="e">${E[k].ic}</span><b>${E[k].name}</b><small>circa ${E[k].t} min</small></button>`).join('')}</div>`
+      : `<div class="row2">${done ? '<button type="button" id="tLook">👀 Torna a guardare</button>' : ''}</div>`)
+    + `<div class="row2"><button type="button" id="tSay">🔊 Ascolta</button><button type="button" id="tClose">Chiudi</button></div>`;
+  $('card').classList.remove('hidden');
+  $('tClose').onclick = () => $('card').classList.add('hidden');
+  $('tSay').onclick = () => speak(`${c.place}. ${c.pl.fact}`, true);
+  if ($('tLook')) $('tLook').onclick = () => { $('card').classList.add('hidden'); here = LL(c.id); enterStreet(c, true); };
+  $('sheet').querySelectorAll('.tmode').forEach(b => b.onclick = () => { $('card').classList.add('hidden'); travel(c, b.dataset.m, E); });
+  if (isNext && P.group !== 'adult') { const bs = [...$('sheet').querySelectorAll('.tmode')]; sayParts([{text: `Prossimo giallo: ${c.place}. Come ci andiamo?`, pause: 250}, {text: 'A piedi,', el: bs[0]}, {text: 'in bici,', el: bs[1]}, {text: `oppure con ${E.mezzi.say}?`, el: bs[2]}]); }
+}
+function travel(c, mode, E) {
+  paused = true; const from = here, to = LL(c.id), info = E[mode];
+  showView('map'); placeFam();
+  const b = new google.maps.LatLngBounds(); b.extend(from); b.extend(to); map.fitBounds(b, {top: 120, bottom: 80, left: 40, right: 40});
+  const line = new google.maps.Polyline({map, path: [from, to], geodesic: true, strokeOpacity: 0, icons: [{icon: {path: 'M 0,-1 0,1', strokeOpacity: 1, strokeColor: mode === 'mezzi' ? '#E07A2C' : mode === 'bici' ? '#5FA57A' : '#2F80ED', scale: 4}, offset: '0', repeat: '14px'}], zIndex: 5});
+  if (!vehMk) vehMk = new google.maps.Marker({map, zIndex: 60, clickable: false});
+  vehMk.setIcon({url: svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56"><circle cx="28" cy="28" r="25" fill="#fff" stroke="#1F2A26" stroke-width="3"/><text x="28" y="38" text-anchor="middle" font-size="28">${info.ic}</text></svg>`), scaledSize: new google.maps.Size(48, 48), anchor: new google.maps.Point(24, 24)});
+  vehMk.setVisible(true); famMk.setVisible(false);
+  $('rideBanner').textContent = `${info.ic} ${info.name} · ${c.place} · circa ${info.t} min`; $('rideBanner').classList.remove('hidden');
+  speak(mode === 'mezzi' ? `Si parte con ${info.say}. Prossima fermata: ${c.place}.` : `Si parte ${info.say} verso ${c.place}.`);
+  const T = 5200, t0 = performance.now();
+  const step = now => { const t = Math.min(1, (now - t0) / T), k = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    vehMk.setPosition({lat: from.lat + (to.lat - from.lat) * k, lng: from.lng + (to.lng - from.lng) * k});
+    if (t < 1) requestAnimationFrame(step); else setTimeout(() => { line.setMap(null); vehMk.setVisible(false); famMk.setVisible(true); $('rideBanner').classList.add('hidden'); here = to; placeFam(); enterStreet(c); }, 500); };
+  requestAnimationFrame(step);
+}
+
+// ---------- in strada: le tre lenti nascoste ----------
+let CS0 = null; const CLUEMK = [];
+function found(id) { const pr = prog(P.k); pr.found = pr.found || {}; return pr.found[id] || (pr.found[id] = []); }
+function clueIcon(ok) { const s = ok ? '<circle cx="40" cy="40" r="34" fill="#5FA57A" stroke="#fff" stroke-width="5"/><path d="M24 41l11 11 21-24" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>'
+  : '<circle cx="40" cy="40" r="35" fill="#F2B632" stroke="#1F2A26" stroke-width="4"/><circle cx="35" cy="35" r="14" fill="#fff" stroke="#1F2A26" stroke-width="6"/><path d="M45 45l14 14" stroke="#1F2A26" stroke-width="8" stroke-linecap="round"/>';
+  return {url: svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">${s}</svg>`), scaledSize: new google.maps.Size(80, 80), anchor: new google.maps.Point(40, 40)}; }
+function clearClues() { while (CLUEMK.length) CLUEMK.pop().setMap(null); }
+function enterStreet(c, revisit) {
+  showView('street'); $('svHint').innerHTML = 'Un attimo…';
+  goPano(LL(c.id), c.id, d => {
+    paused = false; CS0 = {id: c.id, c, base: d ? d.location.latLng.toJSON() : LL(c.id)};
+    clearClues(); const fd = found(c.id), solved = prog(P.k).solved.includes(c.id);
+    // le tre lenti: davanti, a destra-dietro, a sinistra-dietro, a 9-16 metri: bisogna girarsi per trovarle
+    const h0 = pano.getPov().heading;
+    [[h0 + 25, 11], [h0 + 150, 14], [h0 + 255, 9]].forEach(([h, dist], j) => {
+      const mk = new google.maps.Marker({map: pano, position: offset(CS0.base, dist, h), icon: clueIcon(fd.includes(j) || solved), title: 'Indizio', zIndex: 5});
+      mk.addListener('click', () => onClue(j)); CLUEMK[j] = mk; });
+    renderHUD(); updateHint();
+    if (!solved && !revisit) openCase('intro');
+  });
+}
+function updateHint() {
+  if (!CS0) return; const n = found(CS0.id).length, solved = prog(P.k).solved.includes(CS0.id);
+  $('svHint').innerHTML = solved ? `Giallo risolto ✓ · tocca 🗺️ per tornare alla mappa` : n < 3 ? `Girati e cerca le lenti <b>🔍</b> · trovate <b>${n} di 3</b>` : `Hai tutti gli indizi: <b>chi è stato?</b>`;
+}
+function onClue(j) {
+  if (!CS0 || prog(P.k).solved.includes(CS0.id)) return;
+  if (found(CS0.id).includes(j)) { toast('Questo indizio l\'hai già trovato'); return; }
+  openCase('q', j);
+}
+$('helpBtn').addEventListener('click', () => { if (!CS0) return; const fd = found(CS0.id), j = [0, 1, 2].find(x => !fd.includes(x)); if (j === undefined) return;
+  pano.setPov({heading: headingTo(pano.getPosition().toJSON(), CLUEMK[j].getPosition().toJSON()), pitch: -4}); speak('Guarda qui!'); });
+$('toMap').addEventListener('click', () => { showView('map'); CS0 = null; placeFam(); map.panTo(here); map.setZoom(15); renderHUD(); const i = curIndex(); if (i >= 0) openTravel(i); });
+
+// ---------- il fascicolo: racconto, una domanda per lente, colpevole ----------
+let CS = null, busy = false;
+function bank() { return P.group === 'adult' ? QADULT : P.group === 'edo' ? QEDO : QBIA; }
+function newQuestion() {
+  const b = bank(), pr = prog(P.k); let pool = b.map((_, i) => i).filter(i => !pr.used.includes(i));
+  if (!pool.length) { pr.used = []; pool = b.map((_, i) => i); }
+  const qi = pool[Math.floor(Math.random() * pool.length)]; pr.used.push(qi); persist();
+  const [text, ans] = b[qi]; return {text, opts: ans.map((a, j) => ({a, ok: j === 0})).sort(() => Math.random() - .5), tried: []};
+}
+function openCase(mode, j) {
+  const i = CASES.findIndex(c => c.id === CS0.id); paused = true; $('card').classList.add('hidden');
+  CS = {i, c: CASES[i], mode, j, q: mode === 'q' ? newQuestion() : null, wrongSus: [], fresh: -1};
+  if (mode === 'q' && found(CS.c.id).length >= 3) CS.mode = 'sus';
+  $('case').classList.remove('hidden'); renderCase();
+  if (CS.mode === 'intro') readStory(); else if (CS.mode === 'q') setTimeout(() => readQuestion(), 250); else if (CS.mode === 'sus') readSuspects();
+}
+function closeCase(silent) { $('case').classList.add('hidden'); CS = null; paused = false; if (!silent) hush(); }
+function renderCase() {
+  const c = CS.c, fd = found(c.id), n = CS.mode === 'done' ? 3 : fd.length, emo = P.group === 'bia';
+  let h = `<div class="fh"><span class="stamp">Giallo ${CS.i + 1}/10</span><div class="t"><div class="pl2">${esc(c.place)} · ${esc(c.sub)}</div><h2>${esc(c.title)}</h2></div><button type="button" class="close" id="cClose" aria-label="Chiudi il fascicolo">✕</button></div>`;
+  if (CS.mode === 'intro') h += `<div class="story"><p id="storyP">${sentences(c.story).map(s => `<span class="sn">${esc(s)}</span>`).join(' ')}</p><button type="button" class="say" id="sayStory">🔊 Ascolta</button></div>`;
+  h += `<div class="sec">Indizi · ${n} di 3</div><div class="clues">${c.clues.map((cl, k) => k < n ? `<div class="clue${k === CS.fresh ? ' new' : ''}"><span class="e">${cl[0]}</span><span>${esc(cl[1])}</span></div>` : `<div class="clue lock"><span class="e">?</span><span>Lente da trovare</span></div>`).join('')}</div>`;
+  if (CS.mode === 'intro') h += `<div style="display:flex;justify-content:flex-end;margin-top:14px"><button type="button" class="go" id="goLook">🔍 Cerca le lenti nella strada</button></div>`;
+  if (CS.mode === 'q') { const q = CS.q;
+    h += `<div class="sec">Hai trovato una lente: rispondi e scopri l'indizio</div><div class="q"><h3>${esc(q.text)}</h3><div class="opts${emo ? '' : ' txt'}">${q.opts.map((o, k) => `<button type="button" class="opt${emo ? ' emo' : ''}${q.tried.includes(k) ? ' wrong' : ''}" data-j="${k}" ${q.tried.includes(k) ? 'disabled' : ''} aria-label="${esc(emo ? o.a[1] : o.a)}">${emo ? esc(o.a[0]) : `<span class="L">${'ABCD'[k]}</span>${esc(o.a)}`}</button>`).join('')}</div><div class="fb" id="fb"></div></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button type="button" class="say" id="sayQ">🔊 Leggi la domanda</button></div>`; }
+  if (CS.mode === 'more') h += `<div style="display:flex;justify-content:flex-end;margin-top:14px"><button type="button" class="go" id="goLook">🔍 Cerca la prossima lente</button></div>`;
+  if (CS.mode === 'sus') h += `<div class="sec">Chi è stato? Guarda bene gli indizi</div><div class="sus">${c.suspects.map((s, k) => `<button type="button" class="su pickable${CS.wrongSus.includes(k) ? ' wrong' : ''}" data-s="${k}" ${CS.wrongSus.includes(k) ? 'disabled' : ''}><span class="e">${s[0]}</span>${esc(s[1])}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+  if (CS.mode === 'done') { const last = curIndex() < 0; h += `<div class="solved"><b>Caso risolto, ${esc(P.name)}!</b><p>${esc(c.end)}</p><button type="button" class="go" id="next">${last ? '🏆 Vai al premio finale' : '🗺️ Al prossimo giallo →'}</button></div>`; }
+  $('file').innerHTML = h; CS.fresh = -1;
+  $('cClose').onclick = () => closeCase();
+  if ($('sayStory')) $('sayStory').onclick = () => readStory(true);
+  if ($('sayQ')) $('sayQ').onclick = () => readQuestion(true);
+  if ($('goLook')) $('goLook').onclick = () => { closeCase(); if (CS0 && found(CS0.id).length === 0) speak('Girati e cerca le lenti gialle. Puoi anche toccare la bussola per un aiuto.'); };
+  if ($('next')) $('next').onclick = () => { const last = curIndex() < 0; closeCase(); updateMarkers(); renderHUD(); if (last) finale(); else $('toMap').click(); };
+  if (CS.mode !== 'intro') requestAnimationFrame(() => { const t = $('file').querySelector('.solved, .sus, .q, .go'); if (t) t.scrollIntoView({block: 'nearest', behavior: 'smooth'}); });
+}
+$('file').addEventListener('click', e => {
+  if (!CS) return;
+  const o = e.target.closest('.opt'); if (o && !o.disabled) { answer(+o.dataset.j, o); return; }
+  const s = e.target.closest('.su'); if (s && !s.disabled) accuse(+s.dataset.s, s);
+});
+function answer(k, el) {
+  if (busy) return; const q = CS.q, o = q.opts[k], fb = $('fb');
+  if (o.ok) {
+    busy = true; el.classList.add('right'); fb.className = 'fb ok'; fb.textContent = `${bravo(P.k)}! Indizio trovato.`;
+    const fd = found(CS.c.id); if (!fd.includes(CS.j)) fd.push(CS.j); persist(); if (CLUEMK[CS.j]) CLUEMK[CS.j].setIcon(clueIcon(true));
+    const clue = CS.c.clues[fd.length - 1]; speak(`${bravo(P.k)}! Indizio trovato: ${clue[1]}.`);
+    setTimeout(() => { busy = false; CS.fresh = fd.length - 1; CS.q = null; CS.mode = fd.length >= 3 ? 'sus' : 'more'; renderCase(); updateHint(); renderHUD(); if (CS.mode === 'sus') setTimeout(() => readSuspects(), 2600); }, 1100);
+  } else if (P.group === 'bia') {
+    q.tried.push(k); el.classList.add('wrong'); el.disabled = true; fb.className = 'fb no'; fb.textContent = 'Quasi! Riprova.'; speak('Quasi! Riprova.');
+  } else {
+    busy = true; el.classList.add('wrong'); const r = q.opts.findIndex(x => x.ok); $('file').querySelector(`.opt[data-j="${r}"]`).classList.add('right');
+    fb.className = 'fb no'; fb.textContent = `Era: ${q.opts[r].a}. Nessun problema, ecco un'altra domanda.`; speak(`Era: ${q.opts[r].a}.`);
+    setTimeout(() => { busy = false; CS.q = newQuestion(); renderCase(); }, 2300);
+  }
+}
+function accuse(k, el) {
+  const fb = $('fb');
+  if (k === CS.c.culprit) {
+    const pr = prog(P.k); if (!pr.solved.includes(CS.c.id)) pr.solved.push(CS.c.id); persist();
+    CS.mode = 'done'; renderCase(); updateHint(); renderHUD(); speak(`Caso risolto! ${CS.c.end}`); burst(); burst();
+    CLUEMK.forEach(m => m && m.setIcon(clueIcon(true)));
+  } else { CS.wrongSus.push(k); el.classList.add('wrong'); el.disabled = true; fb.className = 'fb no'; fb.textContent = 'Non torna con gli indizi: rileggili e riprova.'; speak('Non torna con gli indizi. Riprova.'); }
+}
+
+// ---------- fuochi d'artificio ----------
+const fwc = $('fw'), fwg = fwc.getContext('2d'); let fwT = 0; const FWP = [];
+function fwSize() { fwc.width = innerWidth * Math.min(devicePixelRatio, 2); fwc.height = innerHeight * Math.min(devicePixelRatio, 2); }
+fwSize(); addEventListener('resize', fwSize);
+function burst() {
+  const W = fwc.width, H = fwc.height, x = W * (.2 + Math.random() * .6), y = H * (.12 + Math.random() * .3);
+  const col = ['#F2B632', '#E4573D', '#5FA57A', '#4A90C6', '#8D5BB8', '#FFFFFF'][Math.floor(Math.random() * 6)], n = MOBILE ? 60 : 110, sc = Math.min(devicePixelRatio, 2);
+  for (let i = 0; i < n; i++) { const a = Math.random() * 6.283, v = (2 + Math.random() * 4.5) * sc; FWP.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 0, col, s: sc}); }
+}
+function updateFireworks(dt) {
+  if (fireworksOn) { fwT -= dt; if (fwT <= 0) { fwT = .3 + Math.random() * .4; burst(); } }
+  fwg.clearRect(0, 0, fwc.width, fwc.height); if (!FWP.length) return;
+  fwg.globalCompositeOperation = 'lighter';
+  for (let k = FWP.length - 1; k >= 0; k--) { const p = FWP[k]; p.life += dt; p.vy += .07 * p.s; p.vx *= .985; p.vy *= .985; p.x += p.vx; p.y += p.vy;
+    const a = Math.max(0, 1 - p.life / 1.8); if (a <= 0) { FWP.splice(k, 1); continue; } fwg.globalAlpha = a; fwg.fillStyle = p.col; fwg.beginPath(); fwg.arc(p.x, p.y, 2.2 * p.s, 0, 6.283); fwg.fill(); }
+  fwg.globalAlpha = 1; fwg.globalCompositeOperation = 'source-over';
+}
+
+// ---------- premio finale: la vista da Superga ----------
+function finale() {
+  paused = true; fireworksOn = true; here = LL('superga'); showView('street'); $('svHint').classList.add('hidden');
+  goPano(LL('superga'), 'superga', () => { pano.setPov({heading: 245, pitch: 6}); });
+  const d = new Date().toLocaleDateString('it-IT', {day: 'numeric', month: 'long', year: 'numeric'});
+  $('diploma').innerHTML = `<p class="kick">Città di Torino · Diploma di</p><h2>Detective di Torino</h2><div class="who">${face(P.k, 150)}</div>
+    <p><b>${esc(P.name)}, ${P.age} anni</b>, ha risolto tutti e dieci i gialli di Torino: dalla corona del Re in Piazza Castello fino al segreto della collina di Superga.</p>
+    <p>Il premio: il <b>Bicerin d'oro</b> dei detective, e i fuochi d'artificio sopra la Basilica.</p>
+    <div class="seal">★ Superga, ${d} ★</div>
+    <div class="row"><button type="button" class="go" id="fwLook">🎆 Guarda i fuochi</button><button type="button" class="ghost" id="fwOther">Gioca con un altro detective</button><button type="button" class="ghost" id="fwAgain">Ricomincia i 10 gialli</button></div>`;
+  $('final').classList.remove('hidden');
+  speak(`Complimenti ${P.name}! Hai risolto tutti e dieci i gialli di Torino. Sei un vero detective. Il premio è il Bicerin d'oro, e i fuochi d'artificio sopra Superga!`);
+  $('fwLook').onclick = () => { $('final').classList.add('hidden'); paused = false; toast('Fuochi sopra Superga! Il menu ☰ ti riporta ai detective'); };
+  $('fwOther').onclick = () => $('menu').click();
+  $('fwAgain').onclick = () => { SAVE.players[P.k] = {solved: [], clues: {}, used: [], found: {}}; persist(); fireworksOn = false; $('final').classList.add('hidden'); startGame(P.k, true); };
+}
+
+// ---------- partenza ----------
+function startGame(k, fromStart) {
+  P = PLAYERS.find(p => p.k === k); prog(k); SAVE.last = k; persist();
+  $('start').classList.add('hidden'); $('hud').classList.remove('hidden'); $('final').classList.add('hidden'); $('card').classList.add('hidden');
+  attract = false; paused = false; fireworksOn = false; CS0 = null;
+  const i = curIndex(), pr = prog(k);
+  updateMarkers(); renderHUD();
+  if (i < 0) { finale(); return; }
+  here = pr.solved.length && i > 0 && !fromStart ? LL(CASES[i - 1].id) : START_LL;
+  showView('map'); placeFam();
+  const b = new google.maps.LatLngBounds(); b.extend(here); b.extend(LL(CASES[i].id)); map.fitBounds(b, {top: 140, bottom: 330, left: 40, right: 40});
+  google.maps.event.addListenerOnce(map, 'idle', () => { if (map.getZoom() > 17) map.setZoom(17); });
+  openTravel(i);
+  if (P.group === 'adult') speak(`Ciao ${P.name}! ${pr.solved.length ? 'Il prossimo giallo' : 'Il primo giallo'} è a ${CASES[i].place}.`);
+}
+// tornando al menu, dietro gira di nuovo Piazza Castello
+$('menu').addEventListener('click', () => { CS0 = null; clearClues(); showView('street'); $('svHint').classList.add('hidden'); $('toMap').classList.add('hidden'); $('helpBtn').classList.add('hidden'); if (pano) goPano(LL('castello'), 'castello'); });
+
+// ===================== VOCE =====================
+// La migliore voce italiana del dispositivo (o quella scelta nel menu), una frase alla volta,
+// con la frase o la figura che si sta leggendo evidenziata.
+const VO = {list: [], voice: null, queue: [], gen: 0, unlocked: false, has: 'speechSynthesis' in window};
+function voiceScore(v) {
+  const n = v.name.toLowerCase(); let s = /it[-_]it/i.test(v.lang) ? 10 : 0;
+  if (/premium|enhanced|migliorat|natural|neural|online/.test(n)) s += 50;
+  if (/google/.test(n)) s += 30;
+  if (/alice|federica|elsa|isabella|paola|luca|emma|diego|giorgio|cosimo/.test(n)) s += 12;
+  if (/compact|eloquence|grandma|grandpa|shelley|rocko|reed|sandy|flo/.test(n)) s -= 30;
+  return s;
+}
+function loadVoices() {
+  if (!VO.has) return;
+  try { VO.list = speechSynthesis.getVoices().filter(v => /^it/i.test(v.lang)).sort((a, b) => voiceScore(b) - voiceScore(a)); } catch (e) { VO.list = []; }
+  const want = SAVE.vs && SAVE.vs.name; VO.voice = VO.list.find(v => v.name === want) || VO.list[0] || null;
+  if (!$('scrVoice').classList.contains('hidden')) renderVoicePanel();
+}
+if (VO.has) { loadVoices(); try { speechSynthesis.addEventListener('voiceschanged', loadVoices); } catch (e) { speechSynthesis.onvoiceschanged = loadVoices; } setTimeout(loadVoices, 600); setTimeout(loadVoices, 2000); }
+// iPhone: la voce parte solo dopo un tocco. Al primo tocco la "sblocchiamo" con una frase muta.
+addEventListener('pointerdown', () => { if (VO.unlocked || !VO.has) return; VO.unlocked = true; try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'it-IT'; speechSynthesis.speak(u); } catch (e) {} }, {capture: true});
+
+// testo scritto -> testo da pronunciare
+function sayable(t) {
+  return String(t)
+    .replace(/[\u{1F000}-\u{1FAFF}☀-➿️⃣‍〰〽]/gu, ' ')
+    .replace(/(\d)\s*×\s*(\d)/g, '$1 per $2').replace(/(\d)\s*:\s*(\d)/g, '$1 diviso $2')
+    .replace(/(\d)\s*[−-]\s*(\d)/g, '$1 meno $2').replace(/(\d)\s*\+\s*(\d)/g, '$1 più $2')
+    .replace(/1°/g, 'primo').replace(/−(\d)/g, 'meno $1')
+    .replace(/\b(Emanuele|Umberto) III\b/g, '$1 terzo').replace(/\b(Emanuele|Umberto) II\b/g, '$1 secondo').replace(/\b(Emanuele|Umberto) I\b/g, '$1 primo')
+    .replace(/simbolo Au/g, 'simbolo A, U').replace(/\bkm\b/g, 'chilometri').replace(/\bX\?/g, 'la lettera X?')
+    .replace(/["“”«»]/g, '').replace(/\s+/g, ' ').trim();
+}
+function sentences(t) { return (String(t).match(/[^.!?…]+[.!?…]+["”»]?|[^.!?…]+$/g) || [t]).map(s => s.trim()).filter(Boolean); }
+function voiceOn() { return P && SAVE.voice[P.k]; }
+function clearReading() { document.querySelectorAll('.reading').forEach(e => e.classList.remove('reading')); }
+function hush() { VO.gen++; VO.queue = []; clearReading(); try { if (VO.has) speechSynthesis.cancel(); } catch (e) {} }
+// parts: [{text, el?, pause?}] letti in fila; ogni parte evidenzia il suo elemento
+function sayParts(parts, force) {
+  if (!VO.has || (!force && !voiceOn())) return;
+  hush(); const gen = VO.gen; const rate = ((SAVE.vs && SAVE.vs.rate) || .95) * (P && P.group === 'bia' ? .92 : 1);
+  let i = 0;
+  const next = () => {
+    if (gen !== VO.gen) return; clearReading();
+    if (i >= parts.length) return; const p = parts[i++];
+    const txt = sayable(p.text); if (!txt) { next(); return; }
+    if (p.el) p.el.classList.add('reading');
+    const u = new SpeechSynthesisUtterance(txt); u.lang = 'it-IT'; if (VO.voice) u.voice = VO.voice; u.rate = rate; u.pitch = 1;
+    let done = false; const fin = () => { if (done) return; done = true; setTimeout(next, p.pause || 140); };
+    u.onend = fin; u.onerror = fin;
+    setTimeout(fin, 2500 + txt.length * 110 / rate);     // rete di sicurezza se il browser perde l'evento di fine
+    try { speechSynthesis.speak(u); } catch (e) { fin(); }
+  };
+  try { speechSynthesis.resume(); } catch (e) {}
+  setTimeout(next, 60);
+}
+function speak(text, force) { sayParts(sentences(text).map(t => ({text: t})), force); }
+function readStory(force) {
+  if (!CS) return; const spans = [...document.querySelectorAll('#storyP .sn')];
+  sayParts([{text: CS.c.title + '.', pause: 300}].concat(spans.map(el => ({text: el.textContent, el}))), force);
+}
+function readQuestion(force) {
+  if (!CS || !CS.q) return; const q = CS.q, h3 = document.querySelector('#file .q h3'), btns = [...document.querySelectorAll('#file .opt')];
+  const parts = [{text: q.text, el: h3, pause: 350}];
+  if (P.group === 'bia') { parts.push({text: 'Puoi toccare:', pause: 200}); q.opts.forEach((o, j) => { if (!q.tried.includes(j)) parts.push({text: o.a[1] + (j < q.opts.length - 1 ? ',' : '.'), el: btns[j], pause: 260}); }); }
+  else q.opts.forEach((o, j) => parts.push({text: `${'ABCD'[j]}: ${o.a}.`, el: btns[j], pause: 200}));
+  sayParts(parts, force);
+}
+function readSuspects(force) {
+  if (!CS) return; const btns = [...document.querySelectorAll('#file .su')];
+  sayParts([{text: 'Hai tutti gli indizi. Chi è stato?', pause: 300}].concat(CS.c.suspects.map((s, j) => ({text: s[1] + '?', el: btns[j], pause: 300}))), force);
+}
+
+function voiceIcon() { if (P) $('voice').textContent = SAVE.voice[P.k] ? '🔊' : '🔇'; }
+$('voice').addEventListener('click', () => { SAVE.voice[P.k] = !SAVE.voice[P.k]; persist(); voiceIcon(); if (SAVE.voice[P.k]) speak('Ciao! Leggo io le storie e le domande.'); else hush(); toast(SAVE.voice[P.k] ? 'La voce legge storie e domande' : 'Voce spenta'); });
+
+// ---------- pannello della voce (menu) ----------
+function renderVoicePanel() {
+  const sel = $('vSel'), note = $('vNote');
+  if (!VO.has || !VO.list.length) {
+    sel.innerHTML = '<option>Nessuna voce italiana su questo dispositivo</option>'; sel.disabled = true;
+    note.innerHTML = 'Su iPhone e iPad: <b>Impostazioni › Accessibilità › Contenuto letto › Voci › Italiano</b>, poi scarica una voce “Migliorata” (per esempio Alice o Federica) e riapri il gioco.';
+  } else {
+    sel.disabled = false;
+    sel.innerHTML = VO.list.map(v => `<option value="${esc(v.name)}"${VO.voice && v.name === VO.voice.name ? ' selected' : ''}>${esc(v.name.replace(/\s*\(.*?\)\s*/g, ' ').trim())}${voiceScore(v) >= 40 ? ' · alta qualità' : ''}</option>`).join('');
+    note.innerHTML = VO.list.some(v => voiceScore(v) >= 40) ? 'Le voci “alta qualità” suonano più naturali.'
+      : 'Per una voce più naturale su iPhone: <b>Impostazioni › Accessibilità › Contenuto letto › Voci › Italiano</b> e scarica una voce “Migliorata”.';
+  }
+  const r = (SAVE.vs && SAVE.vs.rate) || .95; $('vRate').querySelectorAll('button').forEach(b => b.classList.toggle('on', Math.abs(+b.dataset.r - r) < .01));
+}
+$('vSel').addEventListener('change', () => { SAVE.vs = Object.assign({}, SAVE.vs, {name: $('vSel').value}); persist(); loadVoices(); speak('Ciao, sono la voce dei Gialli di Torino.', true); });
+$('vRate').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; SAVE.vs = Object.assign({}, SAVE.vs, {rate: +b.dataset.r}); persist(); renderVoicePanel(); speak('Così va bene?', true); });
+$('vTest').addEventListener('click', () => speak('La corona del Re è sparita da Palazzo Reale. Trova tre indizi e scopri chi è stato.', true));
+
+// ===================== MENU INIZIALE =====================
+const LEVEL_LONG = {
+  adult: 'Domande di cultura generale: arte, storia, scienza e tanta Torino.',
+  edo: 'Domande da terza elementare: tabelline, italiano, scienze e geografia.',
+  bia: 'Niente da leggere: la voce racconta e si risponde toccando le figure.',
+};
+let SEL = Math.max(0, PLAYERS.findIndex(p => p.k === SAVE.last));
+function showScreen(name) {
+  for (const [id, n] of [['scrTitle', 'title'], ['scrSelect', 'select'], ['scrVoice', 'voice']]) $(id).classList.toggle('hidden', n !== name);
+  $('start').scrollTop = 0;
+  if (name === 'select') { renderSelect(0); setTimeout(() => $('selGo').focus({preventScroll: true}), 50); }
+  if (name === 'voice') renderVoicePanel();
+  if (name === 'title') renderMenu();
+}
+function renderMenu() {
+  const last = SAVE.last && PLAYERS.find(p => p.k === SAVE.last);
+  $('mPlay').querySelector('small').textContent = ready ? 'Scegli il detective' : 'Costruisco Torino…';
+  if (last && prog(last.k).solved.length) {
+    const n = prog(last.k).solved.length, nx = CASES.find(c => !prog(last.k).solved.includes(c.id));
+    $('mCont').classList.remove('hidden'); $('mCont').style.setProperty('--c', last.color);
+    $('mContFace').innerHTML = AVATAR(last.k, {h: 44}); $('mContFace').style.background = last.color;
+    $('mContT').textContent = `Continua con ${last.name}`;
+    $('mContS').textContent = nx ? `${n} di 10 gialli · prossimo: ${nx.place}` : 'Tutti i gialli risolti: rivedi il premio';
+  } else $('mCont').classList.add('hidden');
+}
+function renderSelect(dir) {
+  const p = PLAYERS[SEL], pr = prog(p.k), n = pr.solved.length, nx = CASES.find(c => !pr.solved.includes(c.id));
+  const card = $('selCard'); card.style.setProperty('--c', p.color); card.style.setProperty('--dx', (dir || 0) * 40 + 'px');
+  card.innerHTML = `<div class="big-av">${AVATAR(p.k, {h: 230})}</div>
+    <div class="snm">${esc(p.name)}</div><div class="sage">${p.age} anni</div>
+    <div class="slv">${LEVEL_LONG[p.group]}</div>
+    <div class="sprog"><span class="bar10">${CASES.map((c, i) => `<i class="${pr.solved.includes(c.id) ? 'on' : ''}"></i>`).join('')}</span>${n ? `${n} di 10 gialli risolti${nx ? ` · prossimo: ${esc(nx.place)}` : ' · premio conquistato!'}` : 'Nessun giallo ancora: si parte da Piazza Castello'}</div>`;
+  card.style.animation = 'none'; void card.offsetWidth; card.style.animation = '';
+  $('thumbs').innerHTML = PLAYERS.map((q, i) => `<button type="button" class="thumb${i === SEL ? ' on' : ''}" role="tab" aria-selected="${i === SEL}" data-i="${i}" style="--c:${q.color}"><span class="tf">${AVATAR(q.k, {h: 40})}</span>${q.name}<small>${q.age}</small></button>`).join('');
+  $('selGo').textContent = n && nx ? `Riprendi l'indagine di ${p.name} →` : nx ? `Inizia l'indagine di ${p.name} →` : `Rivedi il premio di ${p.name} →`;
+  if (p.group === 'bia' && dir !== undefined) sayParts([{text: `Ciao ${p.name}! Tocca il pulsante giallo per cominciare.`}], SAVE.voice[p.k]);
+}
+function moveSel(d) { SEL = (SEL + d + PLAYERS.length) % PLAYERS.length; hush(); renderSelect(d); }
+$('mPlay').addEventListener('click', () => showScreen('select'));
+$('mCont').addEventListener('click', () => { if (!ready) return toast('Un attimo, sto finendo di costruire Torino…'); startGame(SAVE.last); });
+$('mVoice').addEventListener('click', () => showScreen('voice'));
+$('mHow').addEventListener('click', () => $('howBox').classList.toggle('hidden'));
+$('selBack').addEventListener('click', () => showScreen('title'));
+$('vBack').addEventListener('click', () => { hush(); showScreen('title'); });
+$('selPrev').addEventListener('click', () => moveSel(-1));
+$('selNext').addEventListener('click', () => moveSel(1));
+$('thumbs').addEventListener('click', e => { const b = e.target.closest('.thumb'); if (!b) return; const i = +b.dataset.i; const d = i > SEL ? 1 : -1; if (i !== SEL) { SEL = i; renderSelect(d); } });
+$('selGo').addEventListener('click', () => { if (!ready) return toast('Un attimo, sto finendo di costruire Torino…'); startGame(PLAYERS[SEL].k); });
+// scorrere col dito sulla scheda
+{ let sx = null; const c = $('selCard');
+  c.addEventListener('pointerdown', e => { sx = e.clientX; });
+  c.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 40) moveSel(dx < 0 ? 1 : -1); }); }
+addEventListener('keydown', e => {
+  if ($('start').classList.contains('hidden')) return;
+  if (!$('scrSelect').classList.contains('hidden')) {
+    if (e.code === 'ArrowLeft') { moveSel(-1); e.preventDefault(); }
+    else if (e.code === 'ArrowRight') { moveSel(1); e.preventDefault(); }
+    else if (e.code === 'Escape') showScreen('title');
+  } else if (!$('scrVoice').classList.contains('hidden') && e.code === 'Escape') showScreen('title');
+});
+// dal gioco al menu
+$('menu').addEventListener('click', () => {
+  paused = true; attract = true; closeCase(true); $('ride').classList.add('hidden'); hush();
+  $('hud').classList.add('hidden'); $('final').classList.add('hidden'); fireworksOn = false;
+  $('start').classList.remove('hidden'); showScreen('title');
+});
+renderMenu();
+
+</script>
+</body>
+</html>
