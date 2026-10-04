@@ -96,6 +96,25 @@
    "time": "16:30",
    "icon": "corso",
    "freq": "weekly"
+  },
+  {
+   "id": "palestra-edo",
+   "title": "Palestra Edoardo a scuola",
+   "sub": "scarpe da ginnastica e cambio nello zaino",
+   "who": {
+    "by": [],
+    "with": [
+     "edo"
+    ]
+   },
+   "days": [
+    2,
+    4
+   ],
+   "slot": "m",
+   "time": "08:00",
+   "icon": "sport",
+   "freq": "weekly"
   }
  ],
  "weeks": {
