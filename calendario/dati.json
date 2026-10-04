@@ -859,7 +859,19 @@
        "by": [
         "gof"
        ],
-       "with": []
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
       }
      },
      "bia": {
@@ -867,7 +879,226 @@
        "by": [
         "gof"
        ],
-       "with": []
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-06": {
+     "edo": {
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "baby"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "bia": {
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "baby"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "note": "",
+     "extra": [
+      {
+       "id": "x-riun-edo-1006",
+       "title": "Riunione Edoardo",
+       "time": "17:00",
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo"
+        ]
+       },
+       "kind": "",
+       "icon": "riunione",
+       "slot": "p"
+      },
+      {
+       "id": "x-compl-anna-1006",
+       "title": "Compleanno Anna",
+       "time": "18:00",
+       "who": {
+        "by": [
+         "caro"
+        ],
+        "with": []
+       },
+       "kind": "",
+       "icon": "famiglia",
+       "slot": "s"
+      }
+     ]
+    },
+    "2026-10-07": {
+     "edo": {
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "bia": {
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-08": {
+     "edo": {
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "bia": {
+      "m": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-09": {
+     "edo": {
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      }
+     },
+     "bia": {
+      "m": {
+       "by": [
+        "gof"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
+      },
+      "p": {
+       "by": [
+        "caro"
+       ],
+       "with": [
+        "edo",
+        "bia"
+       ]
       }
      },
      "note": "",
