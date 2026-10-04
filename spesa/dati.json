@@ -1,0 +1,734 @@
+{
+ "v": 1,
+ "items": {
+  "mele": {
+   "id": "mele",
+   "name": "Mele",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "banane": {
+   "id": "banane",
+   "name": "Banane",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "arance": {
+   "id": "arance",
+   "name": "Arance",
+   "cat": "frutta",
+   "state": "low",
+   "buy": true,
+   "every": 0,
+   "u": 1791138040012
+  },
+  "limoni": {
+   "id": "limoni",
+   "name": "Limoni",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pomodori": {
+   "id": "pomodori",
+   "name": "Pomodori",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "insalata": {
+   "id": "insalata",
+   "name": "Insalata",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "carote": {
+   "id": "carote",
+   "name": "Carote",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "zucchine": {
+   "id": "zucchine",
+   "name": "Zucchine",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "patate": {
+   "id": "patate",
+   "name": "Patate",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "cipolle": {
+   "id": "cipolle",
+   "name": "Cipolle",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "aglio": {
+   "id": "aglio",
+   "name": "Aglio",
+   "cat": "frutta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pane": {
+   "id": "pane",
+   "name": "Pane",
+   "cat": "pane",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pancarre": {
+   "id": "pancarre",
+   "name": "Pancarrè",
+   "cat": "pane",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "grissini": {
+   "id": "grissini",
+   "name": "Grissini",
+   "cat": "pane",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "crackers": {
+   "id": "crackers",
+   "name": "Crackers",
+   "cat": "pane",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "latte": {
+   "id": "latte",
+   "name": "Latte",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "yogurt": {
+   "id": "yogurt",
+   "name": "Yogurt",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "uova": {
+   "id": "uova",
+   "name": "Uova",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "burro": {
+   "id": "burro",
+   "name": "Burro",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "mozzarella": {
+   "id": "mozzarella",
+   "name": "Mozzarella",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "parmigiano": {
+   "id": "parmigiano",
+   "name": "Parmigiano",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "prosciutto-cotto": {
+   "id": "prosciutto-cotto",
+   "name": "Prosciutto cotto",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "panna": {
+   "id": "panna",
+   "name": "Panna",
+   "cat": "frigo",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pollo": {
+   "id": "pollo",
+   "name": "Pollo",
+   "cat": "carne",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "carne-macinata": {
+   "id": "carne-macinata",
+   "name": "Carne macinata",
+   "cat": "carne",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pesce": {
+   "id": "pesce",
+   "name": "Pesce",
+   "cat": "carne",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pasta": {
+   "id": "pasta",
+   "name": "Pasta",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "riso": {
+   "id": "riso",
+   "name": "Riso",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "passata-di-pomodoro": {
+   "id": "passata-di-pomodoro",
+   "name": "Passata di pomodoro",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "olio-extravergine": {
+   "id": "olio-extravergine",
+   "name": "Olio extravergine",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "aceto": {
+   "id": "aceto",
+   "name": "Aceto",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "sale": {
+   "id": "sale",
+   "name": "Sale",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "zucchero": {
+   "id": "zucchero",
+   "name": "Zucchero",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "farina": {
+   "id": "farina",
+   "name": "Farina",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "legumi-in-scatola": {
+   "id": "legumi-in-scatola",
+   "name": "Legumi in scatola",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "tonno": {
+   "id": "tonno",
+   "name": "Tonno",
+   "cat": "dispensa",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "biscotti": {
+   "id": "biscotti",
+   "name": "Biscotti",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "fette-biscottate": {
+   "id": "fette-biscottate",
+   "name": "Fette biscottate",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "marmellata": {
+   "id": "marmellata",
+   "name": "Marmellata",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "cereali": {
+   "id": "cereali",
+   "name": "Cereali",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "caffe": {
+   "id": "caffe",
+   "name": "Caffè",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "te": {
+   "id": "te",
+   "name": "Tè",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "merendine": {
+   "id": "merendine",
+   "name": "Merendine",
+   "cat": "colazione",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "piselli-surgelati": {
+   "id": "piselli-surgelati",
+   "name": "Piselli surgelati",
+   "cat": "surgelati",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "bastoncini-di-pesce": {
+   "id": "bastoncini-di-pesce",
+   "name": "Bastoncini di pesce",
+   "cat": "surgelati",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "verdure-surgelate": {
+   "id": "verdure-surgelate",
+   "name": "Verdure surgelate",
+   "cat": "surgelati",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "acqua": {
+   "id": "acqua",
+   "name": "Acqua",
+   "cat": "bevande",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "succhi-di-frutta": {
+   "id": "succhi-di-frutta",
+   "name": "Succhi di frutta",
+   "cat": "bevande",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "detersivo-piatti": {
+   "id": "detersivo-piatti",
+   "name": "Detersivo piatti",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pastiglie-lavastoviglie": {
+   "id": "pastiglie-lavastoviglie",
+   "name": "Pastiglie lavastoviglie",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "sgrassatore": {
+   "id": "sgrassatore",
+   "name": "Sgrassatore",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "anticalcare": {
+   "id": "anticalcare",
+   "name": "Anticalcare",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "detersivo-pavimenti": {
+   "id": "detersivo-pavimenti",
+   "name": "Detersivo pavimenti",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "spugne": {
+   "id": "spugne",
+   "name": "Spugne",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "sacchi-spazzatura": {
+   "id": "sacchi-spazzatura",
+   "name": "Sacchi spazzatura",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "sacchetti-umido": {
+   "id": "sacchetti-umido",
+   "name": "Sacchetti umido",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "detersivo-lavatrice": {
+   "id": "detersivo-lavatrice",
+   "name": "Detersivo lavatrice",
+   "cat": "bucato",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "ammorbidente": {
+   "id": "ammorbidente",
+   "name": "Ammorbidente",
+   "cat": "bucato",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "smacchiatore": {
+   "id": "smacchiatore",
+   "name": "Smacchiatore",
+   "cat": "bucato",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "sapone-mani": {
+   "id": "sapone-mani",
+   "name": "Sapone mani",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "bagnoschiuma": {
+   "id": "bagnoschiuma",
+   "name": "Bagnoschiuma",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "shampoo": {
+   "id": "shampoo",
+   "name": "Shampoo",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "dentifricio": {
+   "id": "dentifricio",
+   "name": "Dentifricio",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "spazzolini": {
+   "id": "spazzolini",
+   "name": "Spazzolini",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "deodorante": {
+   "id": "deodorante",
+   "name": "Deodorante",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "cotton-fioc": {
+   "id": "cotton-fioc",
+   "name": "Cotton fioc",
+   "cat": "igiene",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "carta-igienica": {
+   "id": "carta-igienica",
+   "name": "Carta igienica",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "scottex": {
+   "id": "scottex",
+   "name": "Scottex",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "fazzoletti": {
+   "id": "fazzoletti",
+   "name": "Fazzoletti",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "tovaglioli": {
+   "id": "tovaglioli",
+   "name": "Tovaglioli",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pellicola": {
+   "id": "pellicola",
+   "name": "Pellicola",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "carta-forno": {
+   "id": "carta-forno",
+   "name": "Carta forno",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "alluminio": {
+   "id": "alluminio",
+   "name": "Alluminio",
+   "cat": "carta",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "merenda-scuola": {
+   "id": "merenda-scuola",
+   "name": "Merenda scuola",
+   "cat": "bambini",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "quaderni": {
+   "id": "quaderni",
+   "name": "Quaderni",
+   "cat": "bambini",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "colla-stick": {
+   "id": "colla-stick",
+   "name": "Colla stick",
+   "cat": "bambini",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "cerotti": {
+   "id": "cerotti",
+   "name": "Cerotti",
+   "cat": "farmacia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "tachipirina": {
+   "id": "tachipirina",
+   "name": "Tachipirina",
+   "cat": "farmacia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "disinfettante": {
+   "id": "disinfettante",
+   "name": "Disinfettante",
+   "cat": "farmacia",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "pile": {
+   "id": "pile",
+   "name": "Pile",
+   "cat": "varie",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  },
+  "lampadine": {
+   "id": "lampadine",
+   "name": "Lampadine",
+   "cat": "varie",
+   "state": "ok",
+   "buy": false,
+   "every": 0,
+   "u": 0
+  }
+ }
+}
