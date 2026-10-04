@@ -549,6 +549,13 @@ svg[role=img][aria-label]{cursor:default}
 #fxdock a:hover{color:#fff;background:rgba(255,255,255,.08)}
 #fxdock a.on{color:#1F2A26;background:var(--fx-sun)}
 #fxdock a:focus-visible{outline:2px solid var(--fx-sun);outline-offset:2px}
+@media (min-width:721px){
+  #fxdock{bottom:auto;top:12px;transform:translate(-50%,-170%)}
+  #fxdock.show{transform:translate(-50%,0)}
+  html.fx-hasdock body{padding-top:68px}
+  html.fx-hasdock :is(.fx-chips,nav.parts,.add){transition:top .5s var(--fx-eo)}
+  html.fx-dockon :is(.fx-chips,nav.parts,.add){top:70px!important}
+}
 @media (max-width:720px){#fxdock a span{display:none}#fxdock a{padding:11px}#fxdock a.on span{display:inline}}
 /* ---------- chiusura di pagina ---------- */
 #fxfoot{position:relative;max-width:1100px;margin:90px auto 0;padding:0 20px 110px;text-align:center;color:var(--fx-cream)}
@@ -629,18 +636,24 @@ D.addEventListener('click',function(e){
 },true);
 /* ---- barra di avanzamento + dock + parallasse ---- */
 var bar=D.getElementById('fxbar'), dock=D.getElementById('fxdock'), lastY=scrollY, par=[];
+/* su computer il dock sta in alto (sempre visibile in cima, si nasconde scendendo); su telefono in basso */
+var DTQ=matchMedia('(min-width:721px)'); function DTOP(){ return DTQ.matches }
+function setDock(v){ if(!dock) return; dock.classList.toggle('show',v); D.documentElement.classList.toggle('fx-dockon',v&&DTOP()); }
+if(dock){ D.documentElement.classList.add('fx-hasdock'); if(DTOP()) setDock(true); DTQ.addEventListener&&DTQ.addEventListener('change',function(){ setDock(DTOP()||scrollY>200) }); }
 (CFG.parallax||[]).forEach(function(p){ D.querySelectorAll(p[0]).forEach(function(el){par.push([el,p[1]])}) });
 var ticking=false;
 function onScroll(){ if(ticking) return; ticking=true; requestAnimationFrame(function(){ ticking=false;
   var y=scrollY, max=D.documentElement.scrollHeight-innerHeight;
   if(bar) bar.style.setProperty('--p', max>0? Math.min(1,y/max):0);
-  if(dock){ var down=y>lastY+4, up=y<lastY-4; if(y<200) dock.classList.remove('show'); else if(up||y>max-60) dock.classList.add('show'); else if(down) dock.classList.remove('show'); }
+  if(dock){ var down=y>lastY+4, up=y<lastY-4, dt=DTOP();
+    if(dt){ if(y<120||up) setDock(true); else if(down) setDock(false); }
+    else if(y<200) setDock(false); else if(up||y>max-60) setDock(true); else if(down) setDock(false); }
   lastY=y;
   if(!RM&&y<innerHeight*1.2) par.forEach(function(p){ p[0].style.translate='0 '+(y*p[1]).toFixed(1)+'px' });
   if(CFG.onScroll) CFG.onScroll(y);
  }); }
 addEventListener('scroll',onScroll,{passive:true}); onScroll();
-if(dock&&D.documentElement.scrollHeight<=innerHeight+80) dock.classList.add('show');
+if(dock&&D.documentElement.scrollHeight<=innerHeight+80) setDock(true);
 /* ---- reveal ---- */
 var io=('IntersectionObserver' in window)&&!RM? new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('fx-in'); io.unobserve(e.target);} }) },{rootMargin:'0px 0px -8% 0px',threshold:.08}) : null;
 function reveal(sel,step){ var groups=new Map(); D.querySelectorAll(sel).forEach(function(el){ if(el.classList.contains('fx-r')) return; var p=el.parentNode, n=groups.get(p)||0; groups.set(p,n+1); el.style.setProperty('--fxd',Math.min(n*(step||70),560)+'ms'); el.classList.add('fx-r'); if(io) io.observe(el); else el.classList.add('fx-in'); }); }
