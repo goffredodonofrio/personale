@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8" /><meta name="theme-color" content="#15302A"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Plancia Rocciamelone</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg-0:#07090e;
-      --bg-1:#0b1017;
-      --bg-2:#0f1521;
-      --panel:rgba(15,19,27,.92);
-      --panel-2:rgba(20,26,36,.92);
-      --line:rgba(115,157,222,.22);
-      --line-strong:rgba(115,157,222,.42);
-      --text:#eef4ff;
-      --muted:#9aa9bf;
-      --muted-2:#6b7a90;
-      --soft:#d8e6ff;
-      --blue:#6ca9ff;
-      --blue-2:#5bc0ff;
-      --blue-soft:rgba(108,169,255,.12);
-      --cyan:#5bc0ff;
-      --amber:#f4c242;
-      --orange:#f28c3a;
-      --green:#7ff0b2;
-      --gold-soft:rgba(244,194,66,.14);
+      --bg-0:#15302A;
+      --bg-1:#1A3A32;
+      --bg-2:#20443A;
+      --panel:rgba(27,59,51,.92);
+      --panel-2:rgba(34,70,60,.92);
+      --line:rgba(244,238,220,.22);
+      --line-strong:rgba(244,238,220,.42);
+      --text:#F4EEDC;
+      --muted:#B8C2B6;
+      --muted-2:#8E9C92;
+      --soft:#EAE3CD;
+      --blue:#7FB2DE;
+      --blue-2:#9CC8EA;
+      --blue-soft:rgba(127,178,222,.12);
+      --cyan:#9CC8EA;
+      --amber:#F2B632;
+      --orange:#E8893A;
+      --green:#7FC79A;
+      --gold-soft:rgba(242,182,50,.14);
       --shadow:0 20px 50px rgba(0,0,0,.35);
       --shadow-strong:0 32px 70px rgba(0,0,0,.55);
       --radius:22px;
-      --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-      --btn-primary:#244b90;
-      --btn-primary-2:#2e63bd;
-      --btn-secondary:#183767;
-      --btn-warm:#64511f;
-      --btn-scene:#1f6b63;
-      --btn-danger:#5e2c38;
+      --mono:"Bricolage Grotesque",ui-monospace,SFMono-Regular,Menlo,monospace;
+      --btn-primary:#2E5E4E;
+      --btn-primary-2:#3A7360;
+      --btn-secondary:#24463C;
+      --btn-warm:#6E5720;
+      --btn-scene:#2B6457;
+      --btn-danger:#6B2F28;
     }
 
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;overflow-x:hidden}
 
     body{
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-family:"Bricolage Grotesque",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
       background-color:var(--bg-0);
       background-image:
-        radial-gradient(1100px 700px at 88% -10%,rgba(108,169,255,.18),transparent 60%),
+        radial-gradient(1100px 700px at 88% -10%,rgba(127,178,222,.18),transparent 60%),
         radial-gradient(900px 600px at -10% 110%,rgba(242,140,58,.13),transparent 60%),
         linear-gradient(180deg,var(--bg-1) 0%,var(--bg-0) 100%);
       background-attachment:fixed;
@@ -60,8 +60,8 @@
       inset:0;
       pointer-events:none;
       background-image:
-        linear-gradient(rgba(115,157,222,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(115,157,222,.035) 1px,transparent 1px);
+        linear-gradient(rgba(244,238,220,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(244,238,220,.035) 1px,transparent 1px);
       background-size:44px 44px;
       mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
       -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 80%);
@@ -74,10 +74,10 @@
     .ico .bg{opacity:.18}
     .ico .mid{opacity:.55}
     .ico .hi{opacity:1}
-    .ico.gold{color:var(--amber);filter:drop-shadow(0 0 10px rgba(244,194,66,.25))}
-    .ico.blue{color:var(--blue);filter:drop-shadow(0 0 10px rgba(108,169,255,.30))}
-    .ico.cyan{color:var(--cyan);filter:drop-shadow(0 0 10px rgba(91,192,255,.28))}
-    .ico.green{color:var(--green);filter:drop-shadow(0 0 10px rgba(127,240,178,.25))}
+    .ico.gold{color:var(--amber);filter:drop-shadow(0 0 10px rgba(242,182,50,.25))}
+    .ico.blue{color:var(--blue);filter:drop-shadow(0 0 10px rgba(127,178,222,.30))}
+    .ico.cyan{color:var(--cyan);filter:drop-shadow(0 0 10px rgba(156,200,234,.28))}
+    .ico.green{color:var(--green);filter:drop-shadow(0 0 10px rgba(127,199,154,.25))}
     .ico.soft{color:var(--soft)}
 
     .shell{
@@ -109,9 +109,9 @@
     .brand{display:flex;align-items:center;gap:14px;min-width:0}
     .brand-mark{
       width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
-      background:linear-gradient(135deg,#5bc0ff 0%,#6ca9ff 100%);
-      color:#06121f;font-weight:900;font-size:14px;letter-spacing:-.02em;
-      box-shadow:0 8px 24px rgba(91,192,255,.32);flex-shrink:0;font-family:var(--mono);
+      background:linear-gradient(135deg,#9CC8EA 0%,#7FB2DE 100%);
+      color:#112620;font-weight:900;font-size:14px;letter-spacing:-.02em;
+      box-shadow:0 8px 24px rgba(156,200,234,.32);flex-shrink:0;font-family:var(--mono);
     }
     .brand-text{min-width:0}
     .brand-eyebrow{font:800 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -177,12 +177,12 @@
       gap:6px;
       padding:5px 8px;
       border-radius:999px;
-      border:1px solid rgba(91,192,255,.22);
+      border:1px solid rgba(156,200,234,.22);
       color:var(--cyan);
       font:800 10px var(--mono);
       letter-spacing:.08em;
       text-transform:uppercase;
-      background:rgba(91,192,255,.08);
+      background:rgba(156,200,234,.08);
     }
 
     /* =========================================================
@@ -400,7 +400,7 @@
       cursor:pointer;
       box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),var(--shadow);
       transition:transform .12s ease,filter .15s ease,border-color .15s ease;
-      background:linear-gradient(180deg,var(--btn-scene) 0%,#154942 100%);
+      background:linear-gradient(180deg,var(--btn-scene) 0%,#1F4D43 100%);
       min-height:64px;
     }
     .scene-btn:hover{filter:brightness(1.12);border-color:var(--line-strong)}
@@ -432,7 +432,7 @@
     }
     .floorplan .walls{stroke-width:2;opacity:1}
     .floorplan .walls-inner{stroke-width:1.4;opacity:.55;stroke-dasharray:4 4}
-    .floorplan .room-fill{fill:rgba(91,192,255,.04);stroke:none}
+    .floorplan .room-fill{fill:rgba(156,200,234,.04);stroke:none}
     .floorplan .label{
       fill:var(--soft);
       stroke:none;
@@ -479,7 +479,7 @@
     .smart-block{
       border-radius:18px;
       border:1px solid var(--line);
-      background:linear-gradient(180deg,rgba(10,16,24,.82) 0%,rgba(7,11,18,.92) 100%);
+      background:linear-gradient(180deg,rgba(17,40,34,.82) 0%,rgba(13,32,27,.92) 100%);
       padding:12px;
       box-shadow:var(--shadow);
       display:grid;
@@ -511,7 +511,7 @@
       height:10px;
       border-radius:50%;
       background:var(--green);
-      box-shadow:0 0 0 4px rgba(127,240,178,.12);
+      box-shadow:0 0 0 4px rgba(127,199,154,.12);
     }
 
     .smart-buttons{
@@ -550,8 +550,8 @@
     .mobile-quick-grid button:active{transform:translateY(1px)}
 
     .smart-buttons .primary,.mobile-quick-grid .primary{background:linear-gradient(180deg,var(--btn-primary-2) 0%,var(--btn-primary) 100%)}
-    .smart-buttons .secondary,.mobile-quick-grid .secondary{background:linear-gradient(180deg,#153765 0%,var(--btn-secondary) 100%)}
-    .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#6d5727 0%,#4d3b17 100%)}
+    .smart-buttons .secondary,.mobile-quick-grid .secondary{background:linear-gradient(180deg,#2A4F44 0%,var(--btn-secondary) 100%)}
+    .smart-buttons .warm,.mobile-quick-grid .warm{background:linear-gradient(180deg,#7A6125 0%,#5A4719 100%)}
     .smart-buttons .danger,.mobile-quick-grid .danger{background:linear-gradient(180deg,#6b3038 0%,#4b2128 100%)}
 
     .mobile-room-group{padding:0 12px 12px}
@@ -603,6 +603,28 @@
       .mobile-quick-grid button{min-height:56px;padding:10px;font-size:11px;border-radius:12px;line-height:1.15}
     }
   </style>
+<style id="ds-personale">
+/* ===== Spazio personale · sistema Famiglia ===== */
+:root{--bg-0:#15302A;--bg-1:#1A3A32;--bg-2:#20443A;--panel:rgba(27,59,51,.94);--panel-2:rgba(34,70,60,.94);
+  --line:rgba(244,238,220,.13);--line-strong:rgba(244,238,220,.26);--text:#F4EEDC;--muted:#B8C2B6;--muted-2:#8E9C92;--soft:#EAE3CD;
+  --blue:#7FB2DE;--blue-2:#9CC8EA;--cyan:#9CC8EA;--blue-soft:rgba(127,178,222,.14);
+  --amber:#F2B632;--orange:#E8893A;--green:#7FC79A;--red:#EE7A63;
+  --gold-soft:rgba(242,182,50,.14);--green-soft:rgba(127,199,154,.14);--red-soft:rgba(238,122,99,.14);
+  --shadow:0 20px 50px rgba(5,15,12,.35);--shadow-strong:0 32px 70px rgba(5,15,12,.5);
+  --mono:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;
+  --btn-primary:#2E5E4E;--btn-primary-2:#3A7360;--btn-secondary:#24463C;--btn-warm:#6E5720;--btn-scene:#2B6457;--btn-danger:#6B2F28}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;background-color:#15302A;
+  background-image:radial-gradient(60% 50% at 88% 0%,rgba(242,182,50,.10),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.14),transparent 70%)!important;background-attachment:fixed}
+body::before{opacity:.35}
+h1,h2,h3,.brand-title,.section-title,.card-title,.panel-title{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;letter-spacing:-.01em}
+.brand-mark{background:#F2B632!important;color:#1F2A26!important;box-shadow:none!important;font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;font-weight:800}
+.brand-title span,.brand-title em{color:#F2B632!important}
+.brand-eyebrow{color:#F2B632!important;letter-spacing:.18em}
+.back-home{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;font-weight:800}
+em,i,.note,.sub,.muted{font-family:inherit}
+@media (pointer:coarse),(max-width:820px){input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px!important}}
+</style>
 </head>
 <body>
 
@@ -1079,7 +1101,7 @@
                   <span class="ico gold"><svg><use href="#ico-sliders"/></svg></span>
                   <div class="smart-title">Comandi ausiliari</div>
                 </div>
-                <div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(244,194,66,.12)"></div>
+                <div class="smart-led" style="background:var(--amber);box-shadow:0 0 0 4px rgba(242,182,50,.12)"></div>
               </div>
               <div class="smart-buttons">
                 <button class="danger" data-action="routine_3"><span class="ico soft"><svg><use href="#ico-sliders"/></svg></span> Routine 3</button>
