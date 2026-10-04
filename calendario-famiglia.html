@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261004071702">
+<meta name="build" content="20261004073306">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -274,7 +274,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261004071702">
+<meta name="build" content="20261004073306">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -768,6 +768,54 @@ document.addEventListener('DOMContentLoaded',function(){
 }
 /* hero: avatar più grandi */
 @media (min-width:1101px){.hero-fam span:nth-child(1) svg,.hero-fam span:nth-child(2) svg{height:118px !important;width:auto !important}.hero-fam span:nth-child(3) svg{height:90px !important;width:auto !important}.hero-fam span:nth-child(4) svg{height:74px !important;width:auto !important}.hero-fam{margin-bottom:-22px}}
+</style><style id="multiwho">
+.ev .avs{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px}
+.ev .with{display:inline-flex;align-items:center;gap:0;padding:3px 10px 3px 6px;border-radius:999px;background:rgba(244,238,220,.1);box-shadow:inset 0 0 0 1.5px rgba(244,238,220,.22);color:#F4EEDC;font:700 12.5px/1 "Bricolage Grotesque",Arial,sans-serif}
+.ev .with i{font:italic 400 12px/1 "Literata",Georgia,serif;opacity:.75;margin-right:6px}
+.ev .with .wf{display:inline-flex;border-radius:50%;box-shadow:0 0 0 2px var(--c);background:color-mix(in srgb,var(--c) 35%,#fff);margin-right:-5px}
+.ev .with .wf .face{width:24px;height:24px;background:transparent;box-shadow:none}
+.ev .with .wf:last-of-type{margin-right:0}
+.ev .with b{margin-left:7px;font-weight:700}
+.ev .who.multi{gap:0;padding:3px 10px 3px 4px}
+.ev .who.multi .face{margin-right:-8px}
+.ev .who.multi .cnt{margin-left:12px;font-weight:800}
+.wpop{width:min(92vw,400px);padding:12px;gap:8px}
+.wpop .ph{padding:2px 4px 6px}
+.wsec{display:flex;flex-direction:column;gap:6px}
+.wl{font:800 10px/1 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#5F6E67;padding:0 4px}
+.wrow{display:flex;flex-wrap:wrap;gap:4px}
+:is(.wpop,.wp2) .fb{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;width:58px;padding:6px 2px 5px;border-radius:14px;font:700 10.5px/1.1 "Bricolage Grotesque",Arial,sans-serif;color:#5F6E67;text-align:center;transition:background .2s,color .2s,transform .3s cubic-bezier(.34,1.56,.64,1)}
+:is(.wpop,.wp2) .fb .face{width:34px;height:34px;border-radius:50%;background:color-mix(in srgb,var(--c) 16%,#fff);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--c) 30%,transparent);filter:saturate(.45) opacity(.75);transition:filter .25s,box-shadow .25s,transform .35s cubic-bezier(.34,1.56,.64,1)}
+:is(.wpop,.wp2) .fb span{max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:is(.wpop,.wp2) .fb:hover{background:rgba(0,0,0,.04)}
+:is(.wpop,.wp2) .fb:hover .face{filter:none;transform:translateY(-2px)}
+:is(.wpop,.wp2) .fb.on{background:color-mix(in srgb,var(--c) 16%,#fff);color:#1F2A26}
+:is(.wpop,.wp2) .fb.on .face{filter:none;box-shadow:0 0 0 3px var(--c);background:color-mix(in srgb,var(--c) 34%,#fff);transform:scale(1.04)}
+:is(.wpop,.wp2) .fb.on::after{content:"✓";position:absolute}
+:is(.wpop,.wp2) .fb{position:relative}
+:is(.wpop,.wp2) .fb.on::after{top:2px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--c);color:#fff;font:900 10px/16px Arial,sans-serif;text-align:center}
+:is(.wpop,.wp2) .fb:focus-visible{outline:2px solid #F2B632;outline-offset:1px}
+.wact{display:flex;justify-content:flex-end;gap:8px;padding-top:4px}
+.wpop .wact .btn{width:auto;display:inline-flex}
+.wpop .wrow{display:flex;flex-direction:row;flex-wrap:wrap}
+.wpop hr{width:100%}
+.wpop .xa{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;padding:9px 10px;border-radius:10px;font:600 13.5px/1.2 "Bricolage Grotesque",Arial,sans-serif;color:#1F2A26}
+.wpop .xa:hover{background:#F1EFE6}
+.wpop .xa.danger{color:#b91c1c}
+.wp2{display:flex;flex-direction:column;gap:8px;grid-column:1/-1;padding:4px 0 6px}
+.wp2 .wl{color:#7A8680}
+.recrow .wp2 .wsec{flex-direction:row;align-items:center;gap:10px}
+.recrow .wp2 .wl{width:92px;flex:none;text-align:right}
+@media (max-width:640px){.recrow .wp2 .wsec{flex-direction:column;align-items:stretch}.recrow .wp2 .wl{width:auto;text-align:left}:is(.wpop,.wp2) .fb{width:52px}}
+.recrow .whowrap{display:none}
+#extraPick .wp2{padding-top:2px}
+.hero .todaylist{min-width:0;max-width:100%}
+.hero .todaylist span{white-space:normal;max-width:100%}
+.recrow{min-width:0}.recrow>*{min-width:0}
+.recrow .icsel{flex-wrap:wrap}
+.wp2,.wp2 .wsec,.wp2 .wrow{min-width:0;max-width:100%}
+.fieldwho :is(.wpop,.wp2) .fb span,#extraPick .fb span{text-transform:none!important;letter-spacing:0!important;font:700 10.5px/1.1 "Bricolage Grotesque",Arial,sans-serif!important}
+.fieldwho .wl{letter-spacing:.14em}
 </style></head>
 <body><div id="fxpt" aria-hidden="true"><svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="fxf-goffredo" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="24" rx="3" fill="#C9B48A"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="24" rx="3" fill="#C9B48A"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#A8432F"/><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#A8432F"/><circle cx="11" cy="84" r="5" fill="#E3B48E"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#A8432F"/><circle cx="49" cy="84" r="5" fill="#E3B48E"/><rect x="43" y="74" width="10" height="4" rx="1.5" fill="#1F2A26"/></g><rect x="26" y="34" width="8" height="12" fill="#E3B48E"/><circle cx="30" cy="19" r="15.5" fill="#E3B48E"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><path d="M13 20 Q12 1 30 -1 Q48 1 47 20 L47 22 Q44 12 36 10 Q30 9 24 10 Q16 12 13 22Z" fill="#2F2621"/><path d="M14 18 Q20 6 31 6 Q24 10 20 18Z" fill="#2F2621"/><g fill="none" stroke="#D9D4CC" stroke-width="1.1" stroke-linecap="round" opacity=".9"><path d="M19 9 q3 -3 7 -3"/><path d="M26 5 q4 -1 8 1"/><path d="M36 7 q3 1 5 4"/><path d="M15 18 q1 -4 4 -6"/><path d="M44 17 q-1 -4 -3 -6"/><path d="M31 3 q3 0 5 1"/></g><path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="#55463C" opacity=".95"/><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#2F2621" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#4B3426"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#4B3426"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><g fill="none" stroke="#2A2A2E" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g><path d="M24.5 26 Q30 31 35.5 26" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-carolina" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="24" rx="3" fill="#7E2E55"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="24" rx="3" fill="#7E2E55"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#1E1E22"/><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#1E1E22"/><circle cx="11" cy="84" r="5" fill="#EFC9AE"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#1E1E22"/><circle cx="49" cy="84" r="5" fill="#EFC9AE"/></g><rect x="26" y="34" width="8" height="12" fill="#EFC9AE"/><circle cx="30" cy="19" r="15.5" fill="#EFC9AE"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><g fill="#6B4A32"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="#6B4A32"/><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#6B4A32" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#7F9A6E"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#7F9A6E"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><path d="M19.5 17.5 Q24 15.5 28.5 17.5M31.5 17.5 Q36 15.5 40.5 17.5" fill="none" stroke="#1F2A26" stroke-width="1.2" stroke-linecap="round"/><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-edoardo" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="14" rx="3" fill="#C6E22E"/><rect x="20" y="97" width="8" height="10" rx="3" fill="#E8C19F"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="14" rx="3" fill="#C6E22E"/><rect x="32" y="97" width="8" height="10" rx="3" fill="#E8C19F"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#F6F3EE"/><path d="M26 56 h8 v6 l-4 3 l-4 -3z" fill="none" stroke="#2B3A78" stroke-width="1.2"/><text x="30" y="61.5" font-size="5" font-weight="800" text-anchor="middle" fill="#2B3A78" font-family="Arial">A</text><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="11" cy="84" r="5" fill="#E8C19F"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="49" cy="84" r="5" fill="#E8C19F"/></g><rect x="26" y="34" width="8" height="12" fill="#E8C19F"/><circle cx="30" cy="19" r="15.5" fill="#E8C19F"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><path d="M12 19 Q30 -7 48 19 L47 28 Q44 13 36 12 Q30 11 24 13 Q16 15 13 28Z" fill="#8A6540"/><path d="M13 20 Q20 10 32 10 Q26 14 22 20Z" fill="#8A6540"/><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#8A6540" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#8FB3A6"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#8FB3A6"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><g fill="none" stroke="#2B3A78" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-bianca" viewBox="4 -13 52 52"><path d="M17 84 L15 100 H45 L43 84Z" fill="#5F7FB0"/><g><rect x="21" y="99" width="7" height="9" rx="3" fill="#EAC2A0"/><rect x="19" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g><rect x="32" y="99" width="7" height="9" rx="3" fill="#EAC2A0"/><rect x="30" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#F6F3EE"/><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="11" cy="84" r="5" fill="#EAC2A0"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="49" cy="84" r="5" fill="#EAC2A0"/></g><rect x="26" y="34" width="8" height="12" fill="#EAC2A0"/><circle cx="30" cy="19" r="15.5" fill="#EAC2A0"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><g fill="#2E1F18"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#2E1F18" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="3.2" ry="3.6" fill="#fff"/><circle cx="24.3" cy="19.3" r="2" fill="#3A2418"/><circle cx="24.3" cy="19.3" r="1.0" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="3.2" ry="3.6" fill="#fff"/><circle cx="36.3" cy="19.3" r="2" fill="#3A2418"/><circle cx="36.3" cy="19.3" r="1.0" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol></svg><i class="s1"></i><i class="s2"></i><i class="s3"><span class="faces"><svg viewBox="4 -13 52 52" style="--c:#5FA57A;animation-delay:0.34s"><use href="#fxf-goffredo"/></svg><svg viewBox="4 -13 52 52" style="--c:#8D5BB8;animation-delay:0.40s"><use href="#fxf-carolina"/></svg><svg viewBox="4 -13 52 52" style="--c:#4A90C6;animation-delay:0.46s"><use href="#fxf-edoardo"/></svg><svg viewBox="4 -13 52 52" style="--c:#E4573D;animation-delay:0.52s"><use href="#fxf-bianca"/></svg></span></i></div><div id="fxgrain" aria-hidden="true"></div><div id="fxaur" aria-hidden="true"><b class="a1"></b><b class="a2"></b><b class="a3"></b></div>
 <div class="wrap">
@@ -848,7 +896,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <label class="field">Ora<input type="time" id="extraTime"></label>
       <label class="field">Tipo<select id="extraKind"><option value="">Impegno</option><option value="fam">Famiglia</option><option value="lav">Lavoro</option></select></label>
     </div>
-    <div class="field">Chi<select id="extraWho" class="vh"></select><span id="extraPick"></span></div>
+    <div class="field fieldwho"><span id="extraPick"></span></div>
     <div class="field">Icona<div class="iconpick" id="extraIcons"></div></div>
     <div class="dlg-actions">
       <button type="button" class="btn ghost danger hidden" id="extraDelete">Rimuovi</button>
@@ -1029,7 +1077,16 @@ document.addEventListener('DOMContentLoaded',function(){
       }
       for(const d of Object.values(w.days||{})) if(!d.extra) d.extra = [];
     }
-    s.v = 2; return s;
+    // v3: assegnazioni multiple
+    const prevState = state; state = s;
+    for(const w of Object.values(s.weeks)) for(const d of Object.values(w.days||{})){
+      for(const k of KIDS){ if(!d[k.id]) d[k.id] = {}; for(const sl of SLOTS){ if(sl.id in d[k.id]){ const v = wStore(d[k.id][sl.id]); if(v) d[k.id][sl.id] = v; else delete d[k.id][sl.id]; } } }
+      if('gym' in d){ const v = wStore(d.gym); if(v) d.gym = v; else delete d.gym; }
+      for(const x of (d.extra||[])){ const v = wStore(x.who); if(v) x.who = v; else delete x.who; }
+    }
+    for(const r of s.recurring){ const v = wStore(r.who); if(v) r.who = v; else delete r.who; }
+    state = prevState;
+    s.v = 3; return s;
   }
   function readCache(){ try{ const c = localStorage.getItem(CACHE_KEY); return c ? JSON.parse(c) : null; }catch(e){ return null; } }
   function writeCache(){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(state)); }catch(e){} }
@@ -1059,14 +1116,35 @@ document.addEventListener('DOMContentLoaded',function(){
   function weekTimes(key){ const w = week(key,false); return Object.assign({edo:state.times.edo, bia:state.times.bia}, (w && w.times) || {}); }
   function personById(id){ return state.people.find(p => p.id === id); }
   function parentNames(short){ return PARENTS.map(id => (personById(id)||{}).name).filter(Boolean).map(n => short ? n[0] : n).join(short ? '+' : ' e '); }
-  function whoLabel(v, short){ if(v === BOTH) return parentNames(short); if(KIDWHO[v]) return KIDWHO[v].name; const p = personById(v); return p ? p.name : ''; }
+  function whoLabel(v){ const w = W(v); let t = names(w.by); if(w.with.length) t += (t ? ' con ' : 'con ') + names(w.with); return t; }
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function uid(){ return Math.random().toString(36).slice(2,9); }
+  // ---------- assegnazioni multiple: {by:[chi se ne occupa], with:[con chi]} ----------
+  const KIDP = {edo:{id:'edo',name:'Edoardo',color:'#4A90C6',kid:true}, bia:{id:'bia',name:'Bianca',color:'#E4573D',kid:true}};
+  function pp(id){ return personById(id) || KIDP[id] || null; }
+  function rank(id){ const i = PARENTS.indexOf(id); if(i >= 0) return i; if(KIDP[id]) return id === 'edo' ? 100 : 101; const j = state ? state.people.findIndex(p => p.id === id) : -1; return j >= 0 ? 10 + j : 50; }
+  function canon(list){ return Array.from(new Set((list||[]).filter(Boolean))).sort((a,b) => rank(a) - rank(b)); }
+  function W(v){
+    if(v && typeof v === 'object') return {by:canon(v.by), with:canon(v.with).filter(x => !(v.by||[]).includes(x))};
+    if(!v) return {by:[], with:[]};
+    if(v === BOTH) return {by:PARENTS.slice(), with:[]};
+    if(v === 'k:edo') return {by:['edo'], with:[]};
+    if(v === 'k:bia') return {by:['bia'], with:[]};
+    if(v === 'k:both') return {by:['edo','bia'], with:[]};
+    return {by:[v], with:[]};
+  }
+  function wEmpty(v){ const w = W(v); return !w.by.length && !w.with.length; }
+  function wSame(a,b){ const x = W(a), y = W(b); return x.by.join() === y.by.join() && x.with.join() === y.with.join(); }
+  function wStore(w){ w = W(w); return (w.by.length || w.with.length) ? w : undefined; }
+  function names(ids){ const n = ids.map(id => (pp(id)||{}).name).filter(Boolean); return n.length > 1 ? n.slice(0,-1).join(', ') + ' e ' + n[n.length-1] : (n[0] || ''); }
   function avatarsHtml(v, ask){
-    if(v === BOTH){ const a = personById(PARENTS[0]), b = personById(PARENTS[1]); return '<span class="avs">'+[a,b].map(p => p ? whoTag(p) : '').join('')+'</span>'; }
-    const p = v ? (personById(v) || KIDWHO[v]) : null;
-    if(p) return '<span class="avs">'+whoTag(p)+'</span>';
-    return '<span class="avs"><span class="who '+(ask?'ask':'none')+'">'+(ask?'chi?':'nessuno')+'</span></span>';
+    const w = W(v); let h = '<span class="avs">';
+    if(!w.by.length){ if(ask || !w.with.length) h += '<span class="who '+(ask?'ask':'none')+'">'+(ask?'chi?':'nessuno')+'</span>'; }
+    else if(w.by.length <= 2) h += w.by.map(id => pp(id)).filter(Boolean).map(whoTag).join('');
+    else h += '<span class="who multi" style="--c:#2E5E4E" title="'+esc(names(w.by))+'">'+w.by.map(id => FACE((pp(id)||{}).name,20)).join('')+'<span class="cnt">'+w.by.length+'</span></span>';
+    if(w.with.length){ const ws = w.with.map(id => pp(id)).filter(Boolean);
+      h += '<span class="with" title="con '+esc(names(w.with))+'"><i>con</i>'+ws.map(p => '<span class="wf" style="--c:'+p.color+'">'+FACE(p.name,22)+'</span>').join('')+(ws.length === 1 ? '<b>'+esc(ws[0].name)+'</b>' : '')+'</span>'; }
+    return h + '</span>';
   }
 
   // ---------- GitHub ----------
@@ -1147,18 +1225,18 @@ document.addEventListener('DOMContentLoaded',function(){
     const ev = [], data = x.data, T = state.times, WT0 = weekTimes(key), O = data.t || {};
     const T2 = {gym:O.gym||T.gym, dropE:O.drop_edo||O.drop||T.drop, dropB:O.drop_bia||O.drop||T.drop, eveE:O.eve_edo||O.eve||T.eve, eveB:O.eve_bia||O.eve||T.eve}, WT = {edo:O.edo||WT0.edo, bia:O.bia||WT0.bia};
     if(!x.we){
-      ev.push({k:'gym', tk:'gym', time:T2.gym, icon:'palestra', title:'Palestra', sub: data.gym ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:!data.gym, ask:false});
+      ev.push({k:'gym', tk:'gym', time:T2.gym, icon:'palestra', title:'Palestra', sub: !wEmpty(data.gym) ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)', who:data.gym||'', dim:wEmpty(data.gym), ask:false});
       const em = (data.edo||{}).m || '', bm = (data.bia||{}).m || '';
-      if(em && em === bm && T2.dropE === T2.dropB) ev.push({k:'kid', tk:'drop', kid:'both', slot:'m', time:T2.dropE, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
+      if(!wEmpty(em) && wSame(em,bm) && T2.dropE === T2.dropB) ev.push({k:'kid', tk:'drop', kid:'both', slot:'m', time:T2.dropE, icon:'scuola', title:'Accompagna Edoardo e Bianca', sub:'scuola', who:em, ask:true});
       else{ ev.push({k:'kid', tk:'drop_edo', kid:'edo', slot:'m', time:T2.dropE, icon:'scuola', title:'Accompagna Edoardo', sub:'scuola', who:em, ask:true}); ev.push({k:'kid', tk:'drop_bia', kid:'bia', slot:'m', time:T2.dropB, icon:'scuola', title:'Accompagna Bianca', sub:'scuola', who:bm, ask:true}); }
       const ep = (data.edo||{}).p || '', bp = (data.bia||{}).p || '';
-      if(WT.edo === WT.bia && ep && ep === bp) ev.push({k:'kid', tk:'edo', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
+      if(WT.edo === WT.bia && !wEmpty(ep) && wSame(ep,bp)) ev.push({k:'kid', tk:'edo', kid:'both', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo e Bianca', sub:'uscita', who:ep, ask:true});
       else{ ev.push({k:'kid', tk:'edo', kid:'edo', slot:'p', time:WT.edo, icon:'casa', title:'Ritiro Edoardo', sub:'uscita '+WT.edo, who:ep, ask:true}); ev.push({k:'kid', tk:'bia', kid:'bia', slot:'p', time:WT.bia, icon:'casa', title:'Ritiro Bianca', sub:'uscita '+WT.bia, who:bp, ask:true}); }
       const es = (data.edo||{}).s || '', bs = (data.bia||{}).s || '';
-      if(es && es === bs && T2.eveE === T2.eveB) ev.push({k:'kid', tk:'eve', kid:'both', slot:'s', time:T2.eveE, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
+      if(!wEmpty(es) && wSame(es,bs) && T2.eveE === T2.eveB) ev.push({k:'kid', tk:'eve', kid:'both', slot:'s', time:T2.eveE, icon:'sera', title:'Sera con Edoardo e Bianca', sub:'cena e nanna', who:es, ask:true});
       else{ ev.push({k:'kid', tk:'eve_edo', kid:'edo', slot:'s', time:T2.eveE, icon:'sera', title:'Sera con Edoardo', sub:'cena e nanna', who:es, ask:true}); ev.push({k:'kid', tk:'eve_bia', kid:'bia', slot:'s', time:T2.eveB, icon:'sera', title:'Sera con Bianca', sub:'cena e nanna', who:bs, ask:true}); }
     }
-    for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', tk:'rec:'+r.id, id:r.id, time:(O['rec:'+r.id]||r.time), icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:!r.who});
+    for(const r of recurringFor(x.i, x.d)) ev.push({k:'rec', tk:'rec:'+r.id, id:r.id, time:(O['rec:'+r.id]||r.time), icon:r.icon||'altro', title:r.title, sub: r.freq === 'monthly' ? 'una volta al mese' : '', who:r.who||'', ask:wEmpty(r.who)});
     for(const e of (data.extra||[])) ev.push({k:'extra', id:e.id, time:e.time || (SLOTS.find(s => s.id === e.slot)||SLOTS[1]).def, icon:e.icon || (e.kind === 'lav' ? 'lavoro' : e.kind === 'fam' ? 'famiglia' : 'altro'), title:e.title, sub:'', who:e.who||'', kind:e.kind||'', ask:false, dim:false, noTime:!e.time});
     ev.sort((a,b) => tkey(a.time).localeCompare(tkey(b.time)));
     return ev;
@@ -1206,9 +1284,8 @@ document.addEventListener('DOMContentLoaded',function(){
     for(let i=0;i<5;i++){
       const d = w && w.days[iso(addDays(mon,i))];
       for(const k of KIDS) for(const s of SLOTS){
-        const v = d && d[k.id] && d[k.id][s.id];
-        if(v === BOTH){ for(const id of PARENTS) c[id] = (c[id]||0)+1; }
-        else if(v && personById(v)) c[v] = (c[v]||0)+1; else empty++;
+        const v = W(d && d[k.id] && d[k.id][s.id]);
+        if(!v.by.length) empty++; else for(const id of v.by) c[id] = (c[id]||0)+1;
       }
     }
     return {c, empty};
@@ -1249,6 +1326,50 @@ document.addEventListener('DOMContentLoaded',function(){
     sel.value = b.dataset.who; b.parentElement.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
     sel.dispatchEvent(new Event('change', {bubbles:true}));
   });
+  // pannello a due file: Chi / Con chi
+  function pool(){ return state.people.map(p => p.id).concat(['edo','bia']); }
+  function faceBtn(id, on){ const p = pp(id); if(!p) return ''; const short = p.name.length > 9 ? p.name.slice(0,8)+'…' : p.name;
+    return '<button type="button" data-pid="'+esc(id)+'" class="fb'+(on?' on':'')+(p.kid?' kid':'')+'" style="--c:'+p.color+'" title="'+esc(p.name)+'" aria-pressed="'+(!!on)+'">'+FACE(p.name,34)+'<span>'+esc(short)+'</span></button>'; }
+  function wpInner(w){ w = W(w);
+    return '<div class="wsec"><div class="wl">Chi se ne occupa</div><div class="wrow" data-role="by">'+pool().map(id => faceBtn(id, w.by.includes(id))).join('')+'</div></div>'
+         + '<div class="wsec"><div class="wl">Con chi</div><div class="wrow" data-role="with">'+pool().map(id => faceBtn(id, w.with.includes(id))).join('')+'</div></div>'; }
+  function wToggle(w, role, id){ w = W(w); const other = role === 'by' ? 'with' : 'by';
+    if(w[role].includes(id)) w[role] = w[role].filter(x => x !== id); else { w[role].push(id); w[other] = w[other].filter(x => x !== id); }
+    return W(w); }
+  function openWho(anchor, cur, title, extras){
+    closePop();
+    let w = W(cur), changed = false;
+    pop = document.createElement('div'); pop.className = 'pop wpop'; pop.setAttribute('role','dialog');
+    const draw = () => { pop.innerHTML = (title ? '<div class="ph">'+esc(title)+'</div>' : '') + wpInner(w)
+      + '<div class="wact"><button type="button" class="btn ghost" data-clear>Nessuno</button><button type="button" class="btn primary" data-ok>Fatto</button></div>'
+      + ((extras && extras.length) ? '<hr>' + extras.map(x => '<button type="button" class="xa'+(x.danger?' danger':'')+'" data-val="'+esc(x.value)+'">'+esc(x.label)+'</button>').join('') : ''); };
+    draw(); document.body.appendChild(pop);
+    const r = anchor.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+    let left = r.right + window.scrollX - pw, top = r.bottom + window.scrollY + 4;
+    if(left < window.scrollX + 8) left = window.scrollX + 8;
+    if(left + pw > window.scrollX + window.innerWidth - 8) left = window.scrollX + window.innerWidth - pw - 8;
+    if(r.bottom + ph > window.innerHeight - 8 && r.top - ph > 8) top = r.top + window.scrollY - ph - 4;
+    pop.style.left = left + 'px'; pop.style.top = top + 'px';
+    return new Promise(res => {
+      const me = pop;
+      me.addEventListener('click', e => {
+        const fb = e.target.closest('.fb'); if(fb){ const role = fb.closest('.wrow').dataset.role; w = wToggle(w, role, fb.dataset.pid); changed = true;
+          me.querySelectorAll('.wrow').forEach(row => row.querySelectorAll('.fb').forEach(b => { const on = w[row.dataset.role].includes(b.dataset.pid); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); })); return; }
+        if(e.target.closest('[data-clear]')){ closePop(); res({w:{by:[],with:[]}}); return; }
+        if(e.target.closest('[data-ok]')){ closePop(); res(changed ? {w} : null); return; }
+        const x = e.target.closest('[data-val]'); if(x){ closePop(); res({act:x.dataset.val}); }
+      });
+      setTimeout(() => document.addEventListener('click', function h2(e){ if(pop === me && !me.contains(e.target)){ closePop(); res(changed ? {w} : null); } if(pop !== me) document.removeEventListener('click', h2); }), 0);
+    });
+  }
+  // versione in linea (attività ricorrenti, dialogo impegno)
+  let extraW = {by:[], with:[]};
+  document.addEventListener('click', e => {
+    const fb = e.target.closest('.wp2 .fb'); if(!fb) return;
+    const root = fb.closest('.wp2'), role = fb.closest('.wrow').dataset.role, id = fb.dataset.pid;
+    if(root.dataset.rec){ const r = state.recurring.find(x => x.id === root.dataset.rec); if(!r) return; const nw = wToggle(r.who, role, id); const v = wStore(nw); if(v) r.who = v; else delete r.who; root.innerHTML = wpInner(nw); renderWeek(); renderHero(); markDirty(); }
+    else if(root.dataset.extra){ extraW = wToggle(extraW, role, id); root.innerHTML = wpInner(extraW); }
+  });
   function whoOptions(sel){
     let h = '<option value="">— chi?</option>';
     for(const p of state.people) h += '<option value="'+esc(p.id)+'"'+(p.id===sel?' selected':'')+'>'+esc(p.name)+'</option>';
@@ -1262,7 +1383,7 @@ document.addEventListener('DOMContentLoaded',function(){
       h += '<div class="recrow" data-rec="'+esc(r.id)+'">';
       h += '<div class="icsel">'+ICON_LIST.slice(3).map(k => '<button type="button" data-f="icon" data-i="'+k+'" class="'+(r.icon===k?'on':'')+'" style="--ic:'+icoColor(k)+'" title="'+k+'">'+ico(k)+'</button>').join('')+'</div>';
       h += '<input type="text" value="'+esc(r.title)+'" maxlength="30" data-f="title" aria-label="Nome attività">';
-      h += '<span class="whowrap"><select data-f="who" aria-label="Chi" class="vh">'+whoOptions(r.who||'')+'</select>'+whoPick(r.who||'')+'</span>';
+      h += '<div class="wp2" data-rec="'+esc(r.id)+'">'+wpInner(r.who)+'</div>';
       h += '<div class="days7">'+DAYS_1.map((l,i) => '<button type="button" data-f="day" data-i="'+i+'" class="'+((r.days||[]).includes(i)?'on':'')+'" title="'+DAYS_IT[i]+'" aria-pressed="'+((r.days||[]).includes(i))+'">'+l+'</button>').join('')+'</div>';
       h += '<input type="time" value="'+esc(r.time||'')+'" data-f="time" aria-label="Ora">';
       h += '<select data-f="freq" aria-label="Frequenza"><option value="weekly"'+(r.freq!=='monthly'?' selected':'')+'>Ogni settimana</option><option value="monthly"'+(r.freq==='monthly'?' selected':'')+'>Una volta al mese</option></select>';
@@ -1340,43 +1461,37 @@ document.addEventListener('DOMContentLoaded',function(){
     if(k === 'kid'){
       const slot = b.dataset.slot, kid = b.dataset.kid, d = day(weekKey, dIso, false);
       const cur = d ? (kid === 'both' ? (d.edo||{})[slot] : (d[kid]||{})[slot]) || '' : '';
-      const items = peopleItems(cur, slot === 's');
-      if(kid !== 'both') items.push('hr', {value:'__same', label:'Stessa persona per Edoardo e Bianca', av:''});
-      else items.push('hr', {value:'__split', label:'Separa Edoardo e Bianca', av:''});
-      const v = await openPop(b, items, b.querySelector('.tx b').textContent);
-      if(v === null) return;
-      const dd = day(weekKey, dIso, true);
-      if(v === '__same'){ const src = dd[kid][slot] || ''; dd.edo[slot] = src; dd.bia[slot] = src; }
-      else if(v === '__split'){ dd.bia[slot] = ''; }
-      else if(kid === 'both'){ dd.edo[slot] = v; dd.bia[slot] = v; }
-      else dd[kid][slot] = v;
-      renderWeek(); markDirty();
+      const extras = kid !== 'both' ? [{value:'__same', label:'Stesse persone per Edoardo e Bianca'}] : [{value:'__split', label:'Separa Edoardo e Bianca'}];
+      const res = await openWho(b, cur, b.querySelector('.tx b').textContent, extras);
+      if(!res) return;
+      const dd = day(weekKey, dIso, true); dd.edo = dd.edo || {}; dd.bia = dd.bia || {};
+      const put = (k, v) => { const x = wStore(v); if(x) dd[k][slot] = clone(x); else delete dd[k][slot]; };
+      if(res.act === '__same'){ const src = dd[kid][slot]; put('edo', src); put('bia', src); }
+      else if(res.act === '__split'){ delete dd.bia[slot]; }
+      else if(res.w){ if(kid === 'both'){ put('edo', res.w); put('bia', res.w); } else put(kid, res.w); }
+      renderWeek(); renderHero(); markDirty();
     }else if(k === 'gym'){
-      const d = day(weekKey, dIso, false), cur = d ? d.gym || '' : '';
+      const d = day(weekKey, dIso, false), cur = d ? (W(d.gym).by[0] || '') : '';
       const items = [{value:'', label:'Nessuno', av:'', cur:!cur}];
       for(const id of PARENTS){ const p = personById(id); if(p) items.push({value:id, label:' va in palestra', av:whoTag(p), cur:cur===id}); }
       const v = await openPop(b, items, 'Palestra · l\'altro accompagna Edoardo e Bianca');
       if(v === null) return;
-      day(weekKey, dIso, true).gym = v; renderWeek(); markDirty();
+      const gd = day(weekKey, dIso, true); if(v) gd.gym = {by:[v], with:[]}; else delete gd.gym; renderWeek(); renderHero(); markDirty();
     }else if(k === 'rec'){
       const r = state.recurring.find(x => x.id === b.dataset.id); if(!r) return;
-      const items = peopleItems(r.who||'', true, true);
-      items.push('hr', {value:'__edit', label:'Modifica giorni, ora, icona…', av:''});
-      const v = await openPop(b, items, r.title + ' · chi se ne occupa');
-      if(v === null) return;
-      if(v === '__edit'){ const p = document.getElementById('recPanel'); p.open = true; p.scrollIntoView({behavior:'smooth',block:'start'}); return; }
-      r.who = v; renderAll(); markDirty();
+      const res = await openWho(b, r.who, r.title, [{value:'__edit', label:'Modifica giorni, ora, icona…'}]);
+      if(!res) return;
+      if(res.act === '__edit'){ const p = document.getElementById('recPanel'); p.open = true; p.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+      const v = wStore(res.w); if(v) r.who = v; else delete r.who; renderAll(); markDirty();
     }else if(k === 'extra'){
       const d = day(weekKey, dIso, false); if(!d) return;
       const x = d.extra.find(y => y.id === b.dataset.id); if(!x) return;
-      const items = peopleItems(x.who||'', true, true);
-      items.push('hr', {value:'__edit', label:'Modifica…', av:''}, {value:'__del', label:'Rimuovi', av:'', danger:true});
-      const v = await openPop(b, items, x.title);
-      if(v === null) return;
-      if(v === '__del') d.extra = d.extra.filter(y => y.id !== x.id);
-      else if(v === '__edit'){ openExtra(dIso, x); return; }
-      else x.who = v;
-      renderWeek(); markDirty();
+      const res = await openWho(b, x.who, x.title, [{value:'__edit', label:'Modifica…'}, {value:'__del', label:'Rimuovi', danger:true}]);
+      if(!res) return;
+      if(res.act === '__del') d.extra = d.extra.filter(y => y.id !== x.id);
+      else if(res.act === '__edit'){ openExtra(dIso, x); return; }
+      else if(res.w){ const v = wStore(res.w); if(v) x.who = v; else delete x.who; }
+      renderWeek(); renderHero(); markDirty();
     }
   });
   weekEl.addEventListener('input', e => { if(e.target.matches('.note')) autosize(e.target); });
@@ -1449,7 +1564,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('extraTitleH').textContent = existing ? 'Modifica impegno' : 'Impegno di ' + DAYS_IT[(parse(dIso).getDay()+6)%7] + ' ' + parse(dIso).getDate();
     document.getElementById('extraTitle').value = existing ? existing.title : '';
     document.getElementById('extraTime').value = existing ? (existing.time||'') : '';
-    document.getElementById('extraWho').innerHTML = whoOptions(existing ? existing.who||'' : ''); document.getElementById('extraPick').innerHTML = whoPick(existing ? existing.who||'' : '');
+    extraW = W(existing ? existing.who : ''); document.getElementById('extraPick').innerHTML = '<div class="wp2" data-extra="1">'+wpInner(extraW)+'</div>';
     const dow = (parse(dIso).getDay()+6)%7; document.getElementById('extraKind').value = existing ? (existing.kind||'') : (dow >= 5 ? 'fam' : '');
     const cur = existing ? (existing.icon || (existing.kind === 'lav' ? 'lavoro' : existing.kind === 'fam' ? 'famiglia' : 'altro')) : (dow >= 5 ? 'famiglia' : 'altro');
     document.getElementById('extraIcons').innerHTML = ICON_LIST.map(k => '<label style="--ic:'+icoColor(k)+'" title="'+k+'"><input type="radio" name="xicon" value="'+k+'"'+(k===cur?' checked':'')+'>'+ico(k)+'</label>').join('');
@@ -1466,9 +1581,10 @@ document.addEventListener('DOMContentLoaded',function(){
   extraForm.addEventListener('submit', e => {
     e.preventDefault();
     const t = document.getElementById('extraTitle').value.trim(); if(!t || !extraCtx) return;
-    const rec = {title:t, time:document.getElementById('extraTime').value, who:document.getElementById('extraWho').value, kind:document.getElementById('extraKind').value, icon:(extraForm.querySelector('input[name=xicon]:checked')||{}).value || 'altro'};
+    const rec = {title:t, time:document.getElementById('extraTime').value, who:wStore(extraW), kind:document.getElementById('extraKind').value, icon:(extraForm.querySelector('input[name=xicon]:checked')||{}).value || 'altro'};
     const d = day(weekKey, extraCtx.dIso, true);
-    if(extraCtx.existing) Object.assign(extraCtx.existing, rec); else d.extra.push(Object.assign({id:'x-'+uid(), slot:'p'}, rec));
+    if(!rec.who) delete rec.who;
+    if(extraCtx.existing){ Object.assign(extraCtx.existing, rec); if(!rec.who) delete extraCtx.existing.who; } else d.extra.push(Object.assign({id:'x-'+uid(), slot:'p'}, rec));
     extraDlg.close(); renderWeek(); renderHero(); markDirty();
   });
 
@@ -1498,7 +1614,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(editing){ editing.name = name; editing.color = color; }
     else{
       let base = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'p', id = base, n = 2;
-      while(personById(id) || id === BOTH) id = base + '-' + (n++);
+      while(personById(id) || id === BOTH || KIDP[id]) id = base + '-' + (n++);
       state.people.push({id, name, color});
     }
     dlg.close(); renderAll(); markDirty();
@@ -1507,11 +1623,12 @@ document.addEventListener('DOMContentLoaded',function(){
     if(!editing) return; const id = editing.id;
     state.people = state.people.filter(p => p.id !== id);
     for(const w of Object.values(state.weeks)) for(const d of Object.values(w.days)){
-      for(const k of KIDS) for(const s of SLOTS) if(d[k.id] && d[k.id][s.id] === id) d[k.id][s.id] = '';
-      if(d.gym === id) d.gym = '';
-      for(const x of (d.extra||[])) if(x.who === id) x.who = '';
+      const strip = v => { const w = W(v); w.by = w.by.filter(x => x !== id); w.with = w.with.filter(x => x !== id); return wStore(w); };
+      for(const k of KIDS) for(const s of SLOTS) if(d[k.id] && s.id in d[k.id]){ const v = strip(d[k.id][s.id]); if(v) d[k.id][s.id] = v; else delete d[k.id][s.id]; }
+      if(d.gym){ const v = strip(d.gym); if(v) d.gym = v; else delete d.gym; }
+      for(const x of (d.extra||[])){ const v = strip(x.who); if(v) x.who = v; else delete x.who; }
     }
-    for(const r of state.recurring) if(r.who === id) r.who = '';
+    for(const r of state.recurring){ const v = strip(r.who); if(v) r.who = v; else delete r.who; }
     dlg.close(); renderAll(); markDirty();
   });
 
@@ -1560,6 +1677,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <nav id="fxdock" aria-label="Sezioni della famiglia"><a href="famiglia.html"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg><span>Famiglia</span></a><a href="famiglia-percorso.html"><svg viewBox="0 0 24 24"><path d="M5 18c4-6 9 4 14-3"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="15" r="2"/><path d="M12 5v4"/></svg><span>Percorso</span></a><a href="costituzione-famiglia.html"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg><span>Costituzione</span></a><a href="orari-mattina.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 3h5"/></svg><span>Orari</span></a><a href="calendario-famiglia.html" class="on" aria-current="page"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M9 3.5v4M15 3.5v4"/></svg><span>Calendario</span></a><a href="fogli-di-casa.html"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg><span>Schede</span></a></nav><style id="fx2">
 :root{--fx-eo:cubic-bezier(.16,1,.3,1);--fx-eb:cubic-bezier(.34,1.56,.64,1);--fx-ei:cubic-bezier(.65,0,.35,1);--fx-sun:#F2B632;--fx-deep:#15302A;--fx-green:#2E5E4E;--fx-cream:#F4EEDC}
+html,body{overflow-x:clip}
 /* ---------- grana e luci d'ambiente ---------- */
 #fxgrain{position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 html.fx-paper #fxgrain{opacity:.045;mix-blend-mode:multiply}
