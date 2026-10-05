@@ -77,6 +77,9 @@ footer b{color:var(--sun)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.road path{stroke-dashoffset:0}}
 @media (max-width:580px){.clock b{font-size:24px}.brand b{font-size:15px}.card{min-height:200px}}
 </style>
+<style id="griglia-4">/* quattro card (05/10/2026, tolta la Plancia): Soldi di casa largo due colonne chiude la griglia */
+.grid>a.card[href="soldi-di-casa.html"]{grid-column:span 2}
+@media (max-width:580px){.grid>a.card[href="soldi-di-casa.html"]{grid-column:span 1}}</style>
 </head>
 <body>
 <div class="wrap">
@@ -88,7 +91,7 @@ footer b{color:var(--sun)}
   <section class="hero">
     <p class="eyebrow">Casa · famiglia · salute</p>
     <h1><span class="w"><span style="--d:.1s">Spazio</span></span><br><em><span class="w"><span style="--d:.25s">personale</span></span></em></h1>
-    <p class="lede" id="greet">Le cose di casa in un posto solo: la famiglia, la plancia della casa, il vademecum per la manutenzione. Salute e soldi di casa si aprono con la password dello Spazio personale.</p>
+    <p class="lede" id="greet">Le cose di casa in un posto solo: la famiglia e il vademecum per la manutenzione. Salute e soldi di casa si aprono con la password dello Spazio personale.</p>
   </section>
   <div class="road" aria-hidden="true"><svg viewBox="0 0 1000 40" preserveAspectRatio="none"><path d="M0 20 C 150 -10, 250 50, 400 20 S 650 -10, 800 20 S 950 50, 1000 20"/></svg></div>
 
@@ -104,13 +107,6 @@ footer b{color:var(--sun)}
       <span class="nm">Famiglia</span>
       <span class="desc">La Costituzione scritta insieme, il percorso per Edo e Bianca, gli orari della mattina, il calendario, la spesa e le schede da appendere.</span>
       <span class="links"><span>Calendario</span><span>Spesa</span><span>Costituzione</span><span>Orari</span><span>Schede</span></span>
-    </a>
-    <a class="card" href="plancia-rocciamelone.html" style="--c:var(--edo);--t:#fff;--d:.47s">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-      <span class="tag">Smart home · luci · serrande</span>
-      <span class="nm">Plancia di casa</span>
-      <span class="desc">Scene, luci, serrande, meteo e la piantina di Rocciamelone.</span>
-      <span class="cta">Apri →</span>
     </a>
     <a class="card" href="rcm-1821-d-managing.html" style="--c:var(--green);--t:#fff;--d:.59s">
       <svg class="ico" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>
