@@ -118,9 +118,12 @@ def scadenze():
     return righe, forte, avviso
 
 # ------------------------------------------------------------------ invio
-def manda(canale, titolo, testo, tag, priorita=3):
+SITO = 'https://goffredodonofrio.github.io/personale/'
+
+def manda(canale, titolo, testo, tag, priorita=3, apri=None):
     topic = os.environ.get(canale, '')
     corpo = {'topic': topic, 'title': titolo, 'message': testo, 'tags': [tag], 'priority': priorita}
+    if apri: corpo['click'] = SITO + apri   # toccando la notifica si apre la pagina giusta
     if os.environ.get('PROVA') == 'true': corpo['title'] = '[prova] ' + titolo
     if SECCO:
         print(f'--- {canale}\n{corpo["title"]}\n{testo}\n'); return
@@ -139,7 +142,8 @@ if avviso_r: corpo.append('⚠️ ' + avviso_r)
 if righe: corpo += ([''] if corpo else []) + righe
 if nota: corpo.append('📝 ' + nota)
 if corpo:
-    manda('NTFY_CASA', ('🗑 ' if fuori else '') + testa, '\n'.join(corpo), 'wastebasket' if fuori else 'calendar')
+    manda('NTFY_CASA', ('🗑 ' if fuori else '') + testa, '\n'.join(corpo), 'wastebasket' if fuori else 'calendar',
+          apri=f'calendario-famiglia.html?vista=giorno&giorno={domani.isoformat()}')
 
 S = scadenze()
 if S:
@@ -153,4 +157,4 @@ if S:
                  + ' · '.join(f"{v['l']} {eur(v['v'])} ({v['da']})" for v in pross['voci'])]
     if R or avviso:
         testo = '\n\n'.join(R + (['⚠️ ' + avviso] if avviso else []))
-        manda('NTFY_SOLDI', 'Scadenze sopra 500 €' if R else 'Soldi di casa', testo, 'euro', 5 if forte else 4 if R else 3)
+        manda('NTFY_SOLDI', 'Scadenze sopra 500 €' if R else 'Soldi di casa', testo, 'euro', 5 if forte else 4 if R else 3, apri='soldi-di-casa.html')
