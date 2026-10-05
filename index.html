@@ -77,9 +77,9 @@ footer b{color:var(--sun)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.road path{stroke-dashoffset:0}}
 @media (max-width:580px){.clock b{font-size:24px}.brand b{font-size:15px}.card{min-height:200px}}
 </style>
-<style id="griglia-4">/* quattro card (05/10/2026, tolta la Plancia): Soldi di casa largo due colonne chiude la griglia */
-.grid>a.card[href="soldi-di-casa.html"]{grid-column:span 2}
-@media (max-width:580px){.grid>a.card[href="soldi-di-casa.html"]{grid-column:span 1}}</style>
+<style id="menu-card">/* tessera del menù (05/10/2026): la cena di stasera e chi cucina, dai dati del menù */
+.menu-card .desc b{font-weight:800}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -97,7 +97,7 @@ footer b{color:var(--sun)}
 
   <nav class="quick" aria-label="Accessi rapidi">
     <a href="calendario-famiglia.html"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M9 3.5v4M15 3.5v4"/></svg>Calendario <small>chi accompagna, chi ritira</small></a>
-    <a href="spesa-famiglia.html"><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3"/><circle cx="10" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>Spesa <small>cosa manca</small></a>
+    <a href="spesa-famiglia.html"><svg viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3"/><circle cx="10" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>Spesa <small>cosa manca</small></a><a href="menu-settimana.html"><svg viewBox="0 0 24 24"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1.5-3 4-3 7v4h3"/></svg>Menù <small>cosa si mangia</small></a>
   </nav>
 
   <div class="grid">
@@ -106,7 +106,7 @@ footer b{color:var(--sun)}
       <span class="tag">Goffredo · Carolina · Edoardo · Bianca</span>
       <span class="nm">Famiglia</span>
       <span class="desc">La Costituzione scritta insieme, il percorso per Edo e Bianca, gli orari della mattina, il calendario, la spesa e le schede da appendere.</span>
-      <span class="links"><span>Calendario</span><span>Spesa</span><span>Costituzione</span><span>Orari</span><span>Schede</span></span>
+      <span class="links"><span>Calendario</span><span>Spesa</span><span>Menù</span><span>Costituzione</span><span>Orari</span><span>Schede</span></span>
     </a>
     <a class="card" href="rcm-1821-d-managing.html" style="--c:var(--green);--t:#fff;--d:.59s">
       <svg class="ico" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>
@@ -115,11 +115,18 @@ footer b{color:var(--sun)}
       <span class="desc">Il calendario delle manutenzioni, gli impianti, la raccolta rifiuti e chi chiamare.</span>
       <span class="cta">Apri →</span>
     </a>
+    <a class="card menu-card" href="menu-settimana.html" style="--c:#E8893A;--t:#1F2A26;--d:.6s">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M17 21V3c-2 1.5-3 4-3 7v4h3"/></svg>
+      <span class="tag">Pranzo e cena · chi cucina</span>
+      <span class="nm">Il menù</span>
+      <span class="desc" id="menu-oggi">La cena di stasera e le schiscette di domani, giorno per giorno. Gli ingredienti vanno nella spesa con un tocco.</span>
+      <span class="cta">Apri →</span>
+    </a>
     <a class="card" href="cockpit-salute.html" style="--c:var(--bia);--t:#fff;--d:.71s">
       <svg class="ico" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3 12h3l2-5 3 9 2-4h3"/></svg>
       <span class="tag">🔒 Con password · alimentazione</span>
       <span class="nm">Salute</span>
-      <span class="desc">Il menù della settimana e il quadro sanitario.</span>
+      <span class="desc">Il piano alimentare e il quadro sanitario.</span>
       <span class="cta">Apri →</span>
     </a>
     <a class="card" href="soldi-di-casa.html" style="--c:var(--cream);--t:var(--ink);--d:.83s">
@@ -140,6 +147,22 @@ footer b{color:var(--sun)}
     var d=n.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); document.getElementById('date').textContent=d.charAt(0).toUpperCase()+d.slice(1); }
   tick(); setInterval(tick,15000);
   document.getElementById('year').textContent=new Date().getFullYear();
+})();
+</script>
+<script src="menu/ricette.js"></script>
+<script>
+/* tessera del menù: stasera cosa si mangia e chi cucina, domani cosa c'è nella schiscetta */
+(function(){
+  var M=window.MENU, el=document.getElementById('menu-oggi'); if(!M||!el) return;
+  function e(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function mostra(dati){
+    var n=new Date(), k=M.iso(M.lunedi(n)), i=(n.getDay()+6)%7, p=M.piano(dati,k), x=p[i];
+    var dom=i<6? p[i+1] : M.piano(dati, M.iso(M.addDays(M.parse(k),7)))[0];
+    var t='Stasera <b>'+e(x.cena.nome.toLowerCase())+'</b>, cucina '+M.PERSONE[x.chi].nome+'.';
+    t+= dom.pranzo.casa ? ' Domani si pranza a casa.' : ' Domani in schiscetta: '+e(dom.pranzo.nome.toLowerCase())+'.';
+    el.innerHTML=t;
+  }
+  fetch('menu/dati.json?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok? r.json() : {}; }).catch(function(){ return {}; }).then(mostra);
 })();
 </script>
 </body>
