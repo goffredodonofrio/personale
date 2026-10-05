@@ -144,6 +144,13 @@ if corpo:
 S = scadenze()
 if S:
     R, forte, avviso = S
+    if not R and not avviso and os.environ.get('PROVA') == 'true':
+        # in prova il canale soldi parla comunque: dice la prossima scadenza
+        D = json.loads(os.environ['SCADENZE']); pross = next((x for x in D['date'] if dt.date.fromisoformat(x['d']) > oggi), None)
+        if pross:
+            d = dt.date.fromisoformat(pross['d'])
+            R = [f"Nessuna scadenza nei prossimi giorni. La prossima: {data_lunga(d)}, {eur(pross['tot'])}\n"
+                 + ' · '.join(f"{v['l']} {eur(v['v'])} ({v['da']})" for v in pross['voci'])]
     if R or avviso:
         testo = '\n\n'.join(R + (['⚠️ ' + avviso] if avviso else []))
         manda('NTFY_SOLDI', 'Scadenze sopra 500 €' if R else 'Soldi di casa', testo, 'euro', 5 if forte else 4 if R else 3)
