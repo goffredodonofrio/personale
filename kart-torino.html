@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261004213616">
+<meta name="build" content="20261005114512">
 <meta name="referrer" content="no-referrer-when-downgrade">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
@@ -120,6 +120,19 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .lapl{font:800 13px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 #loading{flex-direction:column;gap:14px}
 #attr{position:fixed;left:8px;bottom:calc(4px + env(safe-area-inset-bottom));z-index:11;font:600 10px/1.2 Arial,sans-serif;color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(0,0,0,.8);pointer-events:none;max-width:70vw}
+/* quota del drone: appare quando cambia, sotto la casella del bonus */
+.alt{position:absolute;right:10px;top:calc(84px + env(safe-area-inset-top));display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding:6px 10px;border-radius:12px;background:rgba(15,27,34,.7);font:700 13px/1.2 var(--display);color:var(--cream);opacity:0;transform:translateY(-4px);transition:opacity .25s,transform .25s;pointer-events:none}
+.alt b{font-weight:800;color:var(--gold)}.alt small{font:700 11.5px/1.25 var(--display);color:rgba(244,238,220,.8);max-width:190px;text-align:right}
+.alt.show{opacity:1;transform:none}
+/* telefono: il bonus sopra la freccia destra, la pausa in alto accanto alla casella del bonus (prima stavano uno sopra l'altro in basso al centro) */
+@media (pointer:coarse){.tz.ti{left:auto;right:12px;transform:none;bottom:calc(26px + env(safe-area-inset-bottom) + clamp(64px,22%,120px))}
+  #pauseBtn{left:auto;right:calc(86px + env(safe-area-inset-right));top:calc(22px + env(safe-area-inset-top));bottom:auto;transform:none}}
+.seg button.off{opacity:.45;text-decoration:line-through}
+/* foto dal satellite: logo Google in basso a sinistra, diritti delle immagini accanto; sui telefoni in alto al centro, lontano dai tasti */
+#satAttr{position:fixed;left:10px;bottom:calc(6px + env(safe-area-inset-bottom));z-index:11;display:flex;align-items:flex-end;gap:8px;pointer-events:none;max-width:calc(100vw - 80px)}
+#satAttr img{height:18px;width:auto;display:block}
+#satCopy{font:600 10px/1.2 Arial,sans-serif;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.9),0 0 4px rgba(0,0,0,.6);padding-bottom:2px}
+@media (pointer:coarse){#satAttr{left:50%;transform:translateX(-50%);top:calc(4px + env(safe-area-inset-top));bottom:auto;flex-direction:column;align-items:center;gap:2px}#satAttr img{height:16px}#satCopy{font-size:9px;text-align:center}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -157,7 +170,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
     <button type="button" class="back" id="bBack2">← Giocatori</button>
     <h2>Dove corriamo?</h2>
     <div class="tlist" id="tList"></div>
-    <div class="row" id="cityRow"><span class="lapl">Città</span><div class="seg" id="cityPick"><button type="button" data-c="google">🌍 Vera, di Google</button><button type="button" data-c="osm">🧱 Leggera</button></div><span class="note" id="cityNote"></span></div>
+    <div class="row" id="cityRow"><span class="lapl">Città</span><div class="seg" id="cityPick"><button type="button" data-c="sat">🛰️ Dal satellite</button><button type="button" data-c="google">🌍 Vera, di Google</button><button type="button" data-c="osm">🧱 Leggera</button></div><span class="note" id="cityNote"></span></div>
     <div class="row" id="lapsRow"><span class="lapl">Giri</span><div class="seg" id="lapsPick"><button type="button" data-l="1">1</button><button type="button" data-l="2">2</button><button type="button" data-l="3">3</button></div></div>
     <button type="button" class="cta" id="bGo">🏁 Via!</button>
   </div>
@@ -167,6 +180,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 <section id="pause" class="over hidden"><div class="box"><h2>Pausa</h2><div class="row"><button type="button" class="cta" id="pResume" style="font-size:16px;padding:14px 20px;min-height:0">▶ Riprendi</button><button type="button" class="ghost" id="pQuit">Esci dalla gara</button></div></div></section>
 <div id="loading" class="hidden"><span id="loadT">Preparo la pista…</span></div>
 <div id="attr"></div>
+<div id="satAttr" class="hidden"><img src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5_hdpi.png" alt="Google Maps" width="66" height="26"><span id="satCopy"></span></div>
 
 <script>
 // Avatar della famiglia: stessa fonte del calendario (README §3-4)
@@ -428,6 +442,379 @@ function groundHit(x, z, from = 400) {
   const h = RAY.intersectObject(G3D.tiles.group, true); return h.length ? h[0].point.y : null;
 }
 
+// ===================== TORINO DAL SATELLITE: Google Map Tiles API, tile 2D =====================
+// Il terreno è fatto con le foto aeree/satellitari di Google, in Web Mercator, scaricate a pezzi intorno alle telecamere:
+// fino a ~5 cm per pixel sotto il kart (zoom 21), sempre più grossolane in lontananza (fino allo zoom 14).
+// Ogni pezzo è un quadrato piatto nelle coordinate locali di localOf (x est, y su, z sud, origine Piazza Castello);
+// a Superga è una griglia appoggiata sulle quote vere (EU-DEM), con la strada spianata di traverso.
+const QP = new URLSearchParams(location.search);
+const SAT = {
+  session: null, expiry: 0, copyright: '', rects: [],
+  zMax: +QP.get('satZ') || (MOBILE ? 20 : 21),          // zoom massimo (dove Google ce l'ha)
+  T: +QP.get('satT') || (MOBILE ? 1.6 : 1.1),           // quanti pixel di schermo può coprire un pixel della foto prima di chiedere quella più fine
+  // foto "4x" (1024 pixel per pezzo, il dettaglio di due zoom più in là): 16 volte meno richieste a parità di nitidezza; sul telefono "2x" (512)
+  scale: QP.has('satScale') ? +QP.get('satScale') : MOBILE ? 2 : 4,
+  conc: MOBILE ? 4 : 6,
+  texBudget: MOBILE ? 300 : 640,          // foto tenute nella scheda video, contate in pezzi da 256 pixel (640 = 40 pezzi da 1024 = ~220 MB)
+  blobBudget: (MOBILE ? 80 : 320) * 1e6,  // foto compresse tenute in memoria per il secondo giro (meno di un giorno: rispetta la cache di Google)
+  blobs: new Map(), blobBytes: 0, upq: [], upPerFrame: 2,
+  // altezze del drone: [quota, distanza dietro al kart, punto guardato davanti]; più si sale, più si guarda in giù (l'ultima è quasi una mappa)
+  camPoses: [[14, 11, 12], [22, 14, 12], [32, 18, 14], [48, 14, 6]], camI: QP.has('satCam') ? +QP.get('satCam') : 2, fov: 58, kScale: 1.6,
+  nodes: new Map(), roots: [], drawn: [], frame: 0, inflight: 0, gid: 0, group: null, want: 0,
+  stats: {req: 0, ok: 0, fail: 0, bytes: 0, evict: 0, drawn: 0, maxZ: 0, byZ: {}, memHit: 0},
+  ready: null, blocked: '', why: '', labels: [], dem: false, hMin: 14, hMax: 60, hDef: 32,
+};
+// ---------- Web Mercator ----------
+const MERC = {lon: (x, z) => x / 2 ** z * 360 - 180, lat: (y, z) => Math.atan(Math.sinh(Math.PI * (1 - 2 * y / 2 ** z))) * 180 / Math.PI,
+  x: (lon, z) => (lon + 180) / 360 * 2 ** z, y: (lat, z) => { const p = lat * Math.PI / 180; return (1 - Math.log(Math.tan(p) + 1 / Math.cos(p)) / Math.PI) / 2 * 2 ** z; }};
+// inversa di localOf: dalle coordinate locali a lat/lon (due passi di Newton bastano al millimetro)
+function latLonOf(x, z) { let lat = O_LAT - z / 111132, lon = O_LON + x / (111320 * Math.cos(lat * Math.PI / 180));
+  for (let k = 0; k < 2; k++) { const v = localOf(lat, lon); lat += (v.z - z) / 111132; lon += (x - v.x) / (111320 * Math.cos(lat * Math.PI / 180)); } return {lat, lon}; }
+
+// ---------- sessione e informazioni sulla zona (attribuzione, zoom massimo) ----------
+async function satSession(force) {
+  if (!force && SAT.session && SAT.expiry * 1000 > Date.now() + 864e5) return;
+  const LS = 'kart-sat-session-' + SAT.scale;
+  if (!force) try { const s = JSON.parse(localStorage.getItem(LS) || 'null'); if (s && s.expiry * 1000 > Date.now() + 864e5) { SAT.session = s.session; SAT.expiry = +s.expiry; return; } } catch (e) {}
+  const body = {mapType: 'satellite', language: 'it-IT', region: 'IT', imageFormat: 'jpeg'}; if (SAT.scale > 1) { body.scale = 'scaleFactor' + SAT.scale + 'x'; body.highDpi = true; }
+  const r = await fetch('https://tile.googleapis.com/v1/createSession?key=' + GKEY, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  if (!r.ok) { let m = ''; try { m = ((await r.json()).error || {}).message || ''; } catch (e) {} const er = new Error('Google non dà la sessione satellite (' + r.status + ') ' + m); er.status = r.status; er.google = m; throw er; }
+  const j = await r.json(); SAT.session = j.session; SAT.expiry = +j.expiry;
+  try { localStorage.setItem(LS, JSON.stringify({session: j.session, expiry: j.expiry})); } catch (e) {}
+}
+async function satViewport(b) {
+  const u = `https://tile.googleapis.com/tile/v1/viewport?session=${SAT.session}&key=${GKEY}&zoom=${SAT.zMax}&north=${b.n.toFixed(6)}&south=${b.s.toFixed(6)}&east=${b.e.toFixed(6)}&west=${b.w.toFixed(6)}`;
+  const r = await fetch(u); if (!r.ok) throw new Error('viewport ' + r.status);
+  const j = await r.json(); SAT.copyright = j.copyright || ''; SAT.rects = j.maxZoomRects || [];
+}
+function satMaxZoom(lat, lon) { let z = 0; for (const r of SAT.rects) if (lat <= r.north && lat >= r.south && lon <= r.east && lon >= r.west) z = Math.max(z, r.maxZoom); return Math.min(SAT.zMax, z || 19); }
+
+// ---------- il suolo: piatto in città, quote vere a Superga ----------
+const GROUND = {flat: true, dem: null, hash: null, F: null, w: 12};
+function groundAt(x, z) {
+  if (GROUND.flat) return 0;
+  let y = demAt(x, z);
+  // vicino alla pista la strada è spianata di traverso e liscia in salita, poi si raccorda alla collina in 16 m
+  const r = nearFrame(x, z); if (r) { const a = Math.min(1, Math.max(0, (Math.abs(r.lat) - GROUND.w / 2 - 1.5) / 16)), s = a * a * (3 - 2 * a); y = r.y * (1 - s) + y * s; }
+  return y;
+}
+function demAt(x, z) { const d = GROUND.dem, gx = Math.min(d.nx - 1.001, Math.max(0, (x - d.x0) / d.cs)), gz = Math.min(d.nz - 1.001, Math.max(0, (z - d.z0) / d.cs)), i = gx | 0, j = gz | 0, fx = gx - i, fz = gz - j, H = d.h, n = d.nx;
+  return (H[j * n + i] * (1 - fx) + H[j * n + i + 1] * fx) * (1 - fz) + (H[(j + 1) * n + i] * (1 - fx) + H[(j + 1) * n + i + 1] * fx) * fz; }
+function nearFrame(x, z) {
+  const F = GROUND.F, cx = Math.floor(x / 24), cz = Math.floor(z / 24); let best = -1, bd = 900;
+  for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const L = GROUND.hash.get((cx + a) + ',' + (cz + b)); if (L) for (const i of L) { const f = F[i], dd = (f.x - x) ** 2 + (f.z - z) ** 2; if (dd < bd) { bd = dd; best = i; } } }
+  if (best < 0) return null; const f = F[best], lat = (x - f.x) * f.nx + (z - f.z) * f.nz, t = (x - f.x) * f.tx + (z - f.z) * f.tz;
+  const j = t >= 0 ? Math.min(F.length - 1, best + 1) : Math.max(0, best - 1), g = F[j], L = Math.hypot(g.x - f.x, g.z - f.z) || 1, u = Math.min(1, Math.abs(t) / L);
+  return {lat, y: f.y + (g.y - f.y) * u};
+}
+// quote EU-DEM (tile "terrarium" pubblici su AWS), ricampionate su una griglia locale di 12 m
+async function loadDEM(bb) {
+  const Z = 13, sw = latLonOf(bb.x0, bb.z1), ne = latLonOf(bb.x1, bb.z0);
+  const tx0 = Math.floor(MERC.x(sw.lon, Z)), tx1 = Math.floor(MERC.x(ne.lon, Z)), ty0 = Math.floor(MERC.y(ne.lat, Z)), ty1 = Math.floor(MERC.y(sw.lat, Z));
+  const T = new Map(), cv = document.createElement('canvas'); cv.width = cv.height = 256; const g = cv.getContext('2d', {willReadFrequently: true});
+  const jobs = []; for (let x = tx0; x <= tx1; x++) for (let y = ty0; y <= ty1; y++) jobs.push((async () => {
+    const r = await fetch(`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${Z}/${x}/${y}.png`); if (!r.ok) throw new Error('quote ' + r.status);
+    const bm = await createImageBitmap(await r.blob()); T.set(x + '/' + y, bm); })());
+  await Promise.all(jobs);
+  const H = new Map(); for (const [k, bm] of T) { g.clearRect(0, 0, 256, 256); g.drawImage(bm, 0, 0); const p = g.getImageData(0, 0, 256, 256).data, h = new Float32Array(65536);
+    for (let i = 0; i < 65536; i++) h[i] = p[i * 4] * 256 + p[i * 4 + 1] + p[i * 4 + 2] / 256 - 32768 - 239; H.set(k, h); bm.close && bm.close(); }
+  const px = (gx, gy) => { const h = H.get((gx >> 8) + '/' + (gy >> 8)); return h ? h[(gy & 255) * 256 + (gx & 255)] : 0; };
+  const at = (lat, lon) => { const fx = MERC.x(lon, Z) * 256 - .5, fy = MERC.y(lat, Z) * 256 - .5, i = Math.floor(fx), j = Math.floor(fy), u = fx - i, v = fy - j;
+    return (px(i, j) * (1 - u) + px(i + 1, j) * u) * (1 - v) + (px(i, j + 1) * (1 - u) + px(i + 1, j + 1) * u) * v; };
+  const cs = 12, nx = Math.ceil((bb.x1 - bb.x0) / cs) + 1, nz = Math.ceil((bb.z1 - bb.z0) / cs) + 1, h = new Float32Array(nx * nz);
+  const c00 = latLonOf(bb.x0, bb.z0), c10 = latLonOf(bb.x0 + (nx - 1) * cs, bb.z0), c01 = latLonOf(bb.x0, bb.z0 + (nz - 1) * cs), c11 = latLonOf(bb.x0 + (nx - 1) * cs, bb.z0 + (nz - 1) * cs);
+  for (let j = 0; j < nz; j++) { const v = j / (nz - 1); for (let i = 0; i < nx; i++) { const u = i / (nx - 1);
+    const lat = (c00.lat * (1 - u) + c10.lat * u) * (1 - v) + (c01.lat * (1 - u) + c11.lat * u) * v, lon = (c00.lon * (1 - u) + c10.lon * u) * (1 - v) + (c01.lon * (1 - u) + c11.lon * u) * v;
+    h[j * nx + i] = at(lat, lon); } }
+  return {x0: bb.x0, z0: bb.z0, cs, nx, nz, h};
+}
+function setupGround(F, w, dem) {
+  GROUND.flat = !dem; GROUND.dem = dem; GROUND.F = F; GROUND.w = w; SAT.gid++;
+  if (!dem) { for (const f of F) f.y = 0; return; }
+  const hash = new Map(); F.forEach((f, i) => { const k = Math.floor(f.x / 24) + ',' + Math.floor(f.z / 24); if (!hash.has(k)) hash.set(k, []); hash.get(k).push(i); }); GROUND.hash = hash;
+  // quota della strada: media su tre punti di traverso, poi lisciata lungo la salita (±30 m, due passate)
+  let y = F.map(f => (demAt(f.x, f.z) * 2 + demAt(f.x + f.nx * w / 3, f.z + f.nz * w / 3) + demAt(f.x - f.nx * w / 3, f.z - f.nz * w / 3)) / 4);
+  for (let pass = 0; pass < 2; pass++) { const o = []; let a = 0, b = 0, sum = 0;
+    for (let i = 0; i < F.length; i++) { while (b < F.length && F[b].s - F[i].s <= 30) sum += y[b++]; while (F[i].s - F[a].s > 30) sum -= y[a++]; o.push(sum / (b - a)); } y = o; }
+  F.forEach((f, i) => { f.y = y[i]; });
+}
+
+// ---------- i pezzi di foto (quadtree) ----------
+function satNode(z, x, y) {
+  const key = z + '/' + x + '/' + y; let n = SAT.nodes.get(key); if (n) return n;
+  const latN = MERC.lat(y, z), latS = MERC.lat(y + 1, z), lonW = MERC.lon(x, z), lonE = MERC.lon(x + 1, z);
+  const c = [localOf(latN, lonW), localOf(latN, lonE), localOf(latS, lonW), localOf(latS, lonE)];
+  n = {key, z, x, y, mpp: Math.hypot(c[1].x - c[0].x, c[1].z - c[0].z) / (256 * SAT.scale), maxZ: satMaxZoom((latN + latS) / 2, (lonW + lonE) / 2) - Math.round(Math.log2(SAT.scale)), state: 0, fails: 0, retry: 0, tex: null, mesh: null, kids: null, seen: 0, gid: -1,
+    box: new THREE.Box3(new THREE.Vector3(Math.min(c[0].x, c[2].x), 0, Math.min(c[0].z, c[1].z)), new THREE.Vector3(Math.max(c[1].x, c[3].x), 0, Math.max(c[2].z, c[3].z)))};
+  satBoxY(n); SAT.nodes.set(key, n); return n;
+}
+function satBoxY(n) { const b = n.box; let lo = Infinity, hi = -Infinity;
+  for (const u of [0, .5, 1]) for (const v of [0, .5, 1]) { const y = groundAt(b.min.x + (b.max.x - b.min.x) * u, b.min.z + (b.max.z - b.min.z) * v); lo = Math.min(lo, y); hi = Math.max(hi, y); }
+  b.min.y = lo - (GROUND.flat ? 1 : 25); b.max.y = hi + (GROUND.flat ? 1 : 25); n.gid = SAT.gid; }
+const ANISO = () => renderer.capabilities.getMaxAnisotropy();
+function blobGet(key) { const e = SAT.blobs.get(key); if (!e) return null; if (Date.now() - e.t > 20 * 3600e3) { SAT.blobs.delete(key); SAT.blobBytes -= e.b.size; return null; }
+  SAT.blobs.delete(key); SAT.blobs.set(key, e); return e.b; }
+function blobPut(key, b) { if (SAT.blobs.has(key)) return; SAT.blobs.set(key, {b, t: Date.now()}); SAT.blobBytes += b.size;
+  for (const [k, e] of SAT.blobs) { if (SAT.blobBytes <= SAT.blobBudget) break; SAT.blobs.delete(k); SAT.blobBytes -= e.b.size; } }
+function satLoad(n) {
+  n.state = 1; SAT.inflight++;
+  const kept = blobGet(n.key);
+  if (kept) SAT.stats.memHit++; else { SAT.stats.req++; SAT.stats.byZ[n.z] = (SAT.stats.byZ[n.z] || 0) + 1; }
+  return (kept ? Promise.resolve(kept) : fetch(`https://tile.googleapis.com/v1/2dtiles/${n.z}/${n.x}/${n.y}?session=${SAT.session}&key=${GKEY}`)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => { SAT.stats.bytes += b.size; blobPut(n.key, b); return b; }))
+    .then(b => createImageBitmap(b))
+    .then(img => { const t = new THREE.Texture(img); t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = ANISO(); t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+      t.minFilter = THREE.LinearMipmapLinearFilter; t.magFilter = THREE.LinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+      n.tex = t; SAT.upq.push(n); })
+    .catch(e => { n.fails++; SAT.stats.fail++; n.state = n.fails >= 3 ? 3 : 0; n.retry = performance.now() + 800 * n.fails;
+      // sessione scaduta o revocata: se non è mai arrivata una foto, se ne chiede una nuova (una volta sola)
+      if (!SAT.stats.ok && SAT.stats.fail >= 6 && !SAT.renewed) { SAT.renewed = true; satSession(true).then(() => { for (const m of SAT.nodes.values()) { m.noKids = false; if (m.state === 3) { m.state = 0; m.fails = 0; } } }).catch(() => {}); } })
+    .finally(() => { SAT.inflight--; });
+}
+// geometria del pezzo: un quadrato in città, una griglia con le quote (e i bordi che scendono, per non vedere fessure) in collina
+function satGeo(n) {
+  const N = GROUND.flat ? 1 : n.z <= 15 ? 24 : n.z <= 17 ? 16 : n.z <= 19 ? 10 : 6, pos = [], uv = [], idx = [];
+  for (let j = 0; j <= N; j++) { const lat = MERC.lat(n.y + j / N, n.z);
+    for (let i = 0; i <= N; i++) { const v = localOf(lat, MERC.lon(n.x + i / N, n.z)); pos.push(v.x, groundAt(v.x, v.z), v.z); uv.push(i / N, j / N); } }
+  for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) { const a = j * (N + 1) + i; idx.push(a, a + N + 1, a + 1, a + 1, a + N + 1, a + N + 2); }
+  if (!GROUND.flat) { const drop = Math.max(3, n.mpp * 256 * .03), ring = [];
+    for (let i = 0; i <= N; i++) ring.push(i); for (let j = 1; j <= N; j++) ring.push(j * (N + 1) + N); for (let i = N - 1; i >= 0; i--) ring.push(N * (N + 1) + i); for (let j = N - 1; j >= 0; j--) ring.push(j * (N + 1));
+    const base = pos.length / 3; ring.forEach(r => { pos.push(pos[r * 3], pos[r * 3 + 1] - drop, pos[r * 3 + 2]); uv.push(uv[r * 2], uv[r * 2 + 1]); });
+    for (let k = 0; k < ring.length - 1; k++) idx.push(ring[k], base + k, ring[k + 1], ring[k + 1], base + k, base + k + 1); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeBoundingSphere(); g.computeBoundingBox(); return g;
+}
+function satMesh(n) {
+  if (n.mesh && n.mesh.userData.gid === SAT.gid) return n.mesh;
+  if (n.gid !== SAT.gid) satBoxY(n);
+  const g = satGeo(n);
+  if (n.mesh) { n.mesh.geometry.dispose(); n.mesh.geometry = g; }
+  else { n.mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial({map: n.tex, side: THREE.DoubleSide})); n.mesh.matrixAutoUpdate = false; n.mesh.visible = false; SAT.group.add(n.mesh); }
+  n.mesh.userData.gid = SAT.gid; return n.mesh;
+}
+function satFree(n) { if (n.mesh) { SAT.group.remove(n.mesh); n.mesh.geometry.dispose(); n.mesh.material.dispose(); n.mesh = null; }
+  if (n.tex) { const im = n.tex.image; n.tex.dispose(); if (im && im.close) im.close(); n.tex = null; } n.state = 0; SAT.stats.evict++; }
+
+// ---------- quali pezzi servono: per ogni telecamera, la foto deve essere fine quanto lo schermo ----------
+const PM = new THREE.Matrix4();
+function satView(cam, hPx, pre) {
+  PM.copy(cam.projectionMatrix); PM.elements[0] *= .8; PM.elements[5] *= .8;   // un po' più larga della vera: le curve arrivano già pronte
+  return {pos: cam.position.clone(), focal: hPx / 2 / Math.tan(cam.fov * Math.PI / 360), fr: new THREE.Frustum().setFromProjectionMatrix(PM.multiply(cam.matrixWorldInverse)), pre};
+}
+function satErr(n, views) { let e = 0;
+  for (const v of views) { const d = Math.max(1, n.box.distanceToPoint(v.pos)), s = n.mpp * v.focal / d / (v.fr.intersectsBox(n.box) ? 1 : 6) / (v.pre ? 1.25 : 1); if (s > e) e = s; } return e; }
+function satTraverse(views) {
+  const F = ++SAT.frame, want = [], draw = [], now = performance.now();
+  // le foto arrivate passano alla scheda video poche per volta: niente scatti quando ne arrivano tante insieme
+  for (let i = 0; i < SAT.upPerFrame && SAT.upq.length; i++) { const n = SAT.upq.shift(); try { renderer.initTexture(n.tex); } catch (e) {} n.state = 2; SAT.stats.ok++; SAT.stats.maxZ = Math.max(SAT.stats.maxZ, n.z); }
+  const ask = (n, p) => { if (n.state === 0 && now >= n.retry) want.push([n, p]); };
+  const visit = n => {
+    n.seen = F; if (n.state !== 2) { ask(n, 1e6 - n.z); return; }
+    const e = satErr(n, views);
+    if (e > SAT.T && n.z < n.maxZ && !n.noKids) {
+      if (!n.kids) n.kids = [0, 1, 2, 3].map(i => satNode(n.z + 1, n.x * 2 + (i & 1), n.y * 2 + (i >> 1)));
+      let ready = true; for (const k of n.kids) { k.seen = F; if (k.state === 3) n.noKids = true; if (k.state !== 2) { ready = false; ask(k, e); } }
+      if (ready && !n.noKids) { for (const k of n.kids) visit(k); return; }
+    }
+    draw.push(n);
+  };
+  for (const r of SAT.roots) if (views.some(v => v.fr.intersectsBox(r.box) || r.box.distanceToPoint(v.pos) < 700)) visit(r);
+  // si scaricano prima i pezzi più "sgranati" rispetto allo schermo
+  want.sort((a, b) => b[1] - a[1]); SAT.want = want.length;
+  for (let i = 0; i < want.length && SAT.inflight < SAT.conc; i++) satLoad(want[i][0]);
+  for (const n of SAT.drawn) if (n.mesh) n.mesh.visible = false;
+  for (const n of draw) satMesh(n).visible = true;
+  SAT.drawn = draw; SAT.stats.drawn = draw.length;
+  if (F % 30 === 0) satEvict();
+}
+function satEvict() {
+  const live = []; for (const n of SAT.nodes.values()) if (n.state === 2 && !n.root) live.push(n);
+  const max = SAT.texBudget / (SAT.scale * SAT.scale); if (live.length <= max) return; live.sort((a, b) => a.seen - b.seen || b.z - a.z);
+  for (let i = 0; i < live.length - max * .85; i++) { const n = live[i]; if (n.seen >= SAT.frame - 20) break; satFree(n); }
+}
+// telecamera dall'alto, come un drone dietro al kart (la stessa per la gara e per la previsione)
+// la quota si sceglie per ogni giocatore (rotella, pizzico, + e -): distanza dietro e punto guardato seguono le pose provate
+function satPoseAt(H) { const P = SAT.camPoses; if (H <= P[0][0]) return P[0]; if (H >= P[P.length - 1][0]) return [H, P[P.length - 1][1], P[P.length - 1][2]];
+  for (let i = 1; i < P.length; i++) if (H <= P[i][0]) { const a = P[i - 1], b = P[i], u = (H - a[0]) / (b[0] - a[0]); return [H, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u]; } }
+function camAlt(i) { const a = SETUP.camH && SETUP.camH[i]; return a ? Math.min(SAT.hMax, Math.max(SAT.hMin, a)) : SAT.hDef; }
+function satCamPose(x, y, z, h, v, outPos, outLook, alt) {
+  const [H, B, A] = satPoseAt(alt || SAT.hDef), fx = Math.sin(h), fz = Math.cos(h), back = B + Math.min(3, Math.max(0, v) / 9), ahead = A;
+  outPos.set(x - fx * back, y + H, z - fz * back); outLook.set(x + fx * ahead, y, z + fz * ahead);
+}
+const PRE = [], PL = new THREE.Vector3();
+function satPredict(k, sec, i) {
+  const c = PRE[i] || (PRE[i] = new THREE.PerspectiveCamera(SAT.fov, 1, 1, 6000)), F = TR.F, n = F.length;
+  let j = k.idx + Math.round(Math.max(10, k.v) * sec / TR.ds); j = TR.closed ? ((j % n) + n) % n : Math.min(n - 1, j); const f = F[j];
+  satCamPose(f.x, f.y, f.z, Math.atan2(f.tx, f.tz), Math.max(10, k.v), c.position, PL, camAlt(k.human)); c.lookAt(PL); c.updateMatrixWorld(); return c;
+}
+// ogni fotogramma, prima di disegnare: telecamere vere + dove saranno tra poco
+function satFrame(cams, vps, ahead = [1.8]) {
+  const pr = renderer.getPixelRatio(), views = [];
+  cams.forEach((c, i) => { const v = vps[i] || [0, 0, innerWidth, innerHeight]; c.aspect = v[2] / v[3]; c.updateProjectionMatrix(); c.updateMatrixWorld(); views.push(satView(c, v[3] * pr, false)); });
+  let p = 0; KARTS.forEach(k => { if (k.human < 0) return; const v = vps[k.human] || vps[0];
+    for (const s of ahead) { const c = satPredict(k, s, p++); c.aspect = v[2] / v[3]; c.updateProjectionMatrix(); views.push(satView(c, v[3] * pr, true)); } });
+  satTraverse(views);
+}
+
+// ---------- la gara sulle foto ----------
+TX.kerb = tex(32, 64, (g, w, h) => { g.fillStyle = '#F4F1EA'; g.fillRect(0, 0, w, h); g.fillStyle = '#D23A2F'; g.fillRect(0, 0, w, h / 2); });
+// mentre si corre sulle foto, la città 3D del menu smette di scaricare (riparte quando si torna al menu)
+function g3dPause(on) { const T = G3D.tiles; if (!T || !T.downloadQueue || G3D.paused === on) return; G3D.paused = on;
+  try { T.downloadQueue.maxJobsPerOrigin = on ? 0 : 25; T.parseQueue.maxJobs = on ? 0 : 5; } catch (e) {} }
+async function buildRaceSat(t) {
+  g3dPause(true); await satSession(); SAT.labels = [];
+  scene = new THREE.Scene(); scene.background = new THREE.Color('#C9DAE6');
+  const sky = new Sky(); sky.scale.setScalar(9000); scene.add(sky); const U = sky.material.uniforms; U.turbidity.value = 4; U.rayleigh.value = 1.2; U.mieCoefficient.value = .004; U.mieDirectionalG.value = .8; U.sunPosition.value.copy(sunDir);
+  const fogN = MOBILE ? 380 : 520, fogF = MOBILE ? 1700 : 2600; scene.fog = new THREE.Fog(FOG_COL, fogN, fogF);
+  scene.add(new THREE.HemisphereLight(0xdfeeff, 0x8a7a66, 1.15)); const sun = new THREE.DirectionalLight(0xfff0d8, 2); sun.position.copy(sunDir).multiplyScalar(100); scene.add(sun, sun.target);
+  const c = t.c.map(trackPoint), {F, len} = trackFrames(c, t.closed), w = t.w; fitEdgesOSM(t, F);
+  let a = 1e9, b = 1e9, cc = -1e9, d = -1e9; for (const f of F) { a = Math.min(a, f.x); b = Math.min(b, f.z); cc = Math.max(cc, f.x); d = Math.max(d, f.z); }
+  const M = MOBILE ? 1700 : 2400, bb = {x0: a - M, x1: cc + M, z0: b - M, z1: d + M};
+  // quote: solo in collina (in città la pista è in piano e le quote del modello farebbero onde sui palazzi)
+  let dem = null; if (t.id === 'superga') try { dem = await loadDEM(bb); } catch (e) { console.warn('quote', e); }
+  setupGround(F, w, dem); SAT.dem = !!dem;
+  const sw = latLonOf(bb.x0, bb.z1), ne = latLonOf(bb.x1, bb.z0);
+  try { await satViewport({n: ne.lat, s: sw.lat, e: ne.lon, w: sw.lon}); } catch (e) { console.warn(e); }
+  // i pezzi di partenza: zoom 14 (1,7 km) su tutta la zona
+  const Z0 = 14, x0 = Math.floor(MERC.x(sw.lon, Z0)), x1 = Math.floor(MERC.x(ne.lon, Z0)), y0 = Math.floor(MERC.y(ne.lat, Z0)), y1 = Math.floor(MERC.y(sw.lat, Z0));
+  for (const n of SAT.roots) n.root = false; SAT.roots = [];
+  for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) { const n = satNode(Z0, x, y); n.root = true; if (n.gid !== SAT.gid) satBoxY(n); SAT.roots.push(n); }
+  // prova: il pezzo sotto la partenza deve arrivare, se no (chiave, quota, regole UE) si corre sulla città leggera
+  const st = latLonOf(F[0].x, F[0].z), r0 = satNode(Z0, Math.floor(MERC.x(st.lon, Z0)), Math.floor(MERC.y(st.lat, Z0)));
+  for (let a = 0; a < 2 && r0.state === 0; a++) { await satLoad(r0); if (r0.state === 0) await new Promise(r => setTimeout(r, 700)); }
+  for (let i = 0; i < 100 && r0.state === 1 && !r0.tex; i++) await new Promise(r => setTimeout(r, 50));
+  if (r0.state === 1 && r0.tex) { const q = SAT.upq.indexOf(r0); if (q >= 0) SAT.upq.splice(q, 1); try { renderer.initTexture(r0.tex); } catch (e) {} r0.state = 2; SAT.stats.ok++; }
+  if (r0.state !== 2) { g3dPause(false); throw new Error('Google non manda le foto dal satellite'); }
+  for (const n of SAT.nodes.values()) if (n.gid !== SAT.gid) satBoxY(n);   // Superga: le scatole dei pezzi già scaricati cambiano quota
+  if (!SAT.group) { SAT.group = new THREE.Group(); SAT.group.matrixAutoUpdate = false; } scene.add(SAT.group); SAT.drawn.forEach(n => n.mesh && (n.mesh.visible = false)); SAT.drawn = [];
+  // sotto a tutto, un fondo neutro (si vede solo dove la foto non è ancora arrivata)
+  let lo = 0; if (dem) { lo = Infinity; for (const v of dem.h) lo = Math.min(lo, v); }
+  const bg = new THREE.Mesh(new THREE.PlaneGeometry(60000, 60000), new THREE.MeshBasicMaterial({color: '#7C7F70'})); bg.rotation.x = -Math.PI / 2; bg.position.set((a + cc) / 2, lo - 6, (b + d) / 2); scene.add(bg);
+  // cordoli sottili sul bordo vero della via e frecce al centro: la strada fotografata resta visibile
+  const curbM = new THREE.MeshBasicMaterial({map: TX.kerb, side: THREE.DoubleSide, transparent: true, opacity: .88, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4});
+  const edges = [edgeGeo(F, t.closed, 1, .55, 3), edgeGeo(F, t.closed, -1, .55, 3)]; for (const g of edges) scene.add(new THREE.Mesh(g, curbM));
+  const arrows = [], am = new THREE.MeshBasicMaterial({map: TX.arrow, transparent: true, opacity: .92, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4});
+  for (let i = 8; i < F.length - 4; i += 15) { const m = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), am); m.rotation.order = 'YXZ'; m.rotation.y = Math.atan2(F[i].tx, F[i].tz) + Math.PI; m.rotation.x = -Math.PI / 2; scene.add(m); arrows.push({m, i}); }
+  const fi = t.closed ? 0 : F.length - 1, f0 = F[fi], ang = Math.atan2(f0.tx, f0.tz), hw = rHalf(f0);
+  const fin = new THREE.Mesh(new THREE.PlaneGeometry(hw * 2, 3), new THREE.MeshBasicMaterial({map: TX.finish, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4})); fin.rotation.order = 'YXZ'; fin.rotation.y = ang; fin.rotation.x = -Math.PI / 2; scene.add(fin);
+  const post = new THREE.MeshStandardMaterial({color: '#1F2A26', roughness: .5}), arch = new THREE.Group();
+  for (const sg of [-1, 1]) { const p = new THREE.Mesh(new THREE.BoxGeometry(.7, 8, .7), post); p.position.set(sg * (hw + .5), 4, 0); arch.add(p); }
+  const bm = new THREE.MeshStandardMaterial({map: signTex(t.closed ? 'KART DI TORINO · ' + t.name.toUpperCase() : 'ARRIVO · BASILICA DI SUPERGA'), emissive: 0x332200, emissiveIntensity: .35});
+  const board = new THREE.Mesh(new THREE.BoxGeometry(hw * 2 + 1.6, 1.8, .35), [post, post, post, post, bm, bm]); board.position.y = 8; arch.add(board); arch.rotation.y = ang; scene.add(arch);
+  BOXES = []; const qm = new THREE.MeshStandardMaterial({map: QTEX, emissive: 0xffaa22, emissiveIntensity: .5, transparent: true, opacity: .95});
+  for (const fr of (t.closed ? [.16, .43, .7] : [.15, .38, .62, .85])) { const i0 = Math.floor(F.length * fr), f = F[i0], sp = Math.max(1.6, rHalf(f) - 2);
+    for (const l of [-.75, -.25, .25, .75]) { const m = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.9, 1.9), qm); const o = rMid(f) + l * sp, x = f.x + f.nx * o, z = f.z + f.nz * o; m.position.set(x, 1, z); scene.add(m); BOXES.push({m, x, z, y: 0, off: 0, i: i0}); } }
+  HAZ = [];
+  TR = {t, F, len, ds: len / F.length, closed: t.closed, w, laps: SETUP.laps && t.closed ? SETUP.laps : t.laps, sun, sat: true, side: 2.5, speed: 27, edges, arrows, fin, arch, fi, fogN, fogF, kR: 2.9, boxR2: 6.5, ground: groundAt, groundAt};
+  placeDecor();
+  for (const a of arrows) { const f = F[a.i], o = rMid(f); a.m.position.x = f.x + f.nx * o; a.m.position.z = f.z + f.nz * o; }
+  { const o = rMid(f0); for (const m of [fin, arch]) { m.position.x += f0.nx * o; m.position.z += f0.nz * o; } }
+  for (const bx of BOXES) bx.y = groundAt(bx.x, bx.z) + .3;
+}
+
+// ---------- i bordi veri della via: dai palazzi di OpenStreetMap ----------
+// Nelle vie strette del centro la pista larga t.w finirebbe sui tetti: per ogni punto si cerca il primo palazzo a destra e a sinistra
+// e il cordolo sta 1,6 m prima (il marciapiede). La pista non si allarga mai oltre t.w e non scende sotto 7 m; il muro invisibile
+// sta poco prima della facciata. Valori lisciati su ±20 m, così un balcone o un portico non strozzano la strada.
+function fitEdgesOSM(t, F) {
+  const w2 = t.w / 2, C = 16, cells = new Map(), segs = [];
+  const put = (i, ax, az, bx, bz) => { for (let cx = Math.floor(Math.min(ax, bx) / C); cx <= Math.floor(Math.max(ax, bx) / C); cx++) for (let cz = Math.floor(Math.min(az, bz) / C); cz <= Math.floor(Math.max(az, bz) / C); cz++) { const k = cx + ',' + cz; if (!cells.has(k)) cells.set(k, []); cells.get(k).push(i); } };
+  for (const a of (t.b || [])) { const P = []; let x = 0, y = 0; for (let i = 1; i + 1 < a.length; i += 2) { x += a[i]; y += a[i + 1]; P.push(trackPoint([x / 2, y / 2])); }
+    for (let i = 0; i < P.length; i++) { const p = P[i], q = P[(i + 1) % P.length]; if (p[0] === q[0] && p[1] === q[1]) continue; segs.push([p[0], p[1], q[0], q[1]]); put(segs.length - 1, p[0], p[1], q[0], q[1]); } }
+  const R = w2 + 4;
+  const cast = (ox, oz, dx, dz) => { let best = R; const seen = new Set(), ex = ox + dx * R, ez = oz + dz * R;
+    for (let cx = Math.floor(Math.min(ox, ex) / C); cx <= Math.floor(Math.max(ox, ex) / C); cx++) for (let cz = Math.floor(Math.min(oz, ez) / C); cz <= Math.floor(Math.max(oz, ez) / C); cz++) {
+      const L = cells.get(cx + ',' + cz); if (!L) continue;
+      for (const i of L) { if (seen.has(i)) continue; seen.add(i); const [ax, az, bx, bz] = segs[i], sx = bx - ax, sz = bz - az, den = dx * sz - dz * sx; if (Math.abs(den) < 1e-9) continue;
+        const qx = ax - ox, qz = az - oz, u = (qx * sz - qz * sx) / den, v = (qx * dz - qz * dx) / den; if (u > 0 && u < best && v >= 0 && v <= 1) best = u; } }
+    return best; };
+  const raw = F.map(f => [cast(f.x, f.z, f.nx, f.nz), cast(f.x, f.z, -f.nx, -f.nz)]);
+  const n = F.length, closed = t.closed, sm = (side) => F.map((f, i) => { const a = []; for (let o = -7; o <= 7; o++) { let j = i + o; if (closed) j = (j + n) % n; else if (j < 0 || j >= n) continue; a.push(raw[j][side]); }
+    a.sort((p, q) => p - q); const k = Math.floor(a.length / 4), b = a.slice(k, a.length - k); return b.reduce((s, v) => s + v, 0) / b.length; });
+  const hr = sm(0), hl = sm(1);
+  F.forEach((f, i) => { f.er = Math.min(w2, Math.max(3.5, hr[i] - 1.6)); f.el = Math.min(w2, Math.max(3.5, hl[i] - 1.6));
+    f.wr = Math.max(f.er + .5, Math.min(w2 + 2.5, hr[i] - .3)); f.wl = Math.max(f.el + .5, Math.min(w2 + 2.5, hl[i] - .3)); });
+  SAT.edgeInfo = {segs: segs.length, narrowed: F.filter(f => f.er + f.el < t.w - .5).length, frames: n};
+}
+
+// kart più grandi, con un alone colorato, un'ombra e il cartellino col nome: dall'alto si riconoscono subito
+function satKartLook(m, r) {
+  m.scale.setScalar(SAT.kScale); const col = r.human >= 0 ? PCOL[r.human] : CHAR[r.k].kart;
+  const sh = new THREE.Mesh(new THREE.CircleGeometry(1.45, 32), new THREE.MeshBasicMaterial({color: '#000', transparent: true, opacity: .32, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6}));
+  const ring = new THREE.Mesh(new THREE.RingGeometry(1.5, 1.85, 40), new THREE.MeshBasicMaterial({color: col, transparent: true, opacity: .95, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -8, polygonOffsetUnits: -8}));
+  for (const o of [sh, ring]) { o.rotation.x = -Math.PI / 2; o.position.y = .06; o.renderOrder = 2; m.add(o); }
+  const f = FAM.find(x => x.k === r.k), human = r.human >= 0;
+  const lab = new THREE.Sprite(new THREE.SpriteMaterial({map: labelTex(f, human && SETUP.n > 1 ? 'G' + (r.human + 1) : '', human ? PCOL[r.human] : '#fff'), depthTest: false, depthWrite: false, sizeAttenuation: false, transparent: true}));
+  const hgt = .05; lab.center.set(.5, 0); lab.scale.set(hgt * 320 / 96 / SAT.kScale, hgt / SAT.kScale, 1); lab.position.y = 2.1; lab.renderOrder = 10; m.add(lab);
+  SAT.labels.push({lab, human: r.human});
+}
+// cartellino: faccina, (G1-G4) e nome, sempre della stessa misura sullo schermo
+function labelTex(f, tag, tagCol) {
+  const c = document.createElement('canvas'); c.width = 320; c.height = 96; const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  const draw = img => { const g = c.getContext('2d'); g.clearRect(0, 0, 320, 96); g.font = '800 38px "Bricolage Grotesque", Arial, sans-serif'; const tw = g.measureText(f.name).width, tagW = tag ? 62 : 0, W = Math.min(316, 84 + tagW + tw + 22), x0 = (320 - W) / 2;
+    g.fillStyle = 'rgba(15,27,34,.88)'; g.beginPath(); g.roundRect(x0, 8, W, 66, 33); g.fill(); g.lineWidth = 5; g.strokeStyle = f.color; g.stroke();
+    g.beginPath(); g.moveTo(150, 74); g.lineTo(160, 92); g.lineTo(170, 74); g.closePath(); g.fillStyle = f.color; g.fill();
+    g.save(); g.beginPath(); g.arc(x0 + 40, 41, 27, 0, 7); g.fillStyle = f.color; g.fill(); g.clip(); if (img) g.drawImage(img, x0 + 13, 8, 54, 92); g.restore();
+    let x = x0 + 76; if (tag) { g.fillStyle = tagCol; g.beginPath(); g.roundRect(x, 22, 54, 38, 10); g.fill(); g.fillStyle = '#1F2A26'; g.font = '800 26px "Bricolage Grotesque", Arial, sans-serif'; g.textBaseline = 'middle'; g.fillText(tag, x + 9, 42); x += tagW; g.font = '800 38px "Bricolage Grotesque", Arial, sans-serif'; }
+    g.fillStyle = '#F4EEDC'; g.textBaseline = 'middle'; g.fillText(f.name, x, 43); t.needsUpdate = true; };
+  draw(null);
+  try { const svg = AVATAR(f.k, {h: 92}).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '); const img = new Image(); img.onload = () => draw(img); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); } catch (e) {}
+  return t;
+}
+// nella propria metà di schermo il proprio cartellino si vede solo al via (poi copre la strada davanti)
+function satLabels(i) { const own = RACE && RACE.state === 'count'; for (const L of SAT.labels) L.lab.visible = L.human !== i || own; }
+
+// ---------- prima di tutto: Google manda le foto a questo browser? ----------
+// Firefox, Safari e Brave mandano a Google solo il dominio (goffredodonofrio.github.io), non la pagina: se la chiave accetta
+// solo /personale/*, le foto non arrivano. Lo si scopre subito e il menu lo dice, invece di cadere in silenzio sulla città leggera.
+async function satProbe() {
+  try {
+    await satSession();
+    const z = 14, x = Math.floor(MERC.x(O_LON, z)), y = Math.floor(MERC.y(O_LAT, z)), key = z + '/' + x + '/' + y;
+    if (!blobGet(key)) { let r = await fetch(`https://tile.googleapis.com/v1/2dtiles/${z}/${x}/${y}?session=${SAT.session}&key=${GKEY}`);
+      if (r.status === 400 || r.status === 401) { await satSession(true); r = await fetch(`https://tile.googleapis.com/v1/2dtiles/${z}/${x}/${y}?session=${SAT.session}&key=${GKEY}`); }
+      if (!r.ok) { let m = ''; try { m = ((await r.json()).error || {}).message || ''; } catch (e) {} const er = new Error('foto ' + r.status + ' ' + m); er.status = r.status; er.google = m; throw er; }
+      const b = await r.blob(); SAT.stats.req++; SAT.stats.bytes += b.size; blobPut(key, b); }
+    SAT.blocked = '';
+  } catch (e) { console.warn('satellite', e);
+    const ref = /referer|referrer/i.test(e.google || e.message || '');
+    SAT.why = e.google || e.message || '';
+    SAT.blocked = ref ? 'Da questo browser Google non manda le foto (succede con Firefox e Safari): si corre sulla città leggera. Con Chrome funziona.'
+      : e.status === 403 ? 'Google rifiuta le foto dal satellite in questo momento: si corre sulla città leggera.'
+      : 'Le foto dal satellite non arrivano (rete lenta o assente): si corre sulla città leggera.'; }
+  return !SAT.blocked;
+}
+
+// ---------- quota del drone: ognuno la sua (rotella o + e - sul computer, pizzico sul telefono, C per le quote preferite) ----------
+function setAlt(i, h) { if (!SETUP.camH) SETUP.camH = []; SETUP.camH[i] = Math.round(Math.min(SAT.hMax, Math.max(SAT.hMin, h))); save(); altHint(i); }
+let altT = [0, 0, 0, 0];
+function altHint(i, first) { const el = $('alt' + i); if (!el) return;
+  el.innerHTML = `🚁 drone a <b>${camAlt(i)} m</b>` + (first ? `<small>${TOUCHDEV ? 'pizzica lo schermo per salire o scendere' : PLAYERS_IN.length === 1 ? 'rotella del mouse o + e − per salire e scendere' : 'rotella sulla tua metà per salire e scendere'}</small>` : '');
+  el.classList.add('show'); clearTimeout(altT[i]); altT[i] = setTimeout(() => el.classList.remove('show'), first ? 4500 : 1300); }
+function vpAt(x, y) { const vp = viewports(PLAYERS_IN.length === 3 ? 4 : PLAYERS_IN.length); for (let i = 0; i < PLAYERS_IN.length; i++) { const v = vp[i]; if (x >= v[0] && x < v[0] + v[2] && y >= v[1] && y < v[1] + v[3]) return i; } return -1; }
+const satOn = () => RACE && TR && TR.sat;
+addEventListener('wheel', e => { if (!satOn()) return; const i = vpAt(e.clientX, e.clientY); if (i < 0) return; e.preventDefault(); setAlt(i, camAlt(i) * Math.exp(Math.max(-60, Math.min(60, e.deltaY)) * .004)); }, {passive: false});
+addEventListener('keydown', e => { if (!satOn() || e.repeat) return;
+  if (e.code === 'KeyC') { const P = SAT.camPoses.map(p => p[0]); PLAYERS_IN.forEach((p, i) => { const h = camAlt(i), nx = P.find(v => v > h + 1); setAlt(i, nx || P[0]); }); return; }
+  if (PLAYERS_IN.length !== 1) return; const d = {'+': -1, '=': -1, '-': 1}[e.key]; if (d) setAlt(0, camAlt(0) * (d > 0 ? 1.15 : 1 / 1.15)); });
+const PINCH = new Map();
+addEventListener('pointerdown', e => { if (e.pointerType !== 'touch' || !satOn() || (e.target.closest && e.target.closest('.tz,button'))) return; const i = vpAt(e.clientX, e.clientY); if (i >= 0) PINCH.set(e.pointerId, {i, x: e.clientX, y: e.clientY}); });
+addEventListener('pointermove', e => { const p = PINCH.get(e.pointerId); if (!p) return; const two = [...PINCH.values()].filter(q => q.i === p.i); if (two.length !== 2) { p.x = e.clientX; p.y = e.clientY; return; }
+  const [a, b] = two, d0 = Math.hypot(a.x - b.x, a.y - b.y); p.x = e.clientX; p.y = e.clientY; const d1 = Math.hypot(a.x - b.x, a.y - b.y); if (d0 > 20 && d1 > 20) setAlt(p.i, camAlt(p.i) * d0 / d1); });
+for (const ev of ['pointerup', 'pointercancel']) addEventListener(ev, e => PINCH.delete(e.pointerId));
+// prima della partenza: scarica le foto intorno alla griglia e lungo il primo tratto
+async function prepareSat(cams, say) {
+  const t0 = performance.now(); let calm = 0; const look = new THREE.Vector3(); SAT.upPerFrame = 12;
+  while (performance.now() - t0 < 16000) {
+    PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i), c = cams[i]; satCamPose(k.x, k.y, k.z, k.h, 0, c.position, look, camAlt(i)); c.fov = SAT.fov; c.lookAt(look); });
+    satFrame(cams, viewports(cams.length === 3 ? 4 : cams.length), [1.5, 3.5]);
+    say(`Scarico le foto dal satellite… ${SAT.stats.ok} pezzi`);
+    if (SAT.want === 0 && SAT.inflight === 0 && !SAT.upq.length) { if (++calm > 2) break; } else calm = 0;
+    await new Promise(r => setTimeout(r, 90)); }
+  SAT.stats.prepMs = Math.round(performance.now() - t0); SAT.stats.prepReq = SAT.stats.req; SAT.upPerFrame = MOBILE ? 1 : 2;
+}
+window.__sat = SAT;
+
 // ===================== KART DI TORINO · la gara =====================
 const $ = id => document.getElementById(id);
 const stage = $('stage');
@@ -512,12 +899,15 @@ function locate(k) {
 }
 function progress(k) { return k.finished ? 1e9 - k.finishT : (TR.closed ? k.lap * TR.len + k.s : k.s); }
 
+// centro della strada vera rispetto alla linea della pista e mezza larghezza (dove i bordi sono stati misurati; se no la pista larga t.w)
+const rMid = f => f.er !== undefined ? (f.er - f.el) / 2 : 0, rHalf = f => f.er !== undefined ? (f.er + f.el) / 2 : TR.w / 2;
 // ---------- i kart in griglia ----------
 function spawnKarts(roster) {
   KARTS = []; const F = TR.F, n = F.length;
-  roster.forEach((r, j) => { const m = makeKart(r.k); scene.add(m); const row = Math.floor(j / 2), col = j % 2 ? 1 : -1;
+  roster.forEach((r, j) => { const m = makeKart(r.k); scene.add(m); if (TR.sat) satKartLook(m, r); const row = Math.floor(j / 2), col = j % 2 ? 1 : -1;
     const i = TR.closed ? (n - 3 - row * 4 + n) % n : 10 + (3 - row) * 4; const f = F[i];
-    const k = {k: r.k, human: r.human, assist: r.assist || 0, auto: !!r.auto, skill: r.skill || 1, mesh: m, idx: i, x: f.x + f.nx * col * TR.w * .22, z: f.z + f.nz * col * TR.w * .22, y: f.y,
+    const o = rMid(f) + col * Math.min(TR.w * .22, Math.max(1.4, rHalf(f) - 1.9));
+    const k = {k: r.k, human: r.human, assist: r.assist || 0, auto: !!r.auto, skill: r.skill || 1, mesh: m, idx: i, x: f.x + f.nx * o, z: f.z + f.nz * o, y: f.y,
       h: Math.atan2(f.tx, f.tz), v: 0, lap: TR.closed ? -1 : 0, cp: TR.closed, s: 0, lat: 0, item: null, boost: 0, spin: 0, slow: 0, fog: 0, finished: false, finishT: 0, lane: (RNG() - .5) * .5, steerV: 0, lastLapT: 0};
     locate(k); KARTS.push(k); });
 }
@@ -544,8 +934,9 @@ function readInput(p, k) {
 
 // ---------- guida del computer (e aiuto ai piccoli) ----------
 function aiSteer(k) {
-  const F = TR.F, n = F.length, ahead = Math.round(5 + Math.abs(k.v) * .55); let i = k.idx + ahead; i = TR.closed ? i % n : Math.min(n - 1, i);
-  const f = F[i], tx = f.x + f.nx * k.lane * TR.w * .5, tz = f.z + f.nz * k.lane * TR.w * .5;
+  // nelle vie vere (strette, coi palazzi) si guarda meno avanti: si taglia meno la curva
+  const F = TR.F, n = F.length, ahead = Math.round(TR.sat ? 4 + Math.abs(k.v) * .3 : 5 + Math.abs(k.v) * .55); let i = k.idx + ahead; i = TR.closed ? i % n : Math.min(n - 1, i);
+  const f = F[i], o = rMid(f) + k.lane * rHalf(f), tx = f.x + f.nx * o, tz = f.z + f.nz * o;
   let d = Math.atan2(tx - k.x, tz - k.z) - k.h; d = Math.atan2(Math.sin(d), Math.cos(d)); return Math.max(-1, Math.min(1, -d * 2.4));
 }
 function aiInput(k) {
@@ -583,7 +974,7 @@ function stepKart(k, inp, dt) {
   else if (k.human >= 0 && k.assist > 0) { const a = aiSteer(k), w = Math.abs(inp.steer) < .3 ? k.assist : k.assist * .4; inp.steer = inp.steer * (1 - w) + a * w; }
   if (inp.item && k.item && !k.itemLock) { useItem(k); k.itemLock = .4; }
   k.itemLock = Math.max(0, (k.itemLock || 0) - dt);
-  const off = Math.abs(k.lat) > TR.w / 2 + .4, st = STATS[k.k];
+  const fk = TR.F[k.idx], off = (fk.er !== undefined ? (k.lat > 0 ? k.lat - fk.er : -k.lat - fk.el) : Math.abs(k.lat) - TR.w / 2) > .4, st = STATS[k.k];
   let maxV = (TR.speed || 29) * (.94 + st.v * .015) * (k.human >= 0 ? 1 : (k.skillNow || k.skill)) * (off ? .55 : 1) * (k.boost > 0 ? 1.45 : 1) * (k.slow > 0 ? .85 : 1);
   if (RACE.state !== 'go') { inp = {thr: 0, brk: 1, steer: 0}; maxV = 0; }
   if (k.spin > 0) { k.spin -= dt; k.v *= Math.pow(.25, dt); k.mesh.userData.body.rotation.y += dt * 14; if (k.spin <= 0) k.mesh.userData.body.rotation.y = 0; }
@@ -594,18 +985,18 @@ function stepKart(k, inp, dt) {
     const turn = (1.5 + st.m * .07) * Math.min(1, Math.abs(k.v) / 7) * (k.boost > 0 ? .85 : 1); k.h -= k.steerV * turn * dt * Math.sign(k.v || 1); }
   k.boost = Math.max(0, k.boost - dt); k.slow = Math.max(0, k.slow - dt); k.fog = Math.max(0, k.fog - dt);
   k.x += Math.sin(k.h) * k.v * dt; k.z += Math.cos(k.h) * k.v * dt;
-  const prevS = k.s, f = locate(k), lim = TR.w / 2 + (TR.side || 5.5);
+  const prevS = k.s, f = locate(k), lim = f.wr !== undefined ? (k.lat > 0 ? f.wr : f.wl) : TR.w / 2 + (TR.side || 5.5);
   // contro il bordo il kart scivola lungo il muro, come nei kart veri: niente blocchi in curva
   if (Math.abs(k.lat) > lim) { const back = Math.abs(k.lat) - lim; k.x -= f.nx * Math.sign(k.lat) * back; k.z -= f.nz * Math.sign(k.lat) * back; k.lat = Math.sign(k.lat) * lim;
     const th = Math.atan2(f.tx, f.tz) + (k.v < 0 ? Math.PI : 0); let d = th - k.h; d = Math.atan2(Math.sin(d), Math.cos(d)); k.h += d * .45; k.v *= Math.max(.6, Math.cos(d) * .95); }
-  k.y += ((f.y || 0) - k.y) * Math.min(1, dt * 12);
+  k.y += ((TR.groundAt ? TR.groundAt(k.x, k.z) : f.y || 0) - k.y) * Math.min(1, dt * 12);
   // giri: si conta il passaggio sul traguardo solo dopo aver fatto metà pista
   if (TR.closed) { if (k.s > TR.len * .4 && k.s < TR.len * .6) k.cp = true;
     if (prevS > TR.len * .8 && k.s < TR.len * .2 && k.cp) { k.lap++; k.cp = false; if (k.lap >= 1 && k.human >= 0) lapMsg(k); if (k.lap >= TR.laps) finish(k); }
     if (prevS < TR.len * .2 && k.s > TR.len * .8 && k.lap >= 0) { k.lap--; k.cp = true; } }
   else if (k.s >= TR.len - 4 && !k.finished) finish(k);
   // scatole e trappole
-  for (const b of BOXES) if (b.off <= 0 && (b.x - k.x) ** 2 + (b.z - k.z) ** 2 < 3.2) { b.off = 3; b.m.visible = false; if (!k.item) { k.item = rollItem(k); if (k.human >= 0) sfx('pick'); } }
+  for (const b of BOXES) if (b.off <= 0 && (b.x - k.x) ** 2 + (b.z - k.z) ** 2 < (TR.boxR2 || 3.2)) { b.off = 3; b.m.visible = false; if (!k.item) { k.item = rollItem(k); if (k.human >= 0) sfx('pick'); } }
   const m = k.mesh; m.position.set(k.x, k.y, k.z); m.rotation.y = k.h; m.userData.body.rotation.z = -k.steerV * .06 * Math.min(1, k.v / 20);
   for (const w of m.userData.wheels) w.rotation.x += k.v * dt / .33;
 }
@@ -626,8 +1017,9 @@ function stepWorld(dt) {
       if (h.t > 7) { scene.remove(h.m); HAZ.splice(i, 1); } }
   }
   // spinte tra kart
+  const kR = TR.kR || 2;
   for (let i = 0; i < KARTS.length; i++) for (let j = i + 1; j < KARTS.length; j++) { const a = KARTS[i], b = KARTS[j], dx = b.x - a.x, dz = b.z - a.z, d = Math.hypot(dx, dz);
-    if (d < 2 && d > .01) { const p = (2 - d) / 2, ux = dx / d, uz = dz / d; a.x -= ux * p; a.z -= uz * p; b.x += ux * p; b.z += uz * p; const av = a.v; a.v = a.v * .9 + b.v * .1; b.v = b.v * .9 + av * .1; } }
+    if (d < kR && d > .01) { const p = (kR - d) / 2, ux = dx / d, uz = dz / d; a.x -= ux * p; a.z -= uz * p; b.x += ux * p; b.z += uz * p; const av = a.v; a.v = a.v * .9 + b.v * .1; b.v = b.v * .9 + av * .1; } }
 }
 
 // ---------- telecamere e schermo diviso ----------
@@ -637,8 +1029,14 @@ function viewports(n) {
   if (n === 2) return land ? [[0, 0, W / 2, H], [W / 2, 0, W / 2, H]] : [[0, 0, W, H / 2], [0, H / 2, W, H / 2]];
   return [[0, 0, W / 2, H / 2], [W / 2, 0, W / 2, H / 2], [0, H / 2, W / 2, H / 2], [W / 2, H / 2, W / 2, H / 2]];
 }
+const SCP = new THREE.Vector3(), SCL = new THREE.Vector3();
 function updateCams(dt) {
   PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i), cam = CAMS[i]; if (!k) return;
+    // sulle foto dal satellite: un drone alto dietro al kart, la strada si legge come su una mappa
+    if (TR.sat && SAT.debugTop) { cam.position.set(k.x, k.y + SAT.debugTop, k.z + .01); cam.lookAt(k.x, k.y, k.z); return; }
+    if (TR.sat) { satCamPose(k.x, k.y, k.z, k.h, k.v, SCP, SCL, camAlt(i)); const gy = groundAt(SCP.x, SCP.z) + 3; if (SCP.y < gy) SCP.y = gy;
+      cam.position.lerp(SCP, Math.min(1, dt * 5)); cam.lookAt(SCL);
+      const fov = SAT.fov + (k.boost > 0 ? 7 : 0); if (Math.abs(cam.fov - fov) > .1) { cam.fov += (fov - cam.fov) * Math.min(1, dt * 5); cam.updateProjectionMatrix(); } return; }
     // nella Torino di Google la telecamera sta più in alto, come un drone: la città fotografata si vede meglio dall'alto
     const hi = TR.g3d, fx = Math.sin(k.h), fz = Math.cos(k.h), back = (hi ? 10 : 7.2) + Math.min(3, k.v / 12), want = new THREE.Vector3(k.x - fx * back, k.y + (hi ? 7.5 : 3.1), k.z - fz * back);
     const gy = TR.ground(want.x, want.z) + 1.5; if (want.y < gy) want.y = gy;
@@ -654,15 +1052,17 @@ let overview = null;
 function render() {
   const n = PLAYERS_IN.length, vp = viewports(n === 3 ? 4 : n), H = innerHeight;
   if (n === 1) { const k = KARTS.find(x => x.human === 0); TR.sun.position.set(k.x + sunDir.x * 150, k.y + sunDir.y * 150, k.z + sunDir.z * 150); TR.sun.target.position.set(k.x, k.y, k.z); }
-  renderer.shadowMap.enabled = n === 1 && !TR.g3d; renderer.toneMapping = TR.g3d ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;
+  renderer.shadowMap.enabled = n === 1 && !TR.g3d && !TR.sat; renderer.toneMapping = TR.g3d || TR.sat ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;
+  if (TR.sat) { const cams = CAMS.slice(); if (n === 3 && overview) cams.push(overview); satFrame(cams, vp); }
   if (TR.g3d) { if (G3D.tiles.group.parent !== scene) scene.add(G3D.tiles.group); const cams = CAMS.slice(); if (n === 3 && overview) cams.push(overview); cams.forEach(c => c.updateMatrixWorld()); g3dCameras(cams, vp); G3D.tiles.update(); }
   vp.forEach((v, i) => { let cam = CAMS[i], fogged = false;
     if (i >= n) { if (!overview) { overview = new THREE.PerspectiveCamera(50, 1, 1, 4000); } const F = TR.F; let a = 1e9, b = 1e9, c = -1e9, d = -1e9; for (const f of F) { a = Math.min(a, f.x); b = Math.min(b, f.z); c = Math.max(c, f.x); d = Math.max(d, f.z); }
       overview.position.set((a + c) / 2, Math.max(c - a, d - b) * 1.15 + 60, (b + d) / 2 + 40); overview.lookAt((a + c) / 2, 0, (b + d) / 2); cam = overview; }
-    else { const k = KARTS.find(x => x.human === i); if (k && k.fog > 0) { scene.fog.near = 2; scene.fog.far = 28 + (4.5 - k.fog) * 6; fogged = true; } }
-    cam.aspect = v[2] / v[3]; cam.updateProjectionMatrix();
+    else { const k = KARTS.find(x => x.human === i); if (k && k.fog > 0) { if (TR.sat) { const P = satPoseAt(camAlt(i)), D = SAT.debugTop || Math.hypot(P[0], P[1]); scene.fog.near = D * .8; scene.fog.far = D * 1.5 + (4.5 - k.fog) * 12; }
+        else { scene.fog.near = 2; scene.fog.far = 28 + (4.5 - k.fog) * 6; } fogged = true; } }
+    cam.aspect = v[2] / v[3]; cam.updateProjectionMatrix(); if (TR.sat) satLabels(i);
     renderer.setViewport(v[0], H - v[1] - v[3], v[2], v[3]); renderer.setScissor(v[0], H - v[1] - v[3], v[2], v[3]);
-    renderer.render(scene, cam); if (fogged) { scene.fog.near = 160; scene.fog.far = 900; } });
+    renderer.render(scene, cam); if (fogged) { scene.fog.near = TR.fogN || 160; scene.fog.far = TR.fogF || 900; } });
 }
 
 // ---------- suoni (sintetizzati, partono dopo il primo tocco) ----------
@@ -671,19 +1071,19 @@ function beep(f, d, type = 'square', vol = .12) { const a = ac(); if (!a) return
 function sfx(k) { if (k === 'pick') { beep(880, .08); setTimeout(() => beep(1320, .1), 70); } if (k === 'item') beep(520, .12, 'triangle'); if (k === 'boost') { beep(300, .25, 'sawtooth', .08); setTimeout(() => beep(600, .3, 'sawtooth', .08), 90); } if (k === 'hit') beep(140, .4, 'sawtooth', .14); if (k === 'finish') [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, .25, 'triangle', .15), i * 140)); if (k === 'go') beep(1046, .45); if (k === 'count') beep(523, .2); }
 
 // ===================== LA GARA NELLA TORINO VERA =====================
-function buildRace(t) { if (G3D.ok && SETUP.city !== 'osm') { G3D.tiles.errorTarget = (MOBILE ? 12 : 5) * (SETUP.n > 1 ? 1.7 : 1); buildRace3D(t); } else buildRaceOSM(t); }
+function buildRace(t) { const c = cityNow(); if (c === 'sat') return buildRaceSat(t); if (c === 'google' && G3D.ok) { g3dPause(false); G3D.tiles.errorTarget = (MOBILE ? 12 : 5) * (SETUP.n > 1 ? 1.7 : 1); buildRace3D(t); } else buildRaceOSM(t); }
 TX.curb = tex(32, 64, (g, w, h) => { g.fillStyle = '#E8E4DC'; g.fillRect(0, 0, w, h); g.fillStyle = '#C8342B'; g.fillRect(0, 0, w, h / 2); });
 TX.arrow = tex(128, 128, (g, w, h) => { g.clearRect(0, 0, w, h); g.fillStyle = 'rgba(242,182,50,.85)'; g.beginPath(); g.moveTo(64, 10); g.lineTo(118, 70); g.lineTo(88, 70); g.lineTo(88, 118); g.lineTo(40, 118); g.lineTo(40, 70); g.lineTo(10, 70); g.closePath(); g.fill(); });
-// striscia lungo la pista tra due distanze dal centro (per i cordoli); si aggiorna quando si conosce meglio l'altezza
-function edgeGeo(F, closed, o1, o2, vScale) {
+// striscia lungo il bordo della pista (side 1 = destra, -1 = sinistra), larga cw metri, dentro il bordo f.er / f.el; si aggiorna quando si conosce meglio l'altezza
+function edgeGeo(F, closed, side, cw, vScale) {
   const n = F.length, m = closed ? n + 1 : n, pos = new Float32Array(m * 6), uv = [], idx = [];
   for (let k = 0; k < m; k++) { const s = k === n ? F[n - 1].s + Math.hypot(F[0].x - F[n - 1].x, F[0].z - F[n - 1].z) : F[k].s; uv.push(0, s / vScale, 1, s / vScale); }
   for (let k = 0; k < m - 1; k++) { const a = k * 2; idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); }
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx);
-  g.userData = {F, closed, o1, o2}; refreshEdge(g); return g;
+  g.userData = {F, closed, side, cw}; refreshEdge(g); return g;
 }
-function refreshEdge(g) { const {F, closed, o1, o2} = g.userData, n = F.length, m = closed ? n + 1 : n, p = g.attributes.position.array;
-  for (let k = 0; k < m; k++) { const f = F[k % n], y = f.y + .12; p.set([f.x + f.nx * o1, y, f.z + f.nz * o1, f.x + f.nx * o2, y, f.z + f.nz * o2], k * 6); }
+function refreshEdge(g) { const {F, closed, side, cw} = g.userData, n = F.length, m = closed ? n + 1 : n, p = g.attributes.position.array;
+  for (let k = 0; k < m; k++) { const f = F[k % n], y = f.y + .12, e = side > 0 ? f.er : -f.el, o1 = side > 0 ? e - cw : e, o2 = side > 0 ? e : e + cw; p.set([f.x + f.nx * o1, y, f.z + f.nz * o1, f.x + f.nx * o2, y, f.z + f.nz * o2], k * 6); }
   g.attributes.position.needsUpdate = true; g.computeVertexNormals(); g.computeBoundingSphere(); }
 function buildRace3D(t) {
   scene = new THREE.Scene();
@@ -692,10 +1092,10 @@ function buildRace3D(t) {
   scene.add(new THREE.HemisphereLight(0xdfeeff, 0x8a7a66, 1.1)); const sun = new THREE.DirectionalLight(0xfff0d8, 2); sun.position.copy(sunDir).multiplyScalar(100); scene.add(sun, sun.target);
   scene.add(G3D.tiles.group);
   const c = t.c.map(trackPoint); const {F, len} = trackFrames(c, t.closed);
-  for (const f of F) { f.y = 0; f.known = 0; }
   const w = t.w;
+  for (const f of F) { f.y = 0; f.known = 0; f.er = f.el = w / 2; }
   const curbM = new THREE.MeshBasicMaterial({map: TX.curb, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4});
-  const edges = [edgeGeo(F, t.closed, w / 2 - .7, w / 2, 3), edgeGeo(F, t.closed, -w / 2, -w / 2 + .7, 3)];
+  const edges = [edgeGeo(F, t.closed, 1, .7, 3), edgeGeo(F, t.closed, -1, .7, 3)];
   for (const g of edges) scene.add(new THREE.Mesh(g, curbM));
   // frecce gialle sull'asfalto ogni 45 metri: si segue la pista anche in mezzo al traffico di forme vere
   const arrows = []; const am = new THREE.MeshBasicMaterial({map: TX.arrow, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4});
@@ -740,7 +1140,7 @@ async function prepare3D(cams, say) {
   while (performance.now() - t0 < 9000) {
     cam.position.set(k0.x - Math.sin(k0.h) * 9, 40, k0.z - Math.cos(k0.h) * 9); cam.lookAt(k0.x, 0, k0.z); cam.updateMatrixWorld();
     g3dCameras(cams, viewports(cams.length)); T.update();
-    say(`Scarico la Torino vera… ${Math.round((T.loadProgress || 0) * 100)}%`);
+    say(`Scarico la Torino vera… ${Math.round(Math.min(1, Math.max(0, T.loadProgress || 0)) * 100)}%`);
     if (performance.now() - t0 > 2500 && (T.loadProgress || 0) > .97) break;
     await new Promise(r => setTimeout(r, 100)); }
   say('Misuro le strade…'); await new Promise(r => setTimeout(r, 30));
@@ -825,12 +1225,21 @@ function trackCanvas(t, cv) { const g = cv.getContext('2d'), W = cv.width, H = c
   g.clearRect(0, 0, W, H); g.lineJoin = g.lineCap = 'round'; g.strokeStyle = 'rgba(244,238,220,.25)'; g.lineWidth = 12; g.beginPath(); t.c.forEach(([x, y], i) => i ? g.lineTo(X(x), Y(y)) : g.moveTo(X(x), Y(y))); if (t.closed) g.closePath(); g.stroke();
   g.strokeStyle = '#F2B632'; g.lineWidth = 4; g.stroke(); const [x0, y0] = t.closed ? t.c[0] : t.c[t.c.length - 1]; g.fillStyle = '#fff'; g.beginPath(); g.arc(X(x0), Y(y0), 6, 0, 7); g.fill(); }
 function renderTracks() {
-  $('tList').innerHTML = KART.map(t => `<button type="button" class="tcard${t.id === SETUP.track ? ' on' : ''}" data-id="${t.id}"><canvas width="300" height="190"></canvas><b>${esc(t.name)}</b><small>${esc(t.sub)}</small><i>${t.closed ? `${(t.len * (G3D.ok && SETUP.city !== 'osm' ? 1 : SC) / 1000).toFixed(1).replace('.', ',')} km al giro` : `salita · ${(t.len * (G3D.ok && SETUP.city !== 'osm' ? 1 : SC) / 1000).toFixed(1).replace('.', ',')} km`}</i></button>`).join('');
+  $('tList').innerHTML = KART.map(t => `<button type="button" class="tcard${t.id === SETUP.track ? ' on' : ''}" data-id="${t.id}"><canvas width="300" height="190"></canvas><b>${esc(t.name)}</b><small>${esc(t.sub)}</small><i>${t.closed ? `${(t.len * (realScale() ? 1 : SC) / 1000).toFixed(1).replace('.', ',')} km al giro` : `salita · ${(t.len * (realScale() ? 1 : SC) / 1000).toFixed(1).replace('.', ',')} km`}</i></button>`).join('');
   [...$('tList').querySelectorAll('canvas')].forEach((cv, i) => trackCanvas(KART[i], cv)); renderLaps();
 }
-function renderCity() { SETUP.city = SETUP.city || (TOUCHDEV && SETUP.n > 2 ? 'osm' : 'google'); $('cityRow').classList.toggle('hidden', !G3D.ok);
-  $('cityPick').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.c === SETUP.city));
-  $('cityNote').textContent = SETUP.city === 'google' ? 'La Torino fotografata in 3D: più bella, più pesante per il telefono.' : 'Palazzi disegnati dalle mappe: va veloce anche in quattro.'; }
+// la città scelta (SETUP.city) e quella che si avrà davvero: se Google non manda le foto a questo browser si corre sulla leggera
+const cityNow = () => SETUP.city === 'sat' ? (SAT.blocked ? 'osm' : 'sat') : SETUP.city === 'google' ? (G3D.failed ? 'osm' : 'google') : 'osm';
+const realScale = () => cityNow() !== 'osm';
+// dal 5 ottobre 2026 si parte dal satellite anche per chi aveva scelto la Torino 3D
+if (SETUP.cityV !== 2) { SETUP.city = 'sat'; SETUP.cityV = 2; save(); }
+function renderCity() { SETUP.city = SETUP.city || 'sat'; const now = cityNow();
+  $('cityPick').querySelector('[data-c="google"]').classList.toggle('hidden', !!G3D.failed);
+  $('cityPick').querySelector('[data-c="sat"]').classList.toggle('off', !!SAT.blocked);
+  $('cityPick').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.c === now));
+  $('cityNote').textContent = SETUP.city === 'sat' && SAT.blocked ? '⚠️ ' + SAT.blocked
+    : now === 'sat' ? (SAT.blocked === '' && SAT.checked ? 'Le strade vere fotografate dall\'alto, nitide come una mappa: si corre sopra.' : 'Controllo che le foto dal satellite arrivino…')
+    : now === 'google' ? 'La Torino fotografata in 3D: più bella, ma si vede da un drone basso e pesa di più sul telefono.' : 'Palazzi disegnati dalle mappe: va veloce anche in quattro.'; }
 $('cityPick').addEventListener('click', e => { const b = e.target.closest('button[data-c]'); if (!b) return; SETUP.city = b.dataset.c; save(); renderCity(); renderTracks(); });
 function renderLaps() { renderCity(); const t = KART.find(x => x.id === SETUP.track); $('lapsRow').classList.toggle('hidden', !t.closed); SETUP.laps = SETUP.laps || 2; $('lapsPick').querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.l === SETUP.laps)); }
 $('lapsPick').addEventListener('click', e => { const b = e.target.closest('button[data-l]'); if (!b) return; SETUP.laps = +b.dataset.l; save(); renderLaps(); });
@@ -850,7 +1259,7 @@ function layoutHUD() {
 }
 function buildHUD() {
   for (let i = 0; i < 4; i++) { const el = $('h' + i); const p = PLAYERS_IN[i]; if (!p) { el.innerHTML = ''; continue; }
-    el.innerHTML = `<div class="hp" style="--c:${p.color}"><span class="pos" id="pos${i}">–</span><span class="hn">${face(p.k, 34)}<b>${esc(p.name)}</b><small id="lap${i}"></small></span></div><div class="hit" id="it${i}"></div><div class="msg" id="msg${i}"></div>`
+    el.innerHTML = `<div class="hp" style="--c:${p.color}"><span class="pos" id="pos${i}">–</span><span class="hn">${face(p.k, 34)}<b>${esc(p.name)}</b><small id="lap${i}"></small></span></div><div class="hit" id="it${i}"></div><div class="alt" id="alt${i}"></div><div class="msg" id="msg${i}"></div>`
       + (TOUCHDEV ? `<div class="tz tl" data-p="${i}" data-s="l">◀</div><div class="tz tr" data-p="${i}" data-s="r">▶</div><div class="tz ti" data-p="${i}" data-s="item">🎁</div>` : '');
     TOUCH[i] = {l: false, r: false, item: false, any: false}; }
   layoutHUD();
@@ -880,19 +1289,27 @@ async function startRace() {
   preparing = true;
   const t = KART.find(x => x.id === SETUP.track); $('menu').classList.add('hidden'); $('results').classList.add('hidden'); $('loading').classList.remove('hidden');
   const say = s => { $('loadT').textContent = s; };
-  say(G3D.ok ? 'Scarico la Torino vera…' : 'Preparo la pista…'); await new Promise(r => setTimeout(r, 30));
-  buildRace(t); if (!TR.g3d) TR.laps = t.closed ? (SETUP.laps || 2) : 1;
+  // prima di scegliere la città si aspetta di sapere se Google risponde (altrimenti un "Via!" veloce finirebbe sempre sulla città leggera)
+  if (SETUP.city === 'sat' && SAT.ready && !SAT.checked) { say('Controllo le foto dal satellite…'); await SAT.ready; }
+  if (SETUP.city === 'google' && !G3D.ok && !G3D.failed) { say('Scarico la Torino vera…'); await (G3D.ready || (G3D.ready = initG3D())); }
+  const city = cityNow();
+  say(city === 'sat' ? 'Chiedo a Google le foto dal satellite…' : city === 'google' ? 'Scarico la Torino vera…' : SETUP.city === 'sat' ? '⚠️ ' + SAT.blocked : 'Preparo la pista…');
+  await new Promise(r => setTimeout(r, city === 'osm' && SETUP.city !== 'osm' ? 2600 : 30));
+  SAT.stats.t0 = performance.now();
+  try { await buildRace(t); } catch (e) { console.warn(e); say('Le foto dal satellite non arrivano: si corre sulla città leggera'); await new Promise(r => setTimeout(r, 1800)); buildRaceOSM(t); } if (!TR.g3d) TR.laps = t.closed ? (SETUP.laps || 2) : 1;
   PLAYERS_IN = SETUP.pick.slice(0, SETUP.n).map(k => FAM.find(f => f.k === k));
   const isH = f => PLAYERS_IN.some(p => p.k === f.k);
   const roster = [...FAM.filter(f => !isH(f)), ...FAM.filter(isH)]   // in griglia: davanti il computer, dietro i giocatori
     .map(f => { const hi = PLAYERS_IN.findIndex(p => p.k === f.k), a = SETUP.assist[f.k] || defAssist(f.k);
       return {k: f.k, human: hi, auto: a.auto, assist: a.help, skill: {goffredo: .97, carolina: .96, edoardo: .93, bianca: .9}[f.k]}; });
   spawnKarts(roster);
-  CAMS = PLAYERS_IN.map(() => new THREE.PerspectiveCamera(68, 1, .3, TR.g3d ? 30000 : 4000));
+  CAMS = PLAYERS_IN.map(() => TR.sat ? new THREE.PerspectiveCamera(SAT.fov, 1, 1, 6000) : new THREE.PerspectiveCamera(68, 1, .3, TR.g3d ? 30000 : 4000));
   if (TR.g3d) { await prepare3D(CAMS, say); }
+  if (TR.sat) { await prepareSat(CAMS, say); }
   preparing = false;
   RACE = {state: 'count', t: -3.5, done: false}; buildHUD();
-  PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i); CAMS[i].position.set(k.x - Math.sin(k.h) * 8, k.y + 3, k.z - Math.cos(k.h) * 8); });
+  if (!TR.sat) PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i); CAMS[i].position.set(k.x - Math.sin(k.h) * 8, k.y + 3, k.z - Math.cos(k.h) * 8); });
+  SAT.stats.loadMs = Math.round(performance.now() - SAT.stats.t0); satAttr(); if (TR.sat) PLAYERS_IN.forEach((p, i) => altHint(i, true));
   $('loading').classList.add('hidden'); $('hudW').classList.remove('hidden'); $('pauseBtn').classList.remove('hidden');
 }
 let lastCount = 4;
@@ -913,7 +1330,7 @@ function showResults() {
   $('results').classList.remove('hidden'); $('hudW').classList.add('hidden'); $('pauseBtn').classList.add('hidden');
   try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(`${w.name} vince la Coppa della Mole!`); u.lang = 'it-IT'; speechSynthesis.speak(u); } catch (e) {}
 }
-function endRace() { RACE = null; $('hudW').classList.add('hidden'); $('pauseBtn').classList.add('hidden'); $('pause').classList.add('hidden'); }
+function endRace() { RACE = null; $('hudW').classList.add('hidden'); $('pauseBtn').classList.add('hidden'); $('pause').classList.add('hidden'); satAttr(); }
 $('rAgain').onclick = () => { endRace(); startRace(); };
 $('rTrack').onclick = () => { endRace(); show('mTrack'); renderTracks(); };
 $('rMenu').onclick = () => { endRace(); $('results').classList.add('hidden'); show('mTitle'); };
@@ -937,6 +1354,7 @@ let menuScene = null, menuCam = null, flyA = 0, attrT = 0;
 function flyMenu(dt) {
   if (!menuScene) { menuScene = new THREE.Scene(); const sky = new Sky(); sky.scale.setScalar(20000); menuScene.add(sky); const U = sky.material.uniforms; U.turbidity.value = 4; U.rayleigh.value = 1.2; U.mieCoefficient.value = .004; U.mieDirectionalG.value = .8; U.sunPosition.value.copy(sunDir);
     menuScene.add(new THREE.HemisphereLight(0xdfeeff, 0x8a7a66, 1)); menuCam = new THREE.PerspectiveCamera(50, 1, 1, 30000); $('menu').classList.add('fly'); }
+  g3dPause(false);
   if (G3D.tiles.group.parent !== menuScene) menuScene.add(G3D.tiles.group);
   flyA += dt * .035; const m = localOf(45.06902, 7.69323), r = 520;
   menuCam.position.set(m.x + Math.sin(flyA) * r, 230, m.z + Math.cos(flyA) * r); menuCam.lookAt(m.x, 90, m.z); menuCam.aspect = innerWidth / innerHeight; menuCam.updateProjectionMatrix(); menuCam.updateMatrixWorld();
@@ -944,9 +1362,15 @@ function flyMenu(dt) {
   renderer.setViewport(0, 0, innerWidth, innerHeight); renderer.setScissor(0, 0, innerWidth, innerHeight); renderer.render(menuScene, menuCam);
   attrT -= dt; if (attrT <= 0) { attrT = 2; $('attr').textContent = g3dAttribution(); }
 }
-setInterval(() => { if (RACE && TR && TR.g3d) $('attr').textContent = g3dAttribution(); else if (!G3D.ok) $('attr').textContent = '© OpenStreetMap contributors'; }, 2000);
+setInterval(() => { if (RACE && TR && TR.sat) $('attr').textContent = ''; else if (RACE && TR && TR.g3d) $('attr').textContent = g3dAttribution(); else if (!G3D.ok) $('attr').textContent = '© OpenStreetMap contributors'; }, 2000);
+// attribuzione delle foto: logo Google e diritti delle immagini (dalla Map Tiles API, per la zona della pista)
+function satAttr() { const on = !!(RACE && TR && TR.sat); $('satAttr').classList.toggle('hidden', !on);
+  if (on) { $('satCopy').textContent = (SAT.copyright || 'Immagini © Google') + (SAT.dem ? ' · Quote: Copernicus EU-DEM' : ''); $('attr').textContent = ''; } }
 requestAnimationFrame(loop);
-initG3D().then(ok => { if (!ok) $('attr').textContent = '© OpenStreetMap contributors'; });
+// all'avvio: si chiede a Google se le foto dal satellite arrivano (una richiesta) e il menu lo dice
+SAT.ready = satProbe().then(ok => { SAT.checked = true; if (!$('mTrack').classList.contains('hidden')) renderTracks(); return ok; });
+// la Torino 3D gira dietro al menu solo sul computer: sul telefono si scarica solo se la si sceglie
+if (!MOBILE) G3D.ready = initG3D().then(ok => { if (!ok) $('attr').textContent = '© OpenStreetMap contributors'; if (!$('mTrack').classList.contains('hidden')) renderTracks(); return ok; });
 $('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74]].map(([k, h]) => face(k, h)).join('');
 show('mTitle');
 
