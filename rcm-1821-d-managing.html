@@ -569,28 +569,121 @@ html { scroll-behavior: smooth; }
 
 </style>
 <style id="ds-personale">
-/* ===== Spazio personale · sistema Famiglia (carta) ===== */
-:root{--bg-0:#F4EEDC;--bg-1:#ECE5CF;--bg-2:#E4DCC2;--panel:#FBFAF5;--panel-2:#FBFAF5;--line:rgba(46,94,78,0);--line-strong:rgba(46,94,78,.16);
-  --text:#1F2A26;--muted:#5F6E67;--muted-2:#87928C;--soft:#1F2A26;--blue:#2E5E4E;--cyan:#2E5E4E;
-  --amber:#B7791F;--orange:#C9622A;--green:#2F8F5B;--red:#C8442E;
-  --shadow:0 2px 8px rgba(21,48,42,.06),0 10px 28px rgba(21,48,42,.08);--mono:"Bricolage Grotesque","Avenir Next",Arial,sans-serif}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;background:#F4EEDC!important}
-h1,h2,h3,.brand-title,.section-title,.card-title{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif}
-.brand-mark{background:#F2B632!important;color:#1F2A26!important;font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;font-weight:800}
-.brand-eyebrow{color:#2E5E4E!important;letter-spacing:.18em}
-.note-box{font-family:"Literata",Georgia,serif;font-size:14px}
-.sidebar{background:#15302A!important;border-right:0!important;box-shadow:4px 0 24px rgba(21,48,42,.18)!important}
-.sidebar-brand,.sidebar-footer{border-color:rgba(244,238,220,.12)!important}
-.sidebar-mark{background:#F2B632!important;color:#1F2A26!important;font-weight:800!important}
-.sidebar-title{color:#F4EEDC!important}
-.sidebar-sub{color:#F2B632!important}
-.sidebar-nav a.nav-item{color:rgba(244,238,220,.78)!important;font-weight:600!important;min-height:40px}
-.sidebar-nav a.nav-item:hover{background:rgba(255,255,255,.08)!important;color:#fff!important}
-.sidebar-nav a.nav-item.active{background:#F2B632!important;color:#1F2A26!important;font-weight:800!important}
-.sidebar-footer a{color:rgba(244,238,220,.6)!important}
-.sidebar-footer a:hover{background:rgba(255,255,255,.08)!important;color:#fff!important}
-@media (pointer:coarse),(max-width:820px){input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px!important}}
+/* ===== Vademecum di casa · linguaggio della home ===== */
+:root{--bg-0:#15302A;--bg-1:#F1ECDD;--bg-2:#E8E2D0;--panel:#FBFAF5;--panel-2:#FBFAF5;--line:rgba(31,42,38,.08);--line-strong:rgba(31,42,38,.16);
+  --text:#1F2A26;--muted:#5F6E67;--muted-2:#7C8781;--soft:#1F2A26;--blue:#2E5E4E;--cyan:#2E5E4E;--amber:#A86A12;--orange:#C9701E;--green:#2F8F5B;--red:#C8442E;
+  --shadow:0 1px 0 rgba(255,255,255,.05),0 22px 44px -26px rgba(0,0,0,.65);--mono:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;--radius:24px;--sun:#F2B632;--ink:#1F2A26}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#15302A}
+body{font-family:"Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26;background-color:#15302A!important;
+  background-image:radial-gradient(60% 50% at 88% 0%,rgba(242,182,50,.12),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.15),transparent 70%)!important;background-attachment:fixed!important}
+body::before{display:none!important}
+/* testata come la home: occhiello, titolo grande, sottotitolo in corsivo */
+.layout .topbar{display:flex!important;align-items:flex-end!important;padding:34px 4px 18px!important;background:transparent!important}
+.brand{gap:0!important} .brand-mark{display:none!important}
+.brand-eyebrow{font:800 12px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.18em!important;text-transform:uppercase;color:#F2B632!important;margin-bottom:12px}
+.brand-title{font:800 clamp(44px,7vw,84px)/.92 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:-.04em!important;color:#F4EEDC!important;margin:0!important}
+.brand-title em{font-style:normal;color:#F2B632!important}
+.topbar .lede{margin:16px 0 0;max-width:58ch;font:italic 400 18px/1.55 "Literata",Georgia,serif;color:rgba(244,238,220,.82)}
+.back-home{color:rgba(244,238,220,.75)!important;background:transparent!important;border:0!important;box-shadow:inset 0 0 0 1.5px rgba(244,238,220,.22)!important;border-radius:999px!important;font:800 13px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.02em!important;padding:12px 16px!important;text-transform:none!important}
+.back-home:hover{color:#F2B632!important}
+.layout .shell{padding-top:8px!important}
+/* niente piu' sezioni sfocate: si vedono tutte, la barra laterale porta dove serve */
+.shell.has-focus [id^="s-"]{opacity:1!important;filter:none!important;pointer-events:auto!important}
+/* barra laterale */
+.sidebar{background:#112620!important;box-shadow:none!important;border-right:1px solid rgba(244,238,220,.06)!important}
+.sidebar-brand{border-color:rgba(244,238,220,.08)!important}
+.sidebar-mark{background:#F2B632!important;color:#1F2A26!important;font:800 13px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;border-radius:12px!important}
+.sidebar-title{color:#F4EEDC!important;font:800 18px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important}
+.sidebar-sub{color:#F2B632!important;font:italic 400 13px/1 "Literata",Georgia,serif!important;letter-spacing:0!important;text-transform:none!important}
+.sidebar-nav a.nav-item{color:rgba(244,238,220,.75)!important;font:700 14px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;min-height:42px;border-radius:999px!important}
+.sidebar-nav a.nav-item:hover{background:rgba(255,255,255,.07)!important;color:#fff!important}
+.sidebar-nav a.nav-item.active{background:#F2B632!important;color:#1F2A26!important}
+.sidebar-footer{border-color:rgba(244,238,220,.08)!important} .sidebar-footer a{color:rgba(244,238,220,.6)!important;font:700 13px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important}
+/* schede carta */
+.card{background:#FBFAF5!important;border:0!important;border-radius:24px!important;box-shadow:0 1px 0 rgba(255,255,255,.05),0 22px 44px -26px rgba(0,0,0,.65)!important;overflow:hidden}
+.card-head{background:transparent!important;border-bottom:1px solid rgba(31,42,38,.07)!important;padding:18px 22px 14px!important}
+.card-title{font:800 19px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:-.015em!important;text-transform:none!important;color:#1F2A26!important}
+.grid-3 .card-title{font-size:17px!important}
+.card-badge{font:800 11.5px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.04em!important;text-transform:none!important;border:0!important;padding:7px 11px!important;background:#E4F1E8!important;color:#2E5E4E!important}
+.card-badge.amber{background:#FBF1D3!important;color:#8A5A0A!important} .card-badge.red{background:#FBEAE6!important;color:#A8341F!important}
+.card-badge.green,.card-badge.ok{background:#E4F1E8!important;color:#2E7D4F!important}
+.grid-3 .card-badge{display:inline-flex!important}
+.card-body{padding:18px 22px 22px!important}
+.section-title{font:800 12px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase;color:#2E5E4E!important;margin:6px 0 10px!important}
+.info-row{grid-template-columns:minmax(150px,200px) 1fr!important;padding:10px 0!important;border-bottom:1px solid rgba(31,42,38,.07)!important}
+.info-row:last-child{border-bottom:0!important}
+.info-key{font:700 13px/1.35 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:#5F6E67!important}
+.info-val{font:500 15px/1.5 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26!important}
+.info-val strong{color:#1F2A26!important;font-weight:800!important}
+.info-val code{font:600 13px/1.3 ui-monospace,Menlo,monospace!important;background:#F1ECDD!important;color:#2E5E4E!important;border:0!important;padding:2px 7px!important;border-radius:7px!important}
+.info-val a,.note-box a,.eg-action-body a{color:#2E7D4F!important;font-weight:700;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px}
+.info-val .ok,.ok{color:#2F8F5B!important} .info-val .warn,.warn{color:#B4500F!important;font-weight:800} .muted{color:#5F6E67!important}
+.grid-3 .info-row,.eg-col .info-row{grid-template-columns:1fr!important;gap:2px!important}
+.grid-3 .info-key{font-size:12.5px!important} .grid-3 .info-val{font-size:14.5px!important}
+.chip{font:700 12.5px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;border:0!important;padding:6px 11px!important;background:#F1ECDD!important;color:#3D4A44!important}
+.chip.cyan{background:#E3EEF7!important;color:#2C6896!important} .chip.amber{background:#FBF1D3!important;color:#8A5A0A!important}
+.chip.green{background:#E4F1E8!important;color:#2E7D4F!important} .chip.red{background:#FBEAE6!important;color:#A8341F!important}
+.note-box{background:#FBF0CC!important;border:0!important;border-left:4px solid #F2B632!important;border-radius:14px!important;color:#3D4A44!important;font:italic 400 15px/1.6 "Literata",Georgia,serif!important}
+.grid-3 .note-box{font-size:14px!important}
+.contact-card{background:#F4EEDC!important;border:0!important;box-shadow:none!important;border-radius:18px!important;padding:16px!important}
+.contact-role{font:800 11.5px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.12em!important;text-transform:uppercase;color:#8A5A0A!important}
+.contact-name{font:800 17px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26!important}
+.contact-info,.contact-info a{font-size:14.5px!important;color:#3D4A44!important}
+.device-item{background:#F4EEDC!important;border:0!important;border-radius:14px!important;padding:11px 14px!important;font-size:14px!important}
+.device-name{font:700 14.5px/1.3 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26!important} .device-detail{font-size:13px!important;color:#5F6E67!important}
+/* calendario manutenzioni */
+.mant-legend{font:600 13.5px/1.4 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#3D4A44!important}
+.mant-year-label{font:800 12px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.14em!important;text-transform:uppercase;color:#2E5E4E!important;background:transparent!important;padding:0!important;margin:8px 0 12px!important}
+.mant-grid{border:0!important;gap:10px!important;border-radius:0!important;overflow:visible!important}
+.mant-month{background:#F4EEDC!important;border:0!important;border-radius:18px!important;overflow:hidden;min-height:0!important}
+.mant-month-name{background:transparent!important;border:0!important;padding:14px 14px 6px!important}
+.mant-num{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:50%;background:#15302A;color:#F2B632!important;font:800 13px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important}
+.mant-name-short{font:800 17px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26!important;text-transform:none!important;letter-spacing:-.01em!important}
+.mant-name-year{font:600 12px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#7C8781!important}
+.mant-month-urgent{background:#FBF0CC!important;box-shadow:inset 0 0 0 2px #F2B632}
+.mant-month-urgent .mant-name-short,.mant-month-urgent .mant-num{color:inherit}
+.mant-month-urgent .mant-num{background:#F2B632!important;color:#1F2A26!important}
+.mant-tasks{padding:6px 10px 12px!important;gap:5px!important}
+.mant-task{font:600 13px/1.35 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;border-radius:10px!important;padding:7px 10px 7px 22px!important;color:#1F2A26!important}
+.mant-task::before{top:12px!important;left:9px!important;width:7px!important;height:7px!important}
+.mant-blu{background:#E3EEF7!important} .mant-blu::before,.mant-dot-blu{background:#4A90C6!important}
+.mant-amber{background:#FCEBD9!important} .mant-amber::before,.mant-dot-amber{background:#E8893A!important}
+.mant-green{background:#E4F1E8!important} .mant-green::before,.mant-dot-green{background:#5FA57A!important}
+.mant-red{background:#FBEAE6!important} .mant-red::before,.mant-dot-red{background:#C8442E!important}
+.mant-purple{background:#EFE6F6!important} .mant-purple::before,.mant-dot-purple{background:#8D5BB8!important}
+.mant-table-row,.mant-table-head{font-size:14px!important} .mant-table-head div{font:800 12px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.1em;text-transform:uppercase;color:#2E5E4E!important}
+/* rifiuti */
+.rif-day{background:#F4EEDC!important;border:0!important;border-radius:14px!important;padding:10px 6px!important}
+.rif-day-name{font:800 12px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:.06em!important;color:#5F6E67!important}
+.rif-day.active{background:#E3EEF7!important} .rif-day.active.green{background:#E4F1E8!important} .rif-day.active.amber{background:#FBF1D3!important} .rif-day.active.red{background:#FBEAE6!important}
+.rif-day.active .rif-day-name{color:#1F2A26!important}
+.rif-item{font:700 12.5px/1.25 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important}
+/* fotovoltaico ed emergenze */
+.solar-kpi-label{font:700 12.5px/1.2 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#5F6E67!important;text-transform:none!important;letter-spacing:0!important}
+.solar-kpi-val{font:800 28px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;letter-spacing:-.03em!important;color:#1F2A26!important}
+.eg-emerg-inline{background:#FBEAE6!important;border:0!important;border-radius:14px!important}
+.eg-emerg-inline-label,.eg-emerg-inline-note{font-size:13px!important;color:#7A2A1A!important} .eg-emerg-inline-num{font:800 20px/1 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#A8341F!important}
+.eg-action-title{font:800 15px/1.3 "Bricolage Grotesque","Avenir Next",Arial,sans-serif!important;color:#1F2A26!important} .eg-action-body{font-size:14px!important;color:#3D4A44!important}
+/* telefono: la barra laterale diventa una fila di pulsanti fissa in alto */
+@media (max-width:860px){
+  .layout{flex-direction:column}
+  .sidebar{display:flex!important;position:sticky!important;top:0!important;left:auto!important;z-index:40!important;width:auto!important;min-width:0!important;height:auto!important;flex-direction:row!important;
+    background:rgba(17,38,32,.94)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:0!important;padding:10px 0 10px calc(10px + env(safe-area-inset-left))!important;padding-top:max(10px,env(safe-area-inset-top))!important;box-shadow:0 10px 24px -14px rgba(0,0,0,.6)!important}
+  .sidebar-brand,.sidebar-footer{display:none!important}
+  .sidebar-nav{flex-direction:row!important;overflow-x:auto;scrollbar-width:none;padding:0 10px 0 0!important;gap:6px!important}
+  .sidebar-nav::-webkit-scrollbar{display:none}
+  .sidebar-nav a.nav-item{white-space:nowrap;min-height:44px;padding:0 14px!important;box-shadow:inset 0 0 0 1.5px rgba(244,238,220,.14)}
+  .sidebar-nav a.nav-item.active{box-shadow:none}
+  .layout .topbar{padding:22px 2px 6px!important;flex-direction:column;align-items:flex-start!important;gap:16px}
+  .top-right{order:-1}
+  .topbar .lede{font-size:16px}
+  [id^="s-"]{scroll-margin-top:76px}
+  .card-head{padding:16px 18px 12px!important;flex-wrap:wrap!important;row-gap:8px!important} .card-body{padding:14px 18px 18px!important}
+  .card-head-left{flex:1 1 100%}
+  .info-row{grid-template-columns:1fr!important;gap:3px!important}
+  .mant-grid{grid-template-columns:1fr 1fr!important}
+}
+@media (max-width:480px){ .mant-grid{grid-template-columns:1fr!important} .card-title{font-size:17px!important} }
 
 @media (pointer:coarse){.back-home{display:inline-flex!important;align-items:center;min-height:44px}
   a[href^="tel:"],a[href^="mailto:"],p>a{display:inline-block;padding-block:12px;margin-block:-12px}}
@@ -613,9 +706,9 @@ h1,h2,h3,.brand-title,.section-title,.card-title{font-family:"Bricolage Grotesqu
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="sidebar-mark">RCM</div>
-      <div class="sidebar-title">RCM-1821-D</div>
-      <div class="sidebar-sub">Managing</div>
+      <div class="sidebar-mark">GdO</div>
+      <div class="sidebar-title">Vademecum</div>
+      <div class="sidebar-sub">di casa</div>
     </div>
 
     <ul class="sidebar-nav">
@@ -662,8 +755,8 @@ h1,h2,h3,.brand-title,.section-title,.card-title{font-family:"Bricolage Grotesqu
         <div class="brand">
           <div class="brand-mark">RCM</div>
           <div class="brand-text">
-            <div class="brand-eyebrow">RCM-1821-D Managing</div>
-            <h1 class="brand-title">RCM‑1821‑D <em>Managing</em></h1>
+            <div class="brand-eyebrow">Casa · Via Rocciamelone</div>
+            <h1 class="brand-title">Il vademecum <em>di casa</em></h1><p class="lede">Manutenzioni, impianti, rete, rifiuti e contatti: tutto quello che serve per far girare la casa, in un posto solo.</p>
           </div>
         </div>
       </div>
@@ -674,7 +767,7 @@ h1,h2,h3,.brand-title,.section-title,.card-title{font-family:"Bricolage Grotesqu
 
     <!-- CALENDARIO MANUTENZIONI -->
         <div class="card" id="s-calendario">
-          <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario manutenzioni · RCM-1821-D</div></div><div class="card-badge green">Da giugno 2026</div></div>
+          <div class="card-head"><div class="card-head-left"><div class="card-title">🗓️ Calendario delle manutenzioni</div></div><div class="card-badge green">Da giugno 2026</div></div>
           <div class="card-body">
     
             <div class="mant-legend">
@@ -1353,5 +1446,5 @@ h1,h2,h3,.brand-title,.section-title,.card-title{font-family:"Bricolage Grotesqu
 
     } // end initSidebar
   </script>
-</body>
+<script>/* telefono: la fila delle sezioni segue la sezione in vista */(function(){var n=document.querySelector(".sidebar-nav");if(!n||!("MutationObserver" in window))return;new MutationObserver(function(){var a=n.querySelector(".nav-item.active");if(a&&n.scrollWidth>n.clientWidth)n.scrollTo({left:a.parentNode.offsetLeft-16,behavior:"smooth"})}).observe(n,{subtree:true,attributes:true,attributeFilter:["class"]})})();</script></body>
 </html>
