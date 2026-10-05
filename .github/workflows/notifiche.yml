@@ -1,0 +1,34 @@
+# Notifiche di casa sul telefono (ntfy): ogni sera alle 19, ora di Roma, per il giorno dopo.
+# Due orari UTC perche' GitHub non conosce l'ora legale: lo script tiene solo quello giusto.
+name: Notifiche di casa
+on:
+  schedule:
+    - cron: '0 17 * * *'
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      prova:
+        description: 'Manda subito, con [prova] nel titolo'
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency: notifiche
+jobs:
+  manda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            calendario
+            notifiche
+      - name: Manda
+        env:
+          NTFY_CASA: ${{ secrets.NTFY_CASA }}
+          NTFY_SOLDI: ${{ secrets.NTFY_SOLDI }}
+          SCADENZE: ${{ secrets.SCADENZE }}
+          SCHEDULE: ${{ github.event.schedule }}
+          PROVA: ${{ inputs.prova }}
+        run: python3 notifiche/manda.py
