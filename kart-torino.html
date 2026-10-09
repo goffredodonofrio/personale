@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261009054832">
+<meta name="build" content="20261009055547">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -48,6 +48,18 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .pa svg{height:54px;width:auto}.pa.on{background:var(--c);color:#fff;transform:translateY(-2px)}.pa.taken{opacity:.45}
 .pc{font:700 13px/1.35 var(--display);color:var(--muted)}
 .tg{display:flex;align-items:center;gap:8px;font:700 14px/1.2 var(--display)}.tg input{width:20px;height:20px;accent-color:#2E5E4E}
+/* scelta dei giocatori più grande (09/10/2026) */
+#mPlayers .seg button{padding:16px 26px;font-size:22px;min-width:68px}
+#mPlayers .pcard{padding:22px;gap:14px;border-radius:24px}
+#mPlayers .pn{font-size:15px}
+#mPlayers .pf{gap:10px}
+#mPlayers .pa{min-width:112px;padding:12px 10px 10px;border-radius:18px;gap:6px;font-size:16px}
+#mPlayers .pa svg{height:112px}
+#mPlayers .pa span{max-width:110px;text-align:center;line-height:1.15}
+#mPlayers .pc{font-size:15px}
+#mPlayers .tg{font-size:16px}
+#mPlayers .tg input{width:24px;height:24px}
+@media (max-width:640px){#mPlayers .pf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#mPlayers .pa{min-width:0}#mPlayers .pa svg{height:84px}#mPlayers .seg button{padding:14px 20px;font-size:20px}}
 .note{font:italic 400 14.5px/1.5 var(--serif);color:rgba(244,238,220,.72);margin:0}
 .tlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media (max-width:700px){.tlist{grid-template-columns:1fr}}
 .tcard{border:0;border-radius:20px;padding:12px 14px 14px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12);display:flex;flex-direction:column;gap:4px;text-align:left;color:var(--cream);transition:transform .25s var(--eb)}
@@ -134,7 +146,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
     franco:{h:116,skin:'#E3B48E',hair:'#CFCAC2',hairStyle:'baldside',moustache:true,eye:'#4B3426',shirt:'#8A9A3C',pants:'#55504A',frame:'#65a30d',name:'Franco'},
     baby:{h:116,skin:'#F0D2BB',hair:'#C98A3C',hairStyle:'ponytail',eye:'#5B7F9A',liner:true,shirt:'#7c3aed',pants:'#2F3A4A',frame:'#7c3aed',name:'Babysitter'},
     generic:{h:116,skin:'#E8C19F',hair:'#6B5040',hairStyle:'plain',eye:'#4B3426',shirt:'#9AA3A8',pants:'#55504A',frame:'#64748b',name:''},
-    giovanni:{h:96, skin:'#E6BC97',hair:'#17130F',hairStyle:'longnero',eye:'#5A3A22',shirt:'#E8893A',pants:'#2F3A4A',frame:'#E8893A',name:'Giovanni',noblush:true},
+    giovanni:{h:96, skin:'#E6BC97',hair:'#D8B45E',hairStyle:'longnero',eye:'#5A3A22',shirt:'#E8893A',pants:'#2F3A4A',frame:'#E8893A',name:'Giovanni',noblush:true},
     biancadn:{h:76, skin:'#F0CDB0',hair:'#5A3B26',hairStyle:'caschetto',eye:'#4A3324',bigeyes:true,gap:true,shirt:'#3FB6A8',pants:'#F2B632',frame:'#3FB6A8',name:'Bianca Di Nola'},
     bianca:{h:74, skin:'#EAC2A0',hair:'#2E1F18',hairStyle:'curly',eye:'#3A2418',bigeyes:true,shirt:'#F6F3EE',pants:'#5F7FB0',skirt:true,frame:'#E4573D',name:'Bianca'},
   };
@@ -144,7 +156,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
     if(p.hairStyle==='short') hair=`<path d="M13 20 Q12 1 30 -1 Q48 1 47 20 L47 22 Q44 12 36 10 Q30 9 24 10 Q16 12 13 22Z" fill="${p.hair}"/><path d="M14 18 Q20 6 31 6 Q24 10 20 18Z" fill="${p.hair}"/><g fill="none" stroke="#D9D4CC" stroke-width="1.1" stroke-linecap="round" opacity=".9"><path d="M19 9 q3 -3 7 -3"/><path d="M26 5 q4 -1 8 1"/><path d="M36 7 q3 1 5 4"/><path d="M15 18 q1 -4 4 -6"/><path d="M44 17 q-1 -4 -3 -6"/><path d="M31 3 q3 0 5 1"/></g>`;
     if(p.hairStyle==='long')  hair=`<path d="M13 17 Q30 -5 47 17 L49 44 Q45 48 41 42 L41 24 Q30 16 19 24 L19 42 Q15 48 11 44Z" fill="${p.hair}"/><path d="M14 17 Q22 2 38 8 Q34 14 22 15 Q17 15 14 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='mop')   hair=`<path d="M12.2 29.6 L10.4 26.4 Q8.6 25 8.6 22.4 L7.4 16.6 Q7.8 8.4 13.2 4.6 Q16 0.8 20.2 0.6 L22.6 -1.8 Q26 -0.6 28.4 -1.2 L31.4 -2.8 Q33.4 -0.6 37.6 -0.4 Q47.4 2.6 50.8 9.2 L53.2 13 Q52.2 13.8 52.4 15.6 Q53.6 19.4 52.6 22.4 L51.2 23.4 Q51.6 26.4 49.8 27.4 L48.2 29.6 L46.2 28.8 L45.4 30.4 L42.8 28.6 Q44.6 26.8 45.4 24 L45.7 21.5 Q45 13.6 39 11 Q33.6 11.8 28.4 15 Q24.2 17.8 20.8 23.2 L19.4 19.6 L16.4 23 L15.6 20 L15.4 24 Q16 27.5 17.2 28.6 L14.6 30.4 L13.8 28.8 L12.2 29.6Z" fill="${p.hair}"/><path d="M27.4 0 L29 -4.6 L31 -0.6Z" fill="${p.hair}"/>`;
-    // Giovanni: lunghi neri, ciuffi a punta, frangia a ciocche, punte scalate alla mascella (da maschio, come Edoardo)
+    // Giovanni: lunghi biondi, ciuffi a punta, frangia a ciocche, punte scalate alla mascella (da maschio, come Edoardo)
     if(p.hairStyle==='longnero') hair=`<path d="M11.6 31.5 L9.6 27.4 Q8.4 24 8.6 21.4 L7.6 15.6 Q8 7.6 13.4 4 L15.6 0.2 L18.6 2.6 L21.8 -1.6 L25 1.2 L29.4 -2.4 L32.4 1 L36.6 -1.4 L39.6 2 Q47.2 3 50.6 9 L53 13.4 L51.4 14.6 L52.6 21 L50.6 22 L51.4 27.6 L48.6 31.5 L46.6 29.8 L45.6 31.8 L43 28.8 Q44.8 26 45.4 21.5 L45.6 16.4 Q44 11.4 38.6 11 L35.4 14.6 L33.4 12.2 L30.6 15.6 L28.4 12.2 L25.6 15.2 L23.6 11.6 Q16.6 11.6 14.6 16.4 L14.8 21.5 Q15.2 26 17 28.8 L14.4 31.8 L13.4 29.8 Z" fill="${p.hair}"/>`;
     // Bianca Di Nola: caschetto con frangia dritta
     if(p.hairStyle==='caschetto') hair=`<path d="M9 30.5 Q7 20 9.5 11 Q14 0.5 30 0 Q46 0.5 50.5 11 Q53 20 51 30.5 L44.6 30.5 Q45.8 24 45.6 19 L45.4 13.4 L14.6 13.4 L14.4 19 Q14.2 24 15.4 30.5 Z" fill="${p.hair}"/>`;
@@ -293,7 +305,7 @@ const CHAR = {
   carolina: {s: .96, skin: '#EFC9AE', hair: '#6B4A32', eye: '#7F9A6E', liner: true, shirt: '#1E1E22', pants: '#7E2E55', shoes: '#1F2A26', style: 'curlylong', kart: '#8D5BB8'},
   edoardo: {s: .82, skin: '#E8C19F', hair: '#A07A4E', eye: '#8FB3A6', glasses: '#2B3A78', shirt: '#A9D88E', pants: '#C6E22E', shoes: '#1F2A26', style: 'mop', crest: true, kart: '#4A90C6'},
   bianca: {s: .74, skin: '#EAC2A0', hair: '#2E1F18', eye: '#3A2418', big: true, shirt: '#F6F3EE', pants: '#5F7FB0', shoes: '#E4573D', style: 'curly', kart: '#E4573D'},
-  giovanni: {s: .84, skin: '#E6BC97', hair: '#17130F', eye: '#5A3A22', shirt: '#E8893A', pants: '#2F3A4A', shoes: '#1F2A26', style: 'longnero', kart: '#E8893A'},
+  giovanni: {s: .84, skin: '#E6BC97', hair: '#D8B45E', eye: '#5A3A22', shirt: '#E8893A', pants: '#2F3A4A', shoes: '#1F2A26', style: 'longnero', kart: '#E8893A'},
   biancadn: {s: .75, skin: '#F0CDB0', hair: '#5A3B26', eye: '#4A3324', big: true, gap: true, shirt: '#3FB6A8', pants: '#F2B632', shoes: '#E4573D', style: 'caschetto', kart: '#3FB6A8'},
 };
 function faceTex(c) {
