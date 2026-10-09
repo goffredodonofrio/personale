@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261009074456">
+<meta name="build" content="20261009080136">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -48,6 +48,41 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .pa svg{height:54px;width:auto}.pa.on{background:var(--c);color:#fff;transform:translateY(-2px)}.pa.taken{opacity:.45}
 .pc{font:700 13px/1.35 var(--display);color:var(--muted)}
 .tg{display:flex;align-items:center;gap:8px;font:700 14px/1.2 var(--display)}.tg input{width:20px;height:20px;accent-color:#2E5E4E}
+/* sovrimpressione di gara alla Mario Kart (09/10/2026) */
+.tmr{position:absolute;right:10px;top:calc(84px + env(safe-area-inset-top));display:flex;flex-direction:column;align-items:flex-end;gap:3px;padding:7px 11px;border-radius:14px;background:rgba(15,27,34,.72);color:#fff;text-align:right}
+.tmr b{font:800 22px/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.tmr small{font:700 12px/1.1 var(--display);color:rgba(255,255,255,.8);font-variant-numeric:tabular-nums}
+.tmr small:empty{display:none}
+.lapt{position:absolute;left:50%;top:22%;transform:translate(-50%,-10px);opacity:0;padding:8px 16px;border-radius:999px;background:rgba(15,27,34,.82);color:#fff;font:700 18px/1 var(--display);white-space:nowrap;transition:opacity .25s,transform .35s var(--eb)}
+.lapt b{color:var(--gold)}
+.lapt.rec b,.lapt.rec{color:#7CFFB0}
+.lapt.show{opacity:1;transform:translate(-50%,0)}
+.av{position:absolute;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%);width:min(40%,420px)}
+.avb{position:relative;height:10px;border-radius:99px;background:rgba(15,27,34,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.avb .tick{position:absolute;top:-3px;width:2px;height:16px;background:rgba(255,255,255,.55);transform:translateX(-1px)}
+.avb .flag{position:absolute;right:-10px;top:-9px;font-size:18px}
+.avb .dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px rgba(15,27,34,.9);transform:translate(-50%,-50%);transition:left .15s linear}
+.avb .dot.me{width:26px;height:36px;border-radius:0;background:none;box-shadow:none;transform:translate(-50%,-62%);z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
+.avb .dot.me svg{width:22px;height:36px}
+.cl{position:absolute;left:10px;top:calc(62px + env(safe-area-inset-top));margin:0;padding:0;list-style:none;width:150px;height:180px}
+.cl li{position:absolute;left:0;top:0;width:100%;height:26px;display:flex;align-items:center;gap:5px;padding:0 8px 0 2px;border-radius:999px;background:rgba(15,27,34,.62);color:#fff;font:700 12px/1 var(--display);transition:transform .35s var(--eo)}
+.cl li.hum{box-shadow:inset 0 0 0 2px var(--c)}
+.cl li.me{background:var(--c);box-shadow:0 0 0 2px #fff}
+.cl .cp{width:18px;text-align:center;font-weight:800;color:var(--gold)}
+.cl li.me .cp{color:#fff}
+.cl svg{width:16px;height:26px;flex:none}
+.cl b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl .cg{font-style:normal;font-size:11px;opacity:.85;font-variant-numeric:tabular-nums}
+.mm{position:absolute;right:10px;bottom:calc(58px + env(safe-area-inset-bottom));width:150px;height:150px;border-radius:18px;background:rgba(15,27,34,.35)}
+.mm.touch{bottom:auto;top:calc(160px + env(safe-area-inset-top));width:120px;height:120px}
+.hv.stretto .cl,.hv.stretto .mm{display:none}
+.hv.stretto.solo .mm{display:block;width:104px;height:104px;bottom:auto;top:calc(138px + env(safe-area-inset-top))}
+.hv.stretto .av{width:56%;top:calc(72px + env(safe-area-inset-top))}
+.hv.stretto .msg{font-size:clamp(26px,4.6vw,58px);-webkit-text-stroke-width:2px}
+.hv.stretto .lapt{font-size:15px;top:26%}
+.hv.stretto .tmr{top:calc(96px + env(safe-area-inset-top));padding:5px 8px}.hv.stretto .tmr b{font-size:17px}
+#resList i em{display:block;font-style:normal;font-size:11px;opacity:.7;font-weight:600}
+@media (max-width:640px){.av{width:46%;top:calc(58px + env(safe-area-inset-top))}.tmr b{font-size:18px}}
 /* impostazioni di guida e di gara (09/10/2026) */
 .tg{flex-wrap:wrap;row-gap:2px}
 .tg small{flex-basis:100%;padding-left:32px;font:italic 400 13px/1.3 Georgia,serif;color:var(--muted)}
@@ -749,7 +784,10 @@ function stepKart(k, inp, dt) {
     else { k.v *= .55; o.off = 6; o.m.visible = false; sfx('hit'); } }
   // giri: si conta il passaggio sul traguardo solo dopo aver fatto metà pista
   if (TR.closed) { if (k.s > TR.len * .4 && k.s < TR.len * .6) k.cp = true;
-    if (prevS > TR.len * .8 && k.s < TR.len * .2 && k.cp) { k.lap++; k.cp = false; if (k.lap >= 1 && k.human >= 0) lapMsg(k); if (k.lap >= TR.laps) finish(k); }
+    if (prevS > TR.len * .8 && k.s < TR.len * .2 && k.cp) { k.lap++; k.cp = false;
+      if (k.lap >= 1 && RACE.state === 'go') { const lt = RACE.t - (k.lapStart || 0); k.laps = k.laps || []; k.laps.push(lt); k.lapStart = RACE.t; const best = Math.min(...k.laps);
+        if (k.human >= 0) { lapTimeMsg(k.human, k.lap, lt, lt <= best); } }
+      if (k.lap >= 1 && k.human >= 0) lapMsg(k); if (k.lap >= TR.laps) finish(k); }
     if (prevS < TR.len * .2 && k.s > TR.len * .8 && k.lap >= 0) { k.lap--; k.cp = true; } }
   else if (k.s >= TR.len - 4 && !k.finished) finish(k);
   // scatole e trappole
@@ -758,7 +796,7 @@ function stepKart(k, inp, dt) {
   for (const w of m.userData.wheels) w.rotation.x += k.v * dt / .33;
 }
 function rankOf(k) { return [...KARTS].sort((a, b) => progress(b) - progress(a)).indexOf(k); }
-function finish(k) { if (k.finished) return; k.finished = true; k.finishT = RACE.t; k.place = KARTS.filter(x => x.finished).length; if (k.human >= 0) { sfx('finish'); flash(k.human, k.place === 1 ? 'Primo! 🏆' : `Arrivo: ${k.place}°`); } }
+function finish(k) { if (k.finished) return; k.finished = true; k.finishT = RACE.t; if (!TR.closed) k.laps = [RACE.t]; k.place = KARTS.filter(x => x.finished).length; if (k.human >= 0) { sfx('finish'); flash(k.human, k.place === 1 ? 'Primo! 🏆' : `Arrivo: ${k.place}°`); } }
 function lapMsg(k) { const left = TR.laps - k.lap; if (left === 1) flash(k.human, 'Ultimo giro!'); else if (left > 1) flash(k.human, `Giro ${k.lap + 1} di ${TR.laps}`); }
 
 function stepWorld(dt) {
@@ -887,14 +925,39 @@ function layoutHUD() {
   if (!RACE) return; const vp = viewports(PLAYERS_IN.length === 3 ? 4 : PLAYERS_IN.length);
   PLAYERS_IN.forEach((p, i) => { const el = $('h' + i), v = vp[i]; Object.assign(el.style, {left: v[0] + 'px', top: v[1] + 'px', width: v[2] + 'px', height: v[3] + 'px'}); el.classList.remove('hidden'); });
   for (let i = PLAYERS_IN.length; i < 4; i++) $('h' + i).classList.add('hidden');
+  PLAYERS_IN.forEach((p, i) => { const v = vp[i]; $('h' + i).classList.toggle('stretto', v[2] < 560 || v[3] < 400); $('h' + i).classList.toggle('solo', PLAYERS_IN.length === 1); });
   $('h3o').classList.toggle('hidden', PLAYERS_IN.length !== 3); if (PLAYERS_IN.length === 3) { const v = vp[3]; Object.assign($('h3o').style, {left: v[0] + 'px', top: v[1] + 'px', width: v[2] + 'px', height: v[3] + 'px'}); }
+}
+const tFmt = s => { s = Math.max(0, s); const m = Math.floor(s / 60), r = s - m * 60; return m + ':' + (r < 10 ? '0' : '') + r.toFixed(1).replace('.', ','); };
+function lapTimeMsg(i, lap, t, rec) { const el = $('lt' + i); if (!el) return; el.innerHTML = `Giro ${lap} · <b>${tFmt(t)}</b>${rec && lap > 1 ? ' · record!' : ''}`; el.classList.toggle('rec', rec && lap > 1); el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2600); }
+let MM = null;   // minimappa: il tracciato disegnato una volta
+function miniMapBase() {
+  const F = TR.F; let a = 1e9, b = 1e9, c = -1e9, d = -1e9; for (const f of F) { a = Math.min(a, f.x); b = Math.min(b, f.z); c = Math.max(c, f.x); d = Math.max(d, f.z); }
+  const S = 300, pad = 18, sc = (S - 2 * pad) / Math.max(c - a, d - b), ox = pad + ((S - 2 * pad) - (c - a) * sc) / 2, oz = pad + ((S - 2 * pad) - (d - b) * sc) / 2;
+  const P = (x, z) => [ox + (x - a) * sc, oz + (z - b) * sc], cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d');
+  g.lineJoin = g.lineCap = 'round'; g.beginPath(); F.forEach((f, i) => { const [x, y] = P(f.x, f.z); i ? g.lineTo(x, y) : g.moveTo(x, y); }); if (TR.closed) g.closePath();
+  g.strokeStyle = 'rgba(15,27,34,.85)'; g.lineWidth = 14; g.stroke(); g.strokeStyle = '#E8E4DC'; g.lineWidth = 7; g.stroke();
+  if (FORK) { g.beginPath(); FORK.BF.forEach((f, i) => { const [x, y] = P(f.x, f.z); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.strokeStyle = '#F2B632'; g.lineWidth = 4; g.stroke(); }
+  for (const lp of LOOPS) { const [x, y] = P(lp.f.x, lp.f.z); g.strokeStyle = '#C8342B'; g.lineWidth = 3; g.beginPath(); g.arc(x, y, 6, 0, 7); g.stroke(); }
+  const f0 = TR.closed ? F[0] : F[F.length - 1], [fx, fy] = P(f0.x, f0.z); g.fillStyle = '#fff'; g.fillRect(fx - 7, fy - 3, 14, 6); g.fillStyle = '#111'; g.fillRect(fx - 7, fy - 3, 7, 3); g.fillRect(fx, fy, 7, 3);
+  MM = {cv, P, S};
 }
 function buildHUD() {
   for (let i = 0; i < 4; i++) { const el = $('h' + i); const p = PLAYERS_IN[i]; if (!p) { el.innerHTML = ''; continue; }
-    el.innerHTML = `<div class="hp" style="--c:${p.color}"><span class="pos" id="pos${i}">–</span><span class="hn">${face(p.k, 34)}<b>${esc(p.name)}</b><small id="lap${i}"></small></span><span class="coins" id="co${i}"></span></div><div class="hit" id="it${i}"></div><div class="msg" id="msg${i}"></div>`
+    el.innerHTML = `<div class="hp" style="--c:${p.color}"><span class="pos" id="pos${i}">–</span><span class="hn">${face(p.k, 34)}<b>${esc(p.name)}</b><small id="lap${i}"></small></span><span class="coins" id="co${i}"></span></div>
+      <div class="tmr"><b id="tt${i}">0:00,0</b><small id="tl${i}"></small><small id="tb${i}"></small></div><div class="lapt" id="lt${i}"></div>
+      <div class="av"><div class="avb" id="av${i}"></div></div>
+      <ol class="cl" id="cl${i}"></ol>
+      <canvas class="mm${TOUCHDEV ? ' touch' : ''}" id="mm${i}" width="300" height="300"></canvas><div class="hit" id="it${i}"></div><div class="msg" id="msg${i}"></div>`
       + (TOUCHDEV ? `<div class="tz tl" data-p="${i}" data-s="l">◀</div><div class="tz tr" data-p="${i}" data-s="r">▶</div><div class="tz ti" data-p="${i}" data-s="item">🎁</div>` : '');
-    TOUCH[i] = {l: false, r: false, item: false, any: false}; }
-  layoutHUD();
+    TOUCH[i] = {l: false, r: false, item: false, any: false};
+    // classifica: una riga per pilota, si sposta con la posizione
+    $('cl' + i).innerHTML = KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<li data-k="${k.k}" class="${k.human === i ? 'me' : k.human >= 0 ? 'hum' : ''}" style="--c:${F.color}"><span class="cp"></span>${face(k.k, 26)}<b>${esc(F.name.split(' ')[0])}${k.k === 'biancadn' ? ' D.N.' : ''}</b><i class="cg"></i></li>`; }).join('');
+    // avanzamento: tacche dei giri e un segno per ogni kart
+    const av = $('av' + i), laps = TR.closed ? TR.laps : 1; let h = ''; for (let j = 1; j < laps; j++) h += `<span class="tick" style="left:${j / laps * 100}%"></span>`;
+    h += '<span class="flag">🏁</span>' + KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<span class="dot${k.human === i ? ' me' : ''}" data-k="${k.k}" style="--c:${F.color}">${k.human === i ? face(k.k, 24) : ''}</span>`; }).join('');
+    av.innerHTML = h; }
+  MM = null; layoutHUD();
 }
 // tocchi: ogni giocatore ha la sua metà dello schermo
 const activeT = new Map();
@@ -905,7 +968,31 @@ document.addEventListener('pointerup', e => { const z = activeT.get(e.pointerId)
 document.addEventListener('pointercancel', e => { const z = activeT.get(e.pointerId); if (z) { TOUCH[+z.dataset.p][z.dataset.s] = false; activeT.delete(e.pointerId); } });
 let flashT = [0, 0, 0, 0];
 function flash(i, text, dur = 1.6) { const el = $('msg' + i); if (!el) return; el.textContent = text; el.classList.add('show'); flashT[i] = dur; }
+let hudT = 0;
+function totProg(k) { const tot = TR.closed ? TR.laps * TR.len : TR.len; if (TR.closed && k.lap < 0 && !k.finished) return 0; return k.finished ? 1 : Math.max(0, Math.min(1, (TR.closed ? Math.max(0, k.lap) * TR.len + k.s : k.s) / tot)); }
+function updateRaceHUD() {
+  if (!MM) miniMapBase();
+  const ranks = [...KARTS].sort((a, b) => progress(b) - progress(a)), lead = ranks[0];
+  PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i); if (!k) return;
+    // cronometro
+    const t = k.finished ? k.finishT : Math.max(0, RACE.t); $('tt' + i).textContent = RACE.state === 'go' || k.finished ? tFmt(t) : '0:00,0';
+    if (TR.closed && RACE.state === 'go') { const cur = k.finished ? null : Math.max(1, Math.min(TR.laps, k.lap + 1)); $('tl' + i).textContent = cur ? `Giro ${cur}: ${tFmt(RACE.t - (k.lapStart || 0))}` : 'Arrivato';
+      $('tb' + i).textContent = k.laps && k.laps.length ? 'Miglior giro ' + tFmt(Math.min(...k.laps)) : ''; }
+    else { $('tl' + i).textContent = TR.closed ? '' : `${Math.round(totProg(k) * 100)}% del giro`; $('tb' + i).textContent = ''; }
+    // classifica con distacco dal primo (in secondi, a velocità di crociera)
+    const rowH = 30; $('cl' + i).querySelectorAll('li').forEach(li => { const kk = KARTS.find(x => x.k === li.dataset.k), r = ranks.indexOf(kk);
+      li.style.transform = `translateY(${r * rowH}px)`; li.querySelector('.cp').textContent = (kk.finished ? kk.place : r + 1);
+      const gap = (progress(lead) - progress(kk)) / 27; li.querySelector('.cg').textContent = r === 0 ? '' : kk.finished ? tFmt(kk.finishT) : (lead.finished ? '' : '+' + gap.toFixed(1).replace('.', ',') + ' s'); });
+    // avanzamento
+    $('av' + i).querySelectorAll('.dot').forEach(dEl => { const kk = KARTS.find(x => x.k === dEl.dataset.k); dEl.style.left = (totProg(kk) * 100) + '%'; });
+    // minimappa
+    const cv = $('mm' + i); if (cv && cv.offsetParent !== null) { const g = cv.getContext('2d'); g.clearRect(0, 0, 300, 300); g.drawImage(MM.cv, 0, 0);
+      for (const kk of [...KARTS].sort((a, b) => (a.human === i) - (b.human === i))) { const [x, y] = MM.P(kk.x, kk.z), F = FAM.find(f => f.k === kk.k), me = kk.human === i;
+        g.beginPath(); g.arc(x, y, me ? 11 : 7.5, 0, 7); g.fillStyle = F.color; g.fill(); g.lineWidth = me ? 4 : 2.5; g.strokeStyle = me ? '#fff' : 'rgba(15,27,34,.9)'; g.stroke();
+        if (me) { g.beginPath(); g.moveTo(x + Math.sin(kk.h) * 18, y - Math.cos(kk.h) * -18); g.lineTo(x + Math.sin(kk.h + 2.6) * 9, y + Math.cos(kk.h + 2.6) * 9); g.lineTo(x + Math.sin(kk.h - 2.6) * 9, y + Math.cos(kk.h - 2.6) * 9); g.closePath(); g.fillStyle = '#fff'; g.fill(); } } } });
+}
 function updateHUD(dt) {
+  hudT -= dt; if (hudT <= 0) { hudT = .12; updateRaceHUD(); }
   const ranks = [...KARTS].sort((a, b) => progress(b) - progress(a));
   PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i); if (!k) return; const r = ranks.indexOf(k) + 1;
     $('pos' + i).textContent = (k.finished ? k.place : r) + '°';
@@ -950,8 +1037,8 @@ function stepRace(dt) {
 }
 function showResults() {
   const order = [...KARTS].sort((a, b) => progress(b) - progress(a));
-  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-  $('resList').innerHTML = order.map((k, i) => { const F = FAM.find(f => f.k === k.k); return `<li style="--c:${F.color}"><span class="rp">${['🥇', '🥈', '🥉', '4°', '5°', '6°'][i] || (i + 1) + '°'}</span>${face(k.k, 46)}<b>${F.name}</b><small>${k.human >= 0 ? 'giocatore ' + (k.human + 1) : 'computer'}</small><i>${k.finished ? fmt(k.finishT) : '—'}</i></li>`; }).join('');
+  const fmt = s => tFmt(s) + (TR.closed ? '' : '');
+  $('resList').innerHTML = order.map((k, i) => { const F = FAM.find(f => f.k === k.k); return `<li style="--c:${F.color}"><span class="rp">${['🥇', '🥈', '🥉', '4°', '5°', '6°'][i] || (i + 1) + '°'}</span>${face(k.k, 46)}<b>${F.name}</b><small>${k.human >= 0 ? 'giocatore ' + (k.human + 1) : 'computer'}</small><i>${k.finished ? fmt(k.finishT) : '—'}${TR.closed && k.laps && k.laps.length ? `<em>miglior giro ${tFmt(Math.min(...k.laps))}</em>` : ''}</i></li>`; }).join('');
   const w = FAM.find(f => f.k === order[0].k); $('resTitle').textContent = `${w.name} vince la Coppa della Mole!`;
   $('results').classList.remove('hidden'); $('hudW').classList.add('hidden'); $('pauseBtn').classList.add('hidden');
   try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(`${w.name} vince la Coppa della Mole!`); u.lang = 'it-IT'; speechSynthesis.speak(u); } catch (e) {}
