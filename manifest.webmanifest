@@ -1,0 +1,14 @@
+{
+  "name": "Spazio di casa",
+  "short_name": "Casa",
+  "lang": "it",
+  "display": "browser",
+  "theme_color": "#15302A",
+  "background_color": "#15302A",
+  "icons": [
+    {"src": "icone/casa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icone/casa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icone/casa-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "icone/casa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
