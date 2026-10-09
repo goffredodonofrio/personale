@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261009080136">
+<meta name="build" content="20261009082018">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -145,6 +145,13 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .rp{font-size:24px;min-width:34px;text-align:center;font-family:var(--display);font-weight:800}
 .box .ghost{background:var(--paper2);color:var(--ink);box-shadow:none}
 #loading{position:fixed;inset:0;z-index:35;display:grid;place-items:center;background:var(--night);font:800 18px/1 var(--display);color:var(--gold)}
+/* controller: il pulsante scelto con la croce */
+.padf{outline:4px solid var(--gold)!important;outline-offset:4px;box-shadow:0 0 0 9px rgba(242,182,50,.28)!important}
+.pa.padf,.tcard.padf{transform:translateY(-4px) scale(1.04)}
+.box .padf{outline-color:var(--red)!important}
+/* televisore (Batocera): niente puntatore e niente pulsanti da toccare */
+body.tv,body.tv *{cursor:none!important}
+body.tv #pauseBtn,body.tv .tz{display:none!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -262,6 +269,7 @@ import * as THREE from 'three';
 import { Sky } from 'three/addons/objects/Sky.js';
 // ===================== KART DI TORINO · motore =====================
 const MOBILE = matchMedia('(pointer:coarse)').matches || innerWidth < 700;
+const TV = !!window.KART_TV;          // Batocera: televisore, solo controller, niente internet
 const SC = .66;                       // città rimpicciolita: gare più corte, stesse strade
 const RNG = (() => { let s = 1907; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; })();
 const rnd = (a, b) => a + (b - a) * RNG();
@@ -420,7 +428,7 @@ function makeKart(k) {
 const $ = id => document.getElementById(id);
 const stage = $('stage');
 const renderer = new THREE.WebGLRenderer({antialias: !MOBILE, powerPreference: 'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio, MOBILE ? 1.5 : 2)); renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(TV ? Math.min(devicePixelRatio, 1920 / innerWidth) : Math.min(devicePixelRatio, MOBILE ? 1.5 : 2));   // sul televisore 4K si disegna a 1080p renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .9; renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.setScissorTest(true);
 stage.appendChild(renderer.domElement);
@@ -654,8 +662,9 @@ function readInput(p, k) {
   const sets = solo ? kb : p < 2 ? [kb[p]] : [];
   for (const s of sets) { if (keys[s.u]) inp.thr = 1; if (keys[s.d]) inp.brk = 1; if (keys[s.l]) inp.steer -= 1; if (keys[s.r]) inp.steer += 1; if (s.i.some(c => keys[c])) inp.item = true; }
   // controller: se ce n'è uno per tutti, uno a testa; se no, dal terzo giocatore in su (i primi due usano la tastiera)
-  const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [], gp = solo ? pads[0] : pads.length >= PLAYERS_IN.length ? pads[p] : pads[p - 2];
-  if (gp) { const ax = gp.axes[0] || 0; if (Math.abs(ax) > .15) inp.steer += ax; if (gp.buttons[14] && gp.buttons[14].pressed) inp.steer -= 1; if (gp.buttons[15] && gp.buttons[15].pressed) inp.steer += 1;
+  const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
+  const gps = TV ? (solo ? pads : [pads[p]]) : [solo ? pads[0] : pads.length >= PLAYERS_IN.length ? pads[p] : pads[p - 2]];
+  for (const gp of gps) if (gp) { const ax = gp.axes[0] || 0; if (Math.abs(ax) > .15) inp.steer += ax; if (gp.buttons[14] && gp.buttons[14].pressed) inp.steer -= 1; if (gp.buttons[15] && gp.buttons[15].pressed) inp.steer += 1;
     if ((gp.buttons[0] && gp.buttons[0].pressed) || (gp.buttons[7] && gp.buttons[7].value > .2)) inp.thr = 1; if ((gp.buttons[1] && gp.buttons[1].pressed) || (gp.buttons[6] && gp.buttons[6].value > .2)) inp.brk = 1;
     if ([2, 3, 4, 5].some(b => gp.buttons[b] && gp.buttons[b].pressed)) inp.item = true; }
   const T = TOUCH[p]; if (T) { if (T.l) inp.steer -= 1; if (T.r) inp.steer += 1; if (T.item) { inp.item = true; T.item = false; } if (T.l || T.r || T.any) k.auto = true; }
@@ -876,7 +885,7 @@ function face(k, h) { return AVATAR(k, {h}); }
 function show(id) { for (const s of ['mTitle', 'mPlayers', 'mTrack']) $(s).classList.toggle('hidden', s !== id); $('menu').classList.remove('hidden'); }
 
 // ---------- giocatori ----------
-function ctrlLabel(i, n) { if (TOUCHDEV) return n === 1 ? '📱 tocca a sinistra e a destra per sterzare' : `📱 la tua metà dello schermo`; if (n === 1) return '⌨️ frecce o WASD · Spazio per il bonus'; if (i === 0) return '⌨️ W A S D · Spazio per il bonus'; if (i === 1) return '⌨️ frecce · Invio per il bonus'; return '🎮 controller ' + (i - 1); }
+function ctrlLabel(i, n) { if (TV) return n === 1 ? '🎮 un controller qualsiasi' : `🎮 controller ${i + 1}`; if (TOUCHDEV) return n === 1 ? '📱 tocca a sinistra e a destra per sterzare' : `📱 la tua metà dello schermo`; if (n === 1) return '⌨️ frecce o WASD · Spazio per il bonus'; if (i === 0) return '⌨️ W A S D · Spazio per il bonus'; if (i === 1) return '⌨️ frecce · Invio per il bonus'; return '🎮 controller ' + (i - 1); }
 function renderPlayers() {
   $('nPick').querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.n === SETUP.n));
   let h = '';
@@ -889,7 +898,8 @@ function renderPlayers() {
       <label class="tg"><input type="checkbox" data-k="${k}" data-a="autoItem" ${a.autoItem ? 'checked' : ''}> Oggetti automatici <small>passando su una nuova scatola, l'oggetto che hai parte da solo</small></label>
       ${GYRO_OK ? `<label class="tg"><input type="checkbox" data-k="${k}" data-a="gyro" ${a.gyro ? 'checked' : ''}> Giroscopio <small>sterzi inclinando il telefono o il tablet</small></label>${a.gyro ? `<label class="tg sub"><input type="checkbox" data-k="${k}" data-a="gyroInv" ${a.gyroInv ? 'checked' : ''}> Inverti il giroscopio</label>` : ''}` : ''}</div>`; }
   $('pList').innerHTML = h; $('pList').classList.toggle('uno', SETUP.n === 1);
-  $('pNote').textContent = SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 6 ? 'sei' : FAM.length}.` : 'Quattro giocatori, gli altri due li guida il computer.';
+  const nPad = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean).length : 0;
+  $('pNote').textContent = TV && SETUP.n > 1 && nPad < SETUP.n ? `Accendete ${SETUP.n} controller e premete un tasto su ognuno: ora ne vedo ${nPad}.` : TV ? (SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e sei.` : 'Quattro giocatori, gli altri due li guida il computer.') : SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 6 ? 'sei' : FAM.length}.` : 'Quattro giocatori, gli altri due li guida il computer.';
 }
 $('nPick').addEventListener('click', e => { const b = e.target.closest('button[data-n]'); if (!b) return; SETUP.n = +b.dataset.n; save(); renderPlayers(); });
 $('pList').addEventListener('click', e => { const b = e.target.closest('.pa'); if (!b) return; const i = +b.dataset.i, k = b.dataset.k, j = SETUP.pick.indexOf(k); [SETUP.pick[i], SETUP.pick[j]] = [k, SETUP.pick[i]]; save(); renderPlayers(); });
@@ -1064,6 +1074,62 @@ window.__kart = {sim(n, dt) { for (let i = 0; i < n && RACE; i++) stepRace(dt); 
   dbg(name) { const k = KARTS.find(x => x.k === name); if (!k) return null; const r = {x: +k.x.toFixed(1), z: +k.z.toFixed(1), y: +k.y.toFixed(1), lat: +k.lat.toFixed(2), h: +k.h.toFixed(2), s: Math.round(k.s), br: k.br && k.br.j, loop: k.loop && +k.loop.p.toFixed(2), state: RACE.state, spin: +(k.spin||0).toFixed(2), auto: k.auto, assist: k.assist, thr: k.thrNow, keysDown: Object.keys(keys).filter(x => keys[x]).join(), pads: (navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean).length : 0), fp: k.forkPick, cool: +(k.loopCool||0).toFixed(1), ai: +aiSteer(k).toFixed(2), sv: +k.steerV.toFixed(2), v: +k.v.toFixed(1)};
     if (k.br) { const b = FORK.BF[k.br.j]; r.B = {x: +b.x.toFixed(1), z: +b.z.toFixed(1), y: +b.y.toFixed(1)}; } const m = frameAtS(k.s); r.main = {x: +m.x.toFixed(1), z: +m.z.toFixed(1), nx: +m.nx.toFixed(2), nz: +m.nz.toFixed(2)}; return r; },
   info() { return {tramp: TRAMP.map(t => Math.round(t.s)), loops: LOOPS.map(l => Math.round(l.s)), fork: FORK && [Math.round(FORK.sa), Math.round(FORK.sb)], obst: OBST.map(o => o.type + '@' + Math.round(o.s)), len: Math.round(TR.len)}; }};
+// ---------- menù col controller: croce o levetta per spostarsi, A conferma, B indietro, Start avanti o pausa ----------
+const NAV = {el: null, key: '', layer: null, prev: {}, next: {}};
+function navLayer() {
+  if (!$('pause').classList.contains('hidden')) return 'pause';
+  if (!$('results').classList.contains('hidden')) return 'results';
+  if (RACE || $('menu').classList.contains('hidden')) return '';
+  return ['mTitle', 'mPlayers', 'mTrack'].find(id => !$(id).classList.contains('hidden')) || '';
+}
+function navItems(L) { const root = L && $(L); if (!root) return [];
+  return [...root.querySelectorAll('button, a[href], input[type=checkbox]')].filter(el => !el.disabled && !el.closest('.hidden') && el.getClientRects().length); }
+const navKey = el => el.id ? '#' + el.id : ['i', 'k', 'n', 'cc', 'id', 'a'].map(a => el.dataset[a] ?? '').join('|');
+const navBox = el => (el.matches('input') && el.closest('label')) || el;
+function navDefault(L, items) { const q = {mTitle: '#bPlay', mPlayers: '#nPick button.on', mTrack: '#tList .tcard.on', results: '#rAgain', pause: '#pResume'}[L], el = q && document.querySelector(q); return items.includes(el) ? el : items[0]; }
+function navMark(el) { document.querySelectorAll('.padf').forEach(x => x.classList.remove('padf')); NAV.el = el || null; if (!el) return;
+  NAV.key = navKey(el); const b = navBox(el); b.classList.add('padf'); b.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'smooth'}); }
+function navRefind() { const L = navLayer(), items = navItems(L); if (NAV.el && items.includes(NAV.el)) return navMark(NAV.el);
+  navMark(items.find(x => navKey(x) === NAV.key) || (L ? navDefault(L, items) : null)); }
+function navMove(dx, dy) {
+  const items = navItems(navLayer()); if (!items.length) return; if (!NAV.el || !items.includes(NAV.el)) return navRefind();
+  const r = navBox(NAV.el).getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2; let best = null, bs = 1e9;
+  for (const el of items) { if (el === NAV.el) continue; const q = navBox(el).getBoundingClientRect(), x = q.left + q.width / 2, y = q.top + q.height / 2;
+    const along = dx ? (x - cx) * dx : (y - cy) * dy, across = dx ? Math.abs(y - cy) : Math.abs(x - cx); if (along <= 4) continue;
+    const sc = along + across * (dx ? 3 : 1.5); if (sc < bs) { bs = sc; best = el; } }
+  if (best) { navMark(best); beep(700, .035, 'square', .035); } }
+function navPress() { if (!NAV.el || !NAV.el.isConnected) return navRefind(); NAV.el.click(); beep(990, .05, 'square', .05); setTimeout(navRefind, 0); }
+function navBack() { const b = {mPlayers: 'bBack1', mTrack: 'bBack2', pause: 'pResume'}[navLayer()];
+  if (b) $(b).click(); else if (navLayer() === 'mTitle' && !$('howBox').classList.contains('hidden')) $('bHow').click(); }
+function navStart() { if (RACE && !RACE.done) return pauseRace(); const b = {mTitle: 'bPlay', mPlayers: 'bP2', mTrack: 'bGo', results: 'rAgain', pause: 'pResume'}[navLayer()]; if (b) $(b).click(); }
+function navPoll() {
+  const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : []; if (!pads.length) return;
+  const L = navLayer(); if (L !== NAV.layer) { NAV.layer = L; NAV.el = null; NAV.key = ''; navRefind(); }
+  const now = performance.now();
+  for (const gp of pads) { const b = i => !!(gp.buttons[i] && gp.buttons[i].pressed), ax = gp.axes || [];
+    const st = {up: b(12) || ax[1] < -.55, down: b(13) || ax[1] > .55, left: b(14) || ax[0] < -.55, right: b(15) || ax[0] > .55, a: b(0), b: b(1), start: b(9)};
+    const pv = NAV.prev[gp.index] || {}; NAV.prev[gp.index] = st; const edge = k => st[k] && !pv[k];
+    if (edge('start')) { navStart(); continue; }
+    if (!L) continue;   // in gara i tasti guidano il kart
+    for (const [k, dx, dy] of [['up', 0, -1], ['down', 0, 1], ['left', -1, 0], ['right', 1, 0]]) { const id = gp.index + k;
+      if (edge(k)) { navMove(dx, dy); NAV.next[id] = now + 380; } else if (st[k] && now > (NAV.next[id] || 0)) { navMove(dx, dy); NAV.next[id] = now + 130; } }
+    if (edge('a')) navPress(); else if (edge('b')) navBack(); }
+}
+setInterval(navPoll, 33);
+addEventListener('gamepadconnected', () => { if (!$('mPlayers').classList.contains('hidden')) renderPlayers(); });
+addEventListener('gamepaddisconnected', () => { if (!$('mPlayers').classList.contains('hidden')) renderPlayers(); });
+
+// ---------- sul televisore (Batocera) ----------
+if (TV) {
+  document.body.classList.add('tv');
+  const a = document.querySelector('#mTitle a.back'); if (a) { a.outerHTML = '<button type="button" class="back" id="bEsci">✕ Esci dal gioco</button>'; $('bEsci').onclick = () => { $('bEsci').textContent = 'Ciao!'; fetch('/esci').catch(() => {}); }; }
+  const g = document.querySelector('#howBox p'); if (g) g.textContent = 'Col controller: A o grilletto destro accelera, B o grilletto sinistro frena, levetta o croce sterza, X, Y o i dorsali lanciano il bonus, Start mette in pausa. Ogni giocatore ha il suo controller, nell\'ordine in cui li avete accesi. Per uscire: «Esci dal gioco» qui sopra, oppure Hotkey + Start.';
+  const log = (m) => fetch('/log', {method: 'POST', body: String(m).slice(0, 2000)}).catch(() => {});
+  addEventListener('error', e => log('ERRORE ' + e.message + ' @' + (e.filename || '').split('/').pop() + ':' + e.lineno));
+  addEventListener('unhandledrejection', e => log('ERRORE promessa ' + (e.reason && (e.reason.stack || e.reason))));
+  addEventListener('gamepadconnected', e => log('controller ' + e.gamepad.index + ': ' + e.gamepad.id + ' · mapping=' + e.gamepad.mapping + ' · ' + e.gamepad.buttons.length + ' tasti'));
+  try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); log(`avvio · schermo ${innerWidth}×${innerHeight} @${devicePixelRatio} · ${x ? gl.getParameter(x.UNMASKED_RENDERER_WEBGL) : 'webgl'} · ${navigator.userAgent}`); } catch (e) { log('avvio · ' + e); }
+}
 requestAnimationFrame(loop);
 $('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74], ['giovanni', 96], ['biancadn', 76]].map(([k, h]) => face(k, h)).join('');
 show('mTitle');
