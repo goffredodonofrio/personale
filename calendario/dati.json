@@ -1410,7 +1410,17 @@
        "title": "Festa di Fran",
        "kind": "",
        "icon": "famiglia",
-       "slot": "s"
+       "slot": "s",
+       "who": {
+        "by": [
+         "gof",
+         "caro"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
       }
      ],
      "r": {}
