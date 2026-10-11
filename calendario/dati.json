@@ -1427,7 +1427,26 @@
     },
     "2026-10-18": {
      "note": "Hyemin e Davide",
-     "extra": [],
+     "extra": [
+      {
+       "id": "x-25nq9ae",
+       "slot": "p",
+       "title": "Hyemin + Davide",
+       "time": "18:30",
+       "who": {
+        "by": [
+         "gof",
+         "caro"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       },
+       "kind": "fam",
+       "icon": "altro"
+      }
+     ],
      "r": {}
     }
    }
