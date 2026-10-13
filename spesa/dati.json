@@ -557,9 +557,9 @@
    "name": "Shampoo",
    "cat": "igiene",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1791873051969
   },
   "dentifricio": {
    "id": "dentifricio",
