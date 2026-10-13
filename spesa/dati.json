@@ -888,11 +888,11 @@
   "bagno-schiuma": {
    "id": "bagno-schiuma",
    "name": "Bagno Schiuma",
-   "cat": "varie",
+   "cat": "igiene",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791873054897
+   "u": 1791873121664
   }
  }
 }
