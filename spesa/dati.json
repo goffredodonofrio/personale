@@ -866,6 +866,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872992254
+  },
+  "yogurt-magro": {
+   "id": "yogurt-magro",
+   "name": "Yogurt Magro",
+   "cat": "frigo",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872995969
   }
  }
 }
