@@ -817,11 +817,11 @@
   "alcool": {
    "id": "alcool",
    "name": "Alcool",
-   "cat": "varie",
+   "cat": "pulizia",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872934053
+   "u": 1791873140994
   },
   "detergente-parquet": {
    "id": "detergente-parquet",
