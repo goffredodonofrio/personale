@@ -736,10 +736,12 @@
    "id": "latte-x2",
    "name": "Latte X2",
    "cat": "frigo",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872811557
+   "u": 1791872819729,
+   "last": "2026-10-13",
+   "got": "2026-10-13T06:26:59.729Z"
   }
  }
 }
