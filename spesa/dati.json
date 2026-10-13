@@ -758,6 +758,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872848754
+  },
+  "zucchero-di-canna": {
+   "id": "zucchero-di-canna",
+   "name": "Zucchero di canna",
+   "cat": "dispensa",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872852920
   }
  }
 }
