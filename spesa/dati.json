@@ -870,12 +870,12 @@
   },
   "yogurt-magro": {
    "id": "yogurt-magro",
-   "name": "Yogurt Greco",
+   "name": "Yogurt Greco x4",
    "cat": "frigo",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791873077832
+   "u": 1791873169604
   },
   "dentrificio": {
    "id": "dentrificio",
