@@ -749,6 +749,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872838040
+  },
+  "lievito": {
+   "id": "lievito",
+   "name": "Lievito",
+   "cat": "dispensa",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872848754
   }
  }
 }
