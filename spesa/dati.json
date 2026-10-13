@@ -744,12 +744,12 @@
   },
   "uova-x24": {
    "id": "uova-x24",
-   "name": "Uova X24",
+   "name": "Uova (X24)",
    "cat": "frigo",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872838040
+   "u": 1791873185019
   },
   "lievito": {
    "id": "lievito",
