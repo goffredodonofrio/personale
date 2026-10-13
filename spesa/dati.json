@@ -834,11 +834,11 @@
   "aceto-bianco-per-pulizia": {
    "id": "aceto-bianco-per-pulizia",
    "name": "Aceto bianco per pulizia",
-   "cat": "dispensa",
+   "cat": "pulizia",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872949388
+   "u": 1791873105162
   },
   "orata-pulita-4x": {
    "id": "orata-pulita-4x",
