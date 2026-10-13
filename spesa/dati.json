@@ -884,6 +884,15 @@
    "buy": true,
    "every": 0,
    "u": 1791873050117
+  },
+  "bagno-schiuma": {
+   "id": "bagno-schiuma",
+   "name": "Bagno Schiuma",
+   "cat": "varie",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791873054897
   }
  }
 }
