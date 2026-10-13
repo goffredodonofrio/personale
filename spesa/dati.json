@@ -803,6 +803,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872885322
+  },
+  "sapone-piatti": {
+   "id": "sapone-piatti",
+   "name": "Sapone piatti",
+   "cat": "pulizia",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872926684
   }
  }
 }
