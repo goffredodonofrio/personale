@@ -740,6 +740,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872822930
+  },
+  "uova-x24": {
+   "id": "uova-x24",
+   "name": "Uova X24",
+   "cat": "frigo",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872838040
   }
  }
 }
