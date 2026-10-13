@@ -875,6 +875,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872995969
+  },
+  "dentrificio": {
+   "id": "dentrificio",
+   "name": "Dentrificio",
+   "cat": "varie",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791873050117
   }
  }
 }
