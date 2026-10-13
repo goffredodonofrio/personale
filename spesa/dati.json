@@ -771,11 +771,11 @@
   "carta-da-forno": {
    "id": "carta-da-forno",
    "name": "Carta da forno",
-   "cat": "pane",
+   "cat": "carta",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872866183
+   "u": 1791873044213
   },
   "carta-alluminio": {
    "id": "carta-alluminio",
