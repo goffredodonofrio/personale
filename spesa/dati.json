@@ -894,6 +894,15 @@
    "buy": true,
    "every": 0,
    "u": 1791873121664
+  },
+  "liquido-lavastovoglie": {
+   "id": "liquido-lavastovoglie",
+   "name": "Liquido Lavastovoglie",
+   "cat": "pulizia",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791873228344
   }
  }
 }
