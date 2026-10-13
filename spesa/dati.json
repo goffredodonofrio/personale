@@ -821,6 +821,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872934053
+  },
+  "detergente-parquet": {
+   "id": "detergente-parquet",
+   "name": "Detergente parquet",
+   "cat": "pulizia",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872940586
   }
  }
 }
