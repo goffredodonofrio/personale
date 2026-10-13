@@ -767,6 +767,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872852920
+  },
+  "carta-da-forno": {
+   "id": "carta-da-forno",
+   "name": "Carta da forno",
+   "cat": "pane",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872866183
   }
  }
 }
