@@ -861,11 +861,11 @@
   "succhi-di-frutta-zero-zuccheri": {
    "id": "succhi-di-frutta-zero-zuccheri",
    "name": "Succhi di frutta zero zuccheri",
-   "cat": "frutta",
+   "cat": "colazione",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872992254
+   "u": 1791873068599
   },
   "yogurt-magro": {
    "id": "yogurt-magro",
