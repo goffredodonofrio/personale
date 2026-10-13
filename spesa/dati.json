@@ -848,6 +848,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872974018
+  },
+  "nasello-congelato": {
+   "id": "nasello-congelato",
+   "name": "Nasello congelato",
+   "cat": "surgelati",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872978318
   }
  }
 }
