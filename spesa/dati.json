@@ -729,6 +729,15 @@
    "buy": false,
    "every": 0,
    "u": 0
+  },
+  "latte-x2": {
+   "id": "latte-x2",
+   "name": "Latte X2",
+   "cat": "frigo",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872811557
   }
  }
 }
