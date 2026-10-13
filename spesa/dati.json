@@ -305,9 +305,9 @@
    "name": "Farina",
    "cat": "dispensa",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1791872999933
   },
   "legumi-in-scatola": {
    "id": "legumi-in-scatola",
