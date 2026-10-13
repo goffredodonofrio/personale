@@ -843,11 +843,11 @@
   "orata-pulita-4x": {
    "id": "orata-pulita-4x",
    "name": "Orata pulita (4x)",
-   "cat": "pulizia",
+   "cat": "carne",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872974018
+   "u": 1791873025144
   },
   "nasello-congelato": {
    "id": "nasello-congelato",
