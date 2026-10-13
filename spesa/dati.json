@@ -869,12 +869,12 @@
   },
   "yogurt-magro": {
    "id": "yogurt-magro",
-   "name": "Yogurt Magro",
+   "name": "Yogurt Greco",
    "cat": "frigo",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872995969
+   "u": 1791873077832
   },
   "dentrificio": {
    "id": "dentrificio",
