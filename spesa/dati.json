@@ -602,9 +602,9 @@
    "name": "Carta igienica",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1791872862587
   },
   "scottex": {
    "id": "scottex",
