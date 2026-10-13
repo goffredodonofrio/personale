@@ -785,6 +785,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872871470
+  },
+  "carta-velina": {
+   "id": "carta-velina",
+   "name": "Carta velina",
+   "cat": "carta",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872873498
   }
  }
 }
