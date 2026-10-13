@@ -830,6 +830,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872940586
+  },
+  "aceto-bianco-per-pulizia": {
+   "id": "aceto-bianco-per-pulizia",
+   "name": "Aceto bianco per pulizia",
+   "cat": "dispensa",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872949388
   }
  }
 }
