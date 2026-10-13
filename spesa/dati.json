@@ -880,11 +880,11 @@
   "dentrificio": {
    "id": "dentrificio",
    "name": "Dentrificio",
-   "cat": "varie",
+   "cat": "pulizia",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791873050117
+   "u": 1791873152427
   },
   "bagno-schiuma": {
    "id": "bagno-schiuma",
