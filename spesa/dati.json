@@ -912,6 +912,15 @@
    "buy": true,
    "every": 0,
    "u": 1791873266185
+  },
+  "pelato-pomodoro": {
+   "id": "pelato-pomodoro",
+   "name": "Pelato pomodoro",
+   "cat": "frutta",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791873272961
   }
  }
 }
