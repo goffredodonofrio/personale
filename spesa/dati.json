@@ -24,9 +24,11 @@
    "name": "Arance",
    "cat": "frutta",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1791138043371
+   "u": 1791872816504,
+   "last": "2026-10-13",
+   "got": "2026-10-13T06:26:56.504Z"
   },
   "limoni": {
    "id": "limoni",
