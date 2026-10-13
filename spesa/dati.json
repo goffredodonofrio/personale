@@ -794,6 +794,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872873498
+  },
+  "formaggio": {
+   "id": "formaggio",
+   "name": "Formaggio",
+   "cat": "frigo",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872885322
   }
  }
 }
