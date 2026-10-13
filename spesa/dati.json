@@ -903,6 +903,15 @@
    "buy": true,
    "every": 0,
    "u": 1791873228344
+  },
+  "pesto": {
+   "id": "pesto",
+   "name": "Pesto",
+   "cat": "dispensa",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791873266185
   }
  }
 }
