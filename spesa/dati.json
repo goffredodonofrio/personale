@@ -839,6 +839,15 @@
    "buy": true,
    "every": 0,
    "u": 1791872949388
+  },
+  "orata-pulita-4x": {
+   "id": "orata-pulita-4x",
+   "name": "Orata pulita (4x)",
+   "cat": "pulizia",
+   "state": "out",
+   "buy": true,
+   "every": 0,
+   "u": 1791872974018
   }
  }
 }
