@@ -458,9 +458,9 @@
    "name": "Sgrassatore",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1791872944595
   },
   "anticalcare": {
    "id": "anticalcare",
