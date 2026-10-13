@@ -735,12 +735,12 @@
   },
   "latte-x2": {
    "id": "latte-x2",
-   "name": "Latte X2",
+   "name": "Latte (X2)",
    "cat": "frigo",
    "state": "out",
    "buy": true,
    "every": 0,
-   "u": 1791872822930
+   "u": 1791873177520
   },
   "uova-x24": {
    "id": "uova-x24",
