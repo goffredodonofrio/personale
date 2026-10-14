@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>8xmille · Io, ci credo.</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F0F0F0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="8xmille">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icona-180.png">
+<link rel="icon" type="image/png" href="icona-192.png">
+<style>
+body { box-sizing: border-box; padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px); }
+@media (display-mode: standalone) { body { background: #F0F0F0 !important; } }
+</style>
+</head>
+<body>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Mrs+Saint+Delafield&amp;display=swap">
+<style>
+/* Una sola schermata: il telefono al centro, scalato per entrare nello schermo; su telefono l'app occupa tutto. */
+:root {
+  --ground: #1E1D1C;
+  --bezel: #0D0D0D;
+  --ink: #F2F0EE;
+  --muted: #9A9590;
+  --brand: #FF6501;
+  --app: #F0F0F0;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--sans); }
+#stage { position: relative; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+#phone { flex: none; width: 390px; height: 844px; overflow: hidden; background: var(--app); transform-origin: center center; }
+.wide #phone { border-radius: 40px; box-shadow: 0 0 0 10px var(--bezel), 0 40px 90px rgba(0, 0, 0, .55); }
+.side { display: none; position: absolute; left: 32px; max-width: 250px; }
+.wide .side { display: block; }
+.side--top { top: 26px; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.side--bottom { bottom: 28px; display: none; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.wide .side--bottom { display: flex; flex-direction: column; gap: 10px; }
+.side--bottom strong { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.05; color: var(--ink); }
+#phone button:focus-visible, #phone a:focus-visible, #phone label:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { #phone * { transition-duration: 0s !important; } }
+</style>
+
+<div id="stage">
+  <div class="side side--top">App</div>
+  <div class="side side--bottom"><strong>Io, ci credo.</strong><span>L’app 8xmille della Chiesa Cattolica. Tocca e scorri come su un telefono.</span></div>
+  <div id="phone"></div>
+</div>
+
+<template id="tpl-Main">
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #F0F0F0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #161616; -webkit-font-smoothing: antialiased">
+
+<!-- HEADER -->
+<sc-if value="{{is.header}}" hint-placeholder-val="{{true}}">
+<header style="position: absolute; left: 0; right: 0; top: 0; height: 100px; z-index: 5; background: #F0F0F0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 26px; box-sizing: border-box">
+<button onClick="{{h.home}}" aria-label="Home" style="display: block; width: 58px; height: 58px; padding: 0; border: 0; background: none; cursor: pointer"><img src="{{A.logo}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 58px; height: 58px"></button>
+<button onClick="{{h.openMenu}}" aria-label="Apri il menu" style="width: 50px; height: 50px; padding: 0 4px 0 0; border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 10px">
+<span style="display: block; width: 34px; height: 1.6px; background: #FF6501"></span>
+<span style="display: block; width: 34px; height: 1.6px; background: #FF6501"></span>
+<span style="display: block; width: 34px; height: 1.6px; background: #FF6501"></span>
+</button>
+</header>
+</sc-if>
+
+<!-- SPLASH -->
+<sc-if value="{{is.splash}}" hint-placeholder-val="{{false}}">
+<button onClick="{{h.skipSplash}}" aria-label="Entra nell’app" style="position: absolute; left: 0; top: 0; z-index: 20; display: block; width: 390px; height: 844px; padding: 0; border: 0; background: #FF6501; cursor: pointer">
+<img src="{{A.splash}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 390px; height: 844px; object-fit: cover">
+</button>
+</sc-if>
+
+<!-- HOME -->
+<sc-if value="{{is.home}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: #F0F0F0; opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{homePad}}px; box-sizing: border-box">
+<img src="{{A.hero}}" alt="Io, ci credo. Destina il tuo 8xmille alla Chiesa Cattolica. Sosteniamo le persone nei momenti più difficili. Aiutaci a fare sempre di più." style="display: block; width: 390px; height: 493px; object-fit: cover">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 34px 26px 16px">
+<div>
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #FF6501">News</div>
+<h2 style="margin: 2px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 29px; line-height: 1.05; color: #2E2E2E">Un gesto concreto.</h2>
+</div>
+<button onClick="{{h.goNews}}" style="flex: none; height: 36px; padding: 0; border: 0; background: none; cursor: pointer; font-size: 11.5px; letter-spacing: .8px; text-transform: uppercase; color: #C24E00">Vedi tutte</button>
+</div>
+<div style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 0 26px 4px; scroll-snap-type: x mandatory; scroll-padding: 26px">
+<sc-for list="{{gesti}}" as="g" hint-placeholder-count="6">
+<button onClick="{{g.open}}" style="flex: none; width: 148px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; scroll-snap-align: start">
+<img src="{{g.img}}" alt="{{g.alt}}" style="display: block; width: 148px; height: 185px; object-fit: cover">
+<span style="display: block; margin-top: 8px; font-family: 'Source Serif 4', Georgia, serif; font-size: 14.5px; line-height: 1.25; color: #222222">{{g.title}}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="margin: 36px 26px 0; border-top: 1px solid #A6A6A6">
+<button onClick="{{h.goOggi}}" style="width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 0; border: 0; border-bottom: 1px solid #A6A6A6; background: none; text-align: left; cursor: pointer">
+<span style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: #FF6501; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">12</span>
+<span style="flex: 1; min-width: 0">
+<span style="display: block; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #161616">Oggi, lunedì 12 ottobre</span>
+<span style="display: block; margin-top: 2px; font-size: 12.5px; color: #555555">XXVIII settimana del Tempo Ordinario</span>
+</span>
+<svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6" stroke="#8A8A8A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<div style="display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid #A6A6A6">
+<button onClick="{{h.playMariano}}" aria-label="{{home.playLabel}}" style="flex: none; width: 40px; height: 40px; border-radius: 50%; border: 0; padding: 0; background: {{home.playBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s">
+<sc-if value="{{home.isPlay}}" hint-placeholder-val="{{true}}"><svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M2 1.2v10.6L11 6.5z" fill="#FFFFFF"></path></svg></sc-if>
+<sc-if value="{{home.isPause}}" hint-placeholder-val="{{false}}"><svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M2.5 1.5v10M9.5 1.5v10" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg></sc-if>
+</button>
+<button onClick="{{h.openMariano}}" style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer">
+<span style="flex: 1; min-width: 0">
+<span style="display: block; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #161616">Rosario Mariano</span>
+<span style="display: block; margin-top: 2px; font-size: 12.5px; color: #555555">Il lunedì: misteri Gaudiosi</span>
+</span>
+<svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6" stroke="#8A8A8A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+</div>
+</div>
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 38px 26px 16px">
+<div>
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #FF6501">Community</div>
+<h2 style="margin: 2px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 29px; line-height: 1.05; color: #2E2E2E">Le vostre preghiere</h2>
+</div>
+<button onClick="{{h.goPreghiere}}" style="flex: none; height: 36px; padding: 0; border: 0; background: none; cursor: pointer; font-size: 11.5px; letter-spacing: .8px; text-transform: uppercase; color: #C24E00">Vedi tutte</button>
+</div>
+<div style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 0 26px 4px; scroll-snap-type: x mandatory; scroll-padding: 26px">
+<button onClick="{{h.goComponi}}" style="flex: none; width: 148px; height: 185px; padding: 18px 16px; box-sizing: border-box; border: 0; background: #FF6501; color: #FFFFFF; text-align: left; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; scroll-snap-align: start">
+<span style="width: 38px; height: 38px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 15l1-4 8.5-8.5a2.1 2.1 0 0 1 3 3L7 14l-4 1z" stroke="#FF6501" stroke-width="1.6" stroke-linejoin="round"></path></svg></span>
+<span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; line-height: 1.1">Lascia la tua preghiera</span>
+</button>
+<sc-for list="{{homePrayers}}" as="p" hint-placeholder-count="4">
+<button onClick="{{p.share}}" style="flex: none; width: 148px; padding: 0; border: 0; background: none; cursor: pointer; scroll-snap-align: start">
+<img src="{{p.img}}" alt="{{p.alt}}" style="display: block; width: 148px; height: 185px; object-fit: cover">
+</button>
+</sc-for>
+</div>
+
+<div style="margin-top: 40px; background: #1F1F1F; padding: 30px 26px; display: flex; gap: 18px; align-items: center">
+<img src="{{A.etu}}" alt="8xmille: un gesto concreto. Io, ci credo. E tu?" style="flex: none; display: block; width: 128px; height: 160px; object-fit: cover">
+<div style="flex: 1; min-width: 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 28px; line-height: 1.05; color: #FFFFFF">Io, ci credo.<br>E tu?</div>
+<div style="margin-top: 8px; font-size: 13px; line-height: 1.4; color: #D0D0D0">Condividi la tua scelta con chi ami.</div>
+<button onClick="{{h.goCondividi}}" style="margin-top: 14px; height: 42px; padding: 0 18px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 12.5px; letter-spacing: .6px; text-transform: uppercase; cursor: pointer">Condividi</button>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 24px 26px 8px; font-size: 12px; color: #5A5A5A">
+<img src="{{A.logo}}" alt="" style="display: block; width: 30px; height: 30px">
+<span>8xmille.it · Chiesa Cattolica</span>
+</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; background: #FFFFFF; padding: 9px 14px 15px">
+<button onClick="{{h.cta}}" style="display: block; width: 100%; height: 62px; border: 0; background: #FF6501; color: #FFFFFF; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16.5px; letter-spacing: .2px; text-transform: uppercase; cursor: pointer">{{home.cta}}</button>
+</div>
+</div>
+</sc-if>
+
+<!-- COME FIRMARE: 4 PASSI -->
+<sc-if value="{{is.passi}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.02; letter-spacing: -.2px; color: #3A3A3A">Come firmare<br><span style="color: #FF6501">l’8xmille in 4 passi</span></h1>
+</div>
+<div style="margin: 18px 26px 0; display: flex; align-items: center; gap: 12px">
+<div style="flex: 1; height: 3px; background: #D6D6D6; overflow: hidden"><div style="height: 3px; width: {{passi.pct}}%; background: #FF6501; transition: width .45s cubic-bezier(.2,.8,.2,1)"></div></div>
+<div style="font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">{{passi.count}} di 4</div>
+</div>
+<div style="margin: 14px 26px 0; border-top: 1px solid #9C9C9C">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="4">
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 16px 0 18px; border-bottom: 1px solid #9C9C9C">
+<div style="flex: none; width: 42px; height: 37px; background: #FF6501; color: #FFFFFF; font-size: 29px; font-weight: 300; line-height: 37px; text-align: center; letter-spacing: -.5px">{{st.n}}</div>
+<div style="flex: 1; min-width: 0; padding-top: 1px">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; line-height: 1.2; color: #161616">{{st.t}}</div>
+<sc-if value="{{st.links}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 5px; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; line-height: 1.45; color: #2A2A2A">Completa il tuo <button onClick="{{h.m730}}" style="padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: #E25800; text-decoration: underline; text-underline-offset: 2px">Modello 730</button>, <button onClick="{{h.mRedditi}}" style="padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: #E25800; text-decoration: underline; text-underline-offset: 2px">Modello Redditi</button> o <button onClick="{{h.mCU}}" style="padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; font-weight: 600; color: #E25800; text-decoration: underline; text-underline-offset: 2px">Modello CU</button>.</div>
+</sc-if>
+<sc-if value="{{st.plain}}" hint-placeholder-val="{{true}}">
+<div style="margin-top: 5px; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; line-height: 1.45; color: #2A2A2A; white-space: pre-line">{{st.d}}</div>
+</sc-if>
+</div>
+<button onClick="{{st.toggle}}" aria-label="{{st.label}}" aria-pressed="{{st.pressed}}" style="flex: none; width: 34px; height: 34px; margin-top: 2px; border-radius: 50%; border: 0; padding: 0; background: {{st.bg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease">
+<svg width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true"><path d="M1.5 6.5l4 4 8-9" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+</div>
+</sc-for>
+</div>
+<div style="padding: 22px 26px 0">
+<button onClick="{{h.firmato}}" style="display: block; width: 100%; height: 58px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 15px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">{{passi.btn}}</button>
+<div style="margin-top: 10px; font-size: 12.5px; line-height: 1.45; color: #555555; text-align: center">{{passi.hint}}</div>
+</div>
+<div style="padding: 40px 26px 0">
+<h2 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 25px; color: #2E2E2E">Quale modello usi?</h2>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #161616">Ci sono diversi modi per presentare la dichiarazione dei redditi e alcune persone non sono obbligate a presentarla. Ma lo Stato garantisce a tutti di poter indicare a chi far gestire le risorse dell’8xmille. Nel nostro caso, alla Chiesa cattolica.</p>
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: 18px">
+<button onClick="{{h.m730}}" style="height: 50px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; cursor: pointer">Modello 730</button>
+<button onClick="{{h.mRedditi}}" style="height: 50px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; cursor: pointer">Modello Redditi</button>
+<button onClick="{{h.mCU}}" style="height: 50px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; cursor: pointer">Modello CU</button>
+</div>
+<div style="margin-top: 24px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #C24E00">Chi può firmare</div>
+<p style="margin: 6px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">Possono sostenere la Chiesa con l’8xmille tutte le persone che hanno un reddito e presentano la dichiarazione, ma anche chi riceve solo la Certificazione Unica e non è obbligato a presentarla.</p>
+</div>
+<div style="position: relative; margin-top: 36px; width: 390px; height: 473px; overflow: hidden">
+<img src="{{A.aiuto}}" alt="Hai bisogno di aiuto? Per maggiori informazioni" style="display: block; width: 390px; height: 473px; object-fit: cover; object-position: top">
+<button onClick="{{h.numeroVerde}}" style="position: absolute; left: 25px; top: 177px; width: 340px; height: 82px; border-radius: 41px; border: 0; background: #ECECEC; color: #111111; font-size: 15.5px; font-weight: 700; letter-spacing: .2px; text-transform: uppercase; cursor: pointer">Chiama il numero verde</button>
+<a href="https://www.8xmille.it" target="_blank" rel="noopener" style="position: absolute; left: 25px; top: 262.5px; width: 340px; height: 82px; border-radius: 41px; background: #ECECEC; color: #111111; font-size: 15.5px; font-weight: 700; letter-spacing: .2px; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; justify-content: center">Visita il sito</a>
+<button onClick="{{h.mail}}" style="position: absolute; left: 25px; top: 348px; width: 340px; height: 82px; border-radius: 41px; border: 0; background: #ECECEC; color: #111111; font-size: 15.5px; font-weight: 700; letter-spacing: .2px; text-transform: uppercase; cursor: pointer">Scrivici via mail</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- MODELLO 730 / REDDITI / CU -->
+<sc-if value="{{is.modello}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 20px 26px 0">
+<button onClick="{{h.back}}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #FF6501"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M7.5 1.5l-6 6 6 6" stroke="#FF6501" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>Indietro</button>
+<h1 style="margin: 8px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 29px; line-height: 1.03; color: #3A3A3A">Come firmare<br><span style="color: #FF6501">l’8xmille in 4 passi</span></h1>
+<div style="display: flex; gap: 22px; margin-top: 20px; border-bottom: 1px solid #A6A6A6">
+<sc-for list="{{mtabs}}" as="t" hint-placeholder-count="3">
+<button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="margin-bottom: -1px; padding: 0 0 9px; border: 0; border-bottom: 2px solid {{t.line}}; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; color: {{t.color}}">{{t.label}}</button>
+</sc-for>
+</div>
+<h2 style="margin: 22px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 29px; color: #222222">{{mod.title}}</h2>
+<sc-for list="{{mod.blocks}}" as="b" hint-placeholder-count="6">
+<sc-if value="{{b.isP}}" hint-placeholder-val="{{true}}"><p style="margin: 14px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.45; color: #222222">{{b.text}}</p></sc-if>
+<sc-if value="{{b.isK}}" hint-placeholder-val="{{false}}"><div style="margin-top: 24px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #C24E00">{{b.text}}</div></sc-if>
+<sc-if value="{{b.isAE}}" hint-placeholder-val="{{false}}"><p style="margin: 14px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.45; color: #222222">{{b.text}} <a href="https://www.agenziaentrate.gov.it" target="_blank" rel="noopener" style="font-weight: 600; color: #E25800; text-decoration: underline; text-underline-offset: 2px">sito dell’Agenzia delle Entrate</a>.</p></sc-if>
+<sc-if value="{{b.isLinks}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
+<sc-for list="{{b.links}}" as="l" hint-placeholder-count="3">
+<button onClick="{{l.go}}" style="min-height: 28px; padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; font-weight: 600; color: #E25800; text-decoration: underline; text-underline-offset: 2px">{{l.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+</sc-for>
+<button onClick="{{h.firmato}}" style="display: block; width: 100%; height: 58px; margin-top: 30px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 15px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">{{passi.btn}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- CALENDARIO LITURGICO -->
+<sc-if value="{{is.calendario}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 22px 0 22px">
+<div style="padding: 0 4px; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Calendario Liturgico</div>
+<h1 style="margin: 0; padding: 0 4px; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">Ottobre</h1>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-top: 20px; font-size: 12px; color: #6A6A6A; text-align: center">
+<span>L</span><span>M</span><span>M</span><span>G</span><span>V</span><span>S</span><span>D</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 4px; margin-top: 8px">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="35">
+<div style="display: flex; align-items: center; justify-content: center; height: 42px">
+<button onClick="{{c.pick}}" disabled="{{c.disabled}}" aria-label="{{c.aria}}" aria-pressed="{{c.sel}}" style="position: relative; width: 42px; height: 42px; padding: 0; border: 0; background: none; cursor: {{c.cursor}}; display: flex; align-items: center; justify-content: center">
+<span aria-hidden="true" style="position: absolute; left: 4px; top: 4px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,101,1,.28); transform: scale({{c.halo}}); transition: transform .25s cubic-bezier(.2,.8,.2,1)"></span>
+<span style="position: relative; width: 22px; height: 22px; border-radius: 50%; background: {{c.bg}}; box-shadow: {{c.ring}}; color: #FFFFFF; font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: background .2s ease">{{c.label}}</span>
+</button>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="margin: 18px 26px 0; border-top: 1px solid #A6A6A6; padding-top: 14px">
+<div style="font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: #6A6A6A">{{day.dateLabel}} · {{day.kind}}</div>
+<div style="margin-top: 6px; font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; line-height: 1.25; color: #161616">{{day.title}}</div>
+<sc-if value="{{day.hasSub}}" hint-placeholder-val="{{false}}"><div style="margin-top: 4px; font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 16px; color: #3A3A3A">{{day.sub}}</div></sc-if>
+<sc-if value="{{day.hasImg}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 14px; border-top: 1px solid #A6A6A6"></div>
+<img src="{{A.faustina}}" alt="Santa Faustina Kowalska con l’immagine di Gesù misericordioso" style="display: block; width: 338px; height: 338px; margin-top: 14px; object-fit: cover">
+<p style="margin: 16px 0 0; font-size: 15px; line-height: 1.42; color: #161616">{{day.bio}}</p>
+</sc-if>
+<sc-if value="{{day.hasLink}}" hint-placeholder-val="{{false}}">
+<button onClick="{{day.go}}" style="display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left">
+<span style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: #FF6501; display: flex; align-items: center; justify-content: center"><svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M2 1.2v10.6L11 6.5z" fill="#FFFFFF"></path></svg></span>
+<span style="font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #161616">{{day.linkLabel}}</span>
+</button>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ROSARIO -->
+<sc-if value="{{is.rosario}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F4F4F4 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Rosario</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">{{ros.title}}</h1>
+<div style="display: flex; gap: 22px; margin-top: 16px; border-bottom: 1px solid #A6A6A6">
+<sc-for list="{{rTabs}}" as="t" hint-placeholder-count="3">
+<button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="margin-bottom: -1px; padding: 0 0 9px; border: 0; border-bottom: 2px solid {{t.line}}; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; color: {{t.color}}">{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ros.tutti}}" hint-placeholder-val="{{true}}">
+<div style="padding: 20px 26px 0">
+<button onClick="{{h.upload}}" style="width: 100%; height: 52px; border-radius: 26px; border: 0; background: #DF6518; color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 24px; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px">Carica il tuo audio<span style="width: 36px; height: 36px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true"><path d="M6 13V1.5M1.5 6L6 1.5 10.5 6" stroke="#DF6518" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span></button>
+</div>
+<div style="margin: 18px 26px 0; border-top: 1px solid #A6A6A6">
+<sc-for list="{{rAll}}" as="r" hint-placeholder-count="8">
+<div style="display: flex; align-items: center; gap: 6px; height: 47px; border-bottom: 1px solid #A6A6A6">
+<button onClick="{{r.open}}" style="flex: 1; min-width: 0; height: 46px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; color: {{r.color}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</button>
+<button onClick="{{r.fav}}" aria-label="{{r.favLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.favBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s">
+<sc-if value="{{r.isFav}}" hint-placeholder-val="{{false}}"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg></sc-if>
+<sc-if value="{{r.notFav}}" hint-placeholder-val="{{true}}"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg></sc-if>
+</button>
+<button onClick="{{r.play}}" aria-label="{{r.playLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.playBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s">
+<sc-if value="{{r.notPlaying}}" hint-placeholder-val="{{true}}"><svg width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M2 1v10l8.5-5z" fill="#FFFFFF"></path></svg></sc-if>
+<sc-if value="{{r.isPlaying}}" hint-placeholder-val="{{false}}"><svg width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M2.5 1.5v9M8.5 1.5v9" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg></sc-if>
+</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ros.pref}}" hint-placeholder-val="{{false}}">
+<div style="margin: 20px 26px 0; border-top: 1px solid #A6A6A6">
+<sc-if value="{{ros.noFav}}" hint-placeholder-val="{{false}}"><div style="padding: 18px 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; color: #555555; border-bottom: 1px solid #A6A6A6">Tocca + accanto a un rosario per averlo sempre qui.</div></sc-if>
+<sc-for list="{{rFav}}" as="r" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 6px; height: 47px; border-bottom: 1px solid #A6A6A6">
+<button onClick="{{r.open}}" style="flex: 1; min-width: 0; height: 46px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; color: {{r.color}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</button>
+<button onClick="{{r.fav}}" aria-label="{{r.favLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.favBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
+<button onClick="{{r.play}}" aria-label="{{r.playLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.playBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<sc-if value="{{r.notPlaying}}" hint-placeholder-val="{{true}}"><svg width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M2 1v10l8.5-5z" fill="#FFFFFF"></path></svg></sc-if>
+<sc-if value="{{r.isPlaying}}" hint-placeholder-val="{{false}}"><svg width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M2.5 1.5v9M8.5 1.5v9" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg></sc-if>
+</button>
+</div>
+</sc-for>
+</div>
+<div style="margin: 34px 26px 8px; font-size: 12.5px; color: #555555">Potrebbero interessarti anche…</div>
+<div style="margin: 0 26px; border-top: 1px solid #C4C4C4">
+<sc-for list="{{rOther}}" as="r" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 6px; height: 47px; border-bottom: 1px solid #C4C4C4">
+<button onClick="{{r.open}}" style="flex: 1; min-width: 0; height: 46px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; color: {{r.color}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</button>
+<button onClick="{{r.fav}}" aria-label="{{r.favLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.favBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"></path></svg></button>
+<button onClick="{{r.play}}" aria-label="{{r.playLabel}}" style="flex: none; width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; background: {{r.playBg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M2 1v10l8.5-5z" fill="#FFFFFF"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ros.racc}}" hint-placeholder-val="{{false}}">
+<div style="margin: 14px 26px 0">
+<sc-for list="{{racc}}" as="r" hint-placeholder-count="5">
+<button onClick="{{r.open}}" style="width: 100%; display: flex; align-items: center; gap: 18px; padding: 12px 0; border: 0; border-bottom: 1px solid {{r.line}}; background: none; text-align: left; cursor: pointer">
+<sc-if value="{{r.hasImg}}" hint-placeholder-val="{{true}}"><img src="{{r.img}}" alt="" style="flex: none; display: block; width: 64px; height: 64px; border-radius: 9px; object-fit: cover"></sc-if>
+<sc-if value="{{r.noImg}}" hint-placeholder-val="{{false}}"><span style="flex: none; width: 64px; height: 64px; border-radius: 9px; background: #FF6501; display: flex; align-items: center; justify-content: center"><img src="{{A.rosario}}" alt="" style="width: 54px; height: 54px; object-fit: contain"></span></sc-if>
+<span style="flex: 1; min-width: 0">
+<span style="display: block; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; color: {{r.color}}">{{r.t}}</span>
+<span style="display: block; margin-top: 3px; font-size: 10.5px; letter-spacing: .3px; text-transform: uppercase; color: {{r.sub}}">{{r.d}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="padding: 20px 26px 0">
+<button onClick="{{h.nuovaRaccolta}}" style="width: 100%; height: 50px; border: 1.5px solid #FF6501; background: transparent; color: #D45400; font-size: 13.5px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; cursor: pointer">+ Nuova raccolta</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ROSARIO: DETTAGLIO -->
+<sc-if value="{{is.rosarioDet}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F4F4F4 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 24px 26px 0">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+<div style="min-width: 0">
+<button onClick="{{h.back}}" style="display: flex; align-items: center; gap: 6px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M7.5 1.5l-6 6 6 6" stroke="#FF6501" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>Rosario</button>
+<h1 style="margin: 2px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.02; color: #2E2E2E">{{rd.title}}</h1>
+</div>
+<button onClick="{{h.playCurrent}}" aria-label="{{rd.playLabel}}" style="flex: none; width: 60px; height: 60px; margin-top: 6px; border-radius: 50%; border: 0; padding: 0; background: #FF6501; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 20px rgba(255,101,1,.32)">
+<sc-if value="{{rd.isPlay}}" hint-placeholder-val="{{true}}"><svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true"><path d="M3 1.5v19L19 11z" fill="#FFFFFF"></path></svg></sc-if>
+<sc-if value="{{rd.isPause}}" hint-placeholder-val="{{false}}"><svg width="18" height="20" viewBox="0 0 18 20" aria-hidden="true"><path d="M4 2v16M14 2v16" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round"></path></svg></sc-if>
+</button>
+</div>
+<p style="margin: 14px 0 0; font-size: 13px; line-height: 1.32; color: #161616; white-space: pre-line">{{rd.desc}}</p>
+<button onClick="{{h.favCurrent}}" aria-pressed="{{rd.fav}}" style="display: flex; align-items: center; gap: 8px; height: 36px; margin-top: 16px; padding: 0 14px 0 10px; border-radius: 18px; border: 1.5px solid #FF6501; background: {{rd.favBg}}; color: {{rd.favFg}}; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s">
+<sc-if value="{{rd.fav}}" hint-placeholder-val="{{false}}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+<sc-if value="{{rd.notFav}}" hint-placeholder-val="{{true}}"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg></sc-if>
+<span>{{rd.favLabel}}</span>
+</button>
+<div style="margin-top: 20px; border-top: 1px solid #A6A6A6"></div>
+<sc-for list="{{rd.sec}}" as="x" hint-placeholder-count="6">
+<div style="padding-top: 20px">
+<div style="display: flex; align-items: center; gap: 8px; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: {{x.color}}; transition: color .3s">{{x.t}}<sc-if value="{{x.now}}" hint-placeholder-val="{{false}}"><span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 9.5px; letter-spacing: .8px; text-transform: uppercase; color: #FFFFFF; background: #FF6501; padding: 3px 6px">In ascolto</span></sc-if></div>
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; line-height: 1.32; color: #161616; white-space: pre-line">{{x.b}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- LA MIA FIRMA -->
+<sc-if value="{{is.miafirma}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Il mio 8xmille</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">La mia firma</h1>
+</div>
+<sc-if value="{{mf.signed}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; height: 372px; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; left: 10px; top: 40px; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, rgba(184,188,236,.85) 0%, rgba(184,188,236,0) 68%)"></div>
+<div aria-hidden="true" style="position: absolute; right: 0; top: 140px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(236,140,236,.6) 0%, rgba(236,140,236,0) 66%)"></div>
+<div style="position: absolute; left: 70px; top: 30px; transform: rotate(-3deg); box-shadow: 0 24px 40px rgba(0,0,0,.18)">
+<dc-import name="Tessera" nome="{{v.nome}}" w="250" hint-size="250px,312px"></dc-import>
+</div>
+</div>
+<div style="padding: 0 26px; text-align: center; font-size: 12.5px; color: #4A4A4A">Scelta fatta il 12 ottobre 2026 · Chiesa Cattolica</div>
+<div style="padding: 16px 26px 0">
+<button onClick="{{h.shareTessera}}" style="display: block; width: 100%; height: 52px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Condividi la tua scelta</button>
+</div>
+</sc-if>
+<sc-if value="{{mf.unsigned}}" hint-placeholder-val="{{false}}">
+<div style="margin: 20px 26px 0; padding: 26px 22px; border: 1px dashed #A6A6A6; text-align: center">
+<div style="font-family: 'Mrs Saint Delafield', cursive; font-size: 46px; line-height: 1.1; color: #9A9A9A">La tua firma</div>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">Quando avrai firmato, qui troverai la tua tessera «Io, ci credo.».</p>
+<button onClick="{{h.goPassi}}" style="display: block; width: 100%; height: 52px; margin-top: 18px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14px; letter-spacing: .4px; text-transform: uppercase; cursor: pointer">Scopri come, passo dopo passo</button>
+</div>
+</sc-if>
+
+<div style="padding: 40px 26px 0">
+<h2 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 25px; color: #2E2E2E">Il tuo percorso</h2>
+<div style="margin-top: 16px">
+<sc-for list="{{journey}}" as="j" hint-placeholder-count="5">
+<div style="display: flex; gap: 16px">
+<div style="flex: none; width: 36px; display: flex; flex-direction: column; align-items: center">
+<div style="position: relative; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{j.current}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="position: absolute; left: -12px; top: -12px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 46% 42%, rgba(236,140,236,.95) 0%, rgba(184,188,236,.8) 34%, rgba(184,188,236,0) 70%)"></span></sc-if>
+<span style="position: relative; width: {{j.dot}}px; height: {{j.dot}}px; border-radius: 50%; background: {{j.fill}}; border: 1.5px solid {{j.stroke}}; box-sizing: border-box"></span>
+</div>
+<sc-if value="{{j.line}}" hint-placeholder-val="{{true}}"><div style="flex: 1; width: 1px; min-height: 18px; background: #BDBDBD"></div></sc-if>
+</div>
+<div style="flex: 1; min-width: 0; padding: 10px 0 20px">
+<div style="font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: {{j.labelColor}}; font-weight: {{j.weight}}">{{j.label}}</div>
+<div style="margin-top: 4px; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; line-height: 1.35; color: {{j.textColor}}">{{j.text}}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin: 10px 26px 0; padding: 18px 0; border-top: 1px solid #A6A6A6; border-bottom: 1px solid #A6A6A6; display: flex; align-items: center; gap: 14px">
+<div style="flex: 1; min-width: 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; color: #161616">Ricordamelo l’anno prossimo</div>
+<div style="margin-top: 4px; font-size: 12.5px; line-height: 1.4; color: #555555">{{mf.remText}}</div>
+</div>
+<button onClick="{{h.toggleRem}}" role="switch" aria-checked="{{mf.rem}}" aria-label="Promemoria per l’anno prossimo" style="flex: none; position: relative; width: 52px; height: 32px; border-radius: 16px; border: 0; padding: 0; background: {{mf.swBg}}; cursor: pointer; transition: background .25s ease">
+<span style="position: absolute; left: 2px; top: 2px; width: 28px; height: 28px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 2px 4px rgba(0,0,0,.2); transform: translateX({{mf.swX}}px); transition: transform .25s cubic-bezier(.2,.8,.2,1)"></span>
+</button>
+</div>
+
+<div style="padding: 38px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #FF6501">Un regalo per te</div>
+<h2 style="margin: 2px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 1.08; color: #2E2E2E">Io, ci credo.<br>Anche in parrocchia.</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px">
+<figure style="margin: 0"><img src="{{A.quaderno}}" alt="Quaderno bianco con la scritta Io, ci credo. e il logo 8xmille" style="display: block; width: 100%; height: 124px; object-fit: cover"><figcaption style="margin-top: 6px; font-size: 12px; color: #4A4A4A">Il quaderno</figcaption></figure>
+<figure style="margin: 0"><img src="{{A.shopper}}" alt="Shopper di tela con la scritta Io, ci credo. e il logo 8xmille" style="display: block; width: 100%; height: 124px; object-fit: cover"><figcaption style="margin-top: 6px; font-size: 12px; color: #4A4A4A">La shopper</figcaption></figure>
+</div>
+<p style="margin: 14px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #222222">Mostra la tua tessera nella tua parrocchia e ritira il quaderno o la shopper «Io, ci credo.».</p>
+<button onClick="{{h.parrocchia}}" style="display: block; width: 100%; height: 50px; margin-top: 14px; border: 1.5px solid #FF6501; background: transparent; color: #D45400; font-size: 13.5px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; cursor: pointer">Trova la tua parrocchia</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- NEWS: UN GESTO CONCRETO -->
+<sc-if value="{{is.news}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">News</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">Un gesto concreto.</h1>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">Ogni firma diventa pasti, cure, una casa. Le storie di ciò che l’8xmille rende possibile, ogni giorno.</p>
+</div>
+<button onClick="{{news.first.open}}" style="display: block; width: 338px; margin: 22px 26px 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer">
+<img src="{{news.first.img}}" alt="{{news.first.alt}}" style="display: block; width: 338px; height: 423px; object-fit: cover">
+<span style="display: block; margin-top: 10px; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: #C24E00">{{news.first.tag}}</span>
+<span style="display: block; margin-top: 3px; font-family: 'Source Serif 4', Georgia, serif; font-size: 21px; line-height: 1.2; color: #161616">{{news.first.title}}</span>
+</button>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; row-gap: 24px; padding: 28px 26px 0">
+<sc-for list="{{news.rest}}" as="g" hint-placeholder-count="5">
+<button onClick="{{g.open}}" style="display: block; padding: 0; border: 0; background: none; text-align: left; cursor: pointer">
+<img src="{{g.img}}" alt="{{g.alt}}" style="display: block; width: 100%; height: 205px; object-fit: cover">
+<span style="display: block; margin-top: 8px; font-size: 10.5px; letter-spacing: .8px; text-transform: uppercase; color: #C24E00">{{g.tag}}</span>
+<span style="display: block; margin-top: 2px; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.25; color: #161616">{{g.title}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- LE VOSTRE PREGHIERE -->
+<sc-if value="{{is.preghiere}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Community</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">Le vostre preghiere</h1>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">Le parole di chi crede, condivise con tutti. Le preghiere della community diventano card da mandare a chi ami.</p>
+<button onClick="{{h.goComponi}}" style="width: 100%; height: 52px; margin-top: 18px; border-radius: 26px; border: 0; background: #DF6518; color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 24px; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px">Lascia la tua preghiera<span style="width: 36px; height: 36px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 15l1-4 8.5-8.5a2.1 2.1 0 0 1 3 3L7 14l-4 1z" stroke="#DF6518" stroke-width="1.6" stroke-linejoin="round"></path></svg></span></button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 30px; padding: 26px 26px 0">
+<sc-for list="{{mine}}" as="m" hint-placeholder-count="0">
+<article>
+<dc-import name="Preghiera" testo="{{m.text}}" firma="{{m.firma}}" sfondo="{{m.img}}" colore="{{m.color}}" w="338" hint-size="338px,423px"></dc-import>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF6501"></span>In attesa di revisione</span>
+<button onClick="{{m.share}}" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 4px; border: 0; background: none; color: #161616; font-size: 12.5px; cursor: pointer"><svg width="16" height="17" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M8 11V1.5M4 5l4-3.5L12 5M2.5 9v6h11V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Condividi</button>
+</div>
+</article>
+</sc-for>
+<sc-for list="{{prayers}}" as="p" hint-placeholder-count="6">
+<article>
+<img src="{{p.img}}" alt="{{p.alt}}" style="display: block; width: 338px; height: 423px; object-fit: cover">
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px">
+<button onClick="{{p.pray}}" aria-pressed="{{p.on}}" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 12px; border-radius: 20px; border: 1px solid {{p.border}}; background: {{p.bg}}; color: {{p.fg}}; font-size: 12.5px; cursor: pointer; transition: background .2s, color .2s, border-color .2s">
+<svg width="14" height="18" viewBox="0 0 14 18" fill="none" aria-hidden="true"><path d="M7 1.5c1.8 2.6 4.5 4.6 4.5 8.3A4.5 4.5 0 0 1 7 14.3a4.5 4.5 0 0 1-4.5-4.5C2.5 7.6 4 6 5 4.6c.4 1.5 1.1 2.4 2 2.9C7 5.3 6.6 3.4 7 1.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><path d="M4 16.5h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
+<span>{{p.label}}</span>
+</button>
+<button onClick="{{p.share}}" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 4px; border: 0; background: none; color: #161616; font-size: 12.5px; cursor: pointer"><svg width="16" height="17" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M8 11V1.5M4 5l4-3.5L12 5M2.5 9v6h11V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Condividi</button>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- LASCIA LA TUA PREGHIERA -->
+<sc-if value="{{is.componi}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 20px 26px 0">
+<button onClick="{{h.back}}" style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0; border: 0; background: none; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #FF6501"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" aria-hidden="true"><path d="M7.5 1.5l-6 6 6 6" stroke="#FF6501" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>Le vostre preghiere</button>
+<h1 style="margin: 6px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.05; color: #2E2E2E">Lascia la tua preghiera</h1>
+</div>
+<sc-if value="{{cp.notSent}}" hint-placeholder-val="{{true}}">
+<div style="padding: 18px 26px 0">
+<dc-import name="Preghiera" testo="{{cp.text}}" firma="{{cp.firma}}" sfondo="{{cp.img}}" colore="{{cp.color}}" w="338" hint-size="338px,423px"></dc-import>
+<label for="cp-testo" style="display: block; margin-top: 22px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">La tua preghiera</label>
+<textarea id="cp-testo" value="{{cp.text}}" onChange="{{h.cpText}}" rows="3" placeholder="Una frase del Vangelo o una tua preghiera" style="display: block; width: 100%; box-sizing: border-box; margin-top: 6px; padding: 12px 14px; border: 1px solid #A6A6A6; border-radius: 0; background: #FFFFFF; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; line-height: 1.35; color: #161616; resize: none; outline-color: #FF6501"></textarea>
+<div style="margin-top: 4px; text-align: right; font-size: 11.5px; color: #6A6A6A">{{cp.len}}/110</div>
+<label for="cp-firma" style="display: block; margin-top: 8px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">Firma</label>
+<input id="cp-firma" value="{{cp.firma}}" onChange="{{h.cpFirma}}" placeholder="Il tuo nome" style="display: block; width: 100%; height: 46px; box-sizing: border-box; margin-top: 6px; padding: 0 14px; border: 1px solid #A6A6A6; border-radius: 0; background: #FFFFFF; font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; color: #161616; outline-color: #FF6501">
+<div style="margin-top: 20px; font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">Sfondo</div>
+<div style="display: flex; gap: 12px; margin-top: 10px">
+<sc-for list="{{cp.bgs}}" as="b" hint-placeholder-count="5">
+<button onClick="{{b.pick}}" aria-label="{{b.label}}" aria-pressed="{{b.sel}}" style="position: relative; width: 54px; height: 54px; padding: 0; border: 0; background: {{b.color}}; outline: {{b.outline}}; outline-offset: 3px; cursor: pointer; overflow: hidden">
+<sc-if value="{{b.hasImg}}" hint-placeholder-val="{{true}}"><img src="{{b.img}}" alt="" style="display: block; width: 54px; height: 54px; object-fit: cover"></sc-if>
+</button>
+</sc-for>
+</div>
+<label style="display: flex; align-items: flex-start; gap: 10px; margin-top: 22px; font-size: 13px; line-height: 1.4; color: #3A3A3A; cursor: pointer">
+<input type="checkbox" checked="{{cp.ok}}" onChange="{{h.cpOk}}" style="flex: none; width: 20px; height: 20px; margin: 0; accent-color: #FF6501">
+<span>Acconsento alla pubblicazione della mia preghiera nella community e sui canali dell’8xmille.</span>
+</label>
+<button onClick="{{h.send}}" style="display: block; width: 100%; height: 58px; margin-top: 18px; border: 0; background: #FF6501; color: #FFFFFF; opacity: {{cp.btnOp}}; font-size: 15px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer; transition: opacity .2s">Invia la tua preghiera</button>
+</div>
+</sc-if>
+<sc-if value="{{cp.sent}}" hint-placeholder-val="{{false}}">
+<div style="padding: 22px 26px 0">
+<div style="display: flex; justify-content: center">
+<div style="transform: rotate(-2deg); box-shadow: 0 20px 36px rgba(0,0,0,.18)">
+<dc-import name="Preghiera" testo="{{cp.sentText}}" firma="{{cp.sentFirma}}" sfondo="{{cp.sentImg}}" colore="{{cp.sentColor}}" w="250" hint-size="250px,313px"></dc-import>
+</div>
+</div>
+<h2 style="margin: 30px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.05; color: #2E2E2E">{{cp.thanks}}</h2>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; line-height: 1.42; color: #3A3A3A">La tua preghiera è stata inviata. La redazione la leggerà prima di pubblicarla nella community.</p>
+<button onClick="{{h.shareMine}}" style="display: block; width: 100%; height: 56px; margin-top: 20px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14.5px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Mandala su WhatsApp</button>
+<button onClick="{{h.goPreghiere}}" style="display: block; width: 100%; height: 50px; margin-top: 8px; border: 1.5px solid #FF6501; background: transparent; color: #D45400; font-size: 13.5px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Torna alle preghiere</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- CONDIVIDI -->
+<sc-if value="{{is.condividi}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Condividi</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.02; color: #2E2E2E">Io, ci credo.<br>E tu?</h1>
+<p style="margin: 12px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">La tua scelta può ispirare chi ti sta vicino. Condividi un volto, una preghiera o una tua foto nel frame della campagna.</p>
+</div>
+<div style="position: relative; margin: 22px 26px 0">
+<dc-import name="Frame" foto="{{cd.photo}}" w="338" h="420" hint-size="338px,420px"></dc-import>
+<button onClick="{{h.goCamera}}" style="position: absolute; left: 16px; bottom: 18px; height: 44px; padding: 0 16px 0 12px; border: 0; background: #FFFFFF; color: #161616; font-size: 12.5px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; cursor: pointer"><svg width="18" height="16" viewBox="0 0 18 16" fill="none" aria-hidden="true"><path d="M1.5 4.5h3l1.5-2.5h6l1.5 2.5h3v9.5h-15z" stroke="#161616" stroke-width="1.4" stroke-linejoin="round"></path><circle cx="9" cy="9" r="3" stroke="#161616" stroke-width="1.4"></circle></svg>Usa il photo frame</button>
+</div>
+
+<div style="padding: 36px 26px 14px">
+<div style="font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">Le card della campagna</div>
+<h2 style="margin: 4px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 25px; color: #2E2E2E">Scegli il tuo volto</h2>
+</div>
+<div style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 0 26px 4px; scroll-snap-type: x mandatory; scroll-padding: 26px">
+<sc-for list="{{credo}}" as="c" hint-placeholder-count="7">
+<button onClick="{{c.open}}" style="flex: none; width: 136px; padding: 0; border: 0; background: none; cursor: pointer; scroll-snap-align: start"><img src="{{c.img}}" alt="{{c.alt}}" style="display: block; width: 136px; height: 170px; object-fit: cover"></button>
+</sc-for>
+</div>
+
+<div style="padding: 34px 26px 14px">
+<div style="font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">Chat WhatsApp</div>
+<h2 style="margin: 4px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 25px; color: #2E2E2E">Messaggi da inviare</h2>
+</div>
+<div style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 0 26px 4px; scroll-snap-type: x mandatory; scroll-padding: 26px">
+<sc-for list="{{waRail}}" as="c" hint-placeholder-count="6">
+<button onClick="{{c.open}}" style="flex: none; width: 136px; padding: 0; border: 0; background: none; cursor: pointer; scroll-snap-align: start"><img src="{{c.img}}" alt="{{c.alt}}" style="display: block; width: 136px; height: 170px; object-fit: cover"></button>
+</sc-for>
+</div>
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 34px 26px 14px">
+<div>
+<div style="font-size: 11.5px; letter-spacing: .6px; text-transform: uppercase; color: #555555">Dalla community</div>
+<h2 style="margin: 4px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 25px; color: #2E2E2E">Social Wall</h2>
+</div>
+<button onClick="{{h.goWall}}" style="flex: none; height: 36px; padding: 0; border: 0; background: none; cursor: pointer; font-size: 11.5px; letter-spacing: .8px; text-transform: uppercase; color: #C24E00">Vedi tutto</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 0 26px">
+<sc-for list="{{wallPreview}}" as="w" hint-placeholder-count="6">
+<button onClick="{{w.share}}" style="display: block; padding: 0; border: 0; background: none; cursor: pointer"><img src="{{w.img}}" alt="{{w.alt}}" style="display: block; width: 100%; height: 138px; object-fit: cover"></button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- SOCIAL WALL -->
+<sc-if value="{{is.wall}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; right: 0; top: 100px; bottom: 0; background: linear-gradient(180deg, #E6E6E6 0px, #EFEFEF 60px, #F2F2F2 100%); opacity: {{fx.op}}; transform: translateY({{fx.ty}}px); transition: opacity .32s ease, transform .32s cubic-bezier(.2,.7,.2,1)">
+<div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding-bottom: {{pad}}px; box-sizing: border-box">
+<div style="padding: 26px 26px 0">
+<div style="font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; color: #FF6501">Community</div>
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: #2E2E2E">Social Wall</h1>
+<p style="margin: 10px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; line-height: 1.42; color: #3A3A3A">Le foto e le parole della community nel frame «Io, ci credo.».</p>
+<button onClick="{{h.goCamera}}" style="width: 100%; height: 52px; margin-top: 18px; border-radius: 26px; border: 0; background: #DF6518; color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 24px; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px">Aggiungi la tua foto<span style="width: 36px; height: 36px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="18" height="16" viewBox="0 0 18 16" fill="none" aria-hidden="true"><path d="M1.5 4.5h3l1.5-2.5h6l1.5 2.5h3v9.5h-15z" stroke="#DF6518" stroke-width="1.4" stroke-linejoin="round"></path><circle cx="9" cy="9" r="3" stroke="#DF6518" stroke-width="1.4"></circle></svg></span></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 22px 20px 0">
+<sc-for list="{{wallMine}}" as="m" hint-placeholder-count="0">
+<button onClick="{{m.share}}" style="position: relative; display: block; padding: 0; border: 0; background: none; cursor: pointer">
+<dc-import name="Frame" foto="{{m.photo}}" w="172" h="215" hint-size="172px,215px"></dc-import>
+<span style="position: absolute; left: 8px; bottom: 8px; padding: 3px 6px; background: #FF6501; color: #FFFFFF; font-size: 10px; letter-spacing: .6px; text-transform: uppercase">Tu</span>
+</button>
+</sc-for>
+<sc-for list="{{wallItems}}" as="w" hint-placeholder-count="9">
+<button onClick="{{w.share}}" style="display: block; padding: 0; border: 0; background: none; cursor: pointer"><img src="{{w.img}}" alt="{{w.alt}}" style="display: block; width: 100%; height: 215px; object-fit: cover"></button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- GRAZIE -->
+<sc-if value="{{is.grazie}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; overflow: hidden; background: linear-gradient(172deg, #FF5300 0%, #FF6A00 48%, #FF5800 100%); opacity: {{fx.op}}; transition: opacity .45s ease">
+<div aria-hidden="true" style="position: absolute; left: -70px; top: {{gz.o1}}px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(200,202,244,.85) 0%, rgba(200,202,244,0) 68%); transition: top 1.6s cubic-bezier(.2,.7,.2,1)"></div>
+<div aria-hidden="true" style="position: absolute; right: -80px; top: {{gz.o2}}px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(240,150,240,.8) 0%, rgba(240,150,240,0) 66%); transition: top 1.9s cubic-bezier(.2,.7,.2,1)"></div>
+<div aria-hidden="true" style="position: absolute; left: 230px; top: {{gz.o3}}px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 66%); transition: top 2.2s cubic-bezier(.2,.7,.2,1)"></div>
+<button onClick="{{h.closeGrazie}}" aria-label="Chiudi" style="position: absolute; right: 12px; top: 14px; width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 2l16 16M18 2L2 18" stroke="#FFFFFF" stroke-width="1.6"></path></svg></button>
+<div style="position: absolute; left: 28px; right: 44px; top: 64px">
+<h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 46px; line-height: .98; letter-spacing: -.6px; color: #FFFFFF; transform: translateY({{fx.ty}}px); transition: transform .7s cubic-bezier(.2,.7,.2,1)">Grazie per averci creduto.</h1>
+<p style="margin: 14px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 21px; color: #FFFFFF">La tua firma dice chi sei.</p>
+</div>
+<div style="position: absolute; left: 70px; top: {{gz.cardTop}}px; transform: rotate(-4deg); box-shadow: 0 30px 50px rgba(90,25,0,.35); transition: top .9s cubic-bezier(.2,.8,.2,1)">
+<dc-import name="Tessera" nome="{{v.nome}}" w="250" hint-size="250px,312px"></dc-import>
+</div>
+<div style="position: absolute; left: 28px; right: 28px; top: 596px">
+<label for="firma-tessera" style="display: block; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #FFFFFF">Firma la tua tessera</label>
+<input id="firma-tessera" value="{{v.nome}}" onChange="{{h.setNome}}" placeholder="Il tuo nome" style="display: block; width: 100%; height: 42px; box-sizing: border-box; margin-top: 4px; padding: 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.85); border-radius: 0; background: transparent; color: #FFFFFF; font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; outline: none">
+</div>
+<div style="position: absolute; left: 28px; right: 28px; bottom: 30px; display: flex; flex-direction: column; gap: 10px">
+<button onClick="{{h.shareTessera}}" style="height: 54px; border: 0; background: #FFFFFF; color: #D44C00; font-size: 14.5px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; cursor: pointer">Condividi la tua scelta</button>
+<button onClick="{{h.storieFromGrazie}}" style="height: 50px; border: 1px solid rgba(255,255,255,.9); background: transparent; color: #FFFFFF; font-size: 13.5px; letter-spacing: .6px; text-transform: uppercase; cursor: pointer">Scopri cosa rende possibile</button>
+</div>
+</div>
+</sc-if>
+
+<!-- CHAT: MESSAGGIO CONDIVISIBILE -->
+<sc-if value="{{is.chat}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; background: #ECE8E1; opacity: {{fx.op}}; transition: opacity .3s ease">
+<div style="position: absolute; left: 0; right: 0; top: 0; height: 92px; box-sizing: border-box; background: #F0F0F0; border-bottom: 1px solid #D8D8D8; display: flex; align-items: flex-end; gap: 10px; padding: 0 16px 12px 6px">
+<button onClick="{{h.back}}" aria-label="Indietro" style="width: 40px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="11" height="19" viewBox="0 0 11 19" fill="none" aria-hidden="true"><path d="M9.5 1.5l-8 8 8 8" stroke="#FF6501" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<span style="flex: none; width: 42px; height: 42px; border-radius: 50%; background: #1F1F1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px">F</span>
+<div style="flex: 1; min-width: 0; padding-bottom: 2px">
+<div style="font-size: 16px; font-weight: 600; color: #161616">Famiglia</div>
+<div style="margin-top: 1px; font-size: 12px; color: #6A6A6A">{{chat.status}}</div>
+</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; top: 92px; bottom: 72px; overflow-y: auto; scrollbar-width: none; padding: 14px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px">
+<div style="align-self: center; padding: 4px 10px; background: #FFFFFF; border-radius: 8px; font-size: 11.5px; color: #555555">Oggi</div>
+<div style="display: flex; justify-content: flex-end">
+<div style="max-width: 274px; padding: 5px; background: #FFE4D0; border-radius: 14px 14px 4px 14px; box-shadow: 0 1px 1px rgba(0,0,0,.08)">
+<sc-if value="{{chat.isImg}}" hint-placeholder-val="{{true}}"><img src="{{chat.img}}" alt="{{chat.alt}}" style="display: block; width: 264px; height: 330px; object-fit: cover; border-radius: 10px"></sc-if>
+<sc-if value="{{chat.isTessera}}" hint-placeholder-val="{{false}}"><div style="width: 264px; height: 330px; border-radius: 10px; background: #F3D3BC; display: flex; align-items: center; justify-content: center"><div style="transform: rotate(-3deg); box-shadow: 0 14px 24px rgba(0,0,0,.18)"><dc-import name="Tessera" nome="{{v.nome}}" w="200" hint-size="200px,250px"></dc-import></div></div></sc-if>
+<sc-if value="{{chat.isPrayer}}" hint-placeholder-val="{{false}}"><div style="border-radius: 10px; overflow: hidden"><dc-import name="Preghiera" testo="{{chat.pText}}" firma="{{chat.pFirma}}" sfondo="{{chat.pImg}}" colore="{{chat.pColor}}" w="264" hint-size="264px,330px"></dc-import></div></sc-if>
+<sc-if value="{{chat.isFrame}}" hint-placeholder-val="{{false}}"><div style="border-radius: 10px; overflow: hidden"><dc-import name="Frame" foto="{{chat.frame}}" w="264" h="330" hint-size="264px,330px"></dc-import></div></sc-if>
+<div style="padding: 8px 6px 2px; font-size: 14.5px; line-height: 1.38; color: #161616">Io, ci credo. E tu? Destina il tuo 8xmille alla Chiesa Cattolica: scopri come, passo dopo passo, su <span style="color: #B44A00; text-decoration: underline">8xmille.it</span></div>
+<div style="display: flex; justify-content: flex-end; align-items: center; gap: 4px; padding: 0 6px 2px; font-size: 11px; color: #7A7A7A">12:04<svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 5.5l3 3L10.5 1.5M6.5 8.5l1 0L15 1.5" stroke="#E25800" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+</div>
+</div>
+<sc-if value="{{chat.typing}}" hint-placeholder-val="{{false}}">
+<div style="display: flex"><div style="padding: 12px 16px; background: #FFFFFF; border-radius: 14px 14px 14px 4px; display: flex; gap: 5px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #9A9A9A"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #B5B5B5"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #CFCFCF"></span></div></div>
+</sc-if>
+<sc-if value="{{chat.reply}}" hint-placeholder-val="{{false}}">
+<div style="display: flex"><div style="max-width: 260px; padding: 8px 12px 6px; background: #FFFFFF; border-radius: 14px 14px 14px 4px; box-shadow: 0 1px 1px rgba(0,0,0,.08)">
+<div style="font-size: 12.5px; font-weight: 700; color: #B44A00">Lucia</div>
+<div style="margin-top: 2px; font-size: 14.5px; line-height: 1.38; color: #161616">Anch’io, ci credo. La firmo anche quest’anno.</div>
+<div style="margin-top: 2px; text-align: right; font-size: 11px; color: #7A7A7A">12:06</div>
+</div></div>
+</sc-if>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 72px; box-sizing: border-box; background: #F0F0F0; display: flex; align-items: center; gap: 10px; padding: 0 12px 8px">
+<div style="flex: 1; height: 42px; border-radius: 21px; background: #FFFFFF; border: 1px solid #D8D8D8; display: flex; align-items: center; padding: 0 16px; font-size: 14px; color: #7A7A7A">Scrivi un messaggio</div>
+<button onClick="{{h.chatDone}}" aria-label="Fatto, torna indietro" style="flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; padding: 0; background: #FF6501; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="13" viewBox="0 0 16 13" fill="none" aria-hidden="true"><path d="M1.5 7l4.5 4.5L14.5 1.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+</div>
+</div>
+</sc-if>
+
+<!-- PHOTO FRAME -->
+<sc-if value="{{is.camera}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; background: #000000; opacity: {{fx.op}}; transition: opacity .3s ease">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 666px; overflow: hidden; border-radius: 0 0 18px 18px">
+<dc-import name="Frame" foto="{{cam.photo}}" w="390" h="666" hint-size="390px,666px"></dc-import>
+</div>
+<button onClick="{{h.back}}" aria-label="Chiudi il photo frame" style="position: absolute; left: 8px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 2l16 16M18 2L2 18" stroke="#FFFFFF" stroke-width="1.8"></path></svg></button>
+<div style="position: absolute; left: 60px; right: 60px; top: 22px; text-align: center; font-size: 11.5px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #FFFFFF; text-shadow: 0 1px 6px rgba(0,0,0,.45)">Photo frame</div>
+<sc-if value="{{cam.live}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; left: 0; right: 0; top: 694px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px">
+<label style="position: relative; display: block; width: 46px; height: 46px; border-radius: 10px; overflow: hidden; border: 2px solid #FFFFFF; box-sizing: border-box; cursor: pointer">
+<img src="{{cam.photo}}" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
+<input type="file" accept="image/*" onChange="{{h.photo}}" aria-label="Scegli una foto dalla galleria" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer">
+</label>
+<button onClick="{{h.shoot}}" aria-label="Scatta" style="width: 80px; height: 80px; border-radius: 50%; border: 0; padding: 0; background: rgba(255,255,255,.32); display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="display: block; width: 64px; height: 64px; border-radius: 50%; background: #FFFFFF"></span></button>
+<label style="position: relative; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="24" height="22" viewBox="0 0 24 22" fill="none" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14.5-3.5M20 13a8 8 0 0 1-14.5 3.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"></path><path d="M19 1.5v4.5h-4.5M5 20.5V16h4.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<input type="file" accept="image/*" capture="user" onChange="{{h.photo}}" aria-label="Scatta un selfie con la fotocamera" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer">
+</label>
+</div>
+<div style="position: absolute; left: 0; right: 0; top: 796px; display: flex; justify-content: center; gap: 22px; font-size: 12.5px; letter-spacing: 1.3px; text-transform: uppercase">
+<span style="color: #8A8A8A">Storia</span><span style="color: #FFFFFF; font-weight: 600">Foto</span><span style="color: #8A8A8A">Post</span>
+</div>
+</sc-if>
+<sc-if value="{{cam.shot}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 20px; right: 20px; top: 686px; display: flex; flex-direction: column; gap: 8px">
+<button onClick="{{h.publish}}" style="height: 54px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14.5px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Pubblica sul Social Wall</button>
+<div style="display: flex; gap: 8px">
+<button onClick="{{h.retake}}" style="flex: 1; height: 48px; border: 1px solid rgba(255,255,255,.6); background: transparent; color: #FFFFFF; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Rifai</button>
+<button onClick="{{h.shareFrame}}" style="flex: 1; height: 48px; border: 0; background: #FFFFFF; color: #161616; font-size: 13px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Condividi</button>
+</div>
+</div>
+</sc-if>
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: #FFFFFF; pointer-events: none; opacity: {{cam.flash}}; transition: {{cam.flashTr}}"></div>
+</div>
+</sc-if>
+
+<!-- MINI PLAYER -->
+<sc-if value="{{is.mini}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 10px; right: 10px; bottom: {{mp.bottom}}px; z-index: 8; height: 64px; box-sizing: border-box; background: #FFFFFF; box-shadow: 0 8px 26px rgba(0,0,0,.16); display: flex; align-items: center; gap: 10px; padding: 0 6px 0 10px; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; height: 2px; width: {{mp.pct}}%; background: #FF6501; transition: width .5s linear"></div>
+<button onClick="{{h.openPlaying}}" style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer">
+<span style="flex: none; width: 44px; height: 44px; background: #FF6501; display: flex; align-items: center; justify-content: center"><img src="{{A.rosario}}" alt="" style="width: 40px; height: 40px; object-fit: contain"></span>
+<span style="flex: 1; min-width: 0">
+<span style="display: block; font-family: 'Source Serif 4', Georgia, serif; font-size: 15.5px; color: #161616; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{mp.title}}</span>
+<span style="display: block; margin-top: 2px; font-size: 11.5px; color: #555555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{mp.sub}}</span>
+</span>
+</button>
+<button onClick="{{h.toggleMini}}" aria-label="{{mp.label}}" style="flex: none; width: 42px; height: 42px; border-radius: 50%; border: 0; padding: 0; background: #FF6501; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<sc-if value="{{mp.isPause}}" hint-placeholder-val="{{true}}"><svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M2.5 1.5v10M9.5 1.5v10" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg></sc-if>
+<sc-if value="{{mp.isPlay}}" hint-placeholder-val="{{false}}"><svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M2 1.2v10.6L11 6.5z" fill="#FFFFFF"></path></svg></sc-if>
+</button>
+<button onClick="{{h.stopPlay}}" aria-label="Chiudi il player" style="flex: none; width: 36px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1.5 1.5l9 9M10.5 1.5l-9 9" stroke="#8A8A8A" stroke-width="1.5"></path></svg></button>
+</div>
+</sc-if>
+
+<!-- MENU -->
+<sc-if value="{{is.menu}}" hint-placeholder-val="{{false}}">
+<nav aria-label="Menu principale" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 30; background: #F1F1F1; opacity: {{mn.op}}; transform: translateY({{mn.ty}}px); transition: opacity .22s ease, transform .26s cubic-bezier(.2,.7,.2,1)">
+<div style="height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 26px">
+<button onClick="{{h.home}}" aria-label="Home" style="display: block; width: 58px; height: 58px; padding: 0; border: 0; background: none; cursor: pointer"><img src="{{A.logo}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 58px; height: 58px"></button>
+<button onClick="{{h.closeMenu}}" aria-label="Chiudi il menu" style="width: 50px; height: 50px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 2l20 20M22 2L2 22" stroke="#FF6501" stroke-width="1.5"></path></svg></button>
+</div>
+<div style="margin: 12px 26px 0; border-top: 1px solid #A6A6A6">
+<sc-for list="{{menuItems}}" as="m" hint-placeholder-count="7">
+<button onClick="{{m.pick}}" style="display: block; width: calc(100% + 4px); height: 47px; margin-right: -4px; padding: 0 8px; border: 0; border-bottom: 1px solid {{m.line}}; background: {{m.bg}}; color: {{m.fg}}; text-align: left; cursor: pointer; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; transition: background .15s ease, color .15s ease">{{m.label}}</button>
+</sc-for>
+</div>
+<div style="position: absolute; left: 26px; right: 26px; bottom: 34px; font-size: 12px; line-height: 1.55; color: #5A5A5A">Destina il tuo 8xmille alla Chiesa Cattolica.<br>8xmille.it</div>
+</nav>
+</sc-if>
+
+<!-- CONDIVIDI: SCELTA DEL CANALE -->
+<sc-if value="{{is.sheet}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 40">
+<button onClick="{{h.closeSheet}}" aria-label="Chiudi" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; padding: 0; border: 0; background: rgba(0,0,0,.5); opacity: {{sh.op}}; transition: opacity .3s ease; cursor: pointer"></button>
+<section aria-label="Condividi" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 20px 24px; background: #F7F7F7; border-radius: 18px 18px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,.2); transform: translateY({{sh.ty}}%); transition: transform .38s cubic-bezier(.2,.8,.2,1)">
+<div style="width: 38px; height: 4px; margin: 0 auto; border-radius: 2px; background: #C4C4C4"></div>
+<div style="display: flex; justify-content: center; margin-top: 18px">
+<sc-if value="{{sh.isImg}}" hint-placeholder-val="{{true}}"><img src="{{sh.img}}" alt="{{sh.alt}}" style="display: block; width: 168px; height: 210px; object-fit: cover; box-shadow: 0 12px 26px rgba(0,0,0,.18)"></sc-if>
+<sc-if value="{{sh.isTessera}}" hint-placeholder-val="{{false}}"><div style="transform: rotate(-3deg); box-shadow: 0 12px 26px rgba(0,0,0,.18)"><dc-import name="Tessera" nome="{{v.nome}}" w="168" hint-size="168px,210px"></dc-import></div></sc-if>
+<sc-if value="{{sh.isPrayer}}" hint-placeholder-val="{{false}}"><div style="box-shadow: 0 12px 26px rgba(0,0,0,.18)"><dc-import name="Preghiera" testo="{{sh.pText}}" firma="{{sh.pFirma}}" sfondo="{{sh.pImg}}" colore="{{sh.pColor}}" w="168" hint-size="168px,210px"></dc-import></div></sc-if>
+<sc-if value="{{sh.isFrame}}" hint-placeholder-val="{{false}}"><div style="box-shadow: 0 12px 26px rgba(0,0,0,.18)"><dc-import name="Frame" foto="{{sh.frame}}" w="168" h="210" hint-size="168px,210px"></dc-import></div></sc-if>
+</div>
+<div style="margin-top: 16px; text-align: center; font-family: 'Source Serif 4', Georgia, serif; font-size: 23px; color: #161616">Condividi</div>
+<div style="margin-top: 2px; text-align: center; font-size: 12.5px; color: #555555">Io, ci credo. E tu?</div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-top: 18px">
+<sc-for list="{{targets}}" as="t" hint-placeholder-count="5">
+<button onClick="{{t.go}}" style="display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 0; border: 0; background: none; cursor: pointer">
+<span style="width: 54px; height: 54px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{t.border}}; background: {{t.bg}}; color: {{t.fg}}; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{t.isWa}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20.5l1.3-4A8.5 8.5 0 1 1 8.6 19.6L4 20.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path><path d="M9 9.5c.3 2 1.8 3.8 4 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></sc-if>
+<sc-if value="{{t.isIg}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="2" y="2" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"></rect><circle cx="11" cy="11" r="4" stroke="currentColor" stroke-width="1.6"></circle><circle cx="16.2" cy="5.8" r="1" fill="currentColor"></circle></svg></sc-if>
+<sc-if value="{{t.isFb}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"></circle><path d="M2.5 19c.6-3.3 2.8-5.2 5.5-5.2s4.9 1.9 5.5 5.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="15.5" cy="7" r="2.5" stroke="currentColor" stroke-width="1.6"></circle><path d="M15 12.6c2.6-.2 4.3 1.6 4.8 4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></sc-if>
+<sc-if value="{{t.isLink}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M9.5 12.5a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M12.5 9.5a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></sc-if>
+<sc-if value="{{t.isSave}}" hint-placeholder-val="{{false}}"><svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true"><path d="M10 2v12M5 9.5l5 5 5-5M2.5 16.5v3h15v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+</span>
+<span style="font-size: 11px; color: #3A3A3A">{{t.label}}</span>
+</button>
+</sc-for>
+</div>
+<button onClick="{{h.closeSheet}}" style="display: block; width: 100%; height: 48px; margin-top: 20px; border: 1px solid #DADADA; background: #FFFFFF; color: #161616; font-size: 15px; cursor: pointer">Annulla</button>
+</section>
+</div>
+</sc-if>
+
+<!-- STORIE -->
+<sc-if value="{{is.story}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 50; overflow: hidden; background: #000000">
+<img src="{{st.img}}" alt="" aria-hidden="true" style="position: absolute; left: -40px; top: -40px; width: 470px; height: 924px; object-fit: cover; filter: blur(28px) brightness(.45)">
+<div style="position: absolute; left: 12px; right: 12px; top: 12px; z-index: 3; display: flex; gap: 4px">
+<sc-for list="{{st.bars}}" as="b" hint-placeholder-count="6">
+<div style="flex: 1; height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.35); overflow: hidden"><div style="height: 2.5px; width: {{b.w}}; background: #FFFFFF; transition: {{b.tr}}"></div></div>
+</sc-for>
+</div>
+<div style="position: absolute; left: 14px; right: 6px; top: 24px; z-index: 3; display: flex; align-items: center; gap: 10px">
+<img src="{{A.logo}}" alt="" style="display: block; width: 34px; height: 34px">
+<div style="flex: 1; min-width: 0">
+<div style="font-size: 13px; font-weight: 700; color: #FFFFFF">8xmille</div>
+<div style="font-size: 11.5px; color: rgba(255,255,255,.8)">{{st.tag}}</div>
+</div>
+<button onClick="{{h.closeStory}}" aria-label="Chiudi le storie" style="width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 2l16 16M18 2L2 18" stroke="#FFFFFF" stroke-width="1.8"></path></svg></button>
+</div>
+<img src="{{st.img}}" alt="{{st.alt}}" style="position: absolute; left: 0; top: 168px; z-index: 1; display: block; width: 390px; height: 487px; object-fit: cover">
+<button onClick="{{h.prevStory}}" aria-label="Storia precedente" style="position: absolute; left: 0; top: 80px; width: 130px; height: 640px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
+<button onClick="{{h.nextStory}}" aria-label="Storia successiva" style="position: absolute; right: 0; top: 80px; width: 260px; height: 640px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 28px; z-index: 3; display: flex; align-items: center; gap: 12px">
+<div style="flex: 1; min-width: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; line-height: 1.2; color: #FFFFFF">{{st.title}}</div>
+<button onClick="{{h.shareStory}}" style="flex: none; height: 42px; padding: 0 18px 0 14px; border-radius: 21px; border: 0; background: #FFFFFF; color: #161616; font-size: 12.5px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; cursor: pointer"><svg width="15" height="16" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M8 11V1.5M4 5l4-3.5L12 5M2.5 9v6h11V9" stroke="#161616" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Condividi</button>
+</div>
+</div>
+</sc-if>
+
+<!-- AVVISI -->
+<div aria-live="polite" style="position: absolute; left: 35px; right: 35px; bottom: {{tst.bottom}}px; z-index: 70; display: flex; justify-content: center; pointer-events: none; opacity: {{tst.op}}; transform: translateY({{tst.ty}}px); transition: opacity .25s ease, transform .25s ease">
+<div style="padding: 11px 16px; background: #1F1F1F; color: #FFFFFF; font-size: 13px; line-height: 1.35; text-align: center">{{tst.msg}}</div>
+</div>
+
+</div>
+</template>
+<template id="tpl-Tessera">
+<div style="position: relative; width: {{t.w}}px; height: {{t.h}}px; overflow: hidden; font-family: 'Source Serif 4', Georgia, serif; color: #1D1D1D">
+<div style="position: absolute; left: 0; top: 0; width: 250px; height: 312px; box-sizing: border-box; background: #F6F6F4; transform: scale({{t.k}}); transform-origin: 0 0">
+<img src="img/logo.jpg" alt="8xmille Chiesa Cattolica" style="position: absolute; right: 16px; top: 16px; display: block; width: 44px; height: 44px">
+<sc-if value="{{t.has}}" hint-placeholder-val="{{true}}">
+<div style="position: absolute; left: 18px; bottom: 82px; font-family: 'Mrs Saint Delafield', cursive; font-size: 50px; line-height: 1; color: #1D1D1D; white-space: nowrap; transform: rotate(-6deg); transform-origin: left bottom">{{t.nome}}</div>
+</sc-if>
+<sc-if value="{{t.empty}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 18px; bottom: 82px; font-family: 'Mrs Saint Delafield', cursive; font-size: 50px; line-height: 1; color: #BDBDBD; white-space: nowrap; transform: rotate(-6deg); transform-origin: left bottom">La tua firma</div>
+</sc-if>
+<div style="position: absolute; left: 18px; bottom: 34px; font-size: 34px; line-height: 1; letter-spacing: -.3px; color: #1D1D1D">Io, ci credo.</div>
+<div style="position: absolute; left: 19px; bottom: 16px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 8.5px; letter-spacing: 1.2px; text-transform: uppercase; color: #6E6E6E">Scelta fatta il 12.10.2026</div>
+</div>
+</div>
+</template>
+<template id="tpl-Preghiera">
+<div style="position: relative; width: {{p.w}}px; height: {{p.h}}px; overflow: hidden; font-family: 'Source Serif 4', Georgia, serif; color: #FFFFFF">
+<div style="position: absolute; left: 0; top: 0; width: 338px; height: 423px; overflow: hidden; background: {{p.colore}}; transform: scale({{p.k}}); transform-origin: 0 0">
+<sc-if value="{{p.hasImg}}" hint-placeholder-val="{{true}}">
+<img src="{{p.sfondo}}" alt="" style="position: absolute; left: 0; top: 0; display: block; width: 338px; height: 423px; object-fit: cover">
+</sc-if>
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 338px; height: 423px; background: linear-gradient(180deg, rgba(0,0,0,{{p.a1}}) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,{{p.a2}}) 100%)"></div>
+<div style="position: absolute; left: 24px; right: 24px; top: 22px">
+<div style="font-size: 28px; line-height: 1.04; letter-spacing: -.2px; color: #FFFFFF; opacity: {{p.op}}; white-space: pre-line">{{p.testo}}</div>
+<div style="margin-top: 4px; padding-right: 22px; text-align: right"><span style="display: inline-block; font-family: 'Mrs Saint Delafield', cursive; font-size: 38px; line-height: 1; color: #FFFFFF; transform: rotate(-8deg)">{{p.firma}}</span></div>
+</div>
+<div style="position: absolute; left: 24px; bottom: 20px; font-size: 15px; color: #FFFFFF">Le vostre preghiere</div>
+<img src="img/logo.jpg" alt="8xmille Chiesa Cattolica" style="position: absolute; right: 16px; bottom: 16px; display: block; width: 54px; height: 54px">
+</div>
+</div>
+</template>
+<template id="tpl-Frame">
+<div style="position: relative; width: {{f.w}}px; height: {{f.h}}px; overflow: hidden; background: #1F1F1F; font-family: 'Source Serif 4', Georgia, serif; color: #FFFFFF">
+<img src="{{f.foto}}" alt="Selfie nel frame Io, ci credo. All’8xmille della Chiesa Cattolica" style="position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; object-fit: cover">
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0) 72%, rgba(0,0,0,.25) 100%)"></div>
+<div style="position: absolute; left: {{f.x}}px; right: {{f.x}}px; top: {{f.top}}px">
+<div style="font-size: {{f.title}}px; line-height: 1; letter-spacing: -.02em; color: #FFFFFF; white-space: nowrap">Io, ci credo.</div>
+<div style="margin-top: {{f.gap}}px; font-size: {{f.sub}}px; line-height: 1.2; color: #FFFFFF">All’8xmille della Chiesa Cattolica</div>
+</div>
+<img src="img/logo.jpg" alt="8xmille Chiesa Cattolica" style="position: absolute; right: {{f.lr}}px; bottom: {{f.lb}}px; display: block; width: {{f.logo}}px; height: {{f.logo}}px">
+</div>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/preact@10.19.3/dist/preact.umd.js"></script>
+<script>
+(function () {
+  var P = window.preact;
+  var h = P.h;
+  var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
+  var WHOLE = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/;
+  var REG = {};
+
+  function look(path, scope) {
+    path = path.trim();
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    if (path === 'null') return null;
+    if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+    var v = scope;
+    var parts = path.split('.');
+    for (var i = 0; i < parts.length; i++) { if (v == null) return undefined; v = v[parts[i]]; }
+    return v;
+  }
+  function interp(str, scope) {
+    var m = str.match(WHOLE);
+    if (m) return look(m[1], scope);
+    if (str.indexOf('{{') < 0) return str;
+    return str.replace(HOLE, function (_, p) { var x = look(p, scope); return x == null ? '' : String(x); });
+  }
+  function camel(s) { return s.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); }); }
+  function kids(node, scope) {
+    var out = [];
+    node.childNodes.forEach(function (n) {
+      var v = build(n, scope);
+      if (Array.isArray(v)) out.push.apply(out, v); else if (v != null) out.push(v);
+    });
+    return out;
+  }
+  function build(n, scope) {
+    if (n.nodeType === 3) {
+      var t = n.nodeValue;
+      if (!t.trim()) return t.indexOf('\n') >= 0 ? null : t;
+      var r = interp(t, scope);
+      return r == null ? '' : String(r);
+    }
+    if (n.nodeType !== 1) return null;
+    var tag = n.localName;
+    if (tag === 'sc-if') return interp(n.getAttribute('value') || '', scope) ? kids(n, scope) : null;
+    if (tag === 'sc-for') {
+      var list = interp(n.getAttribute('list') || '', scope) || [];
+      var as = n.getAttribute('as') || 'item';
+      var out = [];
+      list.forEach(function (it, i) {
+        var sc = Object.create(scope); sc[as] = it; sc.$index = i;
+        out.push.apply(out, kids(n, sc));
+      });
+      return out;
+    }
+    if (tag === 'dc-import') {
+      var C = REG[n.getAttribute('name')];
+      var cp = {};
+      Array.prototype.forEach.call(n.attributes, function (a) {
+        if (a.name === 'name' || a.name.indexOf('hint-') === 0) return;
+        cp[camel(a.name)] = interp(a.value, scope);
+      });
+      return C ? h(C, cp) : null;
+    }
+    var props = {};
+    var type = (n.getAttribute('type') || '').toLowerCase();
+    Array.prototype.forEach.call(n.attributes, function (a) {
+      var name = a.name;
+      if (name.indexOf('hint-') === 0) return;
+      if (name === 'onchange' && (tag === 'textarea' || (tag === 'input' && !/^(checkbox|radio|file)$/.test(type)))) name = 'oninput';
+      props[name] = interp(a.value, scope);
+    });
+    return h.apply(null, [tag, props].concat(kids(n, scope)));
+  }
+
+  class DCLogic extends P.Component {
+    render() { return build(this._root, this.renderVals() || {}); }
+  }
+  window.DCLogic = DCLogic;
+  function def(name, factory) {
+    var C = factory();
+    C.prototype._root = document.getElementById('tpl-' + name).content.firstElementChild;
+    REG[name] = C;
+  }
+
+def('Main', function () {
+
+class Component extends DCLogic {
+  componentDidMount() {
+    this._timers = [];
+    if (this.S().screen === 'splash') {
+      this.later(() => { if (this.S().screen === 'splash') this.go('home'); }, 2300);
+    }
+  }
+
+  componentWillUnmount() {
+    (this._timers || []).forEach((t) => clearTimeout(t));
+    clearInterval(this._play);
+  }
+
+  later(fn, ms) {
+    const t = setTimeout(fn, ms);
+    (this._timers = this._timers || []).push(t);
+    return t;
+  }
+
+  A() {
+    return {
+      logo: 'img/logo.jpg',
+      hero: 'img/hero.jpg',
+      splash: 'img/splash.jpg',
+      aiuto: 'img/aiuto.jpg',
+      faustina: 'img/faustina.jpg',
+      racc1: 'img/racc1.jpg',
+      racc2: 'img/racc2.jpg',
+      racc3: 'img/racc3.jpg',
+      racc4: 'img/racc4.jpg',
+      rosario: 'img/rosario.png',
+      selfie: 'img/selfie.jpg',
+      quaderno: 'img/quaderno.jpg',
+      shopper: 'img/shopper.jpg',
+      etu: 'img/etu.jpg',
+      gesto1: 'img/gesto1.jpg',
+      gesto2: 'img/gesto2.jpg',
+      gesto3: 'img/gesto3.jpg',
+      gesto4: 'img/gesto4.jpg',
+      gesto5: 'img/gesto5.jpg',
+      gesto6: 'img/gesto6.jpg',
+      credo1: 'img/credo1.jpg',
+      credo2: 'img/credo2.jpg',
+      credo3: 'img/credo3.jpg',
+      credo4: 'img/credo4.jpg',
+      credo5: 'img/credo5.jpg',
+      credo6: 'img/credo6.jpg',
+      preg1: 'img/preg1.jpg',
+      preg2: 'img/preg2.jpg',
+      preg3: 'img/preg3.jpg',
+      wa1: 'img/wa1.jpg',
+      wa2: 'img/wa2.jpg',
+      wa3: 'img/wa3.jpg',
+      wall1: 'img/wall1.jpg',
+      wall2: 'img/wall2.jpg',
+      wall3: 'img/wall3.jpg',
+      wall4: 'img/wall4.jpg',
+      wall5: 'img/wall5.jpg',
+      wall6: 'img/wall6.jpg',
+      wall7: 'img/wall7.jpg',
+      bgBlu: 'img/bg_blu.jpg',
+      bgChiesa: 'img/bg_chiesa.jpg',
+      bgLuce: 'img/bg_luce.jpg'
+    };
+  }
+
+  stato0() {
+    return {
+      screen: 'splash', hist: [], enter: 1,
+      menu: false, menuIn: 0, menuPressed: null,
+      firmato: false, nome: '',
+      passi: [false, false, false, false],
+      modello: '730', day: 12,
+      rTab: 'tutti', favs: ['mariano', 'dolori', 'misericordia', 'spirito'], rosario: 'mariano',
+      playing: null, paused: false, playPos: 0,
+      story: null, storyFill: 0,
+      sheet: null, sheetOn: 0,
+      chatImg: null, chatTessera: false, chatPrayer: null, chatFrame: null, chatReply: 2,
+      mine: [], compose: { text: '', firma: '', bg: 0, ok: false }, sent: false,
+      pray: {}, reminder: false,
+      photo: null, shot: false, flash: 0, flashTr: 'none', wallMine: [],
+      toast: '', toastOn: 0
+    };
+  }
+
+  preset(sc) {
+    const A = this.A();
+    const P = {
+      splash: { screen: 'splash' },
+      home: { screen: 'home' },
+      menu: { screen: 'home', menu: true, menuIn: 1 },
+      passi: { screen: 'passi' },
+      modello: { screen: 'modello', modello: '730' },
+      calendario: { screen: 'calendario', day: 5 },
+      rosario: { screen: 'rosario', rTab: 'tutti' },
+      preferiti: { screen: 'rosario', rTab: 'preferiti' },
+      raccolte: { screen: 'rosario', rTab: 'raccolte' },
+      mariano: { screen: 'rosarioDet', rosario: 'mariano' },
+      grazie: { screen: 'grazie', firmato: true, nome: 'Chiara' },
+      miafirma: { screen: 'miafirma', firmato: true, nome: 'Chiara', passi: [true, true, true, true] },
+      news: { screen: 'news' },
+      storie: { screen: 'news', story: 0, storyFill: 0.45 },
+      preghiere: { screen: 'preghiere' },
+      componi: { screen: 'componi', nome: 'Chiara', compose: { text: 'Signore, insegnami a vedere chi mi sta accanto.', firma: 'Chiara', bg: 0, ok: true } },
+      condividi: { screen: 'condividi' },
+      canali: { screen: 'condividi', sheet: { img: A.credo1, alt: 'Io, ci credo. Destina il tuo 8xmille alla Chiesa Cattolica.' }, sheetOn: 1 },
+      whatsapp: { screen: 'chat', chatImg: A.wa3, chatReply: 2 },
+      camera: { screen: 'camera' },
+      scatto: { screen: 'camera', shot: true },
+      wall: { screen: 'wall', wallMine: [A.selfie] }
+    };
+    return P[sc] || P.splash;
+  }
+
+  S() {
+    return Object.assign(this.stato0(), this.preset(this.props.scene || 'splash'), this.state || {});
+  }
+
+  go(screen, extra) {
+    const s = this.S();
+    const keep = s.screen === 'splash' || s.screen === screen;
+    const hist = keep ? s.hist : s.hist.concat([s.screen]).slice(-15);
+    this.setState(Object.assign({ screen, hist, menu: false, menuIn: 0, menuPressed: null, enter: 0, sheet: null, sheetOn: 0, story: null }, extra || {}));
+    this.later(() => this.setState({ enter: 1 }), 34);
+    if (screen === 'chat') this.startChat();
+  }
+
+  back() {
+    const s = this.S();
+    const hist = s.hist.slice();
+    const prev = hist.pop() || 'home';
+    this.setState({ screen: prev, hist, enter: 0, menu: false, sheet: null, story: null, shot: false });
+    this.later(() => this.setState({ enter: 1 }), 34);
+  }
+
+  toast(msg) {
+    clearTimeout(this._toastT);
+    this.setState({ toast: msg, toastOn: 1 });
+    this._toastT = this.later(() => this.setState({ toastOn: 0 }), 2400);
+  }
+
+  openMenu() {
+    this.setState({ menu: true, menuIn: 0, menuPressed: null });
+    this.later(() => this.setState({ menuIn: 1 }), 20);
+  }
+
+  closeMenu() {
+    this.setState({ menuIn: 0 });
+    this.later(() => this.setState({ menu: false }), 240);
+  }
+
+  pickMenu(id) {
+    this.setState({ menuPressed: id });
+    this.later(() => this.go(id, id === 'componi' ? { sent: false } : null), 190);
+  }
+
+  openStory(i) {
+    clearTimeout(this._storyT);
+    this.setState({ story: i, storyFill: 0 });
+    this.later(() => this.setState({ storyFill: 1 }), 40);
+    this._storyT = this.later(() => this.nextStory(), 5050);
+  }
+
+  nextStory() {
+    const s = this.S();
+    if (s.story === null || s.story === undefined) return;
+    if (s.story >= 5) this.closeStory(); else this.openStory(s.story + 1);
+  }
+
+  prevStory() {
+    const s = this.S();
+    this.openStory(Math.max(0, (s.story || 0) - 1));
+  }
+
+  closeStory() {
+    clearTimeout(this._storyT);
+    this.setState({ story: null });
+  }
+
+  togglePlay(id) {
+    const s = this.S();
+    if (s.playing === id) { this.setState({ paused: !s.paused }); return; }
+    clearInterval(this._play);
+    this.setState({ playing: id, paused: false, playPos: 0 });
+    this._play = setInterval(() => {
+      const t = this.S();
+      if (!t.playing || t.paused) return;
+      const p = t.playPos + 1 / 180;
+      if (p >= 1) { clearInterval(this._play); this.setState({ playing: null, playPos: 0 }); }
+      else this.setState({ playPos: p });
+    }, 500);
+  }
+
+  stopPlay() {
+    clearInterval(this._play);
+    this.setState({ playing: null, playPos: 0, paused: false });
+  }
+
+  toggleFav(id) {
+    const s = this.S();
+    const on = s.favs.indexOf(id) >= 0;
+    this.setState({ favs: on ? s.favs.filter((x) => x !== id) : s.favs.concat([id]) });
+    this.toast(on ? 'Tolto dai preferiti' : 'Aggiunto ai preferiti');
+  }
+
+  startChat() {
+    this.setState({ chatReply: 0 });
+    this.later(() => this.setState({ chatReply: 1 }), 1100);
+    this.later(() => this.setState({ chatReply: 2 }), 2900);
+  }
+
+  openSheet(item) {
+    this.setState({ sheet: item, sheetOn: 0 });
+    this.later(() => this.setState({ sheetOn: 1 }), 24);
+  }
+
+  closeSheet() {
+    this.setState({ sheetOn: 0 });
+    this.later(() => this.setState({ sheet: null }), 320);
+  }
+
+  shareTo(k) {
+    const it = this.S().sheet || {};
+    if (k === 'whatsapp') {
+      this.go('chat', { chatImg: it.img || null, chatTessera: !!it.tessera, chatPrayer: it.prayer || null, chatFrame: it.frame || null });
+      return;
+    }
+    const msg = { instagram: 'Pronta per le Storie di Instagram', facebook: 'Pronta da pubblicare su Facebook', link: 'Link copiato: 8xmille.it', salva: 'Immagine salvata nelle foto' }[k];
+    this.closeSheet();
+    this.toast(msg);
+  }
+
+  setCompose(patch) {
+    const s = this.S();
+    this.setState({ compose: Object.assign({}, s.compose, patch) });
+  }
+
+  sendPrayer() {
+    const s = this.S();
+    const c = s.compose;
+    if (!c.text.trim()) { this.toast('Scrivi prima la tua preghiera'); return; }
+    if (!c.ok) { this.toast('Serve il consenso alla pubblicazione'); return; }
+    const item = { text: c.text.trim(), firma: c.firma.trim(), bg: c.bg };
+    this.setState({ sent: true, mine: [item].concat(s.mine), nome: s.nome || c.firma.trim() });
+  }
+
+  onPhoto(e) {
+    const f = e && e.target && e.target.files && e.target.files[0];
+    if (!f) return;
+    this.setState({ photo: URL.createObjectURL(f), shot: false });
+  }
+
+  shoot() {
+    this.setState({ flash: 1, flashTr: 'none' });
+    this.later(() => this.setState({ flash: 0, flashTr: 'opacity .7s ease-out', shot: true }), 60);
+  }
+
+  publish() {
+    const s = this.S();
+    this.go('wall', { wallMine: [s.photo || this.A().selfie].concat(s.wallMine), shot: false });
+    this.later(() => this.toast('Pubblicata sul Social Wall'), 380);
+  }
+
+  sfondi() {
+    const A = this.A();
+    return [
+      { img: A.bgBlu, label: 'Sfondo cielo blu' },
+      { img: A.bgChiesa, label: 'Sfondo chiesa' },
+      { img: A.bgLuce, label: 'Sfondo luce' },
+      { color: '#FF6501', label: 'Sfondo arancio' },
+      { color: '#1F1F1F', label: 'Sfondo notte' }
+    ];
+  }
+
+  rosari() {
+    const base = [
+      { t: '1. Segno della Croce', b: 'Nel nome del Padre e del Figlio\ne dello Spirito Santo.\nAmen.' },
+      { t: '2. Credo', b: 'Io credo in Dio, Padre onnipotente,\ncreatore del cielo e della terra;\ne in Gesù Cristo, suo unico Figlio,\nnostro Signore,\nil quale fu concepito di Spirito Santo,\nnacque da Maria Vergine,\npatì sotto Ponzio Pilato,\nfu crocifisso, morì e fu sepolto;\ndiscese agli inferi;\nil terzo giorno risuscitò da morte;\nsalì al cielo,\nsiede alla destra di Dio Padre onnipotente;\ndi là verrà a giudicare i vivi e i morti.\nCredo nello Spirito Santo,\nla santa Chiesa cattolica,\nla comunione dei santi,\nla remissione dei peccati,\nla risurrezione della carne,\nla vita eterna.\nAmen.' },
+      { t: '3. Padre Nostro', b: 'Padre nostro, che sei nei cieli,\nsia santificato il tuo nome,\nvenga il tuo regno,\nsia fatta la tua volontà,\ncome in cielo così in terra.\nDacci oggi il nostro pane quotidiano,\ne rimetti a noi i nostri debiti\ncome anche noi li rimettiamo\nai nostri debitori,\ne non abbandonarci alla tentazione,\nma liberaci dal male.\nAmen.' },
+      { t: '4. Tre Ave Maria', b: 'Ave, o Maria, piena di grazia,\nil Signore è con te.\nTu sei benedetta fra le donne\ne benedetto è il frutto del tuo seno, Gesù.\nSanta Maria, Madre di Dio,\nprega per noi peccatori,\nadesso e nell’ora della nostra morte.\nAmen.' },
+      { t: '5. Gloria al Padre', b: 'Gloria al Padre e al Figlio\ne allo Spirito Santo.\nCome era nel principio, e ora e sempre\nnei secoli dei secoli.\nAmen.' },
+      { t: '6. I Misteri', b: 'Gaudiosi: lunedì e sabato\nLuminosi: giovedì\nDolorosi: martedì e venerdì\nGloriosi: mercoledì e domenica' }
+    ];
+    const mis = [
+      { t: '1. Segno della Croce', b: base[0].b },
+      { t: '2. Padre Nostro, Ave Maria, Credo', b: 'Sui primi grani della corona.' },
+      { t: '3. Sui grani del Padre Nostro', b: 'Eterno Padre, ti offro il Corpo e il Sangue,\nl’Anima e la Divinità\ndel tuo dilettissimo Figlio\ne Signore nostro Gesù Cristo,\nin espiazione dei nostri peccati\ne di quelli del mondo intero.' },
+      { t: '4. Sui grani dell’Ave Maria', b: 'Per la sua dolorosa Passione,\nabbi misericordia di noi\ne del mondo intero.' },
+      { t: '5. Alla fine, tre volte', b: 'Santo Dio, Santo Forte, Santo Immortale,\nabbi pietà di noi e del mondo intero.' },
+      { t: '6. Invocazione', b: 'Gesù, confido in te.' }
+    ];
+    const r = (name, title, desc, sec) => ({ name, title, desc, sec: sec || base });
+    return {
+      mariano: r('Rosario Mariano', 'Mariano', 'Il Rosario per eccellenza,\ncon i misteri Gaudiosi,\nLuminosi, Dolorosi e Gloriosi.'),
+      dolori: r('Rosario dei Sette Dolori', 'Sette Dolori', 'Sette settenari di Ave Maria\nper meditare i dolori\ndella Vergine Maria.'),
+      misericordia: r('Rosario della Divina Misericordia', 'Divina Misericordia', 'La Coroncina affidata\na Santa Faustina Kowalska.', mis),
+      spirito: r('Rosario dello Spirito Santo', 'Spirito Santo', 'Per invocare i sette doni\ndello Spirito Santo.'),
+      piaghe: r('Rosario delle Sante Piaghe', 'Sante Piaghe', 'Per contemplare le piaghe\ndi Gesù crocifisso.'),
+      giuseppe: r('Rosario di San Giuseppe', 'San Giuseppe', 'Per affidare la famiglia e il lavoro\nal custode della Santa Famiglia.'),
+      rita: r('Rosario di Santa Rita', 'Santa Rita', 'La corona della santa\ndei casi impossibili.'),
+      lacrime: r('Rosario delle Lacrime di Maria', 'Lacrime di Maria', 'Una preghiera di consolazione\nper chi soffre.')
+    };
+  }
+
+  modelli() {
+    const T = (m) => () => this.toast(m);
+    const caf = { label: 'CAF', go: T('Cerca un CAF vicino a te') };
+    const pro = { label: 'Professionista abilitato', go: T('Cerca un professionista abilitato') };
+    return {
+      '730': { title: 'Modello 730', blocks: [
+        { p: 'Il modello 730 si può inviare anche avendo solo un reddito di lavoro dipendente o pensione con oneri detraibili e deducibili.' },
+        { p: 'Questo modello comprende la scheda “MODELLO 730-1 Scheda per la scelta della destinazione dell’8 per mille, del 5 per mille e del 2 per mille dell’IRPEF”.' },
+        { p: 'Si firma dentro la casella nell’area dedicata all’8xmille.' },
+        { p: 'Una volta compilato, il modello può essere consegnato in busta chiusa a:' },
+        { links: [caf, pro, { label: 'Datore di lavoro', go: T('Chiedi al tuo datore di lavoro') }] },
+        { ae: 'In alternativa, il contribuente può presentare all’Agenzia delle Entrate il modello 730 precompilato e il 730-1 con la scheda per l’8xmille direttamente via internet attraverso il' },
+        { p: 'La scadenza coincide con quella per la presentazione del Modello 730.' },
+        { k: 'È obbligatorio fare il 730?' },
+        { p: 'No. I lavoratori dipendenti e i pensionati possono scegliere tra il modello 730 e il modello Redditi. E chi non è tenuto a presentare la dichiarazione può comunque firmare, con la scheda allegata alla Certificazione Unica.' }
+      ] },
+      redditi: { title: 'Modello Redditi', blocks: [
+        { p: 'Il modello Redditi Persone Fisiche è la dichiarazione per chi ha redditi che non rientrano nel 730, o preferisce non usarlo.' },
+        { p: 'Contiene la scheda per la scelta della destinazione dell’8 per mille, del 5 per mille e del 2 per mille dell’IRPEF: si firma nella casella della Chiesa cattolica.' },
+        { p: 'Si presenta per via telematica, tramite:' },
+        { links: [caf, pro] },
+        { ae: 'Oppure direttamente, da solo, attraverso il' },
+        { p: 'La scadenza coincide con quella per la presentazione del modello Redditi.' }
+      ] },
+      cu: { title: 'Modello CU', blocks: [
+        { p: 'Hai solo la Certificazione Unica e non sei obbligato a presentare la dichiarazione? Puoi scegliere lo stesso.' },
+        { p: 'Usa la scheda per la scelta dell’8xmille allegata alla CU: firma nella casella della Chiesa cattolica e nello spazio in basso.' },
+        { p: 'Consegna la scheda in busta chiusa, gratuitamente, a:' },
+        { links: [{ label: 'Ufficio postale', go: T('Cerca l’ufficio postale più vicino') }, caf, pro] },
+        { p: 'Sulla busta scrivi “Scelta per la destinazione dell’otto, del cinque e del due per mille dell’IRPEF”, con cognome, nome e codice fiscale.' },
+        { k: 'Si può fare anche online' },
+        { ae: 'La scheda si può inviare anche via internet, attraverso il' }
+      ] }
+    };
+  }
+
+  giorno(d) {
+    const wd = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'][(d + 2) % 7];
+    const wk = d <= 3 ? 'XXVI' : d <= 10 ? 'XXVII' : d <= 17 ? 'XXVIII' : d <= 24 ? 'XXIX' : 'XXX';
+    const SA = {
+      1: ['Santa Teresa di Gesù Bambino, vergine e dottore della Chiesa', 'Memoria'],
+      2: ['Santi Angeli Custodi', 'Memoria'],
+      5: ['Santa Faustina Kowalska, vergine', 'Memoria facoltativa'],
+      6: ['San Bruno, sacerdote', 'Memoria facoltativa'],
+      7: ['Beata Vergine Maria del Rosario', 'Memoria'],
+      9: ['San Giovanni Leonardi, sacerdote', 'Memoria facoltativa'],
+      14: ['San Callisto I, papa e martire', 'Memoria facoltativa'],
+      15: ['Santa Teresa di Gesù, vergine e dottore della Chiesa', 'Memoria'],
+      16: ['Santa Margherita Maria Alacoque, vergine', 'Memoria facoltativa'],
+      17: ['Sant’Ignazio di Antiochia, vescovo e martire', 'Memoria'],
+      19: ['San Paolo della Croce, sacerdote', 'Memoria'],
+      22: ['San Giovanni Paolo II, papa', 'Memoria facoltativa'],
+      23: ['San Giovanni da Capestrano, sacerdote', 'Memoria facoltativa'],
+      24: ['Sant’Antonio Maria Claret, vescovo', 'Memoria facoltativa'],
+      28: ['Santi Simone e Giuda, apostoli', 'Festa']
+    };
+    const r = { dateLabel: wd + ' ' + d + ' ottobre', hasImg: false, hasLink: false, hasSub: false, sub: '', bio: '', linkLabel: '', go: null };
+    if (wd === 'Domenica') { r.title = wk + ' Domenica del Tempo Ordinario'; r.kind = 'Domenica'; }
+    else if (SA[d]) { r.title = SA[d][0]; r.kind = SA[d][1]; }
+    else { r.title = wd + ' della ' + wk + ' settimana del Tempo Ordinario'; r.kind = 'Feria'; }
+    if (d === 18) { r.hasSub = true; r.sub = 'Giornata Missionaria Mondiale'; }
+    if (d === 5) {
+      r.hasImg = true;
+      r.bio = 'Maria Faustyna Kowalska, al secolo Helena (Głogowiec, 25/08/1905 – Cracovia, 5/10/1938), è stata una religiosa polacca, appartenente alla congregazione delle Suore della Beata Vergine Maria della Misericordia, propagatrice della devozione a Gesù misericordioso; nel 2000 è stata canonizzata da papa Giovanni Paolo II. Viene venerata in tutto il mondo come l’Apostola della Divina Misericordia.';
+      r.hasLink = true; r.linkLabel = 'Prega la Coroncina della Divina Misericordia';
+      r.go = () => this.go('rosarioDet', { rosario: 'misericordia' });
+    }
+    if (d === 7) {
+      r.hasLink = true; r.linkLabel = 'Prega il Rosario Mariano';
+      r.go = () => this.go('rosarioDet', { rosario: 'mariano' });
+    }
+    return r;
+  }
+
+  renderVals() {
+    const s = this.S();
+    const A = this.A();
+    const R = this.rosari();
+    const BGS = this.sfondi();
+    const scr = s.screen;
+    const full = scr === 'splash' || scr === 'grazie' || scr === 'camera' || scr === 'chat';
+    const is = { header: !full, menu: !!s.menu, sheet: !!s.sheet, story: s.story !== null && s.story !== undefined };
+    ['splash', 'home', 'passi', 'modello', 'calendario', 'rosario', 'rosarioDet', 'grazie', 'miafirma', 'news', 'preghiere', 'componi', 'condividi', 'chat', 'camera', 'wall'].forEach((k) => { is[k] = scr === k; });
+    const pr = s.playing ? R[s.playing] : null;
+    is.mini = !!pr && !full && !is.story && !is.menu;
+    const fx = { op: s.enter ? 1 : 0, ty: s.enter ? 0 : 14 };
+    const pad = is.mini ? 104 : 40;
+    const homePad = 96 + (is.mini ? 74 : 0);
+    const step = pr ? Math.min(pr.sec.length - 1, Math.floor(s.playPos * pr.sec.length)) : 0;
+    const mp = pr
+      ? { title: pr.name, sub: pr.sec[step].t, pct: Math.round(s.playPos * 1000) / 10, bottom: is.home ? 92 : 12, label: s.paused ? 'Riprendi' : 'Pausa', isPause: !s.paused, isPlay: !!s.paused }
+      : { title: '', sub: '', pct: 0, bottom: 12, label: 'Riproduci', isPause: false, isPlay: true };
+    const tst = { msg: s.toast, op: s.toastOn ? 1 : 0, ty: s.toastOn ? 0 : 10, bottom: (is.home ? 102 : 30) + (is.mini ? 74 : 0) };
+
+    const h = {
+      home: () => this.go('home'),
+      openMenu: () => this.openMenu(),
+      closeMenu: () => this.closeMenu(),
+      skipSplash: () => this.go('home'),
+      cta: () => this.go(s.firmato ? 'miafirma' : 'passi'),
+      goNews: () => this.go('news'),
+      goOggi: () => this.go('calendario', { day: 12 }),
+      playMariano: () => this.togglePlay('mariano'),
+      openMariano: () => this.go('rosarioDet', { rosario: 'mariano' }),
+      goPreghiere: () => this.go('preghiere'),
+      goComponi: () => this.go('componi', { sent: false }),
+      goCondividi: () => this.go('condividi'),
+      goCamera: () => this.go('camera', { shot: false }),
+      goWall: () => this.go('wall'),
+      goPassi: () => this.go('passi'),
+      m730: () => this.go('modello', { modello: '730' }),
+      mRedditi: () => this.go('modello', { modello: 'redditi' }),
+      mCU: () => this.go('modello', { modello: 'cu' }),
+      firmato: () => (s.firmato ? this.go('miafirma') : this.go('grazie', { firmato: true })),
+      numeroVerde: () => this.toast('Chiamata al Numero Verde 8xmille'),
+      mail: () => this.toast('Si apre la mail per scriverci'),
+      back: () => this.back(),
+      upload: () => this.toast('Registra la tua voce o scegli un file audio'),
+      nuovaRaccolta: () => this.toast('Scegli i rosari da mettere nella nuova raccolta'),
+      closeGrazie: () => this.go('miafirma'),
+      setNome: (e) => this.setState({ nome: String(e.target.value).slice(0, 22) }),
+      shareTessera: () => this.openSheet({ tessera: true }),
+      storieFromGrazie: () => { this.go('news'); this.later(() => this.openStory(0), 420); },
+      toggleRem: () => { const on = !s.reminder; this.setState({ reminder: on }); this.toast(on ? 'Promemoria attivo per la primavera 2027' : 'Promemoria disattivato'); },
+      parrocchia: () => this.toast('Cerca la parrocchia più vicina a te'),
+      closeStory: () => this.closeStory(),
+      prevStory: () => this.prevStory(),
+      nextStory: () => this.nextStory(),
+      shareStory: () => { const g = G[s.story || 0]; this.closeStory(); this.openSheet({ img: g.img, alt: g.alt }); },
+      cpText: (e) => this.setCompose({ text: String(e.target.value).slice(0, 110) }),
+      cpFirma: (e) => this.setCompose({ firma: String(e.target.value).slice(0, 24) }),
+      cpOk: (e) => this.setCompose({ ok: !!e.target.checked }),
+      send: () => this.sendPrayer(),
+      shareMine: () => this.go('chat', { chatImg: null, chatTessera: false, chatPrayer: s.mine[0] || null, chatFrame: null }),
+      closeSheet: () => this.closeSheet(),
+      chatDone: () => this.back(),
+      photo: (e) => this.onPhoto(e),
+      shoot: () => this.shoot(),
+      publish: () => this.publish(),
+      retake: () => this.setState({ shot: false }),
+      shareFrame: () => this.openSheet({ frame: s.photo || A.selfie }),
+      openPlaying: () => { if (s.playing) this.go('rosarioDet', { rosario: s.playing }); },
+      toggleMini: () => { if (s.playing) this.togglePlay(s.playing); },
+      stopPlay: () => this.stopPlay(),
+      favCurrent: () => this.toggleFav(s.rosario),
+      playCurrent: () => this.togglePlay(s.rosario)
+    };
+
+    // Menu
+    const MI = [['passi', 'Come destinare l’8xmille'], ['miafirma', 'La mia firma'], ['calendario', 'Calendario Liturgico'], ['rosario', 'Rosario'], ['preghiere', 'Le vostre preghiere'], ['news', 'News'], ['condividi', 'Condividi']];
+    const owner = { modello: 'passi', rosarioDet: 'rosario', componi: 'preghiere', wall: 'condividi' };
+    const curMenu = owner[scr] || scr;
+    const menuItems = MI.map(([id, label]) => {
+      const p = s.menuPressed === id;
+      return { label, bg: p ? '#FF6501' : 'transparent', fg: p ? '#FFFFFF' : (curMenu === id ? '#E25800' : '#111111'), line: p ? '#FF6501' : '#A6A6A6', pick: () => this.pickMenu(id) };
+    });
+    const mn = { op: s.menuIn ? 1 : 0, ty: s.menuIn ? 0 : -8 };
+
+    // News / storie
+    const G = [
+      { img: A.gesto1, tag: 'Mense Caritas', title: 'Centinaia di migliaia di pasti, ogni anno', alt: '8xmille: un gesto concreto. Un cuoco prepara le verdure nella cucina di una mensa. Io, ci credo.' },
+      { img: A.gesto2, tag: 'Accoglienza', title: 'Un luogo da chiamare casa', alt: '8xmille: un gesto concreto. Due donne, una mano sulla spalla. Io, ci credo.' },
+      { img: A.gesto3, tag: 'Mense', title: 'La rete delle mense e delle parrocchie', alt: '8xmille: un gesto concreto. Volontarie servono i pasti in una mensa. Io, ci credo.' },
+      { img: A.gesto4, tag: 'Cura', title: 'Accanto a chi è malato', alt: '8xmille: un gesto concreto. Mani di un medico preparano una cura. Io, ci credo.' },
+      { img: A.gesto5, tag: 'Famiglie', title: 'Nei momenti più difficili', alt: '8xmille: un gesto concreto. Mani di adulti e di un bambino unite. Io, ci credo.' },
+      { img: A.gesto6, tag: 'Famiglie', title: 'Il pane di ogni giorno', alt: '8xmille: un gesto concreto. Mani che si passano delle mele. Io, ci credo.' }
+    ];
+    const gesti = G.map((g, i) => Object.assign({}, g, { open: () => this.openStory(i) }));
+    const news = { first: gesti[0], rest: gesti.slice(1) };
+    const si = is.story ? Math.max(0, Math.min(5, s.story)) : 0;
+    const sg = G[si];
+    const st = {
+      img: sg.img, alt: sg.alt, title: sg.title, tag: sg.tag,
+      bars: G.map((x, j) => ({
+        w: j < si ? '100%' : j > si ? '0%' : (s.storyFill === 1 ? '100%' : Math.round(s.storyFill * 100) + '%'),
+        tr: j === si && s.storyFill === 1 ? 'width 5s linear' : 'none'
+      }))
+    };
+
+    // Home
+    const marOn = s.playing === 'mariano' && !s.paused;
+    const home = { cta: s.firmato ? 'La tua firma dice chi sei' : 'Scopri come, passo dopo passo', playBg: marOn ? '#FF6501' : '#C8C8C8', isPause: marOn, isPlay: !marOn, playLabel: marOn ? 'Pausa' : 'Ascolta il Rosario Mariano' };
+
+    // Passi
+    const ST = [['01', 'Compila la dichiarazione', ''], ['02', 'Scegli l’8xmille', 'Nella sezione dedicata, scegli la Chiesa Cattolica.'], ['03', 'Firma la tua scelta', 'La firma rende esplicita la tua destinazione dell’8xmille.'], ['04', 'Invia la dichiarazione', 'Controlla i dati e invia.\nLa tua scelta è fatta.']];
+    const steps = ST.map(([n, t, d], i) => {
+      const on = !!s.passi[i];
+      return {
+        n, t, d, links: i === 0, plain: i !== 0, pressed: on,
+        bg: on ? '#FF6501' : '#C8C8C8',
+        label: on ? 'Passo ' + n + ' fatto' : 'Segna il passo ' + n + ' come fatto',
+        toggle: () => { const p = s.passi.slice(); p[i] = !p[i]; this.setState({ passi: p }); }
+      };
+    });
+    const done = s.passi.filter(Boolean).length;
+    const passi = {
+      count: done, pct: done * 25,
+      btn: s.firmato ? 'Vedi la tua tessera' : 'Ho firmato la mia scelta',
+      hint: s.firmato ? 'Hai già firmato: grazie per averci creduto.' : (done === 4 ? 'Perfetto: la tua scelta è fatta.' : 'Segna i passi man mano che li completi.')
+    };
+
+    // Modelli
+    const MODS = this.modelli();
+    const m = MODS[s.modello] || MODS['730'];
+    const mod = {
+      title: m.title,
+      blocks: m.blocks.map((b) => ({
+        isP: !!b.p, isK: !!b.k, isAE: !!b.ae, isLinks: !!b.links,
+        text: b.p || b.k || b.ae || '', links: b.links || []
+      }))
+    };
+    const mtabs = [['730', '730'], ['redditi', 'Redditi'], ['cu', 'CU']].map(([id, label]) => ({
+      label: 'Modello ' + label, on: s.modello === id,
+      color: s.modello === id ? '#E25800' : '#555555', line: s.modello === id ? '#FF6501' : 'transparent',
+      pick: () => this.setState({ modello: id })
+    }));
+
+    // Calendario
+    const raw = [];
+    [28, 29, 30].forEach((n) => raw.push({ label: String(n), out: true }));
+    for (let d = 1; d <= 31; d++) raw.push({ label: String(d), d });
+    raw.push({ label: '1', out: true });
+    const cells = raw.map((c, i) => {
+      const sunday = i % 7 === 6;
+      const sel = !c.out && c.d === s.day;
+      const today = !c.out && c.d === 12;
+      return {
+        label: c.label, disabled: !!c.out, sel,
+        aria: c.out ? 'Fuori mese' : (c.d + ' ottobre' + (today ? ', oggi' : '')),
+        bg: c.out ? '#D6D6D6' : sel ? '#FF6501' : sunday ? '#4F4F4F' : '#808080',
+        halo: sel ? 1 : 0,
+        ring: today && !sel ? '0 0 0 2px #F0F0F0, 0 0 0 3.5px #FF6501' : 'none',
+        cursor: c.out ? 'default' : 'pointer',
+        pick: () => { if (!c.out) this.setState({ day: c.d }); }
+      };
+    });
+    const day = this.giorno(s.day);
+
+    // Rosario
+    const ids = Object.keys(R);
+    const row = (id, faded) => {
+      const fav = s.favs.indexOf(id) >= 0;
+      const on = s.playing === id && !s.paused;
+      return {
+        name: R[id].name, color: faded ? '#8E8E8E' : '#161616',
+        isFav: fav, notFav: !fav,
+        favBg: fav ? '#FF6501' : (faded ? '#DADADA' : '#C8C8C8'),
+        favLabel: fav ? 'Togli ' + R[id].name + ' dai preferiti' : 'Aggiungi ' + R[id].name + ' ai preferiti',
+        fav: () => this.toggleFav(id),
+        isPlaying: on, notPlaying: !on,
+        playBg: on ? '#FF6501' : (faded ? '#DADADA' : '#C8C8C8'),
+        playLabel: on ? 'Pausa' : 'Ascolta ' + R[id].name,
+        play: () => this.togglePlay(id),
+        open: () => this.go('rosarioDet', { rosario: id })
+      };
+    };
+    const rAll = ids.map((id) => row(id, false));
+    const rFav = s.favs.map((id) => row(id, false));
+    const rOther = ids.filter((id) => s.favs.indexOf(id) < 0).map((id) => row(id, true));
+    const RC = [[A.racc1, 'Rosario del mattino', '10/10/2026'], [A.racc2, 'Rosario della sera', '8/10/2026'], [A.racc3, 'Rosario della fiducia', '4/8/2026'], [A.racc4, 'Rosario per la pace', '3/6/2026'], ['', 'Rosario per la famiglia', '1/5/2026']];
+    const racc = RC.map(([img, t, d], i) => ({
+      img, hasImg: !!img, noImg: !img, t, d: 'Creata ' + d,
+      color: i === 4 ? '#8E8E8E' : '#2E2E2E', sub: i === 4 ? '#9A9A9A' : '#3A3A3A',
+      line: i === 4 ? 'transparent' : '#A6A6A6',
+      open: () => { this.togglePlay('mariano'); this.toast('In ascolto: ' + t); }
+    }));
+    const RT = [['tutti', 'Tutti'], ['preferiti', 'Preferiti'], ['raccolte', 'Le mie raccolte']];
+    const rTabs = RT.map(([id, label]) => ({ label, on: s.rTab === id, color: s.rTab === id ? '#E25800' : '#555555', line: s.rTab === id ? '#FF6501' : 'transparent', pick: () => this.setState({ rTab: id }) }));
+    const ros = { title: s.rTab === 'tutti' ? 'Tutti i rosari' : s.rTab === 'preferiti' ? 'Preferiti' : 'Le mie raccolte', tutti: s.rTab === 'tutti', pref: s.rTab === 'preferiti', racc: s.rTab === 'raccolte', noFav: s.favs.length === 0 };
+    const rr = R[s.rosario] || R.mariano;
+    const isThis = s.playing === s.rosario;
+    const fv = s.favs.indexOf(s.rosario) >= 0;
+    const rd = {
+      title: rr.title, desc: rr.desc,
+      isPause: isThis && !s.paused, isPlay: !(isThis && !s.paused),
+      playLabel: isThis && !s.paused ? 'Pausa' : 'Ascolta il ' + rr.name,
+      fav: fv, notFav: !fv, favLabel: fv ? 'Nei preferiti' : 'Aggiungi ai preferiti',
+      favBg: fv ? '#FF6501' : 'transparent', favFg: fv ? '#FFFFFF' : '#D45400',
+      sec: rr.sec.map((x, i) => ({ t: x.t, b: x.b, now: isThis && i === step, color: isThis && i === step ? '#E25800' : '#161616' }))
+    };
+
+    // Grazie / La mia firma
+    const gz = { o1: s.enter ? 250 : 430, o2: s.enter ? 500 : 690, o3: s.enter ? 170 : 300, cardTop: s.enter ? 248 : 300 };
+    const PH = [['Scoprire', 'Questi valori sono anche i miei.'], ['Considerare', 'È importante scegliere, e questa struttura sa usare bene ciò che riceve.'], ['Decidere', 'Come si fa? Quando?'], ['Ricevere', 'Ho fatto una scelta giusta, e ne sono contento.'], ['Rinnovare', 'Lo dico anche agli altri, e lo rifarò.']];
+    const cur = s.firmato ? (s.reminder ? 4 : 3) : 2;
+    const journey = PH.map(([label, text], i) => ({
+      label, text, current: i === cur, line: i < 4,
+      dot: i === cur ? 14 : 10,
+      fill: i < cur ? '#FF6501' : '#FFFFFF',
+      stroke: i <= cur ? '#FF6501' : '#A6A6A6',
+      labelColor: i === cur ? '#161616' : (i < cur ? '#555555' : '#8E8E8E'),
+      weight: i === cur ? 700 : 400,
+      textColor: i === cur ? '#161616' : (i < cur ? '#555555' : '#8E8E8E')
+    }));
+    const mf = {
+      signed: !!s.firmato, unsigned: !s.firmato, rem: !!s.reminder,
+      swBg: s.reminder ? '#FF6501' : '#C8C8C8', swX: s.reminder ? 20 : 0,
+      remText: s.reminder ? 'Attivo: ti scriveremo in primavera 2027, quando si apre la stagione delle dichiarazioni.' : 'Ti avviseremo in primavera, quando si apre la stagione delle dichiarazioni.'
+    };
+
+    // Preghiere
+    const PR = [
+      { img: A.preg1, by: 'Costanza e Anna', alt: 'Nessuno ha un amore più grande di questo: dare la vita per i propri amici. Costanza e Anna. Le vostre preghiere.' },
+      { img: A.wa3, by: 'Teresa', alt: 'C’è più gioia nel dare che nel ricevere. Teresa. Le vostre preghiere.' },
+      { img: A.preg3, by: 'Franco', alt: 'La verità vi farà liberi. Franco. Le vostre preghiere.' },
+      { img: A.wa1, by: 'Costanza e Anna', alt: 'Nessuno ha un amore più grande di questo: dare la vita per i propri amici. Costanza e Anna. Le vostre preghiere.' },
+      { img: A.preg2, by: 'Teresa', alt: 'C’è più gioia nel dare che nel ricevere. Teresa. Le vostre preghiere.' },
+      { img: A.wa2, by: 'Franco', alt: 'La verità vi farà liberi. Franco. Le vostre preghiere.' }
+    ];
+    const prayers = PR.map((p, i) => {
+      const on = !!s.pray[i];
+      return Object.assign({}, p, {
+        on, label: on ? 'Preghi con ' + p.by : 'Prego anch’io',
+        bg: on ? '#FF6501' : 'transparent', fg: on ? '#FFFFFF' : '#161616', border: on ? '#FF6501' : '#A6A6A6',
+        pray: () => { const mm = Object.assign({}, s.pray); mm[i] = !mm[i]; this.setState({ pray: mm }); },
+        share: () => this.openSheet({ img: p.img, alt: p.alt })
+      });
+    });
+    const homePrayers = prayers.slice(0, 4);
+    const bgOf = (i) => BGS[i] || BGS[0];
+    const mine = s.mine.map((x) => ({ text: x.text, firma: x.firma, img: bgOf(x.bg).img || '', color: bgOf(x.bg).color || '#1F1F1F', share: () => this.openSheet({ prayer: x }) }));
+    const c = s.compose;
+    const last = s.mine[0] || { text: c.text, firma: c.firma, bg: c.bg };
+    const who = (s.nome || c.firma || '').trim();
+    const cp = {
+      text: c.text, firma: c.firma, img: bgOf(c.bg).img || '', color: bgOf(c.bg).color || '#1F1F1F',
+      len: c.text.length, ok: !!c.ok, btnOp: c.text.trim() && c.ok ? 1 : 0.45,
+      notSent: !s.sent, sent: !!s.sent,
+      sentText: last.text, sentFirma: last.firma, sentImg: bgOf(last.bg).img || '', sentColor: bgOf(last.bg).color || '#1F1F1F',
+      thanks: who ? 'Grazie, ' + who + '.' : 'Grazie.',
+      bgs: BGS.map((b, i) => ({ label: b.label, img: b.img || '', hasImg: !!b.img, color: b.color || '#000000', sel: c.bg === i, outline: c.bg === i ? '2px solid #FF6501' : '2px solid transparent', pick: () => this.setCompose({ bg: i }) }))
+    };
+
+    // Condividi
+    const CR = [A.credo1, A.credo2, A.credo3, A.credo4, A.credo5, A.credo6];
+    const credo = CR.map((img) => ({ img, alt: 'Io, ci credo. Destina il tuo 8xmille alla Chiesa Cattolica. Sosteniamo le persone nei momenti più difficili.', open: () => this.openSheet({ img, alt: 'Io, ci credo.' }) }))
+      .concat([{ img: A.etu, alt: '8xmille: un gesto concreto. Io, ci credo. E tu?', open: () => this.openSheet({ img: A.etu, alt: 'Io, ci credo. E tu?' }) }]);
+    const waRail = [PR[3], PR[5], PR[1], PR[0], PR[4], PR[2]].map((p) => ({ img: p.img, alt: p.alt, open: () => this.openSheet({ img: p.img, alt: p.alt }) }));
+    const WL = [
+      [A.wall1, 'Voi siete la luce del mondo.'], [A.credo4, 'Io, ci credo.'], [A.wall2, 'Ero straniero e mi avete accolto.'],
+      [A.wall3, 'Ho avuto fame e mi avete dato da mangiare.'], [A.wall4, 'Io sono con voi tutti i giorni.'], [A.wall5, 'Non abbiate paura.'],
+      [A.wall6, 'Dove andrai tu, andrò anch’io.'], [A.wall7, 'C’è più gioia nel dare che nel ricevere.'], [A.credo2, 'Io, ci credo.']
+    ];
+    const wallItems = WL.map(([img, alt]) => ({ img, alt: alt + ' Io, ci credo.', share: () => this.openSheet({ img, alt }) }));
+    const wallPreview = wallItems.slice(0, 6);
+    const wallMine = s.wallMine.map((p) => ({ photo: p, share: () => this.openSheet({ frame: p }) }));
+    const cd = { photo: s.photo || A.selfie };
+
+    // Scelta del canale
+    const it = s.sheet || {};
+    const ip = it.prayer || { text: '', firma: '', bg: 0 };
+    const sh = {
+      op: s.sheetOn ? 1 : 0, ty: s.sheetOn ? 0 : 100,
+      isTessera: !!it.tessera, isPrayer: !!it.prayer, isFrame: !!it.frame, isImg: !!it.img,
+      img: it.img || '', alt: it.alt || '', frame: it.frame || '',
+      pText: ip.text, pFirma: ip.firma, pImg: bgOf(ip.bg).img || '', pColor: bgOf(ip.bg).color || '#1F1F1F'
+    };
+    const targets = [['whatsapp', 'WhatsApp'], ['instagram', 'Instagram'], ['facebook', 'Facebook'], ['link', 'Copia link'], ['salva', 'Salva']].map(([k, label]) => ({
+      label, bg: k === 'whatsapp' ? '#FF6501' : '#FFFFFF', fg: k === 'whatsapp' ? '#FFFFFF' : '#161616', border: k === 'whatsapp' ? '#FF6501' : '#D6D6D6',
+      isWa: k === 'whatsapp', isIg: k === 'instagram', isFb: k === 'facebook', isLink: k === 'link', isSave: k === 'salva',
+      go: () => this.shareTo(k)
+    }));
+
+    // Chat
+    const cpr = s.chatPrayer || { text: '', firma: '', bg: 0 };
+    const anyContent = !!(s.chatImg || s.chatTessera || s.chatPrayer || s.chatFrame);
+    const chat = {
+      status: s.chatReply === 1 ? 'Lucia sta scrivendo…' : 'Mamma, Luca, Lucia, tu',
+      typing: s.chatReply === 1, reply: s.chatReply === 2,
+      isTessera: !!s.chatTessera, isPrayer: !!s.chatPrayer, isFrame: !!s.chatFrame,
+      isImg: !anyContent || (!!s.chatImg && !s.chatTessera && !s.chatPrayer && !s.chatFrame),
+      img: s.chatImg || A.etu, alt: 'Card della campagna Io, ci credo.',
+      pText: cpr.text, pFirma: cpr.firma, pImg: bgOf(cpr.bg).img || '', pColor: bgOf(cpr.bg).color || '#1F1F1F',
+      frame: s.chatFrame || ''
+    };
+
+    // Photo frame
+    const cam = { photo: s.photo || A.selfie, live: !s.shot, shot: !!s.shot, flash: s.flash || 0, flashTr: s.flashTr || 'none' };
+
+    return {
+      A, is, fx, h, pad, homePad, mp, tst, mn, menuItems,
+      home, gesti, news, st, homePrayers,
+      steps, passi, mod, mtabs,
+      cells, day,
+      rTabs, ros, rAll, rFav, rOther, racc, rd,
+      gz, v: { nome: s.nome }, mf, journey,
+      prayers, mine, cp,
+      cd, credo, waRail, wallItems, wallPreview, wallMine,
+      sh, targets, chat, cam
+    };
+  }
+}
+
+return Component;
+});
+def('Tessera', function () {
+
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w) || 250;
+    const k = w / 250;
+    const raw = this.props.nome === undefined ? 'Chiara' : this.props.nome;
+    const nome = String(raw || '').trim();
+    return { t: { w, h: Math.round(312 * k), k, nome, has: !!nome, empty: !nome } };
+  }
+}
+
+return Component;
+});
+def('Preghiera', function () {
+
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w) || 338;
+    const k = w / 338;
+    const P = this.props;
+    const testo = P.testo === undefined ? 'Signore, insegnami a vedere chi mi sta accanto.' : String(P.testo || '');
+    const sfondo = P.sfondo === undefined ? 'img/bg_blu.jpg' : String(P.sfondo || '');
+    const firma = P.firma === undefined ? 'Chiara' : String(P.firma || '');
+    const hasImg = !!sfondo;
+    return {
+      p: {
+        w, h: Math.round(423 * k), k,
+        testo: testo.trim() ? testo : 'Scrivi qui la tua preghiera.',
+        op: testo.trim() ? 1 : 0.6,
+        firma,
+        sfondo, hasImg,
+        colore: P.colore || '#1F1F1F',
+        a1: hasImg ? 0.5 : 0, a2: hasImg ? 0.4 : 0
+      }
+    };
+  }
+}
+
+return Component;
+});
+def('Frame', function () {
+
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w) || 390;
+    const h = Number(this.props.h) || 666;
+    const k = w / 390;
+    const r = (n) => Math.round(n * 10) / 10;
+    return {
+      f: {
+        w, h,
+        foto: this.props.foto || 'img/selfie.jpg',
+        x: r(30 * k), top: r(Math.max(56 * k, h * 0.1)),
+        title: r(60 * k), sub: r(17 * k), gap: r(10 * k),
+        logo: r(64 * k), lr: r(24 * k), lb: r(24 * k)
+      }
+    };
+  }
+}
+
+return Component;
+});
+
+  var stage = document.getElementById('stage');
+  var phone = document.getElementById('phone');
+  function fit() {
+    var w = stage.clientWidth, hh = stage.clientHeight;
+    var wide = w > 560;
+    document.documentElement.classList.toggle('wide', wide);
+    var s = wide ? Math.min((w - 64) / 390, (hh - 64) / 844, 1.2) : Math.min(w / 390, hh / 844);
+    phone.style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+  P.render(h(REG.Main, { scene: 'splash' }), phone);
+})();
+</script>
+
+</body></html>
