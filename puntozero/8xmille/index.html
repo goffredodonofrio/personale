@@ -2,10 +2,11 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-visual">
 <title>8xmille · Io, ci credo.</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#F0F0F0">
+<meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -14,13 +15,12 @@
 <link rel="apple-touch-icon" href="icona-180.png">
 <link rel="icon" type="image/png" href="icona-192.png">
 <style>
-body { box-sizing: border-box; padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px); }
-@media (display-mode: standalone) { body { background: #F0F0F0 !important; } }
+html { height: 100%; background: #1E1D1C; }
+body { box-sizing: border-box; padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
+@media (max-width: 560px), (display-mode: standalone) { html, body { background: #F0F0F0 !important; } }
 </style>
 </head>
 <body>
-
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&amp;family=Mrs+Saint+Delafield&amp;display=swap">
 <style>
 /* Una sola schermata: il telefono al centro, scalato per entrare nello schermo; su telefono l'app occupa tutto. */
@@ -47,6 +47,11 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 .wide .side--bottom { display: flex; flex-direction: column; gap: 10px; }
 .side--bottom strong { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.05; color: var(--ink); }
 #phone button:focus-visible, #phone a:focus-visible, #phone label:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overscroll-behavior: none; }
+#phone { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; touch-action: manipulation; }
+#phone button, #phone a, #phone img { -webkit-user-select: none; user-select: none; }
+#phone [style*="overflow-y: auto"], #phone [style*="overflow-x: auto"] { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 @media (prefers-reduced-motion: reduce) { #phone * { transition-duration: 0s !important; } }
 </style>
 
@@ -57,7 +62,7 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 </div>
 
 <template id="tpl-Main">
-<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #F0F0F0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #161616; -webkit-font-smoothing: antialiased">
+<div style="position: relative; width: 390px; height: 100%; overflow: hidden; background: #F0F0F0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #161616; -webkit-font-smoothing: antialiased">
 
 <!-- HEADER -->
 <sc-if value="{{is.header}}" hint-placeholder-val="{{true}}">
@@ -73,8 +78,8 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- SPLASH -->
 <sc-if value="{{is.splash}}" hint-placeholder-val="{{false}}">
-<button onClick="{{h.skipSplash}}" aria-label="Entra nell’app" style="position: absolute; left: 0; top: 0; z-index: 20; display: block; width: 390px; height: 844px; padding: 0; border: 0; background: #FF6501; cursor: pointer">
-<img src="{{A.splash}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 390px; height: 844px; object-fit: cover">
+<button onClick="{{h.skipSplash}}" aria-label="Entra nell’app" style="position: absolute; left: 0; top: 0; z-index: 20; display: block; width: 390px; height: 100%; padding: 0; border: 0; background: #FF6501; cursor: pointer">
+<img src="{{A.splash}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 100%; height: 100%; object-fit: cover">
 </button>
 </sc-if>
 
@@ -667,7 +672,7 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- GRAZIE -->
 <sc-if value="{{is.grazie}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; overflow: hidden; background: linear-gradient(172deg, #FF5300 0%, #FF6A00 48%, #FF5800 100%); opacity: {{fx.op}}; transition: opacity .45s ease">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 20; overflow: hidden; background: linear-gradient(172deg, #FF5300 0%, #FF6A00 48%, #FF5800 100%); opacity: {{fx.op}}; transition: opacity .45s ease">
 <div aria-hidden="true" style="position: absolute; left: -70px; top: {{gz.o1}}px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(200,202,244,.85) 0%, rgba(200,202,244,0) 68%); transition: top 1.6s cubic-bezier(.2,.7,.2,1)"></div>
 <div aria-hidden="true" style="position: absolute; right: -80px; top: {{gz.o2}}px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(240,150,240,.8) 0%, rgba(240,150,240,0) 66%); transition: top 1.9s cubic-bezier(.2,.7,.2,1)"></div>
 <div aria-hidden="true" style="position: absolute; left: 230px; top: {{gz.o3}}px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 66%); transition: top 2.2s cubic-bezier(.2,.7,.2,1)"></div>
@@ -676,10 +681,10 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 <h1 style="margin: 0; font-family: 'Source Serif 4', Georgia, serif; font-weight: 400; font-size: 46px; line-height: .98; letter-spacing: -.6px; color: #FFFFFF; transform: translateY({{fx.ty}}px); transition: transform .7s cubic-bezier(.2,.7,.2,1)">Grazie per averci creduto.</h1>
 <p style="margin: 14px 0 0; font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 21px; color: #FFFFFF">La tua firma dice chi sei.</p>
 </div>
-<div style="position: absolute; left: 70px; top: {{gz.cardTop}}px; transform: rotate(-4deg); box-shadow: 0 30px 50px rgba(90,25,0,.35); transition: top .9s cubic-bezier(.2,.8,.2,1)">
-<dc-import name="Tessera" nome="{{v.nome}}" w="250" hint-size="250px,312px"></dc-import>
+<div style="position: absolute; left: {{gz.cardLeft}}px; top: {{gz.cardTop}}px; transform: rotate(-4deg); box-shadow: 0 30px 50px rgba(90,25,0,.35); transition: top .9s cubic-bezier(.2,.8,.2,1)">
+<dc-import name="Tessera" nome="{{v.nome}}" w="{{gz.cardW}}" hint-size="250px,312px"></dc-import>
 </div>
-<div style="position: absolute; left: 28px; right: 28px; top: 596px">
+<div style="position: absolute; left: 28px; right: 28px; bottom: 182px">
 <label for="firma-tessera" style="display: block; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #FFFFFF">Firma la tua tessera</label>
 <input id="firma-tessera" value="{{v.nome}}" onChange="{{h.setNome}}" placeholder="Il tuo nome" style="display: block; width: 100%; height: 42px; box-sizing: border-box; margin-top: 4px; padding: 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.85); border-radius: 0; background: transparent; color: #FFFFFF; font-family: 'Source Serif 4', Georgia, serif; font-size: 20px; outline: none">
 </div>
@@ -692,7 +697,7 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- CHAT: MESSAGGIO CONDIVISIBILE -->
 <sc-if value="{{is.chat}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; background: #ECE8E1; opacity: {{fx.op}}; transition: opacity .3s ease">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 20; background: #ECE8E1; opacity: {{fx.op}}; transition: opacity .3s ease">
 <div style="position: absolute; left: 0; right: 0; top: 0; height: 92px; box-sizing: border-box; background: #F0F0F0; border-bottom: 1px solid #D8D8D8; display: flex; align-items: flex-end; gap: 10px; padding: 0 16px 12px 6px">
 <button onClick="{{h.back}}" aria-label="Indietro" style="width: 40px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="11" height="19" viewBox="0 0 11 19" fill="none" aria-hidden="true"><path d="M9.5 1.5l-8 8 8 8" stroke="#FF6501" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
 <span style="flex: none; width: 42px; height: 42px; border-radius: 50%; background: #1F1F1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px">F</span>
@@ -733,14 +738,14 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- PHOTO FRAME -->
 <sc-if value="{{is.camera}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 20; background: #000000; opacity: {{fx.op}}; transition: opacity .3s ease">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 666px; overflow: hidden; border-radius: 0 0 18px 18px">
-<dc-import name="Frame" foto="{{cam.photo}}" w="390" h="666" hint-size="390px,666px"></dc-import>
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 20; background: #000000; opacity: {{fx.op}}; transition: opacity .3s ease">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: {{cam.vh}}px; overflow: hidden; border-radius: 0 0 18px 18px">
+<dc-import name="Frame" foto="{{cam.photo}}" w="390" h="{{cam.vh}}" hint-size="390px,666px"></dc-import>
 </div>
 <button onClick="{{h.back}}" aria-label="Chiudi il photo frame" style="position: absolute; left: 8px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 2l16 16M18 2L2 18" stroke="#FFFFFF" stroke-width="1.8"></path></svg></button>
 <div style="position: absolute; left: 60px; right: 60px; top: 22px; text-align: center; font-size: 11.5px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #FFFFFF; text-shadow: 0 1px 6px rgba(0,0,0,.45)">Photo frame</div>
 <sc-if value="{{cam.live}}" hint-placeholder-val="{{true}}">
-<div style="position: absolute; left: 0; right: 0; top: 694px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px">
+<div style="position: absolute; left: 0; right: 0; bottom: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px">
 <label style="position: relative; display: block; width: 46px; height: 46px; border-radius: 10px; overflow: hidden; border: 2px solid #FFFFFF; box-sizing: border-box; cursor: pointer">
 <img src="{{cam.photo}}" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
 <input type="file" accept="image/*" onChange="{{h.photo}}" aria-label="Scegli una foto dalla galleria" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer">
@@ -751,12 +756,12 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 <input type="file" accept="image/*" capture="user" onChange="{{h.photo}}" aria-label="Scatta un selfie con la fotocamera" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer">
 </label>
 </div>
-<div style="position: absolute; left: 0; right: 0; top: 796px; display: flex; justify-content: center; gap: 22px; font-size: 12.5px; letter-spacing: 1.3px; text-transform: uppercase">
+<div style="position: absolute; left: 0; right: 0; bottom: 30px; display: flex; justify-content: center; gap: 22px; font-size: 12.5px; letter-spacing: 1.3px; text-transform: uppercase">
 <span style="color: #8A8A8A">Storia</span><span style="color: #FFFFFF; font-weight: 600">Foto</span><span style="color: #8A8A8A">Post</span>
 </div>
 </sc-if>
 <sc-if value="{{cam.shot}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 20px; right: 20px; top: 686px; display: flex; flex-direction: column; gap: 8px">
+<div style="position: absolute; left: 20px; right: 20px; bottom: 40px; display: flex; flex-direction: column; gap: 8px">
 <button onClick="{{h.publish}}" style="height: 54px; border: 0; background: #FF6501; color: #FFFFFF; font-size: 14.5px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Pubblica sul Social Wall</button>
 <div style="display: flex; gap: 8px">
 <button onClick="{{h.retake}}" style="flex: 1; height: 48px; border: 1px solid rgba(255,255,255,.6); background: transparent; color: #FFFFFF; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; cursor: pointer">Rifai</button>
@@ -764,7 +769,7 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 </div>
 </div>
 </sc-if>
-<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: #FFFFFF; pointer-events: none; opacity: {{cam.flash}}; transition: {{cam.flashTr}}"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; background: #FFFFFF; pointer-events: none; opacity: {{cam.flash}}; transition: {{cam.flashTr}}"></div>
 </div>
 </sc-if>
 
@@ -789,7 +794,7 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- MENU -->
 <sc-if value="{{is.menu}}" hint-placeholder-val="{{false}}">
-<nav aria-label="Menu principale" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 30; background: #F1F1F1; opacity: {{mn.op}}; transform: translateY({{mn.ty}}px); transition: opacity .22s ease, transform .26s cubic-bezier(.2,.7,.2,1)">
+<nav aria-label="Menu principale" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 30; background: #F1F1F1; opacity: {{mn.op}}; transform: translateY({{mn.ty}}px); transition: opacity .22s ease, transform .26s cubic-bezier(.2,.7,.2,1)">
 <div style="height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 26px">
 <button onClick="{{h.home}}" aria-label="Home" style="display: block; width: 58px; height: 58px; padding: 0; border: 0; background: none; cursor: pointer"><img src="{{A.logo}}" alt="8xmille Chiesa Cattolica" style="display: block; width: 58px; height: 58px"></button>
 <button onClick="{{h.closeMenu}}" aria-label="Chiudi il menu" style="width: 50px; height: 50px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 2l20 20M22 2L2 22" stroke="#FF6501" stroke-width="1.5"></path></svg></button>
@@ -805,8 +810,8 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- CONDIVIDI: SCELTA DEL CANALE -->
 <sc-if value="{{is.sheet}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 40">
-<button onClick="{{h.closeSheet}}" aria-label="Chiudi" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; padding: 0; border: 0; background: rgba(0,0,0,.5); opacity: {{sh.op}}; transition: opacity .3s ease; cursor: pointer"></button>
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 40">
+<button onClick="{{h.closeSheet}}" aria-label="Chiudi" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; padding: 0; border: 0; background: rgba(0,0,0,.5); opacity: {{sh.op}}; transition: opacity .3s ease; cursor: pointer"></button>
 <section aria-label="Condividi" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 20px 24px; background: #F7F7F7; border-radius: 18px 18px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,.2); transform: translateY({{sh.ty}}%); transition: transform .38s cubic-bezier(.2,.8,.2,1)">
 <div style="width: 38px; height: 4px; margin: 0 auto; border-radius: 2px; background: #C4C4C4"></div>
 <div style="display: flex; justify-content: center; margin-top: 18px">
@@ -838,8 +843,8 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 
 <!-- STORIE -->
 <sc-if value="{{is.story}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 50; overflow: hidden; background: #000000">
-<img src="{{st.img}}" alt="" aria-hidden="true" style="position: absolute; left: -40px; top: -40px; width: 470px; height: 924px; object-fit: cover; filter: blur(28px) brightness(.45)">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; z-index: 50; overflow: hidden; background: #000000">
+<img src="{{st.img}}" alt="" aria-hidden="true" style="position: absolute; left: -40px; top: -40px; width: 470px; height: calc(100% + 80px); object-fit: cover; filter: blur(28px) brightness(.45)">
 <div style="position: absolute; left: 12px; right: 12px; top: 12px; z-index: 3; display: flex; gap: 4px">
 <sc-for list="{{st.bars}}" as="b" hint-placeholder-count="6">
 <div style="flex: 1; height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.35); overflow: hidden"><div style="height: 2.5px; width: {{b.w}}; background: #FFFFFF; transition: {{b.tr}}"></div></div>
@@ -853,9 +858,9 @@ body { margin: 0; overflow: hidden; background: var(--ground); color: var(--ink)
 </div>
 <button onClick="{{h.closeStory}}" aria-label="Chiudi le storie" style="width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 2l16 16M18 2L2 18" stroke="#FFFFFF" stroke-width="1.8"></path></svg></button>
 </div>
-<img src="{{st.img}}" alt="{{st.alt}}" style="position: absolute; left: 0; top: 168px; z-index: 1; display: block; width: 390px; height: 487px; object-fit: cover">
-<button onClick="{{h.prevStory}}" aria-label="Storia precedente" style="position: absolute; left: 0; top: 80px; width: 130px; height: 640px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
-<button onClick="{{h.nextStory}}" aria-label="Storia successiva" style="position: absolute; right: 0; top: 80px; width: 260px; height: 640px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
+<img src="{{st.img}}" alt="{{st.alt}}" style="position: absolute; left: 0; top: {{st.top}}px; z-index: 1; display: block; width: 390px; height: 487px; object-fit: cover">
+<button onClick="{{h.prevStory}}" aria-label="Storia precedente" style="position: absolute; left: 0; top: 80px; width: 130px; height: {{st.tapH}}px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
+<button onClick="{{h.nextStory}}" aria-label="Storia successiva" style="position: absolute; right: 0; top: 80px; width: 260px; height: {{st.tapH}}px; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer"></button>
 <div style="position: absolute; left: 20px; right: 20px; bottom: 28px; z-index: 3; display: flex; align-items: center; gap: 12px">
 <div style="flex: 1; min-width: 0; font-family: 'Source Serif 4', Georgia, serif; font-size: 19px; line-height: 1.2; color: #FFFFFF">{{st.title}}</div>
 <button onClick="{{h.shareStory}}" style="flex: none; height: 42px; padding: 0 18px 0 14px; border-radius: 21px; border: 0; background: #FFFFFF; color: #161616; font-size: 12.5px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; cursor: pointer"><svg width="15" height="16" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M8 11V1.5M4 5l4-3.5L12 5M2.5 9v6h11V9" stroke="#161616" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>Condividi</button>
@@ -1384,6 +1389,7 @@ class Component extends DCLogic {
     const R = this.rosari();
     const BGS = this.sfondi();
     const scr = s.screen;
+    const H = Math.max(600, Number(this.props.altezza) || 844);
     const full = scr === 'splash' || scr === 'grazie' || scr === 'camera' || scr === 'chat';
     const is = { header: !full, menu: !!s.menu, sheet: !!s.sheet, story: s.story !== null && s.story !== undefined };
     ['splash', 'home', 'passi', 'modello', 'calendario', 'rosario', 'rosarioDet', 'grazie', 'miafirma', 'news', 'preghiere', 'componi', 'condividi', 'chat', 'camera', 'wall'].forEach((k) => { is[k] = scr === k; });
@@ -1477,6 +1483,7 @@ class Component extends DCLogic {
     const sg = G[si];
     const st = {
       img: sg.img, alt: sg.alt, title: sg.title, tag: sg.tag,
+      top: Math.max(66, Math.round((H - 487) / 2 - 10)), tapH: Math.max(300, H - 200),
       bars: G.map((x, j) => ({
         w: j < si ? '100%' : j > si ? '0%' : (s.storyFill === 1 ? '100%' : Math.round(s.storyFill * 100) + '%'),
         tr: j === si && s.storyFill === 1 ? 'width 5s linear' : 'none'
@@ -1586,7 +1593,10 @@ class Component extends DCLogic {
     };
 
     // Grazie / La mia firma
-    const gz = { o1: s.enter ? 250 : 430, o2: s.enter ? 500 : 690, o3: s.enter ? 170 : 300, cardTop: s.enter ? 248 : 300 };
+    const gzSpace = H - 448;
+    const gzW = Math.round(Math.max(130, Math.min(250, (gzSpace - 24) * 250 / 330)));
+    const gzTop = Math.round(200 + Math.max(0, (gzSpace - gzW * 1.25) / 2));
+    const gz = { o1: s.enter ? 250 : 430, o2: s.enter ? 500 : 690, o3: s.enter ? 170 : 300, cardW: gzW, cardLeft: Math.round((390 - gzW) / 2), cardTop: s.enter ? gzTop : gzTop + 52 };
     const PH = [['Scoprire', 'Questi valori sono anche i miei.'], ['Considerare', 'È importante scegliere, e questa struttura sa usare bene ciò che riceve.'], ['Decidere', 'Come si fa? Quando?'], ['Ricevere', 'Ho fatto una scelta giusta, e ne sono contento.'], ['Rinnovare', 'Lo dico anche agli altri, e lo rifarò.']];
     const cur = s.firmato ? (s.reminder ? 4 : 3) : 2;
     const journey = PH.map(([label, text], i) => ({
@@ -1681,7 +1691,7 @@ class Component extends DCLogic {
     };
 
     // Photo frame
-    const cam = { photo: s.photo || A.selfie, live: !s.shot, shot: !!s.shot, flash: s.flash || 0, flashTr: s.flashTr || 'none' };
+    const cam = { vh: H - 178, photo: s.photo || A.selfie, live: !s.shot, shot: !!s.shot, flash: s.flash || 0, flashTr: s.flashTr || 'none' };
 
     return {
       A, is, fx, h, pad, homePad, mp, tst, mn, menuItems,
@@ -1765,17 +1775,34 @@ return Component;
 
   var stage = document.getElementById('stage');
   var phone = document.getElementById('phone');
+  var lastH = 0, lastW = 0;
   function fit() {
     var w = stage.clientWidth, hh = stage.clientHeight;
-    var wide = w > 560;
+    if (!w || !hh) return;
+    var wide = w > 560 && hh > 500;
     document.documentElement.classList.toggle('wide', wide);
-    var s = wide ? Math.min((w - 64) / 390, (hh - 64) / 844, 1.2) : Math.min(w / 390, hh / 844);
+    var s, H;
+    if (wide || hh < w * 1.25) {
+      H = 844;
+      s = wide ? Math.min((w - 64) / 390, (hh - 64) / 844, 1.2) : Math.min(w / 390, hh / 844);
+    } else {
+      s = w / 390;
+      H = Math.round(hh / s);
+      var ae = document.activeElement;
+      if (lastH && w === lastW && H < lastH - 80 && ae && /^(INPUT|TEXTAREA)$/.test(ae.tagName)) H = lastH;
+      if (H < 640) { H = 640; s = Math.min(w / 390, hh / 640); }
+    }
+    phone.style.height = H + 'px';
     phone.style.transform = 'scale(' + s + ')';
+    if (H !== lastH) P.render(h(REG.Main, { scene: 'splash', altezza: H }), phone);
+    lastH = H; lastW = w;
   }
   window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 250); });
   fit();
-  P.render(h(REG.Main, { scene: 'splash' }), phone);
 })();
 </script>
 
-</body></html>
+
+</body>
+</html>
