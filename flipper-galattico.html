@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261016210206">
+<meta name="build" content="20261016212058">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -78,6 +78,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 #loading{position:fixed;inset:0;z-index:35;display:grid;place-items:center;background:var(--night);font:800 18px/1 var(--display);color:var(--gold)}
 .padf{outline:4px solid var(--gold)!important;outline-offset:4px}
 body.tv,body.tv *{cursor:none!important}
+@media (min-width:900px) and (min-aspect-ratio:3/4){#dmd{left:calc(16px + env(safe-area-inset-left));transform:none;width:400px;height:92px;flex-wrap:wrap}#dmd .big{font-size:36px}#turni{top:calc(110px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));right:auto}#pauseBtn{left:auto;right:calc(12px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top))}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -94,13 +95,13 @@ body.tv,body.tv *{cursor:none!important}
     <a class="back" href="famiglia.html">← Famiglia</a>
     <div><p class="kick">Un gioco della famiglia · in una galassia lontana lontana</p><h1>Flipper <em>Galattico</em></h1></div>
     <div class="spade"></div>
-    <p class="lede">Lord Ombra ha nascosto la sua Luna Nera ai confini della galassia. La famiglia sale sull'astronave: due spade laser come flipper, tre droidi che respingono la pallina, sette bersagli con le nostre facce e l'orbita dell'iperspazio. Colpite la Luna Nera cinque volte per distruggerla e scatenare la multipalla.</p>
+    <p class="lede">Lord Ombra ha nascosto la sua Luna Nera ai confini della galassia. La famiglia sale sull'astronave: due spade laser come flipper, due rampe di metallo che si incrociano, tre droidi, sette bersagli con le nostre facce, le orbite e l'hangar che lancia le missioni. Distruggete la Luna Nera e completate le quattro missioni per il Lato Luminoso.</p>
     <div class="fam" id="famRow"></div>
     <div class="row"><button type="button" class="cta" id="bPlay">▶ Gioca</button><button type="button" class="ghost" id="bHow">Come si gioca</button><button type="button" class="ghost" id="bAudio">🔊 Suono</button></div>
     <div class="how hidden" id="howBox">
       <div><b>I flipper</b><p>Computer: Z o ⇧ sinistro e M o ⇧ destro (vanno bene anche le frecce ◀ ▶); Spazio o ▼ tieni premuto per caricare il lancio. Telefono: tocca la metà sinistra o destra dello schermo; per lanciare tieni premuto 🚀. Controller: dorsali o grilletti, A per lanciare.</p></div>
-      <div><b>Cosa colpire</b><p>I tre droidi respingono e danno punti. I sette bersagli della famiglia: abbattuti tutti, «Squadra completa» e il moltiplicatore sale. Le tre luci in alto accese tutte: iperspazio. L'orbita a sinistra fa il giro del tavolo.</p></div>
-      <div><b>La Luna Nera</b><p>Cinque colpi e la Luna Nera esplode: punti a pioggia e una seconda pallina. All'inizio di ogni pallina lo scudo deflettore la salva per 10 secondi. Si gioca a turno, fino a quattro, tre palline a testa.</p></div>
+      <div><b>Cosa colpire</b><p>Le rampe Iperspazio e Asteroidi (dieci rampe = una pallina in più), le orbite a destra e a sinistra, i sette bersagli della famiglia («Squadra completa» alza il moltiplicatore), le luci in alto (droidi super) e le corsie L-U-C-E, che riaccendono la respinta a sinistra.</p></div>
+      <div><b>Missioni e Luna Nera</b><p>Nell'hangar parte una missione da 30 secondi: Luna, Iperspazio, Famiglia, Ombra. Fatte tutte e quattro: Lato Luminoso, tre palline e jackpot ovunque. Cinque colpi alla Luna Nera: multipalla. Lo scudo salva la pallina nei primi 10 secondi. Si gioca a turno, fino a quattro.</p></div>
     </div>
     <div class="rec"><b>🏆 Record di casa (su questo dispositivo)</b><ol id="recList"></ol></div>
   </div>
@@ -249,45 +250,6 @@ function ombra(ctx, cx, top, h, alfa = 1) {
   ctx.restore();
 }
 
-/* ---------------------------------------------------------------- il tavolo */
-const R = 1.2, G = 100, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126;
-const MURI = [];   // {x1,y1,x2,y2, tipo: 'muro'|'gomma'|'porta', col}
-const muro = (x1, y1, x2, y2, tipo = 'muro', col = '#4FC3FF') => MURI.push({x1, y1, x2, y2, tipo, col});
-// arco in alto: dal lato sinistro (-24.4, 96) a quello destro (28.4, 96)
-const ARC = {cx: 2, cy: 96, r: 26.4};
-{ let p = null; for (let i = 0; i <= 28; i++) { const a = Math.PI - Math.PI * i / 28, q = [ARC.cx + Math.cos(a) * ARC.r, ARC.cy + Math.sin(a) * ARC.r]; if (p) muro(p[0], p[1], q[0], q[1], 'muro', '#B86CFF'); p = q; } }
-muro(-24.4, 30, -24.4, 96);                 // fianco sinistro
-muro(28.4, 0, 28.4, 96);                    // fianco del corridoio di lancio
-muro(24.6, 0, 24.6, 88);                    // tra corridoio e tavolo
-muro(24.6, 0, 28.4, 0);                     // fondo del corridoio (la molla)
-muro(28.4, 93, 24.6, 89.5, 'porta', '#FFD84F');   // si passa solo salendo
-muro(-24.4, 30, -10.4, 12.0, 'muro', '#FF9A3C');  // guide verso i flipper: finiscono dentro il perno, così la pallina scivola sulla lama
-muro(24.6, 30, 10.4, 12.0, 'muro', '#FF9A3C');
-muro(-18.6, 60, -18.6, 92, 'muro', '#6CFF8A');    // corsia dell'orbita
-// fionde
-// fionde: il lato esterno è parallelo alla guida (in mezzo resta la corsia che porta al flipper), il lato interno spinge verso il centro
-for (const s of [-1, 1]) {
-  const A = [18.1 * s, 27.2], B = [11.5 * s, 18.4], C = [12.2 * s, 21.6];
-  muro(A[0], A[1], B[0], B[1]); muro(B[0], B[1], C[0], C[1]); muro(C[0], C[1], A[0], A[1], 'gomma', '#FFFFFF');
-}
-const DROIDI = [{x: -7, y: 76, r: 2.8}, {x: 7, y: 76, r: 2.8}, {x: 0, y: 86.5, r: 2.8}].map(d => ({...d, lampo: 0}));
-const LUNA = {x: 0, y: 104, r: 3.2, colpi: 0, serve: 5, via: 0, lampo: 0};
-const BERS = FAM.map((f, i) => ({k: f.k, x: -7.8 + i * 2.6, y: 58, giu: 0, alt: 1}));
-const LUCI = [{x: -10, y: 114}, {x: 0, y: 115.6}, {x: 10, y: 114}].map(l => ({...l, on: 0, cd: 0}));
-const PALI = [{x: -5, y: 114.6, r: 0.6}, {x: 5, y: 114.6, r: 0.6}];
-const ORBITA = {x: -21.5, y: 86, cd: 0};
-const FL = [
-  {px: -10.2, py: 11.2, a0: -0.436, a1: 0.489, a: -0.436, w: 0, su: false, lato: -1},
-  {px: 10.2, py: 11.2, a0: Math.PI + 0.436, a1: Math.PI - 0.489, a: Math.PI + 0.436, w: 0, su: false, lato: 1},
-];
-const FLL = 8.4;
-const LANCIO = {x: 26.5, y: R + 0.01};
-
-/* ---------------------------------------------------------------- stato del gioco */
-const ATTESE = []; function dopo(sec, fn) { ATTESE.push({t: sec, fn}); }
-const S = {fase: 'menu', giocatori: [], cur: 0, palla: 1, palle: [], mult: 1, scudo: 0, carica: 0, caricando: false, msg: '', msgT: 0, t: 0, orbite: 0, orbitaT: 0, lunaVolte: 0, pausa: false};
-let N = 1; const SCELTI = ['edoardo', 'bianca', 'goffredo', 'carolina'];
-
 /* ---------------------------------------------------------------- suoni (sintetizzati) */
 let AC = null, VOL = null, AUDIO = (() => { try { return localStorage.getItem('flipper-audio') !== '0'; } catch (e) { return true; } })();
 function audio() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); VOL = AC.createGain(); VOL.gain.value = AUDIO ? 0.5 : 0; VOL.connect(AC.destination); } catch (e) {} } if (AC && AC.state === 'suspended') AC.resume(); }
@@ -335,38 +297,142 @@ function musica(on) {
     if (i % 2 === 0) { const b = BAS[Math.floor(i / 8) % BAS.length], o = AC.createOscillator(), g = AC.createGain(); o.type = 'triangle'; o.frequency.value = hz(b) * (i % 4 ? 2 : 1); g.gain.setValueAtTime(0.09, t); g.gain.exponentialRampToValueAtTime(0.001, t + passo * 1.6); o.connect(g); g.connect(VOL); o.start(t); o.stop(t + passo * 2); }
     i++; t += passo; } }, 60)};
 }
+Object.assign(SUONO, {
+  rampa: () => { for (let i = 0; i < 5; i++) osc('sawtooth', 300 + i * 160, 900 + i * 300, 0.18, 0.05, i * 0.05); rumore(0.4, 0.08, 4000); },
+  hangar: () => { osc('sine', 600, 80, 0.4, 0.3); rumore(0.12, 0.2, 800, 0.3); },
+  espulsione: () => { rumore(0.1, 0.3, 1500); osc('square', 200, 500, 0.12, 0.1); },
+  missione: () => [392, 523, 659, 784, 659, 784, 1046].forEach((f, i) => osc('square', f, f, 0.14, 0.09, i * 0.1)),
+  fatta: () => [523, 659, 784, 1046, 1318, 1568].forEach((f, i) => osc('triangle', f, f, 0.2, 0.12, i * 0.07)),
+  respinta: () => { rumore(0.15, 0.4, 900); osc('square', 120, 600, 0.2, 0.12); },
+  spinner: () => osc('square', 2400, 2200, 0.02, 0.04),
+  combo: () => [880, 1175, 1568].forEach((f, i) => osc('square', f, f, 0.08, 0.1, i * 0.06)),
+  extra: () => [523, 784, 1046, 784, 1046, 1568].forEach((f, i) => osc('square', f, f, 0.12, 0.11, i * 0.11)),
+  luminoso: () => { for (let i = 0; i < 12; i++) osc('square', 262 * Math.pow(2, i / 6), 262 * Math.pow(2, i / 6), 0.15, 0.07, i * 0.08); },
+});
+
+/* ---------------------------------------------------------------- il tavolo (secondo disegno: più ricco, 17/10/2026) */
+// Unità: largo 56, lungo 132 (x a destra, y verso l'alto del tavolo). Nel mondo 3D (dentro il gruppo inclinato) X = x, Z = -y, Y = altezza.
+const R = 1.2, G = 100, GV = 260, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126, TILT = 0.11;
+const MURI = [];
+const muro = (x1, y1, x2, y2, tipo = 'muro', col = '#4FC3FF', alto = 2) => MURI.push({x1, y1, x2, y2, tipo, col, alto});
+{ let p = null; for (let i = 0; i <= 28; i++) { const a = Math.PI - Math.PI * i / 28, q = [2 + Math.cos(a) * 26.4, 96 + Math.sin(a) * 26.4]; if (p) muro(p[0], p[1], q[0], q[1], 'muro', '#B86CFF'); p = q; } }
+muro(-24.4, 8, -24.4, 96);                                   // fianco sinistro, fino al grembiule
+muro(28.4, 0, 28.4, 96); muro(24.6, 0, 24.6, 88); muro(24.6, 0, 28.4, 0);   // corridoio di lancio
+muro(28.4, 93, 24.6, 89.5, 'porta', '#FFD84F', 0.6);         // si passa solo salendo
+muro(-24.4, 8, -4.5, -1.5, 'muro', '#FF9A3C'); muro(24.6, 8, 4.5, -1.5, 'muro', '#FF9A3C');   // grembiule: tutto finisce nello scarico al centro
+for (const s of [-1, 1]) {
+  muro(21.1 * s, 34, 21.1 * s, 22.5, 'muro', '#FF9A3C'); muro(21.1 * s, 22.5, 10.4 * s, 12.0, 'muro', '#FF9A3C');   // tra corsia esterna e corsia interna
+  const A = [17.4 * s, 26.0], B = [11.6 * s, 20.0], C = [11.9 * s, 25.0];   // fionda: il lato interno spinge verso il centro
+  muro(A[0], A[1], B[0], B[1]); muro(B[0], B[1], C[0], C[1], 'gomma', '#FFFFFF'); muro(C[0], C[1], A[0], A[1]);
+}
+muro(-18.6, 60, -18.6, 92, 'muro', '#6CFF8A'); muro(19.0, 58, 19.0, 88, 'muro', '#6CFF8A');   // orbite
+for (const x of [-9, -3, 3, 9]) muro(x, 108, x, 114, 'muro', '#B86CFF', 1.6);                    // corsie in alto
+// le due rampe di metallo: si entra salendo dalla bocca, si torna giù nella corsia interna dell'altro lato
+const RAMPE = [
+  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 70, 1.8], [-13.4, 80, 4.2], [-13.2, 92, 6.2], [-9, 103, 7.5], [-1, 108.5, 8], [7, 107, 8], [13.5, 100, 7.4], [17.8, 90, 6.6], [19.6, 76, 5.2], [19.4, 60, 3.4], [19.3, 46, 1.6], [19.25, 36, 0.2]]},
+  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 70, 1.8], [13.4, 80, 4.6], [12.8, 92, 7.4], [8, 102, 9.6], [0, 107, 10.4], [-8, 105, 10], [-14.5, 98, 9], [-18.4, 88, 7.5], [-19.8, 74, 5.6], [-19.5, 60, 3.6], [-19.3, 46, 1.6], [-19.25, 36, 0.2]]},
+];
+for (const r of RAMPE) {   // lunghezze dei tratti e bocca d'entrata con le due sponde
+  r.L = [0]; for (let i = 1; i < r.p.length; i++) { const a = r.p[i - 1], b = r.p[i]; r.L.push(r.L[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2])); }
+  r.tot = r.L[r.L.length - 1]; const [x, y] = r.p[0]; muro(x - 2.5, 61.5, x - 2.5, 67, 'muro', r.col, 1.6); muro(x + 2.5, 61.5, x + 2.5, 67, 'muro', r.col, 1.6);
+}
+function rampaA(r, s) {   // punto e direzione sulla rampa alla distanza s
+  s = Math.max(0, Math.min(r.tot, s)); let i = 1; while (i < r.L.length - 1 && r.L[i] < s) i++;
+  const a = r.p[i - 1], b = r.p[i], u = (s - r.L[i - 1]) / (r.L[i] - r.L[i - 1] || 1), d = r.L[i] - r.L[i - 1] || 1;
+  return {x: a[0] + (b[0] - a[0]) * u, y: a[1] + (b[1] - a[1]) * u, h: a[2] + (b[2] - a[2]) * u, tx: (b[0] - a[0]) / d, ty: (b[1] - a[1]) / d, th: (b[2] - a[2]) / d};
+}
+const DROIDI = [{x: -5, y: 99, r: 2.6}, {x: 5, y: 99, r: 2.6}, {x: 0, y: 91, r: 2.6}].map(d => ({...d, lampo: 0}));
+const LUNA = {x: 0, y: 76, r: 3.0, colpi: 0, serve: 5, via: 0, lampo: 0};
+const BERS = FAM.map((f, i) => ({k: f.k, x: -7.8 + i * 2.6, y: 58, giu: 0}));
+const LUCI = [{x: -6, y: 111}, {x: 0, y: 111}, {x: 6, y: 111}].map(l => ({...l, on: 0, cd: 0}));
+const CORSIE = [{x: -22.75, y: 27, t: 'L'}, {x: -19.25, y: 30, t: 'U'}, {x: 19.25, y: 30, t: 'C'}, {x: 22.85, y: 27, t: 'E'}].map(c => ({...c, on: 0, cd: 0}));
+const HANGAR = {x: -8, y: 84, r: 1.7, preso: null, t: 0, cd: 0};
+const SPIN = {x: -21.5, y: 70, a: 0, v: 0, cd: 0};
+const KICK = {x: -22.75, y: 13, acceso: 1, lampo: 0};
+const ORBITE = [{x: -21.5, y: 86, cd: 0, lato: -1}, {x: 21.8, y: 84, cd: 0, lato: 1}];
+const FL = [
+  {px: -10.2, py: 11.2, a0: -0.436, a1: 0.489, a: -0.436, w: 0, su: false, lato: -1},
+  {px: 10.2, py: 11.2, a0: Math.PI + 0.436, a1: Math.PI - 0.489, a: Math.PI + 0.436, w: 0, su: false, lato: 1},
+];
+const FLL = 8.4;
+const LANCIO = {x: 26.5, y: R + 0.01};
+// le missioni dell'hangar
+const MISSIONI = [
+  {nome: 'ASSALTO ALLA LUNA', tiro: 'luna', serve: 3, val: 30000},
+  {nome: "CORSA NELL'IPERSPAZIO", tiro: 'rampa', serve: 3, val: 50000},
+  {nome: 'SALVA LA FAMIGLIA', tiro: 'bersaglio', serve: 5, val: 25000},
+  {nome: 'DUELLO CON LORD OMBRA', tiro: 'orbita', serve: 3, val: 75000},
+];
+// le luci dipinte sul tavolo (si accendono a seconda del gioco)
+const LAMPADE = [
+  {id: 'riprova', x: 0, y: 17.5, f: 'cerchio', r: 1.7, col: '#FF3B3B', t: 'RIPROVA'},
+  {id: 'm0', x: -6.6, y: 37, f: 'cerchio', r: 1.25, col: '#FF3B3B', t: 'LUNA'}, {id: 'm1', x: -2.2, y: 40.5, f: 'cerchio', r: 1.25, col: '#4FC3FF', t: 'IPER'},
+  {id: 'm2', x: 2.2, y: 40.5, f: 'cerchio', r: 1.25, col: '#6CFF8A', t: 'FAMIGLIA'}, {id: 'm3', x: 6.6, y: 37, f: 'cerchio', r: 1.25, col: '#B86CFF', t: 'OMBRA'},
+  {id: 'lum', x: 0, y: 46, f: 'rombo', r: 1.6, col: '#FFD84F', t: 'LATO LUMINOSO'},
+  {id: 'x2', x: -4.5, y: 30.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '2x'}, {id: 'x3', x: -1.5, y: 31.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '3x'},
+  {id: 'x4', x: 1.5, y: 31.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '4x'}, {id: 'x5', x: 4.5, y: 30.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '5x'},
+  {id: 'fr-rs', x: -12.5, y: 53.5, f: 'freccia', r: 1.6, col: '#4FC3FF', t: 'IPERSPAZIO'}, {id: 'fr-rd', x: 12.5, y: 53.5, f: 'freccia', r: 1.6, col: '#FF9A3C', t: 'ASTEROIDI'},
+  {id: 'fr-os', x: -21.5, y: 49, f: 'freccia', r: 1.4, col: '#6CFF8A', t: 'ORBITA'}, {id: 'fr-od', x: 21.8, y: 49, f: 'freccia', r: 1.4, col: '#6CFF8A', t: 'ORBITA'},
+  {id: 'fr-luna', x: 0, y: 67.5, f: 'freccia', r: 1.5, col: '#FF3B3B', t: 'LUNA NERA'}, {id: 'fr-hangar', x: -8, y: 78.6, f: 'freccia', r: 1.2, col: '#FFD84F', t: 'HANGAR'},
+  {id: 'kick', x: -22.75, y: 19.5, f: 'cerchio', r: 1.0, col: '#FFD84F', t: 'RESPINTA'},
+  ...CORSIE.map((c, i) => ({id: 'c' + i, x: c.x, y: c.y - 3.2, f: 'cerchio', r: 0.95, col: '#4FC3FF', t: c.t})),
+  ...LUCI.map((l, i) => ({id: 'l' + i, x: l.x, y: l.y, f: 'cerchio', r: 1.1, col: '#FFD84F', t: '★'})),
+];
+
+/* ---------------------------------------------------------------- stato del gioco */
+const ATTESE = []; function dopo(sec, fn) { ATTESE.push({t: sec, fn}); }
+const S = {fase: 'menu', giocatori: [], cur: 0, palla: 1, palle: [], mult: 1, scudo: 0, carica: 0, caricando: false, msg: '', msgT: 0, t: 0, pausa: false,
+  missione: -1, missT: 0, missConta: 0, fatte: [0, 0, 0, 0], prossima: 0, luminoso: 0, rampe: 0, comboT: 0, superT: 0, extra: 0, flash: [0, 0]};
+let N = 1; const SCELTI = ['edoardo', 'bianca', 'goffredo', 'carolina'];
 
 /* ---------------------------------------------------------------- la tela del tavolo */
-const PXU = 18;   // pixel per unità
+const PXU = 18;
 function tela(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
 const px = x => (x - TX0) * PXU, py = y => (TY1 - y) * PXU;
+function hexA(h, a) { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
+function formaLampada(g, L, scala = 1) {
+  const x = px(L.x), y = py(L.y), r = L.r * PXU * scala; g.beginPath();
+  if (L.f === 'cerchio') g.arc(x, y, r, 0, 7);
+  else if (L.f === 'rombo') { g.moveTo(x, y - r * 1.3); g.lineTo(x + r, y); g.lineTo(x, y + r * 1.3); g.lineTo(x - r, y); g.closePath(); }
+  else { g.moveTo(x, y - r * 1.4); g.lineTo(x + r, y + r * 0.8); g.lineTo(x - r, y + r * 0.8); g.closePath(); }
+}
 function dipingiTavolo() {
   const c = tela((TX1 - TX0) * PXU, (TY1 - TY0) * PXU), g = c.getContext('2d'), W = c.width, H = c.height;
-  const sf = g.createLinearGradient(0, 0, 0, H); sf.addColorStop(0, '#0A0420'); sf.addColorStop(0.5, '#0B1030'); sf.addColorStop(1, '#140826'); g.fillStyle = sf; g.fillRect(0, 0, W, H);
-  for (const [x, y, r, col] of [[0.2, 0.25, 0.5, 'rgba(184,108,255,.25)'], [0.85, 0.55, 0.45, 'rgba(79,195,255,.18)'], [0.3, 0.7, 0.4, 'rgba(255,90,140,.14)']]) {
+  const sf = g.createLinearGradient(0, 0, 0, H); sf.addColorStop(0, '#0A0420'); sf.addColorStop(0.45, '#0B1236'); sf.addColorStop(1, '#170828'); g.fillStyle = sf; g.fillRect(0, 0, W, H);
+  for (const [x, y, r, col] of [[0.18, 0.2, 0.5, 'rgba(184,108,255,.28)'], [0.85, 0.5, 0.45, 'rgba(79,195,255,.2)'], [0.3, 0.72, 0.4, 'rgba(255,90,140,.16)'], [0.7, 0.12, 0.35, 'rgba(255,154,60,.14)']]) {
     const n = g.createRadialGradient(x * W, y * H, 0, x * W, y * H, r * W); n.addColorStop(0, col); n.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = n; g.fillRect(0, 0, W, H); }
   let seme = 7; const rnd = () => (seme = (seme * 16807) % 2147483647) / 2147483647;
-  for (let i = 0; i < 1600; i++) { const r = rnd() < 0.96 ? rnd() * 1.6 + 0.4 : rnd() * 3 + 1.5; g.fillStyle = `rgba(255,255,255,${0.35 + rnd() * 0.65})`; g.beginPath(); g.arc(rnd() * W, rnd() * H, r, 0, 7); g.fill(); }
+  for (let i = 0; i < 1800; i++) { const r = rnd() < 0.96 ? rnd() * 1.6 + 0.4 : rnd() * 3 + 1.5; g.fillStyle = `rgba(255,255,255,${0.3 + rnd() * 0.6})`; g.beginPath(); g.arc(rnd() * W, rnd() * H, r, 0, 7); g.fill(); }
+  // la galassia a spirale dietro i droidi
+  g.save(); g.translate(px(0), py(96)); for (let i = 0; i < 900; i++) { const a = i * 0.07, r = 4 + i * 0.32; g.fillStyle = `rgba(${200 + rnd() * 55},${170 + rnd() * 60},255,${0.5 - i / 2000})`; g.beginPath(); g.arc(Math.cos(a) * r * 1.6 + (rnd() - 0.5) * 14, Math.sin(a) * r + (rnd() - 0.5) * 14, rnd() * 2 + 0.5, 0, 7); g.fill(); g.beginPath(); g.arc(-Math.cos(a) * r * 1.6, -Math.sin(a) * r, rnd() * 2 + 0.5, 0, 7); g.fill(); } g.restore();
   // il pianeta del deserto coi due soli, in basso
-  const ps = g.createRadialGradient(px(0), py(-40), 10, px(0), py(-40), 60 * PXU); ps.addColorStop(0, '#F2C27A'); ps.addColorStop(0.8, '#C9853E'); ps.addColorStop(1, 'rgba(120,60,20,0)');
-  g.fillStyle = ps; g.beginPath(); g.arc(px(0), py(-40), 52 * PXU, 0, 7); g.fill();
-  for (const [x, y, r] of [[-12, 30, 2.4], [-6, 33, 1.6]]) { const s = g.createRadialGradient(px(x), py(y), 0, px(x), py(y), r * 3 * PXU); s.addColorStop(0, '#FFE9A8'); s.addColorStop(0.3, 'rgba(255,200,110,.75)'); s.addColorStop(1, 'rgba(255,200,80,0)'); g.fillStyle = s; g.beginPath(); g.arc(px(x), py(y), r * 3 * PXU, 0, 7); g.fill(); }
-  // gli eroi della famiglia in fila, sopra le fionde
-  const hh = 10 * PXU; FAM.forEach((f, i) => eroe(g, f.k, px(-17.5 + i * 5.1) - hh * 0.3, py(50.5), hh));
-  // il titolo
-  g.textAlign = 'center'; g.font = `800 ${3.1 * PXU}px "Bricolage Grotesque",Arial,sans-serif`; g.lineWidth = 0.5 * PXU; g.strokeStyle = '#000'; g.fillStyle = '#F2B632';
-  g.strokeText('FLIPPER GALATTICO', px(0), py(53.4)); g.fillText('FLIPPER GALATTICO', px(0), py(53.4));
-  // Lord Ombra, sbiadito, sotto la Luna Nera
-  ombra(g, px(0), py(112), 16 * PXU, 0.45);
-  // frecce dei tiri, la corsia dell'orbita, le lettere delle luci
-  const freccia = (x, y, ang, col, t) => { g.save(); g.translate(px(x), py(y)); g.rotate(-ang); g.fillStyle = col; g.globalAlpha = 0.85; g.beginPath(); g.moveTo(0, -1.6 * PXU); g.lineTo(1.3 * PXU, 0.9 * PXU); g.lineTo(-1.3 * PXU, 0.9 * PXU); g.fill();
-    g.font = `800 ${1.1 * PXU}px "Bricolage Grotesque",Arial`; g.fillStyle = '#fff'; g.textAlign = 'center'; if (t) g.fillText(t, 0, 2.4 * PXU); g.restore(); };
-  freccia(-21.5, 52, 0, '#6CFF8A', 'ORBITA'); freccia(0, 95, 0, '#FF3B3B', 'LUNA'); freccia(0, 63, 0, '#F2B632', 'SQUADRA');
-  g.fillStyle = 'rgba(108,255,138,.12)'; g.fillRect(px(-24.4), py(92), 5.8 * PXU, 32 * PXU);
-  g.fillStyle = 'rgba(255,216,79,.12)'; g.fillRect(px(24.6), py(88), 3.8 * PXU, 88 * PXU);
+  const ps = g.createRadialGradient(px(0), py(-36), 10, px(0), py(-36), 56 * PXU); ps.addColorStop(0, '#F2C27A'); ps.addColorStop(0.8, '#C9853E'); ps.addColorStop(1, 'rgba(120,60,20,0)');
+  g.fillStyle = ps; g.beginPath(); g.arc(px(0), py(-36), 50 * PXU, 0, 7); g.fill();
+  for (const [x, y, r] of [[-13, 27, 1.8], [-8.5, 29, 1.2]]) { const s = g.createRadialGradient(px(x), py(y), 0, px(x), py(y), r * 3 * PXU); s.addColorStop(0, '#FFE9A8'); s.addColorStop(0.3, 'rgba(255,200,110,.7)'); s.addColorStop(1, 'rgba(255,200,80,0)'); g.fillStyle = s; g.beginPath(); g.arc(px(x), py(y), r * 3 * PXU, 0, 7); g.fill(); }
+  // gli eroi grandi al centro, sotto i bersagli
+  const hh = 6.4 * PXU; g.globalAlpha = 0.6; FAM.forEach((f, i) => eroe(g, f.k, px(-9.9 + i * 3.3) - hh * 0.3, py(53.6), hh)); g.globalAlpha = 1;
+  // Lord Ombra, grande e sbiadito sotto la galassia
+  ombra(g, px(0), py(120), 22 * PXU, 0.3);
+  // corsie e scritte
+  g.fillStyle = 'rgba(108,255,138,.10)'; g.fillRect(px(-24.4), py(92), 5.8 * PXU, 32 * PXU); g.fillRect(px(19), py(88), 5.6 * PXU, 30 * PXU);
+  g.fillStyle = 'rgba(255,216,79,.10)'; g.fillRect(px(24.6), py(88), 3.8 * PXU, 88 * PXU);
+  g.fillStyle = 'rgba(79,195,255,.10)'; for (const s of [-1, 1]) { g.fillRect(px(s < 0 ? -24.4 : 21.1), py(34), 3.4 * PXU, 12 * PXU); }
+  // le luci dipinte: base scura, bordo, scritta
+  g.textAlign = 'center'; g.textBaseline = 'top';
+  for (const L of LAMPADE) {
+    formaLampada(g, L, 1.25); g.fillStyle = 'rgba(0,0,0,.55)'; g.fill();
+    formaLampada(g, L); g.fillStyle = hexA(L.col, 0.28); g.fill(); g.lineWidth = 3; g.strokeStyle = hexA(L.col, 0.9); g.stroke();
+    if (L.t && L.t !== '★' && L.t.length > 1) { const fs = Math.max(0.62, Math.min(0.95, L.r * 0.6)) * PXU; g.font = `800 ${fs}px "Bricolage Grotesque",Arial`; g.lineWidth = 4; g.strokeStyle = '#000'; const ty = py(L.y) + L.r * PXU * 1.35;
+      g.strokeText(L.t, px(L.x), ty); g.fillStyle = '#fff'; g.fillText(L.t, px(L.x), ty); }
+    else if (L.t) { g.font = `800 ${L.r * 1.2 * PXU}px "Bricolage Grotesque",Arial`; g.textBaseline = 'middle'; g.fillStyle = 'rgba(255,255,255,.9)'; g.fillText(L.t, px(L.x), py(L.y) + 1); g.textBaseline = 'top'; }
+  }
+  // il buco dell'hangar
+  g.fillStyle = '#000'; g.beginPath(); g.arc(px(HANGAR.x), py(HANGAR.y), 2 * PXU, 0, 7); g.fill();
+  g.font = `800 ${2.3 * PXU}px "Bricolage Grotesque",Arial`; g.textBaseline = 'alphabetic'; g.lineWidth = 0.45 * PXU; g.strokeStyle = '#000'; g.fillStyle = '#F2B632';
+  g.strokeText('FLIPPER GALATTICO', px(0), py(22.6)); g.fillText('FLIPPER GALATTICO', px(0), py(22.6));
   return c;
 }
-function dipingiVetrina() {   // il vetro dietro, in fondo al tavolo
+function dipingiVetrina() {
   const c = tela(1024, 620), g = c.getContext('2d');
   const sf = g.createLinearGradient(0, 0, 0, 620); sf.addColorStop(0, '#120A33'); sf.addColorStop(1, '#05060F'); g.fillStyle = sf; g.fillRect(0, 0, 1024, 620);
   let seme = 3; const rnd = () => (seme = (seme * 16807) % 2147483647) / 2147483647;
@@ -380,7 +446,7 @@ function dipingiVetrina() {   // il vetro dietro, in fondo al tavolo
   FAM.forEach((f, i) => eroe(g, f.k, 40 + i * 136, 300, 300));
   return c;
 }
-function facciaTex(k, col) {   // la faccia sul bersaglio
+function facciaTex(k, col) {
   const c = tela(128, 128), g = c.getContext('2d'); g.fillStyle = col; g.fillRect(0, 0, 128, 128);
   g.fillStyle = '#05060F'; g.fillRect(6, 6, 116, 116);
   const im = IMG[k]; if (im) { const sw = im.width * 0.76, sh = im.height * 0.38, dw = 116, dh = dw * sh / sw; g.drawImage(im, im.width * 0.12, 0, sw, sh, 6, 6 + (116 - dh) / 2, dw, dh); }
@@ -401,127 +467,186 @@ function lunaTex() {
   g.fillStyle = '#FF4040'; g.beginPath(); g.arc(380, 80, 22, 0, 7); g.fill();
   return c;
 }
+function plasticaTex(k, col) {   // la plastica sopra la fionda: l'eroe su un vetro colorato
+  const c = tela(256, 256), g = c.getContext('2d'); const gr = g.createLinearGradient(0, 0, 256, 256); gr.addColorStop(0, hexA(col, 0.95)); gr.addColorStop(1, 'rgba(10,10,30,.95)');
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256); eroe(g, k, 60, 20, 210, true); return c;
+}
+function grembiuleTex() {
+  const c = tela(1024, 256), g = c.getContext('2d'); g.fillStyle = '#14102A'; g.fillRect(0, 0, 1024, 256);
+  g.strokeStyle = '#F2B632'; g.lineWidth = 4; g.strokeRect(6, 6, 1012, 244);
+  g.fillStyle = '#F4EEDC'; g.textAlign = 'left'; g.font = '800 30px "Bricolage Grotesque",Arial'; g.fillText('MISSIONI', 40, 56); g.textAlign = 'right'; g.fillText('PUNTI', 984, 56);
+  g.font = '400 21px Literata,Georgia,serif'; g.textAlign = 'left';
+  ['Hangar: parte una missione (4 in tutto)', 'Tutte e 4 → LATO LUMINOSO, multipalla', 'Luna Nera: 5 colpi → multipalla', 'Rampe: 10 = pallina in più'].forEach((t, i) => g.fillText(t, 40, 96 + i * 34));
+  g.textAlign = 'right'; ['Droide 1.000 · Fionda 100', 'Bersaglio 5.000 · Squadra 50.000', 'Rampa 10.000 · Combo x2', 'Orbita 15.000 · Luna 100.000'].forEach((t, i) => g.fillText(t, 984, 96 + i * 34));
+  return c;
+}
+function bagliore() { const c = tela(64, 64), g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.35, 'rgba(255,255,255,.35)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return c; }
+function salaTex() {   // la parete della sala giochi: pannelli di legno, una fascia di luce
+  const c = tela(1024, 512), g = c.getContext('2d'); const gr = g.createLinearGradient(0, 0, 0, 512); gr.addColorStop(0, '#1B1426'); gr.addColorStop(0.55, '#2A1A12'); gr.addColorStop(1, '#1A0F0A'); g.fillStyle = gr; g.fillRect(0, 0, 1024, 512);
+  for (let x = 0; x < 1024; x += 128) { g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x, 280, 4, 232); g.fillStyle = 'rgba(255,190,120,.06)'; g.fillRect(x + 8, 290, 112, 210); }
+  g.fillStyle = '#4A2A18'; g.fillRect(0, 262, 1024, 22); g.fillStyle = 'rgba(255,200,140,.25)'; g.fillRect(0, 262, 1024, 3);
+  for (let x = 64; x < 1024; x += 256) { const r = g.createRadialGradient(x, 120, 0, x, 120, 160); r.addColorStop(0, 'rgba(184,108,255,.35)'); r.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = r; g.fillRect(x - 160, 0, 320, 280); }
+  return c;
+}
 
 /* ---------------------------------------------------------------- la scena */
-let renderer, scene, camera, composer, bloom, M = {};
+let renderer, scene, camera, composer, bloom, T, M = {};
 const W3 = (x, y, h = 0) => new THREE.Vector3(x, h, -y);
 function texDa(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; }
+function aggiungi(m, ...xyz) { if (xyz.length) m.position.copy(W3(...xyz)); T.add(m); return m; }
 function scena() {
   renderer = new THREE.WebGLRenderer({antialias: true, powerPreference: 'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   $('stage').appendChild(renderer.domElement);
-  scene = new THREE.Scene(); scene.background = new THREE.Color('#03040A');
+  scene = new THREE.Scene(); scene.background = new THREE.Color('#0D0912');
   const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
-  camera = new THREE.PerspectiveCamera(45, 1, 0.5, 600);
-  scene.add(new THREE.HemisphereLight('#9fb4ff', '#1a1030', 0.7));
-  const dl = new THREE.DirectionalLight('#ffffff', 0.95); dl.position.set(-20, 80, 30); scene.add(dl);
-  for (const [c, x, y, h] of [['#4FC3FF', -22, 30, 12], ['#FF3B3B', 0, 108, 14], ['#B86CFF', 20, 80, 12]]) { const l = new THREE.PointLight(c, 140, 70, 1.6); l.position.copy(W3(x, y, h)); scene.add(l); }
-  // stelle tutto intorno
-  const sg = new THREE.BufferGeometry(), sp = [];
-  for (let i = 0; i < 1800; i++) { const v = new THREE.Vector3().randomDirection().multiplyScalar(250 + Math.random() * 150); sp.push(v.x, v.y, v.z - 60); }
-  sg.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3)); scene.add(new THREE.Points(sg, new THREE.PointsMaterial({color: '#ffffff', size: 1.2, sizeAttenuation: true})));
-  // piano del tavolo
+  camera = new THREE.PerspectiveCamera(42, 1, 0.5, 900);
+  scene.add(new THREE.HemisphereLight('#c9b8ff', '#2a1a10', 0.65));
+  const dl = new THREE.DirectionalLight('#ffffff', 0.9); dl.position.set(-20, 90, 40); scene.add(dl);
+  // la sala: parete e pavimento
+  const parete = new THREE.Mesh(new THREE.PlaneGeometry(900, 450), new THREE.MeshBasicMaterial({map: texDa(salaTex())})); parete.position.set(0, 120, -330); scene.add(parete);
+  const pav = new THREE.Mesh(new THREE.PlaneGeometry(900, 700), new THREE.MeshStandardMaterial({color: '#100805', roughness: 0.9, metalness: 0})); pav.rotation.x = -Math.PI / 2; pav.position.set(0, -60, -150); scene.add(pav);
+  // il tavolo inclinato con tutto quello che c'è sopra
+  T = new THREE.Group(); T.rotation.x = TILT; scene.add(T);
+  for (const [c, x, y, h, i] of [['#4FC3FF', -22, 30, 14, 110], ['#FF3B3B', 0, 100, 16, 130], ['#B86CFF', 20, 80, 14, 110], ['#FFD8A0', 0, 40, 30, 90]]) { const l = new THREE.PointLight(c, i, 80, 1.6); l.position.copy(W3(x, y, h)); T.add(l); }
   const lw = TX1 - TX0, lh = TY1 - TY0;
-  const piano = new THREE.Mesh(new THREE.BoxGeometry(lw, 1, lh), [null, null, new THREE.MeshStandardMaterial({map: texDa(dipingiTavolo()), color: '#d6d6dc', roughness: 0.7, metalness: 0.0}), null, null, null].map(m => m || new THREE.MeshStandardMaterial({color: '#141022'})));
-  piano.position.copy(W3((TX0 + TX1) / 2, (TY0 + TY1) / 2, -0.5)); scene.add(piano);
-  // mobile: sponde laterali e fondo
-  const legno = new THREE.MeshStandardMaterial({color: '#1A1530', metalness: 0.4, roughness: 0.4});
-  for (const [x, y, w, d] of [[TX0 - 1, (TY0 + TY1) / 2, 2, lh + 4], [TX1 + 1, (TY0 + TY1) / 2, 2, lh + 4], [(TX0 + TX1) / 2, TY0 - 1, lw + 4, 2]]) {
-    const b = new THREE.Mesh(new THREE.BoxGeometry(w, 6, d), legno); b.position.copy(W3(x, y, 1.5)); scene.add(b); }
-  // vetrina in fondo
-  const vt = new THREE.Mesh(new THREE.PlaneGeometry(lw + 4, (lw + 4) * 620 / 1024), new THREE.MeshBasicMaterial({map: texDa(dipingiVetrina())}));
-  vt.position.copy(W3((TX0 + TX1) / 2, TY1 + 2, 17)); vt.rotation.x = -0.12; scene.add(vt); M.vetrina = vt;
-  // muri: corpo scuro con il filo di luce sopra
-  const corpo = new THREE.MeshStandardMaterial({color: '#262B44', metalness: 0.7, roughness: 0.3});
+  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw, 1, lh), [0, 0, 1, 0, 0, 0].map(i => i ? new THREE.MeshStandardMaterial({map: texDa(dipingiTavolo()), color: '#dcdce2', roughness: 0.55, metalness: 0}) : new THREE.MeshStandardMaterial({color: '#141022'}))), (TX0 + TX1) / 2, (TY0 + TY1) / 2, -0.5);
+  // il mobile: fianchi, barra di chiusura cromata, cassone sotto, gambe, testata con la vetrina
+  const mobile = new THREE.MeshStandardMaterial({color: '#1C1238', metalness: 0.35, roughness: 0.45}), cromo = new THREE.MeshStandardMaterial({color: '#AEB6C4', metalness: 0.85, roughness: 0.38});
+  for (const [x, y, w, d] of [[TX0 - 1.5, (TY0 + TY1) / 2, 3, lh + 6], [TX1 + 1.5, (TY0 + TY1) / 2, 3, lh + 6], [(TX0 + TX1) / 2, TY0 - 1.5, lw + 6, 3]]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(w, 8, d), mobile), x, y, 1);
+  for (const x of [TX0 - 1.5, TX1 + 1.5]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.8, lh + 6), cromo), x, (TY0 + TY1) / 2, 5.2);
+  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 7, 1.2, 1.6), cromo), (TX0 + TX1) / 2, TY0 - 2.6, 5.4);
+  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 6, 26, lh + 6), mobile), (TX0 + TX1) / 2, (TY0 + TY1) / 2, -16);
+  for (const [x, y] of [[TX0 + 1, TY0 + 2], [TX1 - 1, TY0 + 2], [TX0 + 1, TY1 - 2], [TX1 - 1, TY1 - 2]]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(2.4, 50, 2.4), cromo), x, y, -50);
+  const testata = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 6, 46, 10), mobile), (TX0 + TX1) / 2, TY1 + 6, 22);
+  const vt = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(lw + 2, (lw + 2) * 620 / 1024), new THREE.MeshBasicMaterial({map: texDa(dipingiVetrina())})), (TX0 + TX1) / 2, TY1 + 0.9, 27); M.vetrina = vt;
+  // muri
+  const corpo = new THREE.MeshStandardMaterial({color: '#262B44', metalness: 0.7, roughness: 0.3}), gomma = new THREE.MeshStandardMaterial({color: '#FFFFFF', emissive: '#FFFFFF', emissiveIntensity: 0.15, roughness: 0.6});
   for (const m of MURI) {
     const dx = m.x2 - m.x1, dy = m.y2 - m.y1, L = Math.hypot(dx, dy), a = Math.atan2(dy, dx), mx = (m.x1 + m.x2) / 2, my = (m.y1 + m.y2) / 2;
-    const alto = m.tipo === 'porta' ? 0.6 : 2;
-    const b = new THREE.Mesh(new THREE.BoxGeometry(L + 0.5, alto, 0.6), m.tipo === 'gomma' ? new THREE.MeshStandardMaterial({color: '#FFFFFF', emissive: '#FFFFFF', emissiveIntensity: 0.2, roughness: 0.6}) : corpo);
-    b.position.copy(W3(mx, my, alto / 2)); b.rotation.y = a; scene.add(b); m.mesh = b;
-    const f = new THREE.Mesh(new THREE.BoxGeometry(L + 0.5, 0.18, 0.22), new THREE.MeshBasicMaterial({color: m.col}));
-    f.position.copy(W3(mx, my, alto + 0.05)); f.rotation.y = a; scene.add(f);
+    const b = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(L + 0.5, m.alto, 0.6), m.tipo === 'gomma' ? gomma : corpo), mx, my, m.alto / 2); b.rotation.y = a;
+    const f = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(L + 0.5, 0.18, 0.22), new THREE.MeshBasicMaterial({color: m.col})), mx, my, m.alto + 0.05); f.rotation.y = a;
+  }
+  // plastiche sopra le fionde, con gli eroi
+  for (const [s, k] of [[-1, 'goffredo'], [1, 'carolina']]) {
+    const sh = new THREE.Shape([new THREE.Vector2(18.4 * s, -27.4), new THREE.Vector2(10.9 * s, -19.2), new THREE.Vector2(11.2 * s, -26.4)]);
+    const geo = new THREE.ShapeGeometry(sh); geo.rotateX(Math.PI / 2); const uv = geo.attributes.uv, pos = geo.attributes.position;
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, (pos.getX(i) * s - 10.9) / 7.5, (-pos.getZ(i) - 19.2) / 8.2);
+    const m = aggiungi(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map: texDa(plasticaTex(k, s < 0 ? '#4FC3FF' : '#6CFF8A')), transparent: true, opacity: 0.92, side: THREE.DoubleSide})), 0, 0, 2.6);
   }
   // droidi
   const dtex = texDa(droideTex());
   for (const d of DROIDI) {
-    const g = new THREE.Group(); g.position.copy(W3(d.x, d.y, 0));
+    const g = new THREE.Group(); aggiungi(g, d.x, d.y, 0);
     const base = new THREE.Mesh(new THREE.CylinderGeometry(d.r, d.r * 1.08, 2.2, 32), new THREE.MeshStandardMaterial({map: dtex, metalness: 0.3, roughness: 0.4})); base.position.y = 1.1; g.add(base);
     const cupola = new THREE.Mesh(new THREE.SphereGeometry(d.r * 0.98, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({color: '#7E8DA6', metalness: 0.8, roughness: 0.35})); cupola.position.y = 2.2; g.add(cupola);
-    const occhio = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 12), new THREE.MeshBasicMaterial({color: '#FF3B3B'})); occhio.position.set(0, 3.3, d.r * 0.55); g.add(occhio);
+    const occhio = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 12), new THREE.MeshBasicMaterial({color: '#FF3B3B'})); occhio.position.set(0, 3.2, d.r * 0.55); g.add(occhio);
     const anello = new THREE.Mesh(new THREE.TorusGeometry(d.r * 1.1, 0.22, 8, 32), new THREE.MeshBasicMaterial({color: '#4FC3FF'})); anello.rotation.x = Math.PI / 2; anello.position.y = 0.3; g.add(anello);
-    d.anello = anello; d.cupola = cupola; scene.add(g);
+    d.anello = anello; d.cupola = cupola;
   }
   // Luna Nera
   const lt = texDa(lunaTex());
-  M.luna = new THREE.Mesh(new THREE.SphereGeometry(LUNA.r, 40, 24), new THREE.MeshStandardMaterial({map: lt, emissiveMap: lt, emissive: '#ff2020', emissiveIntensity: 0.35, metalness: 0.6, roughness: 0.45}));
-  M.luna.position.copy(W3(LUNA.x, LUNA.y, LUNA.r)); scene.add(M.luna);
+  M.luna = aggiungi(new THREE.Mesh(new THREE.SphereGeometry(LUNA.r, 40, 24), new THREE.MeshStandardMaterial({map: lt, emissiveMap: lt, emissive: '#ff2020', emissiveIntensity: 0.35, metalness: 0.6, roughness: 0.45})), LUNA.x, LUNA.y, LUNA.r);
   M.lunaLuci = [];
-  for (let i = 0; i < 7; i++) { const s = new THREE.Mesh(new THREE.CircleGeometry(0.55, 16), new THREE.MeshBasicMaterial({color: '#3a0a0a'})); s.rotation.x = -Math.PI / 2; s.position.copy(W3(-3.6 + i * 1.2, 98.6, 0.03)); scene.add(s); M.lunaLuci.push(s); }
+  for (let i = 0; i < 7; i++) { const a = Math.PI * (0.15 + 0.7 * i / 6), s = aggiungi(new THREE.Mesh(new THREE.CircleGeometry(0.45, 16), new THREE.MeshBasicMaterial({color: '#3a0a0a'})), LUNA.x - Math.cos(a) * 5, LUNA.y - Math.sin(a) * 5 + 1, 0.03); s.rotation.x = -Math.PI / 2; M.lunaLuci.push(s); }
   // bersagli della famiglia
   for (const b of BERS) {
     const f = FAM.find(q => q.k === b.k), t = texDa(facciaTex(b.k, f.spada));
-    const m = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.6, 0.5), [0, 0, 0, 0, 1, 0].map(i => i ? new THREE.MeshStandardMaterial({map: t, emissive: '#ffffff', emissiveMap: t, emissiveIntensity: 0.25}) : new THREE.MeshStandardMaterial({color: f.spada, metalness: 0.4, roughness: 0.4})));
-    m.position.copy(W3(b.x, b.y, 1.3)); scene.add(m); b.mesh = m;
-    const sp = new THREE.Mesh(new THREE.CircleGeometry(0.5, 16), new THREE.MeshBasicMaterial({color: '#222'})); sp.rotation.x = -Math.PI / 2; sp.position.copy(W3(b.x, b.y - 2.4, 0.03)); scene.add(sp); b.luce = sp;
+    b.mesh = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.6, 0.5), [0, 0, 0, 0, 1, 0].map(i => i ? new THREE.MeshStandardMaterial({map: t, emissive: '#ffffff', emissiveMap: t, emissiveIntensity: 0.25}) : new THREE.MeshStandardMaterial({color: f.spada, metalness: 0.4, roughness: 0.4}))), b.x, b.y, 1.3);
   }
-  // luci in alto e pali
-  for (const l of LUCI) { const m = new THREE.Mesh(new THREE.CircleGeometry(1.2, 24), new THREE.MeshBasicMaterial({color: '#202638'})); m.rotation.x = -Math.PI / 2; m.position.copy(W3(l.x, l.y, 0.03)); scene.add(m); l.mesh = m; }
-  for (const p of PALI) { const m = new THREE.Mesh(new THREE.CylinderGeometry(p.r, p.r, 2, 16), new THREE.MeshStandardMaterial({color: '#FFD84F', metalness: 0.8, roughness: 0.2})); m.position.copy(W3(p.x, p.y, 1)); scene.add(m); }
-  // flipper: spade laser (impugnatura sul perno, lama luminosa)
+  // le luci: forma accesa sopra la base dipinta, più un bagliore
+  const bt = texDa(bagliore());
+  for (const L of LAMPADE) {
+    let geo; if (L.f === 'cerchio') geo = new THREE.CircleGeometry(L.r, 24);
+    else { const sh = L.f === 'rombo' ? new THREE.Shape([new THREE.Vector2(0, L.r * 1.3), new THREE.Vector2(L.r, 0), new THREE.Vector2(0, -L.r * 1.3), new THREE.Vector2(-L.r, 0)]) : new THREE.Shape([new THREE.Vector2(0, L.r * 1.4), new THREE.Vector2(L.r, -L.r * 0.8), new THREE.Vector2(-L.r, -L.r * 0.8)]); geo = new THREE.ShapeGeometry(sh); }
+    L.mesh = aggiungi(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color: L.col, transparent: true, opacity: 0})), L.x, L.y, 0.04); L.mesh.rotation.x = -Math.PI / 2;
+    L.glow = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(L.r * 5, L.r * 5), new THREE.MeshBasicMaterial({map: bt, color: L.col, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false})), L.x, L.y, 0.12); L.glow.rotation.x = -Math.PI / 2;
+  }
+  // l'hangar: bordo di metallo
+  aggiungi(new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.25, 8, 28), cromo), HANGAR.x, HANGAR.y, 0.2).rotation.x = Math.PI / 2;
+  // lo spinner nell'orbita sinistra
+  M.spin = new THREE.Group(); aggiungi(M.spin, SPIN.x, SPIN.y, 2.6);
+  const pal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 2.2, 0.15), new THREE.MeshStandardMaterial({color: '#6CFF8A', metalness: 0.6, roughness: 0.3})); pal.position.y = -1.1; M.spin.add(pal);
+  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.3, 0.3), cromo), SPIN.x, SPIN.y, 2.7);
+  // le rampe di metallo: fili cromati, inizio in plastica colorata, sostegni
+  M.rampe = [];
+  for (const r of RAMPE) {
+    const pts = (dl, dh) => r.p.map((q, i) => { const a = r.p[Math.max(0, i - 1)], b = r.p[Math.min(r.p.length - 1, i + 1)], tx = b[0] - a[0], ty = b[1] - a[1], L = Math.hypot(tx, ty) || 1; return W3(q[0] - ty / L * dl, q[1] + tx / L * dl, q[2] + dh); });
+    const filo = (dl, dh, rr = 0.16) => aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts(dl, dh)), 160, rr, 6), cromo));
+    filo(-1.5, 1.5); filo(1.5, 1.5); filo(-0.75, -0.05); filo(0.75, -0.05);
+    // inizio in plastica (il primo tratto)
+    const n = 6, geo = new THREE.BufferGeometry(), v = [], idx = [];
+    for (let i = 0; i <= n; i++) { const q = rampaA(r, i / n * 26), L = Math.hypot(q.tx, q.ty) || 1, nx = -q.ty / L, ny = q.tx / L;
+      for (const s of [-1, 1]) { const w = W3(q.x + nx * 1.9 * s, q.y + ny * 1.9 * s, q.h - 0.15); v.push(w.x, w.y, w.z); } }
+    for (let i = 0; i < n; i++) idx.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2);
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+    aggiungi(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color: r.col, transparent: true, opacity: 0.45, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.08})));
+    for (const s of [40, 70, 100]) { const q = rampaA(r, s); if (q.h > 1.5) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, q.h, 6), cromo), q.x, q.y, q.h / 2); }
+  }
+  // l'astronave della famiglia, giocattolo sospeso
+  M.nave = new THREE.Group(); aggiungi(M.nave, -15.5, 104, 9);
+  const disco = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 4.2, 0.8, 32), new THREE.MeshStandardMaterial({color: '#C8CCD6', metalness: 0.8, roughness: 0.3})); M.nave.add(disco);
+  const cabina = new THREE.Mesh(new THREE.SphereGeometry(1.4, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({color: '#4FC3FF', metalness: 0.2, roughness: 0.1, transparent: true, opacity: 0.8})); cabina.position.y = 0.4; M.nave.add(cabina);
+  for (let i = 0; i < 3; i++) { const a = i * Math.PI * 2 / 3, mo = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 8), new THREE.MeshBasicMaterial({color: '#FF9A3C'})); mo.position.set(Math.cos(a) * 3.6, -0.3, Math.sin(a) * 3.6); M.nave.add(mo); }
+  aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 9, 6), new THREE.MeshStandardMaterial({color: '#88ccff', transparent: true, opacity: 0.35})), -15.5, 104, 4.5);
+  // Lord Ombra, sagoma in piedi in alto a destra
+  const ot = tela(256, 256); ombra(ot.getContext('2d'), 128, 20, 230, 1);
+  M.ombra = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(11, 11), new THREE.MeshBasicMaterial({map: texDa(ot), transparent: true, side: THREE.DoubleSide})), 16.5, 110, 5.6); M.ombra.rotation.x = -TILT;
+  // lampeggiatori a cupola
+  M.flash = [['#FF3B3B', -21, 116], ['#4FC3FF', 23.5, 102]].map(([c, x, y]) => {
+    const m = aggiungi(new THREE.Mesh(new THREE.SphereGeometry(1.3, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({color: c, emissive: c, emissiveIntensity: 0.2, transparent: true, opacity: 0.85})), x, y, 0.5);
+    const l = aggiungi(new THREE.PointLight(c, 0, 60, 1.4), x, y, 4); return {m, l}; });
+  // grembiule con le regole, molla, respinta
+  const ap = new THREE.Shape([new THREE.Vector2(-24.4, 8.2), new THREE.Vector2(-4.5, -1.3), new THREE.Vector2(4.5, -1.3), new THREE.Vector2(24.6, 8.2), new THREE.Vector2(24.6, -6), new THREE.Vector2(-26, -6)]);
+  const ag = new THREE.ShapeGeometry(ap); const auv = ag.attributes.uv, apos = ag.attributes.position;
+  for (let i = 0; i < auv.count; i++) auv.setXY(i, (apos.getX(i) + 26) / 50.6, (apos.getY(i) + 6) / 14.2);
+  ag.rotateX(-Math.PI / 2); aggiungi(new THREE.Mesh(ag, new THREE.MeshStandardMaterial({map: texDa(grembiuleTex()), metalness: 0.3, roughness: 0.5})), 0, 0, 0.6);
+  M.molla = aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 6, 16), new THREE.MeshStandardMaterial({color: '#FFD84F', metalness: 0.9, roughness: 0.2}))); M.molla.rotation.x = Math.PI / 2;
+  M.kick = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 1.2), cromo), KICK.x, KICK.y - 2, 0.6);
+  // flipper: spade laser
   for (const f of FL) {
-    const g = new THREE.Group(); g.position.copy(W3(f.px, f.py, 1.1));
+    const g = new THREE.Group(); aggiungi(g, f.px, f.py, 1.1);
     const col = f.lato < 0 ? '#4FC3FF' : '#6CFF8A';
     const elsa = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.6, 16), new THREE.MeshStandardMaterial({color: '#A7AEB8', metalness: 1, roughness: 0.25})); elsa.rotation.z = Math.PI / 2; elsa.position.x = 0.8; g.add(elsa);
     const lama = new THREE.Mesh(new THREE.CapsuleGeometry(0.62, FLL - 2.4, 6, 16), new THREE.MeshBasicMaterial({color: '#ffffff'})); lama.rotation.z = Math.PI / 2; lama.position.x = 2.1 + (FLL - 2.4) / 2; g.add(lama);
     const alone = new THREE.Mesh(new THREE.CapsuleGeometry(1.05, FLL - 2.2, 6, 16), new THREE.MeshBasicMaterial({color: col, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false})); alone.rotation.z = Math.PI / 2; alone.position.x = lama.position.x; g.add(alone);
-    scene.add(g); f.g = g;
+    f.g = g;
   }
-  // la molla
-  M.molla = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 6, 16), new THREE.MeshStandardMaterial({color: '#FFD84F', metalness: 0.9, roughness: 0.2}));
-  M.molla.rotation.x = Math.PI / 2; scene.add(M.molla);
-  // palline (ne servono al massimo 3)
-  const cromo = new THREE.MeshStandardMaterial({color: '#ffffff', metalness: 1, roughness: 0.08});
+  // palline e loro ombre
+  const metallo = new THREE.MeshStandardMaterial({color: '#ffffff', metalness: 1, roughness: 0.08});
   M.palle = []; M.ombre = [];
-  for (let i = 0; i < 3; i++) {
-    const p = new THREE.Mesh(new THREE.SphereGeometry(R, 32, 20), cromo); p.visible = false; scene.add(p); M.palle.push(p);
-    const o = new THREE.Mesh(new THREE.CircleGeometry(R * 1.1, 20), new THREE.MeshBasicMaterial({color: '#000', transparent: true, opacity: 0.45})); o.rotation.x = -Math.PI / 2; o.visible = false; scene.add(o); M.ombre.push(o);
+  for (let i = 0; i < 4; i++) {
+    M.palle.push(aggiungi(new THREE.Mesh(new THREE.SphereGeometry(R, 32, 20), metallo))); M.palle[i].visible = false;
+    const o = aggiungi(new THREE.Mesh(new THREE.CircleGeometry(R * 1.1, 20), new THREE.MeshBasicMaterial({color: '#000', transparent: true, opacity: 0.45}))); o.rotation.x = -Math.PI / 2; o.visible = false; M.ombre.push(o);
   }
-  // schegge (esplosioni, colpi)
   M.sch = []; const sm = new THREE.SphereGeometry(0.3, 6, 4);
-  for (let i = 0; i < 140; i++) { const m = new THREE.Mesh(sm, new THREE.MeshBasicMaterial({color: '#fff', transparent: true})); m.visible = false; scene.add(m); M.sch.push({m, v: new THREE.Vector3(), t: 0, d: 1}); }
-  // bagliore (solo dove c'è forza: computer e telefoni recenti)
+  for (let i = 0; i < 160; i++) { const m = aggiungi(new THREE.Mesh(sm, new THREE.MeshBasicMaterial({color: '#fff', transparent: true}))); m.visible = false; M.sch.push({m, v: new THREE.Vector3(), t: 0, d: 1}); }
   const leggero = matchMedia('(pointer:coarse)').matches && Math.min(innerWidth, innerHeight) < 500;
-  if (!leggero) {
-    composer = new EffectComposer(renderer); composer.addPass(new RenderPass(scene, camera));
-    bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.7, 0.4, 0.93); composer.addPass(bloom); composer.addPass(new OutputPass());
-  }
+  if (!leggero) { composer = new EffectComposer(renderer); composer.addPass(new RenderPass(scene, camera)); bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.7, 0.4, 0.9); composer.addPass(bloom); composer.addPass(new OutputPass()); }
   addEventListener('resize', adatta); adatta();
 }
 function schegge(x, y, h, col, n = 16, v = 18) {
   for (let i = 0, k = 0; i < M.sch.length && k < n; i++) { const s = M.sch[i]; if (s.m.visible) continue; k++;
     s.m.visible = true; s.m.position.copy(W3(x, y, h)); s.v.set((Math.random() - 0.5) * v, Math.random() * v * 0.8, (Math.random() - 0.5) * v); s.t = 0; s.d = 0.5 + Math.random() * 0.6; s.m.material.color.set(col); }
 }
-// inquadratura: si allontana finché tavolo e vetrina stanno nello schermo (lasciando posto al display in alto)
+// inquadratura dal punto di vista del giocatore: bassa sul computer, più dall'alto sul telefono; poi si centra il tavolo nello spazio libero
 function adatta() {
-  const w = innerWidth, h = innerHeight; renderer.setSize(w, h); if (composer) { composer.setSize(w, h); }
-  camera.aspect = w / h; camera.fov = w / h < 0.75 ? 52 : 42;
-  const bersaglio = W3(1.5, 52, 0), dir = new THREE.Vector3(0, w / h < 0.75 ? 1.15 : 1.25, 0.75).normalize();
-  const largo = w / h >= 0.75, punti = [W3(TX0, TY0, 0), W3(TX1, TY0, 0), W3(TX0, TY1, 0), W3(TX1, TY1, 0), W3(0, TY1 + 2, largo ? 12 : 32)];   /* sul computer la vetrina si vede a metà, il tavolo più grande */
-  const alto = 1 - 2 * (96 / h);
-  let lo = 30, hi = 400;
-  for (let k = 0; k < 30; k++) {
-    const d = (lo + hi) / 2; camera.position.copy(bersaglio).addScaledVector(dir, d); camera.lookAt(bersaglio); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-    const ok = punti.every(p => { const q = p.clone().project(camera); return Math.abs(q.x) < 0.97 && q.y < alto && q.y > -0.98; });
-    if (ok) hi = d; else lo = d;
-  }
+  const w = innerWidth, h = innerHeight; renderer.setSize(w, h); if (composer) composer.setSize(w, h);
+  camera.aspect = w / h; const largo = w / h >= 0.75; camera.fov = largo ? 40 : 50;
+  T.updateMatrixWorld(true);
+  const loc = (x, y, hh) => T.localToWorld(W3(x, y, hh));
+  const bersaglio = loc(1.5, largo ? 48 : 54, 0), dir = new THREE.Vector3(0, largo ? 0.72 : 1.2, 1).normalize();
+  const punti = [loc(TX0 - 3, TY0 - 3, 5), loc(TX1 + 3, TY0 - 3, 5), loc(TX0, TY1, 0), loc(TX1, TY1, 0), loc(0, TY1 + 1, largo ? 10 : 46)];
+  const alto = 1 - 2 * ((largo && w > 900 ? 16 : 96) / h);
+  let lo = 30, hi = 500;
+  for (let k = 0; k < 30; k++) { const d = (lo + hi) / 2; camera.clearViewOffset(); camera.position.copy(bersaglio).addScaledVector(dir, d); camera.lookAt(bersaglio); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+    const ok = punti.every(p => { const q = p.clone().project(camera); return Math.abs(q.x) < 0.97 && q.y < alto && q.y > -0.98; }); if (ok) hi = d; else lo = d; }
   camera.position.copy(bersaglio).addScaledVector(dir, hi); camera.lookAt(bersaglio); camera.clearViewOffset(); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-  // poi si centra e si ingrandisce il riquadro del tavolo nello spazio libero sotto il display
   let x0 = 9, x1 = -9, y0 = 9, y1 = -9;
   for (const p of punti) { const q = p.clone().project(camera); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }
   const basso = -0.985, sc = Math.min(1.96 / (x1 - x0), (alto - basso) / (y1 - y0)), fw = w * sc, fh = h * sc;
   const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, yt = (1 - (alto + basso) / 2) / 2 * h;
   camera.setViewOffset(fw, fh, (cx + 1) / 2 * fw - w / 2, (1 - cy) / 2 * fh - yt, w, h); camera.updateProjectionMatrix();
-  log('inquadratura', w, h, 'x', x0.toFixed(2), x1.toFixed(2), 'y', y0.toFixed(2), y1.toFixed(2), 'sc', sc.toFixed(2), 'dist', hi.toFixed(0));
 }
 
 /* ---------------------------------------------------------------- fisica */
@@ -535,6 +660,17 @@ function rimbalza(b, nx, ny, e, kick = 0) {
   if (kick) { b.vx += nx * kick; b.vy += ny * kick; }
   return -vn;
 }
+function cerchio(b, x, y, r) {
+  let dx = b.x - x, dy = b.y - y; const d = Math.hypot(dx, dy);
+  if (d >= R + r || d < 1e-6) return null; dx /= d; dy /= d; b.x = x + dx * (R + r); b.y = y + dy * (R + r); return [dx, dy];
+}
+function passoRampa(b, dt) {   // sulla rampa: si va avanti lungo il filo, la gravità frena in salita e spinge in discesa
+  const r = RAMPE[b.rampa], q = rampaA(r, b.s);
+  b.vs -= (G * q.ty + GV * q.th + 6 * Math.sign(b.vs)) * dt; b.s += b.vs * dt;
+  if (b.s <= 0) { const q0 = rampaA(r, 0); b.rampa = null; b.x = q0.x; b.y = q0.y - 0.5; b.h = 0; b.vx = q0.tx * b.vs; b.vy = q0.ty * b.vs; return; }   // non ce l'ha fatta: torna giù
+  if (b.s >= r.tot) { const qe = rampaA(r, r.tot); b.rampa = null; const v = Math.min(80, Math.abs(b.vs)), L = Math.hypot(qe.tx, qe.ty) || 1; b.x = qe.x; b.y = qe.y; b.h = 0; b.vx = qe.tx / L * v; b.vy = qe.ty / L * v; evento('rampa', RAMPE.indexOf(r)); return; }
+  const p = rampaA(r, b.s); b.x = p.x; b.y = p.y; b.h = p.h;
+}
 function passoFisica(dt) {
   for (const f of FL) {
     const vuole = f.su ? f.a1 : f.a0, dir = Math.sign(vuole - f.a), vel = f.su ? 26 : 15;
@@ -542,9 +678,9 @@ function passoFisica(dt) {
     f.w = (f.a - prima) / dt;
   }
   for (const b of S.palle) {
-    if (b.ferma) continue;
+    if (b.ferma || b.presa) continue;
+    if (b.rampa != null) { passoRampa(b, dt); continue; }
     b.vy -= G * dt; b.x += b.vx * dt; b.y += b.vy * dt;
-    // muri e fionde
     for (const m of MURI) {
       if (m.tipo === 'porta' && b.vy > 0) continue;
       const [cx, cy] = vicino(b.x, b.y, m.x1, m.y1, m.x2, m.y2); let dx = b.x - cx, dy = b.y - cy; const d = Math.hypot(dx, dy);
@@ -554,41 +690,40 @@ function passoFisica(dt) {
         if (m.tipo === 'gomma' && vn > 6) { rimbalza(b, dx, dy, 0, 34); evento('gomma', m); }
       }
     }
-    // droidi, pali, Luna
-    for (const d of DROIDI) {
-      let dx = b.x - d.x, dy = b.y - d.y; const dd = Math.hypot(dx, dy);
-      if (dd < R + d.r) { dx /= dd; dy /= dd; b.x = d.x + dx * (R + d.r); b.y = d.y + dy * (R + d.r); rimbalza(b, dx, dy, 0.4, 42); evento('droide', d); }
-    }
-    for (const p of PALI) { let dx = b.x - p.x, dy = b.y - p.y; const dd = Math.hypot(dx, dy); if (dd < R + p.r) { dx /= dd; dy /= dd; b.x = p.x + dx * (R + p.r); b.y = p.y + dy * (R + p.r); rimbalza(b, dx, dy, 0.5); } }
-    if (!LUNA.via) { let dx = b.x - LUNA.x, dy = b.y - LUNA.y; const dd = Math.hypot(dx, dy);
-      if (dd < R + LUNA.r) { dx /= dd; dy /= dd; b.x = LUNA.x + dx * (R + LUNA.r); b.y = LUNA.y + dy * (R + LUNA.r); const vn = rimbalza(b, dx, dy, 0.55, 10); if (vn > 8) evento('luna'); } }
-    // bersagli della famiglia: si abbattono da sotto
+    for (const d of DROIDI) { const n = cerchio(b, d.x, d.y, d.r); if (n) { rimbalza(b, n[0], n[1], 0.4, S.superT > 0 ? 50 : 42); evento('droide', d); } }
+    if (!LUNA.via) { const n = cerchio(b, LUNA.x, LUNA.y, LUNA.r); if (n && rimbalza(b, n[0], n[1], 0.55, 10) > 8) evento('luna'); }
     for (const t of BERS) {
       if (t.giu) continue;
       const [cx, cy] = vicino(b.x, b.y, t.x - 1.3, t.y, t.x + 1.3, t.y); let dx = b.x - cx, dy = b.y - cy; const d = Math.hypot(dx, dy);
-      if (d < R && d > 1e-6) { dx /= d; dy /= d; b.x = cx + dx * R; b.y = cy + dy * R; const vn = rimbalza(b, dx, dy, 0.4); if (vn > 5) evento('bersaglio', t); }
+      if (d < R && d > 1e-6) { dx /= d; dy /= d; b.x = cx + dx * R; b.y = cy + dy * R; if (rimbalza(b, dx, dy, 0.4) > 5) evento('bersaglio', t); }
     }
-    // flipper
     for (const f of FL) {
       const tx = f.px + Math.cos(f.a) * FLL, ty = f.py + Math.sin(f.a) * FLL;
       const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, tx, ty); const rf = 1.3 - 0.55 * t;
       let dx = b.x - cx, dy = b.y - cy; const d = Math.hypot(dx, dy);
       if (d < R + rf && d > 1e-6) {
         dx /= d; dy /= d; b.x = cx + dx * (R + rf); b.y = cy + dy * (R + rf);
-        const rx = cx - f.px, ry = cy - f.py, sx = -f.w * ry, sy = f.w * rx;   // velocità della lama in quel punto
+        const rx = cx - f.px, ry = cy - f.py, sx = -f.w * ry, sy = f.w * rx;
         let vx = b.vx - sx, vy = b.vy - sy; const vn = vx * dx + vy * dy;
         if (vn < 0) { vx -= 1.3 * vn * dx; vy -= 1.3 * vn * dy; }
         b.vx = vx + sx; b.vy = vy + sy;
       }
     }
     const v = Math.hypot(b.vx, b.vy); if (v > 190) { b.vx *= 190 / v; b.vy *= 190 / v; }
+    // rampe: si entra dalla bocca andando su
+    for (let i = 0; i < RAMPE.length; i++) { const q = rampaA(RAMPE[i], 0), lat = (b.x - q.x) * q.ty - (b.y - q.y) * q.tx, lun = (b.x - q.x) * q.tx + (b.y - q.y) * q.ty, vl = b.vx * q.tx + b.vy * q.ty;
+      if (Math.abs(lat) < 2 && lun > -0.4 && lun < 1.2 && vl > 25) { b.rampa = i; b.s = 0.5; b.vs = Math.hypot(b.vx, b.vy) * 0.95; suono('rampa'); break; } }
+    if (b.rampa != null) continue;
     // sensori
     for (const l of LUCI) if (l.cd <= 0 && Math.hypot(b.x - l.x, b.y - l.y) < 1.6) { l.cd = 0.6; evento('luce', l); }
-    if (ORBITA.cd <= 0 && b.vy > 20 && Math.abs(b.x - ORBITA.x) < 2.9 && Math.abs(b.y - ORBITA.y) < 1.5) { ORBITA.cd = 1; evento('orbita'); }
-    if (!b.lanciata && b.y > 40) { b.lanciata = true; }
-    if (b.x > 24.6 && b.y < 2.6 && Math.abs(b.vy) < 9 && !b.auto) { b.ferma = true; b.x = LANCIO.x; b.y = LANCIO.y; b.vx = b.vy = 0; }   /* ricaduta nel corridoio: di nuovo sulla molla */
+    for (const c of CORSIE) if (c.cd <= 0 && Math.abs(b.x - c.x) < 1.5 && Math.abs(b.y - c.y) < 1.2) { c.cd = 0.8; evento('corsia', c); }
+    for (const o of ORBITE) if (o.cd <= 0 && b.vy > 20 && Math.abs(b.x - o.x) < 2.9 && Math.abs(b.y - o.y) < 1.5) { o.cd = 1; evento('orbita', o); }
+    if (Math.abs(b.x - SPIN.x) < 2.9 && Math.abs(b.y - SPIN.y) < 0.8 && SPIN.cd <= 0) { SPIN.cd = 0.25; SPIN.v = Math.max(SPIN.v, Math.abs(b.vy) * 0.6); evento('spinner'); }
+    if (HANGAR.cd <= 0 && Math.hypot(b.x - HANGAR.x, b.y - HANGAR.y) < 1.8 && v < 150) { b.presa = 1.4; b.x = HANGAR.x; b.y = HANGAR.y; b.vx = b.vy = 0; HANGAR.cd = 2.5; evento('hangar'); continue; }
+    if (b.y < 15 && b.y > 9 && Math.abs(b.x - KICK.x) < 1.6 && b.vy < 0 && KICK.acceso) { KICK.acceso = 0; KICK.lampo = 0.3; b.vy = 150; b.vx = 4; suono('respinta'); messaggio('RESPINTA!', 1.4); log('respinta'); }
+    if (!b.lanciata && b.y > 40) b.lanciata = true;
+    if (b.x > 24.6 && b.y < 2.6 && Math.abs(b.vy) < 9 && !b.auto) { b.ferma = true; b.x = LANCIO.x; b.y = LANCIO.y; b.vx = b.vy = 0; }
     if (b.y < -4) b.persa = true;
-    // pallina incastrata: dopo 2,5 secondi ferma, una spinta (come dare un colpetto al tavolo)
     if (Math.hypot(b.vx, b.vy) < 3 && b.x < 24.6 && !FL.some(f => f.su)) { b.fermoT = (b.fermoT || 0) + dt; if (b.fermoT > 2.5) { b.vx += (Math.random() - 0.5) * 40; b.vy += 45; b.fermoT = 0; log('spinta', b.x.toFixed(1), b.y.toFixed(1)); } } else b.fermoT = 0;
   }
 }
@@ -597,52 +732,81 @@ function passoFisica(dt) {
 const G0 = () => S.giocatori[S.cur];
 function punti(n) { const g = G0(); if (g) g.punti += Math.round(n * S.mult); }
 function messaggio(t, d = 2.2) { S.msg = t; S.msgT = d; const e = $('dmd'); e.classList.remove('msg'); void e.offsetWidth; e.classList.add('msg'); }
+function lampeggia(i) { S.flash[i] = 0.25; }
+function missioneTiro(tipo) {   // un tiro che conta per la missione in corso (o per il Lato Luminoso)
+  if (S.luminoso > 0) { punti(100000); messaggio('JACKPOT!', 1.2); suono('combo'); lampeggia(0); lampeggia(1); return; }
+  if (S.missione < 0 || MISSIONI[S.missione].tiro !== tipo) return;
+  const m = MISSIONI[S.missione]; S.missConta++; punti(m.val); lampeggia(S.missConta % 2);
+  if (S.missConta >= m.serve) {
+    S.fatte[S.missione] = 1; punti(m.val * 2); suono('fatta'); messaggio('MISSIONE COMPIUTA!', 2.6); log('missione compiuta', m.nome);
+    S.missione = -1;
+    if (S.fatte.every(Boolean)) { S.luminoso = 40; S.fatte = [0, 0, 0, 0]; suono('luminoso'); messaggio('LATO LUMINOSO!', 3); log('lato luminoso');
+      for (let i = 0; i < 2; i++) dopo(0.8 + i * 0.8, () => { if (S.palle.length < 4) nuovaPalla(true); }); }
+  } else messaggio(m.nome.split(' ').slice(-1)[0] + ' ' + S.missConta + '/' + m.serve, 1.3);
+}
 function evento(tipo, o) {
   if (S.fase !== 'gioco') return;
-  if (tipo === 'droide') { o.lampo = 0.15; punti(1000); suono('droide'); schegge(o.x, o.y, 3, '#4FC3FF', 5, 10); }
+  if (tipo === 'droide') { o.lampo = 0.15; punti(S.superT > 0 ? 3000 : 1000); suono('droide'); schegge(o.x, o.y, 3, '#4FC3FF', 5, 10); }
   if (tipo === 'gomma') { punti(100); suono('gomma'); }
   if (tipo === 'bersaglio') {
     o.giu = 1; punti(5000); suono('bersaglio'); const f = FAM.find(q => q.k === o.k); schegge(o.x, o.y, 1.5, f.spada, 10, 12);
-    messaggio(f.nome.toUpperCase() + '!', 1.2); log('bersaglio', o.k);
+    if (S.missione < 0 && !S.luminoso) messaggio(f.nome.toUpperCase() + '!', 1.2); log('bersaglio', o.k);
+    missioneTiro('bersaglio');
     if (BERS.every(t => t.giu)) { punti(50000); S.mult = Math.min(5, S.mult + 1); suono('squadra'); messaggio('SQUADRA COMPLETA! x' + S.mult, 2.6); dopo(1.8, () => BERS.forEach(t => t.giu = 0)); log('squadra completa'); }
   }
   if (tipo === 'luna') {
     if (LUNA.lampo > 0) return;
-    LUNA.lampo = 0.35; LUNA.colpi++; punti(10000); suono('luna'); schegge(LUNA.x, LUNA.y, 3, '#FF3B3B', 12, 16);
+    LUNA.lampo = 0.35; LUNA.colpi++; punti(10000); suono('luna'); schegge(LUNA.x, LUNA.y, 3, '#FF3B3B', 12, 16); lampeggia(0);
+    missioneTiro('luna');
     if (LUNA.colpi >= LUNA.serve) {
-      LUNA.via = 15; LUNA.colpi = 0; LUNA.serve = Math.min(7, LUNA.serve + 1); S.lunaVolte++;
-      punti(100000); suono('boom'); schegge(LUNA.x, LUNA.y, 3, '#FF8A1E', 60, 40); schegge(LUNA.x, LUNA.y, 3, '#FFFFFF', 30, 30);
+      LUNA.via = 15; LUNA.colpi = 0; LUNA.serve = Math.min(7, LUNA.serve + 1);
+      punti(100000); suono('boom'); schegge(LUNA.x, LUNA.y, 3, '#FF8A1E', 60, 40); schegge(LUNA.x, LUNA.y, 3, '#FFFFFF', 30, 30); lampeggia(0); lampeggia(1);
       messaggio('LUNA NERA DISTRUTTA!', 3); log('luna distrutta');
-      if (S.palle.length < 3) dopo(0.9, () => { nuovaPalla(true); suono('multi'); messaggio('MULTIPALLA!', 2); });
-    } else messaggio('LUNA NERA ' + LUNA.colpi + '/' + LUNA.serve, 1.4);
+      if (S.palle.length < 4) dopo(0.9, () => { nuovaPalla(true); suono('multi'); messaggio('MULTIPALLA!', 2); });
+    } else if (S.missione < 0 && !S.luminoso) messaggio('LUNA NERA ' + LUNA.colpi + '/' + LUNA.serve, 1.4);
   }
   if (tipo === 'luce') {
     if (!o.on) { o.on = 1; punti(2000); suono('luce'); }
-    if (LUCI.every(l => l.on)) { punti(25000); S.mult = Math.min(5, S.mult + 1); suono('iper'); messaggio('IPERSPAZIO! x' + S.mult, 2.4); dopo(0.9, () => LUCI.forEach(l => l.on = 0)); log('iperspazio'); }
+    if (LUCI.every(l => l.on)) { punti(25000); S.superT = 20; suono('iper'); messaggio('DROIDI SUPER!', 2.2); dopo(0.9, () => LUCI.forEach(l => l.on = 0)); log('droidi super'); }
+  }
+  if (tipo === 'corsia') {
+    if (!o.on) { o.on = 1; punti(1000); suono('luce'); }
+    if (CORSIE.every(c => c.on)) { punti(10000); S.mult = Math.min(5, S.mult + 1); KICK.acceso = 1; suono('iper'); messaggio('LUCE! x' + S.mult + ' · RESPINTA', 2.2); dopo(0.9, () => CORSIE.forEach(c => c.on = 0)); }
   }
   if (tipo === 'orbita') {
-    S.orbite = S.orbitaT > 0 ? S.orbite + 1 : 1; S.orbitaT = 4; punti(15000 * S.orbite); suono('orbita');
-    messaggio(S.orbite > 1 ? 'ORBITA x' + S.orbite + '!' : 'ORBITA!', 1.6); log('orbita', S.orbite);
+    S.comboT > 0 ? (punti(15000), suono('combo'), messaggio('COMBO ORBITA!', 1.4)) : (suono('orbita'), messaggio('ORBITA!', 1.4));
+    punti(15000); S.comboT = 3; missioneTiro('orbita'); log('orbita');
+  }
+  if (tipo === 'rampa') {
+    S.rampe++; punti(10000 * (S.comboT > 0 ? 2 : 1)); lampeggia(1); S.comboT = 3;
+    const r = RAMPE[o]; if (S.missione < 0 && !S.luminoso) messaggio((S.comboT > 0 ? '' : '') + r.nome + '! ' + S.rampe, 1.4);
+    missioneTiro('rampa'); log('rampa', r.nome, S.rampe);
+    if (S.rampe % 10 === 0) { S.extra++; suono('extra'); messaggio('PALLINA IN PIÙ!', 2.6); }
+  }
+  if (tipo === 'spinner') { punti(500); suono('spinner'); }
+  if (tipo === 'hangar') {
+    suono('hangar'); lampeggia(0); log('hangar');
+    if (S.luminoso > 0) { punti(250000); messaggio('SUPER JACKPOT!', 2.4); suono('fatta'); }
+    else if (S.missione >= 0) { punti(25000); S.missT += 10; messaggio('HANGAR +10 s', 1.6); }
+    else { let m = S.prossima; for (let k = 0; k < 4 && S.fatte[m]; k++) m = (m + 1) % 4; S.missione = m; S.missT = 30; S.missConta = 0; S.prossima = (m + 1) % 4;
+      punti(20000); dopo(0.4, () => suono('missione')); messaggio('MISSIONE: ' + MISSIONI[m].nome, 3); log('missione', MISSIONI[m].nome); }
   }
 }
-function nuovaPalla(auto = false) {
-  const b = {x: LANCIO.x, y: LANCIO.y, vx: 0, vy: 0, ferma: !auto, lanciata: false, auto: auto ? 0.4 : 0};
-  if (auto) { b.ferma = true; }
-  S.palle.push(b); return b;
-}
+function nuovaPalla(auto = false) { const b = {x: LANCIO.x, y: LANCIO.y, vx: 0, vy: 0, ferma: true, lanciata: false, auto: auto ? 0.4 : 0, rampa: null, h: 0}; S.palle.push(b); return b; }
 function lancia(b, forza) { b.ferma = false; b.vx = 0; b.vy = 175 * (0.55 + 0.45 * forza); suono('lancio'); }
 function iniziaPalla() {
-  S.palle = []; S.mult = 1; S.scudo = 10; S.orbite = 0; nuovaPalla(false); LUCI.forEach(l => l.on = 0);
-  BERS.forEach(t => t.giu = 0);
+  S.palle = []; S.mult = 1; S.scudo = 10; S.missione = -1; S.luminoso = 0; S.superT = 0; KICK.acceso = 1; nuovaPalla(false);
+  LUCI.forEach(l => l.on = 0); CORSIE.forEach(c => c.on = 0); BERS.forEach(t => t.giu = 0);
   const g = G0(); messaggio((S.giocatori.length > 1 ? g.nome.toUpperCase() + ' · ' : '') + 'PALLA ' + S.palla, 2);
   aggiornaTurni();
 }
 function pallaPersa() {
-  const g = G0(); const bonus = BERS.filter(t => t.giu).length * 1000 * S.mult; g.punti += bonus;
+  const g = G0(); const bonus = (BERS.filter(t => t.giu).length * 1000 + S.rampe * 500) * S.mult; g.punti += bonus;
   suono('perso'); messaggio(bonus ? 'BONUS ' + bonus.toLocaleString('it-IT') : 'PALLA PERSA', 2.2); log('palla persa', g.nome, g.punti);
-  S.fase = 'attesa';
+  S.fase = 'attesa'; S.missione = -1; S.luminoso = 0;
   dopo(2.2, () => {
     if (S.fase !== 'attesa') return;
+    if (S.extra > 0) { S.extra--; S.fase = 'gioco'; S.palle = []; nuovaPalla(false); messaggio('RIPROVA!', 2); return; }
     S.cur++; if (S.cur >= S.giocatori.length) { S.cur = 0; S.palla++; }
     if (S.palla > 3) { fineGioco(); return; }
     S.fase = 'gioco'; iniziaPalla();
@@ -654,7 +818,8 @@ const fmt = n => n.toLocaleString('it-IT');
 function aggiornaDmd() {
   const g = G0(); if (!g) return;
   $('dBig').textContent = S.msgT > 0 ? S.msg : fmt(g.punti);
-  $('dL').textContent = (S.giocatori.length > 1 ? g.nome.split(' ')[0] + ' · ' : '') + 'PALLA ' + Math.min(S.palla, 3) + '/3';
+  const m = S.luminoso > 0 ? 'LATO LUMINOSO ' + Math.ceil(S.luminoso) + 's' : S.missione >= 0 ? MISSIONI[S.missione].nome.split(' ').slice(-1)[0] + ' ' + S.missConta + '/' + MISSIONI[S.missione].serve + ' · ' + Math.ceil(S.missT) + 's' : null;
+  $('dL').textContent = m || ((S.giocatori.length > 1 ? g.nome.split(' ')[0] + ' · ' : '') + 'PALLA ' + Math.min(S.palla, 3) + '/3');
   $('dR').textContent = (S.scudo > 0 && S.fase === 'gioco' ? '🛡 ' : '') + 'x' + S.mult + ' · LUNA ' + (LUNA.via ? '—' : LUNA.colpi + '/' + LUNA.serve);
   if ($('dAv').dataset.k !== g.k) { $('dAv').dataset.k = g.k; $('dAv').innerHTML = svgCostume(g.k, 64); }
 }
@@ -662,10 +827,26 @@ function aggiornaTurni() {
   const el = $('turni'); if (S.giocatori.length < 2) { el.classList.add('hidden'); return; } el.classList.remove('hidden');
   el.innerHTML = S.giocatori.map((g, i) => `<div class="${i === S.cur ? 'on' : ''}" style="--c:${COL_G[i]}">${svgCostume(g.k, 28)}<span>${fmt(g.punti)}</span></div>`).join('');
 }
+// quali luci sono accese: 0 spenta, 1 accesa, 2 lampeggia
+function statoLampade() {
+  const blink = Math.sin(S.t * 10) > 0, mt = S.missione >= 0 ? MISSIONI[S.missione].tiro : null, lum = S.luminoso > 0, st = {};
+  st.riprova = S.scudo > 0 || S.extra > 0 ? (S.scudo > 0 && S.scudo < 3 ? 2 : 1) : 0;
+  for (let i = 0; i < 4; i++) st['m' + i] = S.fatte[i] ? 1 : S.missione === i ? 2 : 0;
+  st.lum = lum ? 2 : 0;
+  for (let i = 2; i <= 5; i++) st['x' + i] = S.mult >= i ? 1 : 0;
+  st['fr-rs'] = st['fr-rd'] = lum || mt === 'rampa' ? 2 : S.comboT > 0 ? 1 : 0;
+  st['fr-os'] = st['fr-od'] = lum || mt === 'orbita' ? 2 : 0;
+  st['fr-luna'] = lum || mt === 'luna' ? 2 : LUNA.colpi > 0 ? 1 : 0;
+  st['fr-hangar'] = S.missione < 0 ? 2 : 1;
+  st.kick = KICK.acceso ? 1 : 0;
+  CORSIE.forEach((c, i) => st['c' + i] = c.on);
+  LUCI.forEach((l, i) => st['l' + i] = l.on ? 1 : S.superT > 0 ? 2 : 0);
+  for (const k in st) if (st[k] === 2) st[k] = blink ? 1 : 0;
+  return st;
+}
 
 /* ---------------------------------------------------------------- comandi */
-const tasti = {};
-function flipper(lato, su) { const f = FL[lato < 0 ? 0 : 1]; if (su && !f.su) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); } } f.su = su; }
+function flipper(lato, su) { const f = FL[lato < 0 ? 0 : 1]; if (su && !f.su) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); const c = CORSIE.map(q => q.on); CORSIE.forEach((q, i) => q.on = c[(i + (lato < 0 ? 1 : 3)) % 4]); } } f.su = su; }
 function caricaMolla(su) {
   const b = S.palle.find(p => p.ferma && !p.auto); if (!b) { S.caricando = false; return; }
   if (su) { S.caricando = true; } else if (S.caricando) { S.caricando = false; lancia(b, S.carica); S.carica = 0; }
@@ -704,8 +885,8 @@ function leggiPad() {
 /* ---------------------------------------------------------------- partita */
 function iniziaPartita() {
   S.giocatori = SCELTI.slice(0, N).map(k => ({k, nome: FAM.find(f => f.k === k).nome, punti: 0}));
-  S.cur = 0; S.palla = 1; S.fase = 'gioco'; S.pausa = false; S.lunaVolte = 0; ATTESE.length = 0;
-  LUNA.colpi = 0; LUNA.serve = 5; LUNA.via = 0;
+  Object.assign(S, {cur: 0, palla: 1, fase: 'gioco', pausa: false, fatte: [0, 0, 0, 0], prossima: 0, rampe: 0, extra: 0, comboT: 0, missione: -1, luminoso: 0});
+  ATTESE.length = 0; LUNA.colpi = 0; LUNA.serve = 5; LUNA.via = 0;
   ['menu', 'results', 'pause'].forEach(id => $(id).classList.add('hidden')); $('stelle').classList.add('hidden');
   ['dmd', 'pauseBtn'].forEach(id => $(id).classList.remove('hidden'));
   iniziaPalla(); musica(true);
@@ -714,7 +895,7 @@ function fineGioco() {
   S.fase = 'fine'; musica(false); suono('fine');
   const ord = [...S.giocatori].sort((a, b) => b.punti - a.punti);
   $('resTitle').textContent = ord.length > 1 ? ord[0].nome + ' salva la galassia!' : 'Missione compiuta: ' + fmt(ord[0].punti) + ' punti';
-  $('resList').innerHTML = ord.map((g, i) => `<li style="--c:${COL_G[S.giocatori.indexOf(g)]}">${svgCostume(g.k, 46)}<b>${g.nome}</b><i>${fmt(g.punti)}</i></li>`).join('');
+  $('resList').innerHTML = ord.map(g => `<li style="--c:${COL_G[S.giocatori.indexOf(g)]}">${svgCostume(g.k, 46)}<b>${g.nome}</b><i>${fmt(g.punti)}</i></li>`).join('');
   salvaRecord(ord); $('results').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn'].forEach(id => $(id).classList.add('hidden'));
   log('fine', ord.map(g => g.nome + ' ' + g.punti).join(', '));
 }
@@ -751,7 +932,6 @@ function disegnaScelta() {
 }
 $('pList').onclick = e => { const b = e.target.closest('.pa'); if (!b) return; SCELTI[+b.dataset.i] = b.dataset.k; disegnaScelta(); };
 $('bGo').onclick = () => { audio(); iniziaPartita(); };
-// cielo stellato del menù
 { const c = $('stelle'), g = c.getContext('2d'); const st = Array.from({length: 220}, () => ({x: Math.random(), y: Math.random(), z: Math.random()}));
   const disegna = () => { c.width = innerWidth; c.height = innerHeight; g.clearRect(0, 0, c.width, c.height);
     for (const s of st) { s.y += 0.0004 + s.z * 0.0012; if (s.y > 1) { s.y = 0; s.x = Math.random(); } g.fillStyle = `rgba(255,255,255,${0.3 + s.z * 0.7})`; g.fillRect(s.x * c.width, s.y * c.height, 1 + s.z * 1.6, 1 + s.z * 1.6); }
@@ -773,37 +953,50 @@ function ciclo(ora) {
 }
 function aggiorna(dt) {
   if (PROVA) pilotaAutomatico();
-  if (!S.pausa && (S.fase === 'gioco' || S.fase === 'attesa')) {
-    S.t += dt; if (S.msgT > 0) S.msgT -= dt;
-    for (let i = ATTESE.length - 1; i >= 0; i--) if ((ATTESE[i].t -= dt) <= 0) { const a = ATTESE.splice(i, 1)[0]; a.fn(); } if (S.orbitaT > 0) S.orbitaT -= dt; if (ORBITA.cd > 0) ORBITA.cd -= dt;
-    if (S.scudo > 0 && S.palle.some(b => b.lanciata)) S.scudo -= dt;
-    LUCI.forEach(l => l.cd > 0 && (l.cd -= dt)); DROIDI.forEach(d => d.lampo > 0 && (d.lampo -= dt)); if (LUNA.lampo > 0) LUNA.lampo -= dt;
-    if (LUNA.via > 0) { LUNA.via -= dt; if (LUNA.via <= 0) { LUNA.via = 0; messaggio('LA LUNA NERA È TORNATA', 2); } }
-    if (S.caricando) S.carica = Math.min(1, S.carica + dt);
-    for (const b of S.palle) if (b.auto > 0) { b.auto -= dt; if (b.auto <= 0) { b.auto = 0; lancia(b, 0.9 + Math.random() * 0.1); } }
-    const n = 12; for (let i = 0; i < n; i++) passoFisica(dt / n);
-    const perse = S.palle.filter(b => b.persa);
-    if (perse.length) {
-      S.palle = S.palle.filter(b => !b.persa);
-      if (S.fase === 'gioco' && !S.palle.length) {
-        if (S.scudo > 0) { nuovaPalla(true); suono('scudo'); messaggio('SCUDO DEFLETTORE!', 1.8); S.scudo = 0; }
-        else pallaPersa();
-      }
-    }
-    aggiornaDmd(); if (Math.round(S.t * 10) % 10 === 0) aggiornaTurni();
+  if (S.pausa || !(S.fase === 'gioco' || S.fase === 'attesa')) return;
+  S.t += dt; if (S.msgT > 0) S.msgT -= dt;
+  for (let i = ATTESE.length - 1; i >= 0; i--) if ((ATTESE[i].t -= dt) <= 0) { const a = ATTESE.splice(i, 1)[0]; a.fn(); }
+  for (const o of ORBITE) if (o.cd > 0) o.cd -= dt;
+  if (S.comboT > 0) S.comboT -= dt; if (S.superT > 0) S.superT -= dt; if (HANGAR.cd > 0) HANGAR.cd -= dt; if (SPIN.cd > 0) SPIN.cd -= dt; if (KICK.lampo > 0) KICK.lampo -= dt;
+  S.flash = S.flash.map(f => Math.max(0, f - dt));
+  if (S.missione >= 0 && (S.missT -= dt) <= 0) { messaggio('MISSIONE FALLITA', 2); S.missione = -1; }
+  if (S.luminoso > 0) S.luminoso -= dt;
+  if (S.scudo > 0 && S.palle.some(b => b.lanciata)) S.scudo -= dt;
+  LUCI.forEach(l => l.cd > 0 && (l.cd -= dt)); CORSIE.forEach(c => c.cd > 0 && (c.cd -= dt)); DROIDI.forEach(d => d.lampo > 0 && (d.lampo -= dt)); if (LUNA.lampo > 0) LUNA.lampo -= dt;
+  if (LUNA.via > 0) { LUNA.via -= dt; if (LUNA.via <= 0) { LUNA.via = 0; messaggio('LA LUNA NERA È TORNATA', 2); } }
+  if (S.caricando) S.carica = Math.min(1, S.carica + dt);
+  for (const b of S.palle) {
+    if (b.auto > 0) { b.auto -= dt; if (b.auto <= 0) { b.auto = 0; lancia(b, 0.9 + Math.random() * 0.1); } }
+    if (b.presa > 0 && (b.presa -= dt) <= 0) { b.presa = 0; b.x = HANGAR.x + 1.2; b.y = HANGAR.y - 1.2; b.vx = 26; b.vy = -58; suono('espulsione'); lampeggia(1); }
   }
+  const n = 12; for (let i = 0; i < n; i++) passoFisica(dt / n);
+  SPIN.a += SPIN.v * dt * 0.5; SPIN.v *= Math.pow(0.35, dt);
+  const perse = S.palle.filter(b => b.persa);
+  if (perse.length) {
+    S.palle = S.palle.filter(b => !b.persa);
+    if (S.fase === 'gioco' && !S.palle.length) {
+      if (S.scudo > 0) { nuovaPalla(true); suono('scudo'); messaggio('SCUDO DEFLETTORE!', 1.8); S.scudo = 0; }
+      else pallaPersa();
+    }
+  }
+  aggiornaDmd(); if (Math.round(S.t * 10) % 10 === 0) aggiornaTurni();
 }
 function disegnaScena(dt) {
   if (!renderer) return;
   for (const f of FL) f.g.rotation.y = f.a;
-  M.palle.forEach((m, i) => { const b = S.palle[i]; m.visible = M.ombre[i].visible = !!b; if (b) { m.position.copy(W3(b.x, b.y, R)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, 0.02)); } });
+  M.palle.forEach((m, i) => { const b = S.palle[i]; m.visible = M.ombre[i].visible = !!b;
+    if (b) { const h = b.presa > 0 ? R - 1.2 : (b.h || 0) + R; m.position.copy(W3(b.x, b.y, h)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, (b.h || 0) + 0.02)); M.ombre[i].visible = b.presa <= 0 || !b.presa; } });
   M.molla.position.copy(W3(LANCIO.x, -3.2 - S.carica * 2.6, 1.1));
-  for (const d of DROIDI) { const on = d.lampo > 0; d.anello.material.color.set(on ? '#FFFFFF' : '#4FC3FF'); d.cupola.material.emissive = new THREE.Color(on ? '#4FC3FF' : '#000000'); }
+  for (const d of DROIDI) { const on = d.lampo > 0; d.anello.material.color.set(on ? '#FFFFFF' : S.superT > 0 ? '#FFD84F' : '#4FC3FF'); d.cupola.material.emissive.set(on ? '#4FC3FF' : '#000000'); }
   M.luna.visible = !LUNA.via; M.luna.rotation.y += dt * 0.4;
   M.luna.material.emissiveIntensity = LUNA.lampo > 0 ? 2 : 0.35 + 0.15 * Math.sin(S.t * 3);
   M.lunaLuci.forEach((s, i) => { s.visible = i < LUNA.serve; s.material.color.set(i < LUNA.colpi ? '#FF3B3B' : (i === LUNA.colpi && Math.sin(S.t * 8) > 0 ? '#7a1a1a' : '#3a0a0a')); });
-  for (const t of BERS) { const ty = t.giu ? -1.4 : 1.3; t.mesh.position.y += (ty - t.mesh.position.y) * Math.min(1, dt * 14); t.luce.material.color.set(t.giu ? FAM.find(q => q.k === t.k).spada : '#222'); }
-  LUCI.forEach(l => l.mesh.material.color.set(l.on ? '#FFD84F' : '#202638'));
+  for (const t of BERS) { const ty = t.giu ? -1.4 : 1.3; t.mesh.position.y += (ty - t.mesh.position.y) * Math.min(1, dt * 14); }
+  const st = statoLampade(); for (const L of LAMPADE) { const on = st[L.id] ? 1 : 0; L.mesh.material.opacity = on ? 1 : 0; L.glow.material.opacity = on ? 0.85 : 0; }
+  M.spin.rotation.x = SPIN.a;
+  M.nave.rotation.y += dt * 0.6; M.nave.position.y = 9 + Math.sin(performance.now() / 600) * 0.6;
+  M.kick.position.copy(W3(KICK.x, KICK.y - 2 + (KICK.lampo > 0 ? 1.5 : 0), 0.6));
+  M.flash.forEach((f, i) => { const on = S.flash[i] > 0 || (S.luminoso > 0 && Math.sin(S.t * 14 + i * 3) > 0.6); f.m.material.emissiveIntensity = on ? 3 : 0.2; f.l.intensity = on ? 600 : 0; });
   for (const s of M.sch) if (s.m.visible) { s.t += dt; s.v.y -= 30 * dt; s.m.position.addScaledVector(s.v, dt); s.m.material.opacity = Math.max(0, 1 - s.t / s.d); if (s.t > s.d) s.m.visible = false; }
   if (composer) composer.render(); else renderer.render(scene, camera);
 }
@@ -813,23 +1006,37 @@ let provaT = 0;
 function pilotaAutomatico() {
   if (S.fase === 'menu' && provaT === 0) { provaT = 1; N = 2; SCELTI[0] = 'edoardo'; SCELTI[1] = 'bianca'; iniziaPartita(); if (/ultima/.test(location.search)) S.palla = 3; if (/luna1/.test(location.search)) LUNA.serve = 1; log('inizio'); }
   if (/fine/.test(location.search) && S.fase === 'gioco' && S.t > 1.5) { S.giocatori[1].punti = 123400; fineGioco(); return; }
+  if (S.fase === 'gioco' && /forza/.test(location.search) && !S.forzato && S.t > 1) { S.forzato = 1;   // prova: hangar, poi tre rampe di fila
+    const b = S.palle[0]; Object.assign(b, {ferma: false, x: HANGAR.x, y: HANGAR.y - 3, vx: 0, vy: 30});
+    [3, 6, 9, 12].forEach((t, i) => dopo(t, () => { const r = RAMPE[i % 2], q = rampaA(r, 0), c = S.palle[0]; if (c) Object.assign(c, {ferma: false, presa: 0, rampa: null, x: q.x, y: q.y - 5, vx: q.tx * 175, vy: q.ty * 175}); })); }
   if (S.fase !== 'gioco') return;
   for (const f of FL) {
-    // come una persona: colpisce quando la pallina è a metà lama, non sul perno
-    const tiro = S.palle.some(b => { const d = Math.hypot(b.x - f.px, b.y - f.py); return !b.ferma && b.y < 17 && b.y > 2 && d > 4 && d < 9.5 && Math.sign(b.x) === f.lato; });
+    const tiro = S.palle.some(b => { const d = Math.hypot(b.x - f.px, b.y - f.py); return !b.ferma && b.rampa == null && b.y < 17 && b.y > 2 && d > 4 && d < 9.5 && Math.sign(b.x) === f.lato; });
     if (tiro && !f.su) { f.su = true; f.tenuto = 0.18; }
     if (f.su && (f.tenuto -= 1 / 60) <= 0) f.su = false;
   }
   const b = S.palle.find(p => p.ferma && !p.auto); if (b) lancia(b, 0.6 + Math.random() * 0.4);
-  if (Math.floor(S.t / 10) !== Math.floor((S.t - 1 / 60) / 10)) log('t', S.t.toFixed(1), S.palle.map(p => `(${p.x.toFixed(1)},${p.y.toFixed(1)} v ${p.vx.toFixed(0)},${p.vy.toFixed(0)}${p.ferma ? ' ferma' : ''})`).join(' '), 'punti', G0() && G0().punti);
+  if (Math.floor(S.t / 10) !== Math.floor((S.t - 1 / 60) / 10)) log('t', S.t.toFixed(1), S.palle.map(p => `(${p.x.toFixed(1)},${p.y.toFixed(1)}${p.rampa != null ? ' rampa' : ''})`).join(' '), 'punti', G0() && G0().punti);
 }
 
 /* ---------------------------------------------------------------- avvio */
 $('loading').classList.remove('hidden');
 await document.fonts.ready.catch(() => {});
 await caricaAvatar();
-scena(); mostraRecord(); $('loading').classList.add('hidden');
-requestAnimationFrame(ciclo);
+if (/[?&]esporta/.test(location.search)) {   // per la versione Dreamcast: le stesse immagini, in PNG dentro la pagina
+  const out = {tavolo: dipingiTavolo(), vetrina: dipingiVetrina(), droide: droideTex(), luna: lunaTex(), grembiule: grembiuleTex(), plastica0: plasticaTex('goffredo', '#4FC3FF'), plastica1: plasticaTex('carolina', '#6CFF8A')};
+  for (const f of FAM) {
+    out['faccia-' + f.k] = facciaTex(f.k, f.spada);
+    const c = tela(128, 256), g = c.getContext('2d'); eroe(g, f.k, 10, 16, 236, false); out['avatar-' + f.k] = c;
+    const c2 = tela(192, 256), g2 = c2.getContext('2d'); eroe(g2, f.k, 18, 16, 236, true); out['eroe-' + f.k] = c2;
+  }
+  const c = tela(256, 256); ombra(c.getContext('2d'), 128, 20, 230, 1); out.ombra = c;
+  const pre = document.createElement('pre'); pre.id = 'esporta'; pre.textContent = JSON.stringify(Object.fromEntries(Object.entries(out).map(([k, v]) => [k, v.toDataURL('image/png')])));
+  document.body.innerHTML = ''; document.body.appendChild(pre);
+} else {
+  scena(); mostraRecord(); $('loading').classList.add('hidden');
+  requestAnimationFrame(ciclo);
+}
 
 </script>
 </body>
