@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261009163627">
+<meta name="build" content="20261016203955">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -166,7 +166,7 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     <a class="back" href="famiglia.html">← Famiglia</a>
     <div><p class="kick">Un gioco della famiglia · Torino</p><h1>Kart <em>di Torino</em></h1></div>
     <div class="flag"></div>
-    <p class="lede">Nove piste sulle strade vere: Piazza Castello, il Po, il Valentino, i tornanti di Superga, lo Stadio Grande Torino, il Lingotto, il Parco Dora, la Crocetta e il gran giro da San Mauro al centro e ritorno. Su ogni pista giri della morte, trampolini, un bivio con la sopraelevata e barili, coni e olio da schivare. In gara sei piloti con Giovanni e Bianca Di Nola: fino a quattro giocano sullo stesso schermo, gli altri li guida il computer.</p>
+    <p class="lede">Nove piste sulle strade vere: Piazza Castello, il Po, il Valentino, i tornanti di Superga, lo Stadio Grande Torino, il Lingotto, il Parco Dora, la Crocetta e il gran giro da San Mauro al centro e ritorno. Su ogni pista giri della morte, trampolini, un bivio con la sopraelevata e barili, coni e olio da schivare. In gara sette piloti con Giovanni, Bianca Di Nola e Uma: fino a quattro giocano sullo stesso schermo, gli altri li guida il computer.</p>
     <div class="fam" id="famRow"></div>
     <div class="row"><button type="button" class="cta" id="bPlay">▶ Gioca</button><button type="button" class="ghost" id="bHow">Come si gioca</button></div>
     <div class="how hidden" id="howBox">
@@ -209,6 +209,7 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     baby:{h:116,skin:'#F0D2BB',hair:'#C98A3C',hairStyle:'ponytail',eye:'#5B7F9A',liner:true,shirt:'#7c3aed',pants:'#2F3A4A',frame:'#7c3aed',name:'Babysitter'},
     generic:{h:116,skin:'#E8C19F',hair:'#6B5040',hairStyle:'plain',eye:'#4B3426',shirt:'#9AA3A8',pants:'#55504A',frame:'#64748b',name:''},
     giovanni:{h:96, skin:'#E6BC97',hair:'#D8B45E',hairStyle:'longnero',eye:'#5A3A22',shirt:'#E8893A',pants:'#2F3A4A',frame:'#E8893A',name:'Giovanni',noblush:true},
+    uma:{h:84, skin:'#EBC4A4',hair:'#7A5232',hairStyle:'lisci',eye:'#5A3A22',shirt:'#7B3FB0',pants:'#5B7DB8',frame:'#D14C9C',name:'Uma',sleeveless:true,ribbed:true,flare:true},
     biancadn:{h:76, skin:'#F0CDB0',hair:'#5A3B26',hairStyle:'caschetto',eye:'#4A3324',bigeyes:true,gap:true,shirt:'#3FB6A8',pants:'#F2B632',frame:'#3FB6A8',name:'Bianca Di Nola'},
     bianca:{h:74, skin:'#EAC2A0',hair:'#2E1F18',hairStyle:'curly',eye:'#3A2418',bigeyes:true,shirt:'#F6F3EE',pants:'#5F7FB0',skirt:true,frame:'#E4573D',name:'Bianca',unicorn:true},
   };
@@ -222,6 +223,8 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     if(p.hairStyle==='longnero') hair=`<path d="M11.6 31.5 L9.6 27.4 Q8.4 24 8.6 21.4 L7.6 15.6 Q8 7.6 13.4 4 L15.6 0.2 L18.6 2.6 L21.8 -1.6 L25 1.2 L29.4 -2.4 L32.4 1 L36.6 -1.4 L39.6 2 Q47.2 3 50.6 9 L53 13.4 L51.4 14.6 L52.6 21 L50.6 22 L51.4 27.6 L48.6 31.5 L46.6 29.8 L45.6 31.8 L43 28.8 Q44.8 26 45.4 21.5 L45.6 16.4 Q44 11.4 38.6 11 L35.4 14.6 L33.4 12.2 L30.6 15.6 L28.4 12.2 L25.6 15.2 L23.6 11.6 Q16.6 11.6 14.6 16.4 L14.8 21.5 Q15.2 26 17 28.8 L14.4 31.8 L13.4 29.8 Z" fill="${p.hair}"/>`;
     // Bianca Di Nola: caschetto con frangia dritta
     if(p.hairStyle==='caschetto') hair=`<path d="M9 30.5 Q7 20 9.5 11 Q14 0.5 30 0 Q46 0.5 50.5 11 Q53 20 51 30.5 L44.6 30.5 Q45.8 24 45.6 19 L45.4 13.4 L14.6 13.4 L14.4 19 Q14.2 24 15.4 30.5 Z" fill="${p.hair}"/>`;
+    // Uma: lunghi e lisci fino alle spalle, riga in mezzo
+    if(p.hairStyle==='lisci') hair=`<path d="M11.5 53 L11 22 Q12 1 30 .5 Q48 1 49 22 L48.5 53 Q45 55 41.5 52.5 L41.5 25 Q39.5 9.5 30 7 Q20.5 9.5 18.5 25 L18.5 52.5 Q15 55 11.5 53Z" fill="${p.hair}"/><path d="M30 1.2 V7" stroke="#000" stroke-opacity=".18" stroke-width=".9"/><path d="M15 30 V50 M45 30 V50" stroke="#fff" stroke-opacity=".12" stroke-width="1.2"/>`;
     if(p.hairStyle==='curlylong') hair=`<g fill="${p.hair}"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g>`;
     if(p.hairStyle==='bun') hair=`<circle cx="30" cy="-1" r="7" fill="${p.hair}"/><path d="M14 18 Q16 2 30 2 Q44 2 46 18 L46 21 Q40 10 30 10 Q20 10 14 21Z" fill="${p.hair}"/>`;
@@ -241,15 +244,17 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     const cheeks=p.noblush?'':`<circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/>`;
     const crest=p.crest?`<g transform="translate(0 1.5)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#F4EEDC"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#F2B632"/></g>`:'';
     const watch=p.watch?`<rect x="43" y="74" width="10" height="4" rx="1.5" fill="#1F2A26"/>`:'';
-    const legs=p.skirt
+    const legs=p.flare
+      ?`<g class="leg l"><path d="M19.8 84 H28.2 L29.6 105.5 H16.2Z" fill="${p.pants}"/><path d="M24 86 L23 105" stroke="#fff" stroke-opacity=".3" stroke-width=".8"/><rect x="16.5" y="104.5" width="13" height="5.5" rx="2.7" fill="${ink}"/></g><g class="leg r"><path d="M31.8 84 H40.2 L43.8 105.5 H30.4Z" fill="${p.pants}"/><path d="M36 86 L37 105" stroke="#fff" stroke-opacity=".3" stroke-width=".8"/><rect x="30.5" y="104.5" width="13" height="5.5" rx="2.7" fill="${ink}"/></g><path d="M17 84 H43 V88 H17Z" fill="${p.pants}"/>`
+      :p.skirt
       ?`<path d="M17 84 L15 100 H45 L43 84Z" fill="${p.pants}"/><g class="leg l"><rect x="21" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="19" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g class="leg r"><rect x="32" y="99" width="7" height="9" rx="3" fill="${p.skin}"/><rect x="30" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g>`
       :`<g class="leg l"><rect x="20" y="84" width="8" height="${k==='edoardo'?14:24}" rx="3" fill="${p.pants}"/>${k==='edoardo'?'<rect x="20" y="97" width="8" height="10" rx="3" fill="'+p.skin+'"/>':''}<rect x="18" y="104" width="12" height="6" rx="3" fill="${ink}"/></g><g class="leg r"><rect x="32" y="84" width="8" height="${k==='edoardo'?14:24}" rx="3" fill="${p.pants}"/>${k==='edoardo'?'<rect x="32" y="97" width="8" height="10" rx="3" fill="'+p.skin+'"/>':''}<rect x="30" y="104" width="12" height="6" rx="3" fill="${ink}"/></g>`;
     const H=opts.h||p.h; const bd=(opts.bd||0);
     return `<svg viewBox="-6 -8 72 122" width="${H*0.59}" height="${H}" style="--d:${opts.d||0}s;--bd:${bd}s" role="img" aria-label="${p.name}">
       ${legs}
-      <g class="av-body"><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="${p.shirt}"/>${crest}${p.unicorn?'<g class="uni"><path d="M33.4 54.8 L37.8 48 L35.6 55.6Z" fill="#F2B632" stroke="#C98F1A" stroke-width=".4"/><path d="M25.4 66 Q24.2 58.6 28.4 55 Q31.6 52.4 35.2 54.4 Q37.6 56.6 37.8 59.4 Q37.6 61.4 35.4 61.2 L33.4 60.4 Q31.2 62.8 31.4 66.6 Z" fill="#FFFFFF" stroke="#8D5BB8" stroke-width=".9" stroke-linejoin="round"/><circle cx="27.2" cy="55.6" r="1.7" fill="#F48FB1"/><circle cx="25.6" cy="58.4" r="1.6" fill="#B39DDB"/><circle cx="25" cy="61.6" r="1.5" fill="#81D4FA"/><circle cx="25.2" cy="64.6" r="1.3" fill="#A5D6A7"/><circle cx="33.4" cy="57" r=".7" fill="#1F2A26"/><circle cx="36.6" cy="59.6" r=".45" fill="#8D5BB8"/></g>':''}
-      <g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="11" cy="84" r="5" fill="${p.skin}"/></g>
-      <g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="${p.shirt}"/><circle cx="49" cy="84" r="5" fill="${p.skin}"/>${watch}</g>
+      <g class="av-body"><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="${p.shirt}"/>${p.ribbed?'<g stroke="#000" stroke-opacity=".16" stroke-width=".9">'+[50,54,58,62,66,70].map(y=>`<path d="M17.5 ${y} Q23.6 ${y+1.2} 30 ${y} Q36.4 ${y-1.2} 42.5 ${y}" fill="none"/>`).join('')+'</g><path d="M17 46.5 Q30 43 43 46.5" stroke="#fff" stroke-opacity=".25" stroke-width="1.2" fill="none"/>':''}${crest}${p.unicorn?'<g class="uni"><path d="M33.4 54.8 L37.8 48 L35.6 55.6Z" fill="#F2B632" stroke="#C98F1A" stroke-width=".4"/><path d="M25.4 66 Q24.2 58.6 28.4 55 Q31.6 52.4 35.2 54.4 Q37.6 56.6 37.8 59.4 Q37.6 61.4 35.4 61.2 L33.4 60.4 Q31.2 62.8 31.4 66.6 Z" fill="#FFFFFF" stroke="#8D5BB8" stroke-width=".9" stroke-linejoin="round"/><circle cx="27.2" cy="55.6" r="1.7" fill="#F48FB1"/><circle cx="25.6" cy="58.4" r="1.6" fill="#B39DDB"/><circle cx="25" cy="61.6" r="1.5" fill="#81D4FA"/><circle cx="25.2" cy="64.6" r="1.3" fill="#A5D6A7"/><circle cx="33.4" cy="57" r=".7" fill="#1F2A26"/><circle cx="36.6" cy="59.6" r=".45" fill="#8D5BB8"/></g>':''}
+      <g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/><circle cx="11" cy="84" r="5" fill="${p.skin}"/></g>
+      <g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/><circle cx="49" cy="84" r="5" fill="${p.skin}"/>${watch}</g>
       <rect x="26" y="34" width="8" height="12" fill="${p.skin}"/>
       <circle cx="30" cy="19" r="15.5" fill="${p.skin}"/>${cheeks}
       ${hair}${beard}${brows}${eyes}${liner}${glasses}${smile}${moustache}</g>
@@ -371,11 +376,12 @@ const CHAR = {
   bianca: {s: .74, skin: '#EAC2A0', hair: '#2E1F18', eye: '#3A2418', big: true, unicorn: true, shirt: '#F6F3EE', pants: '#5F7FB0', shoes: '#E4573D', style: 'curly', kart: '#E4573D'},
   giovanni: {s: .84, skin: '#E6BC97', hair: '#D8B45E', eye: '#5A3A22', shirt: '#E8893A', pants: '#2F3A4A', shoes: '#1F2A26', style: 'longnero', kart: '#E8893A'},
   biancadn: {s: .75, skin: '#F0CDB0', hair: '#5A3B26', eye: '#4A3324', big: true, gap: true, shirt: '#3FB6A8', pants: '#F2B632', shoes: '#E4573D', style: 'caschetto', kart: '#3FB6A8'},
+  uma: {s: .8, skin: '#EBC4A4', hair: '#7A5232', eye: '#5A3A22', shirt: '#7B3FB0', pants: '#5B7DB8', shoes: '#1F2A26', style: 'lisci', kart: '#D14C9C'},
 };
 // statistiche: i grandi pesano e vanno forte in rettilineo, i piccoli accelerano e curvano meglio
 const STATS = {goffredo: {vel: 1.02, acc: .92, man: .92, peso: 1}, carolina: {vel: 1.01, acc: .95, man: .97, peso: .93},
   giovanni: {vel: .99, acc: 1.03, man: 1.02, peso: .8}, edoardo: {vel: .99, acc: 1.04, man: 1.03, peso: .78},
-  biancadn: {vel: .97, acc: 1.09, man: 1.07, peso: .68}, bianca: {vel: .97, acc: 1.1, man: 1.08, peso: .66}};
+  biancadn: {vel: .97, acc: 1.09, man: 1.07, peso: .68}, bianca: {vel: .97, acc: 1.1, man: 1.08, peso: .66}, uma: {vel: .98, acc: 1.07, man: 1.06, peso: .72}};
 const CC = {50: .72, 100: .86, 150: 1, 200: 1.16};
 function faceTex(c) {
   const t = tex(16, 16, (g) => {
@@ -386,6 +392,7 @@ function faceTex(c) {
     if (c.glasses) { g.fillStyle = c.glasses; g.fillRect(2, ey - 1, 5, 1); g.fillRect(2, ey + 2, 5, 1); g.fillRect(2, ey - 1, 1, 4); g.fillRect(6, ey - 1, 1, 4); g.fillRect(9, ey - 1, 5, 1); g.fillRect(9, ey + 2, 5, 1); g.fillRect(9, ey - 1, 1, 4); g.fillRect(13, ey - 1, 1, 4); g.fillRect(7, ey, 2, 1); }
     if (c.beard) { g.fillStyle = c.beard; g.fillRect(1, 11, 14, 5); g.fillRect(1, 9, 2, 2); g.fillRect(13, 9, 2, 2); }
     if (c.style === 'caschetto') { g.fillStyle = c.hair; g.fillRect(0, 0, 16, 5); }
+    if (c.style === 'lisci') { g.fillStyle = c.hair; g.fillRect(0, 4, 3, 12); g.fillRect(13, 4, 3, 12); }   // Uma: lunghi e lisci, riga in mezzo
     if (c.style === 'longnero') { g.fillStyle = c.hair; g.fillRect(0, 4, 3, 7); g.fillRect(13, 4, 3, 7); g.fillStyle = c.skin; g.fillRect(7, 3, 2, 1); }
     if (c.gap) { g.fillStyle = '#7a3b30'; g.fillRect(5, 12, 6, 2); g.fillStyle = '#fff'; g.fillRect(6, 12, 4, 1); g.fillStyle = '#3a1a14'; g.fillRect(8, 12, 1, 1); }
     else { g.fillStyle = '#7a3b30'; g.fillRect(6, 12, 4, 1); } });
@@ -413,6 +420,7 @@ function makeKart(k) {
   if (c.style === 'mop') { H(.62, .17, .62, 0, .32, 0); H(.62, .32, .12, 0, .13, -.28); H(.1, .26, .52, -.3, .13, 0); H(.1, .26, .52, .3, .13, 0); }
   if (c.style === 'curlylong') { H(.66, .2, .66, 0, .32, 0); H(.68, .8, .2, 0, -.1, -.3); H(.16, .7, .52, -.35, -.08, -.03); H(.16, .7, .52, .35, -.08, -.03); }
   if (c.style === 'longnero') { H(.64, .18, .64, 0, .32, 0); H(.66, .66, .14, 0, -.04, -.3); H(.12, .62, .54, -.33, -.03, -.01); H(.12, .62, .54, .33, -.03, -.01); }
+  if (c.style === 'lisci') { H(.64, .16, .64, 0, .33, 0); H(.66, .95, .14, 0, -.15, -.3); H(.12, .9, .5, -.33, -.13, -.02); H(.12, .9, .5, .33, -.13, -.02); }
   if (c.style === 'caschetto') { H(.66, .2, .66, 0, .32, 0); H(.66, .5, .14, 0, .06, -.3); H(.14, .46, .56, -.34, .06, -.01); H(.14, .46, .56, .34, .06, -.01); H(.6, .1, .08, 0, .2, .3); }
   if (c.style === 'curly') { H(.68, .22, .68, 0, .32, 0); H(.68, .5, .2, 0, .03, -.3); H(.18, .44, .52, -.36, .05, -.02); H(.18, .44, .52, .36, .05, -.02); }
   box(.62 * s, .08 * s, .62 * s, M(c.kart), 0, 1.38 * s, 0, pil);     // casco-berretto del colore del kart
@@ -869,7 +877,7 @@ function beep(f, d, type = 'square', vol = .12) { const a = ac(); if (!a) return
 function sfx(k) { if (k === 'coin') { beep(1320, .06, 'square', .07); setTimeout(() => beep(1760, .09, 'square', .07), 50); } if (k === 'pick') { beep(880, .08); setTimeout(() => beep(1320, .1), 70); } if (k === 'item') beep(520, .12, 'triangle'); if (k === 'boost') { beep(300, .25, 'sawtooth', .08); setTimeout(() => beep(600, .3, 'sawtooth', .08), 90); } if (k === 'hit') beep(140, .4, 'sawtooth', .14); if (k === 'finish') [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, .25, 'triangle', .15), i * 140)); if (k === 'go') beep(1046, .45); if (k === 'count') beep(523, .2); }
 
 // ===================== KART DI TORINO · schermate e ciclo =====================
-const FAM = [{k: 'goffredo', name: 'Goffredo', age: 43, color: '#5FA57A'}, {k: 'carolina', name: 'Carolina', age: 42, color: '#8D5BB8'}, {k: 'edoardo', name: 'Edoardo', age: 8, color: '#4A90C6'}, {k: 'bianca', name: 'Bianca', age: 5, color: '#E4573D'}, {k: 'giovanni', name: 'Giovanni', color: '#E8893A'}, {k: 'biancadn', name: 'Bianca Di Nola', color: '#3FB6A8'}];
+const FAM = [{k: 'goffredo', name: 'Goffredo', age: 43, color: '#5FA57A'}, {k: 'carolina', name: 'Carolina', age: 42, color: '#8D5BB8'}, {k: 'edoardo', name: 'Edoardo', age: 8, color: '#4A90C6'}, {k: 'bianca', name: 'Bianca', age: 5, color: '#E4573D'}, {k: 'giovanni', name: 'Giovanni', color: '#E8893A'}, {k: 'biancadn', name: 'Bianca Di Nola', color: '#3FB6A8'}, {k: 'uma', name: 'Uma', color: '#D14C9C'}];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const TOUCHDEV = matchMedia('(pointer:coarse)').matches;
 let SETUP = {n: 1, pick: FAM.map(f => f.k), assist: {}, track: 'centro', cc: 150, mirror: false, coins: true};
@@ -877,7 +885,7 @@ try { const s = JSON.parse(localStorage.getItem('kart-torino') || 'null'); if (s
 for (const f of FAM) if (!SETUP.pick.includes(f.k)) SETUP.pick.push(f.k);   // le scelte salvate dalla versione a 4 piloti
 SETUP.pick = SETUP.pick.filter(k => FAM.some(f => f.k === k));
 function save() { try { localStorage.setItem('kart-torino', JSON.stringify(SETUP)); } catch (e) {} }
-const defAssist = k => k === 'bianca' || k === 'biancadn' ? {auto: true, help: .65, autoItem: true} : k === 'edoardo' || k === 'giovanni' ? {auto: true, help: .3} : {auto: TOUCHDEV, help: 0};
+const defAssist = k => k === 'bianca' || k === 'biancadn' ? {auto: true, help: .65, autoItem: true} : k === 'uma' ? {auto: true, help: .45} : k === 'edoardo' || k === 'giovanni' ? {auto: true, help: .3} : {auto: TOUCHDEV, help: 0};
 const GYRO_OK = TOUCHDEV && 'DeviceOrientationEvent' in window;
 function statBars(k) { const S = STATS[k], bar = (n, v, lo, hi) => `<span class="sb"><i>${n}</i><b style="--v:${Math.round(20 + 80 * (v - lo) / (hi - lo))}%"></b></span>`;
   return `<div class="stats">${bar('Velocità', S.vel, .95, 1.03)}${bar('Accelerazione', S.acc, .9, 1.12)}${bar('Maneggevolezza', S.man, .9, 1.1)}${bar('Peso', S.peso, .6, 1)}</div>`; }
@@ -899,7 +907,7 @@ function renderPlayers() {
       ${GYRO_OK ? `<label class="tg"><input type="checkbox" data-k="${k}" data-a="gyro" ${a.gyro ? 'checked' : ''}> Giroscopio <small>sterzi inclinando il telefono o il tablet</small></label>${a.gyro ? `<label class="tg sub"><input type="checkbox" data-k="${k}" data-a="gyroInv" ${a.gyroInv ? 'checked' : ''}> Inverti il giroscopio</label>` : ''}` : ''}</div>`; }
   $('pList').innerHTML = h; $('pList').classList.toggle('uno', SETUP.n === 1);
   const nPad = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean).length : 0;
-  $('pNote').textContent = TV && SETUP.n > 1 && nPad < SETUP.n ? `Accendete ${SETUP.n} controller e premete un tasto su ognuno: ora ne vedo ${nPad}.` : TV ? (SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e sei.` : 'Quattro giocatori, gli altri due li guida il computer.') : SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 6 ? 'sei' : FAM.length}.` : 'Quattro giocatori, gli altri due li guida il computer.';
+  $('pNote').textContent = TV && SETUP.n > 1 && nPad < SETUP.n ? `Accendete ${SETUP.n} controller e premete un tasto su ognuno: ora ne vedo ${nPad}.` : TV ? (SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e sette.` : 'Quattro giocatori, gli altri tre li guida il computer.') : SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 7 ? 'sette' : FAM.length}.` : 'Quattro giocatori, gli altri tre li guida il computer.';
 }
 $('nPick').addEventListener('click', e => { const b = e.target.closest('button[data-n]'); if (!b) return; SETUP.n = +b.dataset.n; save(); renderPlayers(); });
 $('pList').addEventListener('click', e => { const b = e.target.closest('.pa'); if (!b) return; const i = +b.dataset.i, k = b.dataset.k, j = SETUP.pick.indexOf(k); [SETUP.pick[i], SETUP.pick[j]] = [k, SETUP.pick[i]]; save(); renderPlayers(); });
@@ -1022,7 +1030,7 @@ function startRace() {
     const isH = f => PLAYERS_IN.some(p => p.k === f.k);
     const roster = [...FAM.filter(f => !isH(f)), ...FAM.filter(isH)]   // in griglia: davanti il computer, dietro i giocatori
       .map(f => { const hi = PLAYERS_IN.findIndex(p => p.k === f.k), a = SETUP.assist[f.k] || defAssist(f.k);
-        return {k: f.k, human: hi, auto: a.auto, assist: a.help, autoItem: hi >= 0 && a.autoItem, gyro: hi >= 0 && GYRO_OK && a.gyro, gyroInv: a.gyroInv, skill: {goffredo: .97, carolina: .96, edoardo: .93, bianca: .9, giovanni: .93, biancadn: .9}[f.k]}; });
+        return {k: f.k, human: hi, auto: a.auto, assist: a.help, autoItem: hi >= 0 && a.autoItem, gyro: hi >= 0 && GYRO_OK && a.gyro, gyroInv: a.gyroInv, skill: {goffredo: .97, carolina: .96, edoardo: .93, bianca: .9, giovanni: .93, biancadn: .9, uma: .91}[f.k]}; });
     spawnKarts(roster);
     CAMS = PLAYERS_IN.map(() => new THREE.PerspectiveCamera(68, 1, .3, 4000));
     RACE = {state: 'count', t: -3.5, done: false}; buildHUD();
@@ -1131,7 +1139,7 @@ if (TV) {
   try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); log(`avvio · schermo ${innerWidth}×${innerHeight} @${devicePixelRatio} · ${x ? gl.getParameter(x.UNMASKED_RENDERER_WEBGL) : 'webgl'} · ${navigator.userAgent}`); } catch (e) { log('avvio · ' + e); }
 }
 requestAnimationFrame(loop);
-$('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74], ['giovanni', 96], ['biancadn', 76]].map(([k, h]) => face(k, h)).join('');
+$('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74], ['giovanni', 96], ['biancadn', 76], ['uma', 84]].map(([k, h]) => face(k, h)).join('');
 show('mTitle');
 
 </script>
