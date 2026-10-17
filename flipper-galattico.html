@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261017075644">
+<meta name="build" content="20261017080524">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -312,7 +312,7 @@ Object.assign(SUONO, {
 
 /* ---------------------------------------------------------------- il tavolo (secondo disegno: più ricco, 17/10/2026) */
 // Unità: largo 56, lungo 132 (x a destra, y verso l'alto del tavolo). Nel mondo 3D (dentro il gruppo inclinato) X = x, Z = -y, Y = altezza.
-const R = 1.2, G = 100, GV = 190, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126, TILT = 0.11;
+const R = 1.4, G = 100, GV = 150, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126, TILT = 0.11;
 const MURI = [];
 const muro = (x1, y1, x2, y2, tipo = 'muro', col = '#4FC3FF', alto = 2) => MURI.push({x1, y1, x2, y2, tipo, col, alto});
 { let p = null; for (let i = 0; i <= 28; i++) { const a = Math.PI - Math.PI * i / 28, q = [2 + Math.cos(a) * 26.4, 96 + Math.sin(a) * 26.4]; if (p) muro(p[0], p[1], q[0], q[1], 'muro', '#B86CFF'); p = q; } }
@@ -329,8 +329,8 @@ muro(-18.6, 60, -18.6, 92, 'muro', '#6CFF8A'); muro(19.0, 58, 19.0, 88, 'muro', 
 for (const x of [-9, -3, 3, 9]) muro(x, 108, x, 114, 'muro', '#B86CFF', 1.6);                    // corsie in alto
 // le due rampe di metallo: si entra salendo dalla bocca, si torna giù nella corsia interna dell'altro lato
 const RAMPE = [
-  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 72, 2.2], [-13.2, 84, 4.4], [-13.8, 93, 5.8], [-15.6, 99.2, 6.5], [-18.4, 100.6, 6.6], [-21, 97.4, 6.4], [-21.8, 89, 6], [-21.8, 76, 5], [-21.4, 62, 3.6], [-20.4, 48, 2], [-19.25, 36, 0.2]]},
-  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 72, 2.2], [13.2, 84, 4.4], [13.8, 93, 5.8], [15.6, 99.2, 6.5], [18.4, 100.6, 6.6], [21, 97.4, 6.4], [21.9, 89, 6], [21.9, 76, 5], [21.5, 62, 3.6], [20.5, 48, 2], [19.25, 36, 0.2]]},
+  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 70, 3.2], [-13.2, 80, 6.6], [-13.8, 90, 9.4], [-15.6, 98, 10.8], [-18.4, 100.2, 11], [-21, 97, 10.8], [-21.8, 88, 10], [-21.8, 76, 8.4], [-21.4, 62, 6], [-20.4, 48, 3.2], [-19.25, 36, 0.2]]},
+  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 70, 3.2], [13.2, 80, 6.6], [13.8, 90, 9.4], [15.6, 98, 10.8], [18.4, 100.2, 11], [21, 97, 10.8], [21.9, 88, 10], [21.9, 76, 8.4], [21.5, 62, 6], [20.5, 48, 3.2], [19.25, 36, 0.2]]},
 ];
 for (const r of RAMPE) {   // lunghezze dei tratti e bocca d'entrata con le due sponde
   r.L = [0]; for (let i = 1; i < r.p.length; i++) { const a = r.p[i - 1], b = r.p[i]; r.L.push(r.L[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2])); }
@@ -472,13 +472,11 @@ function plasticaTex(k, col) {   // la plastica sopra la fionda: l'eroe su un ve
   const c = tela(256, 256), g = c.getContext('2d'); const gr = g.createLinearGradient(0, 0, 256, 256); gr.addColorStop(0, hexA(col, 0.95)); gr.addColorStop(1, 'rgba(10,10,30,.95)');
   g.fillStyle = gr; g.fillRect(0, 0, 256, 256); eroe(g, k, 60, 20, 210, true); return c;
 }
-function grembiuleTex() {
+function grembiuleTex() {   // il grembiule: liscio, solo un filo d'oro e qualche stella (niente scritte)
   const c = tela(1024, 256), g = c.getContext('2d'); g.fillStyle = '#14102A'; g.fillRect(0, 0, 1024, 256);
-  g.strokeStyle = '#F2B632'; g.lineWidth = 4; g.strokeRect(6, 6, 1012, 244);
-  g.fillStyle = '#F4EEDC'; g.textAlign = 'left'; g.font = '800 30px "Bricolage Grotesque",Arial'; g.fillText('MISSIONI', 40, 56); g.textAlign = 'right'; g.fillText('PUNTI', 984, 56);
-  g.font = '400 21px Literata,Georgia,serif'; g.textAlign = 'left';
-  ['Hangar: parte una missione (4 in tutto)', 'Tutte e 4 → LATO LUMINOSO, multipalla', 'Luna Nera: 5 colpi → multipalla', 'Rampe: 10 = pallina in più'].forEach((t, i) => g.fillText(t, 40, 96 + i * 34));
-  g.textAlign = 'right'; ['Droide 1.000 · Fionda 100', 'Bersaglio 5.000 · Squadra 50.000', 'Rampa 10.000 · Combo x2', 'Orbita 15.000 · Luna 100.000'].forEach((t, i) => g.fillText(t, 984, 96 + i * 34));
+  let seme = 5; const rnd = () => (seme = (seme * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 120; i++) { g.fillStyle = `rgba(255,255,255,${0.15 + rnd() * 0.35})`; g.fillRect(rnd() * 1024, rnd() * 256, 2, 2); }
+  g.strokeStyle = 'rgba(242,182,50,.7)'; g.lineWidth = 3; g.strokeRect(8, 8, 1008, 240);
   return c;
 }
 function bagliore() { const c = tela(64, 64), g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.35, 'rgba(255,255,255,.35)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return c; }
@@ -569,18 +567,24 @@ function scena() {
   M.spin = new THREE.Group(); aggiungi(M.spin, SPIN.x, SPIN.y, 2.6);
   const pal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 2.2, 0.15), new THREE.MeshStandardMaterial({color: '#6CFF8A', metalness: 0.6, roughness: 0.3})); pal.position.y = -1.1; M.spin.add(pal);
   aggiungi(new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.3, 0.3), cromo), SPIN.x, SPIN.y, 2.7);
-  // le rampe: un canale di plastica colorata con le sponde e il bordo luminoso (si legge subito dove va la pallina)
+  // le rampe: fondo colorato quasi pieno, sponde più chiare, bordo luminoso, ombra sul piano (fa capire quanto sono alte), sostegni
   for (const r of RAMPE) {
-    const n = Math.ceil(r.tot / 1.2), fondo = [], sx = [], dx = [], bs = [], bd = [];
+    const n = Math.ceil(r.tot / 1.0), fondo = [], sx = [], dx = [], bs = [], bd = [], om = [];
     for (let i = 0; i <= n; i++) { const q = rampaA(r, i / n * r.tot), L = Math.hypot(q.tx, q.ty) || 1, nx = -q.ty / L, ny = q.tx / L;
       const p = (l, hh) => { const w = W3(q.x + nx * l, q.y + ny * l, q.h + hh); return [w.x, w.y, w.z]; };
-      fondo.push(p(-1.7, 0), p(1.7, 0)); sx.push(p(-1.7, 0), p(-1.7, 1.5)); dx.push(p(1.7, 0), p(1.7, 1.5)); bs.push(new THREE.Vector3(...p(-1.7, 1.55))); bd.push(new THREE.Vector3(...p(1.7, 1.55))); }
+      fondo.push(p(-2.1, -0.1), p(2.1, -0.1)); sx.push(p(-2.1, -0.1), p(-2.1, 1.8)); dx.push(p(2.1, -0.1), p(2.1, 1.8));
+      bs.push(new THREE.Vector3(...p(-2.1, 1.85))); bd.push(new THREE.Vector3(...p(2.1, 1.85)));
+      const ox = q.h * 0.35, oy = -q.h * 0.45, o = (l) => { const w = W3(q.x + nx * l + ox, q.y + ny * l + oy, 0.05); return [w.x, w.y, w.z]; };   // ombra: la luce viene da dietro a sinistra
+      om.push(o(-2.4), o(2.4)); }
     const striscia = (pts, mat) => { const g = new THREE.BufferGeometry(), idx = []; g.setAttribute('position', new THREE.Float32BufferAttribute(pts.flat(), 3));
       for (let i = 0; i < n; i++) idx.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2); g.setIndex(idx); g.computeVertexNormals(); return aggiungi(new THREE.Mesh(g, mat)); };
-    const pl = new THREE.MeshStandardMaterial({color: r.col, transparent: true, opacity: 0.42, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.12, depthWrite: false, roughness: 0.3});
-    striscia(fondo, pl); striscia(sx, pl); striscia(dx, pl);
-    for (const pts of [bs, bd]) aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n * 2, 0.14, 6), new THREE.MeshBasicMaterial({color: r.col})));
-    for (const s2 of [28, 52, 76]) { const q = rampaA(r, s2); if (q.h > 1.5) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, q.h, 6), cromo), q.x, q.y, q.h / 2); }
+    const c = new THREE.Color(r.col);
+    striscia(om, new THREE.MeshBasicMaterial({color: '#000000', transparent: true, opacity: 0.38, depthWrite: false}));
+    striscia(fondo, new THREE.MeshStandardMaterial({color: c.clone().multiplyScalar(0.55), transparent: true, opacity: 0.88, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.1}));
+    const sponda = new THREE.MeshStandardMaterial({color: c.clone().lerp(new THREE.Color('#ffffff'), 0.45), transparent: true, opacity: 0.6, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.15, depthWrite: false, roughness: 0.25});
+    striscia(sx, sponda); striscia(dx, sponda);
+    for (const pts of [bs, bd]) aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n * 2, 0.16, 6), new THREE.MeshBasicMaterial({color: r.col})));
+    for (let s2 = 14; s2 < r.tot - 6; s2 += 12) { const q = rampaA(r, s2); if (q.h > 2) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, q.h, 8), cromo), q.x, q.y, q.h / 2); }
   }
   // l'astronave della famiglia, giocattolo sospeso
   M.nave = new THREE.Group(); aggiungi(M.nave, -8.5, 117, 10);
@@ -658,7 +662,7 @@ function adatta() {
   T.updateMatrixWorld(true);
   const loc = (x, y, hh) => T.localToWorld(W3(x, y, hh));
   const q = new URLSearchParams(location.search), oc = (q.get('occhio') || '').split(',').map(Number), mi = Number(q.get('mira'));
-  const dietro = oc[0] || (largo ? 46 : 14), alt = oc[1] || (largo ? 72 : 128), my = mi || (largo ? 60 : 62);
+  const dietro = oc[0] || (largo ? 34 : 14), alt = oc[1] || (largo ? 74 : 128), my = mi || (largo ? 60 : 62);
   const occhio = loc(2, TY0 - dietro, alt), mira = loc(2, my, 0);
   const punti = [loc(TX0 - 3, TY0 - 3, 5), loc(TX1 + 3, TY0 - 3, 5), loc(TX0 - 2, TY1, 2), loc(TX1 + 2, TY1, 2), loc(0, TY1 + 1, largo ? 12 : 46)];
   const alto = 1 - 2 * ((largo && w > 900 ? 16 : 96) / h), basso = -0.985;
@@ -692,7 +696,7 @@ function cerchio(b, x, y, r) {
 }
 function passoRampa(b, dt) {   // sulla rampa: si va avanti lungo il filo, la gravità frena in salita e spinge in discesa
   const r = RAMPE[b.rampa], q = rampaA(r, b.s);
-  b.vs -= (G * q.ty + GV * q.th + 6 * Math.sign(b.vs)) * dt; b.s += b.vs * dt;
+  b.vs -= (G * q.ty + GV * q.th + 4 * Math.sign(b.vs)) * dt; b.s += b.vs * dt;
   if (b.s <= 0) { const q0 = rampaA(r, 0); b.rampa = null; b.x = q0.x; b.y = q0.y - 0.5; b.h = 0; b.vx = q0.tx * b.vs; b.vy = q0.ty * b.vs; return; }   // non ce l'ha fatta: torna giù
   if (b.s >= r.tot) { const qe = rampaA(r, r.tot); b.rampa = null; const v = Math.min(80, Math.abs(b.vs)), L = Math.hypot(qe.tx, qe.ty) || 1; b.x = qe.x; b.y = qe.y; b.h = 0; b.vx = qe.tx / L * v; b.vy = qe.ty / L * v; evento('rampa', RAMPE.indexOf(r)); return; }
   const p = rampaA(r, b.s); b.x = p.x; b.y = p.y; b.h = p.h;
@@ -738,7 +742,7 @@ function passoFisica(dt) {
     const v = Math.hypot(b.vx, b.vy); if (v > 190) { b.vx *= 190 / v; b.vy *= 190 / v; }
     // rampe: si entra dalla bocca andando su
     for (let i = 0; i < RAMPE.length; i++) { const q = rampaA(RAMPE[i], 0), lat = (b.x - q.x) * q.ty - (b.y - q.y) * q.tx, lun = (b.x - q.x) * q.tx + (b.y - q.y) * q.ty, vl = b.vx * q.tx + b.vy * q.ty;
-      if (Math.abs(lat) < 2 && lun > -0.4 && lun < 1.2 && vl > 25) { b.rampa = i; b.s = 0.5; b.vs = Math.hypot(b.vx, b.vy) * 0.95; suono('rampa'); break; } }
+      if (Math.abs(lat) < 2 && lun > -0.4 && lun < 1.2 && vl > 25) { b.rampa = i; b.s = 0.5; b.vs = Math.hypot(b.vx, b.vy); suono('rampa'); break; } }
     if (b.rampa != null) continue;
     // sensori
     for (const l of LUCI) if (l.cd <= 0 && Math.hypot(b.x - l.x, b.y - l.y) < 1.6) { l.cd = 0.6; evento('luce', l); }
@@ -748,7 +752,7 @@ function passoFisica(dt) {
     if (HANGAR.cd <= 0 && Math.hypot(b.x - HANGAR.x, b.y - HANGAR.y) < 1.8 && v < 150) { b.presa = 1.4; b.x = HANGAR.x; b.y = HANGAR.y; b.vx = b.vy = 0; HANGAR.cd = 2.5; evento('hangar'); continue; }
     if (b.y < 15 && b.y > 9 && Math.abs(b.x - KICK.x) < 1.6 && b.vy < 0 && KICK.acceso) { KICK.acceso = 0; KICK.lampo = 0.3; b.vy = 150; b.vx = 4; suono('respinta'); messaggio('RESPINTA!', 1.4); log('respinta'); }
     if (!b.lanciata && b.y > 40) b.lanciata = true;
-    if (b.x > 24.6 && b.y < 2.6 && Math.abs(b.vy) < 9 && !b.auto) { b.ferma = true; b.x = LANCIO.x; b.y = LANCIO.y; b.vx = b.vy = 0; }
+    if (b.x > 24.6 && b.y < R + 1.4 && Math.abs(b.vy) < 9 && !b.auto) { b.ferma = true; b.x = LANCIO.x; b.y = LANCIO.y; b.vx = b.vy = 0; }
     if (b.y < -4) b.persa = true;
     if (Math.hypot(b.vx, b.vy) < 3 && b.x < 24.6 && !FL.some(f => f.su)) { b.fermoT = (b.fermoT || 0) + dt; if (b.fermoT > 2.5) { b.vx += (Math.random() - 0.5) * 40; b.vy += 45; b.fermoT = 0; log('spinta', b.x.toFixed(1), b.y.toFixed(1)); } } else b.fermoT = 0;
   }
