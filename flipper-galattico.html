@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261017085206">
+<meta name="build" content="20261017090534">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -67,6 +67,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 #turni div{display:flex;align-items:center;gap:6px;padding:3px 10px 3px 3px;border-radius:999px;background:rgba(5,6,15,.7);font:800 12px/1 var(--display);opacity:.6}
 #turni div.on{opacity:1;box-shadow:inset 0 0 0 2px var(--c)}#turni svg{height:28px;width:auto}
 #lancia{position:fixed;z-index:11;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);border:0;border-radius:999px;padding:16px 26px;font:800 18px/1 var(--display);background:var(--gold);color:var(--ink);box-shadow:0 10px 30px rgba(242,182,50,.35);min-width:180px;overflow:hidden}
+#scuoti{position:fixed;z-index:11;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);border:0;border-radius:999px;padding:10px 18px;font:800 14px/1 var(--display);background:rgba(5,6,15,.75);color:var(--cream);box-shadow:inset 0 0 0 1.5px rgba(242,182,50,.6)}
 #lancia i{position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--red)}
 #pauseBtn{position:fixed;z-index:12;left:calc(10px + env(safe-area-inset-left));top:calc(90px + env(safe-area-inset-top));width:40px;height:40px;border-radius:50%;border:0;background:rgba(5,6,15,.7);color:#fff;font:800 15px/1 var(--display)}
 .over{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(3,4,10,.7);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
@@ -148,8 +149,9 @@ body.tv,body.tv *{cursor:none!important}
   <h3>Luna Nera</h3><div id="pLuna" class="pallini"></div>
   <h3>Squadra della famiglia</h3><div id="pFam" class="facce"></div>
   <h3 id="pGiocT">Giocatori</h3><ol id="pGioc" class="gioc"></ol>
-  <p class="tasti">◀ Z: flipper sinistro · ▶ M: destro<br>Spazio: lancia · P: pausa</p>
+  <p class="tasti">◀ Z: flipper sinistro · ▶ M: destro<br>Spazio: lancia · N: scuoti · P: pausa</p>
 </aside>
+<button type="button" id="scuoti" class="hidden">🫨 Scuoti</button>
 <button type="button" id="lancia" class="hidden">🚀 Lancia<i></i></button>
 <button type="button" id="pauseBtn" class="hidden" aria-label="Pausa">❚❚</button>
 
@@ -162,7 +164,7 @@ body.tv,body.tv *{cursor:none!important}
     <div class="fam" id="famRow"></div>
     <div class="row"><button type="button" class="cta" id="bPlay">▶ Gioca</button><button type="button" class="ghost" id="bHow">Come si gioca</button><button type="button" class="ghost" id="bAudio">🔊 Suono</button></div>
     <div class="how hidden" id="howBox">
-      <div><b>I flipper</b><p>Computer: Z o ⇧ sinistro e M o ⇧ destro (vanno bene anche le frecce ◀ ▶); Spazio o ▼ tieni premuto per caricare il lancio. Telefono: tocca la metà sinistra o destra dello schermo; per lanciare tieni premuto 🚀. Controller: dorsali o grilletti, A per lanciare.</p></div>
+      <div><b>I flipper</b><p>Computer: Z o ⇧ sinistro e M o ⇧ destro (vanno bene anche le frecce ◀ ▶); Spazio o ▼ tieni premuto per caricare il lancio, N o ▲ scuote il tavolo. Telefono: tocca la metà sinistra o destra dello schermo; per lanciare tieni premuto 🚀, per scuotere 🫨. Controller: dorsali o grilletti, A per lanciare, X o Y per scuotere. Attenti: troppe scosse di fila e va in TILT!</p></div>
       <div><b>Cosa colpire</b><p>Le orbite a destra e a sinistra (otto orbite = una pallina in più), gli Scudi sui due lati, i sette bersagli della famiglia («Squadra completa» alza il moltiplicatore), le luci in alto (droidi super) e le corsie L-U-C-E, che riaccendono la respinta a sinistra.</p></div>
       <div><b>Missioni e Luna Nera</b><p>Nell'hangar parte una missione da 30 secondi: Luna, Iperspazio (gli Scudi), Famiglia, Ombra (le orbite). Fatte tutte e quattro: Lato Luminoso, tre palline e jackpot ovunque. Cinque colpi alla Luna Nera: multipalla. Lo scudo salva la pallina nei primi 10 secondi. Si gioca a turno, fino a quattro.</p></div>
     </div>
@@ -361,6 +363,8 @@ function musica(on) {
     i++; t += passo; } }, 60)};
 }
 Object.assign(SUONO, {
+  scossa: () => { osc('sine', 90, 40, 0.25, 0.5); rumore(0.12, 0.3, 500); },
+  tilt: () => { osc('sawtooth', 220, 55, 1.2, 0.2); osc('square', 110, 50, 1.2, 0.1); },
   festa: () => { [523, 659, 784, 1046, 784, 1046, 1318, 1568].forEach((f, i) => osc('square', f, f, 0.16, 0.1, i * 0.09)); for (let i = 0; i < 6; i++) rumore(0.08, 0.15, 6000, 0.8 + i * 0.07); },
   rampa: () => { for (let i = 0; i < 5; i++) osc('sawtooth', 300 + i * 160, 900 + i * 300, 0.18, 0.05, i * 0.05); rumore(0.4, 0.08, 4000); },
   hangar: () => { osc('sine', 600, 80, 0.4, 0.3); rumore(0.12, 0.2, 800, 0.3); },
@@ -736,6 +740,7 @@ function cerchio(b, x, y, r) {
 }
 function passoFisica(dt) {
   for (const f of FL) {
+    if (S.tilt) f.su = false;   // in TILT i flipper sono spenti
     const vuole = f.su ? f.a1 : f.a0, dir = Math.sign(vuole - f.a), vel = f.su ? 26 : 15;
     const prima = f.a; f.a += dir * vel * dt; if (Math.sign(vuole - f.a) !== dir) f.a = vuole;
     f.w = (f.a - prima) / dt;
@@ -856,18 +861,18 @@ function evento(tipo, o) {
 function nuovaPalla(auto = false) { const b = {x: LANCIO.x, y: LANCIO.y, vx: 0, vy: 0, ferma: true, lanciata: false, auto: auto ? 0.4 : 0, h: 0}; S.palle.push(b); return b; }
 function lancia(b, forza) { b.ferma = false; b.vx = 0; b.vy = 175 * (0.55 + 0.45 * forza); suono('lancio'); }
 function iniziaPalla() {
-  S.palle = []; S.mult = 1; S.scudo = 10; S.missione = -1; S.luminoso = 0; S.superT = 0; KICK.acceso = 1; nuovaPalla(false);
+  S.palle = []; S.mult = 1; S.scudo = 10; S.tilt = false; S.scosse = 0; S.missione = -1; S.luminoso = 0; S.superT = 0; KICK.acceso = 1; nuovaPalla(false);
   LUCI.forEach(l => l.on = 0); CORSIE.forEach(c => c.on = 0); BERS.forEach(t => t.giu = 0);
   const g = G0(); messaggio((S.giocatori.length > 1 ? g.nome.toUpperCase() + ' · ' : '') + 'PALLA ' + S.palla, 2);
   aggiornaTurni();
 }
 function pallaPersa() {
-  const g = G0(); const bonus = (BERS.filter(t => t.giu).length * 1000 + S.rampe * 500) * S.mult; g.punti += bonus;
+  const g = G0(); const bonus = S.tilt ? 0 : (BERS.filter(t => t.giu).length * 1000 + S.rampe * 500) * S.mult; g.punti += bonus;
   suono('perso'); messaggio(bonus ? 'BONUS ' + bonus.toLocaleString('it-IT') : 'PALLA PERSA', 2.2); log('palla persa', g.nome, g.punti);
   S.fase = 'attesa'; S.missione = -1; S.luminoso = 0;
   dopo(2.2, () => {
     if (S.fase !== 'attesa') return;
-    if (S.extra > 0) { S.extra--; S.fase = 'gioco'; S.palle = []; nuovaPalla(false); messaggio('RIPROVA!', 2); return; }
+    if (S.extra > 0) { S.extra--; S.fase = 'gioco'; S.palle = []; S.tilt = false; S.scosse = 0; nuovaPalla(false); messaggio('RIPROVA!', 2); return; }
     S.cur++; if (S.cur >= S.giocatori.length) { S.cur = 0; S.palla++; }
     if (S.palla > 3) { fineGioco(); return; }
     S.fase = 'gioco'; iniziaPalla();
@@ -972,8 +977,23 @@ function statoLampade() {
   return st;
 }
 
+/* ---------------------------------------------------------------- la scossa (e il TILT) */
+let TREMA = 0;
+function scuoti() {
+  if (S.fase !== 'gioco' || S.pausa || S.tilt) return;
+  TREMA = 0.35; suono('scossa');
+  const dir = Math.random() < 0.5 ? -1 : 1;
+  for (const b of S.palle) { if (b.ferma || b.presa) continue;
+    if (b.y < 32 && b.vy < 0) {   // sta scendendo verso lo scarico: la spinta la porta via dal centro, verso il flipper più vicino, e la rialza
+      const lato = Math.abs(b.x) > 1.5 ? Math.sign(b.x) : dir; b.vx = b.vx * 0.4 + lato * (24 + Math.random() * 8); b.vy = Math.max(b.vy * 0.3, 0) + 38 + Math.random() * 10;
+    } else { b.vx += dir * (10 + Math.random() * 12); b.vy += 22 + Math.random() * 10; } }
+  S.scosse = (S.scosse || 0) + 1; log('scossa', S.scosse);
+  if (S.scosse >= 5) { S.tilt = true; FL.forEach(f => f.su = false); suono('tilt'); messaggio('TILT!', 4); log('tilt'); }
+  else if (S.scosse >= 3) messaggio('ATTENTO! ' + S.scosse + '/5', 1.4);
+}
+
 /* ---------------------------------------------------------------- comandi */
-function flipper(lato, su) { const f = FL[lato < 0 ? 0 : 1], prima = f.su; for (const q of FL) if (q.lato === lato) q.su = su; if (su && !prima) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); const c = CORSIE.map(q => q.on); CORSIE.forEach((q, i) => q.on = c[(i + (lato < 0 ? 1 : 3)) % 4]); } } f.su = su; }
+function flipper(lato, su) { if (S.tilt && su) return; const f = FL[lato < 0 ? 0 : 1], prima = f.su; for (const q of FL) if (q.lato === lato) q.su = su; if (su && !prima) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); const c = CORSIE.map(q => q.on); CORSIE.forEach((q, i) => q.on = c[(i + (lato < 0 ? 1 : 3)) % 4]); } } f.su = su; }
 function caricaMolla(su) {
   const b = S.palle.find(p => p.ferma && !p.auto); if (!b) { S.caricando = false; return; }
   if (su) { S.caricando = true; } else if (S.caricando) { S.caricando = false; lancia(b, S.carica); S.carica = 0; }
@@ -985,6 +1005,7 @@ addEventListener('keydown', e => {
   if (['KeyM', 'ShiftRight', 'ArrowRight', 'Slash'].includes(k)) flipper(1, true);
   if (['Space', 'ArrowDown', 'Enter'].includes(k)) caricaMolla(true);
   if (k === 'Escape' || k === 'KeyP') pausa(!S.pausa);
+  if (k === 'KeyN' || k === 'ArrowUp') { scuoti(); e.preventDefault(); }
   if (['Space', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(k)) e.preventDefault();
 });
 addEventListener('keyup', e => {
@@ -996,6 +1017,7 @@ addEventListener('keyup', e => {
 const tocchi = new Map();
 $('stage').addEventListener('pointerdown', e => { if (S.fase === 'menu') return; audio(); const l = e.clientX < innerWidth / 2 ? -1 : 1; tocchi.set(e.pointerId, l); flipper(l, true); });
 for (const ev of ['pointerup', 'pointercancel']) addEventListener(ev, e => { if (!tocchi.has(e.pointerId)) return; const l = tocchi.get(e.pointerId); tocchi.delete(e.pointerId); if (![...tocchi.values()].includes(l)) flipper(l, false); });
+$('scuoti').addEventListener('pointerdown', e => { e.stopPropagation(); audio(); scuoti(); });
 $('lancia').addEventListener('pointerdown', e => { e.stopPropagation(); audio(); caricaMolla(true); });
 $('lancia').addEventListener('pointerup', e => { e.stopPropagation(); caricaMolla(false); });
 $('lancia').addEventListener('pointerleave', () => caricaMolla(false));
@@ -1003,10 +1025,10 @@ let padPrima = {};
 function leggiPad() {
   const ps = navigator.getGamepads ? navigator.getGamepads() : []; for (const p of ps) { if (!p) continue;
     const b = i => p.buttons[i] && (p.buttons[i].pressed || p.buttons[i].value > 0.4);
-    const sx = b(4) || b(6) || b(14), dx = b(5) || b(7) || b(15), la = b(0) || b(13), st = b(9);
+    const sx = b(4) || b(6) || b(14), dx = b(5) || b(7) || b(15), la = b(0) || b(13), st = b(9), sc = b(2) || b(3) || b(12);
     const pr = padPrima[p.index] || {};
-    if (sx !== !!pr.sx) flipper(-1, sx); if (dx !== !!pr.dx) flipper(1, dx); if (la !== !!pr.la) caricaMolla(la); if (st && !pr.st) pausa(!S.pausa);
-    padPrima[p.index] = {sx, dx, la, st}; }
+    if (sx !== !!pr.sx) flipper(-1, sx); if (dx !== !!pr.dx) flipper(1, dx); if (la !== !!pr.la) caricaMolla(la); if (st && !pr.st) pausa(!S.pausa); if (sc && !pr.sc) scuoti();
+    padPrima[p.index] = {sx, dx, la, st, sc}; }
 }
 
 /* ---------------------------------------------------------------- partita */
@@ -1023,7 +1045,7 @@ function fineGioco() {
   const ord = [...S.giocatori].sort((a, b) => b.punti - a.punti);
   $('resTitle').textContent = ord.length > 1 ? ord[0].nome + ' salva la galassia!' : 'Missione compiuta: ' + fmt(ord[0].punti) + ' punti';
   $('resList').innerHTML = ord.map(g => `<li style="--c:${COL_G[S.giocatori.indexOf(g)]}">${svgCostume(g.k, 46)}<b>${g.nome}</b><i>${fmt(g.punti)}</i></li>`).join('');
-  salvaRecord(ord); document.body.classList.remove('in-gioco'); $('results').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn'].forEach(id => $(id).classList.add('hidden'));
+  salvaRecord(ord); $('scuoti').classList.add('hidden'); document.body.classList.remove('in-gioco'); $('results').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn'].forEach(id => $(id).classList.add('hidden'));
   log('fine', ord.map(g => g.nome + ' ' + g.punti).join(', '));
 }
 function pausa(on) {
@@ -1074,7 +1096,9 @@ function ciclo(ora) {
   const giri = VELOCE ? 400 : 1;
   for (let g = 0; g < giri; g++) aggiorna(VELOCE ? 1 / 60 : dt);
   const inCorsia = S.palle.find(b => b.ferma && !b.auto);
-  $('lancia').classList.toggle('hidden', !(inCorsia && S.fase === 'gioco' && matchMedia('(pointer:coarse)').matches));
+  const tocco = matchMedia('(pointer:coarse)').matches;
+  $('lancia').classList.toggle('hidden', !(inCorsia && S.fase === 'gioco' && tocco));
+  $('scuoti').classList.toggle('hidden', !(!inCorsia && S.fase === 'gioco' && tocco && !S.pausa));
   $('lancia').querySelector('i').style.width = (S.carica * 100) + '%';
   disegnaScena(dt);
 }
@@ -1086,6 +1110,8 @@ function aggiorna(dt) {
   for (const o of ORBITE) if (o.cd > 0) o.cd -= dt;
   if (S.comboT > 0) S.comboT -= dt; if (S.superT > 0) S.superT -= dt; if (HANGAR.cd > 0) HANGAR.cd -= dt; if (SPIN.cd > 0) SPIN.cd -= dt; if (KICK.lampo > 0) KICK.lampo -= dt;
   S.flash = S.flash.map(f => Math.max(0, f - dt));
+  if (S.scosse > 0 && !S.tilt) { S.raffredda = (S.raffredda || 0) + dt; if (S.raffredda > 2.5) { S.raffredda = 0; S.scosse--; } }
+  if (S.tilt) S.scudo = 0;
   if (S.missione >= 0 && (S.missT -= dt) <= 0) { messaggio('MISSIONE FALLITA', 2); S.missione = -1; }
   if (S.luminoso > 0) S.luminoso -= dt;
   if (S.scudo > 0 && S.palle.some(b => b.lanciata)) S.scudo -= dt;
@@ -1111,6 +1137,7 @@ function aggiorna(dt) {
 function disegnaScena(dt) {
   if (!renderer) return;
   for (const f of FL) f.g.rotation.y = f.a;
+  if (TREMA > 0) { TREMA = Math.max(0, TREMA - dt); const k = TREMA / 0.35; T.position.set(Math.sin(performance.now() / 18) * 0.9 * k, 0, Math.cos(performance.now() / 23) * 0.5 * k); } else T.position.set(0, 0, 0);
   M.palle.forEach((m, i) => { const b = S.palle[i]; m.visible = M.ombre[i].visible = !!b;
     const al = M.aloni[i], sc = M.scie[i]; al.visible = !!b && !(b.presa > 0);
     if (b) { const h = b.presa > 0 ? R - 1.2 : (b.h || 0) + R; m.position.copy(W3(b.x, b.y, h)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, (b.h || 0) + 0.02)); M.ombre[i].visible = b.presa <= 0 || !b.presa;
@@ -1153,6 +1180,7 @@ function pilotaAutomatico() {
     if (f.su && (f.tenuto -= 1 / 60) <= 0) f.su = false;
   }
   const b = S.palle.find(p => p.ferma && !p.auto); if (b) lancia(b, 0.6 + Math.random() * 0.4);
+  if (/scosse/.test(location.search) && Math.random() < 0.01) scuoti();
   if (Math.floor(S.t / 10) !== Math.floor((S.t - 1 / 60) / 10)) log('t', S.t.toFixed(1), S.palle.map(p => `(${p.x.toFixed(1)},${p.y.toFixed(1)})`).join(' '), 'punti', G0() && G0().punti, 'orbite', S.rampe, 'pOrb', $('pOrb').textContent);
 }
 
