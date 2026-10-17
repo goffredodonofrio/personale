@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261017075025">
+<meta name="build" content="20261017075644">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -312,7 +312,7 @@ Object.assign(SUONO, {
 
 /* ---------------------------------------------------------------- il tavolo (secondo disegno: più ricco, 17/10/2026) */
 // Unità: largo 56, lungo 132 (x a destra, y verso l'alto del tavolo). Nel mondo 3D (dentro il gruppo inclinato) X = x, Z = -y, Y = altezza.
-const R = 1.2, G = 100, GV = 260, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126, TILT = 0.11;
+const R = 1.2, G = 100, GV = 190, TX0 = -26, TX1 = 30, TY0 = -6, TY1 = 126, TILT = 0.11;
 const MURI = [];
 const muro = (x1, y1, x2, y2, tipo = 'muro', col = '#4FC3FF', alto = 2) => MURI.push({x1, y1, x2, y2, tipo, col, alto});
 { let p = null; for (let i = 0; i <= 28; i++) { const a = Math.PI - Math.PI * i / 28, q = [2 + Math.cos(a) * 26.4, 96 + Math.sin(a) * 26.4]; if (p) muro(p[0], p[1], q[0], q[1], 'muro', '#B86CFF'); p = q; } }
@@ -329,8 +329,8 @@ muro(-18.6, 60, -18.6, 92, 'muro', '#6CFF8A'); muro(19.0, 58, 19.0, 88, 'muro', 
 for (const x of [-9, -3, 3, 9]) muro(x, 108, x, 114, 'muro', '#B86CFF', 1.6);                    // corsie in alto
 // le due rampe di metallo: si entra salendo dalla bocca, si torna giù nella corsia interna dell'altro lato
 const RAMPE = [
-  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 70, 1.8], [-13.4, 80, 4.2], [-13.2, 92, 6.2], [-9, 103, 7.5], [-1, 108.5, 8], [7, 107, 8], [13.5, 100, 7.4], [17.8, 90, 6.6], [19.6, 76, 5.2], [19.4, 60, 3.4], [19.3, 46, 1.6], [19.25, 36, 0.2]]},
-  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 70, 1.8], [13.4, 80, 4.6], [12.8, 92, 7.4], [8, 102, 9.6], [0, 107, 10.4], [-8, 105, 10], [-14.5, 98, 9], [-18.4, 88, 7.5], [-19.8, 74, 5.6], [-19.5, 60, 3.6], [-19.3, 46, 1.6], [-19.25, 36, 0.2]]},
+  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 72, 2.2], [-13.2, 84, 4.4], [-13.8, 93, 5.8], [-15.6, 99.2, 6.5], [-18.4, 100.6, 6.6], [-21, 97.4, 6.4], [-21.8, 89, 6], [-21.8, 76, 5], [-21.4, 62, 3.6], [-20.4, 48, 2], [-19.25, 36, 0.2]]},
+  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 72, 2.2], [13.2, 84, 4.4], [13.8, 93, 5.8], [15.6, 99.2, 6.5], [18.4, 100.6, 6.6], [21, 97.4, 6.4], [21.9, 89, 6], [21.9, 76, 5], [21.5, 62, 3.6], [20.5, 48, 2], [19.25, 36, 0.2]]},
 ];
 for (const r of RAMPE) {   // lunghezze dei tratti e bocca d'entrata con le due sponde
   r.L = [0]; for (let i = 1; i < r.p.length; i++) { const a = r.p[i - 1], b = r.p[i]; r.L.push(r.L[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2])); }
@@ -569,30 +569,28 @@ function scena() {
   M.spin = new THREE.Group(); aggiungi(M.spin, SPIN.x, SPIN.y, 2.6);
   const pal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 2.2, 0.15), new THREE.MeshStandardMaterial({color: '#6CFF8A', metalness: 0.6, roughness: 0.3})); pal.position.y = -1.1; M.spin.add(pal);
   aggiungi(new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.3, 0.3), cromo), SPIN.x, SPIN.y, 2.7);
-  // le rampe di metallo: fili cromati, inizio in plastica colorata, sostegni
-  M.rampe = [];
+  // le rampe: un canale di plastica colorata con le sponde e il bordo luminoso (si legge subito dove va la pallina)
   for (const r of RAMPE) {
-    const pts = (dl, dh) => r.p.map((q, i) => { const a = r.p[Math.max(0, i - 1)], b = r.p[Math.min(r.p.length - 1, i + 1)], tx = b[0] - a[0], ty = b[1] - a[1], L = Math.hypot(tx, ty) || 1; return W3(q[0] - ty / L * dl, q[1] + tx / L * dl, q[2] + dh); });
-    const filo = (dl, dh, rr = 0.16) => aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts(dl, dh)), 160, rr, 6), cromo));
-    filo(-1.5, 1.5); filo(1.5, 1.5); filo(-0.75, -0.05); filo(0.75, -0.05);
-    // inizio in plastica (il primo tratto)
-    const n = 6, geo = new THREE.BufferGeometry(), v = [], idx = [];
-    for (let i = 0; i <= n; i++) { const q = rampaA(r, i / n * 26), L = Math.hypot(q.tx, q.ty) || 1, nx = -q.ty / L, ny = q.tx / L;
-      for (const s of [-1, 1]) { const w = W3(q.x + nx * 1.9 * s, q.y + ny * 1.9 * s, q.h - 0.15); v.push(w.x, w.y, w.z); } }
-    for (let i = 0; i < n; i++) idx.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2);
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); geo.setIndex(idx); geo.computeVertexNormals();
-    aggiungi(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color: r.col, transparent: true, opacity: 0.45, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.08})));
-    for (const s of [40, 70, 100]) { const q = rampaA(r, s); if (q.h > 1.5) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, q.h, 6), cromo), q.x, q.y, q.h / 2); }
+    const n = Math.ceil(r.tot / 1.2), fondo = [], sx = [], dx = [], bs = [], bd = [];
+    for (let i = 0; i <= n; i++) { const q = rampaA(r, i / n * r.tot), L = Math.hypot(q.tx, q.ty) || 1, nx = -q.ty / L, ny = q.tx / L;
+      const p = (l, hh) => { const w = W3(q.x + nx * l, q.y + ny * l, q.h + hh); return [w.x, w.y, w.z]; };
+      fondo.push(p(-1.7, 0), p(1.7, 0)); sx.push(p(-1.7, 0), p(-1.7, 1.5)); dx.push(p(1.7, 0), p(1.7, 1.5)); bs.push(new THREE.Vector3(...p(-1.7, 1.55))); bd.push(new THREE.Vector3(...p(1.7, 1.55))); }
+    const striscia = (pts, mat) => { const g = new THREE.BufferGeometry(), idx = []; g.setAttribute('position', new THREE.Float32BufferAttribute(pts.flat(), 3));
+      for (let i = 0; i < n; i++) idx.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2); g.setIndex(idx); g.computeVertexNormals(); return aggiungi(new THREE.Mesh(g, mat)); };
+    const pl = new THREE.MeshStandardMaterial({color: r.col, transparent: true, opacity: 0.42, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.12, depthWrite: false, roughness: 0.3});
+    striscia(fondo, pl); striscia(sx, pl); striscia(dx, pl);
+    for (const pts of [bs, bd]) aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n * 2, 0.14, 6), new THREE.MeshBasicMaterial({color: r.col})));
+    for (const s2 of [28, 52, 76]) { const q = rampaA(r, s2); if (q.h > 1.5) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, q.h, 6), cromo), q.x, q.y, q.h / 2); }
   }
   // l'astronave della famiglia, giocattolo sospeso
-  M.nave = new THREE.Group(); aggiungi(M.nave, -15.5, 104, 9);
+  M.nave = new THREE.Group(); aggiungi(M.nave, -8.5, 117, 10);
   const disco = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 4.2, 0.8, 32), new THREE.MeshStandardMaterial({color: '#C8CCD6', metalness: 0.8, roughness: 0.3})); M.nave.add(disco);
   const cabina = new THREE.Mesh(new THREE.SphereGeometry(1.4, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({color: '#4FC3FF', metalness: 0.2, roughness: 0.1, transparent: true, opacity: 0.8})); cabina.position.y = 0.4; M.nave.add(cabina);
   for (let i = 0; i < 3; i++) { const a = i * Math.PI * 2 / 3, mo = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 8), new THREE.MeshBasicMaterial({color: '#FF9A3C'})); mo.position.set(Math.cos(a) * 3.6, -0.3, Math.sin(a) * 3.6); M.nave.add(mo); }
-  aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 9, 6), new THREE.MeshStandardMaterial({color: '#88ccff', transparent: true, opacity: 0.35})), -15.5, 104, 4.5);
+  aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 9, 6), new THREE.MeshStandardMaterial({color: '#88ccff', transparent: true, opacity: 0.35})), -8.5, 117, 5);
   // Lord Ombra, sagoma in piedi in alto a destra
   const ot = tela(256, 256); ombra(ot.getContext('2d'), 128, 20, 230, 1);
-  M.ombra = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(11, 11), new THREE.MeshBasicMaterial({map: texDa(ot), transparent: true, side: THREE.DoubleSide})), 16.5, 110, 5.6); M.ombra.rotation.x = -TILT;
+  M.ombra = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(9, 9), new THREE.MeshBasicMaterial({map: texDa(ot), transparent: true, side: THREE.DoubleSide})), 9, 118.5, 4.6); M.ombra.rotation.x = -TILT;
   // lampeggiatori a cupola
   M.flash = [['#FF3B3B', -21, 116], ['#4FC3FF', 23.5, 102]].map(([c, x, y]) => {
     const m = aggiungi(new THREE.Mesh(new THREE.SphereGeometry(1.3, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({color: c, emissive: c, emissiveIntensity: 0.2, transparent: true, opacity: 0.85})), x, y, 0.5);
@@ -630,11 +628,15 @@ function scena() {
   const anelloG = new THREE.TorusGeometry(0.55, 0.24, 8, 20), paloG = new THREE.CylinderGeometry(0.3, 0.3, 2.4, 10), anelloM = new THREE.MeshStandardMaterial({color: '#BDBDB4', roughness: 0.9}), paloM = new THREE.MeshStandardMaterial({color: '#C9A64A', metalness: 0.8, roughness: 0.3});
   for (const [x, y] of pali) { aggiungi(new THREE.Mesh(paloG, paloM), x, y, 1.2); aggiungi(new THREE.Mesh(anelloG, anelloM), x, y, 1.0).rotation.x = Math.PI / 2; }
   // palline e loro ombre
-  const metallo = new THREE.MeshStandardMaterial({color: '#ffffff', metalness: 1, roughness: 0.08});
-  M.palle = []; M.ombre = [];
+  const metallo = new THREE.MeshStandardMaterial({color: '#F4F6FA', metalness: 0.55, roughness: 0.18, emissive: '#A8C4E8', emissiveIntensity: 0.35});
+  M.palle = []; M.ombre = []; M.aloni = []; M.scie = [];
+  const bt2 = texDa(bagliore()), sciaG = new THREE.SphereGeometry(R * 0.8, 12, 8);
   for (let i = 0; i < 4; i++) {
     M.palle.push(aggiungi(new THREE.Mesh(new THREE.SphereGeometry(R, 32, 20), metallo))); M.palle[i].visible = false;
     const o = aggiungi(new THREE.Mesh(new THREE.CircleGeometry(R * 1.1, 20), new THREE.MeshBasicMaterial({color: '#000', transparent: true, opacity: 0.45}))); o.rotation.x = -Math.PI / 2; o.visible = false; M.ombre.push(o);
+    const al = aggiungi(new THREE.Mesh(new THREE.PlaneGeometry(7, 7), new THREE.MeshBasicMaterial({map: bt2, color: '#BFE3FF', transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false}))); al.rotation.x = -Math.PI / 2; al.visible = false; M.aloni.push(al);
+    const sc = []; for (let k = 0; k < 6; k++) { const m = aggiungi(new THREE.Mesh(sciaG, new THREE.MeshBasicMaterial({color: '#BFE3FF', transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false}))); m.visible = false; sc.push(m); }
+    M.scie.push({sc, storia: []});
   }
   M.sch = []; const sm = new THREE.SphereGeometry(0.3, 6, 4);
   for (let i = 0; i < 160; i++) { const m = aggiungi(new THREE.Mesh(sm, new THREE.MeshBasicMaterial({color: '#fff', transparent: true}))); m.visible = false; M.sch.push({m, v: new THREE.Vector3(), t: 0, d: 1}); }
@@ -1009,7 +1011,13 @@ function disegnaScena(dt) {
   if (!renderer) return;
   for (const f of FL) f.g.rotation.y = f.a;
   M.palle.forEach((m, i) => { const b = S.palle[i]; m.visible = M.ombre[i].visible = !!b;
-    if (b) { const h = b.presa > 0 ? R - 1.2 : (b.h || 0) + R; m.position.copy(W3(b.x, b.y, h)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, (b.h || 0) + 0.02)); M.ombre[i].visible = b.presa <= 0 || !b.presa; } });
+    const al = M.aloni[i], sc = M.scie[i]; al.visible = !!b && !(b.presa > 0);
+    if (b) { const h = b.presa > 0 ? R - 1.2 : (b.h || 0) + R; m.position.copy(W3(b.x, b.y, h)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, (b.h || 0) + 0.02)); M.ombre[i].visible = b.presa <= 0 || !b.presa;
+      al.position.copy(W3(b.x, b.y, (b.h || 0) + 0.06));
+      sc.storia.unshift(m.position.clone()); if (sc.storia.length > 13) sc.storia.length = 13;
+      const v = Math.hypot(b.vx || 0, b.vy || 0), forte = b.rampa != null ? 1 : Math.min(1, v / 90);   // la scia si vede solo quando corre
+      sc.sc.forEach((q, k) => { const p = sc.storia[(k + 1) * 2]; q.visible = !!p && forte > 0.15; if (p) { q.position.copy(p); q.scale.setScalar(1 - k * 0.12); q.material.opacity = 0.35 * forte * (1 - k / 6); } }); }
+    else { sc.storia.length = 0; sc.sc.forEach(q => q.visible = false); } });
   M.molla.position.copy(W3(LANCIO.x, -3.2 - S.carica * 2.6, 1.1));
   for (const d of DROIDI) { const on = d.lampo > 0; d.anello.material.color.set(on ? '#FFFFFF' : S.superT > 0 ? '#FFD84F' : '#4FC3FF'); d.cupola.material.emissive.set(on ? '#4FC3FF' : '#000000'); }
   M.luna.visible = !LUNA.via; M.luna.rotation.y += dt * 0.4;
@@ -1018,7 +1026,7 @@ function disegnaScena(dt) {
   for (const t of BERS) { const ty = t.giu ? -1.4 : 1.3; t.mesh.position.y += (ty - t.mesh.position.y) * Math.min(1, dt * 14); }
   const st = statoLampade(); for (const L of LAMPADE) { const on = st[L.id] ? 1 : 0; L.mesh.material.opacity = on ? 1 : 0; L.glow.material.opacity = on ? 0.85 : 0; }
   M.spin.rotation.x = SPIN.a;
-  M.nave.rotation.y += dt * 0.6; M.nave.position.y = 9 + Math.sin(performance.now() / 600) * 0.6;
+  M.nave.rotation.y += dt * 0.6; M.nave.position.y = 10 + Math.sin(performance.now() / 600) * 0.6;
   M.kick.position.copy(W3(KICK.x, KICK.y - 2 + (KICK.lampo > 0 ? 1.5 : 0), 0.6));
   M.flash.forEach((f, i) => { const on = S.flash[i] > 0 || (S.luminoso > 0 && Math.sin(S.t * 14 + i * 3) > 0.6); f.m.material.emissiveIntensity = on ? 3 : 0.2; f.l.intensity = on ? 600 : 0; });
   for (const s of M.sch) if (s.m.visible) { s.t += dt; s.v.y -= 30 * dt; s.m.position.addScaledVector(s.v, dt); s.m.material.opacity = Math.max(0, 1 - s.t / s.d); if (s.t > s.d) s.m.visible = false; }
