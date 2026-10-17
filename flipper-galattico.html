@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261017074339">
+<meta name="build" content="20261017075025">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -351,8 +351,9 @@ const SPIN = {x: -21.5, y: 70, a: 0, v: 0, cd: 0};
 const KICK = {x: -22.75, y: 13, acceso: 1, lampo: 0};
 const ORBITE = [{x: -21.5, y: 86, cd: 0, lato: -1}, {x: 21.8, y: 84, cd: 0, lato: 1}];
 const FL = [
-  {px: -10.2, py: 11.2, a0: -0.436, a1: 0.489, a: -0.436, w: 0, su: false, lato: -1},
-  {px: 10.2, py: 11.2, a0: Math.PI + 0.436, a1: Math.PI - 0.489, a: Math.PI + 0.436, w: 0, su: false, lato: 1},
+  {px: -10.2, py: 11.2, a0: -0.436, a1: 0.489, a: -0.436, w: 0, su: false, lato: -1, L: 8.4, rb: 1.3, rt: 0.75},
+  {px: 10.2, py: 11.2, a0: Math.PI + 0.436, a1: Math.PI - 0.489, a: Math.PI + 0.436, w: 0, su: false, lato: 1, L: 8.4, rb: 1.3, rt: 0.75},
+  {px: 17.6, py: 78, a0: Math.PI + 0.5, a1: Math.PI - 0.35, a: Math.PI + 0.5, w: 0, su: false, lato: 1, L: 5.6, rb: 1.0, rt: 0.6, alto: 1},   // il piccolo in alto a destra: tira verso l'hangar e l'orbita sinistra
 ];
 const FLL = 8.4;
 const LANCIO = {x: 26.5, y: R + 0.01};
@@ -515,7 +516,7 @@ function scena() {
   const mobile = new THREE.MeshStandardMaterial({color: '#1C1238', metalness: 0.35, roughness: 0.45}), cromo = new THREE.MeshStandardMaterial({color: '#AEB6C4', metalness: 0.85, roughness: 0.38});
   for (const [x, y, w, d] of [[TX0 - 1.5, (TY0 + TY1) / 2, 3, lh + 6], [TX1 + 1.5, (TY0 + TY1) / 2, 3, lh + 6], [(TX0 + TX1) / 2, TY0 - 1.5, lw + 6, 3]]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(w, 8, d), mobile), x, y, 1);
   for (const x of [TX0 - 1.5, TX1 + 1.5]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.8, lh + 6), cromo), x, (TY0 + TY1) / 2, 5.2);
-  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 7, 1.2, 1.6), cromo), (TX0 + TX1) / 2, TY0 - 2.6, 5.4);
+  aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 7, 1.2, 1.6), new THREE.MeshStandardMaterial({color: '#6A7080', metalness: 0.7, roughness: 0.55})), (TX0 + TX1) / 2, TY0 - 2.6, 5.4);
   aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 6, 26, lh + 6), mobile), (TX0 + TX1) / 2, (TY0 + TY1) / 2, -16);
   for (const [x, y] of [[TX0 + 1, TY0 + 2], [TX1 - 1, TY0 + 2], [TX0 + 1, TY1 - 2], [TX1 - 1, TY1 - 2]]) aggiungi(new THREE.Mesh(new THREE.BoxGeometry(2.4, 50, 2.4), cromo), x, y, -50);
   const testata = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(lw + 6, 46, 10), mobile), (TX0 + TX1) / 2, TY1 + 6, 22);
@@ -617,9 +618,9 @@ function scena() {
   for (const f of FL) {
     const g = new THREE.Group(); aggiungi(g, f.px, f.py, 0);
     const col = f.lato < 0 ? '#4FC3FF' : '#6CFF8A';
-    const gomma = new THREE.Mesh(estrudi(sagoma(1.3, 0.75, FLL), 0.85), new THREE.MeshStandardMaterial({color: col, emissive: col, emissiveIntensity: 0.3, roughness: 0.6})); gomma.position.y = 0.45; g.add(gomma);
-    const mazza = new THREE.Mesh(estrudi(sagoma(1.08, 0.55, FLL), 1.55), new THREE.MeshStandardMaterial({color: '#C9CFD8', roughness: 0.55, metalness: 0.1})); mazza.position.y = 0.2; g.add(mazza);
-    const dec = new THREE.Mesh(new THREE.PlaneGeometry(FLL * 0.62, 0.9), new THREE.MeshBasicMaterial({map: scritta(f.lato, f.lato < 0 ? '#1E6AB0' : '#1E8A3C'), transparent: true})); dec.rotation.x = -Math.PI / 2; dec.position.set(FLL * 0.52, 1.92, 0); g.add(dec);
+    const gomma = new THREE.Mesh(estrudi(sagoma(f.rb, f.rt, f.L), 0.85), new THREE.MeshStandardMaterial({color: col, emissive: col, emissiveIntensity: 0.3, roughness: 0.6})); gomma.position.y = 0.45; g.add(gomma);
+    const mazza = new THREE.Mesh(estrudi(sagoma(f.rb - 0.22, f.rt - 0.2, f.L), 1.55), new THREE.MeshStandardMaterial({color: '#C9CFD8', roughness: 0.55, metalness: 0.1})); mazza.position.y = 0.2; g.add(mazza);
+    const dec = new THREE.Mesh(new THREE.PlaneGeometry(f.L * 0.62, f.L * 0.107), new THREE.MeshBasicMaterial({map: scritta(f.lato, f.lato < 0 ? '#1E6AB0' : '#1E8A3C'), transparent: true})); dec.rotation.x = -Math.PI / 2; dec.position.set(f.L * 0.52, 1.92, 0); g.add(dec);
     const perno = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.3, 20), new THREE.MeshStandardMaterial({color: '#AEB6C4', metalness: 0.9, roughness: 0.3})); perno.position.y = 1.95; g.add(perno);
     f.g = g;
   }
@@ -645,24 +646,31 @@ function schegge(x, y, h, col, n = 16, v = 18) {
   for (let i = 0, k = 0; i < M.sch.length && k < n; i++) { const s = M.sch[i]; if (s.m.visible) continue; k++;
     s.m.visible = true; s.m.position.copy(W3(x, y, h)); s.v.set((Math.random() - 0.5) * v, Math.random() * v * 0.8, (Math.random() - 0.5) * v); s.t = 0; s.d = 0.5 + Math.random() * 0.6; s.m.material.color.set(col); }
 }
-// inquadratura dal punto di vista del giocatore: bassa sul computer, più dall'alto sul telefono; poi si centra il tavolo nello spazio libero
+// inquadratura: gli occhi di chi gioca, davanti al mobile e sopra i flipper (come nei simulatori: niente grandangolo esagerato,
+// niente telecamera lontana e zoomata che appiattisce). Si fissano occhi e punto guardato e si cerca il campo visivo più stretto
+// che fa stare dentro tutto il tavolo; poi il tavolo si centra nello spazio libero sotto il display.
+// ?occhio=dietro,altezza&mira=y per provare altre posizioni.
 function adatta() {
   const w = innerWidth, h = innerHeight; renderer.setSize(w, h); if (composer) composer.setSize(w, h);
-  camera.aspect = w / h; const largo = w / h >= 0.75; camera.fov = largo ? 40 : 50;
+  camera.aspect = w / h; const largo = w / h >= 0.75;
   T.updateMatrixWorld(true);
   const loc = (x, y, hh) => T.localToWorld(W3(x, y, hh));
-  const bersaglio = loc(1.5, largo ? 48 : 54, 0), dir = new THREE.Vector3(0, largo ? 0.72 : 1.2, 1).normalize();
-  const punti = [loc(TX0 - 3, TY0 - 3, 5), loc(TX1 + 3, TY0 - 3, 5), loc(TX0, TY1, 0), loc(TX1, TY1, 0), loc(0, TY1 + 1, largo ? 10 : 46)];
-  const alto = 1 - 2 * ((largo && w > 900 ? 16 : 96) / h);
-  let lo = 30, hi = 500;
-  for (let k = 0; k < 30; k++) { const d = (lo + hi) / 2; camera.clearViewOffset(); camera.position.copy(bersaglio).addScaledVector(dir, d); camera.lookAt(bersaglio); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-    const ok = punti.every(p => { const q = p.clone().project(camera); return Math.abs(q.x) < 0.97 && q.y < alto && q.y > -0.98; }); if (ok) hi = d; else lo = d; }
-  camera.position.copy(bersaglio).addScaledVector(dir, hi); camera.lookAt(bersaglio); camera.clearViewOffset(); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+  const q = new URLSearchParams(location.search), oc = (q.get('occhio') || '').split(',').map(Number), mi = Number(q.get('mira'));
+  const dietro = oc[0] || (largo ? 46 : 14), alt = oc[1] || (largo ? 72 : 128), my = mi || (largo ? 60 : 62);
+  const occhio = loc(2, TY0 - dietro, alt), mira = loc(2, my, 0);
+  const punti = [loc(TX0 - 3, TY0 - 3, 5), loc(TX1 + 3, TY0 - 3, 5), loc(TX0 - 2, TY1, 2), loc(TX1 + 2, TY1, 2), loc(0, TY1 + 1, largo ? 12 : 46)];
+  const alto = 1 - 2 * ((largo && w > 900 ? 16 : 96) / h), basso = -0.985;
+  camera.position.copy(occhio); camera.lookAt(mira); camera.clearViewOffset();
+  let lo = 8, hi = 110;
+  for (let k = 0; k < 30; k++) { camera.fov = (lo + hi) / 2; camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+    const ok = punti.every(p => { const v = p.clone().project(camera); return Math.abs(v.x) < 0.97 && v.y < alto && v.y > -0.98; }); if (ok) hi = camera.fov; else lo = camera.fov; }
+  camera.fov = hi; camera.updateProjectionMatrix();
   let x0 = 9, x1 = -9, y0 = 9, y1 = -9;
-  for (const p of punti) { const q = p.clone().project(camera); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }
-  const basso = -0.985, sc = Math.min(1.96 / (x1 - x0), (alto - basso) / (y1 - y0)), fw = w * sc, fh = h * sc;
+  for (const p of punti) { const v = p.clone().project(camera); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); }
+  const sc = Math.min(1.96 / (x1 - x0), (alto - basso) / (y1 - y0)), fw = w * sc, fh = h * sc;
   const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, yt = (1 - (alto + basso) / 2) / 2 * h;
   camera.setViewOffset(fw, fh, (cx + 1) / 2 * fw - w / 2, (1 - cy) / 2 * fh - yt, w, h); camera.updateProjectionMatrix();
+  log('inquadratura', largo ? 'largo' : 'stretto', 'occhio', dietro, alt, 'mira', my, 'fov', hi.toFixed(1));
 }
 
 /* ---------------------------------------------------------------- fisica */
@@ -714,8 +722,8 @@ function passoFisica(dt) {
       if (d < R && d > 1e-6) { dx /= d; dy /= d; b.x = cx + dx * R; b.y = cy + dy * R; if (rimbalza(b, dx, dy, 0.4) > 5) evento('bersaglio', t); }
     }
     for (const f of FL) {
-      const tx = f.px + Math.cos(f.a) * FLL, ty = f.py + Math.sin(f.a) * FLL;
-      const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, tx, ty); const rf = 1.3 - 0.55 * t;
+      const tx = f.px + Math.cos(f.a) * f.L, ty = f.py + Math.sin(f.a) * f.L;
+      const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, tx, ty); const rf = f.rb - (f.rb - f.rt) * t;
       let dx = b.x - cx, dy = b.y - cy; const d = Math.hypot(dx, dy);
       if (d < R + rf && d > 1e-6) {
         dx /= d; dy /= d; b.x = cx + dx * (R + rf); b.y = cy + dy * (R + rf);
@@ -862,7 +870,7 @@ function statoLampade() {
 }
 
 /* ---------------------------------------------------------------- comandi */
-function flipper(lato, su) { const f = FL[lato < 0 ? 0 : 1]; if (su && !f.su) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); const c = CORSIE.map(q => q.on); CORSIE.forEach((q, i) => q.on = c[(i + (lato < 0 ? 1 : 3)) % 4]); } } f.su = su; }
+function flipper(lato, su) { const f = FL[lato < 0 ? 0 : 1], prima = f.su; for (const q of FL) if (q.lato === lato) q.su = su; if (su && !prima) { suono('flipper'); if (S.fase === 'gioco') { const l = LUCI.map(q => q.on); LUCI.forEach((q, i) => q.on = l[(i + (lato < 0 ? 1 : 2)) % 3]); const c = CORSIE.map(q => q.on); CORSIE.forEach((q, i) => q.on = c[(i + (lato < 0 ? 1 : 3)) % 4]); } } f.su = su; }
 function caricaMolla(su) {
   const b = S.palle.find(p => p.ferma && !p.auto); if (!b) { S.caricando = false; return; }
   if (su) { S.caricando = true; } else if (S.caricando) { S.caricando = false; lancia(b, S.carica); S.carica = 0; }
@@ -1027,7 +1035,8 @@ function pilotaAutomatico() {
     [3, 6, 9, 12].forEach((t, i) => dopo(t, () => { const r = RAMPE[i % 2], q = rampaA(r, 0), c = S.palle[0]; if (c) Object.assign(c, {ferma: false, presa: 0, rampa: null, x: q.x, y: q.y - 5, vx: q.tx * 175, vy: q.ty * 175}); })); }
   if (S.fase !== 'gioco') return;
   for (const f of FL) {
-    const tiro = S.palle.some(b => { const d = Math.hypot(b.x - f.px, b.y - f.py); return !b.ferma && b.rampa == null && b.y < 17 && b.y > 2 && d > 4 && d < 9.5 && Math.sign(b.x) === f.lato; });
+    const tiro = S.palle.some(b => { if (b.ferma || b.rampa != null || b.presa) return false; const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, f.px + Math.cos(f.a0) * f.L, f.py + Math.sin(f.a0) * f.L);
+      return Math.hypot(b.x - cx, b.y - cy) < R + f.rb + 1.6 && t > 0.45 && b.vy < 5; });
     if (tiro && !f.su) { f.su = true; f.tenuto = 0.18; }
     if (f.su && (f.tenuto -= 1 / 60) <= 0) f.su = false;
   }
