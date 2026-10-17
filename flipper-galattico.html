@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261017080524">
+<meta name="build" content="20261017081516">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Flipper Galattico</title>
 <meta name="theme-color" content="#05060F">
@@ -79,6 +79,45 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .padf{outline:4px solid var(--gold)!important;outline-offset:4px}
 body.tv,body.tv *{cursor:none!important}
 @media (min-width:900px) and (min-aspect-ratio:3/4){#dmd{left:calc(16px + env(safe-area-inset-left));transform:none;width:400px;height:92px;flex-wrap:wrap}#dmd .big{font-size:36px}#turni{top:calc(110px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));right:auto}#pauseBtn{left:auto;right:calc(12px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top))}}
+/* pannelli ai lati del tavolo (schermi larghi): chi gioca, punti, missioni, Luna, squadra, giocatori */
+.pann{display:none}
+@media (min-width:900px) and (min-aspect-ratio:3/4){
+  :root{--pw:clamp(240px,22vw,320px)}
+  body.in-gioco .pann{position:fixed;z-index:9;bottom:16px;width:var(--pw);box-sizing:border-box;padding:16px;border-radius:22px;background:linear-gradient(180deg,rgba(14,20,51,.86),rgba(5,6,15,.86));box-shadow:inset 0 0 0 1.5px rgba(242,182,50,.35),0 20px 50px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:12px;overflow:hidden;pointer-events:none}
+  #pSx{left:16px;top:122px}#pDx{right:16px;top:16px}
+  body.in-gioco #dmd{left:16px;transform:none;width:var(--pw);height:92px}
+  body.in-gioco #dmd .big{font-size:30px}body.in-gioco #dmd .sm{font-size:15px}body.in-gioco #dmd .av svg,body.in-gioco #dmd .av{height:56px}
+  body.in-gioco #turni{display:none}
+  body.in-gioco #pauseBtn{left:auto;right:calc(28px + var(--pw));top:16px}
+}
+.carta{display:flex;gap:12px;align-items:flex-end;padding:10px 12px;border-radius:18px;background:radial-gradient(120% 90% at 20% 100%,rgba(79,195,255,.25),transparent 60%),rgba(255,255,255,.05)}
+.pav svg{height:150px;width:auto;display:block;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.pid{display:flex;flex-direction:column;gap:4px;padding-bottom:10px;min-width:0}
+.pk{margin:0;font:800 11px/1 var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.pid b{font:800 26px/1 var(--display);letter-spacing:-.02em}.pid small{font:italic 400 14px/1.2 var(--serif);color:rgba(244,238,220,.75)}
+.numeri{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.numeri div{padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:3px}
+.numeri .tot{grid-column:1/-1;background:rgba(242,182,50,.12);box-shadow:inset 0 0 0 1.5px rgba(242,182,50,.4)}
+.numeri span,.rec2 span{font:700 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:rgba(244,238,220,.6)}
+.numeri b{font:800 22px/1 var(--display);font-variant-numeric:tabular-nums}.numeri .tot b{font-size:34px;color:var(--gold)}
+.rec2{margin-top:auto;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:4px}.rec2 b{font:800 16px/1.2 var(--display)}
+.pann h3{margin:2px 0 -4px;font:800 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.mis{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mis li{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.05);font:700 13px/1.2 var(--display)}
+.mis li i{width:10px;height:10px;border-radius:50%;flex:none;background:rgba(255,255,255,.18)}
+.mis li em{margin-left:auto;font-style:normal;color:rgba(244,238,220,.7);font-variant-numeric:tabular-nums}
+.mis li.fatta i{background:var(--green)}.mis li.fatta{color:var(--green)}
+.mis li.attiva{background:rgba(242,182,50,.16);box-shadow:inset 0 0 0 1.5px var(--gold)}.mis li.attiva i{background:var(--gold);animation:lampo .6s steps(2) infinite}
+.mis li.lum{background:linear-gradient(90deg,rgba(255,216,79,.3),rgba(79,195,255,.25));color:#fff}
+.pallini{display:flex;gap:8px;align-items:center;font:700 13px/1 var(--display);color:rgba(244,238,220,.7)}
+.pallini i{width:18px;height:18px;border-radius:50%;background:#3a0a0a;box-shadow:inset 0 0 0 2px #7a1a1a}.pallini i.on{background:#FF3B3B;box-shadow:0 0 10px #FF3B3B}
+.facce{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.facce div{border-radius:10px;background:rgba(255,255,255,.05);display:flex;justify-content:center;padding:3px 0;opacity:.45;transition:opacity .2s}
+.facce div.giu{opacity:1;box-shadow:inset 0 0 0 2px var(--c)}.facce svg{height:44px;width:auto}
+.gioc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.gioc li{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:999px;background:rgba(255,255,255,.05);font:800 13px/1 var(--display)}
+.gioc li.on{box-shadow:inset 0 0 0 2px var(--c);background:rgba(255,255,255,.1)}.gioc li svg{height:30px;width:auto}.gioc li em{margin-left:auto;font-style:normal;font-variant-numeric:tabular-nums;color:var(--gold)}
+.tasti{margin:auto 0 0;font:600 12px/1.6 var(--display);color:rgba(244,238,220,.55)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -87,6 +126,24 @@ body.tv,body.tv *{cursor:none!important}
 <div id="stage"></div>
 <div id="dmd" class="hidden"><div class="av" id="dAv"></div><div class="tx"><div class="big" id="dBig">0</div><div class="sm"><span id="dL"></span><span id="dR"></span></div></div></div>
 <div id="turni" class="hidden"></div>
+<aside id="pSx" class="pann">
+  <div class="carta"><div id="pAv" class="pav"></div><div class="pid"><p class="pk">Gioca ora</p><b id="pNome"></b><small id="pRuolo"></small></div></div>
+  <div class="numeri">
+    <div class="tot"><span>Punti</span><b id="pPunti">0</b></div>
+    <div><span>Pallina</span><b id="pPalla">1/3</b></div>
+    <div><span>Moltiplicatore</span><b id="pMult">x1</b></div>
+    <div><span>Bonus</span><b id="pBonus">0</b></div>
+    <div><span>Orbite (8 = pallina)</span><b id="pOrb">0</b></div>
+  </div>
+  <div class="rec2"><span>🏆 Record di casa</span><b id="pRec">—</b></div>
+</aside>
+<aside id="pDx" class="pann">
+  <h3>Missioni dell'hangar</h3><ul id="pMis" class="mis"></ul>
+  <h3>Luna Nera</h3><div id="pLuna" class="pallini"></div>
+  <h3>Squadra della famiglia</h3><div id="pFam" class="facce"></div>
+  <h3 id="pGiocT">Giocatori</h3><ol id="pGioc" class="gioc"></ol>
+  <p class="tasti">◀ Z: flipper sinistro · ▶ M: destro<br>Spazio: lancia · P: pausa</p>
+</aside>
 <button type="button" id="lancia" class="hidden">🚀 Lancia<i></i></button>
 <button type="button" id="pauseBtn" class="hidden" aria-label="Pausa">❚❚</button>
 
@@ -95,13 +152,13 @@ body.tv,body.tv *{cursor:none!important}
     <a class="back" href="famiglia.html">← Famiglia</a>
     <div><p class="kick">Un gioco della famiglia · in una galassia lontana lontana</p><h1>Flipper <em>Galattico</em></h1></div>
     <div class="spade"></div>
-    <p class="lede">Lord Ombra ha nascosto la sua Luna Nera ai confini della galassia. La famiglia sale sull'astronave: due spade laser come flipper, due rampe di metallo che si incrociano, tre droidi, sette bersagli con le nostre facce, le orbite e l'hangar che lancia le missioni. Distruggete la Luna Nera e completate le quattro missioni per il Lato Luminoso.</p>
+    <p class="lede">Lord Ombra ha nascosto la sua Luna Nera ai confini della galassia. La famiglia sale sull'astronave: tre flipper, tre droidi, sette bersagli con le nostre facce, gli Scudi, le orbite con lo spinner e l'hangar che lancia le missioni. Distruggete la Luna Nera e completate le quattro missioni per il Lato Luminoso.</p>
     <div class="fam" id="famRow"></div>
     <div class="row"><button type="button" class="cta" id="bPlay">▶ Gioca</button><button type="button" class="ghost" id="bHow">Come si gioca</button><button type="button" class="ghost" id="bAudio">🔊 Suono</button></div>
     <div class="how hidden" id="howBox">
       <div><b>I flipper</b><p>Computer: Z o ⇧ sinistro e M o ⇧ destro (vanno bene anche le frecce ◀ ▶); Spazio o ▼ tieni premuto per caricare il lancio. Telefono: tocca la metà sinistra o destra dello schermo; per lanciare tieni premuto 🚀. Controller: dorsali o grilletti, A per lanciare.</p></div>
-      <div><b>Cosa colpire</b><p>Le rampe Iperspazio e Asteroidi (dieci rampe = una pallina in più), le orbite a destra e a sinistra, i sette bersagli della famiglia («Squadra completa» alza il moltiplicatore), le luci in alto (droidi super) e le corsie L-U-C-E, che riaccendono la respinta a sinistra.</p></div>
-      <div><b>Missioni e Luna Nera</b><p>Nell'hangar parte una missione da 30 secondi: Luna, Iperspazio, Famiglia, Ombra. Fatte tutte e quattro: Lato Luminoso, tre palline e jackpot ovunque. Cinque colpi alla Luna Nera: multipalla. Lo scudo salva la pallina nei primi 10 secondi. Si gioca a turno, fino a quattro.</p></div>
+      <div><b>Cosa colpire</b><p>Le orbite a destra e a sinistra (otto orbite = una pallina in più), gli Scudi sui due lati, i sette bersagli della famiglia («Squadra completa» alza il moltiplicatore), le luci in alto (droidi super) e le corsie L-U-C-E, che riaccendono la respinta a sinistra.</p></div>
+      <div><b>Missioni e Luna Nera</b><p>Nell'hangar parte una missione da 30 secondi: Luna, Iperspazio (gli Scudi), Famiglia, Ombra (le orbite). Fatte tutte e quattro: Lato Luminoso, tre palline e jackpot ovunque. Cinque colpi alla Luna Nera: multipalla. Lo scudo salva la pallina nei primi 10 secondi. Si gioca a turno, fino a quattro.</p></div>
     </div>
     <div class="rec"><b>🏆 Record di casa (su questo dispositivo)</b><ol id="recList"></ol></div>
   </div>
@@ -327,20 +384,9 @@ for (const s of [-1, 1]) {
 }
 muro(-18.6, 60, -18.6, 92, 'muro', '#6CFF8A'); muro(19.0, 58, 19.0, 88, 'muro', '#6CFF8A');   // orbite
 for (const x of [-9, -3, 3, 9]) muro(x, 108, x, 114, 'muro', '#B86CFF', 1.6);                    // corsie in alto
-// le due rampe di metallo: si entra salendo dalla bocca, si torna giù nella corsia interna dell'altro lato
-const RAMPE = [
-  {nome: 'IPERSPAZIO', col: '#4FC3FF', p: [[-12.5, 63, 0], [-12.8, 70, 3.2], [-13.2, 80, 6.6], [-13.8, 90, 9.4], [-15.6, 98, 10.8], [-18.4, 100.2, 11], [-21, 97, 10.8], [-21.8, 88, 10], [-21.8, 76, 8.4], [-21.4, 62, 6], [-20.4, 48, 3.2], [-19.25, 36, 0.2]]},
-  {nome: 'ASTEROIDI', col: '#FF9A3C', p: [[12.5, 63, 0], [12.8, 70, 3.2], [13.2, 80, 6.6], [13.8, 90, 9.4], [15.6, 98, 10.8], [18.4, 100.2, 11], [21, 97, 10.8], [21.9, 88, 10], [21.9, 76, 8.4], [21.5, 62, 6], [20.5, 48, 3.2], [19.25, 36, 0.2]]},
-];
-for (const r of RAMPE) {   // lunghezze dei tratti e bocca d'entrata con le due sponde
-  r.L = [0]; for (let i = 1; i < r.p.length; i++) { const a = r.p[i - 1], b = r.p[i]; r.L.push(r.L[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2])); }
-  r.tot = r.L[r.L.length - 1]; const [x, y] = r.p[0]; muro(x - 2.5, 61.5, x - 2.5, 67, 'muro', r.col, 1.6); muro(x + 2.5, 61.5, x + 2.5, 67, 'muro', r.col, 1.6);
-}
-function rampaA(r, s) {   // punto e direzione sulla rampa alla distanza s
-  s = Math.max(0, Math.min(r.tot, s)); let i = 1; while (i < r.L.length - 1 && r.L[i] < s) i++;
-  const a = r.p[i - 1], b = r.p[i], u = (s - r.L[i - 1]) / (r.L[i] - r.L[i - 1] || 1), d = r.L[i] - r.L[i - 1] || 1;
-  return {x: a[0] + (b[0] - a[0]) * u, y: a[1] + (b[1] - a[1]) * u, h: a[2] + (b[2] - a[2]) * u, tx: (b[0] - a[0]) / d, ty: (b[1] - a[1]) / d, th: (b[2] - a[2]) / d};
-}
+// gli Scudi: tre bersagli fissi per lato, a filo dei muri delle orbite e girati verso il centro (si colpiscono di traverso dal flipper opposto)
+const SCUDI = [];
+for (const [s, x, ys] of [[-1, -17.95, [64, 68.5, 73]], [1, 18.35, [62, 66.5, 71]]]) for (const y of ys) SCUDI.push({x, y, s, on: 0, lampo: 0, ang: Math.PI / 2, x1: x, y1: y - 1.1, x2: x, y2: y + 1.1});
 const DROIDI = [{x: -5, y: 99, r: 2.6}, {x: 5, y: 99, r: 2.6}, {x: 0, y: 91, r: 2.6}].map(d => ({...d, lampo: 0}));
 const LUNA = {x: 0, y: 76, r: 3.0, colpi: 0, serve: 5, via: 0, lampo: 0};
 const BERS = FAM.map((f, i) => ({k: f.k, x: -7.8 + i * 2.6, y: 58, giu: 0}));
@@ -359,10 +405,10 @@ const FLL = 8.4;
 const LANCIO = {x: 26.5, y: R + 0.01};
 // le missioni dell'hangar
 const MISSIONI = [
-  {nome: 'ASSALTO ALLA LUNA', tiro: 'luna', serve: 3, val: 30000},
-  {nome: "CORSA NELL'IPERSPAZIO", tiro: 'rampa', serve: 3, val: 50000},
-  {nome: 'SALVA LA FAMIGLIA', tiro: 'bersaglio', serve: 5, val: 25000},
-  {nome: 'DUELLO CON LORD OMBRA', tiro: 'orbita', serve: 3, val: 75000},
+  {nome: 'ASSALTO ALLA LUNA', breve: 'Assalto alla Luna', tiro: 'luna', serve: 3, val: 30000},
+  {nome: "CORSA NELL'IPERSPAZIO", breve: "Corsa nell'iperspazio (Scudi)", tiro: 'scudo', serve: 4, val: 40000},
+  {nome: 'SALVA LA FAMIGLIA', breve: 'Salva la famiglia', tiro: 'bersaglio', serve: 5, val: 25000},
+  {nome: 'DUELLO CON LORD OMBRA', breve: 'Duello con Lord Ombra (orbite)', tiro: 'orbita', serve: 3, val: 75000},
 ];
 // le luci dipinte sul tavolo (si accendono a seconda del gioco)
 const LAMPADE = [
@@ -372,7 +418,7 @@ const LAMPADE = [
   {id: 'lum', x: 0, y: 46, f: 'rombo', r: 1.6, col: '#FFD84F', t: 'LATO LUMINOSO'},
   {id: 'x2', x: -4.5, y: 30.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '2x'}, {id: 'x3', x: -1.5, y: 31.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '3x'},
   {id: 'x4', x: 1.5, y: 31.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '4x'}, {id: 'x5', x: 4.5, y: 30.5, f: 'cerchio', r: 0.9, col: '#F2B632', t: '5x'},
-  {id: 'fr-rs', x: -12.5, y: 53.5, f: 'freccia', r: 1.6, col: '#4FC3FF', t: 'IPERSPAZIO'}, {id: 'fr-rd', x: 12.5, y: 53.5, f: 'freccia', r: 1.6, col: '#FF9A3C', t: 'ASTEROIDI'},
+  {id: 'fr-rs', x: -14.6, y: 62, f: 'freccia', r: 1.3, col: '#4FC3FF', t: 'SCUDI'}, {id: 'fr-rd', x: 14.8, y: 60, f: 'freccia', r: 1.3, col: '#FF9A3C', t: 'SCUDI'},
   {id: 'fr-os', x: -21.5, y: 49, f: 'freccia', r: 1.4, col: '#6CFF8A', t: 'ORBITA'}, {id: 'fr-od', x: 21.8, y: 49, f: 'freccia', r: 1.4, col: '#6CFF8A', t: 'ORBITA'},
   {id: 'fr-luna', x: 0, y: 67.5, f: 'freccia', r: 1.5, col: '#FF3B3B', t: 'LUNA NERA'}, {id: 'fr-hangar', x: -8, y: 78.6, f: 'freccia', r: 1.2, col: '#FFD84F', t: 'HANGAR'},
   {id: 'kick', x: -22.75, y: 19.5, f: 'cerchio', r: 1.0, col: '#FFD84F', t: 'RESPINTA'},
@@ -567,24 +613,10 @@ function scena() {
   M.spin = new THREE.Group(); aggiungi(M.spin, SPIN.x, SPIN.y, 2.6);
   const pal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 2.2, 0.15), new THREE.MeshStandardMaterial({color: '#6CFF8A', metalness: 0.6, roughness: 0.3})); pal.position.y = -1.1; M.spin.add(pal);
   aggiungi(new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.3, 0.3), cromo), SPIN.x, SPIN.y, 2.7);
-  // le rampe: fondo colorato quasi pieno, sponde più chiare, bordo luminoso, ombra sul piano (fa capire quanto sono alte), sostegni
-  for (const r of RAMPE) {
-    const n = Math.ceil(r.tot / 1.0), fondo = [], sx = [], dx = [], bs = [], bd = [], om = [];
-    for (let i = 0; i <= n; i++) { const q = rampaA(r, i / n * r.tot), L = Math.hypot(q.tx, q.ty) || 1, nx = -q.ty / L, ny = q.tx / L;
-      const p = (l, hh) => { const w = W3(q.x + nx * l, q.y + ny * l, q.h + hh); return [w.x, w.y, w.z]; };
-      fondo.push(p(-2.1, -0.1), p(2.1, -0.1)); sx.push(p(-2.1, -0.1), p(-2.1, 1.8)); dx.push(p(2.1, -0.1), p(2.1, 1.8));
-      bs.push(new THREE.Vector3(...p(-2.1, 1.85))); bd.push(new THREE.Vector3(...p(2.1, 1.85)));
-      const ox = q.h * 0.35, oy = -q.h * 0.45, o = (l) => { const w = W3(q.x + nx * l + ox, q.y + ny * l + oy, 0.05); return [w.x, w.y, w.z]; };   // ombra: la luce viene da dietro a sinistra
-      om.push(o(-2.4), o(2.4)); }
-    const striscia = (pts, mat) => { const g = new THREE.BufferGeometry(), idx = []; g.setAttribute('position', new THREE.Float32BufferAttribute(pts.flat(), 3));
-      for (let i = 0; i < n; i++) idx.push(i * 2, i * 2 + 1, i * 2 + 2, i * 2 + 1, i * 2 + 3, i * 2 + 2); g.setIndex(idx); g.computeVertexNormals(); return aggiungi(new THREE.Mesh(g, mat)); };
-    const c = new THREE.Color(r.col);
-    striscia(om, new THREE.MeshBasicMaterial({color: '#000000', transparent: true, opacity: 0.38, depthWrite: false}));
-    striscia(fondo, new THREE.MeshStandardMaterial({color: c.clone().multiplyScalar(0.55), transparent: true, opacity: 0.88, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.1}));
-    const sponda = new THREE.MeshStandardMaterial({color: c.clone().lerp(new THREE.Color('#ffffff'), 0.45), transparent: true, opacity: 0.6, side: THREE.DoubleSide, emissive: r.col, emissiveIntensity: 0.15, depthWrite: false, roughness: 0.25});
-    striscia(sx, sponda); striscia(dx, sponda);
-    for (const pts of [bs, bd]) aggiungi(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n * 2, 0.16, 6), new THREE.MeshBasicMaterial({color: r.col})));
-    for (let s2 = 14; s2 < r.tot - 6; s2 += 12) { const q = rampaA(r, s2); if (q.h > 2) aggiungi(new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, q.h, 8), cromo), q.x, q.y, q.h / 2); }
+  // gli Scudi: bersagli fissi con la stella, si accendono quando li colpisci
+  for (const t of SCUDI) {
+    const col = t.s < 0 ? '#4FC3FF' : '#FF9A3C', m = aggiungi(new THREE.Mesh(new THREE.BoxGeometry(2.1, 2.4, 0.5), new THREE.MeshStandardMaterial({color: col, emissive: col, emissiveIntensity: 0.1, roughness: 0.4})), t.x, t.y, 1.2);
+    m.rotation.y = t.ang; t.mesh = m;
   }
   // l'astronave della famiglia, giocattolo sospeso
   M.nave = new THREE.Group(); aggiungi(M.nave, -8.5, 117, 10);
@@ -628,7 +660,7 @@ function scena() {
   }
   // pali con l'anello di gomma bianca agli angoli (fionde, guide, corsie, bocche delle rampe)
   const pali = [[21.1, 34], [21.1, 22.5], [17.4, 26], [11.6, 20], [11.9, 25]].flatMap(([x, y]) => [[-x, y], [x, y]])
-    .concat([[-18.6, 60], [-18.6, 92], [19, 58], [19, 88], [-9, 108], [-3, 108], [3, 108], [9, 108]], RAMPE.flatMap(r => [[r.p[0][0] - 2.5, 61.5], [r.p[0][0] + 2.5, 61.5]]));
+    .concat([[-18.6, 60], [-18.6, 92], [19, 58], [19, 88], [-9, 108], [-3, 108], [3, 108], [9, 108]]);
   const anelloG = new THREE.TorusGeometry(0.55, 0.24, 8, 20), paloG = new THREE.CylinderGeometry(0.3, 0.3, 2.4, 10), anelloM = new THREE.MeshStandardMaterial({color: '#BDBDB4', roughness: 0.9}), paloM = new THREE.MeshStandardMaterial({color: '#C9A64A', metalness: 0.8, roughness: 0.3});
   for (const [x, y] of pali) { aggiungi(new THREE.Mesh(paloG, paloM), x, y, 1.2); aggiungi(new THREE.Mesh(anelloG, anelloM), x, y, 1.0).rotation.x = Math.PI / 2; }
   // palline e loro ombre
@@ -665,15 +697,16 @@ function adatta() {
   const dietro = oc[0] || (largo ? 34 : 14), alt = oc[1] || (largo ? 74 : 128), my = mi || (largo ? 60 : 62);
   const occhio = loc(2, TY0 - dietro, alt), mira = loc(2, my, 0);
   const punti = [loc(TX0 - 3, TY0 - 3, 5), loc(TX1 + 3, TY0 - 3, 5), loc(TX0 - 2, TY1, 2), loc(TX1 + 2, TY1, 2), loc(0, TY1 + 1, largo ? 12 : 46)];
-  const alto = 1 - 2 * ((largo && w > 900 ? 16 : 96) / h), basso = -0.985;
+  const pann = largo && w >= 900 ? Math.min(320, Math.max(240, w * 0.22)) + 28 : 0, xl = -1 + 2 * pann / w + 0.01, xr = 1 - 2 * pann / w - 0.01;
+  const alto = 1 - 2 * ((pann ? 16 : 96) / h), basso = -0.985;
   camera.position.copy(occhio); camera.lookAt(mira); camera.clearViewOffset();
   let lo = 8, hi = 110;
   for (let k = 0; k < 30; k++) { camera.fov = (lo + hi) / 2; camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-    const ok = punti.every(p => { const v = p.clone().project(camera); return Math.abs(v.x) < 0.97 && v.y < alto && v.y > -0.98; }); if (ok) hi = camera.fov; else lo = camera.fov; }
+    const ok = punti.every(p => { const v = p.clone().project(camera); return v.x > xl && v.x < xr && v.y < alto && v.y > -0.98; }); if (ok) hi = camera.fov; else lo = camera.fov; }
   camera.fov = hi; camera.updateProjectionMatrix();
   let x0 = 9, x1 = -9, y0 = 9, y1 = -9;
   for (const p of punti) { const v = p.clone().project(camera); x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y); }
-  const sc = Math.min(1.96 / (x1 - x0), (alto - basso) / (y1 - y0)), fw = w * sc, fh = h * sc;
+  const sc = Math.min((xr - xl) / (x1 - x0), (alto - basso) / (y1 - y0)), fw = w * sc, fh = h * sc;
   const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, yt = (1 - (alto + basso) / 2) / 2 * h;
   camera.setViewOffset(fw, fh, (cx + 1) / 2 * fw - w / 2, (1 - cy) / 2 * fh - yt, w, h); camera.updateProjectionMatrix();
   log('inquadratura', largo ? 'largo' : 'stretto', 'occhio', dietro, alt, 'mira', my, 'fov', hi.toFixed(1));
@@ -694,13 +727,6 @@ function cerchio(b, x, y, r) {
   let dx = b.x - x, dy = b.y - y; const d = Math.hypot(dx, dy);
   if (d >= R + r || d < 1e-6) return null; dx /= d; dy /= d; b.x = x + dx * (R + r); b.y = y + dy * (R + r); return [dx, dy];
 }
-function passoRampa(b, dt) {   // sulla rampa: si va avanti lungo il filo, la gravità frena in salita e spinge in discesa
-  const r = RAMPE[b.rampa], q = rampaA(r, b.s);
-  b.vs -= (G * q.ty + GV * q.th + 4 * Math.sign(b.vs)) * dt; b.s += b.vs * dt;
-  if (b.s <= 0) { const q0 = rampaA(r, 0); b.rampa = null; b.x = q0.x; b.y = q0.y - 0.5; b.h = 0; b.vx = q0.tx * b.vs; b.vy = q0.ty * b.vs; return; }   // non ce l'ha fatta: torna giù
-  if (b.s >= r.tot) { const qe = rampaA(r, r.tot); b.rampa = null; const v = Math.min(80, Math.abs(b.vs)), L = Math.hypot(qe.tx, qe.ty) || 1; b.x = qe.x; b.y = qe.y; b.h = 0; b.vx = qe.tx / L * v; b.vy = qe.ty / L * v; evento('rampa', RAMPE.indexOf(r)); return; }
-  const p = rampaA(r, b.s); b.x = p.x; b.y = p.y; b.h = p.h;
-}
 function passoFisica(dt) {
   for (const f of FL) {
     const vuole = f.su ? f.a1 : f.a0, dir = Math.sign(vuole - f.a), vel = f.su ? 26 : 15;
@@ -709,7 +735,6 @@ function passoFisica(dt) {
   }
   for (const b of S.palle) {
     if (b.ferma || b.presa) continue;
-    if (b.rampa != null) { passoRampa(b, dt); continue; }
     b.vy -= G * dt; b.x += b.vx * dt; b.y += b.vy * dt;
     for (const m of MURI) {
       if (m.tipo === 'porta' && b.vy > 0) continue;
@@ -740,10 +765,10 @@ function passoFisica(dt) {
       }
     }
     const v = Math.hypot(b.vx, b.vy); if (v > 190) { b.vx *= 190 / v; b.vy *= 190 / v; }
-    // rampe: si entra dalla bocca andando su
-    for (let i = 0; i < RAMPE.length; i++) { const q = rampaA(RAMPE[i], 0), lat = (b.x - q.x) * q.ty - (b.y - q.y) * q.tx, lun = (b.x - q.x) * q.tx + (b.y - q.y) * q.ty, vl = b.vx * q.tx + b.vy * q.ty;
-      if (Math.abs(lat) < 2 && lun > -0.4 && lun < 1.2 && vl > 25) { b.rampa = i; b.s = 0.5; b.vs = Math.hypot(b.vx, b.vy); suono('rampa'); break; } }
-    if (b.rampa != null) continue;
+    for (const t of SCUDI) {   // Scudi
+      const [cx, cy] = vicino(b.x, b.y, t.x1, t.y1, t.x2, t.y2); let dx = b.x - cx, dy = b.y - cy; const d = Math.hypot(dx, dy);
+      if (d < R && d > 1e-6) { dx /= d; dy /= d; b.x = cx + dx * R; b.y = cy + dy * R; if (rimbalza(b, dx, dy, 0.45) > 5) evento('scudo', t); }
+    }
     // sensori
     for (const l of LUCI) if (l.cd <= 0 && Math.hypot(b.x - l.x, b.y - l.y) < 1.6) { l.cd = 0.6; evento('luce', l); }
     for (const c of CORSIE) if (c.cd <= 0 && Math.abs(b.x - c.x) < 1.5 && Math.abs(b.y - c.y) < 1.2) { c.cd = 0.8; evento('corsia', c); }
@@ -805,13 +830,12 @@ function evento(tipo, o) {
   }
   if (tipo === 'orbita') {
     S.comboT > 0 ? (punti(15000), suono('combo'), messaggio('COMBO ORBITA!', 1.4)) : (suono('orbita'), messaggio('ORBITA!', 1.4));
-    punti(15000); S.comboT = 3; missioneTiro('orbita'); log('orbita');
+    punti(15000); S.comboT = 3; S.rampe++; missioneTiro('orbita'); log('orbita');
+    if (S.rampe % 8 === 0) { S.extra++; suono('extra'); messaggio('PALLINA IN PIÙ!', 2.6); }
   }
-  if (tipo === 'rampa') {
-    S.rampe++; punti(10000 * (S.comboT > 0 ? 2 : 1)); lampeggia(1); S.comboT = 3;
-    const r = RAMPE[o]; if (S.missione < 0 && !S.luminoso) messaggio((S.comboT > 0 ? '' : '') + r.nome + '! ' + S.rampe, 1.4);
-    missioneTiro('rampa'); log('rampa', r.nome, S.rampe);
-    if (S.rampe % 10 === 0) { S.extra++; suono('extra'); messaggio('PALLINA IN PIÙ!', 2.6); }
+  if (tipo === 'scudo') {
+    o.lampo = 0.2; punti(3000); suono('bersaglio'); lampeggia(o.s < 0 ? 0 : 1); missioneTiro('scudo'); log('scudo');
+    if (!o.on) { o.on = 1; if (SCUDI.every(t => t.on)) { punti(40000); S.superT = 20; suono('iper'); messaggio('SCUDI ATTIVI! DROIDI SUPER', 2.4); dopo(1, () => SCUDI.forEach(t => t.on = 0)); } }
   }
   if (tipo === 'spinner') { punti(500); suono('spinner'); }
   if (tipo === 'hangar') {
@@ -822,7 +846,7 @@ function evento(tipo, o) {
       punti(20000); dopo(0.4, () => suono('missione')); messaggio('MISSIONE: ' + MISSIONI[m].nome, 3); log('missione', MISSIONI[m].nome); }
   }
 }
-function nuovaPalla(auto = false) { const b = {x: LANCIO.x, y: LANCIO.y, vx: 0, vy: 0, ferma: true, lanciata: false, auto: auto ? 0.4 : 0, rampa: null, h: 0}; S.palle.push(b); return b; }
+function nuovaPalla(auto = false) { const b = {x: LANCIO.x, y: LANCIO.y, vx: 0, vy: 0, ferma: true, lanciata: false, auto: auto ? 0.4 : 0, h: 0}; S.palle.push(b); return b; }
 function lancia(b, forza) { b.ferma = false; b.vx = 0; b.vy = 175 * (0.55 + 0.45 * forza); suono('lancio'); }
 function iniziaPalla() {
   S.palle = []; S.mult = 1; S.scudo = 10; S.missione = -1; S.luminoso = 0; S.superT = 0; KICK.acceso = 1; nuovaPalla(false);
@@ -857,6 +881,24 @@ function aggiornaTurni() {
   const el = $('turni'); if (S.giocatori.length < 2) { el.classList.add('hidden'); return; } el.classList.remove('hidden');
   el.innerHTML = S.giocatori.map((g, i) => `<div class="${i === S.cur ? 'on' : ''}" style="--c:${COL_G[i]}">${svgCostume(g.k, 28)}<span>${fmt(g.punti)}</span></div>`).join('');
 }
+const ULT = {};
+function metti(id, html) { if (ULT[id] !== html) { ULT[id] = html; $(id).innerHTML = html; } }
+function aggiornaPannelli(forza) {
+  if (!document.body.classList.contains('in-gioco')) return; const g = G0(); if (!g) return; const f = FAM.find(q => q.k === g.k);
+  if (forza || ULT.av !== g.k) { ULT.av = g.k; $('pAv').innerHTML = svgCostume(g.k, 150); }
+  metti('pNome', g.nome); metti('pRuolo', f.ruolo);
+  metti('pPunti', fmt(g.punti)); metti('pPalla', Math.min(S.palla, 3) + '/3' + (S.extra ? ' +' + S.extra : '')); metti('pMult', 'x' + S.mult);
+  metti('pBonus', fmt((BERS.filter(t => t.giu).length * 1000 + S.rampe * 500) * S.mult)); metti('pOrb', String(S.rampe));
+  const r = leggiRecord()[0]; metti('pRec', r ? r.nome + ' · ' + fmt(Math.max(r.punti, 0)) : 'ancora nessuno: tocca a te!');
+  let mis = MISSIONI.map((m, i) => { const att = S.missione === i, fat = S.fatte[i];
+    return `<li class="${fat ? 'fatta' : att ? 'attiva' : ''}"><i></i>${m.breve}<em>${att ? S.missConta + '/' + m.serve + ' · ' + Math.ceil(S.missT) + ' s' : fat ? '✓' : ''}</em></li>`; }).join('');
+  if (S.luminoso > 0) mis += `<li class="lum"><i></i>Lato Luminoso!<em>${Math.ceil(S.luminoso)} s</em></li>`;
+  metti('pMis', mis);
+  metti('pLuna', LUNA.via ? `Distrutta! Torna tra ${Math.ceil(LUNA.via)} s` : Array.from({length: LUNA.serve}, (_, i) => `<i class="${i < LUNA.colpi ? 'on' : ''}"></i>`).join('') + `<span>${LUNA.colpi}/${LUNA.serve}</span>`);
+  metti('pFam', BERS.map(t => `<div class="${t.giu ? 'giu' : ''}" style="--c:${FAM.find(q => q.k === t.k).spada}">${svgCostume(t.k, 44)}</div>`).join(''));
+  $('pGiocT').style.display = $('pGioc').style.display = S.giocatori.length > 1 ? '' : 'none';
+  metti('pGioc', S.giocatori.map((q, i) => `<li class="${i === S.cur ? 'on' : ''}" style="--c:${COL_G[i]}">${svgCostume(q.k, 30)}${q.nome.split(' ')[0]}<em>${fmt(q.punti)}</em></li>`).join(''));
+}
 // quali luci sono accese: 0 spenta, 1 accesa, 2 lampeggia
 function statoLampade() {
   const blink = Math.sin(S.t * 10) > 0, mt = S.missione >= 0 ? MISSIONI[S.missione].tiro : null, lum = S.luminoso > 0, st = {};
@@ -864,7 +906,7 @@ function statoLampade() {
   for (let i = 0; i < 4; i++) st['m' + i] = S.fatte[i] ? 1 : S.missione === i ? 2 : 0;
   st.lum = lum ? 2 : 0;
   for (let i = 2; i <= 5; i++) st['x' + i] = S.mult >= i ? 1 : 0;
-  st['fr-rs'] = st['fr-rd'] = lum || mt === 'rampa' ? 2 : S.comboT > 0 ? 1 : 0;
+  st['fr-rs'] = st['fr-rd'] = lum || mt === 'scudo' ? 2 : 0;
   st['fr-os'] = st['fr-od'] = lum || mt === 'orbita' ? 2 : 0;
   st['fr-luna'] = lum || mt === 'luna' ? 2 : LUNA.colpi > 0 ? 1 : 0;
   st['fr-hangar'] = S.missione < 0 ? 2 : 1;
@@ -918,15 +960,15 @@ function iniziaPartita() {
   Object.assign(S, {cur: 0, palla: 1, fase: 'gioco', pausa: false, fatte: [0, 0, 0, 0], prossima: 0, rampe: 0, extra: 0, comboT: 0, missione: -1, luminoso: 0});
   ATTESE.length = 0; LUNA.colpi = 0; LUNA.serve = 5; LUNA.via = 0;
   ['menu', 'results', 'pause'].forEach(id => $(id).classList.add('hidden')); $('stelle').classList.add('hidden');
-  ['dmd', 'pauseBtn'].forEach(id => $(id).classList.remove('hidden'));
-  iniziaPalla(); musica(true);
+  ['dmd', 'pauseBtn'].forEach(id => $(id).classList.remove('hidden')); document.body.classList.add('in-gioco');
+  iniziaPalla(); musica(true); aggiornaPannelli(true);
 }
 function fineGioco() {
   S.fase = 'fine'; musica(false); suono('fine');
   const ord = [...S.giocatori].sort((a, b) => b.punti - a.punti);
   $('resTitle').textContent = ord.length > 1 ? ord[0].nome + ' salva la galassia!' : 'Missione compiuta: ' + fmt(ord[0].punti) + ' punti';
   $('resList').innerHTML = ord.map(g => `<li style="--c:${COL_G[S.giocatori.indexOf(g)]}">${svgCostume(g.k, 46)}<b>${g.nome}</b><i>${fmt(g.punti)}</i></li>`).join('');
-  salvaRecord(ord); $('results').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn'].forEach(id => $(id).classList.add('hidden'));
+  salvaRecord(ord); document.body.classList.remove('in-gioco'); $('results').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn'].forEach(id => $(id).classList.add('hidden'));
   log('fine', ord.map(g => g.nome + ' ' + g.punti).join(', '));
 }
 function pausa(on) {
@@ -945,7 +987,7 @@ function mostraRecord() { $('recList').innerHTML = leggiRecord().map(r => `<li>$
 
 /* ---------------------------------------------------------------- menù */
 function menu() {
-  S.fase = 'menu'; S.palle = []; musica(false);
+  S.fase = 'menu'; S.palle = []; musica(false); document.body.classList.remove('in-gioco');
   $('menu').classList.remove('hidden'); $('stelle').classList.remove('hidden'); ['dmd', 'turni', 'lancia', 'pauseBtn', 'results'].forEach(id => $(id).classList.add('hidden'));
   $('mTitle').classList.remove('hidden'); $('mPlayers').classList.add('hidden'); mostraRecord();
 }
@@ -969,7 +1011,7 @@ $('bGo').onclick = () => { audio(); iniziaPartita(); };
   disegna(); }
 
 /* ---------------------------------------------------------------- il ciclo */
-let ultimo = performance.now();
+let ultimo = performance.now(), CONTA_P = 0;
 function ciclo(ora) {
   requestAnimationFrame(ciclo);
   let dt = Math.min(0.05, (ora - ultimo) / 1000); ultimo = ora;
@@ -1009,7 +1051,7 @@ function aggiorna(dt) {
       else pallaPersa();
     }
   }
-  aggiornaDmd(); if (Math.round(S.t * 10) % 10 === 0) aggiornaTurni();
+  aggiornaDmd(); if (Math.round(S.t * 10) % 10 === 0) aggiornaTurni(); if ((++CONTA_P) % 8 === 0) aggiornaPannelli();
 }
 function disegnaScena(dt) {
   if (!renderer) return;
@@ -1019,7 +1061,7 @@ function disegnaScena(dt) {
     if (b) { const h = b.presa > 0 ? R - 1.2 : (b.h || 0) + R; m.position.copy(W3(b.x, b.y, h)); M.ombre[i].position.copy(W3(b.x + 0.4, b.y - 0.5, (b.h || 0) + 0.02)); M.ombre[i].visible = b.presa <= 0 || !b.presa;
       al.position.copy(W3(b.x, b.y, (b.h || 0) + 0.06));
       sc.storia.unshift(m.position.clone()); if (sc.storia.length > 13) sc.storia.length = 13;
-      const v = Math.hypot(b.vx || 0, b.vy || 0), forte = b.rampa != null ? 1 : Math.min(1, v / 90);   // la scia si vede solo quando corre
+      const v = Math.hypot(b.vx || 0, b.vy || 0), forte = Math.min(1, v / 90);   // la scia si vede solo quando corre
       sc.sc.forEach((q, k) => { const p = sc.storia[(k + 1) * 2]; q.visible = !!p && forte > 0.15; if (p) { q.position.copy(p); q.scale.setScalar(1 - k * 0.12); q.material.opacity = 0.35 * forte * (1 - k / 6); } }); }
     else { sc.storia.length = 0; sc.sc.forEach(q => q.visible = false); } });
   M.molla.position.copy(W3(LANCIO.x, -3.2 - S.carica * 2.6, 1.1));
@@ -1029,6 +1071,7 @@ function disegnaScena(dt) {
   M.lunaLuci.forEach((s, i) => { s.visible = i < LUNA.serve; s.material.color.set(i < LUNA.colpi ? '#FF3B3B' : (i === LUNA.colpi && Math.sin(S.t * 8) > 0 ? '#7a1a1a' : '#3a0a0a')); });
   for (const t of BERS) { const ty = t.giu ? -1.4 : 1.3; t.mesh.position.y += (ty - t.mesh.position.y) * Math.min(1, dt * 14); }
   const st = statoLampade(); for (const L of LAMPADE) { const on = st[L.id] ? 1 : 0; L.mesh.material.opacity = on ? 1 : 0; L.glow.material.opacity = on ? 0.85 : 0; }
+  for (const t of SCUDI) { if (t.lampo > 0) t.lampo -= dt; t.mesh.material.emissiveIntensity = t.lampo > 0 ? 2.5 : t.on ? 1.1 : 0.1; }
   M.spin.rotation.x = SPIN.a;
   M.nave.rotation.y += dt * 0.6; M.nave.position.y = 10 + Math.sin(performance.now() / 600) * 0.6;
   M.kick.position.copy(W3(KICK.x, KICK.y - 2 + (KICK.lampo > 0 ? 1.5 : 0), 0.6));
@@ -1042,18 +1085,19 @@ let provaT = 0;
 function pilotaAutomatico() {
   if (S.fase === 'menu' && provaT === 0) { provaT = 1; N = 2; SCELTI[0] = 'edoardo'; SCELTI[1] = 'bianca'; iniziaPartita(); if (/ultima/.test(location.search)) S.palla = 3; if (/luna1/.test(location.search)) LUNA.serve = 1; log('inizio'); }
   if (/fine/.test(location.search) && S.fase === 'gioco' && S.t > 1.5) { S.giocatori[1].punti = 123400; fineGioco(); return; }
+  if (S.fase === 'gioco' && /orbitaprova/.test(location.search) && S.t > 1 && S.t < 1.02) { const c = S.palle[0]; Object.assign(c, {ferma: false, x: -21.5, y: 80, vx: 0, vy: 150}); }
   if (S.fase === 'gioco' && /forza/.test(location.search) && !S.forzato && S.t > 1) { S.forzato = 1;   // prova: hangar, poi tre rampe di fila
     const b = S.palle[0]; Object.assign(b, {ferma: false, x: HANGAR.x, y: HANGAR.y - 3, vx: 0, vy: 30});
-    [3, 6, 9, 12].forEach((t, i) => dopo(t, () => { const r = RAMPE[i % 2], q = rampaA(r, 0), c = S.palle[0]; if (c) Object.assign(c, {ferma: false, presa: 0, rampa: null, x: q.x, y: q.y - 5, vx: q.tx * 175, vy: q.ty * 175}); })); }
+    [3, 6].forEach((t, i) => dopo(t, () => { const c = S.palle[0]; if (c) Object.assign(c, {ferma: false, presa: 0, x: 0, y: 30, vx: i ? 60 : -60, vy: 120}); })); }
   if (S.fase !== 'gioco') return;
   for (const f of FL) {
-    const tiro = S.palle.some(b => { if (b.ferma || b.rampa != null || b.presa) return false; const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, f.px + Math.cos(f.a0) * f.L, f.py + Math.sin(f.a0) * f.L);
+    const tiro = S.palle.some(b => { if (b.ferma || b.presa) return false; const [cx, cy, t] = vicino(b.x, b.y, f.px, f.py, f.px + Math.cos(f.a0) * f.L, f.py + Math.sin(f.a0) * f.L);
       return Math.hypot(b.x - cx, b.y - cy) < R + f.rb + 1.6 && t > 0.45 && b.vy < 5; });
     if (tiro && !f.su) { f.su = true; f.tenuto = 0.18; }
     if (f.su && (f.tenuto -= 1 / 60) <= 0) f.su = false;
   }
   const b = S.palle.find(p => p.ferma && !p.auto); if (b) lancia(b, 0.6 + Math.random() * 0.4);
-  if (Math.floor(S.t / 10) !== Math.floor((S.t - 1 / 60) / 10)) log('t', S.t.toFixed(1), S.palle.map(p => `(${p.x.toFixed(1)},${p.y.toFixed(1)}${p.rampa != null ? ' rampa' : ''})`).join(' '), 'punti', G0() && G0().punti);
+  if (Math.floor(S.t / 10) !== Math.floor((S.t - 1 / 60) / 10)) log('t', S.t.toFixed(1), S.palle.map(p => `(${p.x.toFixed(1)},${p.y.toFixed(1)})`).join(' '), 'punti', G0() && G0().punti, 'orbite', S.rampe, 'pOrb', $('pOrb').textContent);
 }
 
 /* ---------------------------------------------------------------- avvio */
