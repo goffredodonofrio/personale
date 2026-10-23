@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
 <style>
 /* Sistema "Spazio di casa": stessi token della sezione Famiglia */
-:root{--deep:#ECEEF2;--deep2:#E3E6EC;--green:#34405A;--sun:#5A46E0;--cream:#FFFFFF;--paper:#FBFAF5;--ink:#1F2A26;--muted:#5F6E67;
+:root{--deep:#ECEEF2;--deep2:#E3E6EC;--green:#34405A;--sun:#6352E8;--cream:#FFFFFF;--paper:#FBFAF5;--ink:#1F2A26;--muted:#5F6E67;
   --gof:#5FA57A;--car:#8D5BB8;--edo:#4A90C6;--bia:#E4573D;
   --display:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;--serif:"Literata",Georgia,serif;
   --eo:cubic-bezier(.16,1,.3,1);--eb:cubic-bezier(.34,1.56,.64,1)}
@@ -21,7 +21,7 @@
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html,body{overflow-x:clip}
 body{margin:0;min-height:100dvh;background:var(--deep);color:#1E2230;font:400 16px/1.55 var(--serif);-webkit-tap-highlight-color:transparent;
-  background-image:radial-gradient(60% 50% at 88% 0%,rgba(90,70,224,.13),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.16),transparent 70%);background-attachment:fixed}
+  background-image:radial-gradient(60% 50% at 88% 0%,rgba(99,82,232,.13),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.16),transparent 70%);background-attachment:fixed}
 a{color:inherit}
 .wrap{max-width:1120px;margin:0 auto;padding:22px max(18px,env(safe-area-inset-right)) 60px max(18px,env(safe-area-inset-left))}
 .top{display:flex;justify-content:space-between;align-items:center;gap:14px}
@@ -80,7 +80,7 @@ footer b{color:var(--sun)}
 <style id="menu-card">/* tessera del menù (05/10/2026): la cena di stasera e chi cucina, dai dati del menù */
 .menu-card .desc b{font-weight:800}
 </style>
-<style id="tema-chiaro">body{color:#1E2230}::selection{background:#ECE8FD}</style></head>
+<style id="tema-chiaro">body{color:#1E2230}::selection{background:#EFEDFE}</style></head>
 <body>
 <div class="wrap">
   <header class="top">
@@ -108,7 +108,7 @@ footer b{color:var(--sun)}
       <span class="desc">La Costituzione scritta insieme, il percorso per Edo e Bianca, gli orari della mattina, il calendario, la spesa e le schede da appendere.</span>
       <span class="links"><span>Calendario</span><span>Spesa</span><span>Menù</span><span>Costituzione</span><span>Orari</span><span>Schede</span></span>
     </a>
-    <a class="card" href="rcm-1821-d-managing.html" style="--c:var(--green);--t:#fff;--d:.59s">
+    <a class="card" href="rcm-1821-d-managing.html" style="--c:#1F7A70;--t:#fff;--d:.59s">
       <svg class="ico" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>
       <span class="tag">Manutenzioni · impianti · contatti</span>
       <span class="nm">Vademecum casa</span>
@@ -165,5 +165,55 @@ footer b{color:var(--sun)}
   fetch('menu/dati.json?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok? r.json() : {}; }).catch(function(){ return {}; }).then(mostra);
 })();
 </script>
-</body>
+<style id="tema-rifinitura">
+:root{--v:#6352E8;--v-700:#4A3AC2;--v-50:#F4F2FE;--v-100:#E9E5FD;--v-200:#D9D2FB;--l:rgba(30,34,48,.12);--l2:rgba(30,34,48,.2);--t1:#1E2230;--t2:#5B6172;
+  --amb-50:#FFF6E6;--amb-600:#9A5B00;--amb-b:#F2C37A}
+/* stati attivi: tenue, non pieno */
+#fxdock a.on,.sidebar-nav a.nav-item.active,.menu-btn.active,.fx-chips a.on,.tabs button.on,.vchips button.on,.chips button.on{
+  background:var(--v-100)!important;color:var(--v-700)!important;box-shadow:inset 0 0 0 1.5px var(--v-200)!important}
+#fxdock a.on svg{stroke:var(--v-700)!important}
+#fxdock{background:rgba(255,255,255,.9)!important;box-shadow:0 14px 34px -14px rgba(30,34,48,.28),inset 0 0 0 1px var(--l)!important}
+#fxdock a{color:var(--t2)!important}#fxdock a:hover{background:var(--v-50)!important;color:var(--v-700)!important}
+.seg{background:#E4E7EE!important;box-shadow:none!important}
+.seg button{color:var(--t2)!important}
+.seg button.on{background:#fff!important;color:var(--v-700)!important;box-shadow:0 1px 2px rgba(30,34,48,.12),0 4px 12px -6px rgba(30,34,48,.25)!important}
+/* secondari: bianchi con bordo */
+.vbtn,.gnav,.strip .sw,.nav .iconbtn,.iconbtn,.piu,.cambia,.btn.ghost,.carousel-btn,.back-home,.barra .nav,.quick a,.top a.iconbtn{
+  background:#fff!important;color:var(--t1)!important;box-shadow:inset 0 0 0 1px var(--l2)!important;border-color:transparent!important}
+.vbtn:hover,.gnav:hover,.nav .iconbtn:hover,.iconbtn:hover,.piu:hover,.cambia:hover,.btn.ghost:hover,.carousel-btn:hover,.back-home:hover,.quick a:hover{background:var(--v-50)!important;color:var(--v-700)!important}
+.vbtn.attivo{background:var(--v-100)!important;color:var(--v-700)!important;box-shadow:inset 0 0 0 1.5px var(--v-200)!important}
+.vbtn.oggi,.barra .oggi{background:#fff!important;color:var(--v-700)!important;box-shadow:inset 0 0 0 1.5px var(--v)!important}
+/* calendario */
+.days7 button.on{background:var(--v)!important;color:#fff!important}
+.strip .sd{background:#fff!important;box-shadow:inset 0 0 0 1px var(--l)!important}
+.strip .sd.on{background:var(--v)!important;color:#fff!important;box-shadow:none!important}
+.strip .sd.on small{color:rgba(255,255,255,.8)!important}
+.strip .sd.oggi:not(.on){box-shadow:inset 0 0 0 2px var(--v)!important}
+.strip .sd i.gap{background:#E0951F!important}.strip .sd.on i.gap{background:#FFD38A!important}
+.day.today,.agd.today,.gm.oggi{box-shadow:0 0 0 2px var(--v),0 18px 40px -24px rgba(30,34,48,.35)!important}
+.day.today .dayhead,.day.today.weekend .dayhead,.agd.today .agh,.gm.oggi .gm-h{background:var(--v-100)!important;color:var(--v-700)!important}
+.day.today .dayhead .dn,.day.today .dayhead .dd,.agd.today .agh .q,.agd.today .agh .dl{color:var(--v-700)!important}
+.day.today .note{color:var(--t1)!important}
+.dayhead .addx,.day.today .dayhead .addx{background:#fff!important;color:var(--v-700)!important;box-shadow:inset 0 0 0 1.5px var(--v-200)!important}
+.addrow{background:var(--v-50)!important;color:var(--v-700)!important;box-shadow:inset 0 0 0 1.5px var(--v-100)!important}
+.addrow:hover{background:var(--v-100)!important}
+.addrow b{background:var(--v)!important;color:#fff!important}
+.who.ask,.agr.gap .x small,.agh .gapn{background:var(--amb-50)!important;color:var(--amb-600)!important;border:1.5px dashed var(--amb-b)!important;box-shadow:none!important}
+.ev.fx-next{background:var(--v-50)!important;box-shadow:inset 4px 0 0 var(--v)!important}
+.ev.fx-next .tm::after{background:var(--v)!important;color:#fff!important}
+/* intestazioni delle card (giorni, agenda): grigio appena accennato, non velatura scura */
+.gm-h,.dayhead,.day.weekend .dayhead,.agh{background:#F6F7FA!important;border-bottom:1px solid var(--l)!important}
+.gm.we,.day.weekend,.agd.we{background:#FBFBFD!important}
+/* menu' */
+.gm-h em{background:var(--v)!important;color:#fff!important}
+.ing{background:var(--v-50)!important;box-shadow:inset 0 0 0 1.5px var(--v-200)!important;color:var(--t1)!important}
+/* vademecum, salute, soldi */
+.mant-num,.vsez-ico,.title-ico{background:var(--v-100)!important;color:var(--v-700)!important;box-shadow:none!important;border-color:transparent!important}
+.mant-month-urgent .mant-num{background:var(--v)!important;color:#fff!important}
+.mesi-tab button.on{background:var(--v-100)!important;color:var(--v-700)!important}
+/* azione principale: viola pieno, con ombra morbida */
+.tutto:not(:disabled),.addbox button,.btn.primary,.fx-actions .pri,.sub-link a.pri{background:var(--v)!important;color:#fff!important;box-shadow:0 6px 16px -8px rgba(99,82,232,.7)!important}
+/* fuoco da tastiera visibile */
+a:focus-visible,button:focus-visible,[role=button]:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--v)!important;outline-offset:2px!important}
+</style></body>
 </html>
