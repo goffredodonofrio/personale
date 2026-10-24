@@ -21,9 +21,9 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxOut{from{transform:none}to{transform:translateX(101%)}}
 @keyframes fxFace{to{opacity:1;transform:none}}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
-@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
+@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024140246">
+<meta name="build" content="20261024180017">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -268,13 +268,14 @@ dialog p{margin:0 0 10px;color:var(--muted);font-size:13.5px}
 .dlg-actions .right{display:flex;gap:8px;margin-left:auto}
 ol.steps{margin:0 0 12px;padding-left:20px;color:var(--muted);font-size:13px}
 ol.steps li{margin-bottom:4px}
+.collega-riga{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:10px 0 0}.collega-riga small{color:var(--muted);font-size:12px}
 code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5px;border-radius:5px}
 <!doctype html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024140246">
+<meta name="build" content="20261024180017">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -993,9 +994,10 @@ document.addEventListener('DOMContentLoaded',function(){
     <ol class="steps">
       <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained</b>.</li>
       <li>Repository: solo <code>personale</code>. Permissions → Contents: <b>Read and write</b>.</li>
-      <li>Incolla qui il token. Ogni dispositivo va collegato una volta.</li>
+      <li>Incolla qui il token e salva. Poi tocca <b>Manda il collegamento</b>: chi apre quel link una volta ha il dispositivo collegato, e calendario, spesa e menù si salvano da soli.</li>
     </ol>
     <label class="field">Token<input type="password" id="ghToken" autocomplete="off" placeholder="github_pat_…"></label>
+    <p class="collega-riga" id="collegaRiga" hidden><button type="button" class="btn ghost" id="ghShare">Manda il collegamento</button> <small>Il link contiene il token: mandalo solo in famiglia.</small></p>
     <div class="dlg-actions">
       <button type="button" class="btn ghost danger" id="ghForget">Scollega</button>
       <div class="right">
@@ -1277,7 +1279,7 @@ document.addEventListener('DOMContentLoaded',function(){
   async function fetchRemote(){
     const r = await fetch(apiUrl()+'?ref='+GH.branch+'&t='+Date.now(), {headers: headers(true), cache:'no-store'});
     if(r.status === 404) return {missing:true};
-    if(!r.ok) throw new Error('GitHub '+r.status);
+    if(!r.ok){ const e = new Error('GitHub '+r.status); e.status = r.status; throw e; }
     const j = await r.json();
     return {sha:j.sha, data:JSON.parse(b64dec(j.content))};
   }
@@ -1287,15 +1289,16 @@ document.addEventListener('DOMContentLoaded',function(){
     return {sha:null, data:await r.json()};
   }
   async function load(initial){
-    let got = null;
+    let got = null, rifiutato = false;
     try{ got = await fetchRemote(); }
-    catch(e){ try{ got = await fetchPages(); }catch(e2){ got = null; } }
+    catch(e){ rifiutato = (e.status === 401 || e.status === 403) && !!getToken(); try{ got = await fetchPages(); }catch(e2){ got = null; } }
     if(got && got.missing){ state = normalize(clone(DEFAULT)); remoteSha = null; }
     else if(got){ const u = unisciLocale(normalize(got.data)); state = normalize(u.state); remoteSha = got.sha; writeCache();
       if(u.cambiato){ dirty = true; try{ localStorage.setItem(PENDING_KEY, JSON.stringify(Object.assign(readPending(), {at:Date.now()}))); }catch(e){} } }
     else if(!state){ state = normalize(readCache() || clone(DEFAULT)); }
     if(initial) weekKey = defaultWeek();
     renderAll();
+    if(rifiutato){ setStatus('error','Collegamento scaduto o non valido: serve un token nuovo (⚙)'); avvisoSalva(); return; }
     if(!got) setStatus('error','Non riesco a leggere i dati dal sito: mostro l\'ultima copia su questo dispositivo');
     else if(getToken()) setStatus('ok', got.missing ? 'Collegato: il primo salvataggio creerà il file dei dati' : 'Collegato: le modifiche si salvano per tutti');
     else setStatus('readonly','Sola lettura: apri ⚙ e incolla il token GitHub per salvare le modifiche');
@@ -1884,13 +1887,33 @@ document.addEventListener('DOMContentLoaded',function(){
   const ghDlg = document.getElementById('ghDlg');
   document.getElementById('ghPath').textContent = GH.path;
   document.getElementById('settingsBtn').addEventListener('click', () => {
-    document.getElementById('ghToken').value = getToken();
+    document.getElementById('ghToken').value = getToken(); document.getElementById('collegaRiga').hidden = !getToken();
     document.getElementById('sGym').value = state.times.gym; document.getElementById('sDrop').value = state.times.drop;
     document.getElementById('sEdo').value = state.times.edo; document.getElementById('sBia').value = state.times.bia; document.getElementById('sEve').value = state.times.eve;
     ghDlg.showModal();
   });
   document.getElementById('ghCancel').addEventListener('click', () => ghDlg.close());
   document.getElementById('ghForget').addEventListener('click', () => { try{ localStorage.removeItem(TOKEN_KEY); }catch(e){} ghDlg.close(); setStatus('readonly','Sola lettura: apri ⚙ e incolla il token GitHub per salvare'); });
+  async function verificaToken(){
+    setStatus('saving','Verifico il collegamento…');
+    try{
+      const r = await fetch('https://api.github.com/repos/'+GH.owner+'/'+GH.repo, {headers: headers(true)});
+      if(!r.ok) throw new Error(r.status);
+      const j = await r.json();
+      if(!(j.permissions && j.permissions.push)){ setStatus('error','Il token legge ma non può scrivere: serve Contents → Read and write'); return; }
+      setStatus('ok','Collegato: le modifiche si salvano per tutti');
+      if(dirty) flush();
+    }catch(err){ setStatus('error','Token non accettato da GitHub: controlla e riprova (⚙)'); }
+  }
+  // link "Manda il collegamento": #collega=<token>, letto da fx-early prima di tutto il resto
+  document.getElementById('ghShare').addEventListener('click', async () => {
+    const t = getToken(); if(!t) return;
+    const url = location.origin + location.pathname + '#collega=' + encodeURIComponent(t);
+    const testo = 'Apri questo link una volta su questo dispositivo: il calendario di casa, la spesa e il menù si salvano da soli.';
+    try{ if(navigator.share){ await navigator.share({title:'Collega il calendario di casa', text:testo, url}); return; } }catch(e){ if(e && e.name === 'AbortError') return; }
+    try{ await navigator.clipboard.writeText(url); alert('Link copiato: incollalo su WhatsApp a te stesso e a Carolina, e apritelo una volta su ogni telefono o computer.'); }
+    catch(e){ prompt('Copia questo link:', url); }
+  });
   document.getElementById('ghForm').addEventListener('submit', async e => {
     e.preventDefault();
     const nt = {gym:document.getElementById('sGym').value, drop:document.getElementById('sDrop').value, edo:document.getElementById('sEdo').value, bia:document.getElementById('sBia').value, eve:document.getElementById('sEve').value};
@@ -1900,17 +1923,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(t){ try{ localStorage.setItem(TOKEN_KEY, t); }catch(err){} }
     ghDlg.close();
     if(changed){ renderAll(); markDirty(); }
-    if(tokenChanged || (t && mode === 'readonly')){
-      setStatus('saving','Verifico il token…');
-      try{
-        const r = await fetch('https://api.github.com/repos/'+GH.owner+'/'+GH.repo, {headers: headers(true)});
-        if(!r.ok) throw new Error(r.status);
-        const j = await r.json();
-        if(!(j.permissions && j.permissions.push)){ setStatus('error','Il token legge ma non può scrivere: serve Contents → Read and write'); return; }
-        setStatus('ok','Collegato: le modifiche si salvano per tutti');
-        if(dirty) flush();
-      }catch(err){ setStatus('error','Token non accettato da GitHub: controlla e riprova (⚙)'); }
-    }
+    if(tokenChanged || (t && mode === 'readonly')) verificaToken();
   });
 
   // ---------- viste: comandi ----------
@@ -1968,7 +1981,9 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   // ---------- avvio: si atterra sulla giornata di oggi ----------
   state = normalize(readCache() || clone(DEFAULT)); weekKey = iso(mondayOf(parse(giorno))); renderAll(); scorriA(giorno, false);
-  load(true).then(() => { weekKey = iso(mondayOf(parse(giorno))); const y = scrollY; renderAll(); if(atterra) scorriA(giorno, false); setTimeout(() => { atterra = false; }, 400); });
+  load(true).then(() => { weekKey = iso(mondayOf(parse(giorno))); const y = scrollY; renderAll(); if(atterra) scorriA(giorno, false); setTimeout(() => { atterra = false; }, 400);
+    let nuovo = false; try{ nuovo = sessionStorage.getItem('fx-collegato') === '1'; sessionStorage.removeItem('fx-collegato'); }catch(e){}
+    if(nuovo && getToken()) verificaToken(); });
   addEventListener('touchstart', () => { atterra = false; }, {passive:true, once:true}); addEventListener('wheel', () => { atterra = false; }, {passive:true, once:true});
 })();
 </script>
