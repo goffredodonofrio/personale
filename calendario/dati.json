@@ -29,6 +29,17 @@
  ],
  "recurring": [
   {
+   "id": "volley",
+   "title": "Pallavolo",
+   "days": [
+    2
+   ],
+   "slot": "s",
+   "freq": "weekly",
+   "icon": "sport",
+   "time": "20:30"
+  },
+  {
    "id": "budget",
    "title": "Riunione budget",
    "who": {
@@ -1617,5 +1628,5 @@
   "bia": "17:00",
   "eve": "19:30"
  },
- "aggiornato": 1792865121549
+ "aggiornato": 1792865348384
 }
