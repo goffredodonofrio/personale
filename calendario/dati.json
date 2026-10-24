@@ -1466,6 +1466,165 @@
      "r": {}
     }
    }
+  },
+  "2026-10-26": {
+   "days": {
+    "2026-10-26": {
+     "r": {
+      "m": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      },
+      "p": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-27": {
+     "r": {
+      "m": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      },
+      "p": {
+       "who": {
+        "by": [
+         "baby"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-28": {
+     "r": {
+      "m": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      },
+      "p": {
+       "who": {
+        "by": [
+         "caro"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      }
+     },
+     "note": "",
+     "extra": [
+      {
+       "id": "x-ztrlttu",
+       "slot": "p",
+       "title": "Torino v Como",
+       "time": "20:45",
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": []
+       },
+       "kind": "",
+       "icon": "altro"
+      }
+     ]
+    },
+    "2026-10-29": {
+     "r": {
+      "m": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      },
+      "p": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      }
+     },
+     "note": "",
+     "extra": []
+    },
+    "2026-10-30": {
+     "r": {
+      "m": {
+       "who": {
+        "by": [
+         "gof"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      },
+      "p": {
+       "who": {
+        "by": [
+         "caro"
+        ],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       }
+      }
+     },
+     "note": "",
+     "extra": []
+    }
+   }
   }
  },
  "times": {
