@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024180520">
+<meta name="build" content="20261024181018">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024180520">
+<meta name="build" content="20261024181018">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -1295,7 +1295,7 @@ document.addEventListener('DOMContentLoaded',function(){
     catch(e){ rifiutato = (e.status === 401 || e.status === 403) && !!getToken(); try{ got = await fetchPages(); }catch(e2){ got = null; } }
     if(got && got.missing){ state = normalize(clone(DEFAULT)); remoteSha = null; }
     else if(got){ const u = unisciLocale(normalize(got.data)); state = normalize(u.state); remoteSha = got.sha; writeCache();
-      if(u.cambiato){ dirty = true; try{ localStorage.setItem(PENDING_KEY, JSON.stringify(Object.assign(readPending(), {at:Date.now()}))); }catch(e){} } }
+      if(u.cambiato) dirty = true; } // l'ora delle modifiche in sospeso resta quella vera: unire i dati non e' una modifica nuova
     else if(!state){ state = normalize(readCache() || clone(DEFAULT)); }
     if(initial) weekKey = defaultWeek();
     renderAll();
