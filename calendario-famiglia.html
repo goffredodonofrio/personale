@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024140230">
+<meta name="build" content="20261024140246">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -274,7 +274,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024140230">
+<meta name="build" content="20261024140246">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -1964,7 +1964,7 @@ document.addEventListener('DOMContentLoaded',function(){
     const testo = 'CALENDARIO-FAMIGLIA ' + JSON.stringify({weeks:w, recurring:state.recurring, times:state.times});
     let ok = false; try{ await navigator.clipboard.writeText(testo); ok = true; }catch(e){}
     if(!ok){ const t = document.createElement('textarea'); t.value = testo; document.body.appendChild(t); t.select(); try{ ok = document.execCommand('copy'); }catch(e){} t.remove(); }
-    flash(ok ? 'Copiato: incollalo a Claude nella chat.' : 'Non riesco a copiare: tieni premuto e copia a mano.');
+    alert(ok ? 'Copiato. Incollalo a Claude nella chat.' : 'Non riesco a copiare da solo: riprova, oppure usa Collega col token.');
   });
   // ---------- avvio: si atterra sulla giornata di oggi ----------
   state = normalize(readCache() || clone(DEFAULT)); weekKey = iso(mondayOf(parse(giorno))); renderAll(); scorriA(giorno, false);
