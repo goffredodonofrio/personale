@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024104947">
+<meta name="build" content="20261024140230">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -274,7 +274,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024104947">
+<meta name="build" content="20261024140230">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -903,7 +903,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <div class="vchips" id="vchips" hidden></div>
   </nav>
-  <div class="avviso-salva" id="avvisoSalva" hidden role="status"><b>Modifiche solo su questo dispositivo.</b> Non sono ancora salvate per tutti: tocca ⚙ e incolla il token GitHub. Finché non lo fai restano qui, anche se chiudi la pagina.<button type="button" id="avvisoSalvaBtn">Collega</button></div>
+  <div class="avviso-salva" id="avvisoSalva" hidden role="status"><b>Modifiche solo su questo dispositivo.</b> Non sono ancora salvate per tutti: tocca ⚙ e incolla il token GitHub. Finché non lo fai restano qui, anche se chiudi la pagina.<button type="button" id="avvisoCopiaBtn" class="sec">Copia per Claude</button><button type="button" id="avvisoSalvaBtn">Collega</button></div>
 
   <section class="bar" aria-label="Settimana">
     <div class="nav">
@@ -1957,6 +1957,15 @@ document.addEventListener('DOMContentLoaded',function(){
     giorno = weekKey === iso(mondayOf(parse(todayIso))) ? todayIso : weekKey; renderVista(); }));
 
   document.getElementById('avvisoSalvaBtn').addEventListener('click', () => document.getElementById('settingsBtn').click());
+  // senza token: copia le settimane da questa in poi, da incollare a Claude che le salva sul sito
+  document.getElementById('avvisoCopiaBtn').addEventListener('click', async () => {
+    const da = iso(addDays(mondayOf(new Date()), -7)), w = {};
+    for(const k in state.weeks) if(k >= da) w[k] = state.weeks[k];
+    const testo = 'CALENDARIO-FAMIGLIA ' + JSON.stringify({weeks:w, recurring:state.recurring, times:state.times});
+    let ok = false; try{ await navigator.clipboard.writeText(testo); ok = true; }catch(e){}
+    if(!ok){ const t = document.createElement('textarea'); t.value = testo; document.body.appendChild(t); t.select(); try{ ok = document.execCommand('copy'); }catch(e){} t.remove(); }
+    flash(ok ? 'Copiato: incollalo a Claude nella chat.' : 'Non riesco a copiare: tieni premuto e copia a mano.');
+  });
   // ---------- avvio: si atterra sulla giornata di oggi ----------
   state = normalize(readCache() || clone(DEFAULT)); weekKey = iso(mondayOf(parse(giorno))); renderAll(); scorriA(giorno, false);
   load(true).then(() => { weekKey = iso(mondayOf(parse(giorno))); const y = scrollY; renderAll(); if(atterra) scorriA(giorno, false); setTimeout(() => { atterra = false; }, 400); });
@@ -1971,7 +1980,8 @@ document.addEventListener('DOMContentLoaded',function(){
 .avviso-salva{position:sticky;top:70px;z-index:29;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;max-width:1240px;margin:0 auto 12px;padding:12px 14px;border-radius:14px;background:#FFF6E6;color:#6B4200;box-shadow:inset 0 0 0 1.5px #F2C37A;font:600 14px/1.4 "Bricolage Grotesque",Arial,sans-serif}
 .avviso-salva[hidden]{display:none}
 .avviso-salva b{font-weight:800}
-.avviso-salva button{margin-left:auto;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:#9A5B00;color:#fff;font:800 13px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.avviso-salva button.sec{margin-left:auto;background:#fff;color:#6B4200;box-shadow:inset 0 0 0 1.5px #F2C37A}
+.avviso-salva button{margin-left:6px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:#9A5B00;color:#fff;font:800 13px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
 @media (max-width:720px){.avviso-salva{top:62px;font-size:13.5px}}
 
 /* ===== viste Giorno · Settimana · Agenda (ott 2026) ===== */
