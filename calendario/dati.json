@@ -29,23 +29,6 @@
  ],
  "recurring": [
   {
-   "id": "volley",
-   "title": "Pallavolo",
-   "who": {
-    "by": [
-     "caro"
-    ],
-    "with": []
-   },
-   "days": [
-    2
-   ],
-   "slot": "s",
-   "freq": "weekly",
-   "icon": "sport",
-   "time": "20:30"
-  },
-  {
    "id": "budget",
    "title": "Riunione budget",
    "who": {
