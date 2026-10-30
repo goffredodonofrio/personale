@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024181018">
+<meta name="build" content="20261030080845">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261024181018">
+<meta name="build" content="20261030080845">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -1207,6 +1207,38 @@ document.addEventListener('DOMContentLoaded',function(){
     if(p.at && p.at > (remoto.aggiornato || 0)){ for(const f of ['people','recurring','times']){ if(loc[f] && JSON.stringify(loc[f]) !== JSON.stringify(remoto[f])){ remoto[f] = loc[f]; cambiato = true; } } }
     return {state:remoto, cambiato};
   }
+  // unione a tre vie per i conflitti di salvataggio (30/10/2026): b = ultima copia letta o salvata sul sito,
+  // l = questo dispositivo, r = sito adesso. Vince chi ha cambiato; se hanno cambiato tutti e due la stessa cosa,
+  // si scende fino al singolo campo (settimana -> giorno -> riga) e solo li' vince questo dispositivo.
+  // Unisce dentro gli oggetti di l, cosi' i pannelli aperti continuano a puntare ai dati giusti.
+  function stabile(v){ return JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x)) ? Object.keys(x).sort().reduce((o, y) => (o[y] = x[y], o), {}) : x); }
+  function uguale(a, b){ return a === b || stabile(a) === stabile(b); }
+  function oggetto(x){ return !!x && typeof x === 'object' && !Array.isArray(x); }
+  function listaConId(x){ return Array.isArray(x) && x.every(y => oggetto(y) && y.id != null); }
+  function unisci3(b, l, r){
+    if(uguale(l, r)) return l;
+    if(oggetto(l) && oggetto(r)){
+      const bb = oggetto(b) ? b : {};
+      for(const k of new Set(Object.keys(l).concat(Object.keys(r)))){
+        const v = unisci3(bb[k], l[k], r[k]);
+        if(v === undefined) delete l[k]; else l[k] = v;
+      }
+      return l;
+    }
+    if(listaConId(l) && listaConId(r)){
+      const per = a => new Map((listaConId(a) ? a : []).map(y => [String(y.id), y]));
+      const B = per(b), R = per(r), out = [], visti = new Set();
+      for(const y of l){ const id = String(y.id); visti.add(id); const v = unisci3(B.get(id), y, R.get(id)); if(v !== undefined) out.push(v); }
+      for(const [id, y] of R){ if(visti.has(id)) continue; const v = unisci3(B.get(id), undefined, y); if(v !== undefined) out.push(v); }
+      l.splice(0, l.length, ...out);
+      return l;
+    }
+    if(uguale(l, b)) return r === undefined ? undefined : clone(r);   // cambiato solo sul sito
+    if(uguale(r, b)) return l;                                        // cambiato solo qui
+    if(l === undefined) return clone(r);                              // tolto qui ma cambiato sul sito: non si perde
+    return l;
+  }
+  let baseState = null;   // ultima copia letta o salvata sul sito, gia' normalizzata
 
   // ---------- date ----------
   function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -1293,8 +1325,9 @@ document.addEventListener('DOMContentLoaded',function(){
     let got = null, rifiutato = false;
     try{ got = await fetchRemote(); }
     catch(e){ rifiutato = (e.status === 401 || e.status === 403) && !!getToken(); try{ got = await fetchPages(); }catch(e2){ got = null; } }
-    if(got && got.missing){ state = normalize(clone(DEFAULT)); remoteSha = null; }
-    else if(got){ const u = unisciLocale(normalize(got.data)); state = normalize(u.state); remoteSha = got.sha; writeCache();
+    if(got && got.missing){ state = normalize(clone(DEFAULT)); remoteSha = null; baseState = null; }
+    else if(got){ baseState = normalize(clone(got.data));
+      const u = unisciLocale(normalize(got.data)); state = normalize(u.state); remoteSha = got.sha; writeCache();
       if(u.cambiato) dirty = true; } // l'ora delle modifiche in sospeso resta quella vera: unire i dati non e' una modifica nuova
     else if(!state){ state = normalize(readCache() || clone(DEFAULT)); }
     if(initial) weekKey = defaultWeek();
@@ -1317,18 +1350,31 @@ document.addEventListener('DOMContentLoaded',function(){
     saving = true; dirty = false;
     try{
       state.aggiornato = Date.now();
-      const body = {message:'Calendario familiare: aggiornamento', content:b64enc(JSON.stringify(state, null, 1)), branch:GH.branch};
+      let testo = JSON.stringify(state, null, 1);
+      const body = {message:'Calendario familiare: aggiornamento', content:b64enc(testo), branch:GH.branch};
       if(remoteSha) body.sha = remoteSha;
       const hdr = Object.assign({'Content-Type':'application/json'}, headers(true));
       let r = await fetch(apiUrl(), {method:'PUT', headers:hdr, body:JSON.stringify(body)});
-      if(r.status === 409 || r.status === 422){
+      // conflitto: un altro dispositivo ha salvato nel frattempo. Si rilegge il sito e si uniscono le modifiche
+      // (prima si reinviava la copia di questo dispositivo, cancellando quelle dell'altro)
+      for(let tent = 0; (r.status === 409 || r.status === 422) && tent < 3; tent++){
         const remote = await fetchRemote();
-        if(remote && !remote.missing) remoteSha = remote.sha;
-        r = await fetch(apiUrl(), {method:'PUT', headers:hdr, body:JSON.stringify(Object.assign(body,{sha:remoteSha}))});
+        if(remote.missing){ remoteSha = null; baseState = null; delete body.sha; }
+        else {
+          const sito = normalize(clone(remote.data)), prima = stabile(state);
+          state = normalize(unisci3(baseState, state, normalize(clone(remote.data))));
+          baseState = sito; remoteSha = remote.sha; writeCache();
+          if(stabile(state) !== prima){ renderAll(); flash('Ho unito le modifiche fatte da un altro dispositivo'); }
+          state.aggiornato = Date.now();
+          testo = JSON.stringify(state, null, 1);
+          body.content = b64enc(testo); body.sha = remoteSha;
+        }
+        r = await fetch(apiUrl(), {method:'PUT', headers:hdr, body:JSON.stringify(body)});
       }
       if(r.status === 401 || r.status === 403){ setStatus('error','Token non valido o senza permessi di scrittura (⚙)'); dirty = true; return; }
       if(!r.ok) throw new Error('GitHub '+r.status);
       remoteSha = (await r.json()).content.sha;
+      baseState = JSON.parse(testo);
       if(!dirty) clearPending();
       setStatus('saved','Salvato per tutti');
     }catch(e){
