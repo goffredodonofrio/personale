@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="build" content="20261016203955">
+<meta name="build" content="20261031204108">
 <script>(function(){try{var mine=(document.querySelector("meta[name=build]")||{}).content||"";fetch(location.pathname,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/name="build" content="([^"]+)"/);if(m&&mine&&m[1]!==mine&&!sessionStorage.getItem("reloaded-"+m[1])){sessionStorage.setItem("reloaded-"+m[1],"1");location.reload()}}).catch(function(){})}catch(e){}})();</script>
 <title>Kart di Torino</title>
 <meta name="theme-color" content="#0F1B22">
@@ -64,7 +64,7 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .avb .dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px rgba(15,27,34,.9);transform:translate(-50%,-50%);transition:left .15s linear}
 .avb .dot.me{width:26px;height:36px;border-radius:0;background:none;box-shadow:none;transform:translate(-50%,-62%);z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
 .avb .dot.me svg{width:22px;height:36px}
-.cl{position:absolute;left:10px;top:calc(62px + env(safe-area-inset-top));margin:0;padding:0;list-style:none;width:150px;height:180px}
+.cl{position:absolute;left:10px;top:calc(62px + env(safe-area-inset-top));margin:0;padding:0;list-style:none;width:150px;height:240px}
 .cl li{position:absolute;left:0;top:0;width:100%;height:26px;display:flex;align-items:center;gap:5px;padding:0 8px 0 2px;border-radius:999px;background:rgba(15,27,34,.62);color:#fff;font:700 12px/1 var(--display);transition:transform .35s var(--eo)}
 .cl li.hum{box-shadow:inset 0 0 0 2px var(--c)}
 .cl li.me{background:var(--c);box-shadow:0 0 0 2px #fff}
@@ -75,12 +75,24 @@ h2{font:800 clamp(28px,5vw,44px)/1 var(--display);letter-spacing:-.03em;margin:0
 .cl .cg{font-style:normal;font-size:11px;opacity:.85;font-variant-numeric:tabular-nums}
 .mm{position:absolute;right:10px;bottom:calc(58px + env(safe-area-inset-bottom));width:150px;height:150px;border-radius:18px;background:rgba(15,27,34,.35)}
 .mm.touch{bottom:auto;top:calc(160px + env(safe-area-inset-top));width:120px;height:120px}
-.hv.stretto .cl,.hv.stretto .mm{display:none}
+.hv.stretto .mm,.hv.multi .cl{display:none}
 .hv.stretto.solo .mm{display:block;width:104px;height:104px;bottom:auto;top:calc(138px + env(safe-area-inset-top))}
 .hv.stretto .av{width:56%;top:calc(72px + env(safe-area-inset-top))}
 .hv.stretto .msg{font-size:clamp(26px,4.6vw,58px);-webkit-text-stroke-width:2px}
 .hv.stretto .lapt{font-size:15px;top:26%}
 .hv.stretto .tmr{top:calc(96px + env(safe-area-inset-top));padding:5px 8px}.hv.stretto .tmr b{font-size:17px}
+/* classifica piccola (31/10/2026): a schermo stretto e, comune a tutti, a schermo diviso */
+.cl .dt{display:none}
+.hv.stretto .cl{width:96px;top:calc(92px + env(safe-area-inset-top));height:136px}
+#clAll{left:auto;top:auto;width:112px;height:136px;z-index:3}#clAll.griglia{width:454px;height:34px}#clAll.griglia li{width:112px}
+.cl.mini li,.hv.stretto .cl li{height:15px;gap:4px;padding:0 7px 0 2px;font:800 11px/1 var(--display);background:rgba(15,27,34,.7);box-sizing:border-box}
+.cl.mini .cp,.hv.stretto .cl .cp{width:14px;font-size:11px}
+.cl.mini .dt,.hv.stretto .cl .dt{display:block;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 1.5px rgba(255,255,255,.75);flex:none}
+.cl.mini svg,.hv.stretto .cl svg,.hv.stretto .cl .cg{display:none}
+.cl.mini b,.hv.stretto .cl b{flex:none;overflow:visible}
+.cl.mini small{margin-left:3px;padding:1px 4px;border-radius:6px;background:var(--c);color:#fff;font:800 9px/1 var(--display)}
+.cl.mini li.hum{background:rgba(15,27,34,.88);box-shadow:inset 0 0 0 2px var(--c)}
+#resList{gap:6px}#resList li{padding:5px 12px}#resList li svg{width:25px;height:40px}   /* otto piloti: righe più basse, i pulsanti restano a vista */
 #resList i em{display:block;font-style:normal;font-size:11px;opacity:.7;font-weight:600}
 @media (max-width:640px){.av{width:46%;top:calc(58px + env(safe-area-inset-top))}.tmr b{font-size:18px}}
 /* impostazioni di guida e di gara (09/10/2026) */
@@ -158,7 +170,7 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
 </head>
 <body>
 <div id="stage"></div>
-<div id="hudW" class="hidden"><div class="hv hidden" id="h0"></div><div class="hv hidden" id="h1"></div><div class="hv hidden" id="h2"></div><div class="hv hidden" id="h3"></div><div class="hv hidden" id="h3o">Torino dall'alto</div></div>
+<div id="hudW" class="hidden"><div class="hv hidden" id="h0"></div><div class="hv hidden" id="h1"></div><div class="hv hidden" id="h2"></div><div class="hv hidden" id="h3"></div><div class="hv hidden" id="h3o">Torino dall'alto</div><ol class="cl mini hidden" id="clAll" aria-label="Classifica"></ol></div>
 <button type="button" id="pauseBtn" class="hidden" aria-label="Pausa">❚❚</button>
 
 <section id="menu">
@@ -166,7 +178,7 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     <a class="back" href="famiglia.html">← Famiglia</a>
     <div><p class="kick">Un gioco della famiglia · Torino</p><h1>Kart <em>di Torino</em></h1></div>
     <div class="flag"></div>
-    <p class="lede">Nove piste sulle strade vere: Piazza Castello, il Po, il Valentino, i tornanti di Superga, lo Stadio Grande Torino, il Lingotto, il Parco Dora, la Crocetta e il gran giro da San Mauro al centro e ritorno. Su ogni pista giri della morte, trampolini, un bivio con la sopraelevata e barili, coni e olio da schivare. In gara sette piloti con Giovanni, Bianca Di Nola e Uma: fino a quattro giocano sullo stesso schermo, gli altri li guida il computer.</p>
+    <p class="lede">Nove piste sulle strade vere: Piazza Castello, il Po, il Valentino, i tornanti di Superga, lo Stadio Grande Torino, il Lingotto, il Parco Dora, la Crocetta e il gran giro da San Mauro al centro e ritorno. Su ogni pista giri della morte, trampolini, un bivio con la sopraelevata e barili, coni e olio da schivare. In gara otto piloti con Giovanni, Bianca Di Nola, Uma e Nahuel: fino a quattro giocano sullo stesso schermo, gli altri li guida il computer.</p>
     <div class="fam" id="famRow"></div>
     <div class="row"><button type="button" class="cta" id="bPlay">▶ Gioca</button><button type="button" class="ghost" id="bHow">Come si gioca</button></div>
     <div class="how hidden" id="howBox">
@@ -210,6 +222,7 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     generic:{h:116,skin:'#E8C19F',hair:'#6B5040',hairStyle:'plain',eye:'#4B3426',shirt:'#9AA3A8',pants:'#55504A',frame:'#64748b',name:''},
     giovanni:{h:96, skin:'#E6BC97',hair:'#D8B45E',hairStyle:'longnero',eye:'#5A3A22',shirt:'#E8893A',pants:'#2F3A4A',frame:'#E8893A',name:'Giovanni',noblush:true},
     uma:{h:84, skin:'#EBC4A4',hair:'#7A5232',hairStyle:'lisci',eye:'#5A3A22',shirt:'#7B3FB0',pants:'#5B7DB8',frame:'#D14C9C',name:'Uma',sleeveless:true,ribbed:true,flare:true},
+    nahuel:{h:80, skin:'#EFCDB2',hair:'#A27B52',hairStyle:'caschettoM',eye:'#3E6B4E',bigeyes:true,grin:true,shirt:'#F4F1EA',stripes:'#2F4F86',pants:'#4F6FA0',frame:'#2F4F86',name:'Nahuel'},
     biancadn:{h:76, skin:'#F0CDB0',hair:'#5A3B26',hairStyle:'caschetto',eye:'#4A3324',bigeyes:true,gap:true,shirt:'#3FB6A8',pants:'#F2B632',frame:'#3FB6A8',name:'Bianca Di Nola'},
     bianca:{h:74, skin:'#EAC2A0',hair:'#2E1F18',hairStyle:'curly',eye:'#3A2418',bigeyes:true,shirt:'#F6F3EE',pants:'#5F7FB0',skirt:true,frame:'#E4573D',name:'Bianca',unicorn:true},
   };
@@ -225,6 +238,8 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     if(p.hairStyle==='caschetto') hair=`<path d="M9 30.5 Q7 20 9.5 11 Q14 0.5 30 0 Q46 0.5 50.5 11 Q53 20 51 30.5 L44.6 30.5 Q45.8 24 45.6 19 L45.4 13.4 L14.6 13.4 L14.4 19 Q14.2 24 15.4 30.5 Z" fill="${p.hair}"/>`;
     // Uma: lunghi e lisci fino alle spalle, riga in mezzo
     if(p.hairStyle==='lisci') hair=`<path d="M11.5 53 L11 22 Q12 1 30 .5 Q48 1 49 22 L48.5 53 Q45 55 41.5 52.5 L41.5 25 Q39.5 9.5 30 7 Q20.5 9.5 18.5 25 L18.5 52.5 Q15 55 11.5 53Z" fill="${p.hair}"/><path d="M30 1.2 V7" stroke="#000" stroke-opacity=".18" stroke-width=".9"/><path d="M15 30 V50 M45 30 V50" stroke="#fff" stroke-opacity=".12" stroke-width="1.2"/>`;
+    // Nahuel: caschetto da maschietto, frangia dritta sopra le sopracciglia, finisce all'altezza delle orecchie
+    if(p.hairStyle==='caschettoM') hair=`<path d="M10.2 25.5 Q8.6 13 13.2 6.2 Q20 -0.6 30 -0.6 Q40 -0.6 46.8 6.2 Q51.4 13 49.8 25.5 L45.4 25.5 L45.3 12.4 L14.7 12.4 L14.6 25.5 Z" fill="${p.hair}"/><g fill="none" stroke="#000" stroke-opacity=".14" stroke-width=".8" stroke-linecap="round"><path d="M19 12.2 V7.5"/><path d="M24.5 12.2 V6"/><path d="M30 12.2 V5.5"/><path d="M35.5 12.2 V6"/><path d="M41 12.2 V7.5"/></g><path d="M16 5.5 Q30 -2.5 44 5.5" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.4" stroke-linecap="round"/>`;
     if(p.hairStyle==='curlylong') hair=`<g fill="${p.hair}"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="${p.hair}"/>`;
     if(p.hairStyle==='curly') hair=`<g fill="${p.hair}"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g>`;
     if(p.hairStyle==='bun') hair=`<circle cx="30" cy="-1" r="7" fill="${p.hair}"/><path d="M14 18 Q16 2 30 2 Q44 2 46 18 L46 21 Q40 10 30 10 Q20 10 14 21Z" fill="${p.hair}"/>`;
@@ -239,7 +254,8 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     const eyes=`<g class="eye"><ellipse cx="24" cy="19" rx="${er}" ry="${er+.4}" fill="#fff"/><circle cx="24.3" cy="19.3" r="${ir}" fill="${p.eye}"/><circle cx="24.3" cy="19.3" r="${ir*.5}" fill="${ink}"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="${er}" ry="${er+.4}" fill="#fff"/><circle cx="36.3" cy="19.3" r="${ir}" fill="${p.eye}"/><circle cx="36.3" cy="19.3" r="${ir*.5}" fill="${ink}"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g>`;
     const glasses=p.glasses?`<g fill="none" stroke="${p.glasses}" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g>`:'';
     const mouthY=p.beard?26:(p.moustache?29:27);
-    const smile=p.gap?`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/><path d="M28.4 ${mouthY+.6} h3.2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M30 ${mouthY+.2} v1.4" stroke="${ink}" stroke-width=".7"/>`
+    const smile=p.grin?`<path d="M24 ${mouthY-.6} Q30 ${mouthY+6.2} 36 ${mouthY-.6} Z" fill="#7A2E2E" stroke="${ink}" stroke-width="1.3" stroke-linejoin="round"/><path d="M25.4 ${mouthY-.2} Q30 ${mouthY+1.6} 34.6 ${mouthY-.2} Z" fill="#fff"/>`
+                  :p.gap?`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/><path d="M28.4 ${mouthY+.6} h3.2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M30 ${mouthY+.2} v1.4" stroke="${ink}" stroke-width=".7"/>`
                   :`<path d="M24.5 ${mouthY} Q30 ${mouthY+5} 35.5 ${mouthY}" fill="none" stroke="${ink}" stroke-width="1.7" stroke-linecap="round"/>`;
     const cheeks=p.noblush?'':`<circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/>`;
     const crest=p.crest?`<g transform="translate(0 1.5)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#F4EEDC"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#F2B632"/></g>`:'';
@@ -252,9 +268,9 @@ body.tv #pauseBtn,body.tv .tz{display:none!important}
     const H=opts.h||p.h; const bd=(opts.bd||0);
     return `<svg viewBox="-6 -8 72 122" width="${H*0.59}" height="${H}" style="--d:${opts.d||0}s;--bd:${bd}s" role="img" aria-label="${p.name}">
       ${legs}
-      <g class="av-body"><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="${p.shirt}"/>${p.ribbed?'<g stroke="#000" stroke-opacity=".16" stroke-width=".9">'+[50,54,58,62,66,70].map(y=>`<path d="M17.5 ${y} Q23.6 ${y+1.2} 30 ${y} Q36.4 ${y-1.2} 42.5 ${y}" fill="none"/>`).join('')+'</g><path d="M17 46.5 Q30 43 43 46.5" stroke="#fff" stroke-opacity=".25" stroke-width="1.2" fill="none"/>':''}${crest}${p.unicorn?'<g class="uni"><path d="M33.4 54.8 L37.8 48 L35.6 55.6Z" fill="#F2B632" stroke="#C98F1A" stroke-width=".4"/><path d="M25.4 66 Q24.2 58.6 28.4 55 Q31.6 52.4 35.2 54.4 Q37.6 56.6 37.8 59.4 Q37.6 61.4 35.4 61.2 L33.4 60.4 Q31.2 62.8 31.4 66.6 Z" fill="#FFFFFF" stroke="#8D5BB8" stroke-width=".9" stroke-linejoin="round"/><circle cx="27.2" cy="55.6" r="1.7" fill="#F48FB1"/><circle cx="25.6" cy="58.4" r="1.6" fill="#B39DDB"/><circle cx="25" cy="61.6" r="1.5" fill="#81D4FA"/><circle cx="25.2" cy="64.6" r="1.3" fill="#A5D6A7"/><circle cx="33.4" cy="57" r=".7" fill="#1F2A26"/><circle cx="36.6" cy="59.6" r=".45" fill="#8D5BB8"/></g>':''}
-      <g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/><circle cx="11" cy="84" r="5" fill="${p.skin}"/></g>
-      <g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/><circle cx="49" cy="84" r="5" fill="${p.skin}"/>${watch}</g>
+      <g class="av-body"><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="${p.shirt}"/>${p.stripes?'<g fill="'+p.stripes+'">'+[50,56,62,68,74,80].map(y=>`<rect x="17" y="${y}" width="26" height="3"/>`).join('')+'</g>':''}${p.ribbed?'<g stroke="#000" stroke-opacity=".16" stroke-width=".9">'+[50,54,58,62,66,70].map(y=>`<path d="M17.5 ${y} Q23.6 ${y+1.2} 30 ${y} Q36.4 ${y-1.2} 42.5 ${y}" fill="none"/>`).join('')+'</g><path d="M17 46.5 Q30 43 43 46.5" stroke="#fff" stroke-opacity=".25" stroke-width="1.2" fill="none"/>':''}${crest}${p.unicorn?'<g class="uni"><path d="M33.4 54.8 L37.8 48 L35.6 55.6Z" fill="#F2B632" stroke="#C98F1A" stroke-width=".4"/><path d="M25.4 66 Q24.2 58.6 28.4 55 Q31.6 52.4 35.2 54.4 Q37.6 56.6 37.8 59.4 Q37.6 61.4 35.4 61.2 L33.4 60.4 Q31.2 62.8 31.4 66.6 Z" fill="#FFFFFF" stroke="#8D5BB8" stroke-width=".9" stroke-linejoin="round"/><circle cx="27.2" cy="55.6" r="1.7" fill="#F48FB1"/><circle cx="25.6" cy="58.4" r="1.6" fill="#B39DDB"/><circle cx="25" cy="61.6" r="1.5" fill="#81D4FA"/><circle cx="25.2" cy="64.6" r="1.3" fill="#A5D6A7"/><circle cx="33.4" cy="57" r=".7" fill="#1F2A26"/><circle cx="36.6" cy="59.6" r=".45" fill="#8D5BB8"/></g>':''}
+      <g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/>${p.stripes?'<g fill="'+p.stripes+'">'+[52,58,64,70].map(y=>`<rect x="7" y="${y}" width="8" height="3"/>`).join('')+'</g>':''}<circle cx="11" cy="84" r="5" fill="${p.skin}"/></g>
+      <g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="${p.sleeveless?p.skin:p.shirt}"/>${p.stripes?'<g fill="'+p.stripes+'">'+[52,58,64,70].map(y=>`<rect x="45" y="${y}" width="8" height="3"/>`).join('')+'</g>':''}<circle cx="49" cy="84" r="5" fill="${p.skin}"/>${watch}</g>
       <rect x="26" y="34" width="8" height="12" fill="${p.skin}"/>
       <circle cx="30" cy="19" r="15.5" fill="${p.skin}"/>${cheeks}
       ${hair}${beard}${brows}${eyes}${liner}${glasses}${smile}${moustache}</g>
@@ -377,11 +393,13 @@ const CHAR = {
   giovanni: {s: .84, skin: '#E6BC97', hair: '#D8B45E', eye: '#5A3A22', shirt: '#E8893A', pants: '#2F3A4A', shoes: '#1F2A26', style: 'longnero', kart: '#E8893A'},
   biancadn: {s: .75, skin: '#F0CDB0', hair: '#5A3B26', eye: '#4A3324', big: true, gap: true, shirt: '#3FB6A8', pants: '#F2B632', shoes: '#E4573D', style: 'caschetto', kart: '#3FB6A8'},
   uma: {s: .8, skin: '#EBC4A4', hair: '#7A5232', eye: '#5A3A22', shirt: '#7B3FB0', pants: '#5B7DB8', shoes: '#1F2A26', style: 'lisci', kart: '#D14C9C'},
+  nahuel: {s: .77, skin: '#EFCDB2', hair: '#A27B52', eye: '#3E6B4E', big: true, grin: true, shirt: '#F4F1EA', stripes: '#2F4F86', pants: '#4F6FA0', shoes: '#1F2A26', style: 'caschettoM', kart: '#2F4F86'},
 };
 // statistiche: i grandi pesano e vanno forte in rettilineo, i piccoli accelerano e curvano meglio
 const STATS = {goffredo: {vel: 1.02, acc: .92, man: .92, peso: 1}, carolina: {vel: 1.01, acc: .95, man: .97, peso: .93},
   giovanni: {vel: .99, acc: 1.03, man: 1.02, peso: .8}, edoardo: {vel: .99, acc: 1.04, man: 1.03, peso: .78},
-  biancadn: {vel: .97, acc: 1.09, man: 1.07, peso: .68}, bianca: {vel: .97, acc: 1.1, man: 1.08, peso: .66}, uma: {vel: .98, acc: 1.07, man: 1.06, peso: .72}};
+  biancadn: {vel: .97, acc: 1.09, man: 1.07, peso: .68}, bianca: {vel: .97, acc: 1.1, man: 1.08, peso: .66}, uma: {vel: .98, acc: 1.07, man: 1.06, peso: .72},
+  nahuel: {vel: .97, acc: 1.08, man: 1.07, peso: .7}};
 const CC = {50: .72, 100: .86, 150: 1, 200: 1.16};
 function faceTex(c) {
   const t = tex(16, 16, (g) => {
@@ -391,10 +409,11 @@ function faceTex(c) {
     if (c.liner) { g.fillStyle = '#1F2A26'; g.fillRect(3, ey - 1, 4, 1); g.fillRect(10, ey - 1, 4, 1); }
     if (c.glasses) { g.fillStyle = c.glasses; g.fillRect(2, ey - 1, 5, 1); g.fillRect(2, ey + 2, 5, 1); g.fillRect(2, ey - 1, 1, 4); g.fillRect(6, ey - 1, 1, 4); g.fillRect(9, ey - 1, 5, 1); g.fillRect(9, ey + 2, 5, 1); g.fillRect(9, ey - 1, 1, 4); g.fillRect(13, ey - 1, 1, 4); g.fillRect(7, ey, 2, 1); }
     if (c.beard) { g.fillStyle = c.beard; g.fillRect(1, 11, 14, 5); g.fillRect(1, 9, 2, 2); g.fillRect(13, 9, 2, 2); }
-    if (c.style === 'caschetto') { g.fillStyle = c.hair; g.fillRect(0, 0, 16, 5); }
+    if (c.style === 'caschetto' || c.style === 'caschettoM') { g.fillStyle = c.hair; g.fillRect(0, 0, 16, 5); }   // caschettoM (Nahuel): frangia dritta, ai lati si ferma sopra le orecchie
     if (c.style === 'lisci') { g.fillStyle = c.hair; g.fillRect(0, 4, 3, 12); g.fillRect(13, 4, 3, 12); }   // Uma: lunghi e lisci, riga in mezzo
     if (c.style === 'longnero') { g.fillStyle = c.hair; g.fillRect(0, 4, 3, 7); g.fillRect(13, 4, 3, 7); g.fillStyle = c.skin; g.fillRect(7, 3, 2, 1); }
-    if (c.gap) { g.fillStyle = '#7a3b30'; g.fillRect(5, 12, 6, 2); g.fillStyle = '#fff'; g.fillRect(6, 12, 4, 1); g.fillStyle = '#3a1a14'; g.fillRect(8, 12, 1, 1); }
+    if (c.grin) { g.fillStyle = '#7a2e2e'; g.fillRect(5, 11, 6, 2); g.fillRect(6, 13, 4, 1); g.fillStyle = '#fff'; g.fillRect(6, 11, 4, 1); }   // Nahuel: sorriso aperto
+    else if (c.gap) { g.fillStyle = '#7a3b30'; g.fillRect(5, 12, 6, 2); g.fillStyle = '#fff'; g.fillRect(6, 12, 4, 1); g.fillStyle = '#3a1a14'; g.fillRect(8, 12, 1, 1); }
     else { g.fillStyle = '#7a3b30'; g.fillRect(6, 12, 4, 1); } });
   t.magFilter = THREE.NearestFilter; t.minFilter = THREE.NearestFilter; return t;
 }
@@ -410,6 +429,9 @@ function makeKart(k) {
   const s = c.s * .78, skin = M(c.skin, {roughness: .8}), hair = M(c.hair, {roughness: .9}), shirt = M(c.shirt, {roughness: .8});
   const pil = new THREE.Group(); pil.position.set(0, .62, -.2); body.add(pil);
   box(.6 * s, .7 * s, .34 * s, shirt, 0, .4 * s, 0, pil); box(.2 * s, .2 * s, .62 * s, shirt, -.38 * s, .55 * s, .28 * s, pil); box(.2 * s, .2 * s, .62 * s, shirt, .38 * s, .55 * s, .28 * s, pil);
+  if (c.stripes) { const sm = M(c.stripes, {roughness: .8});   // Nahuel: maglietta a righe orizzontali
+    for (const y of [.16, .32, .48, .64]) box(.612 * s, .07 * s, .352 * s, sm, 0, y * s, 0, pil);
+    for (const x of [-.38, .38]) for (const z of [.12, .38]) box(.212 * s, .212 * s, .07 * s, sm, x * s, .55 * s, z * s, pil); }
   if (c.unicorn) { const ut = tex(64, 64, g => { g.font = '50px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🦄', 32, 36); });
     const u = new THREE.Mesh(new THREE.PlaneGeometry(.42 * s, .42 * s), new THREE.MeshStandardMaterial({map: ut, transparent: true, roughness: .8})); u.position.set(0, .42 * s, .172 * s + .005); pil.add(u); }
   const head = new THREE.Group(); head.position.set(0, 1.05 * s, 0); pil.add(head);
@@ -422,6 +444,7 @@ function makeKart(k) {
   if (c.style === 'longnero') { H(.64, .18, .64, 0, .32, 0); H(.66, .66, .14, 0, -.04, -.3); H(.12, .62, .54, -.33, -.03, -.01); H(.12, .62, .54, .33, -.03, -.01); }
   if (c.style === 'lisci') { H(.64, .16, .64, 0, .33, 0); H(.66, .95, .14, 0, -.15, -.3); H(.12, .9, .5, -.33, -.13, -.02); H(.12, .9, .5, .33, -.13, -.02); }
   if (c.style === 'caschetto') { H(.66, .2, .66, 0, .32, 0); H(.66, .5, .14, 0, .06, -.3); H(.14, .46, .56, -.34, .06, -.01); H(.14, .46, .56, .34, .06, -.01); H(.6, .1, .08, 0, .2, .3); }
+  if (c.style === 'caschettoM') { H(.64, .18, .64, 0, .32, 0); H(.64, .38, .12, 0, .11, -.29); H(.12, .22, .56, -.33, .17, -.01); H(.12, .22, .56, .33, .17, -.01); H(.6, .11, .08, 0, .19, .3); }   // più corto del caschetto, sopra le orecchie
   if (c.style === 'curly') { H(.68, .22, .68, 0, .32, 0); H(.68, .5, .2, 0, .03, -.3); H(.18, .44, .52, -.36, .05, -.02); H(.18, .44, .52, .36, .05, -.02); }
   box(.62 * s, .08 * s, .62 * s, M(c.kart), 0, 1.38 * s, 0, pil);     // casco-berretto del colore del kart
   const ant = new THREE.Group(); ant.position.set(.55, .6, -1.1); body.add(ant);
@@ -877,7 +900,7 @@ function beep(f, d, type = 'square', vol = .12) { const a = ac(); if (!a) return
 function sfx(k) { if (k === 'coin') { beep(1320, .06, 'square', .07); setTimeout(() => beep(1760, .09, 'square', .07), 50); } if (k === 'pick') { beep(880, .08); setTimeout(() => beep(1320, .1), 70); } if (k === 'item') beep(520, .12, 'triangle'); if (k === 'boost') { beep(300, .25, 'sawtooth', .08); setTimeout(() => beep(600, .3, 'sawtooth', .08), 90); } if (k === 'hit') beep(140, .4, 'sawtooth', .14); if (k === 'finish') [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, .25, 'triangle', .15), i * 140)); if (k === 'go') beep(1046, .45); if (k === 'count') beep(523, .2); }
 
 // ===================== KART DI TORINO · schermate e ciclo =====================
-const FAM = [{k: 'goffredo', name: 'Goffredo', age: 43, color: '#5FA57A'}, {k: 'carolina', name: 'Carolina', age: 42, color: '#8D5BB8'}, {k: 'edoardo', name: 'Edoardo', age: 8, color: '#4A90C6'}, {k: 'bianca', name: 'Bianca', age: 5, color: '#E4573D'}, {k: 'giovanni', name: 'Giovanni', color: '#E8893A'}, {k: 'biancadn', name: 'Bianca Di Nola', color: '#3FB6A8'}, {k: 'uma', name: 'Uma', color: '#D14C9C'}];
+const FAM = [{k: 'goffredo', name: 'Goffredo', age: 43, color: '#5FA57A'}, {k: 'carolina', name: 'Carolina', age: 42, color: '#8D5BB8'}, {k: 'edoardo', name: 'Edoardo', age: 8, color: '#4A90C6'}, {k: 'bianca', name: 'Bianca', age: 5, color: '#E4573D'}, {k: 'giovanni', name: 'Giovanni', color: '#E8893A'}, {k: 'biancadn', name: 'Bianca Di Nola', color: '#3FB6A8'}, {k: 'uma', name: 'Uma', color: '#D14C9C'}, {k: 'nahuel', name: 'Nahuel', color: '#2F4F86'}];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const TOUCHDEV = matchMedia('(pointer:coarse)').matches;
 let SETUP = {n: 1, pick: FAM.map(f => f.k), assist: {}, track: 'centro', cc: 150, mirror: false, coins: true};
@@ -885,7 +908,7 @@ try { const s = JSON.parse(localStorage.getItem('kart-torino') || 'null'); if (s
 for (const f of FAM) if (!SETUP.pick.includes(f.k)) SETUP.pick.push(f.k);   // le scelte salvate dalla versione a 4 piloti
 SETUP.pick = SETUP.pick.filter(k => FAM.some(f => f.k === k));
 function save() { try { localStorage.setItem('kart-torino', JSON.stringify(SETUP)); } catch (e) {} }
-const defAssist = k => k === 'bianca' || k === 'biancadn' ? {auto: true, help: .65, autoItem: true} : k === 'uma' ? {auto: true, help: .45} : k === 'edoardo' || k === 'giovanni' ? {auto: true, help: .3} : {auto: TOUCHDEV, help: 0};
+const defAssist = k => k === 'bianca' || k === 'biancadn' ? {auto: true, help: .65, autoItem: true} : k === 'uma' || k === 'nahuel' ? {auto: true, help: .45} : k === 'edoardo' || k === 'giovanni' ? {auto: true, help: .3} : {auto: TOUCHDEV, help: 0};
 const GYRO_OK = TOUCHDEV && 'DeviceOrientationEvent' in window;
 function statBars(k) { const S = STATS[k], bar = (n, v, lo, hi) => `<span class="sb"><i>${n}</i><b style="--v:${Math.round(20 + 80 * (v - lo) / (hi - lo))}%"></b></span>`;
   return `<div class="stats">${bar('Velocità', S.vel, .95, 1.03)}${bar('Accelerazione', S.acc, .9, 1.12)}${bar('Maneggevolezza', S.man, .9, 1.1)}${bar('Peso', S.peso, .6, 1)}</div>`; }
@@ -907,7 +930,7 @@ function renderPlayers() {
       ${GYRO_OK ? `<label class="tg"><input type="checkbox" data-k="${k}" data-a="gyro" ${a.gyro ? 'checked' : ''}> Giroscopio <small>sterzi inclinando il telefono o il tablet</small></label>${a.gyro ? `<label class="tg sub"><input type="checkbox" data-k="${k}" data-a="gyroInv" ${a.gyroInv ? 'checked' : ''}> Inverti il giroscopio</label>` : ''}` : ''}</div>`; }
   $('pList').innerHTML = h; $('pList').classList.toggle('uno', SETUP.n === 1);
   const nPad = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean).length : 0;
-  $('pNote').textContent = TV && SETUP.n > 1 && nPad < SETUP.n ? `Accendete ${SETUP.n} controller e premete un tasto su ognuno: ora ne vedo ${nPad}.` : TV ? (SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e sette.` : 'Quattro giocatori, gli altri tre li guida il computer.') : SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 7 ? 'sette' : FAM.length}.` : 'Quattro giocatori, gli altri tre li guida il computer.';
+  $('pNote').textContent = TV && SETUP.n > 1 && nPad < SETUP.n ? `Accendete ${SETUP.n} controller e premete un tasto su ognuno: ora ne vedo ${nPad}.` : TV ? (SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e otto.` : 'Quattro giocatori, gli altri quattro li guida il computer.') : SETUP.n > 2 && !TOUCHDEV ? 'Dal terzo giocatore in su servono i controller collegati al computer.' : SETUP.n < 4 ? `Gli altri kart li guida il computer: in pista ci sono sempre tutti e ${FAM.length === 8 ? 'otto' : FAM.length}.` : 'Quattro giocatori, gli altri quattro li guida il computer.';
 }
 $('nPick').addEventListener('click', e => { const b = e.target.closest('button[data-n]'); if (!b) return; SETUP.n = +b.dataset.n; save(); renderPlayers(); });
 $('pList').addEventListener('click', e => { const b = e.target.closest('.pa'); if (!b) return; const i = +b.dataset.i, k = b.dataset.k, j = SETUP.pick.indexOf(k); [SETUP.pick[i], SETUP.pick[j]] = [k, SETUP.pick[i]]; save(); renderPlayers(); });
@@ -945,8 +968,28 @@ function layoutHUD() {
   for (let i = PLAYERS_IN.length; i < 4; i++) $('h' + i).classList.add('hidden');
   PLAYERS_IN.forEach((p, i) => { const v = vp[i]; $('h' + i).classList.toggle('stretto', v[2] < 560 || v[3] < 400); $('h' + i).classList.toggle('solo', PLAYERS_IN.length === 1); });
   $('h3o').classList.toggle('hidden', PLAYERS_IN.length !== 3); if (PLAYERS_IN.length === 3) { const v = vp[3]; Object.assign($('h3o').style, {left: v[0] + 'px', top: v[1] + 'px', width: v[2] + 'px', height: v[3] + 'px'}); }
+  layoutClAll();
 }
-const tFmt = s => { s = Math.max(0, s); const m = Math.floor(s / 60), r = s - m * 60; return m + ':' + (r < 10 ? '0' : '') + r.toFixed(1).replace('.', ','); };
+// classifica comune a schermo diviso (31/10/2026): un solo elenco piccolo, dove non copre la strada né l'HUD dei giocatori
+function layoutClAll() {
+  const ca = $('clAll'), n = PLAYERS_IN.length, multi = n > 1; ca.classList.toggle('hidden', !multi);
+  PLAYERS_IN.forEach((p, i) => $('h' + i).classList.toggle('multi', multi)); if (!multi) return;
+  const W = innerWidth, H = innerHeight, vp = viewports(n === 3 ? 4 : n), st = vp[0][2] < 560 || vp[0][3] < 400;
+  ca.classList.toggle('griglia', n === 4); const cols = n === 4 ? 4 : 1, w = cols * 114 - 2, h = Math.ceil(KARTS.length / cols) * 17;
+  let x, y;
+  if (n === 2 && W >= H) { x = W / 2 - w / 2; y = Math.max(H / 2 - h / 2, st ? 150 : 140); }   // sul confine tra le due metà, sotto i cronometri
+  else if (n === 2) { x = 6; y = Math.max(vp[0][3] / 2 - h / 2, st ? 150 : 140); }          // uno sopra l'altro: a sinistra, nella metà di sopra
+  else if (n === 3) { const v = vp[3]; x = v[0] + v[2] / 2 - w / 2; y = v[1] + Math.max(8, v[3] / 2 - h / 2 - 14); }   // nel quarto riquadro, «Torino dall'alto»
+  else { x = W / 2 - w / 2; y = H / 2 - h - 5; }                                         // quattro: due righe da quattro appena sopra il confine orizzontale, sotto le minimappe
+  Object.assign(ca.style, {left: Math.round(x) + 'px', top: Math.round(Math.max(4, y)) + 'px'});
+}
+function clRows(ol, ranks, lead, rowH, cols = 1) {
+  ol.querySelectorAll('li').forEach(li => { const kk = KARTS.find(x => x.k === li.dataset.k), r = ranks.indexOf(kk);
+    li.style.transform = `translate(${(r % cols) * 114}px, ${Math.floor(r / cols) * rowH}px)`; li.querySelector('.cp').textContent = (kk.finished ? kk.place : r + 1);
+    const gap = (progress(lead) - progress(kk)) / 27, cg = li.querySelector('.cg'); if (cg) cg.textContent = r === 0 ? '' : kk.finished ? tFmt(kk.finishT) : (lead.finished ? '' : '+' + gap.toFixed(1).replace('.', ',') + ' s'); });
+}
+const tFmt = s => { s = Math.round(Math.max(0, s) * 10) / 10;   // arrotondato prima: niente più «3:60,0»
+  const m = Math.floor(s / 60), r = s - m * 60; return m + ':' + (r < 10 ? '0' : '') + r.toFixed(1).replace('.', ','); };
 function lapTimeMsg(i, lap, t, rec) { const el = $('lt' + i); if (!el) return; el.innerHTML = `Giro ${lap} · <b>${tFmt(t)}</b>${rec && lap > 1 ? ' · record!' : ''}`; el.classList.toggle('rec', rec && lap > 1); el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2600); }
 let MM = null;   // minimappa: il tracciato disegnato una volta
 function miniMapBase() {
@@ -970,11 +1013,12 @@ function buildHUD() {
       + (TOUCHDEV ? `<div class="tz tl" data-p="${i}" data-s="l">◀</div><div class="tz tr" data-p="${i}" data-s="r">▶</div><div class="tz ti" data-p="${i}" data-s="item">🎁</div>` : '');
     TOUCH[i] = {l: false, r: false, item: false, any: false};
     // classifica: una riga per pilota, si sposta con la posizione
-    $('cl' + i).innerHTML = KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<li data-k="${k.k}" class="${k.human === i ? 'me' : k.human >= 0 ? 'hum' : ''}" style="--c:${F.color}"><span class="cp"></span>${face(k.k, 26)}<b>${esc(F.name.split(' ')[0])}${k.k === 'biancadn' ? ' D.N.' : ''}</b><i class="cg"></i></li>`; }).join('');
+    $('cl' + i).innerHTML = KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<li data-k="${k.k}" class="${k.human === i ? 'me' : k.human >= 0 ? 'hum' : ''}" style="--c:${F.color}"><span class="cp"></span><span class="dt"></span>${face(k.k, 26)}<b>${esc(F.name.split(' ')[0])}${k.k === 'biancadn' ? ' D.N.' : ''}</b><i class="cg"></i></li>`; }).join('');
     // avanzamento: tacche dei giri e un segno per ogni kart
     const av = $('av' + i), laps = TR.closed ? TR.laps : 1; let h = ''; for (let j = 1; j < laps; j++) h += `<span class="tick" style="left:${j / laps * 100}%"></span>`;
     h += '<span class="flag">🏁</span>' + KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<span class="dot${k.human === i ? ' me' : ''}" data-k="${k.k}" style="--c:${F.color}">${k.human === i ? face(k.k, 24) : ''}</span>`; }).join('');
     av.innerHTML = h; }
+  $('clAll').innerHTML = KARTS.map(k => { const F = FAM.find(f => f.k === k.k); return `<li data-k="${k.k}" class="${k.human >= 0 ? 'hum' : ''}" style="--c:${F.color}"><span class="cp"></span><span class="dt"></span><b>${esc(F.name.split(' ')[0])}${k.k === 'biancadn' ? ' D.N.' : ''}</b>${k.human >= 0 ? `<small>G${k.human + 1}</small>` : ''}</li>`; }).join('');
   MM = null; layoutHUD();
 }
 // tocchi: ogni giocatore ha la sua metà dello schermo
@@ -991,6 +1035,7 @@ function totProg(k) { const tot = TR.closed ? TR.laps * TR.len : TR.len; if (TR.
 function updateRaceHUD() {
   if (!MM) miniMapBase();
   const ranks = [...KARTS].sort((a, b) => progress(b) - progress(a)), lead = ranks[0];
+  if (PLAYERS_IN.length > 1) clRows($('clAll'), ranks, lead, 17, PLAYERS_IN.length === 4 ? 4 : 1);
   PLAYERS_IN.forEach((p, i) => { const k = KARTS.find(x => x.human === i); if (!k) return;
     // cronometro
     const t = k.finished ? k.finishT : Math.max(0, RACE.t); $('tt' + i).textContent = RACE.state === 'go' || k.finished ? tFmt(t) : '0:00,0';
@@ -998,9 +1043,7 @@ function updateRaceHUD() {
       $('tb' + i).textContent = k.laps && k.laps.length ? 'Miglior giro ' + tFmt(Math.min(...k.laps)) : ''; }
     else { $('tl' + i).textContent = TR.closed ? '' : `${Math.round(totProg(k) * 100)}% del giro`; $('tb' + i).textContent = ''; }
     // classifica con distacco dal primo (in secondi, a velocità di crociera)
-    const rowH = 30; $('cl' + i).querySelectorAll('li').forEach(li => { const kk = KARTS.find(x => x.k === li.dataset.k), r = ranks.indexOf(kk);
-      li.style.transform = `translateY(${r * rowH}px)`; li.querySelector('.cp').textContent = (kk.finished ? kk.place : r + 1);
-      const gap = (progress(lead) - progress(kk)) / 27; li.querySelector('.cg').textContent = r === 0 ? '' : kk.finished ? tFmt(kk.finishT) : (lead.finished ? '' : '+' + gap.toFixed(1).replace('.', ',') + ' s'); });
+    if (PLAYERS_IN.length === 1) clRows($('cl' + i), ranks, lead, $('h' + i).classList.contains('stretto') ? 17 : 30);   // a schermo stretto la versione piccola
     // avanzamento
     $('av' + i).querySelectorAll('.dot').forEach(dEl => { const kk = KARTS.find(x => x.k === dEl.dataset.k); dEl.style.left = (totProg(kk) * 100) + '%'; });
     // minimappa
@@ -1030,7 +1073,7 @@ function startRace() {
     const isH = f => PLAYERS_IN.some(p => p.k === f.k);
     const roster = [...FAM.filter(f => !isH(f)), ...FAM.filter(isH)]   // in griglia: davanti il computer, dietro i giocatori
       .map(f => { const hi = PLAYERS_IN.findIndex(p => p.k === f.k), a = SETUP.assist[f.k] || defAssist(f.k);
-        return {k: f.k, human: hi, auto: a.auto, assist: a.help, autoItem: hi >= 0 && a.autoItem, gyro: hi >= 0 && GYRO_OK && a.gyro, gyroInv: a.gyroInv, skill: {goffredo: .97, carolina: .96, edoardo: .93, bianca: .9, giovanni: .93, biancadn: .9, uma: .91}[f.k]}; });
+        return {k: f.k, human: hi, auto: a.auto, assist: a.help, autoItem: hi >= 0 && a.autoItem, gyro: hi >= 0 && GYRO_OK && a.gyro, gyroInv: a.gyroInv, skill: {goffredo: .97, carolina: .96, edoardo: .93, bianca: .9, giovanni: .93, biancadn: .9, uma: .91, nahuel: .9}[f.k]}; });
     spawnKarts(roster);
     CAMS = PLAYERS_IN.map(() => new THREE.PerspectiveCamera(68, 1, .3, 4000));
     RACE = {state: 'count', t: -3.5, done: false}; buildHUD();
@@ -1139,7 +1182,7 @@ if (TV) {
   try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); log(`avvio · schermo ${innerWidth}×${innerHeight} @${devicePixelRatio} · ${x ? gl.getParameter(x.UNMASKED_RENDERER_WEBGL) : 'webgl'} · ${navigator.userAgent}`); } catch (e) { log('avvio · ' + e); }
 }
 requestAnimationFrame(loop);
-$('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74], ['giovanni', 96], ['biancadn', 76], ['uma', 84]].map(([k, h]) => face(k, h)).join('');
+$('famRow').innerHTML = [['goffredo', 120], ['carolina', 116], ['edoardo', 92], ['bianca', 74], ['giovanni', 96], ['biancadn', 76], ['uma', 84], ['nahuel', 80]].map(([k, h]) => face(k, h)).join('');
 show('mTitle');
 
 </script>
