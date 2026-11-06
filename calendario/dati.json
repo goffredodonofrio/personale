@@ -1681,7 +1681,7 @@
       "m": {
        "who": {
         "by": [
-         "caro"
+         "gof"
         ],
         "with": [
          "edo",
@@ -1692,7 +1692,7 @@
       "p": {
        "who": {
         "by": [
-         "gof"
+         "caro"
         ],
         "with": [
          "edo",
@@ -1761,6 +1761,21 @@
        },
        "kind": "",
        "icon": "altro"
+      },
+      {
+       "id": "x-u4vd9gf",
+       "slot": "p",
+       "title": "Colloquio Edo",
+       "time": "",
+       "who": {
+        "by": [],
+        "with": [
+         "edo",
+         "bia"
+        ]
+       },
+       "kind": "fam",
+       "icon": "corso"
       }
      ]
     },
@@ -1780,7 +1795,7 @@
       "p": {
        "who": {
         "by": [
-         "caro"
+         "gof"
         ],
         "with": [
          "edo",
@@ -2070,5 +2085,5 @@
   "bia": "17:00",
   "eve": "19:30"
  },
- "aggiornato": 1793952286155
+ "aggiornato": 1793952568455
 }
