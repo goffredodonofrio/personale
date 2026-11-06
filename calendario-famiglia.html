@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261030080845">
+<meta name="build" content="20261106080618">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261030080845">
+<meta name="build" content="20261106080618">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -987,7 +987,6 @@ document.addEventListener('DOMContentLoaded',function(){
       <label class="field">Accompagnamento<input type="time" id="sDrop"></label>
       <label class="field">Uscita Edoardo (default)<input type="time" id="sEdo"></label>
       <label class="field">Uscita Bianca (default)<input type="time" id="sBia"></label>
-      <label class="field">Sera<input type="time" id="sEve"></label>
     </div>
     <h4>Salvataggio condiviso</h4>
     <p>I dati vivono nel file <code id="ghPath"></code> del sito. Per scrivere serve un token GitHub, che resta solo in questo browser.</p>
@@ -1390,12 +1389,13 @@ document.addEventListener('DOMContentLoaded',function(){
     return state.recurring.filter(r => (r.days||[]).includes(dayIdx) && (r.freq !== 'monthly' || isFirstOccurrenceInMonth(d)));
   }
   function tkey(t){ return t && /^\d{1,2}:\d{2}$/.test(t) ? t.padStart(5,'0') : '99:99'; }
-  // le quattro righe base dei giorni feriali: std = orario standard, time = orario del giorno
+  // le righe base dei giorni feriali (palestra, accompagnamento, ritiro): std = orario standard, time = orario del giorno.
+  // La sera non c'e' piu' (Goffredo, 06/11/2026: «abbiamo visto che e' inutile»)
   function slotDefs(key, data){
     const T = state.times, WT = weekTimes(key), O = (data && data.t) || {}, R = (data && data.r) || {};
     const pickStd = WT.edo <= WT.bia ? WT.edo : WT.bia;
     const pickSub = WT.edo === WT.bia ? 'uscita '+WT.edo : 'Edoardo '+WT.edo+' · Bianca '+WT.bia;
-    return ['gym','m','p','s'].map(k => { const D = SLOT_DEF[k], r = R[k] || {};
+    return ['gym','m','p'].map(k => { const D = SLOT_DEF[k], r = R[k] || {};
       const std = k === 'gym' ? T.gym : k === 'm' ? T.drop : k === 'p' ? pickStd : T.eve;
       const sub = k === 'gym' ? (!wEmpty(r.who) ? 'l\'altro accompagna i bambini' : 'chi va? (facoltativo)') : k === 'p' ? pickSub : D.sub;
       return {k, tk:D.tk, icon:D.icon, std, time:O[D.tk] || std, defTitle:D.title, defSub:sub, title:r.title || D.title, sub:('sub' in r) ? r.sub : sub, who:r.who || ''}; });
@@ -1937,7 +1937,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('settingsBtn').addEventListener('click', () => {
     document.getElementById('ghToken').value = getToken(); document.getElementById('collegaRiga').hidden = !getToken();
     document.getElementById('sGym').value = state.times.gym; document.getElementById('sDrop').value = state.times.drop;
-    document.getElementById('sEdo').value = state.times.edo; document.getElementById('sBia').value = state.times.bia; document.getElementById('sEve').value = state.times.eve;
+    document.getElementById('sEdo').value = state.times.edo; document.getElementById('sBia').value = state.times.bia;
     ghDlg.showModal();
   });
   document.getElementById('ghCancel').addEventListener('click', () => ghDlg.close());
@@ -1964,7 +1964,7 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   document.getElementById('ghForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const nt = {gym:document.getElementById('sGym').value, drop:document.getElementById('sDrop').value, edo:document.getElementById('sEdo').value, bia:document.getElementById('sBia').value, eve:document.getElementById('sEve').value};
+    const nt = {gym:document.getElementById('sGym').value, drop:document.getElementById('sDrop').value, edo:document.getElementById('sEdo').value, bia:document.getElementById('sBia').value};
     let changed = false; for(const k in nt) if(nt[k] && nt[k] !== state.times[k]){ state.times[k] = nt[k]; changed = true; }
     const t = document.getElementById('ghToken').value.trim();
     const tokenChanged = t && t !== getToken();
