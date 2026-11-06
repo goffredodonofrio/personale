@@ -50,7 +50,7 @@ def rifiuti():
 
 # ------------------------------------------------------------------ calendario famiglia (stessa logica della pagina)
 KIDS = {'edo': 'Edoardo', 'bia': 'Bianca'}
-SLOT = [('gym', 'Palestra', 'gym'), ('m', 'Accompagnamento', 'drop'), ('p', 'Ritiro', 'pick'), ('s', 'Sera', 'eve')]
+SLOT = [('gym', 'Palestra', 'gym'), ('m', 'Accompagnamento', 'drop'), ('p', 'Ritiro', 'pick')]   # la sera non c'e' piu' (06/11/2026)
 
 def calendario():
     S = json.load(open(os.path.join(RADICE, 'calendario', 'dati.json'), encoding='utf-8'))
@@ -80,7 +80,7 @@ def calendario():
         for k, titolo, tk in SLOT:
             r = R.get(k, {}) or {}; who = r.get('who', '')
             if k == 'gym' and not any(W(who)): continue
-            std = {'gym': T.get('gym'), 'm': T.get('drop'), 'p': min(WT['edo'], WT['bia']), 's': T.get('eve')}[k]
+            std = {'gym': T.get('gym'), 'm': T.get('drop'), 'p': min(WT['edo'], WT['bia'])}[k]
             sub = ''
             if k == 'p': sub = f"uscita {WT['edo']}" if WT['edo'] == WT['bia'] else f"Edoardo {WT['edo']}, Bianca {WT['bia']}"
             ev.append((O.get(tk) or std, r.get('title') or titolo, r.get('sub', sub), chi(who) or 'chi? da decidere'))
