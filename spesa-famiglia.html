@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112203045">
+<meta name="build" content="20261112203655">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -205,6 +205,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .negozi img.logo-ins{height:30px;border-radius:4px}
 .negozi i{font:800 12px/1 var(--display);font-style:normal;color:var(--ink);background:#EFEBDD;border-radius:999px;padding:4px 7px}
 .sub{font:italic 400 13px/1.3 var(--serif);color:var(--muted);margin:2px 4px 10px}
+@media (max-width:620px){.negozi{margin-bottom:10px}}
 .schede{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(0,0,0,.06);margin:0 0 12px}
 .schede button{flex:1;border:0;background:transparent;padding:10px 8px;border-radius:999px;font:800 14px/1 var(--display);white-space:nowrap}
 .schede button.on{background:var(--sun);color:#FFFFFF}
@@ -225,7 +226,6 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   .off{padding:7px 8px 7px 12px}
   .off .t b{font-size:14px}
   .note{display:none}
-  .row .nm b img.marca{height:24px;max-width:96px}
 }
 .qta{flex:none;display:flex;align-items:center;gap:2px;border-radius:999px;background:#EFEBDD;padding:2px}
 .qta button{width:30px;height:30px;border:0;border-radius:50%;background:transparent;font:800 17px/1 Arial,sans-serif;color:var(--ink)}
@@ -236,7 +236,15 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .row.offerta{background:#EEF7F0}
 .row.offerta+.row{border-top-color:#DDEBE1}
 .row .nm b .marca{font-weight:500;color:var(--muted)}
-.row .nm b img.marca{display:inline-block;height:28px;width:auto;max-width:110px;vertical-align:middle;margin:-4px 0 -4px 8px;object-fit:contain}
+.row .nm b img.marca{display:inline-block;height:26px;width:auto;max-width:110px;vertical-align:middle;margin:0 0 0 8px;object-fit:contain}
+.row .nm b img.marca[alt="Coop"],.off .t b img.marca[alt="Coop"]{height:15px}
+.nota-prezzi{display:none;font:400 12.5px/1.35 var(--display);color:var(--muted);margin:8px 4px 0}
+@media (max-width:620px){
+  .row .nm b img.marca{height:22px;max-width:90px}
+  .row .nm b img.marca[alt="Coop"]{height:14px}
+  .pan-lista .tot{display:none}
+  .nota-prezzi{display:block}
+}
 .pz .qta{margin-left:auto}
 .lab{display:flex;flex-wrap:nowrap;gap:4px;margin:1px 0;white-space:nowrap}
 .lab span{font:800 9.5px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;padding:4px 7px;border-radius:6px;background:#2F8F5B;color:#fff}
@@ -247,6 +255,34 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .pz b{font:800 17px/1.1 var(--display)!important;color:var(--ink)}
 .pz i{font:700 12px/1 var(--display);font-style:normal;color:var(--muted)}
 .riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
+/* studio UX 12/11/2026 */
+.pan-h{display:none;font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:4px 4px 12px}
+.pan-h span{font-weight:700;letter-spacing:0;margin-left:6px;opacity:.7}
+.pannelli[data-mostra=lista] .pan-offerte,.pannelli[data-mostra=offerte] .pan-lista{display:none}
+.tot{background:var(--paper);border-radius:16px;padding:12px 14px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.tot span{display:flex;flex-direction:column;gap:3px;font:800 13px/1.2 var(--display);color:var(--ink)}
+.tot small{font:400 12px/1.3 var(--display);color:var(--muted)}
+.off .t b img.marca{display:inline-block;height:20px;width:auto;max-width:80px;vertical-align:middle;margin:-3px 0 -3px 8px;object-fit:contain}
+.top .titolo-mini{display:none;font:800 18px/1 var(--display);letter-spacing:-.01em}
+@media (min-width:900px){
+  .wrap{max-width:1180px}
+  .schede,.sub{display:none}
+  .pannelli{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+  .pannelli .pan{display:block!important}
+  .pan-h{display:block}
+  .pan-offerte{position:sticky;top:150px;max-height:calc(100vh - 170px);overflow:auto;padding:0 2px 8px;border-radius:20px}
+  .pan-offerte .reparti{margin:0 0 10px;padding:2px 0;flex-wrap:wrap;overflow:visible}
+  .negozi{max-width:560px}
+  .hero{padding:14px 0 6px}
+  h1{font-size:56px}
+}
+@media (max-width:620px){
+  .top .titolo-mini{display:block}
+  .hero,.sub{display:none}
+  .negozi button{min-height:42px}
+  .schede button{padding:9px 6px;font-size:13.5px}
+  .tot{padding:10px 12px}
+}
 .prezzo{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
 .offerte{margin:12px 0 0;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden}
 .offerte>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font:800 14px/1.2 var(--display)}
@@ -272,7 +308,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 <style id="tema-chiaro">body{color:#1E2230}::selection{background:#EFEDFE}</style></head>
 <body><div id="fxpt" aria-hidden="true"><svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="fxf-goffredo" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="24" rx="3" fill="#C9B48A"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="24" rx="3" fill="#C9B48A"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#A8432F"/><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#A8432F"/><circle cx="11" cy="84" r="5" fill="#E3B48E"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#A8432F"/><circle cx="49" cy="84" r="5" fill="#E3B48E"/><rect x="43" y="74" width="10" height="4" rx="1.5" fill="#1F2A26"/></g><rect x="26" y="34" width="8" height="12" fill="#E3B48E"/><circle cx="30" cy="19" r="15.5" fill="#E3B48E"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><path d="M13 20 Q12 1 30 -1 Q48 1 47 20 L47 22 Q44 12 36 10 Q30 9 24 10 Q16 12 13 22Z" fill="#2F2621"/><path d="M14 18 Q20 6 31 6 Q24 10 20 18Z" fill="#2F2621"/><g fill="none" stroke="#D9D4CC" stroke-width="1.1" stroke-linecap="round" opacity=".9"><path d="M19 9 q3 -3 7 -3"/><path d="M26 5 q4 -1 8 1"/><path d="M36 7 q3 1 5 4"/><path d="M15 18 q1 -4 4 -6"/><path d="M44 17 q-1 -4 -3 -6"/><path d="M31 3 q3 0 5 1"/></g><path d="M17 22 Q30 46 43 22 L43 31 Q30 44 17 31Z" fill="#1E1A18" opacity=".97"/><g fill="none" stroke="#D9D4CC" stroke-width="1" stroke-linecap="round" opacity=".9"><path d="M18.8 25.6 q.6 2 1.8 3.2"/><path d="M41.2 25.6 q-.6 2 -1.8 3.2"/><path d="M22.6 31.4 q1 1.4 2.4 2"/><path d="M37.4 31.4 q-1 1.4 -2.4 2"/><path d="M28.2 35.6 q1 .9 2.4 .9"/><path d="M32.8 35.3 q.9 .1 1.7 -.6"/></g><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#2F2621" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#4B3426"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#4B3426"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><g fill="none" stroke="#2A2A2E" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g><path d="M24.5 26 Q30 31 35.5 26" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-carolina" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="24" rx="3" fill="#7E2E55"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="24" rx="3" fill="#7E2E55"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#1E1E22"/><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#1E1E22"/><circle cx="11" cy="84" r="5" fill="#EFC9AE"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#1E1E22"/><circle cx="49" cy="84" r="5" fill="#EFC9AE"/></g><rect x="26" y="34" width="8" height="12" fill="#EFC9AE"/><circle cx="30" cy="19" r="15.5" fill="#EFC9AE"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><g fill="#6B4A32"><circle cx="15" cy="14" r="7"/><circle cx="23" cy="6" r="7"/><circle cx="33" cy="4" r="7"/><circle cx="43" cy="10" r="7"/><circle cx="48" cy="20" r="6.5"/><circle cx="11" cy="24" r="6.5"/><circle cx="49" cy="31" r="6"/><circle cx="10" cy="35" r="6"/><circle cx="47" cy="42" r="5.5"/><circle cx="12" cy="46" r="5.5"/><circle cx="44" cy="51" r="5"/><circle cx="15" cy="54" r="5"/></g><path d="M18 14 Q30 8 42 14 L41 19 Q30 15 19 19Z" fill="#6B4A32"/><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#6B4A32" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#7F9A6E"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#7F9A6E"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><path d="M19.5 17.5 Q24 15.5 28.5 17.5M31.5 17.5 Q36 15.5 40.5 17.5" fill="none" stroke="#1F2A26" stroke-width="1.2" stroke-linecap="round"/><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-edoardo" viewBox="4 -13 52 52"><g><rect x="20" y="84" width="8" height="14" rx="3" fill="#C6E22E"/><rect x="20" y="97" width="8" height="10" rx="3" fill="#E8C19F"/><rect x="18" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><rect x="32" y="84" width="8" height="14" rx="3" fill="#C6E22E"/><rect x="32" y="97" width="8" height="10" rx="3" fill="#E8C19F"/><rect x="30" y="104" width="12" height="6" rx="3" fill="#1F2A26"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#A9D88E"/><g transform="translate(0 1.5)"><path d="M30 48.5 Q34.6 52.5 34.6 59.5 L34.6 63 L25.4 63 L25.4 59.5 Q25.4 52.5 30 48.5Z" fill="#2B5BA8"/><circle cx="30" cy="56.3" r="1.9" fill="#FFFFFF"/><path d="M25.4 59 L22.3 64.6 L25.4 63Z M34.6 59 L37.7 64.6 L34.6 63Z" fill="#1E3F7A"/><path d="M27.4 63 L30 68.2 L32.6 63Z" fill="#6352E8"/></g><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#A9D88E"/><circle cx="11" cy="84" r="5" fill="#E8C19F"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#A9D88E"/><circle cx="49" cy="84" r="5" fill="#E8C19F"/></g><rect x="26" y="34" width="8" height="12" fill="#E8C19F"/><circle cx="30" cy="19" r="15.5" fill="#E8C19F"/><path d="M12.2 29.6 L10.4 26.4 Q8.6 25 8.6 22.4 L7.4 16.6 Q7.8 8.4 13.2 4.6 Q16 0.8 20.2 0.6 L22.6 -1.8 Q26 -0.6 28.4 -1.2 L31.4 -2.8 Q33.4 -0.6 37.6 -0.4 Q47.4 2.6 50.8 9.2 L53.2 13 Q52.2 13.8 52.4 15.6 Q53.6 19.4 52.6 22.4 L51.2 23.4 Q51.6 26.4 49.8 27.4 L48.2 29.6 L46.2 28.8 L45.4 30.4 L42.8 28.6 Q44.6 26.8 45.4 24 L45.7 21.5 Q45 13.6 39 11 Q33.6 11.8 28.4 15 Q24.2 17.8 20.8 23.2 L19.4 19.6 L16.4 23 L15.6 20 L15.4 24 Q16 27.5 17.2 28.6 L14.6 30.4 L13.8 28.8 L12.2 29.6Z" fill="#A07A4E"/><path d="M27.4 0 L29 -4.6 L31 -0.6Z" fill="#A07A4E"/><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#A07A4E" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="24.3" cy="19.3" r="1.6" fill="#8FB3A6"/><circle cx="24.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="2.6" ry="3.0" fill="#fff"/><circle cx="36.3" cy="19.3" r="1.6" fill="#8FB3A6"/><circle cx="36.3" cy="19.3" r="0.8" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><g fill="none" stroke="#2B3A78" stroke-width="1.8"><circle cx="24" cy="19.2" r="5.2"/><circle cx="36" cy="19.2" r="5.2"/><path d="M29.2 19h1.6M18.8 18.5l-3 -1M41.2 18.5l3 -1"/></g><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol><symbol id="fxf-bianca" viewBox="4 -13 52 52"><path d="M17 84 L15 100 H45 L43 84Z" fill="#5F7FB0"/><g><rect x="21" y="99" width="7" height="9" rx="3" fill="#EAC2A0"/><rect x="19" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g><rect x="32" y="99" width="7" height="9" rx="3" fill="#EAC2A0"/><rect x="30" y="105" width="11" height="5" rx="2.5" fill="#E4573D"/></g><g><path d="M17 88 L17 56 Q17 44 30 44 Q43 44 43 56 L43 88 Z" fill="#F6F3EE"/><g class="uni"><path d="M33.4 54.8 L37.8 48 L35.6 55.6Z" fill="#6352E8" stroke="#C98F1A" stroke-width=".4"/><path d="M25.4 66 Q24.2 58.6 28.4 55 Q31.6 52.4 35.2 54.4 Q37.6 56.6 37.8 59.4 Q37.6 61.4 35.4 61.2 L33.4 60.4 Q31.2 62.8 31.4 66.6 Z" fill="#FFFFFF" stroke="#8D5BB8" stroke-width=".9" stroke-linejoin="round"/><circle cx="27.2" cy="55.6" r="1.7" fill="#F48FB1"/><circle cx="25.6" cy="58.4" r="1.6" fill="#B39DDB"/><circle cx="25" cy="61.6" r="1.5" fill="#81D4FA"/><circle cx="25.2" cy="64.6" r="1.3" fill="#A5D6A7"/><circle cx="33.4" cy="57" r=".7" fill="#1F2A26"/><circle cx="36.6" cy="59.6" r=".45" fill="#8D5BB8"/></g><g class="arm l"><rect x="7" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="11" cy="84" r="5" fill="#EAC2A0"/></g><g class="arm r"><rect x="45" y="48" width="8" height="34" rx="4" fill="#F6F3EE"/><circle cx="49" cy="84" r="5" fill="#EAC2A0"/></g><rect x="26" y="34" width="8" height="12" fill="#EAC2A0"/><circle cx="30" cy="19" r="15.5" fill="#EAC2A0"/><circle cx="20" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><circle cx="40" cy="24" r="2.2" fill="#E99A8A" opacity=".45"/><g fill="#2E1F18"><circle cx="15" cy="13" r="6.5"/><circle cx="23" cy="6" r="6.5"/><circle cx="33" cy="4" r="6.5"/><circle cx="42" cy="9" r="6.5"/><circle cx="47" cy="18" r="6"/><circle cx="12" cy="23" r="6"/><circle cx="48" cy="28" r="5"/><circle cx="12" cy="32" r="5"/></g><path d="M20 14.5 Q24 13 28 14.5M32 14.5 Q36 13 40 14.5" fill="none" stroke="#2E1F18" stroke-width="1.6" stroke-linecap="round"/><g class="eye"><ellipse cx="24" cy="19" rx="3.2" ry="3.6" fill="#fff"/><circle cx="24.3" cy="19.3" r="2" fill="#3A2418"/><circle cx="24.3" cy="19.3" r="1.0" fill="#1F2A26"/><circle cx="25" cy="18.5" r=".6" fill="#fff"/></g><g class="eye"><ellipse cx="36" cy="19" rx="3.2" ry="3.6" fill="#fff"/><circle cx="36.3" cy="19.3" r="2" fill="#3A2418"/><circle cx="36.3" cy="19.3" r="1.0" fill="#1F2A26"/><circle cx="37" cy="18.5" r=".6" fill="#fff"/></g><path d="M24.5 27 Q30 32 35.5 27" fill="none" stroke="#1F2A26" stroke-width="1.7" stroke-linecap="round"/></g></symbol></svg><i class="s1"></i><i class="s2"></i><i class="s3"><span class="faces"><svg viewBox="4 -13 52 52" style="--c:#5FA57A;animation-delay:0.34s"><use href="#fxf-goffredo"/></svg><svg viewBox="4 -13 52 52" style="--c:#8D5BB8;animation-delay:0.40s"><use href="#fxf-carolina"/></svg><svg viewBox="4 -13 52 52" style="--c:#4A90C6;animation-delay:0.46s"><use href="#fxf-edoardo"/></svg><svg viewBox="4 -13 52 52" style="--c:#E4573D;animation-delay:0.52s"><use href="#fxf-bianca"/></svg></span></i></div><div id="fxgrain" aria-hidden="true"></div><div id="fxaur" aria-hidden="true"><b class="a1"></b><b class="a2"></b><b class="a3"></b></div>
 <div class="wrap">
-  <div class="top"><a href="famiglia.html">← Famiglia</a>
+  <div class="top"><a href="famiglia.html">← Famiglia</a><span class="titolo-mini">La spesa</span>
     <div class="tools"><div class="status" id="status" data-s="init"><span class="dot"></span><span id="statusText">Caricamento…</span></div><button type="button" class="iconbtn" id="settingsBtn" title="Collega GitHub per salvare" aria-label="Impostazioni">⚙</button></div>
   </div>
   <section class="hero">
@@ -517,7 +553,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
         const pr = o.v != null ? eur(o.v)+(o.um ? '/'+o.um : '') : (o.sc || '');
         const tags = (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
           + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al && o.al < ultimo ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
-        return '<div class="off"><div class="t"><b>'+esc(o.n)+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
+        const mo = marcaOfferta(o), lgo = logoDi(mo);
+        return '<div class="off"><div class="t"><b>'+esc(o.n)+(lgo ? '<img class="marca" src="'+esc(lgo)+'" alt="'+esc(mo)+'">' : '')+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
           + '<div class="pr">'+(o.linea ? '' : pr)+(o.u ? '<small>'+eur(o.u).replace(' €','')+' €/'+(o.uu||'kg')+'</small>' : '')+(o.era ? '<small>era '+eur(o.era)+'</small>' : '')+'</div>'
           + '<button type="button" data-off="'+i+'" class="'+(inL ? 'in' : '')+'" aria-label="'+(inL ? 'Già in lista: ' : 'Metti in lista: ')+esc(o.n)+'">'+(inL ? '✓' : '+')+'</button></div>'; }).join('');
     }
@@ -583,8 +620,10 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   }
   // la marca: il logo se c'è in offerte.json (marche), altrimenti il nome
   function qtaHtml(it){ return '<span class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></span>'; }
-  function titolo(it){ const x = offertaDi(it), lg = x && x.marca && OFF && OFF.marche && OFF.marche[x.marca];
-    return '<b>'+esc(it.name)+(x && x.marca ? (lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(x.marca)+'" title="'+esc(x.marca)+'">' : ' <span class="marca">| '+esc(x.marca)+'</span>') : '')+'</b>'; }
+  function logoDi(m){ return m && OFF && OFF.marche ? OFF.marche[m] || '' : ''; }
+  function marcaHtml(m){ if(!m) return ''; const lg = logoDi(m); return lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(m)+'" title="'+esc(m)+'">' : ' <span class="marca">| '+esc(m)+'</span>'; }
+  function titolo(it){ const x = offertaDi(it); return '<b>'+esc(it.name)+marcaHtml((x && x.marca) || it.marca)+'</b>'; }
+  function marcaOfferta(o){ if(o.marca) return o.marca; if(!OFF || !OFF.marche) return ''; const n = o.n.toLowerCase(); return Object.keys(OFF.marche).find(m => n.includes(m.toLowerCase())) || ''; }
   function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+titolo(it)+sub(it)+'</div>'
     + (offertaDi(it) ? '' : qtaHtml(it)) + '</div>'; }
   function rowGot(it){ return '<div class="row got" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="ungot" aria-label="Rimetti in lista: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div></div>'; }
@@ -631,13 +670,14 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
       const daNeg = arr => arr.filter(i => shopOf(i) === sh.id).sort((a,b) => ord(a.cat) - ord(b.cat) || a.name.localeCompare(b.name,'it'));
       $('negozi').innerHTML = SHOPS.map(x => '<button type="button" role="tab" data-neg="'+x.id+'" class="'+(x.id === negozio ? 'on' : '')+'" aria-selected="'+(x.id === negozio)+'"><img class="logo-'+x.id+'" src="'+x.logo+'" alt="'+esc(x.name)+'"><i>'+list.filter(i => shopOf(i) === x.id).length+'</i></button>').join('');
       const items = daNeg(list), got = daNeg(all.filter(gotToday)), nOff = offValide(sh.id).length;
-      h = '<p class="sub">'+esc(sh.sub)+'</p><div class="schede"><button type="button" data-scheda="lista" class="'+(scheda === 'lista' ? 'on' : '')+'">Da comprare<i>'+items.length+'</i></button><button type="button" data-scheda="offerte" class="'+(scheda === 'offerte' ? 'on' : '')+'">Offerte<i>'+nOff+'</i></button></div>';
-      if(scheda === 'lista'){
-        if(items.length){ const conP = items.filter(i => prezzoUno(i)), tot = conP.reduce((t,i) => t + prezzoUno(i)*qta(i), 0), senza = items.length - conP.length;
-          h += '<div class="tot"><span>Totale stimato'+(senza ? ' · '+senza+(senza === 1 ? ' voce' : ' voci')+' senza prezzo' : '')+'</span><b>'+eur(tot)+'</b></div>'; }
-        h += items.length ? '<section class="group">'+items.map(rowList).join('')+'</section>' : '<div class="empty"><b>Niente da prendere qui</b><p>Scrivi qui sopra cosa serve, o guarda le offerte.</p></div>';
-        if(got.length) h += '<p class="eyebrow" style="margin:18px 4px 8px">Nel carrello oggi · '+got.length+'</p><section class="group">'+got.map(rowGot).join('')+'</section>';
-      }else h += OFF ? offHtml(sh) : '<div class="empty"><b>Carico le offerte…</b></div>';
+      const conP = items.filter(i => prezzoUno(i)), tot = conP.reduce((t,i) => t + prezzoUno(i)*qta(i), 0), senza = items.length - conP.length;
+      h = '<p class="sub">'+esc(sh.sub)+'</p><div class="schede"><button type="button" data-scheda="lista" class="'+(scheda === 'lista' ? 'on' : '')+'">Da comprare<i>'+items.length+(tot ? ' · '+eur(tot) : '')+'</i></button><button type="button" data-scheda="offerte" class="'+(scheda === 'offerte' ? 'on' : '')+'">Offerte<i>'+nOff+'</i></button></div>';
+      let L = '<h2 class="pan-h">Da comprare <span>'+items.length+'</span></h2>';
+      if(items.length) L += '<div class="tot"><span>Totale stimato'+(senza ? '<small>'+senza+(senza === 1 ? ' voce' : ' voci')+' senza prezzo: scrivilo nella scheda</small>' : '')+'</span><b>'+eur(tot)+'</b></div>';
+      L += items.length ? '<section class="group">'+items.map(rowList).join('')+'</section>'+(senza ? '<p class="nota-prezzi">'+senza+(senza === 1 ? ' voce' : ' voci')+' senza prezzo: tocca la voce e scrivilo, così entra nel totale.</p>' : '') : '<div class="empty"><b>Niente da prendere qui</b><p>Scrivi qui sopra cosa serve, o guarda le offerte.</p></div>';
+      if(got.length) L += '<p class="eyebrow" style="margin:18px 4px 8px">Nel carrello oggi · '+got.length+'</p><section class="group">'+got.map(rowGot).join('')+'</section>';
+      const O = '<h2 class="pan-h">Offerte del volantino <span>'+nOff+'</span></h2>' + (OFF ? offHtml(sh) : '<div class="empty"><b>Carico le offerte…</b></div>');
+      h += '<div class="pannelli" data-mostra="'+scheda+'"><section class="pan pan-lista">'+L+'</section><section class="pan pan-offerte">'+O+'</section></div>';
     }else if(view === 'inv'){
       h = groups(all.filter(areaOk), rowInv, filter === 'all' || filter === 'cibo' || filter === 'casa');
       if(!h) h = '<div class="empty"><b>'+(filter === 'out' ? 'Non manca niente' : 'Niente sta finendo')+'</b><p>Bene così.</p></div>';
@@ -663,7 +703,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   chipsEl.addEventListener('click', e => { const b = e.target.closest('button[data-f]'); if(!b) return; filter = b.dataset.f; render(); });
   viewEl.addEventListener('click', e => {
     const nb = e.target.closest('[data-new]'); if(nb){ openItem(null, nb.dataset.new); return; }
-    const sb = e.target.closest('[data-scheda]'); if(sb){ scheda = sb.dataset.scheda; render(); return; }
+    const sb = e.target.closest('button[data-scheda]'); if(sb){ scheda = sb.dataset.scheda; render(); return; }
     const rb = e.target.closest('[data-rep]'); if(rb){ reparto = rb.dataset.rep; render(); rb.scrollIntoView && setTimeout(() => { const on = viewEl.querySelector('.reparti .on'); if(on) on.scrollIntoView({inline:'center', block:'nearest'}); }, 0); return; }
     const ob = e.target.closest('[data-off]'); if(ob){ const o = OFF && OFF.offerte[+ob.dataset.off]; if(o) addOffer(o); return; }
     const a = e.target.closest('[data-act]'); if(!a) return;
