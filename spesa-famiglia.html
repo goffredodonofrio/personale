@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112200638">
+<meta name="build" content="20261112201552">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -226,6 +226,13 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   .off .t b{font-size:14px}
   .note{display:none}
 }
+.qta{flex:none;display:flex;align-items:center;gap:2px;border-radius:999px;background:#EFEBDD;padding:2px}
+.qta button{width:30px;height:30px;border:0;border-radius:50%;background:transparent;font:800 17px/1 Arial,sans-serif;color:var(--ink)}
+.qta button:active{background:#fff}
+.qta b{min-width:20px;text-align:center;font:800 14px/1 var(--display)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 4px 10px;font:700 13px/1.3 var(--display);color:var(--muted)}
+.tot b{font:800 20px/1 var(--display);color:var(--ink)}
+.riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
 .prezzo{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
 .offerte{margin:12px 0 0;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden}
 .offerte>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font:800 14px/1.2 var(--display)}
@@ -287,6 +294,10 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     <div class="two">
       <label class="field">Reparto<select id="iCat"></select></label>
       <label class="field">Quantità / nota<input id="iNote" maxlength="80" placeholder="es. 2 litri, quella senza lattosio"></label>
+    </div>
+    <div class="two">
+      <label class="field">Quantità<input id="iQ" type="number" inputmode="numeric" min="1" max="99" step="1"></label>
+      <label class="field">Prezzo a mano (€)<input id="iPm" type="text" inputmode="decimal" placeholder="es. 1,29"></label>
     </div>
     <label class="field">Dove<select id="iShop">
       <option value="">Automatico: Coop per gli alimentari, IN's per il resto</option>
@@ -476,7 +487,9 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   let OFF = null, negozio = 'coop', scheda = 'lista', reparto = null;
   try{ if(SHOP[localStorage.getItem('spesa-negozio')]) negozio = localStorage.getItem('spesa-negozio'); }catch(e){}
   fetch('spesa/offerte.json?t='+Date.now(), {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(j => { OFF = j; render(); }).catch(() => {});
-  function offValide(sh){ return OFF ? OFF.offerte.filter(o => o.s === sh && (!o.al || o.al >= todayIso) && (!o.dal || o.dal <= todayIso)) : []; }
+  // un'offerta già in lista (stesso nome, o collegata a una voce con p[negozio].n) non si ripete sotto
+  function giaInLista(o){ return live().some(i => inList(i) && (slug(i.name) === slug(o.n) || ((i.p||{})[o.s]||{}).n === o.n)); }
+  function offValide(sh){ return OFF ? OFF.offerte.filter(o => o.s === sh && (!o.al || o.al >= todayIso) && (!o.dal || o.dal <= todayIso) && !giaInLista(o)) : []; }
   function dm(d){ const x = parse(d); return x.getDate()+'/'+(x.getMonth()+1); }
   function offHtml(sh){
     const arr = offValide(sh.id); if(!arr.length) return '<div class="empty"><b>Nessuna offerta</b><p>Il volantino è scaduto: chiedi a Claude di caricare quello nuovo.</p></div>';
@@ -498,7 +511,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   }
   function addOffer(o){
     let it = findByName(o.n);
-    const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al}; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
+    const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al, n:o.n}; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
     if(it){ if(inList(it)){ toast(it.name+' è già in lista'); return; } const old = snap(it); touch(it, {buy:true, shop:o.s, p:Object.assign({}, it.p, o.v ? {[o.s]:p} : {})}); toast(it.name+' in lista', () => restore(old)); return; }
     let id = slug(o.n); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
     it = state.items[id] = {id, name:o.n, cat:o.cat, state:'ok', buy:true, every:0, u:0, shop:o.s, note:o.linea ? o.sc+' su tutta la linea, fino al '+dm(o.al) : undefined};
@@ -515,8 +528,13 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function everyLabel(n){ return ({7:'ogni settimana',14:'ogni 2 settimane',21:'ogni 3 settimane',30:'ogni mese',60:'ogni 2 mesi'})[n] || ('ogni '+n+' giorni'); }
   function whenLabel(d){ const n = days(todayIso, d); return n < 0 ? 'da '+(-n)+(n === -1 ? ' giorno' : ' giorni') : n === 0 ? 'oggi' : n === 1 ? 'domani' : 'tra '+n+' giorni'; }
   function badges(){ return ''; } // niente piu' etichette di stato (12/11/2026)
-  function sub(it){ return (it.note ? '<small>'+esc(it.note)+'</small>' : '') + prezzi(it); }
+  function sub(it){ const u = prezzoUno(it), q = qta(it), sp = prezziValidi(it).length;
+    return (it.note ? '<small>'+esc(it.note)+'</small>' : '') + prezzi(it)
+      + (u && (q > 1 || !sp) ? '<span class="riga-tot">'+(q > 1 ? q+' × '+eur(u)+' = ' : '')+eur(u*q)+(sp ? '' : ' · prezzo a mano')+'</span>' : ''); }
   function eur(v){ return v.toFixed(2).replace('.', ',')+' €'; }
+  // prezzo di una confezione: l'offerta valida del suo negozio (non quelle al kg/etto), se no il prezzo scritto a mano
+  function prezzoUno(it){ const x = (it.p||{})[shopOf(it)]; if(x && x.v && (!x.fino || x.fino >= todayIso) && !/al (kg|etto)/.test(x.d||'')) return x.v; return it.pm || 0; }
+  function qta(it){ return Math.max(1, +it.q || 1); }
   function prezziValidi(it){ const out = []; for(const k in (it.p||{})){ const x = it.p[k]; if(SHOP[k] && x && x.v && (!x.fino || x.fino >= todayIso)) out.push([k, x]); } return out; }
   // il prezzo dei volantini: scompare da solo quando l'offerta scade; con due negozi si confronta il prezzo al kg/l
   function prezzi(it){
@@ -537,7 +555,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     }
     return h;
   }
-  function rowList(it){ return '<div class="row" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+badges(it,{})+'</div></div>'; }
+  function rowList(it){ return '<div class="row" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div>'
+    + '<div class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></div></div>'; }
   function rowGot(it){ return '<div class="row got" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="ungot" aria-label="Rimetti in lista: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div></div>'; }
   function rowInv(it){
     return '<div class="row inv" data-id="'+esc(it.id)+'"><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+(it.every ? '<span class="badges"><span class="badge" style="--c:var(--rec)">↻ '+everyLabel(it.every)+'</span></span>' : '')+'</div>'
@@ -584,6 +603,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
       const items = daNeg(list), got = daNeg(all.filter(gotToday)), nOff = offValide(sh.id).length;
       h = '<p class="sub">'+esc(sh.sub)+'</p><div class="schede"><button type="button" data-scheda="lista" class="'+(scheda === 'lista' ? 'on' : '')+'">Da comprare<i>'+items.length+'</i></button><button type="button" data-scheda="offerte" class="'+(scheda === 'offerte' ? 'on' : '')+'">Offerte<i>'+nOff+'</i></button></div>';
       if(scheda === 'lista'){
+        if(items.length){ const conP = items.filter(i => prezzoUno(i)), tot = conP.reduce((t,i) => t + prezzoUno(i)*qta(i), 0), senza = items.length - conP.length;
+          h += '<div class="tot"><span>Totale stimato'+(senza ? ' · '+senza+(senza === 1 ? ' voce' : ' voci')+' senza prezzo' : '')+'</span><b>'+eur(tot)+'</b></div>'; }
         h += items.length ? '<section class="group">'+items.map(rowList).join('')+'</section>' : '<div class="empty"><b>Niente da prendere qui</b><p>Scrivi qui sopra cosa serve, o guarda le offerte.</p></div>';
         if(got.length) h += '<p class="eyebrow" style="margin:18px 4px 8px">Nel carrello oggi · '+got.length+'</p><section class="group">'+got.map(rowGot).join('')+'</section>';
       }else h += OFF ? offHtml(sh) : '<div class="empty"><b>Carico le offerte…</b></div>';
@@ -623,6 +644,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     else if(act === 'st'){ const s = a.dataset.s; if(s === it.state) return; touch(it, {state:s, buy: s === 'ok' ? it.buy : true}); if(s !== 'ok') toast(it.name+': '+ST[s].t.toLowerCase()+', messo in lista', () => restore(old)); }
     else if(act === 'cart'){ if(inList(it)){ touch(it, isDue(it) ? {buy:false, last:todayIso} : {buy:false}); toast(it.name+' tolto dalla lista', () => restore(old)); } else { touch(it, {buy:true}); toast(it.name+' in lista', () => restore(old)); } }
     else if(act === 'edit') openItem(it);
+    else if(act === 'qp'){ touch(it, {q:Math.min(99, qta(it)+1)}); }
+    else if(act === 'qm'){ if(qta(it) > 1) touch(it, {q:qta(it)-1}); }
   });
 
   $('negozi').addEventListener('click', e => { const b = e.target.closest('[data-neg]'); if(!b) return; negozio = b.dataset.neg; reparto = null; try{ localStorage.setItem('spesa-negozio', negozio); }catch(err){} render(); });
@@ -657,7 +680,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function openItem(it, cat){
     editing = it; newCat = cat || null;
     $('itemH').textContent = it ? it.name : 'Nuovo articolo';
-    $('iName').value = it ? it.name : ''; $('iCat').value = it ? it.cat : cat; $('iNote').value = it ? (it.note||'') : ''; $('iShop').value = it && SHOP[it.shop] ? it.shop : '';
+    $('iName').value = it ? it.name : ''; $('iCat').value = it ? it.cat : cat; $('iNote').value = it ? (it.note||'') : ''; $('iShop').value = it && SHOP[it.shop] ? it.shop : ''; $('iQ').value = it && it.q > 1 ? it.q : 1; $('iPm').value = it && it.pm ? String(it.pm).replace('.', ',') : '';
     $('iLast').textContent = it && it.last ? 'Preso l\'ultima volta: '+parse(it.last).toLocaleDateString('it-IT',{weekday:'long', day:'numeric', month:'long'}) : '';
     $('iDel').classList.toggle('hidden', !it);
     dlg.showModal();
@@ -667,10 +690,11 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   $('itemForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = $('iName').value.trim(); if(!name) return;
-    const patch = {name, cat:$('iCat').value, note:$('iNote').value.trim(), shop:$('iShop').value};
-    if(!patch.note) delete patch.note; if(!patch.shop) delete patch.shop;
+    const pm = parseFloat($('iPm').value.replace(',', '.')), q = Math.max(1, Math.min(99, parseInt($('iQ').value, 10) || 1));
+    const patch = {name, cat:$('iCat').value, note:$('iNote').value.trim(), shop:$('iShop').value, q, pm: pm > 0 ? Math.round(pm*100)/100 : 0};
+    if(!patch.note) delete patch.note; if(!patch.shop) delete patch.shop; if(!patch.pm) delete patch.pm;
     if(editing){
-      touch(editing, patch); if(!patch.note) delete editing.note; if(!patch.shop) delete editing.shop;
+      touch(editing, patch); if(!patch.note) delete editing.note; if(!patch.shop) delete editing.shop; if(!patch.pm) delete editing.pm;
     }else{
       let id = slug(name); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
       state.items[id] = Object.assign({id, buy:true, state:'ok', every:0, u:0}, patch); touch(state.items[id], {});
