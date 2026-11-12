@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112200121">
+<meta name="build" content="20261112200638">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -196,6 +196,37 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .prezzo{display:inline-flex;align-items:center;gap:5px;font:700 12px/1.2 var(--display);padding:4px 8px;border-radius:8px;background:#F1EEE4;color:var(--ink)}
 .prezzo s{font-weight:800;text-decoration:none;color:var(--sc)}
 .prezzo.top{box-shadow:inset 0 0 0 1.5px var(--ok);background:color-mix(in srgb,var(--ok) 14%,#fff)}
+/* telefono (12/11/2026, «troppi scroll»): un supermercato alla volta, due schede, reparti a scorrimento */
+.negozi{display:flex;gap:6px;margin-top:8px;padding:4px;border-radius:16px;background:rgba(0,0,0,.06)}
+.negozi:empty{display:none}
+.negozi button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:transparent;padding:6px 8px;min-height:46px;opacity:.55;transition:opacity .2s,background .2s}
+.negozi button.on{background:var(--paper);opacity:1;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.negozi img{height:24px;width:auto;display:block}
+.negozi img.logo-ins{height:30px;border-radius:4px}
+.negozi i{font:800 12px/1 var(--display);font-style:normal;color:var(--ink);background:#EFEBDD;border-radius:999px;padding:4px 7px}
+.sub{font:italic 400 13px/1.3 var(--serif);color:var(--muted);margin:2px 4px 10px}
+.schede{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(0,0,0,.06);margin:0 0 12px}
+.schede button{flex:1;border:0;background:transparent;padding:10px 8px;border-radius:999px;font:800 14px/1 var(--display);white-space:nowrap}
+.schede button.on{background:var(--sun);color:#FFFFFF}
+.schede button i{font-style:normal;margin-left:6px;font-size:12px;opacity:.75}
+.reparti{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1*max(16px,env(safe-area-inset-left))) 10px;padding:2px max(16px,env(safe-area-inset-left))}
+.reparti::-webkit-scrollbar{display:none}
+.reparti button{flex:none;border:0;border-radius:999px;padding:9px 12px;background:rgba(0,0,0,.06);font:700 13px/1 var(--display);white-space:nowrap}
+.reparti button.on{background:var(--ink);color:#fff}
+.reparti button i{font-style:normal;opacity:.6;margin-left:4px}
+.vol{font:italic 400 12.5px/1.35 var(--serif);color:var(--muted);margin:10px 4px 0}
+@media (max-width:620px){
+  .hero{padding:12px 0 4px}.hero .eyebrow,.hero .lede{display:none}
+  h1{font-size:40px;margin:0 0 6px}
+  .row{min-height:48px;padding:6px 10px 6px 12px;gap:10px}
+  .row .nm{gap:2px;padding:2px 0}
+  .row .nm b{font-size:15.5px}
+  .check{width:30px;height:30px}
+  .off{padding:7px 8px 7px 12px}
+  .off .t b{font-size:14px}
+  .note{display:none}
+}
+.prezzo{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
 .offerte{margin:12px 0 0;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden}
 .offerte>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font:800 14px/1.2 var(--display)}
 .offerte>summary::-webkit-details-marker{display:none}
@@ -237,6 +268,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     </form>
     <datalist id="known"></datalist>
     <div class="sugg" id="sugg"></div>
+    <div class="negozi" id="negozi" role="tablist" aria-label="Supermercato"></div>
   </div>
   <nav class="tabs" id="tabs" aria-label="Viste">
     <button type="button" data-v="list" class="on">Da prendere<i id="nList">0</i></button>
@@ -441,24 +473,28 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && !dirty && !saving) load(false); });
 
   // ---------- offerte dei volantini (spesa/offerte.json, preparato da Claude dai volantini; frutta e verdura escluse) ----------
-  let OFF = null;
+  let OFF = null, negozio = 'coop', scheda = 'lista', reparto = null;
+  try{ if(SHOP[localStorage.getItem('spesa-negozio')]) negozio = localStorage.getItem('spesa-negozio'); }catch(e){}
   fetch('spesa/offerte.json?t='+Date.now(), {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(j => { OFF = j; render(); }).catch(() => {});
   function offValide(sh){ return OFF ? OFF.offerte.filter(o => o.s === sh && (!o.al || o.al >= todayIso) && (!o.dal || o.dal <= todayIso)) : []; }
   function dm(d){ const x = parse(d); return x.getDate()+'/'+(x.getMonth()+1); }
   function offHtml(sh){
-    const arr = offValide(sh.id); if(!arr.length) return '';
+    const arr = offValide(sh.id); if(!arr.length) return '<div class="empty"><b>Nessuna offerta</b><p>Il volantino è scaduto: chiedi a Claude di caricare quello nuovo.</p></div>';
     const vol = (OFF.volantini[sh.id]||[]).filter(v => v.al >= todayIso).map(v => '«'+esc(v.nome)+'» fino al '+dm(v.al)+(v.nota ? ' ('+esc(v.nota)+')' : '')).join(' · ');
-    let h = '<details class="offerte" open><summary>Offerte del volantino <small>'+arr.length+' · senza frutta e verdura</small></summary><p class="vol">'+vol+(OFF.note && OFF.note[sh.id] ? '<br>'+esc(OFF.note[sh.id]) : '')+'</p>';
-    for(const c of CATS){ const cs = arr.filter(o => o.cat === c.id); if(!cs.length) continue;
-      h += '<div class="rep">'+c.em+' '+esc(c.name)+'</div>' + cs.map(o => { const i = OFF.offerte.indexOf(o), gia = findByName(o.n), inL = gia && inList(gia);
+    const reps = CATS.filter(c => arr.some(o => o.cat === c.id)), ultimo = arr.reduce((m,o) => o.al > m ? o.al : m, '');
+    // si parte dal reparto con piu' offerte
+    if(!reps.some(c => c.id === reparto)) reparto = reps.reduce((m,c) => arr.filter(o => o.cat === c.id).length > arr.filter(o => o.cat === m.id).length ? c : m).id;
+    let h = '<div class="reparti" role="tablist">'+reps.map(c => '<button type="button" data-rep="'+c.id+'" class="'+(c.id === reparto ? 'on' : '')+'">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'<i>'+arr.filter(o => o.cat === c.id).length+'</i></button>').join('')+'</div><div class="offerte">';
+    for(const c of reps.filter(c => c.id === reparto)){ const cs = arr.filter(o => o.cat === c.id);
+      h += cs.map(o => { const i = OFF.offerte.indexOf(o), gia = findByName(o.n), inL = gia && inList(gia);
         const pr = o.v != null ? eur(o.v)+(o.um ? '/'+o.um : '') : (o.sc || '');
         const tags = (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
-          + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
+          + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al && o.al < ultimo ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
         return '<div class="off"><div class="t"><b>'+esc(o.n)+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
           + '<div class="pr">'+(o.linea ? '' : pr)+(o.u ? '<small>'+eur(o.u).replace(' €','')+' €/'+(o.uu||'kg')+'</small>' : '')+(o.era ? '<small>era '+eur(o.era)+'</small>' : '')+'</div>'
           + '<button type="button" data-off="'+i+'" class="'+(inL ? 'in' : '')+'" aria-label="'+(inL ? 'Già in lista: ' : 'Metti in lista: ')+esc(o.n)+'">'+(inL ? '✓' : '+')+'</button></div>'; }).join('');
     }
-    return h + '</details>';
+    return h + '</div><p class="vol">'+vol+(OFF.note && OFF.note[sh.id] ? '<br>'+esc(OFF.note[sh.id]) : '')+'</p>';
   }
   function addOffer(o){
     let it = findByName(o.n);
@@ -488,7 +524,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     let top = null;
     if(ps.length > 1){ const k = ps.every(([,x]) => x.u) ? 'u' : 'v'; top = ps.reduce((a,b) => b[1][k] < a[1][k] ? b : a)[0]; }
     return '<span class="prezzi">'+ps.map(([k,x]) => { const f = x.fino ? parse(x.fino) : null;
-      return '<span class="prezzo'+(k === top ? ' top' : '')+'" style="--sc:'+SHOP[k].c+'" title="'+esc(SHOP[k].name+(f ? ', offerta fino al '+f.getDate()+'/'+(f.getMonth()+1) : ''))+'"><s>'+esc(SHOP[k].name)+'</s>'+eur(x.v)+(x.soci ? ' soci' : '')+(x.d ? ' · '+esc(x.d) : '')+(x.u ? ' · '+eur(x.u).replace(' €','')+' €/'+(x.um||'kg') : '')+(f ? ' · fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</span>'; }).join('')+'</span>';
+      return '<span class="prezzo'+(k === top ? ' top' : '')+'" style="--sc:'+SHOP[k].c+'" title="'+esc(SHOP[k].name+(f ? ', offerta fino al '+f.getDate()+'/'+(f.getMonth()+1) : ''))+'">'+(ps.length > 1 ? '<s>'+esc(SHOP[k].name)+'</s> ' : '')+'<b>'+eur(x.v)+'</b>'+(x.soci ? ' soci' : '')+(x.d ? ' · '+esc(x.d) : '')+(f ? ' · fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</span>'; }).join('')+'</span>';
   }
   function groups(items, render1, plus){
     const by = {}; for(const it of items) (by[it.cat] = by[it.cat] || []).push(it);
@@ -541,10 +577,16 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     chipsEl.innerHTML = ch.map(c => c === '|' ? '<span class="sep"></span>' : '<button type="button" data-f="'+c[0]+'" class="'+(filter===c[0]?'on':'')+'">'+c[1]+'</button>').join('');
     let h = '';
     if(view === 'list'){
-      const items = list.filter(areaOk);
-      h = (items.length || OFF) ? perNegozio(items, rowList) : '<div class="empty"><b>Niente da prendere</b><p>Scrivi qui sopra cosa serve.</p></div>';
-      const got = all.filter(gotToday).filter(areaOk);
-      if(got.length) h += '<div class="got-sec"><p class="eyebrow" style="margin:22px 4px 10px">Nel carrello oggi · '+got.length+'</p>'+perNegozio(got, rowGot)+'</div>';
+      chipsEl.innerHTML = '';
+      const sh = SHOP[negozio], ord = c => CATS.findIndex(x => x.id === c);
+      const daNeg = arr => arr.filter(i => shopOf(i) === sh.id).sort((a,b) => ord(a.cat) - ord(b.cat) || a.name.localeCompare(b.name,'it'));
+      $('negozi').innerHTML = SHOPS.map(x => '<button type="button" role="tab" data-neg="'+x.id+'" class="'+(x.id === negozio ? 'on' : '')+'" aria-selected="'+(x.id === negozio)+'"><img class="logo-'+x.id+'" src="'+x.logo+'" alt="'+esc(x.name)+'"><i>'+list.filter(i => shopOf(i) === x.id).length+'</i></button>').join('');
+      const items = daNeg(list), got = daNeg(all.filter(gotToday)), nOff = offValide(sh.id).length;
+      h = '<p class="sub">'+esc(sh.sub)+'</p><div class="schede"><button type="button" data-scheda="lista" class="'+(scheda === 'lista' ? 'on' : '')+'">Da comprare<i>'+items.length+'</i></button><button type="button" data-scheda="offerte" class="'+(scheda === 'offerte' ? 'on' : '')+'">Offerte<i>'+nOff+'</i></button></div>';
+      if(scheda === 'lista'){
+        h += items.length ? '<section class="group">'+items.map(rowList).join('')+'</section>' : '<div class="empty"><b>Niente da prendere qui</b><p>Scrivi qui sopra cosa serve, o guarda le offerte.</p></div>';
+        if(got.length) h += '<p class="eyebrow" style="margin:18px 4px 8px">Nel carrello oggi · '+got.length+'</p><section class="group">'+got.map(rowGot).join('')+'</section>';
+      }else h += OFF ? offHtml(sh) : '<div class="empty"><b>Carico le offerte…</b></div>';
     }else if(view === 'inv'){
       h = groups(all.filter(areaOk), rowInv, filter === 'all' || filter === 'cibo' || filter === 'casa');
       if(!h) h = '<div class="empty"><b>'+(filter === 'out' ? 'Non manca niente' : 'Niente sta finendo')+'</b><p>Bene così.</p></div>';
@@ -570,6 +612,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   chipsEl.addEventListener('click', e => { const b = e.target.closest('button[data-f]'); if(!b) return; filter = b.dataset.f; render(); });
   viewEl.addEventListener('click', e => {
     const nb = e.target.closest('[data-new]'); if(nb){ openItem(null, nb.dataset.new); return; }
+    const sb = e.target.closest('[data-scheda]'); if(sb){ scheda = sb.dataset.scheda; render(); return; }
+    const rb = e.target.closest('[data-rep]'); if(rb){ reparto = rb.dataset.rep; render(); rb.scrollIntoView && setTimeout(() => { const on = viewEl.querySelector('.reparti .on'); if(on) on.scrollIntoView({inline:'center', block:'nearest'}); }, 0); return; }
     const ob = e.target.closest('[data-off]'); if(ob){ const o = OFF && OFF.offerte[+ob.dataset.off]; if(o) addOffer(o); return; }
     const a = e.target.closest('[data-act]'); if(!a) return;
     const row = a.closest('.row'), it = row && state.items[row.dataset.id]; if(!it) return;
@@ -580,6 +624,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     else if(act === 'cart'){ if(inList(it)){ touch(it, isDue(it) ? {buy:false, last:todayIso} : {buy:false}); toast(it.name+' tolto dalla lista', () => restore(old)); } else { touch(it, {buy:true}); toast(it.name+' in lista', () => restore(old)); } }
     else if(act === 'edit') openItem(it);
   });
+
+  $('negozi').addEventListener('click', e => { const b = e.target.closest('[data-neg]'); if(!b) return; negozio = b.dataset.neg; reparto = null; try{ localStorage.setItem('spesa-negozio', negozio); }catch(err){} render(); });
 
   // aggiunta veloce
   const addIn = $('addIn'), addCat = $('addCat');
