@@ -372,8 +372,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
-   "note": "marca Coop"
+   "u": 1794515714201,
+   "marca": "Coop"
   },
   "legumi-in-scatola": {
    "id": "legumi-in-scatola",
@@ -837,9 +837,9 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794515714201,
    "q": 2,
-   "note": "marca Coop"
+   "marca": "Coop"
   },
   "uova-x24": {
    "id": "uova-x24",
@@ -848,8 +848,9 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
-   "note": "marca Coop · confezione da 24"
+   "u": 1794515714201,
+   "note": "confezione da 24",
+   "marca": "Coop"
   },
   "lievito": {
    "id": "lievito",
@@ -858,8 +859,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
-   "note": "marca Coop"
+   "u": 1794515714201,
+   "marca": "Coop"
   },
   "zucchero-di-canna": {
    "id": "zucchero-di-canna",
@@ -868,8 +869,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
-   "note": "marca Coop"
+   "u": 1794515714201,
+   "marca": "Coop"
   },
   "carta-da-forno": {
    "id": "carta-da-forno",
@@ -1176,8 +1177,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
-   "note": "marca Coop"
+   "u": 1794515714201,
+   "marca": "Coop"
   },
   "sofficini": {
    "id": "sofficini",
