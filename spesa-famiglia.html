@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112194719">
+<meta name="build" content="20261112195113">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -225,7 +225,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   </nav>
   <div class="chips" id="chips"></div>
   <main id="view"></main>
-  <p class="note" id="hint">Tocca il cerchio quando una cosa è nel carrello. Tocca il nome per cambiare reparto, quantità o negozio. I prezzi vengono dai volantini e spariscono quando l'offerta scade; con due prezzi, «conviene» segna il più basso al kg o al litro.</p>
+  <p class="note" id="hint">Tocca il cerchio quando una cosa è nel carrello. Tocca il nome per cambiare quantità o negozio. I prezzi vengono dai volantini e spariscono quando l'offerta scade; con due prezzi, «conviene» segna il più basso al kg o al litro.</p>
 </div>
 
 <dialog id="itemDlg">
@@ -240,21 +240,6 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
       <option value="">Automatico: Coop per gli alimentari, IN's per il resto</option>
       <option value="coop">Coop · buoni pasto</option>
       <option value="ins">IN's</option>
-    </select></label>
-    <div class="field">In casa
-      <div class="segf" id="iState">
-        <label style="--c:var(--ok)"><input type="radio" name="st" value="ok"><span>C'è</span></label>
-        <label style="--c:var(--low);--t:var(--ink)"><input type="radio" name="st" value="low"><span>Sta finendo</span></label>
-        <label style="--c:var(--out)"><input type="radio" name="st" value="out"><span>Manca</span></label>
-      </div>
-    </div>
-    <label class="field">Ricorrente<select id="iEvery">
-      <option value="0">No, solo quando serve</option>
-      <option value="7">Ogni settimana</option>
-      <option value="14">Ogni 2 settimane</option>
-      <option value="21">Ogni 3 settimane</option>
-      <option value="30">Ogni mese</option>
-      <option value="60">Ogni 2 mesi</option>
     </select></label>
     <p id="iLast"></p>
     <div class="acts">
@@ -367,7 +352,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function live(){ return Object.values(state.items).filter(it => !it.del); }
   function nextDue(it){ return it.every && it.last ? iso(new Date(parse(it.last).getTime() + it.every*864e5)) : null; }
   function isDue(it){ if(!it.every) return false; if(!it.last) return false; return nextDue(it) <= todayIso; }
-  function inList(it){ return !it.del && (it.buy || isDue(it)); }
+  // dal 12/11/2026 niente piu' «c'e' / sta finendo / manca» ne' ricorrenti: in lista c'e' solo quello che si deve comprare (Goffredo)
+  function inList(it){ return !it.del && it.buy; }
   function gotToday(it){ return !it.del && it.got && it.got.slice(0,10) === todayIso && !inList(it); }
   function touch(it, patch){ Object.assign(it, patch, {u:Date.now()}); markDirty(); }
 
@@ -442,12 +428,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   const ST = {ok:{t:"C'è", c:'var(--ok)'}, low:{t:'Sta finendo', c:'var(--low)'}, out:{t:'Manca', c:'var(--out)'}};
   function everyLabel(n){ return ({7:'ogni settimana',14:'ogni 2 settimane',21:'ogni 3 settimane',30:'ogni mese',60:'ogni 2 mesi'})[n] || ('ogni '+n+' giorni'); }
   function whenLabel(d){ const n = days(todayIso, d); return n < 0 ? 'da '+(-n)+(n === -1 ? ' giorno' : ' giorni') : n === 0 ? 'oggi' : n === 1 ? 'domani' : 'tra '+n+' giorni'; }
-  function badges(it, opts){
-    const b = [];
-    if(it.state !== 'ok') b.push('<span class="badge" style="--c:'+ST[it.state].c+'">'+ST[it.state].t+'</span>');
-    if(it.every && (opts.rec || isDue(it))) b.push('<span class="badge" style="--c:var(--rec)">↻ '+everyLabel(it.every)+'</span>');
-    return b.length ? '<span class="badges">'+b.join('')+'</span>' : '';
-  }
+  function badges(){ return ''; } // niente piu' etichette di stato (12/11/2026)
   function sub(it){ return (it.note ? '<small>'+esc(it.note)+'</small>' : '') + prezzi(it); }
   function eur(v){ return v.toFixed(2).replace('.', ',')+' €'; }
   function prezziValidi(it){ const out = []; for(const k in (it.p||{})){ const x = it.p[k]; if(SHOP[k] && x && x.v && (!x.fino || x.fino >= todayIso)) out.push([k, x]); } return out; }
@@ -488,7 +469,10 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function perNegozio(items, render1){
     let h = '';
     for(const sh of SHOPS){ const arr = items.filter(i => shopOf(i) === sh.id); if(!arr.length) continue;
-      h += '<div class="shop" style="--sc:'+sh.c+'"><div class="shop-h"><b><i></i>'+esc(sh.name)+'</b><span>'+esc(sh.sub)+'</span><em>'+arr.length+(arr.length === 1 ? ' cosa' : ' cose')+'</em></div>'+groups(arr, render1)+'</div>'; }
+      // una lista sola per supermercato, in ordine di corsia (reparto, poi nome)
+      const ord = c => CATS.findIndex(x => x.id === c);
+      arr.sort((a,b) => ord(a.cat) - ord(b.cat) || a.name.localeCompare(b.name,'it'));
+      h += '<div class="shop" style="--sc:'+sh.c+'"><div class="shop-h"><b><i></i>'+esc(sh.name)+'</b><span>'+esc(sh.sub)+'</span><em>'+arr.length+(arr.length === 1 ? ' cosa' : ' cose')+'</em></div><section class="group">'+arr.map(render1).join('')+'</section></div>'; }
     return h;
   }
   function render(){
@@ -508,7 +492,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     let h = '';
     if(view === 'list'){
       const items = list.filter(areaOk);
-      h = items.length ? perNegozio(items, rowList) : '<div class="empty"><b>Niente da prendere</b><p>Scrivi qui sopra cosa serve, oppure segna in "In casa" cosa sta finendo o manca.</p></div>';
+      h = items.length ? perNegozio(items, rowList) : '<div class="empty"><b>Niente da prendere</b><p>Scrivi qui sopra cosa serve.</p></div>';
       const got = all.filter(gotToday).filter(areaOk);
       if(got.length) h += '<div class="got-sec"><p class="eyebrow" style="margin:22px 4px 10px">Nel carrello oggi · '+got.length+'</p>'+perNegozio(got, rowGot)+'</div>';
     }else if(view === 'inv'){
@@ -557,7 +541,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     if(it){ if(inList(it)){ toast(it.name+' è già in lista'); return; } const old = snap(it); touch(it, {buy:true}); toast(it.name+' in lista', () => restore(old)); }
     else{
       let id = slug(name); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
-      it = state.items[id] = {id, name, cat:addCat.value || guessCat(name), state:'out', buy:true, every:0, u:0};
+      it = state.items[id] = {id, name, cat:addCat.value || guessCat(name), state:'ok', buy:true, every:0, u:0};
       touch(it, {}); toast(name+' in lista · '+CAT[it.cat].name, () => { state.items[id] = Object.assign(it, {del:true, u:Date.now()}); markDirty(); });
     }
   }
@@ -577,9 +561,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     editing = it; newCat = cat || null;
     $('itemH').textContent = it ? it.name : 'Nuovo articolo';
     $('iName').value = it ? it.name : ''; $('iCat').value = it ? it.cat : cat; $('iNote').value = it ? (it.note||'') : ''; $('iShop').value = it && SHOP[it.shop] ? it.shop : '';
-    dlg.querySelector('input[name=st][value="'+(it ? it.state : 'ok')+'"]').checked = true;
-    const ev = $('iEvery'); ev.value = String(it ? it.every : 0); if(ev.value === '' && it){ ev.insertAdjacentHTML('beforeend','<option value="'+it.every+'">'+everyLabel(it.every)+'</option>'); ev.value = String(it.every); }
-    $('iLast').textContent = it && it.last ? 'Preso l\'ultima volta: '+parse(it.last).toLocaleDateString('it-IT',{weekday:'long', day:'numeric', month:'long'})+(it.every ? ' · prossima: '+whenLabel(nextDue(it)) : '') : '';
+    $('iLast').textContent = it && it.last ? 'Preso l\'ultima volta: '+parse(it.last).toLocaleDateString('it-IT',{weekday:'long', day:'numeric', month:'long'}) : '';
     $('iDel').classList.toggle('hidden', !it);
     dlg.showModal();
   }
@@ -588,16 +570,13 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   $('itemForm').addEventListener('submit', e => {
     e.preventDefault();
     const name = $('iName').value.trim(); if(!name) return;
-    const st = (dlg.querySelector('input[name=st]:checked')||{}).value || 'ok', every = +$('iEvery').value || 0;
-    const patch = {name, cat:$('iCat').value, note:$('iNote').value.trim(), state:st, every, shop:$('iShop').value};
+    const patch = {name, cat:$('iCat').value, note:$('iNote').value.trim(), shop:$('iShop').value};
     if(!patch.note) delete patch.note; if(!patch.shop) delete patch.shop;
     if(editing){
-      if(st !== 'ok' && editing.state === 'ok') patch.buy = true;
-      if(every && !editing.every && !editing.last) patch.last = null;
       touch(editing, patch); if(!patch.note) delete editing.note; if(!patch.shop) delete editing.shop;
     }else{
       let id = slug(name); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
-      state.items[id] = Object.assign({id, buy: st !== 'ok', u:0}, patch); touch(state.items[id], {});
+      state.items[id] = Object.assign({id, buy:true, state:'ok', every:0, u:0}, patch); touch(state.items[id], {});
     }
     dlg.close();
   });
