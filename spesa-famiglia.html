@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112201552">
+<meta name="build" content="20261112202226">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -232,6 +232,17 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .qta b{min-width:20px;text-align:center;font:800 14px/1 var(--display)}
 .tot{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 4px 10px;font:700 13px/1.3 var(--display);color:var(--muted)}
 .tot b{font:800 20px/1 var(--display);color:var(--ink)}
+.row.offerta{background:#EEF7F0}
+.row.offerta+.row{border-top-color:#DDEBE1}
+.row .nm b .marca{font-weight:500;color:var(--muted)}
+.lab{display:flex;flex-wrap:wrap;gap:4px;margin:1px 0}
+.lab span{font:800 10px/1 var(--display);letter-spacing:.07em;text-transform:uppercase;padding:4px 7px;border-radius:6px;background:#2F8F5B;color:#fff}
+.lab span.sc{background:#E2231A}
+.lab span.soci{background:#fff;color:#2F8F5B;box-shadow:inset 0 0 0 1.5px #2F8F5B}
+.row .nm small.det{font:400 12.5px/1.3 var(--display);font-style:normal;color:var(--muted)}
+.pz{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pz b{font:800 17px/1.1 var(--display)!important;color:var(--ink)}
+.pz i{font:700 12px/1 var(--display);font-style:normal;color:var(--muted)}
 .riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
 .prezzo{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
 .offerte{margin:12px 0 0;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden}
@@ -511,7 +522,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   }
   function addOffer(o){
     let it = findByName(o.n);
-    const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al, n:o.n}; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
+    const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al, n:o.n}; if(o.sc) p.sc = o.sc; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
     if(it){ if(inList(it)){ toast(it.name+' è già in lista'); return; } const old = snap(it); touch(it, {buy:true, shop:o.s, p:Object.assign({}, it.p, o.v ? {[o.s]:p} : {})}); toast(it.name+' in lista', () => restore(old)); return; }
     let id = slug(o.n); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
     it = state.items[id] = {id, name:o.n, cat:o.cat, state:'ok', buy:true, every:0, u:0, shop:o.s, note:o.linea ? o.sc+' su tutta la linea, fino al '+dm(o.al) : undefined};
@@ -528,7 +539,19 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function everyLabel(n){ return ({7:'ogni settimana',14:'ogni 2 settimane',21:'ogni 3 settimane',30:'ogni mese',60:'ogni 2 mesi'})[n] || ('ogni '+n+' giorni'); }
   function whenLabel(d){ const n = days(todayIso, d); return n < 0 ? 'da '+(-n)+(n === -1 ? ' giorno' : ' giorni') : n === 0 ? 'oggi' : n === 1 ? 'domani' : 'tra '+n+' giorni'; }
   function badges(){ return ''; } // niente piu' etichette di stato (12/11/2026)
-  function sub(it){ const u = prezzoUno(it), q = qta(it), sp = prezziValidi(it).length;
+  // l'offerta del volantino valida per il negozio della voce (Goffredo, 12/11: sfondo diverso + etichetta + dettagli)
+  function offertaDi(it){ const x = (it.p||{})[shopOf(it)]; return x && x.v && (!x.fino || x.fino >= todayIso) ? x : null; }
+  function subOfferta(it, x){
+    const f = x.fino ? parse(x.fino) : null, q = qta(it), alKg = /al (kg|etto)/.test(x.d||''), um = (x.d||'').match(/al (kg|etto)/);
+    const det = (x.d||'').replace(/\s*·?\s*al (kg|etto)/,'');
+    return '<span class="lab"><span>In offerta da volantino</span>'+(x.sc ? '<span class="sc">'+esc(x.sc)+'</span>' : '')+(x.soci ? '<span class="soci">soci</span>' : '')+'</span>'
+      + '<small class="det">'+esc(det)+(f ? (det ? ' · ' : '')+'fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</small>'
+      + '<span class="pz"><b>'+eur(x.v)+(um ? '/'+um[1] : '')+'</b>'+(x.u ? '<i>'+eur(x.u).replace(' €','')+' €/'+(x.um||'kg')+'</i>' : '')+'</span>'
+      + (it.note ? '<small>'+esc(it.note)+'</small>' : '')
+      + (q > 1 && !alKg ? '<span class="riga-tot">'+q+' × '+eur(x.v)+' = '+eur(x.v*q)+'</span>' : '');
+  }
+  function sub(it){ const x = offertaDi(it); if(x) return subOfferta(it, x);
+    const u = prezzoUno(it), q = qta(it), sp = prezziValidi(it).length;
     return (it.note ? '<small>'+esc(it.note)+'</small>' : '') + prezzi(it)
       + (u && (q > 1 || !sp) ? '<span class="riga-tot">'+(q > 1 ? q+' × '+eur(u)+' = ' : '')+eur(u*q)+(sp ? '' : ' · prezzo a mano')+'</span>' : ''); }
   function eur(v){ return v.toFixed(2).replace('.', ',')+' €'; }
@@ -555,7 +578,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     }
     return h;
   }
-  function rowList(it){ return '<div class="row" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div>'
+  function titolo(it){ const x = offertaDi(it); return '<b>'+esc(it.name)+(x && x.marca ? ' <span class="marca">| '+esc(x.marca)+'</span>' : '')+'</b>'; }
+  function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+titolo(it)+sub(it)+'</div>'
     + '<div class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></div></div>'; }
   function rowGot(it){ return '<div class="row got" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="ungot" aria-label="Rimetti in lista: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div></div>'; }
   function rowInv(it){
