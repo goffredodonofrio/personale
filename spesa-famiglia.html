@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112195609">
+<meta name="build" content="20261112200121">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -196,6 +196,25 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .prezzo{display:inline-flex;align-items:center;gap:5px;font:700 12px/1.2 var(--display);padding:4px 8px;border-radius:8px;background:#F1EEE4;color:var(--ink)}
 .prezzo s{font-weight:800;text-decoration:none;color:var(--sc)}
 .prezzo.top{box-shadow:inset 0 0 0 1.5px var(--ok);background:color-mix(in srgb,var(--ok) 14%,#fff)}
+.offerte{margin:12px 0 0;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden}
+.offerte>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font:800 14px/1.2 var(--display)}
+.offerte>summary::-webkit-details-marker{display:none}
+.offerte>summary::after{content:'▾';margin-left:auto;color:var(--muted);transition:transform .2s}
+.offerte:not([open])>summary::after{transform:rotate(-90deg)}
+.offerte>summary small{font:italic 400 13px/1.2 var(--serif);color:var(--muted)}
+.offerte .vol{padding:0 16px 10px;font:italic 400 13px/1.35 var(--serif);color:var(--muted)}
+.offerte .rep{padding:10px 16px 4px;font:800 11.5px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid #EDE8DA}
+.off{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 16px}
+.off .t{flex:1;min-width:0}
+.off .t b{display:block;font:700 14.5px/1.25 var(--display)}
+.off .t small{display:block;font:400 12.5px/1.3 var(--display);color:var(--muted)}
+.off .pr{text-align:right;font:800 15px/1.1 var(--display);white-space:nowrap}
+.off .pr small{display:block;font:700 11px/1.2 var(--display);color:var(--muted)}
+.off .tag{display:inline-block;font:800 10px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:6px;margin:3px 4px 0 0;background:#F1EEE4;color:var(--muted)}
+.off .tag.sc{background:color-mix(in srgb,var(--sc) 14%,#fff);color:var(--sc)}
+.off .tag.nb{background:#FDECEA;color:#B4332A}
+.off button{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:#EFEBDD;color:var(--ink);font:800 18px/1 Arial,sans-serif;cursor:pointer}
+.off button.in{background:var(--ok);color:#fff}
 .prezzo.top::after{content:'conviene';font:800 9.5px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--ok) 70%,#000)}
 </style>
 <style id="tema-chiaro">body{color:#1E2230}::selection{background:#EFEDFE}</style></head>
@@ -421,6 +440,36 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   setInterval(() => { if(!dirty && !saving && document.visibilityState === 'visible' && !document.querySelector('dialog[open]')) load(false); }, 60000);
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && !dirty && !saving) load(false); });
 
+  // ---------- offerte dei volantini (spesa/offerte.json, preparato da Claude dai volantini; frutta e verdura escluse) ----------
+  let OFF = null;
+  fetch('spesa/offerte.json?t='+Date.now(), {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(j => { OFF = j; render(); }).catch(() => {});
+  function offValide(sh){ return OFF ? OFF.offerte.filter(o => o.s === sh && (!o.al || o.al >= todayIso) && (!o.dal || o.dal <= todayIso)) : []; }
+  function dm(d){ const x = parse(d); return x.getDate()+'/'+(x.getMonth()+1); }
+  function offHtml(sh){
+    const arr = offValide(sh.id); if(!arr.length) return '';
+    const vol = (OFF.volantini[sh.id]||[]).filter(v => v.al >= todayIso).map(v => '«'+esc(v.nome)+'» fino al '+dm(v.al)+(v.nota ? ' ('+esc(v.nota)+')' : '')).join(' · ');
+    let h = '<details class="offerte" open><summary>Offerte del volantino <small>'+arr.length+' · senza frutta e verdura</small></summary><p class="vol">'+vol+(OFF.note && OFF.note[sh.id] ? '<br>'+esc(OFF.note[sh.id]) : '')+'</p>';
+    for(const c of CATS){ const cs = arr.filter(o => o.cat === c.id); if(!cs.length) continue;
+      h += '<div class="rep">'+c.em+' '+esc(c.name)+'</div>' + cs.map(o => { const i = OFF.offerte.indexOf(o), gia = findByName(o.n), inL = gia && inList(gia);
+        const pr = o.v != null ? eur(o.v)+(o.um ? '/'+o.um : '') : (o.sc || '');
+        const tags = (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
+          + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
+        return '<div class="off"><div class="t"><b>'+esc(o.n)+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
+          + '<div class="pr">'+(o.linea ? '' : pr)+(o.u ? '<small>'+eur(o.u).replace(' €','')+' €/'+(o.uu||'kg')+'</small>' : '')+(o.era ? '<small>era '+eur(o.era)+'</small>' : '')+'</div>'
+          + '<button type="button" data-off="'+i+'" class="'+(inL ? 'in' : '')+'" aria-label="'+(inL ? 'Già in lista: ' : 'Metti in lista: ')+esc(o.n)+'">'+(inL ? '✓' : '+')+'</button></div>'; }).join('');
+    }
+    return h + '</details>';
+  }
+  function addOffer(o){
+    let it = findByName(o.n);
+    const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al}; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
+    if(it){ if(inList(it)){ toast(it.name+' è già in lista'); return; } const old = snap(it); touch(it, {buy:true, shop:o.s, p:Object.assign({}, it.p, o.v ? {[o.s]:p} : {})}); toast(it.name+' in lista', () => restore(old)); return; }
+    let id = slug(o.n); while(state.items[id] && !state.items[id].del) id += '-'+uid().slice(0,3);
+    it = state.items[id] = {id, name:o.n, cat:o.cat, state:'ok', buy:true, every:0, u:0, shop:o.s, note:o.linea ? o.sc+' su tutta la linea, fino al '+dm(o.al) : undefined};
+    if(!it.note) delete it.note; if(o.v) it.p = {[o.s]:p};
+    touch(it, {}); toast(o.n+' in lista · '+(SHOP[o.s]||{}).name, () => { state.items[id] = Object.assign(it, {del:true, u:Date.now()}); markDirty(); });
+  }
+
   // ---------- disegno ----------
   const $ = id => document.getElementById(id);
   const viewEl = $('view'), chipsEl = $('chips');
@@ -469,11 +518,11 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   // la lista divisa per negozio, e dentro ogni negozio per reparto
   function perNegozio(items, render1){
     let h = '';
-    for(const sh of SHOPS){ const arr = items.filter(i => shopOf(i) === sh.id); if(!arr.length) continue;
+    for(const sh of SHOPS){ if(SHOP[filter] && filter !== sh.id) continue; const arr = items.filter(i => shopOf(i) === sh.id); const off = render1 === rowList ? offHtml(sh) : ''; if(!arr.length && !off) continue;
       // una lista sola per supermercato, in ordine di corsia (reparto, poi nome)
       const ord = c => CATS.findIndex(x => x.id === c);
       arr.sort((a,b) => ord(a.cat) - ord(b.cat) || a.name.localeCompare(b.name,'it'));
-      h += '<div class="shop" style="--sc:'+sh.c+'"><div class="shop-h"><img class="logo-'+sh.id+'" src="'+sh.logo+'" alt="'+esc(sh.name)+'"><span>'+esc(sh.sub)+'</span><em>'+arr.length+(arr.length === 1 ? ' cosa' : ' cose')+'</em></div><section class="group">'+arr.map(render1).join('')+'</section></div>'; }
+      h += '<div class="shop" style="--sc:'+sh.c+'"><div class="shop-h"><img class="logo-'+sh.id+'" src="'+sh.logo+'" alt="'+esc(sh.name)+'"><span>'+esc(sh.sub)+'</span><em>'+arr.length+(arr.length === 1 ? ' cosa' : ' cose')+'</em></div>'+(arr.length ? '<section class="group">'+arr.map(render1).join('')+'</section>' : '')+off+'</div>'; }
     return h;
   }
   function render(){
@@ -493,7 +542,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     let h = '';
     if(view === 'list'){
       const items = list.filter(areaOk);
-      h = items.length ? perNegozio(items, rowList) : '<div class="empty"><b>Niente da prendere</b><p>Scrivi qui sopra cosa serve.</p></div>';
+      h = (items.length || OFF) ? perNegozio(items, rowList) : '<div class="empty"><b>Niente da prendere</b><p>Scrivi qui sopra cosa serve.</p></div>';
       const got = all.filter(gotToday).filter(areaOk);
       if(got.length) h += '<div class="got-sec"><p class="eyebrow" style="margin:22px 4px 10px">Nel carrello oggi · '+got.length+'</p>'+perNegozio(got, rowGot)+'</div>';
     }else if(view === 'inv'){
@@ -521,6 +570,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   chipsEl.addEventListener('click', e => { const b = e.target.closest('button[data-f]'); if(!b) return; filter = b.dataset.f; render(); });
   viewEl.addEventListener('click', e => {
     const nb = e.target.closest('[data-new]'); if(nb){ openItem(null, nb.dataset.new); return; }
+    const ob = e.target.closest('[data-off]'); if(ob){ const o = OFF && OFF.offerte[+ob.dataset.off]; if(o) addOffer(o); return; }
     const a = e.target.closest('[data-act]'); if(!a) return;
     const row = a.closest('.row'), it = row && state.items[row.dataset.id]; if(!it) return;
     const old = snap(it), act = a.dataset.act;
