@@ -1,0 +1,1520 @@
+{
+ "aggiornato": "2026-11-12",
+ "volantini": {
+  "coop": [
+   {
+    "nome": "RisparMIO",
+    "dal": "2026-11-12",
+    "al": "2026-11-25"
+   },
+   {
+    "nome": "Scegli tu Grandi Marche",
+    "dal": "2026-11-05",
+    "al": "2026-11-18",
+    "nota": "sconto su tutta la linea, non sui prodotti già in promozione"
+   }
+  ],
+  "ins": [
+   {
+    "nome": "Sapori & Sorrisi",
+    "dal": "2026-11-04",
+    "al": "2026-11-15",
+    "negozio": "San Mauro, via Torino 181"
+   }
+  ]
+ },
+ "note": {
+  "coop": "Volantino del Coop di corso Belgio 151/D. «soci» = con la carta SocioCoop. Buono da 5 €: dal 16 al 22/11 ogni 15 € di spesa, da usare dal 23 al 29/11 su 15 € di prodotti Coop."
+ },
+ "offerte": [
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Fesa di tacchino AIA",
+   "f": "a fette",
+   "v": 13.44,
+   "um": "kg",
+   "era": 17.93,
+   "sc": "-25%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Macinato di bovino adulto",
+   "f": "800 g",
+   "v": 9.9,
+   "u": 12.38,
+   "era": 12.38,
+   "sc": "-20%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Arrosticini di pollo Origine",
+   "f": "440 g",
+   "v": 4.11,
+   "u": 9.34,
+   "era": 5.48,
+   "sc": "-25%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Sovracosce o fusi di pollo Coop",
+   "f": "450 g",
+   "v": 2.98,
+   "u": 6.62,
+   "era": 3.98,
+   "sc": "-25%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Fettine scelte di bovino adulto",
+   "f": "circa 350 g",
+   "v": 19.18,
+   "um": "kg",
+   "era": 23.98,
+   "sc": "-20%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Chicken Crunchy Burger AIA",
+   "f": "240 g",
+   "v": 2.99,
+   "u": 12.46,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Minicotechino Casa Modena IGP",
+   "f": "300 g",
+   "v": 3.09,
+   "u": 10.3,
+   "era": 4.49,
+   "sc": "-30%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Cotolette di vitello",
+   "f": "al kg",
+   "v": 20.78,
+   "um": "kg",
+   "era": 25.98,
+   "sc": "-20%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Salamella mantovana Fiorani",
+   "f": "400 g",
+   "v": 2.99,
+   "u": 7.48,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "carne",
+   "n": "Saltimbocca Alimenta",
+   "f": "500 g",
+   "v": 1.69,
+   "u": 3.38,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Prosciutto di Parma DOP 16 mesi",
+   "f": "all'etto",
+   "v": 2.59,
+   "um": "etto",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Prosciutto cotto Riccafetta Raspini",
+   "f": "all'etto",
+   "v": 1.49,
+   "um": "etto",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Petto di tacchino al forno",
+   "f": "all'etto",
+   "v": 1.7,
+   "um": "etto",
+   "era": 2.29,
+   "sc": "-25%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Formaggio Morbido del Pastore",
+   "f": "all'etto",
+   "v": 1.29,
+   "um": "etto",
+   "era": 1.85,
+   "sc": "-30%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Salame cotto",
+   "f": "all'etto",
+   "v": 0.94,
+   "um": "etto",
+   "era": 1.35,
+   "sc": "-30%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Salame Milano",
+   "f": "all'etto",
+   "v": 1.55,
+   "um": "etto",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Bella Lodi Cheestà",
+   "f": "all'etto",
+   "v": 1.59,
+   "um": "etto",
+   "era": 1.99,
+   "sc": "-20%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Gorgonzola DOP Arrigoni dolce",
+   "f": "all'etto",
+   "v": 1.19,
+   "um": "etto",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Mozzarella di bufala DOP",
+   "f": "250 g",
+   "v": 2.99,
+   "u": 11.96,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Mozzarella Granarolo alta qualità",
+   "f": "3 × 100 g",
+   "v": 2.59,
+   "u": 8.63,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Yogurt intero Yomo",
+   "f": "2 × 125 g",
+   "v": 0.85,
+   "u": 3.4,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Latte UHT Granarolo 1,2%",
+   "f": "1 l",
+   "v": 1.09,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "GranMix Ferrari grattugiato",
+   "f": "100 g",
+   "v": 1.39,
+   "u": 13.9,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Bastoncini di salame Citterio",
+   "f": "60 g",
+   "v": 1.29,
+   "u": 21.5,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Salame Milano Coop «Gli Spesotti»",
+   "f": "130 g",
+   "v": 1.39,
+   "u": 10.69,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Caprino 3B Latte",
+   "f": "80 g",
+   "v": 1.29,
+   "u": 16.13,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Burro Latteria Soresina",
+   "f": "250 g",
+   "v": 2.29,
+   "u": 9.16,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Bella Lodi grattugiato",
+   "f": "80 g",
+   "v": 1.39,
+   "u": 17.38,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Gorgonzola Bontàzola Mauri",
+   "f": "200 g",
+   "v": 1.99,
+   "u": 9.95,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Passata di pomodoro Mutti",
+   "f": "700 g",
+   "v": 0.99,
+   "u": 1.41,
+   "era": 1.99,
+   "sc": "-50%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Pasta di semola Garofalo",
+   "f": "500 g, formati vari",
+   "v": 0.78,
+   "u": 1.56,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Riso Arborio Scotti",
+   "f": "1 kg",
+   "v": 2.49,
+   "u": 2.49,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Olio extravergine Costa d'Oro",
+   "f": "750 ml",
+   "v": 4.49,
+   "u": 5.99,
+   "era": 8.99,
+   "sc": "-50%",
+   "al": "2026-11-25",
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Tonno Rio Mare",
+   "f": "9 × 65 g",
+   "v": 8.99,
+   "u": 15.37,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Sugo al basilico Jolly Colombani",
+   "f": "340 g",
+   "v": 0.95,
+   "u": 2.79,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Olio extravergine 100% italiano Caldera",
+   "f": "750 ml",
+   "v": 7.99,
+   "u": 10.65,
+   "al": "2026-11-25",
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Cetrioli in aceto Belotti",
+   "f": "170 g",
+   "v": 1.89,
+   "u": 11.12,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Arachidi americane Ventura",
+   "f": "500 g, in guscio",
+   "v": 4.28,
+   "u": 8.56,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Tropical Mix Fatina",
+   "f": "150 g",
+   "v": 2.39,
+   "u": 15.93,
+   "era": 2.99,
+   "sc": "-20%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Purè Patamore",
+   "f": "300 g",
+   "v": 2.29,
+   "u": 7.63,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "pane",
+   "n": "Pinsa romana Di Marco multicereali",
+   "f": "230 g",
+   "v": 1.89,
+   "u": 8.22,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Caffè Pellini espresso",
+   "f": "2 × 250 g",
+   "v": 6.49,
+   "u": 12.98,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Gocciole Pavesi",
+   "f": "1 kg",
+   "v": 3.39,
+   "u": 3.39,
+   "era": 5.65,
+   "sc": "-40%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Nastrine Mulino Bianco",
+   "f": "240 g",
+   "v": 1.49,
+   "u": 6.21,
+   "era": 2.49,
+   "sc": "-40%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Torcetti de Mori",
+   "f": "300 g",
+   "v": 3.29,
+   "u": 10.97,
+   "era": 4.39,
+   "sc": "-25%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Biscotti Zalet Galbusera",
+   "f": "510 g",
+   "v": 2.19,
+   "u": 4.29,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Dolce Varese",
+   "f": "520 g",
+   "v": 6.9,
+   "u": 13.27,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Meino classico",
+   "f": "300 g",
+   "v": 4.49,
+   "u": 14.97,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "surgelati",
+   "n": "Paella, cacciucco o risotto di mare Frosta",
+   "f": "da 450 g",
+   "v": 3.99,
+   "u": 7.98,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "surgelati",
+   "n": "Sofficini Findus",
+   "f": "250 g",
+   "v": 1.99,
+   "u": 7.96,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "surgelati",
+   "n": "Pisellini Primavera Findus",
+   "f": "700 g",
+   "v": 3.49,
+   "u": 4.99,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Acqua Valmora",
+   "f": "1,5 l",
+   "v": 0.3,
+   "u": 0.2,
+   "al": "2026-11-25",
+   "soci": true,
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Birra Moretti",
+   "f": "3 × 330 ml",
+   "v": 1.99,
+   "u": 2.01,
+   "al": "2026-11-25",
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Birra Poretti 4 luppoli",
+   "f": "660 ml",
+   "v": 0.99,
+   "u": 1.5,
+   "al": "2026-11-25",
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Birra Poretti 5 luppoli doppio malto",
+   "f": "3 × 330 ml",
+   "v": 1.99,
+   "u": 2.01,
+   "al": "2026-11-25",
+   "uu": "l"
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Bonarda Oltrepò Pavese Le Cascine",
+   "f": "750 ml",
+   "v": 2.49,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Valtellina Superiore Sassella Triacca",
+   "f": "750 ml",
+   "v": 10.9,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Lugana Cantina Scolari",
+   "f": "750 ml",
+   "v": 8.15,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "pulizia",
+   "n": "Candeggina Ace",
+   "f": "3 l",
+   "v": 2.09,
+   "era": 2.99,
+   "sc": "-30%",
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "pulizia",
+   "n": "Panni in microfibra Vileda",
+   "f": "8 + 1",
+   "v": 4.69,
+   "al": "2026-11-25"
+  },
+  {
+   "s": "coop",
+   "cat": "bucato",
+   "n": "Dash Pods",
+   "f": "30 capsule",
+   "v": 7.99,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "bucato",
+   "n": "Ammorbidente Vernel",
+   "f": "48 lavaggi",
+   "v": 2.49,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "igiene",
+   "n": "Deodoranti Infasil",
+   "f": "tutta la linea",
+   "sc": "-30%",
+   "al": "2026-11-25",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "igiene",
+   "n": "Dentifrici Antica Erboristeria",
+   "f": "75 ml",
+   "v": 1.39,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "igiene",
+   "n": "Shampoo o balsamo Sunsilk",
+   "f": "250 ml",
+   "v": 1.99,
+   "era": 2.89,
+   "sc": "-30%",
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "igiene",
+   "n": "Bagnodoccia Borotalco",
+   "f": "500 ml",
+   "v": 2.89,
+   "al": "2026-11-25",
+   "soci": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Fratelli Beretta",
+   "f": "tutta la linea",
+   "sc": "-50%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "dispensa",
+   "n": "Voiello",
+   "f": "tutta la linea",
+   "sc": "-50%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Giovanni Rana",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "frigo",
+   "n": "Galbani Santa Lucia",
+   "f": "tutta la linea",
+   "sc": "-30%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "surgelati",
+   "n": "Findus",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Lavazza Crema e Gusto e capsule",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Pan di Stelle",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Milka",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "colazione",
+   "n": "Bauli",
+   "f": "tutta la linea",
+   "sc": "-30%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "bevande",
+   "n": "Beck's",
+   "f": "tutta la linea",
+   "sc": "-30%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "bucato",
+   "n": "Coccolino",
+   "f": "tutta la linea",
+   "sc": "-50%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "bucato",
+   "n": "Dixan",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "pulizia",
+   "n": "Chanteclair",
+   "f": "tutta la linea",
+   "sc": "-40%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "igiene",
+   "n": "Colgate",
+   "f": "tutta la linea",
+   "sc": "-50%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "coop",
+   "cat": "varie",
+   "n": "Purina One",
+   "f": "tutta la linea",
+   "sc": "-30%",
+   "al": "2026-11-18",
+   "linea": true
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Hamburger maxi di bovino",
+   "f": "200 g",
+   "v": 2.99,
+   "u": 14.95,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Macinato misto",
+   "f": "500 g",
+   "v": 4.49,
+   "u": 8.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Tagliata aromatizzata",
+   "f": "350 g",
+   "v": 6.9,
+   "u": 19.71,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Grancotoletta di pollo",
+   "f": "300 g",
+   "v": 2.99,
+   "u": 9.97,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Quarto posteriore di pollo",
+   "f": "al kg",
+   "v": 3.99,
+   "um": "kg",
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Straccetti di petto di pollo",
+   "f": "400 g",
+   "v": 3.99,
+   "u": 9.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Cotechino precotto",
+   "f": "500 g",
+   "v": 2.79,
+   "u": 5.58,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carne",
+   "n": "Stinco precotto",
+   "f": "600 g",
+   "v": 3.89,
+   "u": 6.48,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Pancetta arrotolata Sapori Genuini",
+   "f": "150 g",
+   "v": 1.89,
+   "u": 12.6,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Mortadella Sapori Genuini",
+   "f": "150 g",
+   "v": 1.39,
+   "u": 9.27,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Salame Milano Sapori Genuini",
+   "f": "150 g",
+   "v": 1.99,
+   "u": 13.27,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Spalla cotta Sapori Genuini",
+   "f": "150 g",
+   "v": 1.55,
+   "u": 10.33,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Prosciutto crudo Sapori Genuini",
+   "f": "150 g",
+   "v": 3.19,
+   "u": 21.27,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Prosciutto cotto Praga Sapori Genuini",
+   "f": "150 g",
+   "v": 1.89,
+   "u": 12.6,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Prosciutto cotto Sapori Genuini",
+   "f": "150 g",
+   "v": 1.79,
+   "u": 11.93,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Bacon Sapori Genuini",
+   "f": "150 g",
+   "v": 1.69,
+   "u": 11.27,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Panna fresca",
+   "f": "250 ml",
+   "v": 1.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Lasagne alla bolognese il Buongustaio",
+   "f": "400 g",
+   "v": 2.69,
+   "u": 6.73,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Cannelloni ricotta e spinaci il Buongustaio",
+   "f": "400 g",
+   "v": 2.69,
+   "u": 6.73,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Melanzane alla parmigiana il Buongustaio",
+   "f": "300 g",
+   "v": 2.99,
+   "u": 9.97,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Primi pronti Primi di Classe",
+   "f": "tortellini, fusilli o sedanini",
+   "v": 1.99,
+   "u": 7.37,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Sughi freschi il Buongustaio",
+   "f": "130 g",
+   "v": 1.39,
+   "u": 10.69,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Pesto fresco il Buongustaio",
+   "f": "140 g",
+   "v": 1.19,
+   "u": 8.5,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "frigo",
+   "n": "Sandwich il Buongustaio",
+   "f": "160 g",
+   "v": 1.89,
+   "u": 11.81,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Riso Carnaroli Selezione Più",
+   "f": "1 kg",
+   "v": 2.98,
+   "u": 2.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Funghi porcini secchi extra",
+   "f": "15 g",
+   "v": 1.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Funghi porcini secchi speciali",
+   "f": "30 g",
+   "v": 2.39,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Peperoni pelati e grigliati",
+   "f": "680 g",
+   "v": 2.39,
+   "u": 5.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Peperoncini ripieni al tonno",
+   "f": "330 g",
+   "v": 3.69,
+   "u": 11.18,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Pistacchi tostati e salati",
+   "f": "200 g",
+   "v": 3.19,
+   "u": 15.95,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Anacardi tostati",
+   "f": "200 g",
+   "v": 2.99,
+   "u": 14.95,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Mix frutta secca cocco e cioccolato",
+   "f": "350 g",
+   "v": 5.99,
+   "u": 17.11,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Datteri denocciolati",
+   "f": "200 g",
+   "v": 1.19,
+   "u": 5.95,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Datteri",
+   "f": "500 g",
+   "v": 1.79,
+   "u": 3.58,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Noci in guscio",
+   "f": "500 g",
+   "v": 2.99,
+   "u": 5.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Noci Jumbo Selezione Più",
+   "f": "500 g",
+   "v": 3.49,
+   "u": 6.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Arachidi tostate in guscio",
+   "f": "500 g",
+   "v": 1.99,
+   "u": 3.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "dispensa",
+   "n": "Mandorle sgusciate",
+   "f": "400 g",
+   "v": 4.99,
+   "u": 12.48,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "pane",
+   "n": "Crostini integrali",
+   "f": "200 g",
+   "v": 1.39,
+   "u": 6.95,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "pane",
+   "n": "Focaccia croccante all'olio",
+   "f": "250 g",
+   "v": 2.95,
+   "u": 11.8,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "pane",
+   "n": "Sfoglie rustiche multicereali",
+   "f": "180 g",
+   "v": 2.99,
+   "u": 16.61,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "pane",
+   "n": "Patatine al rosmarino",
+   "f": "130 g",
+   "v": 1.39,
+   "u": 10.69,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "pane",
+   "n": "Pizzette di pasta sfoglia",
+   "f": "12 pezzi, 190 g",
+   "v": 1.99,
+   "u": 10.47,
+   "al": "2026-11-15",
+   "nota": "solo nei negozi con forno"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Pandorino",
+   "f": "80 g",
+   "v": 0.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Panettoncino",
+   "f": "100 g",
+   "v": 0.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Rond'oro",
+   "f": "500 g",
+   "v": 2.89,
+   "u": 5.78,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Panettone",
+   "f": "850 g",
+   "v": 3.69,
+   "u": 4.34,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Panettone farcito crema cioccolato",
+   "f": "750 g",
+   "v": 4.69,
+   "u": 6.25,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Tronchetto di Natale",
+   "f": "750 g",
+   "v": 4.59,
+   "u": 6.12,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Macarons",
+   "f": "90 g",
+   "v": 2.69,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Cioccolatini Seashells",
+   "f": "250 g",
+   "v": 2.89,
+   "u": 11.56,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Torroncini con arachidi",
+   "f": "180 g",
+   "v": 1.49,
+   "u": 8.28,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Cuoricini di pan speziato",
+   "f": "150 g",
+   "v": 1.19,
+   "u": 7.93,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Marron glacés",
+   "f": "280 g",
+   "v": 3.89,
+   "u": 13.89,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Marron glacés al cioccolato",
+   "f": "250 g",
+   "v": 3.99,
+   "u": 15.96,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Ricciarelli",
+   "f": "225 g",
+   "v": 2.99,
+   "u": 13.29,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Torroncini assortiti, scatola regalo",
+   "f": "180 g",
+   "v": 2.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Panforte margherita",
+   "f": "227 g",
+   "v": 2.99,
+   "u": 13.17,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Cioccolatini Cuneesi",
+   "f": "200 g",
+   "v": 2.59,
+   "u": 12.95,
+   "era": 2.99,
+   "sc": "-13%",
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "colazione",
+   "n": "Crema spalmabile nocciola o mandorla",
+   "f": "190 g",
+   "v": 2.49,
+   "u": 13.11,
+   "al": "2026-11-15",
+   "nota": "fino a esaurimento"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "3 pizze margherita",
+   "f": "900 g",
+   "v": 4.99,
+   "u": 5.54,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "2 pizze margherita",
+   "f": "600 g",
+   "v": 2.99,
+   "u": 4.98,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "Pizza prosciutto e funghi",
+   "f": "390 g",
+   "v": 2.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "Pizza salame",
+   "f": "360 g",
+   "v": 2.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "Pizza 4 formaggi",
+   "f": "350 g",
+   "v": 2.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "Pizza tonno e cipolle",
+   "f": "380 g",
+   "v": 2.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "surgelati",
+   "n": "Pizza margherita forno a legna",
+   "f": "385 g",
+   "v": 2.49,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Cola Lemon",
+   "f": "1,5 l",
+   "v": 0.59,
+   "era": 0.79,
+   "sc": "-25%",
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Birra analcolica Hollebrau",
+   "f": "50 cl",
+   "v": 0.55,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Birra rossa Dahlberg",
+   "f": "50 cl",
+   "v": 0.79,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Birra Lager Premium Dahlberg",
+   "f": "66 cl",
+   "v": 0.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Birra Pale Ale italiana",
+   "f": "50 cl",
+   "v": 1.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Vino bianco, rosso o rosato",
+   "f": "75 cl",
+   "v": 1.39,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Barbera d'Asti DOCG",
+   "f": "75 cl",
+   "v": 2.69,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Valpolicella DOP",
+   "f": "75 cl",
+   "v": 2.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Valpolicella Ripasso Superiore",
+   "f": "75 cl",
+   "v": 4.99,
+   "era": 5.99,
+   "sc": "-17%",
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Chianti superiore DOCG",
+   "f": "75 cl",
+   "v": 3.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Spumante brut Blanc de Blancs",
+   "f": "75 cl",
+   "v": 1.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "bevande",
+   "n": "Novello Ca' Munari",
+   "f": "75 cl",
+   "v": 1.99,
+   "al": "2026-11-15"
+  },
+  {
+   "s": "ins",
+   "cat": "carta",
+   "n": "Piatti pizza compostabili",
+   "f": "6 pezzi",
+   "v": 1.79,
+   "al": "2026-11-15"
+  }
+ ]
+}
