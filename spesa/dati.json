@@ -155,14 +155,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761,
+   "u": 1794514543263,
    "note": "bianco e alla frutta",
    "p": {
     "coop": {
      "v": 0.85,
      "d": "Yomo intero 2 × 125 g",
      "fino": "2026-11-25",
-     "u": 3.4
+     "u": 3.4,
+     "n": "Yogurt intero Yomo"
     }
    }
   },
@@ -262,16 +263,18 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761,
-   "note": "6-7 pacchi · anche Voiello -50% fino al 18/11",
+   "u": 1794514543263,
+   "note": "anche Voiello -50% fino al 18/11",
    "p": {
     "coop": {
      "v": 0.78,
      "d": "Garofalo 500 g",
      "fino": "2026-11-25",
-     "u": 1.56
+     "u": 1.56,
+     "n": "Pasta di semola Garofalo"
     }
-   }
+   },
+   "q": 6
   },
   "riso": {
    "id": "riso",
@@ -280,19 +283,14 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794514543263,
    "p": {
     "coop": {
      "v": 2.49,
      "d": "Arborio Scotti 1 kg",
      "fino": "2026-11-25",
-     "u": 2.49
-    },
-    "ins": {
-     "v": 2.98,
-     "d": "Carnaroli Selezione Più 1 kg",
-     "fino": "2026-11-15",
-     "u": 2.98
+     "u": 2.49,
+     "n": "Riso Arborio Scotti"
     }
    }
   },
@@ -303,13 +301,14 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761,
+   "u": 1794514543263,
    "p": {
     "coop": {
      "v": 0.99,
      "d": "Mutti 700 g",
      "fino": "2026-11-25",
-     "u": 1.41
+     "u": 1.41,
+     "n": "Passata di pomodoro Mutti"
     }
    }
   },
@@ -320,14 +319,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794514543263,
    "p": {
     "coop": {
      "v": 4.49,
      "d": "Costa d'Oro 750 ml",
      "fino": "2026-11-25",
      "u": 5.99,
-     "um": "l"
+     "um": "l",
+     "n": "Olio extravergine Costa d'Oro"
     }
    }
   },
@@ -365,7 +365,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794514543263,
+   "note": "marca Coop"
   },
   "legumi-in-scatola": {
    "id": "legumi-in-scatola",
@@ -383,13 +384,14 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794514543263,
    "p": {
     "coop": {
      "v": 8.99,
      "d": "Rio Mare 9 × 65 g",
      "fino": "2026-11-25",
-     "u": 15.37
+     "u": 15.37,
+     "n": "Tonno Rio Mare"
     }
    }
   },
@@ -436,14 +438,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794514543263,
    "note": "Lavazza Crema e Gusto -40% fino al 18/11, oppure Pellini",
    "p": {
     "coop": {
      "v": 6.49,
      "d": "Pellini 2 × 250 g",
      "fino": "2026-11-25",
-     "u": 12.98
+     "u": 12.98,
+     "n": "Caffè Pellini espresso"
     }
    }
   },
@@ -472,14 +475,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794514543263,
    "p": {
     "coop": {
      "v": 3.49,
      "d": "Findus Primavera 700 g",
      "fino": "2026-11-25",
      "u": 4.99,
-     "soci": true
+     "soci": true,
+     "n": "Pisellini Primavera Findus"
     }
    }
   },
@@ -823,8 +827,9 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761,
-   "note": "2"
+   "u": 1794514543263,
+   "q": 2,
+   "note": "marca Coop"
   },
   "uova-x24": {
    "id": "uova-x24",
@@ -833,7 +838,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794514543263,
+   "note": "marca Coop · confezione da 24"
   },
   "lievito": {
    "id": "lievito",
@@ -842,7 +848,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794514543263,
+   "note": "marca Coop"
   },
   "zucchero-di-canna": {
    "id": "zucchero-di-canna",
@@ -851,7 +858,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794514543263,
+   "note": "marca Coop"
   },
   "carta-da-forno": {
    "id": "carta-da-forno",
@@ -1144,10 +1152,11 @@
      "d": "Granarolo 1,2% 1 l",
      "fino": "2026-11-25",
      "u": 1.09,
-     "um": "l"
+     "um": "l",
+     "n": "Latte UHT Granarolo 1,2%"
     }
    },
-   "u": 1794513047761
+   "u": 1794514543263
   },
   "yogurt-greco": {
    "id": "yogurt-greco",
@@ -1156,7 +1165,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794514543263,
+   "note": "marca Coop"
   },
   "sofficini": {
    "id": "sofficini",
@@ -1171,10 +1181,11 @@
      "d": "Findus 250 g",
      "fino": "2026-11-25",
      "u": 7.96,
-     "soci": true
+     "soci": true,
+     "n": "Sofficini Findus"
     }
    },
-   "u": 1794513047761
+   "u": 1794514543263
   },
   "detersivi": {
    "id": "detersivi",
