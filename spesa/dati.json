@@ -152,10 +152,10 @@
    "id": "yogurt",
    "name": "Yogurt",
    "cat": "frigo",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794513047761,
    "note": "bianco e alla frutta",
    "p": {
     "coop": {
@@ -188,10 +188,10 @@
    "id": "mozzarella",
    "name": "Mozzarella",
    "cat": "frigo",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794513047761,
    "p": {
     "coop": {
      "v": 2.59,
@@ -259,10 +259,10 @@
    "id": "pasta",
    "name": "Pasta",
    "cat": "dispensa",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794513047761,
    "note": "6-7 pacchi · anche Voiello -50% fino al 18/11",
    "p": {
     "coop": {
@@ -300,10 +300,10 @@
    "id": "passata-di-pomodoro",
    "name": "Passata di pomodoro",
    "cat": "dispensa",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794513047761,
    "p": {
     "coop": {
      "v": 0.99,
@@ -542,9 +542,9 @@
    "name": "Sgrassatore",
    "cat": "pulizia",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1791872944595
+   "u": 1794513047761
   },
   "anticalcare": {
    "id": "anticalcare",
@@ -641,9 +641,9 @@
    "name": "Shampoo",
    "cat": "igiene",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1791873051969
+   "u": 1794513047761
   },
   "dentifricio": {
    "id": "dentifricio",
@@ -686,9 +686,9 @@
    "name": "Carta igienica",
    "cat": "carta",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1791872862587
+   "u": 1794513047761
   },
   "scottex": {
    "id": "scottex",
@@ -820,200 +820,200 @@
    "id": "latte-x2",
    "name": "Latte fresco",
    "cat": "frigo",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358,
+   "u": 1794513047761,
    "note": "2"
   },
   "uova-x24": {
    "id": "uova-x24",
    "name": "Uova (X24)",
    "cat": "frigo",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794513047761
   },
   "lievito": {
    "id": "lievito",
    "name": "Lievito madre secco",
    "cat": "dispensa",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794513047761
   },
   "zucchero-di-canna": {
    "id": "zucchero-di-canna",
    "name": "Zucchero di canna",
    "cat": "dispensa",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794513047761
   },
   "carta-da-forno": {
    "id": "carta-da-forno",
    "name": "Carta da forno",
    "cat": "carta",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873044213
+   "u": 1794513047761
   },
   "carta-alluminio": {
    "id": "carta-alluminio",
    "name": "Carta alluminio",
    "cat": "carta",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872871470
+   "u": 1794513047761
   },
   "carta-velina": {
    "id": "carta-velina",
    "name": "Carta velina",
    "cat": "carta",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872873498
+   "u": 1794513047761
   },
   "formaggio": {
    "id": "formaggio",
    "name": "Formaggio",
    "cat": "frigo",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872885322
+   "u": 1794513047761
   },
   "sapone-piatti": {
    "id": "sapone-piatti",
    "name": "Sapone piatti",
    "cat": "pulizia",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872926684
+   "u": 1794513047761
   },
   "alcool": {
    "id": "alcool",
    "name": "Alcool",
    "cat": "pulizia",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873140994
+   "u": 1794513047761
   },
   "detergente-parquet": {
    "id": "detergente-parquet",
    "name": "Detergente parquet",
    "cat": "pulizia",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872940586
+   "u": 1794513047761
   },
   "aceto-bianco-per-pulizia": {
    "id": "aceto-bianco-per-pulizia",
    "name": "Aceto bianco per pulizia",
    "cat": "pulizia",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873105162
+   "u": 1794513047761
   },
   "orata-pulita-4x": {
    "id": "orata-pulita-4x",
    "name": "Orata pulita (4x)",
    "cat": "carne",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873025144
+   "u": 1794513047761
   },
   "nasello-congelato": {
    "id": "nasello-congelato",
    "name": "Nasello congelato",
    "cat": "surgelati",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791872978318
+   "u": 1794513047761
   },
   "succhi-di-frutta-zero-zuccheri": {
    "id": "succhi-di-frutta-zero-zuccheri",
    "name": "Succhi di frutta zero zuccheri",
    "cat": "colazione",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873068599
+   "u": 1794513047761
   },
   "yogurt-magro": {
    "id": "yogurt-magro",
    "name": "Yogurt Greco (x4)",
    "cat": "frigo",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873190877
+   "u": 1794513047761
   },
   "dentrificio": {
    "id": "dentrificio",
    "name": "Dentrificio",
    "cat": "igiene",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873206793
+   "u": 1794513047761
   },
   "bagno-schiuma": {
    "id": "bagno-schiuma",
    "name": "Bagno Schiuma",
    "cat": "igiene",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873121664
+   "u": 1794513047761
   },
   "liquido-lavastovoglie": {
    "id": "liquido-lavastovoglie",
    "name": "Liquido Lavastovoglie",
    "cat": "pulizia",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873228344
+   "u": 1794513047761
   },
   "pesto": {
    "id": "pesto",
    "name": "Pesto",
    "cat": "dispensa",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873266185
+   "u": 1794513047761
   },
   "pelato-pomodoro": {
    "id": "pelato-pomodoro",
    "name": "Pelato pomodoro",
    "cat": "frutta",
-   "state": "out",
-   "buy": true,
+   "state": "ok",
+   "buy": false,
    "every": 0,
-   "u": 1791873272961
+   "u": 1794513047761
   },
   "bresaola": {
    "id": "bresaola",
    "name": "Bresaola",
    "cat": "frigo",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "4-5 pacchi"
   },
   "fesa-di-tacchino": {
@@ -1021,9 +1021,9 @@
    "name": "Fesa di tacchino SQ",
    "cat": "carne",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "a fette",
    "p": {
     "coop": {
@@ -1039,9 +1039,9 @@
    "name": "Fusi e sovracosce Martini",
    "cat": "carne",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "di pollo · 12 pezzi",
    "p": {
     "coop": {
@@ -1058,9 +1058,9 @@
    "name": "Fettina Reale di bovino adulto",
    "cat": "carne",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "per pizzaiola · 8 fettine",
    "p": {
     "coop": {
@@ -1076,9 +1076,9 @@
    "name": "Salmone",
    "cat": "carne",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "4 fette"
   },
   "petto-di-pollo-al-forno": {
@@ -1086,9 +1086,9 @@
    "name": "Petto di pollo al forno",
    "cat": "carne",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "4 confezioni"
   },
   "scamorzine": {
@@ -1096,9 +1096,9 @@
    "name": "Scamorzine",
    "cat": "frigo",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "bianche o affumicate"
   },
   "fontal": {
@@ -1106,9 +1106,9 @@
    "name": "Fontal nazionale Cheesta",
    "cat": "frigo",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "circa 250 g"
   },
   "stracchino": {
@@ -1116,9 +1116,9 @@
    "name": "Stracchino Invernizzi",
    "cat": "frigo",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "Invernizzina 200 g"
   },
   "birra": {
@@ -1126,16 +1126,16 @@
    "name": "Birra Ichnusa",
    "cat": "bevande",
    "every": 0,
-   "state": "out",
-   "buy": true,
-   "u": 1794512833358,
+   "state": "ok",
+   "buy": false,
+   "u": 1794513047761,
    "note": "Ichnusa"
   },
   "latte-uht": {
    "id": "latte-uht",
    "name": "Latte a lunga conservazione",
    "cat": "frigo",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
    "p": {
@@ -1147,22 +1147,22 @@
      "um": "l"
     }
    },
-   "u": 1794512833358
+   "u": 1794513047761
   },
   "yogurt-greco": {
    "id": "yogurt-greco",
    "name": "Yogurt greco",
    "cat": "frigo",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794513047761
   },
   "sofficini": {
    "id": "sofficini",
    "name": "Sofficini",
    "cat": "surgelati",
-   "state": "out",
+   "state": "ok",
    "buy": true,
    "every": 0,
    "p": {
@@ -1174,7 +1174,16 @@
      "soci": true
     }
    },
-   "u": 1794512833358
+   "u": 1794513047761
+  },
+  "detersivi": {
+   "id": "detersivi",
+   "name": "Detersivi",
+   "cat": "pulizia",
+   "state": "ok",
+   "buy": true,
+   "every": 0,
+   "u": 1794513047761
   }
  }
 }
