@@ -1516,5 +1516,14 @@
    "v": 1.79,
    "al": "2026-11-15"
   }
- ]
+ ],
+ "marche": {
+  "Granarolo": "spesa/marche/granarolo.svg",
+  "Yomo": "spesa/marche/yomo.png",
+  "Garofalo": "spesa/marche/garofalo.svg",
+  "Scotti": "spesa/marche/scotti.png",
+  "Rio Mare": "spesa/marche/riomare.png",
+  "Findus": "spesa/marche/findus.svg",
+  "Mutti": "spesa/marche/mutti.png"
+ }
 }
