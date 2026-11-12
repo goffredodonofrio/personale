@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112202735">
+<meta name="build" content="20261112203045">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -225,10 +225,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   .off{padding:7px 8px 7px 12px}
   .off .t b{font-size:14px}
   .note{display:none}
-  .qta{flex-direction:column-reverse;padding:2px;gap:0}
-  .qta button{width:30px;height:26px}
-  .qta b{min-width:0;padding:1px 0}
-  .row .nm b img.marca{height:16px;max-width:60px}
+  .row .nm b img.marca{height:24px;max-width:96px}
 }
 .qta{flex:none;display:flex;align-items:center;gap:2px;border-radius:999px;background:#EFEBDD;padding:2px}
 .qta button{width:30px;height:30px;border:0;border-radius:50%;background:transparent;font:800 17px/1 Arial,sans-serif;color:var(--ink)}
@@ -239,13 +236,14 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .row.offerta{background:#EEF7F0}
 .row.offerta+.row{border-top-color:#DDEBE1}
 .row .nm b .marca{font-weight:500;color:var(--muted)}
-.row .nm b img.marca{display:inline-block;height:18px;width:auto;max-width:72px;vertical-align:-3px;margin-left:6px;object-fit:contain}
+.row .nm b img.marca{display:inline-block;height:28px;width:auto;max-width:110px;vertical-align:middle;margin:-4px 0 -4px 8px;object-fit:contain}
+.pz .qta{margin-left:auto}
 .lab{display:flex;flex-wrap:nowrap;gap:4px;margin:1px 0;white-space:nowrap}
 .lab span{font:800 9.5px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;padding:4px 7px;border-radius:6px;background:#2F8F5B;color:#fff}
 .lab span.sc{background:#E2231A}
 .lab span.soci{background:#fff;color:#2F8F5B;box-shadow:inset 0 0 0 1.5px #2F8F5B}
 .row .nm small.det{font:400 12.5px/1.3 var(--display);font-style:normal;color:var(--muted)}
-.pz{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pz{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
 .pz b{font:800 17px/1.1 var(--display)!important;color:var(--ink)}
 .pz i{font:700 12px/1 var(--display);font-style:normal;color:var(--muted)}
 .riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
@@ -551,7 +549,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     const det = (x.d||'').replace(/\s*·?\s*al (kg|etto)/,'');
     return '<span class="lab"><span>In offerta da volantino</span>'+(x.sc ? '<span class="sc">'+esc(x.sc)+'</span>' : '')+(x.soci ? '<span class="soci">soci</span>' : '')+'</span>'
       + '<small class="det">'+esc(det)+(f ? (det ? ' · ' : '')+'fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</small>'
-      + '<span class="pz"><b>'+eur(x.v)+(um ? '/'+um[1] : '')+'</b>'+(x.u ? '<i>'+eur(x.u).replace(' €','')+' €/'+(x.um||'kg')+'</i>' : '')+'</span>'
+      + '<span class="pz"><b>'+eur(x.v)+(um ? '/'+um[1] : '')+'</b>'+(x.u ? '<i>'+eur(x.u).replace(' €','')+' €/'+(x.um||'kg')+'</i>' : '')+qtaHtml(it)+'</span>'
       + (it.note ? '<small>'+esc(it.note)+'</small>' : '')
       + (q > 1 && !alKg ? '<span class="riga-tot">'+q+' × '+eur(x.v)+' = '+eur(x.v*q)+'</span>' : '');
   }
@@ -584,10 +582,11 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     return h;
   }
   // la marca: il logo se c'è in offerte.json (marche), altrimenti il nome
+  function qtaHtml(it){ return '<span class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></span>'; }
   function titolo(it){ const x = offertaDi(it), lg = x && x.marca && OFF && OFF.marche && OFF.marche[x.marca];
     return '<b>'+esc(it.name)+(x && x.marca ? (lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(x.marca)+'" title="'+esc(x.marca)+'">' : ' <span class="marca">| '+esc(x.marca)+'</span>') : '')+'</b>'; }
   function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+titolo(it)+sub(it)+'</div>'
-    + '<div class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></div></div>'; }
+    + (offertaDi(it) ? '' : qtaHtml(it)) + '</div>'; }
   function rowGot(it){ return '<div class="row got" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="ungot" aria-label="Rimetti in lista: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div></div>'; }
   function rowInv(it){
     return '<div class="row inv" data-id="'+esc(it.id)+'"><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+(it.every ? '<span class="badges"><span class="badge" style="--c:var(--rec)">↻ '+everyLabel(it.every)+'</span></span>' : '')+'</div>'
