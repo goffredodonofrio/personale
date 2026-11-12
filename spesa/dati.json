@@ -155,15 +155,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "note": "bianco e alla frutta",
    "p": {
     "coop": {
      "v": 0.85,
-     "d": "Yomo intero 2 × 125 g",
+     "d": "intero · 2 × 125 g",
      "fino": "2026-11-25",
      "u": 3.4,
-     "n": "Yogurt intero Yomo"
+     "n": "Yogurt intero Yomo",
+     "marca": "Yomo"
     }
    }
   },
@@ -263,15 +264,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "note": "anche Voiello -50% fino al 18/11",
    "p": {
     "coop": {
      "v": 0.78,
-     "d": "Garofalo 500 g",
+     "d": "semola, formati vari · 500 g",
      "fino": "2026-11-25",
      "u": 1.56,
-     "n": "Pasta di semola Garofalo"
+     "n": "Pasta di semola Garofalo",
+     "marca": "Garofalo"
     }
    },
    "q": 6
@@ -283,14 +285,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "p": {
     "coop": {
      "v": 2.49,
-     "d": "Arborio Scotti 1 kg",
+     "d": "Arborio · 1 kg",
      "fino": "2026-11-25",
      "u": 2.49,
-     "n": "Riso Arborio Scotti"
+     "n": "Riso Arborio Scotti",
+     "marca": "Scotti"
     }
    }
   },
@@ -301,14 +304,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "p": {
     "coop": {
      "v": 0.99,
-     "d": "Mutti 700 g",
+     "d": "classica · 700 g",
      "fino": "2026-11-25",
      "u": 1.41,
-     "n": "Passata di pomodoro Mutti"
+     "n": "Passata di pomodoro Mutti",
+     "marca": "Mutti",
+     "sc": "-50%"
     }
    }
   },
@@ -319,15 +324,17 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "p": {
     "coop": {
      "v": 4.49,
-     "d": "Costa d'Oro 750 ml",
+     "d": "classico · 750 ml",
      "fino": "2026-11-25",
      "u": 5.99,
      "um": "l",
-     "n": "Olio extravergine Costa d'Oro"
+     "n": "Olio extravergine Costa d'Oro",
+     "marca": "Costa d'Oro",
+     "sc": "-50%"
     }
    }
   },
@@ -384,14 +391,15 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "p": {
     "coop": {
      "v": 8.99,
-     "d": "Rio Mare 9 × 65 g",
+     "d": "pesca tradizionale · 9 × 65 g",
      "fino": "2026-11-25",
      "u": 15.37,
-     "n": "Tonno Rio Mare"
+     "n": "Tonno Rio Mare",
+     "marca": "Rio Mare"
     }
    }
   },
@@ -438,15 +446,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "note": "Lavazza Crema e Gusto -40% fino al 18/11, oppure Pellini",
    "p": {
     "coop": {
      "v": 6.49,
-     "d": "Pellini 2 × 250 g",
+     "d": "espresso · 2 × 250 g",
      "fino": "2026-11-25",
      "u": 12.98,
-     "n": "Caffè Pellini espresso"
+     "n": "Caffè Pellini espresso",
+     "marca": "Pellini"
     }
    }
   },
@@ -475,15 +484,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514543263,
+   "u": 1794514944698,
    "p": {
     "coop": {
      "v": 3.49,
-     "d": "Findus Primavera 700 g",
+     "d": "Primavera · 700 g",
      "fino": "2026-11-25",
      "u": 4.99,
      "soci": true,
-     "n": "Pisellini Primavera Findus"
+     "n": "Pisellini Primavera Findus",
+     "marca": "Findus"
     }
    }
   },
@@ -1149,14 +1159,15 @@
    "p": {
     "coop": {
      "v": 1.09,
-     "d": "Granarolo 1,2% 1 l",
+     "d": "1,2% · 1 l",
      "fino": "2026-11-25",
      "u": 1.09,
      "um": "l",
-     "n": "Latte UHT Granarolo 1,2%"
+     "n": "Latte UHT Granarolo 1,2%",
+     "marca": "Granarolo"
     }
    },
-   "u": 1794514543263
+   "u": 1794514944698
   },
   "yogurt-greco": {
    "id": "yogurt-greco",
@@ -1178,14 +1189,15 @@
    "p": {
     "coop": {
      "v": 1.99,
-     "d": "Findus 250 g",
+     "d": "gusti vari · 250 g",
      "fino": "2026-11-25",
      "u": 7.96,
      "soci": true,
-     "n": "Sofficini Findus"
+     "n": "Sofficini Findus",
+     "marca": "Findus"
     }
    },
-   "u": 1794514543263
+   "u": 1794514944698
   },
   "detersivi": {
    "id": "detersivi",
