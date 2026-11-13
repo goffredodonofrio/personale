@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261112203655">
+<meta name="build" content="20261113074417">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -270,8 +270,6 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   .pannelli{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
   .pannelli .pan{display:block!important}
   .pan-h{display:block}
-  .pan-offerte{position:sticky;top:150px;max-height:calc(100vh - 170px);overflow:auto;padding:0 2px 8px;border-radius:20px}
-  .pan-offerte .reparti{margin:0 0 10px;padding:2px 0;flex-wrap:wrap;overflow:visible}
   .negozi{max-width:560px}
   .hero{padding:14px 0 6px}
   h1{font-size:56px}
@@ -300,6 +298,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .off .pr small{display:block;font:700 11px/1.2 var(--display);color:var(--muted)}
 .off .tag{display:inline-block;font:800 10px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:6px;margin:3px 4px 0 0;background:#F1EEE4;color:var(--muted)}
 .off .tag.sc{background:color-mix(in srgb,var(--sc) 14%,#fff);color:var(--sc)}
+.off .tag.rep{background:#E8E4F7;color:#4A3AC2;text-transform:none;letter-spacing:0;font-size:11px}
 .off .tag.nb{background:#FDECEA;color:#B4332A}
 .off button{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:#EFEBDD;color:var(--ink);font:800 18px/1 Arial,sans-serif;cursor:pointer}
 .off button.in{background:var(--ok);color:#fff}
@@ -545,13 +544,12 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     const arr = offValide(sh.id); if(!arr.length) return '<div class="empty"><b>Nessuna offerta</b><p>Il volantino è scaduto: chiedi a Claude di caricare quello nuovo.</p></div>';
     const vol = (OFF.volantini[sh.id]||[]).filter(v => v.al >= todayIso).map(v => '«'+esc(v.nome)+'» fino al '+dm(v.al)+(v.nota ? ' ('+esc(v.nota)+')' : '')).join(' · ');
     const reps = CATS.filter(c => arr.some(o => o.cat === c.id)), ultimo = arr.reduce((m,o) => o.al > m ? o.al : m, '');
-    // si parte dal reparto con piu' offerte
-    if(!reps.some(c => c.id === reparto)) reparto = reps.reduce((m,c) => arr.filter(o => o.cat === c.id).length > arr.filter(o => o.cat === m.id).length ? c : m).id;
-    let h = '<div class="reparti" role="tablist">'+reps.map(c => '<button type="button" data-rep="'+c.id+'" class="'+(c.id === reparto ? 'on' : '')+'">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'<i>'+arr.filter(o => o.cat === c.id).length+'</i></button>').join('')+'</div><div class="offerte">';
-    for(const c of reps.filter(c => c.id === reparto)){ const cs = arr.filter(o => o.cat === c.id);
+    // tutte le offerte in un'unica lista, in ordine di corsia; il reparto e' un'etichetta sulla riga (Goffredo, 13/11)
+    let h = '<div class="offerte">';
+    for(const c of reps){ const cs = arr.filter(o => o.cat === c.id);
       h += cs.map(o => { const i = OFF.offerte.indexOf(o), gia = findByName(o.n), inL = gia && inList(gia);
         const pr = o.v != null ? eur(o.v)+(o.um ? '/'+o.um : '') : (o.sc || '');
-        const tags = (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
+        const tags = '<span class="tag rep">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'</span>' + (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
           + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al && o.al < ultimo ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
         const mo = marcaOfferta(o), lgo = logoDi(mo);
         return '<div class="off"><div class="t"><b>'+esc(o.n)+(lgo ? '<img class="marca" src="'+esc(lgo)+'" alt="'+esc(mo)+'">' : '')+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
