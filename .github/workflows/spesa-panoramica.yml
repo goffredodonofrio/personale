@@ -1,0 +1,19 @@
+# Notifica della panoramica della spesa sul canale Casa (ntfy).
+# Parte quando arriva una spesa/offerte.json nuova con «[panoramica]» nel messaggio del commit
+# (lo scrive la routine settimanale di Claude nel cloud, il giovedì mattina).
+name: Spesa · panoramica
+on:
+  push:
+    branches: [main]
+    paths: ['spesa/offerte.json']
+  workflow_dispatch:
+jobs:
+  notifica:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[panoramica]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Manda la panoramica
+        env:
+          NTFY_CASA: ${{ secrets.NTFY_CASA }}
+        run: python3 spesa/strumenti/notifica.py
