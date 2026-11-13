@@ -563,9 +563,9 @@
    "name": "Sgrassatore",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "anticalcare": {
    "id": "anticalcare",
@@ -662,9 +662,9 @@
    "name": "Shampoo",
    "cat": "igiene",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "dentifricio": {
    "id": "dentifricio",
@@ -707,9 +707,9 @@
    "name": "Carta igienica",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "scottex": {
    "id": "scottex",
@@ -884,153 +884,153 @@
    "name": "Carta da forno",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "carta-alluminio": {
    "id": "carta-alluminio",
    "name": "Carta alluminio",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "carta-velina": {
    "id": "carta-velina",
    "name": "Carta velina",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "formaggio": {
    "id": "formaggio",
    "name": "Formaggio",
    "cat": "frigo",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "sapone-piatti": {
    "id": "sapone-piatti",
    "name": "Sapone piatti",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "alcool": {
    "id": "alcool",
    "name": "Alcool",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "detergente-parquet": {
    "id": "detergente-parquet",
    "name": "Detergente parquet",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "aceto-bianco-per-pulizia": {
    "id": "aceto-bianco-per-pulizia",
    "name": "Aceto bianco per pulizia",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "orata-pulita-4x": {
    "id": "orata-pulita-4x",
    "name": "Orata pulita (4x)",
    "cat": "carne",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "nasello-congelato": {
    "id": "nasello-congelato",
    "name": "Nasello congelato",
    "cat": "surgelati",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "succhi-di-frutta-zero-zuccheri": {
    "id": "succhi-di-frutta-zero-zuccheri",
    "name": "Succhi di frutta zero zuccheri",
    "cat": "colazione",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "yogurt-magro": {
    "id": "yogurt-magro",
    "name": "Yogurt Greco (x4)",
    "cat": "frigo",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "dentrificio": {
    "id": "dentrificio",
    "name": "Dentrificio",
    "cat": "igiene",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "bagno-schiuma": {
    "id": "bagno-schiuma",
    "name": "Bagno Schiuma",
    "cat": "igiene",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "liquido-lavastovoglie": {
    "id": "liquido-lavastovoglie",
    "name": "Liquido Lavastovoglie",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "pesto": {
    "id": "pesto",
    "name": "Pesto",
    "cat": "dispensa",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "pelato-pomodoro": {
    "id": "pelato-pomodoro",
    "name": "Pelato pomodoro",
    "cat": "frutta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761
+   "u": 1794580847580
   },
   "bresaola": {
    "id": "bresaola",
