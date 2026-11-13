@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-11-12",
+ "aggiornato": "2026-11-13",
  "volantini": {
   "coop": [
    {
@@ -1689,5 +1689,19 @@
   "Galbani": "spesa/marche/galbani.png",
   "Purina One": "spesa/marche/purina-one.png",
   "Sunsilk": "spesa/marche/sunsilk.png"
+ },
+ "panoramica": {
+  "data": "2026-11-13",
+  "titolo": "Spesa: cosa conviene questa settimana",
+  "punti": [
+   "La nostra lista: tutto alla Coop. L'iN's non ha in offerta niente della lista, nemmeno detersivi e sacchetti.",
+   "Carne: conviene l'iN's. Pollo (quarto posteriore) 3,99 €/kg contro fusi Coop 6,62 €/kg soci; macinato misto 8,98 €/kg contro bovino Coop 12,38 €/kg soci.",
+   "Salumi: iN's in vaschetta da 150 g (mortadella 9,27 €/kg, cotto 11,93 €/kg); alla Coop salame cotto al banco 9,40 €/kg soci.",
+   "Dispensa: Coop. Passata Mutti 0,99 € e olio Costa d'Oro 4,49 € (tutti e due -50%), pasta Garofalo 0,78 €, Voiello -50% fino al 18/11.",
+   "Riso: Coop, Arborio Scotti 2,49 €/kg contro Carnaroli iN's 2,98 €/kg.",
+   "Casa e bucato: solo alla Coop (Coccolino -50%, Dixan -40%, Vernel 2,49 € soci), ma non si pagano con i buoni pasto.",
+   "Surgelati: pizze all'iN's (2 margherite 2,99 €); Sofficini 1,99 € e pisellini Findus 3,49 € alla Coop, soci.",
+   "Scadenze: iN's fino a domenica 15/11, «Scegli tu» Coop fino al 18/11, RisparMIO fino al 25/11."
+  ]
  }
 }
