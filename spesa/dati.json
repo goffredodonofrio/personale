@@ -1172,13 +1172,14 @@
   },
   "yogurt-greco": {
    "id": "yogurt-greco",
-   "name": "Yogurt greco",
+   "name": "Yogurt greco intero",
    "cat": "frigo",
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794515714201,
-   "marca": "Coop"
+   "u": 1794578578843,
+   "marca": "Coop",
+   "q": 1
   },
   "sofficini": {
    "id": "sofficini",
