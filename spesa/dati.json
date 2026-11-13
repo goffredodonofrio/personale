@@ -983,9 +983,9 @@
    "name": "Yogurt Greco (x4)",
    "cat": "frigo",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1794580847580
+   "u": 1794580902489
   },
   "dentrificio": {
    "id": "dentrificio",
