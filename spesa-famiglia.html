@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261113080823">
+<meta name="build" content="20261113082042">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -256,6 +256,31 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .pz i{font:700 12px/1 var(--display);font-style:normal;color:var(--muted)}
 .riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
 /* studio UX 12/11/2026 */
+.pano{margin:0 0 14px}
+.pano-h{display:flex;align-items:baseline;gap:10px;margin:0 4px 8px}
+.pano-h b{font:800 20px/1 var(--display);letter-spacing:-.01em}
+.pano-h small{font:600 12px/1 var(--display);color:var(--muted)}
+.pano-lista{margin:0 0 10px;padding:10px 14px;border-radius:14px;background:var(--paper);font:600 13.5px/1.35 var(--display);box-shadow:0 6px 16px rgba(0,0,0,.06)}
+.pano-voci{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pano-v{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:16px;background:var(--paper);box-shadow:inset 4px 0 0 var(--sc),0 6px 16px rgba(0,0,0,.06);min-width:0}
+.pv-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:2px}
+.pv-rep{font:800 11px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pv-logo{height:18px;width:auto;display:block}.pv-logo.pv-ins{height:24px;border-radius:4px}
+.pv-pari{font:800 11px/1 var(--display);color:var(--muted)}
+.pv-t{font:800 15px/1.2 var(--display)}
+.pv-p{font:800 22px/1 var(--display);color:var(--sc)}
+.pano-v small{font:400 12.5px/1.35 var(--display);color:var(--muted)}
+.pano-punti{margin:0;padding:0 16px 0 22px;font:400 14px/1.45 var(--display)}
+.pano-sc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 2px 0}
+.pano-sc span{font:600 12px/1 var(--display);padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.06);color:var(--muted)}
+.pano-sc b{color:var(--ink)}
+.marca-t{display:inline-block;vertical-align:middle;margin-left:8px;padding:3px 7px;border-radius:6px;background:#F1EEE4;color:var(--ink);font:800 10.5px/1 var(--display);letter-spacing:.04em;text-transform:uppercase}
+.marca-t.banco{background:transparent;box-shadow:inset 0 0 0 1px #D8D2C0;color:var(--muted)}
+@media (max-width:620px){
+  .pano-voci{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 calc(-1*max(16px,env(safe-area-inset-left)));padding:2px max(16px,env(safe-area-inset-left)) 6px}
+  .pano-voci::-webkit-scrollbar{display:none}
+  .pano-v{flex:0 0 72%;scroll-snap-align:start}
+}
 .panoramica{margin:0 0 12px;border-radius:18px;background:#F4F2FE;color:var(--ink);box-shadow:inset 0 0 0 1.5px #DCD6FB}
 .panoramica summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;padding:12px 14px;font:800 15px/1.2 var(--display)}
 .panoramica summary::-webkit-details-marker{display:none}
@@ -560,8 +585,8 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
         const pr = o.v != null ? eur(o.v)+(o.um ? '/'+o.um : '') : (o.sc || '');
         const tags = '<span class="tag rep">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'</span>' + (o.sc && o.v != null ? '<span class="tag sc">'+esc(o.sc)+'</span>' : '') + (o.linea ? '<span class="tag sc">'+esc(o.sc)+' su tutta la linea</span>' : '') + (o.soci ? '<span class="tag">soci</span>' : '')
           + (sh.id === 'coop' && CAT[o.cat].area === 'casa' ? '<span class="tag nb">no buoni pasto</span>' : '') + (o.al && o.al < ultimo ? '<span class="tag">fino al '+dm(o.al)+'</span>' : '');
-        const mo = marcaOfferta(o), lgo = logoDi(mo);
-        return '<div class="off"><div class="t"><b>'+esc(o.n)+(lgo ? '<img class="marca" src="'+esc(lgo)+'" alt="'+esc(mo)+'">' : '')+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
+        const mo = marcaOfferta(o), banco = !mo && o.s === 'coop' && (o.cat === 'carne' || o.cat === 'frigo');
+        return '<div class="off"><div class="t"><b>'+esc(o.n)+(mo ? marcaHtml(mo) : banco ? '<span class="marca-t banco">banco</span>' : '')+'</b><small>'+esc(o.f||'')+(o.nota ? ' · '+esc(o.nota) : '')+'</small>'+tags+'</div>'
           + '<div class="pr">'+(o.linea ? '' : pr)+(o.u ? '<small>'+eur(o.u).replace(' €','')+' €/'+(o.uu||'kg')+'</small>' : '')+(o.era ? '<small>era '+eur(o.era)+'</small>' : '')+'</div>'
           + '<button type="button" data-off="'+i+'" class="'+(inL ? 'in' : '')+'" aria-label="'+(inL ? 'Già in lista: ' : 'Metti in lista: ')+esc(o.n)+'">'+(inL ? '✓' : '+')+'</button></div>'; }).join('');
     }
@@ -570,10 +595,18 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   // la panoramica della settimana (offerte.json → panoramica), scritta dalla routine del giovedì
   let panAperta = null;
   function panoramicaHtml(){
-    const P = OFF && OFF.panoramica; if(!P || !(P.punti||[]).length) return '';
-    if(panAperta === null) panAperta = innerWidth >= 900;
-    const d = P.data ? parse(P.data) : null;
-    return '<details class="panoramica"'+(panAperta ? ' open' : '')+'><summary><b>Cosa conviene questa settimana</b>'+(d ? '<small>aggiornata '+d.toLocaleDateString('it-IT',{weekday:'short', day:'numeric', month:'numeric'})+'</small>' : '')+'</summary><ul>'+P.punti.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul></details>';
+    const P = OFF && OFF.panoramica; if(!P) return '';
+    const d = P.data ? parse(P.data) : null, voci = P.voci || [];
+    if(!voci.length && !(P.punti||[]).length) return '';
+    let h = '<section class="pano"><div class="pano-h"><b>Cosa conviene</b>'+(d ? '<small>settimana del '+d.getDate()+'/'+(d.getMonth()+1)+'</small>' : '')+'</div>';
+    if(P.lista) h += '<p class="pano-lista">🛒 '+esc(P.lista)+'</p>';
+    if(voci.length){
+      h += '<div class="pano-voci">'+voci.map(v => { const c = CAT[v.rep] || CAT.varie, sh = SHOP[v.vince];
+        return '<div class="pano-v" style="--sc:'+(sh ? sh.c : '#8a948f')+'"><div class="pv-top"><span class="pv-rep">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'</span>'+(sh ? '<img src="'+sh.logo+'" alt="'+esc(sh.name)+'" class="pv-logo pv-'+sh.id+'">' : '<span class="pv-pari">pari</span>')+'</div>'
+          + '<b class="pv-t">'+esc(v.titolo)+'</b>'+(v.prezzo ? '<span class="pv-p">'+esc(v.prezzo)+'</span>' : '')+'<small>'+esc(v.testo||'')+'</small></div>'; }).join('')+'</div>';
+    }else h += '<ul class="pano-punti">'+P.punti.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>';
+    if((P.scadenze||[]).length) h += '<div class="pano-sc">'+P.scadenze.filter(x => x.al >= todayIso).map(x => '<span>'+esc(x.nome)+' <b>fino al '+dm(x.al)+'</b></span>').join('')+'</div>';
+    return h + '</section>';
   }
   function addOffer(o){
     let it = findByName(o.n);
@@ -636,7 +669,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   // la marca: il logo se c'è in offerte.json (marche), altrimenti il nome
   function qtaHtml(it){ return '<span class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></span>'; }
   function logoDi(m){ return m && OFF && OFF.marche ? OFF.marche[m] || '' : ''; }
-  function marcaHtml(m){ if(!m) return ''; const lg = logoDi(m); return lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(m)+'" title="'+esc(m)+'">' : ' <span class="marca">| '+esc(m)+'</span>'; }
+  function marcaHtml(m){ if(!m) return ''; const lg = logoDi(m); return lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(m)+'" title="'+esc(m)+'">' : '<span class="marca-t">'+esc(m)+'</span>'; }
   function titolo(it){ const x = offertaDi(it); return '<b>'+esc(it.name)+marcaHtml((x && x.marca) || it.marca)+'</b>'; }
   function marcaOfferta(o){ if(o.marca) return o.marca; if(!OFF || !OFF.marche) return ''; const n = o.n.toLowerCase(); return Object.keys(OFF.marche).find(m => n.includes(m.toLowerCase())) || ''; }
   function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+titolo(it)+sub(it)+'</div>'
