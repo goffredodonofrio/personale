@@ -192,9 +192,9 @@
    "name": "Mozzarella",
    "cat": "frigo",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 1794513047761,
+   "u": 1794579161272,
    "p": {
     "coop": {
      "v": 2.59,
