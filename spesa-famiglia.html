@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261113080252">
+<meta name="build" content="20261113080823">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -256,6 +256,15 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .pz i{font:700 12px/1 var(--display);font-style:normal;color:var(--muted)}
 .riga-tot{font:800 12.5px/1.2 var(--display);color:var(--ink)}
 /* studio UX 12/11/2026 */
+.panoramica{margin:0 0 12px;border-radius:18px;background:#F4F2FE;color:var(--ink);box-shadow:inset 0 0 0 1.5px #DCD6FB}
+.panoramica summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;padding:12px 14px;font:800 15px/1.2 var(--display)}
+.panoramica summary::-webkit-details-marker{display:none}
+.panoramica summary::before{content:'💡'}
+.panoramica summary small{font:600 12px/1 var(--display);color:var(--muted);margin-left:auto}
+.panoramica summary::after{content:'▾';color:var(--muted);transition:transform .2s}
+.panoramica:not([open]) summary::after{transform:rotate(-90deg)}
+.panoramica ul{margin:0;padding:0 16px 12px 32px;font:400 14px/1.45 var(--display)}
+.panoramica li{margin:4px 0}
 .pan-h{display:none;font:800 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:4px 4px 12px}
 .pan-h span{font-weight:700;letter-spacing:0;margin-left:6px;opacity:.7}
 .pannelli[data-mostra=lista] .pan-offerte,.pannelli[data-mostra=offerte] .pan-lista{display:none}
@@ -558,6 +567,14 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     }
     return h + '</div><p class="vol">'+vol+(OFF.note && OFF.note[sh.id] ? '<br>'+esc(OFF.note[sh.id]) : '')+'</p>';
   }
+  // la panoramica della settimana (offerte.json → panoramica), scritta dalla routine del giovedì
+  let panAperta = null;
+  function panoramicaHtml(){
+    const P = OFF && OFF.panoramica; if(!P || !(P.punti||[]).length) return '';
+    if(panAperta === null) panAperta = innerWidth >= 900;
+    const d = P.data ? parse(P.data) : null;
+    return '<details class="panoramica"'+(panAperta ? ' open' : '')+'><summary><b>Cosa conviene questa settimana</b>'+(d ? '<small>aggiornata '+d.toLocaleDateString('it-IT',{weekday:'short', day:'numeric', month:'numeric'})+'</small>' : '')+'</summary><ul>'+P.punti.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul></details>';
+  }
   function addOffer(o){
     let it = findByName(o.n);
     const p = {v:o.v || 0, d:(o.f||'')+(o.um ? ' · al '+o.um : ''), fino:o.al, n:o.n}; if(o.sc) p.sc = o.sc; const mo = marcaOfferta(o); if(mo) p.marca = mo; if(o.u) p.u = o.u; if(o.uu) p.um = o.uu; if(o.soci) p.soci = true;
@@ -675,6 +692,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
       L += items.length ? '<section class="group">'+items.map(rowList).join('')+'</section>'+(senza ? '<p class="nota-prezzi">'+senza+(senza === 1 ? ' voce' : ' voci')+' senza prezzo: tocca la voce e scrivilo, così entra nel totale.</p>' : '') : '<div class="empty"><b>Niente da prendere qui</b><p>Scrivi qui sopra cosa serve, o guarda le offerte.</p></div>';
       if(got.length) L += '<p class="eyebrow" style="margin:18px 4px 8px">Nel carrello oggi · '+got.length+'</p><section class="group">'+got.map(rowGot).join('')+'</section>';
       const O = '<h2 class="pan-h">Offerte del volantino <span>'+nOff+'</span></h2>' + (OFF ? offHtml(sh) : '<div class="empty"><b>Carico le offerte…</b></div>');
+      h = panoramicaHtml() + h;
       h += '<div class="pannelli" data-mostra="'+scheda+'"><section class="pan pan-lista">'+L+'</section><section class="pan pan-offerte">'+O+'</section></div>';
     }else if(view === 'inv'){
       h = groups(all.filter(areaOk), rowInv, filter === 'all' || filter === 'cibo' || filter === 'casa');
@@ -716,6 +734,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     else if(act === 'qm'){ if(qta(it) > 1) touch(it, {q:qta(it)-1}); }
   });
 
+  viewEl.addEventListener('toggle', e => { if(e.target.classList && e.target.classList.contains('panoramica')) panAperta = e.target.open; }, true);
   $('negozi').addEventListener('click', e => { const b = e.target.closest('[data-neg]'); if(!b) return; negozio = b.dataset.neg; reparto = null; try{ localStorage.setItem('spesa-negozio', negozio); }catch(err){} render(); });
 
   // aggiunta veloce
