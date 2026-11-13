@@ -37,13 +37,16 @@ for i, o in enumerate(D.get('offerte', [])):
     if o.get('v') is not None and not isinstance(o['v'], (int, float)): errori.append(dove + ': «v» deve essere un numero')
     if not DATA.match(o.get('al', '')): errori.append(dove + ': manca la data di fine «al»')
     if FRUTTA.search(o.get('n', '')) and o.get('cat') not in ('frigo', 'surgelati', 'dispensa'): errori.append(dove + ': sembra frutta o verdura (va esclusa)')
-    if o.get('marca') and o['marca'] not in (D.get('marche') or {}): errori.append(dove + ': marca «%s» senza logo in «marche» (togli «marca» o aggiungi il logo)' % o['marca'])
 P = D.get('panoramica') or {}
-if not P.get('punti'): errori.append('panoramica: mancano i «punti»')
+if not P.get('punti') and not P.get('voci'): errori.append('panoramica: mancano le «voci» (o i «punti»)')
+for v in P.get('voci', []):
+    if v.get('vince') not in ('coop', 'ins', 'pari'): errori.append('panoramica: «vince» deve essere coop, ins o pari (%s)' % v.get('titolo'))
+    if v.get('rep') not in REPARTI: errori.append('panoramica: reparto «rep» non valido (%s)' % v.get('titolo'))
+    if not v.get('titolo'): errori.append('panoramica: voce senza «titolo»')
 if P and not DATA.match(P.get('data', '')): errori.append('panoramica: manca la «data»')
 if not n['coop']: errori.append('nessuna offerta Coop')
 if not n['ins']: print('attenzione: nessuna offerta iN\'s (volantino scaduto o non trovato?)')
 
 if errori:
     print('\n'.join('✗ ' + e for e in errori)); sys.exit(1)
-print('✓ offerte.json a posto: %d Coop, %d iN\'s, %d punti nella panoramica' % (n['coop'], n['ins'], len(P.get('punti', []))))
+print('✓ offerte.json a posto: %d Coop, %d iN\'s, %d voci nella panoramica' % (n['coop'], n['ins'], len(P.get('voci') or P.get('punti') or [])))
