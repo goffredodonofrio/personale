@@ -393,9 +393,9 @@
    "name": "Tonno",
    "cat": "dispensa",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1794514944698,
+   "u": 1794579031774,
    "p": {
     "coop": {
      "v": 8.99,
@@ -405,7 +405,9 @@
      "n": "Tonno Rio Mare",
      "marca": "Rio Mare"
     }
-   }
+   },
+   "last": "2026-11-13",
+   "got": "2026-11-13T14:10:31.773Z"
   },
   "biscotti": {
    "id": "biscotti",
