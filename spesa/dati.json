@@ -155,7 +155,7 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794514944698,
+   "u": 1794579128773,
    "note": "bianco e alla frutta",
    "p": {
     "coop": {
@@ -166,7 +166,8 @@
      "n": "Yogurt intero Yomo",
      "marca": "Yomo"
     }
-   }
+   },
+   "q": 3
   },
   "uova": {
    "id": "uova",
