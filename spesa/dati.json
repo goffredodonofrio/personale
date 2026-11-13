@@ -194,7 +194,7 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794579161272,
+   "u": 1794580947189,
    "p": {
     "coop": {
      "v": 2.59,
@@ -599,18 +599,18 @@
    "name": "Sacchi spazzatura",
    "cat": "pulizia",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1794512833358
+   "u": 1794580947189
   },
   "sacchetti-umido": {
    "id": "sacchetti-umido",
-   "name": "Sacchetti umido",
+   "name": "Sacchetti per organico biodegradabili",
    "cat": "pulizia",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1794580947189
   },
   "detersivo-lavatrice": {
    "id": "detersivo-lavatrice",
@@ -709,16 +709,16 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794580847580
+   "u": 1794580947189
   },
   "scottex": {
    "id": "scottex",
    "name": "Scottex",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1794580947189
   },
   "fazzoletti": {
    "id": "fazzoletti",
@@ -734,9 +734,9 @@
    "name": "Tovaglioli",
    "cat": "carta",
    "state": "ok",
-   "buy": false,
+   "buy": true,
    "every": 0,
-   "u": 0
+   "u": 1794580947189
   },
   "pellicola": {
    "id": "pellicola",
@@ -958,7 +958,8 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794580847580
+   "u": 1794580947189,
+   "note": "orate, o il pesce che c'è in offerta"
   },
   "nasello-congelato": {
    "id": "nasello-congelato",
@@ -1038,9 +1039,10 @@
    "cat": "frigo",
    "every": 0,
    "state": "ok",
-   "buy": false,
-   "u": 1794513047761,
-   "note": "4-5 pacchi"
+   "buy": true,
+   "u": 1794580947189,
+   "note": "4-5 pacchi",
+   "q": 2
   },
   "fesa-di-tacchino": {
    "id": "fesa-di-tacchino",
@@ -1184,9 +1186,10 @@
    "state": "ok",
    "buy": true,
    "every": 0,
-   "u": 1794580886189,
+   "u": 1794580947189,
    "marca": "Coop",
-   "q": 3
+   "q": 3,
+   "note": "intero, non zero grassi"
   },
   "sofficini": {
    "id": "sofficini",
@@ -1218,6 +1221,117 @@
    "buy": true,
    "every": 0,
    "u": 1794513047761
+  },
+  "lenticchie-secche": {
+   "id": "lenticchie-secche",
+   "name": "Lenticchie secche",
+   "cat": "dispensa",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189,
+   "q": 2
+  },
+  "ricotta": {
+   "id": "ricotta",
+   "name": "Ricotta",
+   "cat": "frigo",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "feta": {
+   "id": "feta",
+   "name": "Feta",
+   "cat": "frigo",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "primosale": {
+   "id": "primosale",
+   "name": "Primosale",
+   "cat": "frigo",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "crescenza": {
+   "id": "crescenza",
+   "name": "Crescenza",
+   "cat": "frigo",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "panini-di-salvataggio-per-edo": {
+   "id": "panini-di-salvataggio-per-edo",
+   "name": "Panini di salvataggio per Edo",
+   "cat": "pane",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "funghi-surgelati-con-porcini": {
+   "id": "funghi-surgelati-con-porcini",
+   "name": "Funghi surgelati con porcini",
+   "cat": "surgelati",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189,
+   "note": "sacchettino"
+  },
+  "gnocchi": {
+   "id": "gnocchi",
+   "name": "Gnocchi",
+   "cat": "frigo",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "orzo-e-o-farro": {
+   "id": "orzo-e-o-farro",
+   "name": "Orzo e/o farro",
+   "cat": "dispensa",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "sacchi-plastica-trasparenti-grandi": {
+   "id": "sacchi-plastica-trasparenti-grandi",
+   "name": "Sacchi plastica trasparenti grandi",
+   "cat": "pulizia",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
+  },
+  "sacchi-indifferenziato": {
+   "id": "sacchi-indifferenziato",
+   "name": "Sacchi indifferenziato",
+   "cat": "pulizia",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189,
+   "note": "di plastica, normali"
+  },
+  "sapone-intimo": {
+   "id": "sapone-intimo",
+   "name": "Sapone intimo",
+   "cat": "igiene",
+   "state": "ok",
+   "every": 0,
+   "buy": true,
+   "u": 1794580947189
   }
  }
 }
