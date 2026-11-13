@@ -423,7 +423,7 @@
    "v": 1.89,
    "u": 11.12,
    "al": "2026-11-25",
-   "marca": "Ace"
+   "marca": "Belotti"
   },
   {
    "s": "coop",
@@ -1716,7 +1716,18 @@
   "Valmora": "spesa/marche/valmora.png",
   "Mauri": "spesa/marche/mauri.png",
   "Borotalco": "spesa/marche/borotalco.svg",
-  "Raspini": "spesa/marche/raspini.svg"
+  "Raspini": "spesa/marche/raspini.png",
+  "Casa Modena": "spesa/marche/casa-modena.png",
+  "Alimenta": "spesa/marche/alimenta.svg",
+  "Caldera": "spesa/marche/caldera.png",
+  "Ventura": "spesa/marche/ventura.svg",
+  "Fatina": "spesa/marche/fatina.png",
+  "de Mori": "spesa/marche/de-mori.png",
+  "Triacca": "spesa/marche/triacca.png",
+  "Scolari": "spesa/marche/scolari.svg",
+  "Beck's": "spesa/marche/becks.svg",
+  "Dash": "spesa/marche/dash.png",
+  "Belotti": "spesa/marche/belotti.png"
  },
  "panoramica": {
   "data": "2026-11-13",
