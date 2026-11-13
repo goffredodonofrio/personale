@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261113082042">
+<meta name="build" content="20261113083307">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -240,6 +240,13 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
 .row .nm b img.marca[alt="Coop"],.off .t b img.marca[alt="Coop"]{height:15px}
 .nota-prezzi{display:none;font:400 12.5px/1.35 var(--display);color:var(--muted);margin:8px 4px 0}
 @media (max-width:620px){
+  #addForm{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:9993;box-shadow:0 14px 34px rgba(0,0,0,.28);transition:bottom .5s cubic-bezier(.16,1,.3,1)}
+  html:has(#fxdock.show) #addForm{bottom:calc(78px + env(safe-area-inset-bottom))}
+  html:has(#fxdock.show) #sugg{bottom:calc(142px + env(safe-area-inset-bottom))}
+  #sugg{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:9993;margin:0;padding:8px;border-radius:14px;background:var(--paper);box-shadow:0 10px 26px rgba(0,0,0,.2)}
+  #sugg:empty{display:none}
+  .wrap{padding-bottom:calc(200px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(150px + env(safe-area-inset-bottom))}
   .row .nm b img.marca{height:22px;max-width:90px}
   .row .nm b img.marca[alt="Coop"]{height:14px}
   .pan-lista .tot{display:none}
@@ -600,11 +607,14 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     if(!voci.length && !(P.punti||[]).length) return '';
     let h = '<section class="pano"><div class="pano-h"><b>Cosa conviene</b>'+(d ? '<small>settimana del '+d.getDate()+'/'+(d.getMonth()+1)+'</small>' : '')+'</div>';
     if(P.lista) h += '<p class="pano-lista">🛒 '+esc(P.lista)+'</p>';
-    if(voci.length){
-      h += '<div class="pano-voci">'+voci.map(v => { const c = CAT[v.rep] || CAT.varie, sh = SHOP[v.vince];
+    const telefono = matchMedia('(max-width:899px)').matches, mie = telefono ? voci.filter(v => v.vince === negozio || v.vince === 'pari') : voci;
+    if(telefono) h = h.replace('<b>Cosa conviene</b>', '<b>Conviene '+(negozio === 'coop' ? 'alla Coop' : "all'iN's")+'</b>');
+    if(mie.length){
+      h += '<div class="pano-voci">'+mie.map(v => { const c = CAT[v.rep] || CAT.varie, sh = SHOP[v.vince];
         return '<div class="pano-v" style="--sc:'+(sh ? sh.c : '#8a948f')+'"><div class="pv-top"><span class="pv-rep">'+c.em+' '+esc(c.name.split(/,| e /)[0])+'</span>'+(sh ? '<img src="'+sh.logo+'" alt="'+esc(sh.name)+'" class="pv-logo pv-'+sh.id+'">' : '<span class="pv-pari">pari</span>')+'</div>'
           + '<b class="pv-t">'+esc(v.titolo)+'</b>'+(v.prezzo ? '<span class="pv-p">'+esc(v.prezzo)+'</span>' : '')+'<small>'+esc(v.testo||'')+'</small></div>'; }).join('')+'</div>';
-    }else h += '<ul class="pano-punti">'+P.punti.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>';
+    }else if(telefono && voci.length) h += '<p class="pano-lista">Questa settimana qui non c\'è niente che convenga più che all\'altro supermercato.</p>';
+    else h += '<ul class="pano-punti">'+P.punti.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>';
     if((P.scadenze||[]).length) h += '<div class="pano-sc">'+P.scadenze.filter(x => x.al >= todayIso).map(x => '<span>'+esc(x.nome)+' <b>fino al '+dm(x.al)+'</b></span>').join('')+'</div>';
     return h + '</section>';
   }
@@ -632,8 +642,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   function subOfferta(it, x){
     const f = x.fino ? parse(x.fino) : null, q = qta(it), alKg = /al (kg|etto)/.test(x.d||''), um = (x.d||'').match(/al (kg|etto)/);
     const det = (x.d||'').replace(/\s*·?\s*al (kg|etto)/,'');
-    return '<span class="lab"><span>In offerta da volantino</span>'+(x.sc ? '<span class="sc">'+esc(x.sc)+'</span>' : '')+(x.soci ? '<span class="soci">soci</span>' : '')+'</span>'
-      + '<small class="det">'+esc(det)+(f ? (det ? ' · ' : '')+'fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</small>'
+    return '<small class="det">'+esc(det)+(f ? (det ? ' · ' : '')+'fino al '+f.getDate()+'/'+(f.getMonth()+1) : '')+'</small>'
       + '<span class="pz"><b>'+eur(x.v)+(um ? '/'+um[1] : '')+'</b>'+(x.u ? '<i>'+eur(x.u).replace(' €','')+' €/'+(x.um||'kg')+'</i>' : '')+qtaHtml(it)+'</span>'
       + (it.note ? '<small>'+esc(it.note)+'</small>' : '')
       + (q > 1 && !alKg ? '<span class="riga-tot">'+q+' × '+eur(x.v)+' = '+eur(x.v*q)+'</span>' : '');
@@ -667,12 +676,13 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     return h;
   }
   // la marca: il logo se c'è in offerte.json (marche), altrimenti il nome
+  function labOfferta(x){ return '<span class="lab"><span>In offerta da volantino</span>'+(x.sc ? '<span class="sc">'+esc(x.sc)+'</span>' : '')+(x.soci ? '<span class="soci">soci</span>' : '')+'</span>'; }
   function qtaHtml(it){ return '<span class="qta"><button type="button" data-act="qm" aria-label="Uno in meno">−</button><b>'+qta(it)+'</b><button type="button" data-act="qp" aria-label="Uno in più">+</button></span>'; }
   function logoDi(m){ return m && OFF && OFF.marche ? OFF.marche[m] || '' : ''; }
   function marcaHtml(m){ if(!m) return ''; const lg = logoDi(m); return lg ? '<img class="marca" src="'+esc(lg)+'" alt="'+esc(m)+'" title="'+esc(m)+'">' : '<span class="marca-t">'+esc(m)+'</span>'; }
   function titolo(it){ const x = offertaDi(it); return '<b>'+esc(it.name)+marcaHtml((x && x.marca) || it.marca)+'</b>'; }
   function marcaOfferta(o){ if(o.marca) return o.marca; if(!OFF || !OFF.marche) return ''; const n = o.n.toLowerCase(); return Object.keys(OFF.marche).find(m => n.includes(m.toLowerCase())) || ''; }
-  function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+titolo(it)+sub(it)+'</div>'
+  function rowList(it){ return '<div class="row'+(offertaDi(it) ? ' offerta' : '')+'" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="got" aria-label="Preso: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit">'+(offertaDi(it) ? labOfferta(offertaDi(it)) : '')+titolo(it)+sub(it)+'</div>'
     + (offertaDi(it) ? '' : qtaHtml(it)) + '</div>'; }
   function rowGot(it){ return '<div class="row got" data-id="'+esc(it.id)+'"><button type="button" class="check" data-act="ungot" aria-label="Rimetti in lista: '+esc(it.name)+'">'+CHECK+'</button><div class="nm" data-act="edit"><b>'+esc(it.name)+'</b>'+sub(it)+'</div></div>'; }
   function rowInv(it){
@@ -767,6 +777,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     else if(act === 'qm'){ if(qta(it) > 1) touch(it, {q:qta(it)-1}); }
   });
 
+  matchMedia('(max-width:899px)').addEventListener('change', () => render());
   viewEl.addEventListener('toggle', e => { if(e.target.classList && e.target.classList.contains('panoramica')) panAperta = e.target.open; }, true);
   $('negozi').addEventListener('click', e => { const b = e.target.closest('[data-neg]'); if(!b) return; negozio = b.dataset.neg; reparto = null; try{ localStorage.setItem('spesa-negozio', negozio); }catch(err){} render(); });
 
