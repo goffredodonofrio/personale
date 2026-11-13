@@ -1192,7 +1192,7 @@
    "name": "Sofficini",
    "cat": "surgelati",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
    "p": {
     "coop": {
@@ -1205,7 +1205,9 @@
      "marca": "Findus"
     }
    },
-   "u": 1794514944698
+   "u": 1794579051439,
+   "last": "2026-11-13",
+   "got": "2026-11-13T14:10:51.439Z"
   },
   "detersivi": {
    "id": "detersivi",
