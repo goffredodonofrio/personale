@@ -36,7 +36,8 @@
    "um": "kg",
    "era": 17.93,
    "sc": "-25%",
-   "al": "2026-11-25"
+   "al": "2026-11-25",
+   "marca": "AIA"
   },
   {
    "s": "coop",
@@ -94,7 +95,8 @@
    "f": "240 g",
    "v": 2.99,
    "u": 12.46,
-   "al": "2026-11-25"
+   "al": "2026-11-25",
+   "marca": "AIA"
   },
   {
    "s": "coop",
@@ -700,7 +702,8 @@
    "era": 2.89,
    "sc": "-30%",
    "al": "2026-11-25",
-   "soci": true
+   "soci": true,
+   "marca": "Sunsilk"
   },
   {
    "s": "coop",
@@ -748,7 +751,8 @@
    "f": "tutta la linea",
    "sc": "-30%",
    "al": "2026-11-18",
-   "linea": true
+   "linea": true,
+   "marca": "Galbani"
   },
   {
    "s": "coop",
@@ -855,7 +859,8 @@
    "f": "tutta la linea",
    "sc": "-30%",
    "al": "2026-11-18",
-   "linea": true
+   "linea": true,
+   "marca": "Purina One"
   },
   {
    "s": "ins",
@@ -1679,6 +1684,10 @@
   "Vernel": "spesa/marche/vernel.png",
   "Vileda": "spesa/marche/vileda.png",
   "Voiello": "spesa/marche/voiello.png",
-  "IN's": "spesa/marche/ins.svg"
+  "IN's": "spesa/marche/ins.svg",
+  "AIA": "spesa/marche/aia.png",
+  "Galbani": "spesa/marche/galbani.png",
+  "Purina One": "spesa/marche/purina-one.png",
+  "Sunsilk": "spesa/marche/sunsilk.png"
  }
 }
