@@ -42,15 +42,24 @@ La pagina che le mostra è `spesa-famiglia.html`; i dati stanno in `spesa/offert
    - `volantini`: `{"coop":[{"nome":"RisparMIO","dal":"…","al":"…"}], "ins":[{"nome":"…","dal":"…","al":"…","negozio":"San Mauro, via Torino 181"}]}`.
    - `aggiornato`: la data di oggi.
 
-4. **Scrivi la panoramica** in `panoramica`:
+4. **Scrivi la panoramica** in `panoramica`. Sulla pagina diventa una scheda per voce, con il logo del negozio che conviene:
    ```json
-   {"data":"AAAA-MM-GG","titolo":"Spesa: cosa conviene questa settimana","punti":["…","…"]}
+   {"data":"AAAA-MM-GG","titolo":"Spesa: cosa conviene questa settimana",
+    "lista":"La nostra lista: …",
+    "voci":[{"rep":"carne","vince":"ins","titolo":"Pollo e macinato","prezzo":"3,99 €/kg","testo":"contro 6,62 €/kg dei fusi Coop (soci)"}],
+    "scadenze":[{"s":"ins","nome":"iN's","al":"AAAA-MM-GG"},{"s":"coop","nome":"RisparMIO","al":"AAAA-MM-GG"}]}
    ```
-   Da 5 a 8 punti brevi, in italiano semplice, **solo con prezzi presi dai volantini**:
-   - Primo punto: le voci della **lista di casa** (`spesa/dati.json`, voci con `"buy": true`) e dove conviene prenderle. Ricorda che gli alimentari si prendono alla Coop con i buoni pasto, a meno che all'iN's costino nettamente meno.
-   - Poi per reparto (carne, salumi, dispensa, colazione, surgelati, bevande, casa): **chi conviene** e perché. Confronta i prezzi al kg o al litro di prodotti simili tra i due negozi.
-   - Casa e igiene: alla Coop **non** si pagano con i buoni pasto.
-   - Ultimo punto: le scadenze dei volantini.
+   - **`lista`**: una frase sulla **lista di casa** (`spesa/dati.json`, voci con `"buy": true`) e dove conviene prenderla.
+     Gli alimentari si prendono alla Coop con i buoni pasto, a meno che all'iN's costino nettamente meno.
+   - **`voci`**: da 4 a 8 schede, una per gruppo di prodotti. Ogni scheda ha:
+     - `rep`: il reparto, come in `cat`;
+     - `vince`: `coop`, `ins` o `pari`;
+     - `titolo`: corto, 2-4 parole;
+     - `prezzo`: il numero che colpisce (prezzo al kg o sconto);
+     - `testo`: il confronto, una riga.
+   - **Solo prezzi presi dai volantini.** Confronta prezzi al kg o al litro di prodotti simili tra i due negozi.
+   - **Casa e igiene:** ricorda che alla Coop non si pagano con i buoni pasto.
+   - **`scadenze`**: un elemento per volantino ancora valido.
 
 5. **Controlla** e solo se va tutto bene pubblica:
    ```bash
