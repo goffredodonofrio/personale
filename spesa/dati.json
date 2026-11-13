@@ -322,9 +322,9 @@
    "name": "Olio extravergine",
    "cat": "dispensa",
    "state": "ok",
-   "buy": true,
+   "buy": false,
    "every": 0,
-   "u": 1794514944698,
+   "u": 1794578946291,
    "p": {
     "coop": {
      "v": 4.49,
@@ -336,7 +336,9 @@
      "marca": "Costa d'Oro",
      "sc": "-50%"
     }
-   }
+   },
+   "last": "2026-11-13",
+   "got": "2026-11-13T14:09:06.289Z"
   },
   "aceto": {
    "id": "aceto",
