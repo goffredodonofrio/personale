@@ -10,7 +10,8 @@ import os, sys, json, urllib.request
 SITO = 'https://goffredodonofrio.github.io/personale/spesa-famiglia.html'
 D = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'offerte.json'), encoding='utf-8'))
 P = D.get('panoramica') or {}
-punti = P.get('punti') or []
+NEG = {'coop': 'Coop', 'ins': "iN's", 'pari': 'pari'}
+punti = ([P['lista']] if P.get('lista') else []) + ['%s → %s: %s%s' % (v.get('titolo', ''), NEG.get(v.get('vince'), ''), v.get('prezzo', ''), (' · ' + v['testo']) if v.get('testo') else '') for v in (P.get('voci') or [])] or (P.get('punti') or [])
 if not punti:
     print('panoramica vuota: niente da mandare'); sys.exit(0)
 titolo = '🛒 ' + (P.get('titolo') or 'Spesa: cosa conviene questa settimana')
