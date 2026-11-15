@@ -3,141 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261115070634">
+<meta name="build" content="20261115130334">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#15302A">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Casa">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Casa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
-<style>
-:root{--deep:#15302A;--deep2:#1B3B33;--green:#2E5E4E;--sun:#F2B632;--cream:#F4EEDC;--paper:#FBFAF5;--ink:#1F2A26;--muted:#5F6E67;
-  --display:"Bricolage Grotesque","Avenir Next",Arial,sans-serif;--serif:"Literata",Georgia,serif;--eo:cubic-bezier(.16,1,.3,1)}
-*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;min-height:100dvh;background:var(--deep);color:var(--cream);font:400 16px/1.5 var(--serif);-webkit-tap-highlight-color:transparent}
-.wrap{max-width:720px;margin:0 auto;padding:calc(22px + env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))}
-.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.eyebrow{font:800 12px/1 var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--sun);margin:0 0 10px}
-h1{font:800 clamp(44px,12vw,76px)/.92 var(--display);letter-spacing:-.035em;margin:0 0 6px}
-.agg{font:700 12.5px/1 var(--display);color:rgba(244,238,220,.66);white-space:nowrap}
-.agg::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#5FA57A;margin-right:7px;vertical-align:middle}
-.lede{font:italic 400 17px/1.5 var(--serif);color:rgba(244,238,220,.8);margin:0 0 26px;max-width:46ch}
-.tiles{display:grid;gap:14px}
-@media (min-width:620px){.tiles{grid-template-columns:1fr 1fr}.tiles a.big{grid-column:1/-1}}
-.tile{display:flex;align-items:center;gap:16px;padding:20px;border-radius:22px;background:var(--paper);color:var(--ink);text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.22);transition:transform .25s var(--eo)}
-.tile:active{transform:scale(.98)}
-.tile .em{flex:none;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:color-mix(in srgb,var(--c) 18%,#fff)}
-.tile .t{flex:1;min-width:0}
-.tile .t b{display:block;font:800 21px/1.1 var(--display)}
-.tile .t span{display:block;font:400 14.5px/1.35 var(--display);color:var(--muted);margin-top:3px}
-.tile .go{flex:none;font-size:22px;color:#C9C3B0}
-.tile .big-n{font:800 34px/1 var(--display);color:var(--c)}
-.foot{margin-top:28px;text-align:center}
-.foot a{color:rgba(244,238,220,.7);text-decoration:none;font:700 13px/1 var(--display)}
-.entra{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:var(--deep);
-  background-image:radial-gradient(60% 50% at 88% 0%,rgba(242,182,50,.14),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.16),transparent 70%)}
-.entra form{max-width:420px;width:100%}
-.entra h1{font-size:clamp(44px,12vw,72px);margin:0 0 10px}
-.entra p{font:italic 400 17px/1.5 var(--serif);opacity:.85;margin:0 0 22px}
-.entra input{width:100%;height:54px;padding:0 16px;border-radius:14px;border:2px solid rgba(244,238,220,.25);background:rgba(0,0,0,.18);color:var(--cream);font:400 18px/1 Arial,sans-serif}
-.entra input:focus{outline:none;border-color:var(--sun)}
-.entra button{margin-top:14px;width:100%;height:54px;border:0;border-radius:14px;background:var(--sun);color:var(--ink);font:800 17px/1 var(--display)}
-.hidden{display:none!important}
-</style>
+<meta http-equiv="refresh" content="0; url=famiglia.html">
+<link rel="canonical" href="famiglia.html">
+<style>html,body{margin:0;background:#15302A;color:#F4EEDC;font:400 16px/1.5 system-ui,Arial,sans-serif;height:100%}
+.c{min-height:100%;display:grid;place-items:center;text-align:center;padding:24px}
+a{color:#F2B632}</style>
 </head>
 <body>
-<div class="wrap" id="app" aria-hidden="true">
-  <div class="top"><p class="eyebrow" style="margin:0">Famiglia · oggi</p><span class="agg" id="agg"></span></div>
-  <h1>Casa</h1>
-  <p class="lede" id="saluto">Calendario, spesa e menù, sempre aggiornati tra te e Caro.</p>
-  <div class="tiles">
-    <a class="tile big" href="calendario-famiglia.html" style="--c:#6E8BE8"><span class="em">📅</span><div class="t"><b>Calendario</b><span id="s-cal">—</span></div><span class="go">›</span></a>
-    <a class="tile" href="spesa-famiglia.html" style="--c:#E2231A"><span class="em">🛒</span><div class="t"><b>Spesa</b><span id="s-spesa">—</span></div><span class="go">›</span></a>
-    <a class="tile" href="menu-settimana.html" style="--c:#2F8F5B"><span class="em">🍽️</span><div class="t"><b>Menù</b><span id="s-menu">—</span></div><span class="go">›</span></a>
-  </div>
-  <p class="foot"><a href="famiglia.html">Tutto lo spazio di casa ›</a></p>
-</div>
-
-<div class="entra" id="entra">
-  <form id="entraForm">
-    <h1>Casa</h1>
-    <p>Calendario, spesa e menù di famiglia, sempre aggiornati tra te e Caro. Entra una volta: la password resta su questo telefono.</p>
-    <input type="password" id="pw" autocomplete="current-password" placeholder="password di casa" aria-label="password di casa">
-    <button type="submit">Entra</button>
-  </form>
-</div>
-
-<script>
-(function(){
-  'use strict';
-  var MOTORE = 'https://script.google.com/macros/s/AKfycbxkq1E_Pg6idbKh-bo3v1YZcOvYbV5_3U1R-5t6e1oeDeyWlWRSmXbu0bdbbrJ2RVgl1w/exec';
-  var PW_KEY = 'casa-pw';
-  function pw(){ try{ return localStorage.getItem(PW_KEY) || ''; }catch(e){ return ''; } }
-  function $(id){ return document.getElementById(id); }
-  function orario(){ var d = new Date(); return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); }
-  function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-  function lunedi(d){ var x = new Date(d); var g = (x.getDay()+6)%7; x.setDate(x.getDate()-g); x.setHours(0,0,0,0); return x; }
-  async function leggi(set){
-    var r = await fetch(MOTORE, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({pw:pw(), azione:'leggi', set:set})});
-    return r.json();
-  }
-  // ---- riquadri ----
-  var GIORNI = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
-  var MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-  function salutoOra(){ var h = new Date().getHours(); return h < 5 ? 'Buona notte' : h < 12 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera'; }
-  function nImpegniOggi(cal){
-    try{
-      var oggi = new Date(), gi = oggi.getDay(), oggiIso = iso(oggi), n = 0;
-      (cal.recurring||[]).forEach(function(r){ if((r.days||[]).indexOf(gi) >= 0) n++; });
-      var wk = (cal.weeks||{})[iso(lunedi(oggi))];
-      var gg = wk && wk.days ? wk.days[oggiIso] : null;
-      if(gg && gg.extra) n += gg.extra.length;
-      return n;
-    }catch(e){ return null; }
-  }
-  function testoCal(cal){
-    var oggi = new Date(), d = GIORNI[oggi.getDay()]+' '+oggi.getDate()+' '+MESI[oggi.getMonth()];
-    var n = nImpegniOggi(cal);
-    if(n === null) return d;
-    return d + ' · ' + (n === 0 ? 'solo la routine' : n === 1 ? '1 cosa in programma' : n+' cose in programma');
-  }
-  function testoSpesa(sp){
-    try{
-      var items = sp && sp.items ? Object.values(sp.items).filter(function(x){ return x && x.buy && !x.del; }) : [];
-      var cibo = {frutta:1,pane:1,frigo:1,carne:1,dispensa:1,colazione:1,surgelati:1,bevande:1};
-      var coop = items.filter(function(x){ return x.shop ? x.shop === 'coop' : cibo[x.cat]; }).length;
-      var ins = items.length - coop;
-      if(!items.length) return 'Niente da comprare';
-      return items.length + (items.length === 1 ? ' cosa' : ' cose') + ' · Coop ' + coop + ' · IN’s ' + ins;
-    }catch(e){ return '—'; }
-  }
-  function testoMenu(mn){
-    try{
-      var wk = (mn && mn.weeks) ? mn.weeks[iso(lunedi(new Date()))] : null;
-      var n = 0; if(wk) for(var k in wk){ if(wk[k] && (wk[k].c || wk[k].p)) n++; }
-      return n ? n + (n === 1 ? ' giorno pianificato' : ' giorni pianificati') + ' questa settimana' : 'Da pianificare';
-    }catch(e){ return 'Menù della settimana'; }
-  }
-  async function carica(){
-    $('saluto').textContent = salutoOra() + '. Ecco com’è casa oggi.';
-    try{
-      var r = await Promise.all([leggi('calendario'), leggi('spesa'), leggi('menu')]);
-      if(r.some(function(x){ return x && x.errore === 'auth'; })){ esci(); return; }
-      $('s-cal').textContent = testoCal(r[0].dati || {});
-      $('s-spesa').textContent = testoSpesa(r[1].dati || {});
-      $('s-menu').textContent = testoMenu(r[2].dati || {});
-      $('agg').textContent = 'Aggiornato ' + orario();
-    }catch(e){ $('agg').textContent = 'Non raggiungo i dati'; }
-  }
-  function esci(){ try{ localStorage.removeItem(PW_KEY); }catch(e){} mostraEntra(); }
-  function mostraApp(){ $('entra').classList.add('hidden'); $('app').setAttribute('aria-hidden','false'); carica(); }
-  function mostraEntra(){ $('entra').classList.remove('hidden'); $('app').setAttribute('aria-hidden','true'); setTimeout(function(){ try{ $('pw').focus(); }catch(e){} }, 60); }
-  $('entraForm').addEventListener('submit', function(e){ e.preventDefault(); var v = $('pw').value.trim(); if(!v) return; try{ localStorage.setItem(PW_KEY, v); }catch(x){} mostraApp(); });
-  document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible' && pw()) carica(); });
-  if(pw()) mostraApp(); else mostraEntra();
-})();
-</script>
+<div class="c"><p>La casa è qui ora → <a href="famiglia.html">apri lo Spazio di casa</a></p></div>
+<script>try{location.replace('famiglia.html');}catch(e){location.href='famiglia.html';}</script>
 </body>
 </html>
