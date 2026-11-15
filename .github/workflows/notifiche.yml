@@ -29,6 +29,7 @@ jobs:
           NTFY_CASA: ${{ secrets.NTFY_CASA }}
           NTFY_SOLDI: ${{ secrets.NTFY_SOLDI }}
           SCADENZE: ${{ secrets.SCADENZE }}
+          CHIAVE_API: ${{ secrets.CHIAVE_API }}
           SCHEDULE: ${{ github.event.schedule }}
           PROVA: ${{ inputs.prova }}
         run: python3 notifiche/manda.py
