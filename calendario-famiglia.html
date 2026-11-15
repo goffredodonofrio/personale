@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261115062226">
+<meta name="build" content="20261115064126">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261115062226">
+<meta name="build" content="20261115064126">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -1300,8 +1300,10 @@ document.addEventListener('DOMContentLoaded',function(){
   // ---------- GitHub ----------
   const statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
   let mode = 'init', saveTimer = null, dirty = false, saving = false;
-  const SHORT = {init:'Caricamento…', ok:'Collegato', saved:'Salvato', saving:'Salvataggio…', readonly:'Sola lettura', error:'Problema', local:'Solo qui'};
-  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = SHORT[s] || text; statusEl.title = text; avvisoSalva(); }
+  function orario(){ const d = new Date(); return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); }
+  const SHORT = {init:'Caricamento…', saving:'Salvo…', readonly:'Sola lettura', error:'Problema', local:'Solo qui'};
+  // «aggiornato alle HH:MM» invece delle scritte tecniche: così si capisce sempre qual è l'ultima versione
+  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = (s === 'ok' || s === 'saved') ? 'Aggiornato '+orario() : (SHORT[s] || text); statusEl.title = text || statusText.textContent; avvisoSalva(); }
   // la prima volta che qualcuno entra col motore vuoto: si parte dal calendario che c'era sul sito (migrazione automatica)
   async function fetchPages(){ try{ const r = await fetch('calendario/dati.json?t='+Date.now(), {cache:'no-store'}); if(r.ok) return await r.json(); }catch(e){} return null; }
   function vuotoCal(s){ return !s || !s.weeks || !Object.keys(s.weeks).length; }
@@ -1358,7 +1360,7 @@ document.addEventListener('DOMContentLoaded',function(){
       clearTimeout(saveTimer); saveTimer = setTimeout(flush, 5000);
     }finally{ saving = false; if(dirty && getToken() && mode !== 'error'){ clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1500); } }
   }
-  setInterval(() => { if(!dirty && !saving && getToken() && document.visibilityState === 'visible') load(false); }, 120000);
+  setInterval(() => { if(!dirty && !saving && getToken() && document.visibilityState === "visible") load(false); }, 20000);
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && !dirty && !saving) load(false); });
 
   // ---------- eventi della giornata ----------
