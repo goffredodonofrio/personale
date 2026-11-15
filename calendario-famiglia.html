@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261115064126">
+<meta name="build" content="20261115064714">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261115064126">
+<meta name="build" content="20261115064714">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -2348,7 +2348,53 @@ D.addEventListener('pointerover',function(e){ var s=e.target.closest&&e.target.c
 D.addEventListener('click',function(e){ var s=e.target.closest&&e.target.closest('svg[aria-label]'); if(!s||!s.querySelector('.eye')||!big(s)) return; if(s.closest('a,button')) return; hop(s); wave(s); bubble(s); });
 if(CFG.init) CFG.init();
 })();
-</script><style id="tema-rifinitura">
+</script><script id="casa-app">(function(){
+  var PAGINE = [['calendario-famiglia.html','Calendario'],['spesa-famiglia.html','Spesa'],['menu-settimana.html','Menù']];
+  var qui = location.pathname.split('/').pop() || '';
+  if(!PAGINE.some(function(p){ return p[0] === qui; })) return;
+  var css = document.createElement('style');
+  css.textContent = ''
+    + '.casa-bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:10px;padding:8px max(14px,env(safe-area-inset-left)) 8px max(14px,env(safe-area-inset-right));background:#ECEEF2;color:#1E2230;box-shadow:0 6px 18px rgba(0,0,0,.18)}'
+    + '.casa-bar .casa-logo{font:800 17px/1 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:-.01em;color:#1E2230;text-decoration:none;flex:none}'
+    + '.casa-bar .casa-tabs{display:flex;gap:3px;background:rgba(30,34,48,.08);border-radius:999px;padding:3px;margin:0 auto}'
+    + '.casa-bar .casa-tabs a{display:block;padding:7px 14px;border-radius:999px;color:rgba(30,34,48,.82);text-decoration:none;font:800 13.5px/1 "Bricolage Grotesque",Arial,sans-serif;white-space:nowrap}'
+    + '.casa-bar .casa-tabs a.on{background:#6352E8;color:#FFFFFF}'
+    + '.casa-bar .casa-stato{flex:none;display:flex;align-items:center;gap:6px;font:700 12px/1 "Bricolage Grotesque",Arial,sans-serif;color:rgba(30,34,48,.72);white-space:nowrap}'
+    + '.casa-bar .casa-stato::before{content:"";width:8px;height:8px;border-radius:50%;background:#9aa5a0}'
+    + '.casa-bar .casa-stato[data-s=ok]::before,.casa-bar .casa-stato[data-s=saved]::before{background:#5FA57A}'
+    + '.casa-bar .casa-stato[data-s=saving]::before{background:#6352E8}'
+    + '.casa-bar .casa-stato[data-s=error]::before,.casa-bar .casa-stato[data-s=readonly]::before{background:#E4573D}'
+    + 'html.ha-casa .top a[href="famiglia.html"],html.ha-casa .top .status,html.ha-casa .top #status{display:none!important}'
+    + '.casa-entra{position:fixed;inset:0;z-index:9998;display:grid;place-items:center;padding:24px;background:#ECEEF2;color:#1E2230;background-image:radial-gradient(60% 50% at 88% 0%,rgba(99,82,232,.14),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.16),transparent 70%)}'
+    + '.casa-entra form{max-width:420px;width:100%;text-align:left}'
+    + '.casa-entra h1{font:800 clamp(40px,10vw,64px)/.95 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:-.03em;margin:0 0 10px}'
+    + '.casa-entra p{font:italic 400 17px/1.5 "Literata",Georgia,serif;opacity:.85;margin:0 0 22px}'
+    + '.casa-entra input{width:100%;height:54px;padding:0 16px;border-radius:14px;border:2px solid rgba(30,34,48,.25);background:rgba(0,0,0,.18);color:#1E2230;font:400 18px/1 Arial,sans-serif;box-sizing:border-box}'
+    + '.casa-entra input:focus{outline:none;border-color:#6352E8}'
+    + '.casa-entra button{margin-top:14px;width:100%;height:54px;border:0;border-radius:14px;background:#6352E8;color:#FFFFFF;font:800 17px/1 "Bricolage Grotesque",Arial,sans-serif}'
+    + '@media (max-width:620px){.casa-bar{gap:8px;padding-top:calc(8px + env(safe-area-inset-top))}.casa-bar .casa-logo{display:none}.casa-bar .casa-tabs{margin:0}.casa-bar .casa-tabs a{padding:8px 12px}.casa-bar .casa-stato span{display:none}}';
+  document.head.appendChild(css);
+  var bar = document.createElement('nav'); bar.className = 'casa-bar'; bar.setAttribute('aria-label','Casa');
+  bar.innerHTML = '<a class="casa-logo" href="famiglia.html">Casa</a><div class="casa-tabs">'
+    + PAGINE.map(function(p){ return '<a href="'+p[0]+'"'+(p[0]===qui?' class="on" aria-current="page"':'')+'>'+p[1]+'</a>'; }).join('')
+    + '</div><span class="casa-stato" id="casaStato"><span>Aggiornato</span></span>';
+  document.body.insertBefore(bar, document.body.firstChild);
+  document.documentElement.classList.add('ha-casa');
+  // lo stato della pagina (Aggiornato HH:MM / Salvo… / Sola lettura) si riflette nella barra
+  var src = document.getElementById('status');
+  var dst = document.getElementById('casaStato');
+  function rifletti(){ if(!dst) return; var tx = document.getElementById('statusText'); dst.firstChild.textContent = (tx && tx.textContent) ? tx.textContent : 'Aggiornato'; if(src) dst.dataset.s = src.dataset.s || ''; }
+  if(src){ new MutationObserver(rifletti).observe(src, {subtree:true, childList:true, characterData:true, attributes:true}); }
+  rifletti();
+  // «Entra in Casa»: una volta sola, poi la password resta su questo dispositivo
+  if(!localStorage.getItem('casa-pw')){
+    var ov = document.createElement('div'); ov.className = 'casa-entra';
+    ov.innerHTML = '<form><h1>Casa</h1><p>Calendario, spesa e menù di famiglia, sempre aggiornati tra te e Caro. Entra una volta: la password resta su questo telefono.</p><input type="password" autocomplete="current-password" placeholder="password di casa" aria-label="password di casa"><button type="submit">Entra</button></form>';
+    document.body.appendChild(ov);
+    var inp = ov.querySelector('input'); setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 60);
+    ov.querySelector('form').addEventListener('submit', function(e){ e.preventDefault(); var v = inp.value.trim(); if(!v) return; try{ localStorage.setItem('casa-pw', v); }catch(x){} location.reload(); });
+  }
+})();</script><style id="tema-rifinitura">
 :root{--v:#6352E8;--v-700:#4A3AC2;--v-50:#F4F2FE;--v-100:#E9E5FD;--v-200:#D9D2FB;--l:rgba(30,34,48,.12);--l2:rgba(30,34,48,.2);--t1:#1E2230;--t2:#5B6172;
   --amb-50:#FFF6E6;--amb-600:#9A5B00;--amb-b:#F2C37A}
 /* stati attivi: tenue, non pieno */
