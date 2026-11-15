@@ -18,7 +18,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxOut{from{transform:none}to{transform:translateX(101%)}}
 @keyframes fxFace{to{opacity:1;transform:none}}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
-@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="viewport" content="width=device-width, initial-scale=1"><title>I fogli di casa</title>
+@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest"><meta name="viewport" content="width=device-width, initial-scale=1"><title>I fogli di casa</title>
 <style>
 body{margin:0;background:#E9E4D8;font-family:"Nunito","Trebuchet MS",sans-serif}
 .top{max-width:1123px;margin:0 auto;padding:28px 20px 8px;color:#1F2A26}
@@ -902,4 +902,43 @@ if(CFG.init) CFG.init();
 .tutto:not(:disabled),.addbox button,.btn.primary,.fx-actions .pri,.sub-link a.pri{background:var(--v)!important;color:#fff!important;box-shadow:0 6px 16px -8px rgba(99,82,232,.7)!important}
 /* fuoco da tastiera visibile */
 a:focus-visible,button:focus-visible,[role=button]:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--v)!important;outline-offset:2px!important}
-</style></body></html>
+</style><script id="casa-gate">(function(){
+  var TOOL = false;
+  var MOTORE = 'https://script.google.com/macros/s/AKfycbxkq1E_Pg6idbKh-bo3v1YZcOvYbV5_3U1R-5t6e1oeDeyWlWRSmXbu0bdbbrJ2RVgl1w/exec';
+  var PW_KEY = 'casa-pw';
+  function pw(){ try{ return localStorage.getItem(PW_KEY) || ''; }catch(e){ return ''; } }
+  if(pw()) return;
+  var css = document.createElement('style');
+  css.textContent = ''
+    + 'html.casa-chiuso{overflow:hidden}'
+    + 'html.casa-chiuso body>*:not(.casa-entra){visibility:hidden!important}'
+    + '.casa-entra{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:24px;background:#15302A;color:#F4EEDC;background-image:radial-gradient(60% 50% at 88% 0%,rgba(242,182,50,.14),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(95,165,122,.16),transparent 70%)}'
+    + '.casa-entra form{max-width:420px;width:100%;text-align:left}'
+    + '.casa-entra h1{font:800 clamp(40px,10vw,64px)/.95 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:-.03em;margin:0 0 10px}'
+    + '.casa-entra p{font:italic 400 17px/1.5 "Literata",Georgia,serif;opacity:.85;margin:0 0 22px}'
+    + '.casa-entra input{width:100%;height:54px;padding:0 16px;border-radius:14px;border:2px solid rgba(244,238,220,.25);background:rgba(0,0,0,.18);color:#F4EEDC;font:400 18px/1 Arial,sans-serif;box-sizing:border-box}'
+    + '.casa-entra input:focus{outline:none;border-color:#F2B632}'
+    + '.casa-entra button{margin-top:14px;width:100%;height:54px;border:0;border-radius:14px;background:#F2B632;color:#1F2A26;font:800 17px/1 "Bricolage Grotesque",Arial,sans-serif}'
+    + '.casa-entra button:disabled{opacity:.6}'
+    + '.casa-entra .err{margin-top:12px;min-height:18px;font:700 13px/1.4 "Bricolage Grotesque",Arial,sans-serif;color:#F6B4A6}';
+  document.head.appendChild(css);
+  document.documentElement.classList.add('casa-chiuso');
+  var ov = document.createElement('div'); ov.className = 'casa-entra';
+  ov.innerHTML = '<form><h1>Casa</h1><p>Lo spazio di casa: calendario, spesa, menù e il resto. Entra una volta con la password di casa: resta su questo telefono.</p><input type="password" autocomplete="current-password" placeholder="password di casa" aria-label="password di casa"><button type="submit">Entra</button><div class="err" aria-live="polite"></div></form>';
+  document.body.appendChild(ov);
+  var inp = ov.querySelector('input'), err = ov.querySelector('.err'), btn = ov.querySelector('button');
+  setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 60);
+  ov.querySelector('form').addEventListener('submit', function(e){
+    e.preventDefault(); var v = inp.value.trim(); if(!v) return;
+    btn.disabled = true; err.textContent = 'Controllo…';
+    fetch(MOTORE, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({pw:v, azione:'leggi', set:'spesa'})})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(j && j.errore === 'auth'){ err.textContent = 'Password non valida.'; btn.disabled = false; try{ inp.select(); }catch(x){} return; }
+        try{ localStorage.setItem(PW_KEY, v); }catch(x){}
+        if(TOOL){ location.reload(); }
+        else { document.documentElement.classList.remove('casa-chiuso'); ov.remove(); }
+      })
+      .catch(function(){ err.textContent = 'Non riesco a raggiungere il motore, riprova.'; btn.disabled = false; });
+  });
+})();</script></body></html>
