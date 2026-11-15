@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261115062226">
+<meta name="build" content="20261115064126">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -520,8 +520,10 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
   // ---------- GitHub (merge per articolo: vince la modifica più recente) ----------
   const statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
   let mode = 'init', saveTimer = null, dirty = false, saving = false;
-  const SHORT = {init:'Caricamento…', ok:'Collegato', saved:'Salvato', saving:'Salvataggio…', readonly:'Sola lettura', error:'Problema'};
-  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = SHORT[s] || text; statusEl.title = text; }
+  function orario(){ const d = new Date(); return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); }
+  const SHORT = {init:'Caricamento…', saving:'Salvo…', readonly:'Sola lettura', error:'Problema'};
+  // «aggiornato alle HH:MM» invece delle scritte tecniche: così si capisce sempre qual è l'ultima versione
+  function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = (s === 'ok' || s === 'saved') ? 'Aggiornato '+orario() : (SHORT[s] || text); statusEl.title = text || statusText.textContent; }
   function getPw(){ try{ return localStorage.getItem(PW_KEY) || ''; }catch(e){ return ''; } }
   // una sola chiamata al motore: POST con la password nel corpo (mai nell'indirizzo)
   async function motore(azione, extra){
@@ -573,7 +575,7 @@ dialog .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px #D8D2C0}
     }catch(e){ dirty = true; writeCache(); setStatus('error','Salvataggio non riuscito, riprovo…'); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 5000); }
     finally{ saving = false; if(dirty && getPw() && mode !== 'error') schedule(); }
   }
-  setInterval(() => { if(!dirty && !saving && getPw() && document.visibilityState === 'visible' && !document.querySelector('dialog[open]')) load(false); }, 60000);
+  setInterval(() => { if(!dirty && !saving && getPw() && document.visibilityState === 'visible' && !document.querySelector('dialog[open]')) load(false); }, 20000);
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && !dirty && !saving && getPw()) load(false); });
 
   // ---------- offerte dei volantini (spesa/offerte.json, preparato da Claude dai volantini; frutta e verdura escluse) ----------
