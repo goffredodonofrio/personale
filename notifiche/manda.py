@@ -52,8 +52,26 @@ def rifiuti():
 KIDS = {'edo': 'Edoardo', 'bia': 'Bianca'}
 SLOT = [('gym', 'Palestra', 'gym'), ('m', 'Accompagnamento', 'drop'), ('p', 'Ritiro', 'pick')]   # la sera non c'e' piu' (06/11/2026)
 
+# dal 15/11/2026 il calendario vive nel motore di famiglia (Google Apps Script), non più nel repo pubblico.
+# Si legge con la CHIAVE_API (segreto GitHub); se manca, si ripiega sul vecchio file finché c'è.
+MOTORE = 'https://script.google.com/macros/s/AKfycbxkq1E_Pg6idbKh-bo3v1YZcOvYbV5_3U1R-5t6e1oeDeyWlWRSmXbu0bdbbrJ2RVgl1w/exec'
+
+def dal_motore(insieme):
+    chiave = os.environ.get('CHIAVE_API', '')
+    if not chiave:
+        return None
+    corpo = json.dumps({'chiave': chiave, 'azione': 'leggi', 'set': insieme}).encode()
+    req = urllib.request.Request(MOTORE, data=corpo, headers={'Content-Type': 'text/plain;charset=utf-8'})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        j = json.loads(r.read().decode('utf-8'))
+    if j.get('errore'):
+        raise SystemExit('motore: ' + j['errore'])   # chiave sbagliata: meglio fermarsi che mandare dati vuoti
+    return j.get('dati') or {}
+
 def calendario():
-    S = json.load(open(os.path.join(RADICE, 'calendario', 'dati.json'), encoding='utf-8'))
+    S = dal_motore('calendario')
+    if S is None:
+        S = json.load(open(os.path.join(RADICE, 'calendario', 'dati.json'), encoding='utf-8'))
     persone = {p['id']: p['name'] for p in S.get('people', [])}; persone.update(KIDS)
     def W(v):
         if isinstance(v, dict):
