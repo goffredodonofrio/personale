@@ -21,9 +21,9 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxOut{from{transform:none}to{transform:translateX(101%)}}
 @keyframes fxFace{to{opacity:1;transform:none}}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
-@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#collega=')===0){var tk=decodeURIComponent(location.hash.slice(9)).trim();if(/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(tk)){localStorage.setItem('calfam-gh-token',tk);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
+@media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#ECEEF2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261106080618">
+<meta name="build" content="20261115062226">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261106080618">
+<meta name="build" content="20261115062226">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -904,7 +904,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <div class="vchips" id="vchips" hidden></div>
   </nav>
-  <div class="avviso-salva" id="avvisoSalva" hidden role="status"><b>Modifiche solo su questo dispositivo.</b> Non sono ancora salvate per tutti: tocca ⚙ e incolla il token GitHub. Finché non lo fai restano qui, anche se chiudi la pagina.<button type="button" id="avvisoCopiaBtn" class="sec">Copia per Claude</button><button type="button" id="avvisoSalvaBtn">Collega</button></div>
+  <div class="avviso-salva" id="avvisoSalva" hidden role="status"><b>Modifiche solo su questo dispositivo.</b> Non sono ancora salvate per tutti: tocca ⚙ e scrivi la password di casa. Finché non lo fai restano qui, anche se chiudi la pagina.<button type="button" id="avvisoSalvaBtn">Entra</button></div>
 
   <section class="bar" aria-label="Settimana">
     <div class="nav">
@@ -988,15 +988,10 @@ document.addEventListener('DOMContentLoaded',function(){
       <label class="field">Uscita Edoardo (default)<input type="time" id="sEdo"></label>
       <label class="field">Uscita Bianca (default)<input type="time" id="sBia"></label>
     </div>
-    <h4>Salvataggio condiviso</h4>
-    <p>I dati vivono nel file <code id="ghPath"></code> del sito. Per scrivere serve un token GitHub, che resta solo in questo browser.</p>
-    <ol class="steps">
-      <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained</b>.</li>
-      <li>Repository: solo <code>personale</code>. Permissions → Contents: <b>Read and write</b>.</li>
-      <li>Incolla qui il token e salva. Poi tocca <b>Manda il collegamento</b>: chi apre quel link una volta ha il dispositivo collegato, e calendario, spesa e menù si salvano da soli.</li>
-    </ol>
-    <label class="field">Token<input type="password" id="ghToken" autocomplete="off" placeholder="github_pat_…"></label>
-    <p class="collega-riga" id="collegaRiga" hidden><button type="button" class="btn ghost" id="ghShare">Manda il collegamento</button> <small>Il link contiene il token: mandalo solo in famiglia.</small></p>
+    <h4>Entra per salvare</h4>
+    <p>Il calendario è di famiglia: lo vedete e lo cambiate tu e Carolina. Scrivi una volta la <b>password di casa</b> (la stessa della spesa e del menù). Resta su questo dispositivo.</p>
+    <label class="field">Password di casa<input type="password" id="ghToken" autocomplete="current-password" placeholder="password di casa"></label>
+    <p class="collega-riga" id="collegaRiga" hidden><button type="button" class="btn ghost" id="ghShare">Manda il collegamento</button> <small>Comodo per non riscriverla: apri il link una volta per telefono, in famiglia.</small></p>
     <div class="dlg-actions">
       <button type="button" class="btn ghost danger" id="ghForget">Scollega</button>
       <div class="right">
@@ -1073,8 +1068,10 @@ document.addEventListener('DOMContentLoaded',function(){
 (function(){
   'use strict';
   // ---------- configurazione ----------
-  const GH = {owner:'goffredodonofrio', repo:'personale', branch:'main', path:'calendario/dati.json'};
-  const TOKEN_KEY = 'calfam-gh-token', CACHE_KEY = 'calfam-cache';
+  // dal 15/11/2026: i dati vivono nel motore di famiglia (Google Apps Script), aperto con la password di famiglia.
+  const MOTORE = 'https://script.google.com/macros/s/AKfycbxkq1E_Pg6idbKh-bo3v1YZcOvYbV5_3U1R-5t6e1oeDeyWlWRSmXbu0bdbbrJ2RVgl1w/exec';
+  const SET = 'calendario';
+  const PW_KEY = 'casa-pw', CACHE_KEY = 'calfam-cache';
   const START = '2026-09-14';
   const KIDS = [{id:'edo',name:'Edoardo',full:'Edoardo'},{id:'bia',name:'Bianca',full:'Bianca'}];
   const SLOTS = [{id:'m',name:'Mattina',def:'09:00'},{id:'p',name:'Pomeriggio',def:'15:00'},{id:'s',name:'Sera',def:'20:00'}];
@@ -1185,7 +1182,12 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   function readCache(){ try{ const c = localStorage.getItem(CACHE_KEY); return c ? JSON.parse(c) : null; }catch(e){ return null; } }
   function writeCache(){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(state)); }catch(e){} }
-  function getToken(){ try{ return localStorage.getItem(TOKEN_KEY) || ''; }catch(e){ return ''; } }
+  function getToken(){ try{ return localStorage.getItem(PW_KEY) || ''; }catch(e){ return ''; } }  // la password di famiglia
+  async function motore(azione, extra){
+    const r = await fetch(MOTORE, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(Object.assign({pw:getToken(), azione:azione, set:SET}, extra||{}))});
+    if(!r.ok) throw new Error('motore '+r.status);
+    return r.json();
+  }
   // modifiche fatte qui e non ancora salvate per tutti (24/10/2026: una settimana compilata sul telefono senza token si perdeva alla riapertura)
   const PENDING_KEY = 'calfam-pending';
   function readPending(){ try{ return JSON.parse(localStorage.getItem(PENDING_KEY) || 'null') || {weeks:{}}; }catch(e){ return {weeks:{}}; } }
@@ -1300,47 +1302,33 @@ document.addEventListener('DOMContentLoaded',function(){
   let mode = 'init', saveTimer = null, dirty = false, saving = false;
   const SHORT = {init:'Caricamento…', ok:'Collegato', saved:'Salvato', saving:'Salvataggio…', readonly:'Sola lettura', error:'Problema', local:'Solo qui'};
   function setStatus(s, text){ mode = s; statusEl.dataset.s = s; statusText.textContent = SHORT[s] || text; statusEl.title = text; avvisoSalva(); }
-  function apiUrl(){ return 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/contents/'+GH.path; }
-  function headers(withAuth){
-    const h = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
-    const t = getToken(); if(withAuth && t) h['Authorization'] = 'Bearer ' + t;
-    return h;
-  }
-  function b64enc(str){ return btoa(unescape(encodeURIComponent(str))); }
-  function b64dec(b){ return decodeURIComponent(escape(atob(b.replace(/\n/g,'')))); }
-  async function fetchRemote(){
-    const r = await fetch(apiUrl()+'?ref='+GH.branch+'&t='+Date.now(), {headers: headers(true), cache:'no-store'});
-    if(r.status === 404) return {missing:true};
-    if(!r.ok){ const e = new Error('GitHub '+r.status); e.status = r.status; throw e; }
-    const j = await r.json();
-    return {sha:j.sha, data:JSON.parse(b64dec(j.content))};
-  }
-  async function fetchPages(){
-    const r = await fetch('calendario/dati.json?t='+Date.now(), {cache:'no-store'});
-    if(!r.ok) throw new Error('pages '+r.status);
-    return {sha:null, data:await r.json()};
-  }
+  // la prima volta che qualcuno entra col motore vuoto: si parte dal calendario che c'era sul sito (migrazione automatica)
+  async function fetchPages(){ try{ const r = await fetch('calendario/dati.json?t='+Date.now(), {cache:'no-store'}); if(r.ok) return await r.json(); }catch(e){} return null; }
+  function vuotoCal(s){ return !s || !s.weeks || !Object.keys(s.weeks).length; }
   async function load(initial){
+    if(!getToken()){ if(!state) state = normalize(readCache() || clone(DEFAULT)); if(initial) weekKey = defaultWeek(); renderAll(); setStatus('readonly','Sola lettura: apri ⚙ e scrivi la password di casa per salvare'); avvisoSalva(); return; }
     let got = null, rifiutato = false;
-    try{ got = await fetchRemote(); }
-    catch(e){ rifiutato = (e.status === 401 || e.status === 403) && !!getToken(); try{ got = await fetchPages(); }catch(e2){ got = null; } }
-    if(got && got.missing){ state = normalize(clone(DEFAULT)); remoteSha = null; baseState = null; }
-    else if(got){ baseState = normalize(clone(got.data));
-      const u = unisciLocale(normalize(got.data)); state = normalize(u.state); remoteSha = got.sha; writeCache();
-      if(u.cambiato) dirty = true; } // l'ora delle modifiche in sospeso resta quella vera: unire i dati non e' una modifica nuova
+    try{ got = await motore('leggi'); }catch(e){ got = null; }
+    if(got && got.errore === 'auth'){ rifiutato = true; got = null; }
+    if(got){
+      let rem = normalize(clone(got.dati));
+      if(vuotoCal(rem)){ const seed0 = await fetchPages(); if(seed0 && !vuotoCal(normalize(seed0))){ rem = normalize(clone(seed0)); dirty = true; } }  // migrazione dal vecchio calendario pubblico
+      baseState = normalize(clone(rem));
+      const u = unisciLocale(rem); state = normalize(u.state); remoteSha = got.versione || ''; writeCache();
+      if(u.cambiato) dirty = true;
+    }
     else if(!state){ state = normalize(readCache() || clone(DEFAULT)); }
     if(initial) weekKey = defaultWeek();
     renderAll();
-    if(rifiutato){ setStatus('error','Collegamento scaduto o non valido: serve un token nuovo (⚙)'); avvisoSalva(); return; }
-    if(!got) setStatus('error','Non riesco a leggere i dati dal sito: mostro l\'ultima copia su questo dispositivo');
-    else if(getToken()) setStatus('ok', got.missing ? 'Collegato: il primo salvataggio creerà il file dei dati' : 'Collegato: le modifiche si salvano per tutti');
-    else setStatus('readonly','Sola lettura: apri ⚙ e incolla il token GitHub per salvare le modifiche');
+    if(rifiutato){ setStatus('error','Password di casa non valida (⚙)'); avvisoSalva(); return; }
+    if(!got) setStatus('error','Non riesco a leggere i dati: mostro l\'ultima copia su questo dispositivo');
+    else setStatus('ok','Collegato: le modifiche si salvano per tutti');
     if(dirty && getToken()){ setStatus('saving','Salvo le modifiche fatte su questo dispositivo…'); flush(); }
     avvisoSalva();
   }
   function markDirty(){
     dirty = true; writeCache(); notePending(); renderLegend(); renderHero();
-    if(!getToken()){ setStatus('readonly','Modifica non salvata: apri ⚙ e incolla il token GitHub'); return; }
+    if(!getToken()){ setStatus('readonly','Modifica non salvata: apri ⚙ e scrivi la password di casa'); return; }
     setStatus('saving','Salvataggio…');
     clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1500);
   }
@@ -1349,31 +1337,20 @@ document.addEventListener('DOMContentLoaded',function(){
     saving = true; dirty = false;
     try{
       state.aggiornato = Date.now();
-      let testo = JSON.stringify(state, null, 1);
-      const body = {message:'Calendario familiare: aggiornamento', content:b64enc(testo), branch:GH.branch};
-      if(remoteSha) body.sha = remoteSha;
-      const hdr = Object.assign({'Content-Type':'application/json'}, headers(true));
-      let r = await fetch(apiUrl(), {method:'PUT', headers:hdr, body:JSON.stringify(body)});
-      // conflitto: un altro dispositivo ha salvato nel frattempo. Si rilegge il sito e si uniscono le modifiche
-      // (prima si reinviava la copia di questo dispositivo, cancellando quelle dell'altro)
-      for(let tent = 0; (r.status === 409 || r.status === 422) && tent < 3; tent++){
-        const remote = await fetchRemote();
-        if(remote.missing){ remoteSha = null; baseState = null; delete body.sha; }
-        else {
-          const sito = normalize(clone(remote.data)), prima = stabile(state);
-          state = normalize(unisci3(baseState, state, normalize(clone(remote.data))));
-          baseState = sito; remoteSha = remote.sha; writeCache();
-          if(stabile(state) !== prima){ renderAll(); flash('Ho unito le modifiche fatte da un altro dispositivo'); }
-          state.aggiornato = Date.now();
-          testo = JSON.stringify(state, null, 1);
-          body.content = b64enc(testo); body.sha = remoteSha;
-        }
-        r = await fetch(apiUrl(), {method:'PUT', headers:hdr, body:JSON.stringify(body)});
+      let j = await motore('scrivi', {dati:state, base:remoteSha});
+      // conflitto: un altro dispositivo ha salvato nel frattempo. Si uniscono le modifiche (3 vie) e si riprova
+      for(let tent = 0; j && j.conflitto && tent < 3; tent++){
+        const sito = normalize(clone(j.dati)), prima = stabile(state);
+        state = normalize(unisci3(baseState, state, normalize(clone(j.dati))));
+        baseState = sito; remoteSha = j.versione || ''; writeCache();
+        if(stabile(state) !== prima){ renderAll(); flash('Ho unito le modifiche fatte da un altro dispositivo'); }
+        state.aggiornato = Date.now();
+        j = await motore('scrivi', {dati:state, base:remoteSha});
       }
-      if(r.status === 401 || r.status === 403){ setStatus('error','Token non valido o senza permessi di scrittura (⚙)'); dirty = true; return; }
-      if(!r.ok) throw new Error('GitHub '+r.status);
-      remoteSha = (await r.json()).content.sha;
-      baseState = JSON.parse(testo);
+      if(j && j.errore === 'auth'){ setStatus('error','Password di casa non valida (⚙)'); dirty = true; return; }
+      if(!j || !j.versione) throw new Error('motore');
+      remoteSha = j.versione;
+      baseState = normalize(clone(state));
       if(!dirty) clearPending();
       setStatus('saved','Salvato per tutti');
     }catch(e){
@@ -1381,7 +1358,7 @@ document.addEventListener('DOMContentLoaded',function(){
       clearTimeout(saveTimer); saveTimer = setTimeout(flush, 5000);
     }finally{ saving = false; if(dirty && getToken() && mode !== 'error'){ clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1500); } }
   }
-  setInterval(() => { if(!dirty && !saving && document.visibilityState === 'visible') load(false); }, 120000);
+  setInterval(() => { if(!dirty && !saving && getToken() && document.visibilityState === 'visible') load(false); }, 120000);
   document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && !dirty && !saving) load(false); });
 
   // ---------- eventi della giornata ----------
@@ -1933,7 +1910,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
   // ---------- impostazioni ----------
   const ghDlg = document.getElementById('ghDlg');
-  document.getElementById('ghPath').textContent = GH.path;
   document.getElementById('settingsBtn').addEventListener('click', () => {
     document.getElementById('ghToken').value = getToken(); document.getElementById('collegaRiga').hidden = !getToken();
     document.getElementById('sGym').value = state.times.gym; document.getElementById('sDrop').value = state.times.drop;
@@ -1941,25 +1917,22 @@ document.addEventListener('DOMContentLoaded',function(){
     ghDlg.showModal();
   });
   document.getElementById('ghCancel').addEventListener('click', () => ghDlg.close());
-  document.getElementById('ghForget').addEventListener('click', () => { try{ localStorage.removeItem(TOKEN_KEY); }catch(e){} ghDlg.close(); setStatus('readonly','Sola lettura: apri ⚙ e incolla il token GitHub per salvare'); });
+  document.getElementById('ghForget').addEventListener('click', () => { try{ localStorage.removeItem(PW_KEY); }catch(e){} ghDlg.close(); setStatus('readonly','Sola lettura: apri ⚙ e scrivi la password di casa per salvare'); });
   async function verificaToken(){
-    setStatus('saving','Verifico il collegamento…');
+    setStatus('saving','Verifico la password…');
     try{
-      const r = await fetch('https://api.github.com/repos/'+GH.owner+'/'+GH.repo, {headers: headers(true)});
-      if(!r.ok) throw new Error(r.status);
-      const j = await r.json();
-      if(!(j.permissions && j.permissions.push)){ setStatus('error','Il token legge ma non può scrivere: serve Contents → Read and write'); return; }
-      setStatus('ok','Collegato: le modifiche si salvano per tutti');
-      if(dirty) flush();
-    }catch(err){ setStatus('error','Token non accettato da GitHub: controlla e riprova (⚙)'); }
+      const j = await motore('leggi');
+      if(j && j.errore === 'auth'){ setStatus('error','Password di casa non valida: controlla e riprova (⚙)'); return; }
+      await load(false);
+    }catch(err){ setStatus('error','Non riesco a raggiungere il motore: riprova (⚙)'); }
   }
-  // link "Manda il collegamento": #collega=<token>, letto da fx-early prima di tutto il resto
+  // link "Manda il collegamento": #casa=<password>, letto da fx-early prima di tutto il resto
   document.getElementById('ghShare').addEventListener('click', async () => {
     const t = getToken(); if(!t) return;
-    const url = location.origin + location.pathname + '#collega=' + encodeURIComponent(t);
-    const testo = 'Apri questo link una volta su questo dispositivo: il calendario di casa, la spesa e il menù si salvano da soli.';
-    try{ if(navigator.share){ await navigator.share({title:'Collega il calendario di casa', text:testo, url}); return; } }catch(e){ if(e && e.name === 'AbortError') return; }
-    try{ await navigator.clipboard.writeText(url); alert('Link copiato: incollalo su WhatsApp a te stesso e a Carolina, e apritelo una volta su ogni telefono o computer.'); }
+    const url = location.origin + location.pathname + '#casa=' + encodeURIComponent(t);
+    const testo = 'Apri questo link una volta su questo telefono: calendario, spesa e menù di casa si salvano da soli.';
+    try{ if(navigator.share){ await navigator.share({title:'Entra nel calendario di casa', text:testo, url}); return; } }catch(e){ if(e && e.name === 'AbortError') return; }
+    try{ await navigator.clipboard.writeText(url); alert('Link copiato: mandalo a Carolina e apritelo una volta per telefono.'); }
     catch(e){ prompt('Copia questo link:', url); }
   });
   document.getElementById('ghForm').addEventListener('submit', async e => {
@@ -1967,11 +1940,11 @@ document.addEventListener('DOMContentLoaded',function(){
     const nt = {gym:document.getElementById('sGym').value, drop:document.getElementById('sDrop').value, edo:document.getElementById('sEdo').value, bia:document.getElementById('sBia').value};
     let changed = false; for(const k in nt) if(nt[k] && nt[k] !== state.times[k]){ state.times[k] = nt[k]; changed = true; }
     const t = document.getElementById('ghToken').value.trim();
-    const tokenChanged = t && t !== getToken();
-    if(t){ try{ localStorage.setItem(TOKEN_KEY, t); }catch(err){} }
+    const pwChanged = t && t !== getToken();
+    if(t){ try{ localStorage.setItem(PW_KEY, t); }catch(err){} }
     ghDlg.close();
     if(changed){ renderAll(); markDirty(); }
-    if(tokenChanged || (t && mode === 'readonly')) verificaToken();
+    if(pwChanged || (t && mode === 'readonly')) verificaToken();
   });
 
   // ---------- viste: comandi ----------
@@ -2018,15 +1991,6 @@ document.addEventListener('DOMContentLoaded',function(){
     giorno = weekKey === iso(mondayOf(parse(todayIso))) ? todayIso : weekKey; renderVista(); }));
 
   document.getElementById('avvisoSalvaBtn').addEventListener('click', () => document.getElementById('settingsBtn').click());
-  // senza token: copia le settimane da questa in poi, da incollare a Claude che le salva sul sito
-  document.getElementById('avvisoCopiaBtn').addEventListener('click', async () => {
-    const da = iso(addDays(mondayOf(new Date()), -7)), w = {};
-    for(const k in state.weeks) if(k >= da) w[k] = state.weeks[k];
-    const testo = 'CALENDARIO-FAMIGLIA ' + JSON.stringify({weeks:w, recurring:state.recurring, times:state.times});
-    let ok = false; try{ await navigator.clipboard.writeText(testo); ok = true; }catch(e){}
-    if(!ok){ const t = document.createElement('textarea'); t.value = testo; document.body.appendChild(t); t.select(); try{ ok = document.execCommand('copy'); }catch(e){} t.remove(); }
-    alert(ok ? 'Copiato. Incollalo a Claude nella chat.' : 'Non riesco a copiare da solo: riprova, oppure usa Collega col token.');
-  });
   // ---------- avvio: si atterra sulla giornata di oggi ----------
   state = normalize(readCache() || clone(DEFAULT)); weekKey = iso(mondayOf(parse(giorno))); renderAll(); scorriA(giorno, false);
   load(true).then(() => { weekKey = iso(mondayOf(parse(giorno))); const y = scrollY; renderAll(); if(atterra) scorriA(giorno, false); setTimeout(() => { atterra = false; }, 400);
