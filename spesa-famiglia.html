@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261116093421">
+<meta name="build" content="20261116094141">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -584,7 +584,7 @@ FB.login = function(onReady){
     if(got && got.errore === 'auth'){ render(); setStatus('error','Password di casa non valida (⚙)'); return; }
     if(!got){ if(!state) state = normalize(cache && cache.state ? cache.state : seed()); render(); setStatus('error','Non riesco a leggere la lista: mostro l\'ultima copia su questo dispositivo'); return; }
     let rem = normalize(got.dati);
-    if(vuota(rem)){ let seed0 = await vecchioMotore(); if(!seed0 || vuota(normalize(seed0))) seed0 = await fetchPages(); if(seed0 && !vuota(normalize(seed0))){ rem = normalize(seed0); dirty = true; } }  // migrazione: prima dal vecchio motore (password locale), poi dal json pubblico
+    if(vuota(got.dati)){ let seed0 = await vecchioMotore(); if(!seed0 || vuota(seed0)) seed0 = await fetchPages(); if(seed0 && !vuota(seed0)){ rem = normalize(seed0); dirty = true; } }  // migrazione quando Firestore e' vuoto (dato grezzo, non normalizzato che riempie con le offerte): prima dal vecchio motore, poi dal json pubblico
     remoteSha = got.versione || '';
     state = (cache && cache.dirty && cache.state) ? normalize(merge(normalize(cache.state), rem)) : rem;
     if(cache && cache.dirty) dirty = true;
