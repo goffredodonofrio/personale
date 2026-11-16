@@ -719,7 +719,7 @@ if(CFG.init) CFG.init();
   document.documentElement.classList.add('ha-casa');
   document.documentElement.style.setProperty('--casa-bar-h', bar.offsetHeight + 'px');
   bar.querySelector('.back').addEventListener('click', function(){ if(history.length > 1) history.back(); else location.href = 'index.html'; });
-})();</script><div id="loginCasa" hidden style="position:fixed;inset:0;z-index:99999;background:#15302A;color:#F4EEDC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
+})();</script><div id="loginCasa" hidden style="position:fixed;inset:0;z-index:99999;background:#15302A;color:#F4EEDC;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
   <style>@keyframes casaPop{from{opacity:0;transform:translateY(14px) scale(.5)}to{opacity:1;transform:none}}#loginCasa .casaAv{width:64px;height:64px;border-radius:50%;background:#F4EEDC;box-shadow:0 0 0 3px var(--c);display:grid;place-items:center;overflow:hidden;animation:casaPop .55s cubic-bezier(.34,1.56,.64,1) both}#loginCasa .casaAv svg{width:52px;height:52px}@media (prefers-reduced-motion:reduce){#loginCasa .casaAv{animation:none}}</style>
   <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:6px" aria-hidden="true">
     <span class="casaAv" style="--c:#5FA57A;animation-delay:.05s"><svg viewBox="4 -13 52 52"><use href="#fxf-goffredo"/></svg></span>
