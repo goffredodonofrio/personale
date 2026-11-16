@@ -869,6 +869,7 @@ if(CFG.init) CFG.init();
     + '<a class="nb home" href="index.html"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/></svg>Casa</a>';
   document.body.insertBefore(bar, document.body.firstChild);
   document.documentElement.classList.add('ha-casa');
+  document.documentElement.style.setProperty('--casa-bar-h', bar.offsetHeight + 'px');
   bar.querySelector('.back').addEventListener('click', function(){ if(history.length > 1) history.back(); else location.href = 'index.html'; });
 })();</script><script id="casa-gate">(function(){
   var TOOL = false;
