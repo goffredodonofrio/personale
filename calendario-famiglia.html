@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#15302A"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
-<meta name="build" content="20261116111156">
+<meta name="build" content="20261116112617">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261116111156">
+<meta name="build" content="20261116112617">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -1511,13 +1511,13 @@ document.addEventListener('DOMContentLoaded',function(){
   function dayHtml(dIso, big){
     const {key, x} = dayX(dIso), all = dayEvents(x, key), evs = all.filter(tocca), nasc = all.length - evs.length;
     let html = '<article class="day'+(x.isToday?' today':'')+(x.we?' weekend':'')+(big?' big':'')+'" data-day="'+dIso+'">';
+    const stTop = stasera(dIso); if(stTop) html += '<div class="rif rif-top">🗑 Stasera fuori: <b>'+esc(stTop)+'</b></div>';   // come prima cosa, sopra la nota (Goffredo, 16/11/2026)
     html += '<div class="dayhead"><h2><span class="dn">'+DAYS_SHORT[x.i]+'</span><span class="dd">'+x.d.getDate()+'</span></h2>';
     html += '<textarea class="note" data-day="'+dIso+'" rows="1" placeholder="Nota del giorno…" maxlength="300">'+esc(x.data.note||'')+'</textarea>';
     html += '<button type="button" class="addx" data-addextra="'+dIso+'" title="Aggiungi un impegno" aria-label="Aggiungi un impegno">+</button></div>';
     // attività fisse (palestra a scuola, corsi, musica): in alto, sotto la nota, in corsivo come un promemoria (16/11/2026)
     const fisse = evs.filter(e => e.k === 'rec'), righe = evs.filter(e => e.k !== 'rec');
     if(fisse.length) html += '<div class="fisse">' + fisse.map(e => fissaHtml(e, dIso)).join('') + '</div>';
-    const st = stasera(dIso); if(st) html += '<div class="rif">🗑 Stasera fuori: <b>'+esc(st)+'</b></div>';
     html += '<div class="evs">';
     for(const e of righe) html += evHtml(e, dIso);
     if(!evs.length) html += '<div class="free">'+(nasc ? 'Niente per '+esc(filtroNome()) : 'Libero')+'</div>';
