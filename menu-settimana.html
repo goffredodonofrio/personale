@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261116093421">
+<meta name="build" content="20261116095809">
 <title>Il menù della settimana · Famiglia</title>
 <meta name="theme-color" content="#15302A">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -123,7 +123,8 @@ html.fx-dockon .barra{top:70px}
 window.FB = (function(){
   firebase.initializeApp({apiKey:"AIzaSyAD0TsMbIYB0Zojaf7XTK4yJ35CE5B0jWA",authDomain:"spazio-di-casa.firebaseapp.com",projectId:"spazio-di-casa",storageBucket:"spazio-di-casa.firebasestorage.app",messagingSenderId:"657690056483",appId:"1:657690056483:web:99a698052a307738e0de96"});
   var auth=firebase.auth(), db=firebase.firestore();
-  try{ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(e){}
+  // SESSION: la sessione si cancella quando si chiude la scheda/il browser (richiesto 16/11/2026)
+  try{ auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); }catch(e){}
   return {auth:auth, db:db, AUTORIZZATI:['goffredo.donofrio@gmail.com','carolina.lucchesini@gmail.com'], FieldValue:firebase.firestore.FieldValue, Provider:firebase.auth.GoogleAuthProvider};
 })();
 FB.utente = function(){ var u=FB.auth.currentUser; return (u && FB.AUTORIZZATI.indexOf(String((u.email||'')).toLowerCase())>=0) ? u : null; };
@@ -150,7 +151,14 @@ FB.login = function(onReady){
 </script>
 </head>
 <body>
-<div id="loginCasa" hidden style="position:fixed;inset:0;z-index:4000;background:#15302A;color:#F4EEDC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
+<div id="loginCasa" hidden style="position:fixed;inset:0;z-index:99999;background:#15302A;color:#F4EEDC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
+  <style>@keyframes casaPop{from{opacity:0;transform:translateY(14px) scale(.5)}to{opacity:1;transform:none}}#loginCasa .casaAv{width:64px;height:64px;border-radius:50%;background:#F4EEDC;box-shadow:0 0 0 3px var(--c);display:grid;place-items:center;overflow:hidden;animation:casaPop .55s cubic-bezier(.34,1.56,.64,1) both}#loginCasa .casaAv svg{width:52px;height:52px}@media (prefers-reduced-motion:reduce){#loginCasa .casaAv{animation:none}}</style>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:6px" aria-hidden="true">
+    <span class="casaAv" style="--c:#5FA57A;animation-delay:.05s"><svg viewBox="4 -13 52 52"><use href="#fxf-goffredo"/></svg></span>
+    <span class="casaAv" style="--c:#8D5BB8;animation-delay:.13s"><svg viewBox="4 -13 52 52"><use href="#fxf-carolina"/></svg></span>
+    <span class="casaAv" style="--c:#4A90C6;animation-delay:.21s"><svg viewBox="4 -13 52 52"><use href="#fxf-edoardo"/></svg></span>
+    <span class="casaAv" style="--c:#E4573D;animation-delay:.29s"><svg viewBox="4 -13 52 52"><use href="#fxf-bianca"/></svg></span>
+  </div>
   <div style="font:800 27px/1.1 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em">Spazio di casa</div>
   <div style="max-width:300px;opacity:.85;font-size:15px;line-height:1.45">Entra col tuo Google. Tu e Carolina lo vedete e lo cambiate: le modifiche si salvano da sole, per tutti e due.</div>
   <button type="button" id="loginBtn" style="display:inline-flex;align-items:center;gap:10px;background:#F4EEDC;color:#15302A;border:0;border-radius:14px;padding:13px 22px;font:700 16px 'Bricolage Grotesque',system-ui,sans-serif;cursor:pointer;min-height:48px">Entra con Google</button>
