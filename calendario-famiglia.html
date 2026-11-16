@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#15302A"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
-<meta name="build" content="20261116062628">
+<meta name="build" content="20261116074847">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261116062628">
+<meta name="build" content="20261116074847">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -690,6 +690,7 @@ summary::after{font-family:var(--sans);font-weight:500}
 .chip.add{border-style:dashed}
 /* ricorrenti */
 .recrow input[type=text],.recrow select,.recrow input[type=time],.field input[type=text],.field input[type=password],.field input[type=time],.field select{border-radius:12px;border:1.5px solid rgba(31,42,38,.12);background:var(--paper);font-family:var(--sans);font-weight:600}
+#importTxt{font:500 16px/1.35 var(--sans);letter-spacing:0;text-transform:none;color:var(--text);padding:9px 12px;border-radius:12px;border:1.5px solid rgba(31,42,38,.12);background:var(--paper);resize:vertical;min-height:64px;width:100%}
 .days7 button{border-radius:999px;font-family:var(--sans);font-weight:800}
 .days7 button.on{background:#2E5E4E;color:#F4EEDC}
 .recrow .icsel button.on{background:#E3EFE8;color:#2E5E4E;border-color:transparent}
@@ -988,6 +989,10 @@ document.addEventListener('DOMContentLoaded',function(){
       <label class="field">Uscita Edoardo (default)<input type="time" id="sEdo"></label>
       <label class="field">Uscita Bianca (default)<input type="time" id="sBia"></label>
     </div>
+    <h4>Incolla una settimana</h4>
+    <p>Se Claude ti ha preparato una settimana, incolla qui tutto il blocco che inizia con <b>CALENDARIO-SETTIMANA</b>. Si aggiunge a quello che c’è già.</p>
+    <label class="field">Blocco da incollare<textarea id="importTxt" rows="3" placeholder="CALENDARIO-SETTIMANA {…}" autocomplete="off" spellcheck="false"></textarea></label>
+    <p class="collega-riga"><button type="button" class="btn ghost" id="importBtn">Aggiungi al calendario</button> <small id="importMsg"></small></p>
     <h4>Entra per salvare</h4>
     <p>Il calendario è di famiglia: lo vedete e lo cambiate tu e Carolina. Scrivi una volta la <b>password di casa</b> (la stessa della spesa e del menù). Resta su questo dispositivo.</p>
     <label class="field">Password di casa<input type="password" id="ghToken" autocomplete="current-password" placeholder="password di casa"></label>
@@ -1235,6 +1240,8 @@ document.addEventListener('DOMContentLoaded',function(){
       return l;
     }
     if(uguale(l, b)) return r === undefined ? undefined : clone(r);   // cambiato solo sul sito
+    // giorno nuovo da tutte e due le parti: un campo vuoto creato qui ('' o []) non batte quello scritto sull'altro dispositivo (16/11/2026)
+    if(b === undefined && r !== undefined && (l === '' || (Array.isArray(l) && !l.length))) return clone(r);
     if(uguale(r, b)) return l;                                        // cambiato solo qui
     if(l === undefined) return clone(r);                              // tolto qui ma cambiato sul sito: non si perde
     return l;
@@ -1966,6 +1973,38 @@ document.addEventListener('DOMContentLoaded',function(){
     ghDlg.close();
     if(changed){ renderAll(); markDirty(); }
     if(pwChanged || (t && mode === 'readonly')) verificaToken();
+  });
+  // ---------- settimana preparata da Claude (16/11/2026): si incolla il blocco CALENDARIO-SETTIMANA {weeks:{...}} ----------
+  // Unisce giorno per giorno: le righe base indicate sostituiscono quelle del giorno, gli impegni si aggiungono
+  // (o si aggiornano, stesso id), la nota si accoda. Poi salva come una modifica fatta a mano (con la password di questo dispositivo).
+  function importaSettimana(testo){
+    const i = testo.indexOf('{'); if(i < 0) throw new Error('blocco non riconosciuto');
+    const weeks = (JSON.parse(testo.slice(i)) || {}).weeks || {}; let giorni = 0, primo = null;
+    for(const wk in weeks){
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(wk)) continue;
+      const w = week(wk, true), W0 = weeks[wk] || {};
+      if(W0.times) w.times = Object.assign({}, w.times || {}, W0.times);
+      for(const dIso in (W0.days || {})){
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(dIso)) continue;
+        const src = W0.days[dIso] || {}, d = day(wk, dIso, true);
+        Object.assign(d.r, src.r || {});
+        for(const x of (src.extra || [])){ const j = d.extra.findIndex(y => y.id === x.id); if(j >= 0) d.extra[j] = x; else d.extra.push(x); }
+        if(src.note && !(d.note || '').includes(src.note)) d.note = d.note ? d.note + ' · ' + src.note : src.note;
+        if(src.t) d.t = Object.assign({}, d.t || {}, src.t);
+        giorni++; if(!primo || dIso < primo) primo = dIso;
+      }
+    }
+    if(!giorni) throw new Error('nessun giorno nel blocco');
+    state = normalize(state);
+    return {giorni, primo};
+  }
+  document.getElementById('importBtn').addEventListener('click', () => {
+    const ta = document.getElementById('importTxt'), msg = document.getElementById('importMsg');
+    try{
+      const r = importaSettimana(ta.value);
+      ta.value = ''; msg.textContent = ''; ghDlg.close(); vai(r.primo); markDirty();
+      flash('Aggiunti ' + r.giorni + ' giorni preparati da Claude');
+    }catch(err){ msg.textContent = 'Non riesco a leggerlo: copia tutto il blocco e riprova.'; }
   });
 
   // ---------- viste: comandi ----------
