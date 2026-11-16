@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="build" content="20261116095809">
+<meta name="build" content="20261116101445">
 <title>Il menù della settimana · Famiglia</title>
 <meta name="theme-color" content="#15302A">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -591,7 +591,7 @@ html.ha-casa .barra,html.ha-casa .add{top:calc(env(safe-area-inset-top,0px) + va
   if(qui === '' || qui === 'index.html') return;   // la home (radice) non ha la barra
   var css = document.createElement('style');
   css.textContent = ''
-    + '.casa-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px max(14px,env(safe-area-inset-left)) 8px max(14px,env(safe-area-inset-right));background:#15302A;color:#F4EEDC;box-shadow:0 6px 18px rgba(0,0,0,.22)}'
+    + '.casa-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:8px max(14px,env(safe-area-inset-left)) 8px max(14px,env(safe-area-inset-right));background:#15302A;color:#F4EEDC;box-shadow:0 6px 18px rgba(0,0,0,.22)}'
     + '.casa-bar .nb{display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;background:rgba(255,255,255,.08);color:#F4EEDC;text-decoration:none;font:800 14px/1 "Bricolage Grotesque",Arial,sans-serif;padding:10px 16px;border-radius:999px}'
     + '.casa-bar .nb:hover{background:rgba(255,255,255,.16)}'
     + '.casa-bar .nb.home{background:#F2B632;color:#1F2A26}'
