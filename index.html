@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#15302A"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="build" content="20261116101445">
+<meta name="build" content="20261116133448">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -184,7 +184,7 @@ FB.login = function(onReady){
   <p class="sp-sub">Spazio di casa</p>
   <h1 class="sp-title">Casa</h1>
 </div><div class="sp-skip">tocca per entrare</div></div>
-<div id="loginCasa" hidden style="position:fixed;inset:0;z-index:99999;background:#15302A;color:#F4EEDC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
+<div id="loginCasa" hidden style="position:fixed;inset:0;z-index:99999;background:#15302A;color:#F4EEDC;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif">
   <style>@keyframes casaPop{from{opacity:0;transform:translateY(14px) scale(.5)}to{opacity:1;transform:none}}#loginCasa .casaAv{width:64px;height:64px;border-radius:50%;background:#F4EEDC;box-shadow:0 0 0 3px var(--c);display:grid;place-items:center;overflow:hidden;animation:casaPop .55s cubic-bezier(.34,1.56,.64,1) both}#loginCasa .casaAv svg{width:52px;height:52px}@media (prefers-reduced-motion:reduce){#loginCasa .casaAv{animation:none}}</style>
   <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:6px" aria-hidden="true">
     <span class="casaAv" style="--c:#5FA57A;animation-delay:.05s"><svg viewBox="4 -13 52 52"><use href="#fxf-goffredo"/></svg></span>
@@ -254,7 +254,6 @@ body{background:#15302A!important;color:#F4EEDC}
     <div class="heroes">
       <a class="hero" href="calendario-famiglia.html" style="--c:#5F86E0"><span class="hgo">›</span><span class="hi">📅</span><span class="hn">Calendario</span><span class="hs" id="t-cal">Chi accompagna, chi ritira</span></a>
       <a class="hero" href="spesa-famiglia.html" style="--c:#E2574B"><span class="hgo">›</span><span class="hi">🛒</span><span class="hn">Spesa</span><span class="hs" id="t-spesa">Cosa manca in casa</span></a>
-      <a class="hero" href="menu-settimana.html" style="--c:#43A06A"><span class="hgo">›</span><span class="hi">🍽️</span><span class="hn">Menù</span><span class="hs" id="t-menu">Pranzo e cena della settimana</span></a>
     </div>
   </section>
 
@@ -263,9 +262,8 @@ body{background:#15302A!important;color:#F4EEDC}
     <div class="tiles">
       <a class="tile" href="costituzione-famiglia.html" style="--c:#7FC79A"><span class="ti">📜</span><span class="tb"><b>Costituzione</b><small>44 articoli, scritti insieme</small></span><span class="go">›</span></a>
       <a class="tile" href="famiglia-percorso.html" style="--c:#F2B632"><span class="ti">🧭</span><span class="tb"><b>Percorso</b><small>La Costituzione in 9 tappe</small></span><span class="go">›</span></a>
-      <a class="tile" href="fogli-di-casa.html" style="--c:#E0863C"><span class="ti">📎</span><span class="tb"><b>Schede</b><small>Fogli e magneti da stampare</small></span><span class="go">›</span></a>
     </div>
-    <div class="sub"><a href="Costituzione-famiglia.pdf">Costituzione (PDF)</a><a href="Fogli-di-casa.pdf">Schede e magneti (PDF)</a></div>
+    <div class="sub"><a href="Costituzione-famiglia.pdf">Costituzione (PDF)</a></div>
   </section>
 
   <section class="grp">
@@ -273,7 +271,7 @@ body{background:#15302A!important;color:#F4EEDC}
     <div class="tiles">
       <a class="tile" href="cockpit-salute.html" style="--c:#EE8C72"><span class="ti">❤️</span><span class="tb"><b>Salute</b><small>La plancia della salute</small></span><span class="go">›</span></a>
       <a class="tile" href="soldi-di-casa.html" style="--c:#4C9A6A"><span class="ti">💶</span><span class="tb"><b>Soldi</b><small>I soldi di casa</small></span><span class="go">›</span></a>
-      <a class="tile" href="rcm-1821-d-managing.html" style="--c:#5FA57A"><span class="ti">📘</span><span class="tb"><b>Vademecum</b><small>Manutenzione, casa, rifiuti</small></span><span class="go">›</span></a>
+      <a class="tile" href="rcm-1821-d-managing.html" style="--c:#5FA57A"><span class="ti">📘</span><span class="tb"><b>Vademecum via Rocciamelone 30</b><small>Manutenzione, casa, rifiuti</small></span><span class="go">›</span></a>
     </div>
   </section>
 
