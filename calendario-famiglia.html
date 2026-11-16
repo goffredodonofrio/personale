@@ -23,7 +23,7 @@ html.fx-hold body>*:not(#fxpt){visibility:hidden}
 @keyframes fxFaceOut{to{opacity:0;transform:translateY(-10px) scale(.8)}}
 @media (prefers-reduced-motion:reduce){#fxpt{display:none}}</style><script id="fx-early">try{if(location.hash.indexOf('#casa=')===0){var pw=decodeURIComponent(location.hash.slice(6)).trim();if(pw){localStorage.setItem('casa-pw',pw);sessionStorage.setItem('fx-collegato','1')}history.replaceState(null,'',location.pathname+location.search)}}catch(e){}try{if(sessionStorage.getItem('fxpt')==='1'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('fx-hold')}catch(e){}</script><meta name="theme-color" content="#15302A"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Famiglia"><link rel="icon" type="image/png" sizes="64x64" href="icone/casa-64.png"><link rel="apple-touch-icon" sizes="180x180" href="icone/casa-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
-<meta name="build" content="20261116095809">
+<meta name="build" content="20261116101445">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -275,7 +275,7 @@ code{font-family:var(--mono);font-size:.9em;background:var(--bg-1);padding:1px 5
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="build" content="20261116095809">
+<meta name="build" content="20261116101445">
 <script>
 // GitHub Pages fa tenere la pagina in cache 10 minuti: controlliamo se online c'è una versione più nuova e in tal caso ricarichiamo
 (function(){ try{
@@ -942,13 +942,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
   <section class="week" id="week"></section>
 
-  <footer class="foot">
-    <span id="hint">Tocca una riga per cambiare tutto: cosa, orario, chi riguarda e l'adulto coinvolto. Le etichette gialle "chi?" sono ancora da decidere.</span>
-    <div class="actions">
-      <button class="btn ghost" id="reload">Ricarica dati</button>
-      <button class="btn ghost danger" id="clearweek">Svuota questa settimana</button>
-    </div>
-  </footer>
 </div>
 
 <dialog id="personDlg">
@@ -1908,13 +1901,15 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     renderAll(); markDirty();
   });
-  document.getElementById('clearweek').addEventListener('click', () => {
+  const _cw = document.getElementById('clearweek');
+  if(_cw) _cw.addEventListener('click', () => {
     if(!week(weekKey,false)) return;
     if(!confirm('Svuotare tutte le assegnazioni, note e impegni di questa settimana?')) return;
     delete state.weeks[weekKey]; renderAll(); markDirty();
   });
-  document.getElementById('reload').addEventListener('click', () => { if(dirty && !confirm('Ci sono modifiche non ancora salvate: ricaricare comunque?')) return; dirty = false; load(false); });
-  function flash(msg){ const h = document.getElementById('hint'), old = h.textContent; h.textContent = msg; setTimeout(() => h.textContent = old, 2500); }
+  const _rl = document.getElementById('reload');
+  if(_rl) _rl.addEventListener('click', () => { if(dirty && !confirm('Ci sono modifiche non ancora salvate: ricaricare comunque?')) return; dirty = false; load(false); });
+  function flash(msg){ const h = document.getElementById('hint'); if(!h) return; const old = h.textContent; h.textContent = msg; setTimeout(() => h.textContent = old, 2500); }
 
   // ---------- eventi: ricorrenti ----------
   recList.addEventListener('input', e => {
@@ -2535,7 +2530,7 @@ if(CFG.init) CFG.init();
   if(qui === '' || qui === 'index.html') return;   // la home (radice) non ha la barra
   var css = document.createElement('style');
   css.textContent = ''
-    + '.casa-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px max(14px,env(safe-area-inset-left)) 8px max(14px,env(safe-area-inset-right));background:#15302A;color:#F4EEDC;box-shadow:0 6px 18px rgba(0,0,0,.22)}'
+    + '.casa-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:8px max(14px,env(safe-area-inset-left)) 8px max(14px,env(safe-area-inset-right));background:#15302A;color:#F4EEDC;box-shadow:0 6px 18px rgba(0,0,0,.22)}'
     + '.casa-bar .nb{display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;background:rgba(255,255,255,.08);color:#F4EEDC;text-decoration:none;font:800 14px/1 "Bricolage Grotesque",Arial,sans-serif;padding:10px 16px;border-radius:999px}'
     + '.casa-bar .nb:hover{background:rgba(255,255,255,.16)}'
     + '.casa-bar .nb.home{background:#F2B632;color:#1F2A26}'
