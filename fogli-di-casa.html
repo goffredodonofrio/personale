@@ -75,8 +75,11 @@ FB.login = function(onReady){
   FB.esci = function(){ try{ FB.auth.signOut(); }catch(e){} };
   function bind(){ var b=el('loginBtn'); if(b && !b._b){ b._b=1; b.addEventListener('click', FB.entra); } }
   bind(); if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bind);
-  var primo=true;
-  FB.auth.onAuthStateChanged(function(u){ var ok=!!FB.utente(); mostra(!ok); if(ok){ onReady(primo); primo=false; } else if(FB.onLogout){ FB.onLogout(u); } });
+  var primo=true, tShow=null;
+  function forseLogin(){ if(tShow) return; tShow=setTimeout(function(){ tShow=null; if(!FB.utente()) mostra(true); }, 650); }
+  FB.auth.onAuthStateChanged(function(u){ var ok=!!FB.utente();
+    if(ok){ if(tShow){ clearTimeout(tShow); tShow=null; } mostra(false); onReady(primo); primo=false; }
+    else { mostra(false); forseLogin(); if(FB.onLogout) FB.onLogout(u); } });
 };
 </script>
 </head><body>
