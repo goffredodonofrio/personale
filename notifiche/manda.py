@@ -68,8 +68,59 @@ def dal_motore(insieme):
         raise SystemExit('motore: ' + j['errore'])   # chiave sbagliata: meglio fermarsi che mandare dati vuoti
     return j.get('dati') or {}
 
+# dal 16/11/2026 il calendario vive su Firestore (progetto spazio-di-casa, documento calendario/stato):
+# il vecchio motore non riceve piu' le modifiche. Si legge in sola lettura col service account
+# carbone-lettore (Cloud Datastore Viewer): la sua chiave JSON e' il segreto FIRESTORE_LETTORE
+# (in prova sul Mac: FIRESTORE_LETTORE_FILE = percorso del file). La firma la fa openssl: niente librerie.
+FIRESTORE_DOC = 'https://firestore.googleapis.com/v1/projects/spazio-di-casa/databases/(default)/documents/calendario/stato'
+
+def _b64(b):
+    import base64
+    return base64.urlsafe_b64encode(b).rstrip(b'=').decode()
+
+def _valore(v):
+    if not isinstance(v, dict): return None
+    if 'mapValue' in v: return {k: _valore(x) for k, x in (v['mapValue'].get('fields') or {}).items()}
+    if 'arrayValue' in v: return [_valore(x) for x in (v['arrayValue'].get('values') or [])]
+    if 'stringValue' in v: return v['stringValue']
+    if 'integerValue' in v: return int(v['integerValue'])
+    if 'doubleValue' in v: return v['doubleValue']
+    if 'booleanValue' in v: return v['booleanValue']
+    if 'timestampValue' in v: return v['timestampValue']
+    return None
+
+def dal_firestore():
+    raw = os.environ.get('FIRESTORE_LETTORE', '')
+    if not raw and os.environ.get('FIRESTORE_LETTORE_FILE'):
+        raw = open(os.environ['FIRESTORE_LETTORE_FILE'], encoding='utf-8').read()
+    if not raw:
+        return None
+    import subprocess, tempfile, time, urllib.parse
+    k = json.loads(raw); ora = int(time.time())
+    corpo = _b64(json.dumps({'alg': 'RS256', 'typ': 'JWT'}).encode()) + '.' + _b64(json.dumps({
+        'iss': k['client_email'], 'scope': 'https://www.googleapis.com/auth/datastore',
+        'aud': 'https://oauth2.googleapis.com/token', 'iat': ora, 'exp': ora + 600}).encode())
+    with tempfile.NamedTemporaryFile('w', suffix='.pem', delete=False) as f:
+        f.write(k['private_key']); pem = f.name
+    try:
+        os.chmod(pem, 0o600)
+        firma = subprocess.run(['openssl', 'dgst', '-sha256', '-sign', pem], input=corpo.encode(), capture_output=True, check=True).stdout
+    finally:
+        os.remove(pem)
+    dati = urllib.parse.urlencode({'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion': corpo + '.' + _b64(firma)}).encode()
+    with urllib.request.urlopen(urllib.request.Request('https://oauth2.googleapis.com/token', data=dati), timeout=30) as r:
+        token = json.loads(r.read().decode())['access_token']
+    with urllib.request.urlopen(urllib.request.Request(FIRESTORE_DOC, headers={'Authorization': 'Bearer ' + token}), timeout=30) as r:
+        doc = json.loads(r.read().decode())
+    S = _valore((doc.get('fields') or {}).get('dati'))
+    if not S:
+        raise SystemExit('firestore: calendario vuoto')   # meglio fermarsi che mandare dati vuoti
+    return S
+
 def calendario():
-    S = dal_motore('calendario')
+    S = dal_firestore()
+    if S is None:
+        S = dal_motore('calendario')   # vecchio motore, fermo al 16/11/2026: solo se manca la chiave di Firestore
     if S is None:
         S = json.load(open(os.path.join(RADICE, 'calendario', 'dati.json'), encoding='utf-8'))
     persone = {p['id']: p['name'] for p in S.get('people', [])}; persone.update(KIDS)
