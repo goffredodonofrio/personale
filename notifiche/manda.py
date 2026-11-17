@@ -118,9 +118,12 @@ def dal_firestore():
     return S
 
 def calendario():
-    S = dal_firestore()
+    S = dal_firestore(); fonte = 'firestore'
     if S is None:
-        S = dal_motore('calendario')   # vecchio motore, fermo al 16/11/2026: solo se manca la chiave di Firestore
+        S = dal_motore('calendario'); fonte = 'vecchio motore (fermo al 16/11)'   # solo se manca la chiave di Firestore
+    if S is None:
+        fonte = 'file del repo'
+    print('calendario letto da: ' + fonte)   # solo la fonte: il repo e' pubblico, mai il contenuto
     if S is None:
         S = json.load(open(os.path.join(RADICE, 'calendario', 'dati.json'), encoding='utf-8'))
     persone = {p['id']: p['name'] for p in S.get('people', [])}; persone.update(KIDS)
