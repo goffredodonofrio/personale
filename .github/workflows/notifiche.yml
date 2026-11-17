@@ -30,6 +30,7 @@ jobs:
           NTFY_SOLDI: ${{ secrets.NTFY_SOLDI }}
           SCADENZE: ${{ secrets.SCADENZE }}
           CHIAVE_API: ${{ secrets.CHIAVE_API }}
+          FIRESTORE_LETTORE: ${{ secrets.FIRESTORE_LETTORE }}
           SCHEDULE: ${{ github.event.schedule }}
           PROVA: ${{ inputs.prova }}
         run: python3 notifiche/manda.py
